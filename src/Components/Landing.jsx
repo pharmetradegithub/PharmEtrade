@@ -14,7 +14,7 @@ function Landing({ topMargin }) {
       <PLefts />
       <div className="h-fit  xl:w-full">
         <div
-          className=" xl:w-screen md:w-full md:h-fit background-animation"
+          className=" xl:w-screen md:w-full md:h-fit  background-animation"
           style={{
             // backgroundImage: `url(${BackgroundImage})`,
             // backgroundPosition: "center top",
@@ -68,8 +68,7 @@ function Landing({ topMargin }) {
 export default Landing;
 
 
-
-//import React from "react";
+// import React from "react";
 // import { useNavigate } from "react-router-dom";
 // import Nav from "./Nav";
 // import BackgroundImage from "../assets/Icons/banner-12 1.png";
@@ -85,7 +84,7 @@ export default Landing;
 //       <PLefts />
 //       <div className="h-fit  xl:w-full">
 //         <div
-//           className=" xl:w-screen md:w-full md:h-fit  background-animation"
+//           className=" xl:w-screen md:w-full md:h-fit background-animation"
 //           style={{
 //             // backgroundImage: `url(${BackgroundImage})`,
 //             // backgroundPosition: "center top",

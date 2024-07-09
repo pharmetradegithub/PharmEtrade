@@ -1,3 +1,5 @@
+
+
 import React, { useState } from "react";
 import slider1 from "../assets/1.png";
 import slider2 from "../assets/2.png";
@@ -29,7 +31,7 @@ function Landing2() {
     <div className="2xl:ml-2 md:pt-10">
       <div className="md:w-screen md:mx-0 lg:w-screen lg:pl-2 items-center rounded-lg overflow-hidden xl:mx-0 pl-2">
         <div
-          className="  md:w-screen lg:w-screen md:flex md:flex-row md:justify-center flex flex-row  rounded-xl xl:items-center "
+          className="  md:w-screen lg:w-screen xl:w-screen md:flex md:flex-row md:justify-center flex flex-row  l:flex l:flex-row  l:gap-48 xl:gap-10  rounded-xl xl:items-center "
           // style={{ width: "800vh" }}
         >
           {slides.map((item, key) => (
@@ -48,15 +50,15 @@ function Landing2() {
         </div>
       </div>
       <div className="flex  flex-col items-center ">
-        <p className="text-text-blue text-[45px] font-semibold mt-6">
+        <p className="text-text-blue text-[45px] xl:text-4xl font-semibold mt-6">
           Grow your buisness with Pharm Etrade
         </p>
         <br></br>
-        <p className="text-xl font-light ">
+        <p className="text-xl font-light xl:text-xl ">
           We understand your needs. We care about your buisness.
         </p>
         <br></br>
-        <p className="text-xl font-light">
+        <p className="text-xl font-light xl:text-xl">
           We've designed a platform especially for you Start saving today.{" "}
         </p>
         <p>
@@ -65,9 +67,10 @@ function Landing2() {
       </div>
       <div className="ml-24 md:flex md:gap-2 lg:items-center flex-row xl:justify-between ">
         <div
-          className=" bg-yellow-50 md:w-12 lg:w-36 hover:scale-105  rounded-2xl transition duration-300 "
-          style={{ width: "150vh", height: "fit-content" }}>
-          <ul className="  space-y-2 xl:w-100% md:pb-6 md:text-lg xl:text-xl xl:mt-6 font-light pl-4 ">
+          className=" bg-yellow-50 md:w-12 lg:w-36 xl:w-1/2 p-4 rounded-2xl transition duration-300 "
+          style={{ width: "150vh", height: "fit-content" }}
+        >
+          <ul className="  space-y-2 xl:w-100% md:pb-6 md:text-lg xl:text-2xl xl:mt-6 font-light pl-4 ">
             {texts.map((items, key) => (
               <li className="flex flex-row  text-ink items-center gap-2">
                 <img src={right2} className="w-6 bg-green-500 rounded-full" />
@@ -76,20 +79,17 @@ function Landing2() {
             ))}
           </ul>
         </div>
-        <div
-          className="md:h-auto lg:h-auto xl:h-85vh"
-          style={{
-            backgroundImage: `url(${bg2})`,
-            backgroundSize: "contain",
-            backgroundPosition: "top ",
-            backgroundRepeat: "no-repeat",
-            width: "80%",
-          }}
-        ></div>
+        <div className="flex justify-center xl:w-1/2 p-4">
+          <img
+            src={bg2}
+            alt="Pharmacy"
+            className="rounded-xl object-cover max-h-full"
+          />
+        </div>
       </div>
       <div className="flex  justify-center ">
         <Link to="/products">
-           <img
+          <img
             src={allproduct}
             alt="Descriptive Alt Text"
             className="cursor-pointer w-64" // Make the image clickable
@@ -136,7 +136,7 @@ export default Landing2;
 //     <div className="2xl:ml-2 md:pt-10">
 //       <div className="md:w-screen md:mx-0 lg:w-screen lg:pl-2 items-center rounded-lg overflow-hidden xl:mx-0 pl-2">
 //         <div
-//           className="  md:w-screen lg:w-screen xl:w-screen md:flex md:flex-row md:justify-center flex flex-row  l:flex l:flex-row  l:gap-48 xl:gap-10  rounded-xl xl:items-center "
+//           className="  md:w-screen lg:w-screen md:flex md:flex-row md:justify-center flex flex-row  rounded-xl xl:items-center "
 //           // style={{ width: "800vh" }}
 //         >
 //           {slides.map((item, key) => (
@@ -155,15 +155,15 @@ export default Landing2;
 //         </div>
 //       </div>
 //       <div className="flex  flex-col items-center ">
-//         <p className="text-text-blue text-[45px] xl:text-4xl font-semibold mt-6">
+//         <p className="text-text-blue text-[45px] font-semibold mt-6">
 //           Grow your buisness with Pharm Etrade
 //         </p>
 //         <br></br>
-//         <p className="text-xl font-light xl:text-xl ">
+//         <p className="text-xl font-light ">
 //           We understand your needs. We care about your buisness.
 //         </p>
 //         <br></br>
-//         <p className="text-xl font-light xl:text-xl">
+//         <p className="text-xl font-light">
 //           We've designed a platform especially for you Start saving today.{" "}
 //         </p>
 //         <p>
@@ -172,10 +172,9 @@ export default Landing2;
 //       </div>
 //       <div className="ml-24 md:flex md:gap-2 lg:items-center flex-row xl:justify-between ">
 //         <div
-//           className=" bg-yellow-50 md:w-12 lg:w-36 xl:w-1/2 p-4 rounded-2xl transition duration-300 "
-//           style={{ width: "150vh", height: "fit-content" }}
-//         >
-//           <ul className="  space-y-2 xl:w-100% md:pb-6 md:text-lg xl:text-2xl xl:mt-6 font-light pl-4 ">
+//           className=" bg-yellow-50 md:w-12 lg:w-36 hover:scale-105  rounded-2xl transition duration-300 "
+//           style={{ width: "150vh", height: "fit-content" }}>
+//           <ul className="  space-y-2 xl:w-100% md:pb-6 md:text-lg xl:text-xl xl:mt-6 font-light pl-4 ">
 //             {texts.map((items, key) => (
 //               <li className="flex flex-row  text-ink items-center gap-2">
 //                 <img src={right2} className="w-6 bg-green-500 rounded-full" />
@@ -184,17 +183,20 @@ export default Landing2;
 //             ))}
 //           </ul>
 //         </div>
-//         <div className="flex justify-center xl:w-1/2 p-4">
-//           <img
-//             src={bg2}
-//             alt="Pharmacy"
-//             className="rounded-xl object-cover max-h-full"
-//           />
-//         </div>
+//         <div
+//           className="md:h-auto lg:h-auto xl:h-85vh"
+//           style={{
+//             backgroundImage: `url(${bg2})`,
+//             backgroundSize: "contain",
+//             backgroundPosition: "top ",
+//             backgroundRepeat: "no-repeat",
+//             width: "80%",
+//           }}
+//         ></div>
 //       </div>
 //       <div className="flex  justify-center ">
 //         <Link to="/products">
-//           <img
+//            <img
 //             src={allproduct}
 //             alt="Descriptive Alt Text"
 //             className="cursor-pointer w-64" // Make the image clickable

@@ -29,7 +29,6 @@ import { FiShoppingCart } from "react-icons/fi";
 // import { useNavbarContext } from "./NavbarContext";
 import myaccount from "../assets/My Account.png";
 
-
 function Nav({ topDivRef, cartItems }) {
   let navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState("");
@@ -80,11 +79,11 @@ function Nav({ topDivRef, cartItems }) {
       className=" fixed top-0 w-fit lg:w-screen md:w-screen z-10 bg-white h-fit lg:px-0 text-grey-500"
       style={{ paddingLeft: "0px", paddingTop: "0px" }}
     >
-      <div className=" flex  flex-col justify-center ">
+      <div className=" flex  flex-col justify-between ">
         <ul className=" text-3xl ">
           {/* Top div logo home  */}
           <div
-            className="flex flex-row gap-8 md:gap-12 lg:gap-20 xl:justify-between items-center  text-xl fontbg-white text-gray-500 "
+            className="flex flex-row  gap-4 md:gap-12 lg:gap-10 lg:justify-between   xl:justify-between items-center  text-xl fontbg-white text-gray-500 "
             // style={{ fontFamily: "helveticaNeue" }}
           >
             <div>
@@ -96,15 +95,31 @@ function Nav({ topDivRef, cartItems }) {
                 />
               </li>
             </div>
-            <div className=" hidden  md:flex md:flex-row md:gap-4 lg:gap-4 xl:flex xl:flex-row xl:justify-between xl:gap-6  items-center">
-              <li className="text-blue-900 w-fit cursor-pointer  font-medium hover:text-green-400 text-lg" onClick={handleclicked}>
+            <div className=" hidden  md:flex md:flex-row md:gap-4 lg:gap-4 xl:flex xl:flex-row xl:justify-between xl:gap-6   2xl:pr-36 items-center">
+              <li
+                className="text-blue-900 w-fit cursor-pointer  font-medium hover:text-green-400 text-lg"
+                onClick={handleclicked}
+              >
                 Home
               </li>
-              <li className="text-blue-900 w-fit cursor-pointer font-medium hover:text-green-400 text-lg " onClick={handleBuy}>Products </li>
-              <li className=" text-blue-900 font-medium hover:text-green-400 text-lg">Why ParamETrade</li>
-              <li className="text-blue-900 font-medium hover:text-green-400 text-lg">About Us</li>
-              <li className="text-blue-900 font-medium hover:text-green-400 text-lg">Contact Us </li>
-              <li className="text-blue-900 font-medium hover:text-green-400 text-lg">Offers</li>
+              <li
+                className="text-blue-900 w-fit cursor-pointer font-medium hover:text-green-400 text-lg "
+                onClick={handleBuy}
+              >
+                Products{" "}
+              </li>
+              <li className=" text-blue-900 font-medium hover:text-green-400 text-lg">
+                Why ParamETrade
+              </li>
+              <li className="text-blue-900 font-medium hover:text-green-400 text-lg">
+                About Us
+              </li>
+              <li className="text-blue-900 font-medium hover:text-green-400 text-lg">
+                Contact Us{" "}
+              </li>
+              <li className="text-blue-900 font-medium hover:text-green-400 text-lg">
+                Offers
+              </li>
 
               <div
                 className="hidden md:flex flex-row md:gap-2 lg:gap-2 xl:gap-4 text-md items-center font-thin"
@@ -143,13 +158,19 @@ function Nav({ topDivRef, cartItems }) {
                           </button>
                         </div>
                         <p className="mb-1 text-lg">New customer? Start here</p>
-                        <h2 className="text-lg font-semibold cursor-pointer"
-                        onClick={handleuser}>
+                        <h2
+                          className="text-lg font-semibold cursor-pointer"
+                          onClick={handleuser}
+                        >
                           Your Account
                         </h2>
                         <ul>
                           <li className="mb-2">
-                            <a href="#" className="text-lg text-blue-900" onClick={handleorder}>
+                            <a
+                              href="#"
+                              className="text-lg text-blue-900"
+                              onClick={handleorder}
+                            >
                               Order List
                             </a>
                           </li>
@@ -290,15 +311,24 @@ function Nav({ topDivRef, cartItems }) {
                 className=" xl:gap-10 grid grid-rows-2 grid-cols-2 md:flex md:flex-row md:gap-4 lg:gap-2  xl:justify-between text-gray-500    items-center py-2 px-2 lg:px-0 "
                 // style={{ fontFamily: "helveticaNeue" }}
               >
-                <div className="flex flex-row gap-1 lg:gap-2 items-center cursor-pointer" onClick={handleBuy}>
+                <div
+                  className="flex flex-row gap-1 lg:gap-2 items-center cursor-pointer"
+                  onClick={handleBuy}
+                >
                   <img src={Buy} className="w-fit h-8" />
                   <li className="text-base">Buy</li>
                 </div>
-                <div className="flex flex-row gap-1 lg:gap-2 items-center cursor-pointer" onClick={handleClick}>
+                <div
+                  className="flex flex-row gap-1 lg:gap-2 items-center cursor-pointer"
+                  onClick={handleClick}
+                >
                   <img src={hand} className="w-fit  h-8" />
                   <li className="text-base">Join</li>
                 </div>
-                <div className="flex flex-row gap-1 lg:gap-2 items-center cursor-pointer" onClick={handleAdmin}>
+                <div
+                  className="flex flex-row gap-1 lg:gap-2 items-center cursor-pointer"
+                  onClick={handleAdmin}
+                >
                   <img src={sale} className="w-fit  h-8" />
                   <li className="text-base">Sell</li>
                 </div>
@@ -347,6 +377,7 @@ function Nav({ topDivRef, cartItems }) {
 export default Nav;
 
 
+
 // import React from "react";
 // // import Logo from "../assets/Icons/Etrade.png";
 // // import Logo from "../assets/Icons/logo.png";
@@ -377,6 +408,7 @@ export default Nav;
 // import { FiShoppingCart } from "react-icons/fi";
 // // import { useNavbarContext } from "./NavbarContext";
 // import myaccount from "../assets/My Account.png";
+
 
 // function Nav({ topDivRef, cartItems }) {
 //   let navigate = useNavigate();
@@ -428,11 +460,11 @@ export default Nav;
 //       className=" fixed top-0 w-fit lg:w-screen md:w-screen z-10 bg-white h-fit lg:px-0 text-grey-500"
 //       style={{ paddingLeft: "0px", paddingTop: "0px" }}
 //     >
-//       <div className=" flex  flex-col justify-between ">
+//       <div className=" flex  flex-col justify-center ">
 //         <ul className=" text-3xl ">
 //           {/* Top div logo home  */}
 //           <div
-//             className="flex flex-row  gap-4 md:gap-12 lg:gap-10 lg:justify-between   xl:justify-between items-center  text-xl fontbg-white text-gray-500 "
+//             className="flex flex-row gap-8 md:gap-12 lg:gap-20 xl:justify-between items-center  text-xl fontbg-white text-gray-500 "
 //             // style={{ fontFamily: "helveticaNeue" }}
 //           >
 //             <div>
@@ -444,31 +476,15 @@ export default Nav;
 //                 />
 //               </li>
 //             </div>
-//             <div className=" hidden  md:flex md:flex-row md:gap-4 lg:gap-4 xl:flex xl:flex-row xl:justify-between xl:gap-6   2xl:pr-36 items-center">
-//               <li
-//                 className="text-blue-900 w-fit cursor-pointer  font-medium hover:text-green-400 text-lg"
-//                 onClick={handleclicked}
-//               >
+//             <div className=" hidden  md:flex md:flex-row md:gap-4 lg:gap-4 xl:flex xl:flex-row xl:justify-between xl:gap-6  items-center">
+//               <li className="text-blue-900 w-fit cursor-pointer  font-medium hover:text-green-400 text-lg" onClick={handleclicked}>
 //                 Home
 //               </li>
-//               <li
-//                 className="text-blue-900 w-fit cursor-pointer font-medium hover:text-green-400 text-lg "
-//                 onClick={handleBuy}
-//               >
-//                 Products{" "}
-//               </li>
-//               <li className=" text-blue-900 font-medium hover:text-green-400 text-lg">
-//                 Why ParamETrade
-//               </li>
-//               <li className="text-blue-900 font-medium hover:text-green-400 text-lg">
-//                 About Us
-//               </li>
-//               <li className="text-blue-900 font-medium hover:text-green-400 text-lg">
-//                 Contact Us{" "}
-//               </li>
-//               <li className="text-blue-900 font-medium hover:text-green-400 text-lg">
-//                 Offers
-//               </li>
+//               <li className="text-blue-900 w-fit cursor-pointer font-medium hover:text-green-400 text-lg " onClick={handleBuy}>Products </li>
+//               <li className=" text-blue-900 font-medium hover:text-green-400 text-lg">Why ParamETrade</li>
+//               <li className="text-blue-900 font-medium hover:text-green-400 text-lg">About Us</li>
+//               <li className="text-blue-900 font-medium hover:text-green-400 text-lg">Contact Us </li>
+//               <li className="text-blue-900 font-medium hover:text-green-400 text-lg">Offers</li>
 
 //               <div
 //                 className="hidden md:flex flex-row md:gap-2 lg:gap-2 xl:gap-4 text-md items-center font-thin"
@@ -507,19 +523,13 @@ export default Nav;
 //                           </button>
 //                         </div>
 //                         <p className="mb-1 text-lg">New customer? Start here</p>
-//                         <h2
-//                           className="text-lg font-semibold cursor-pointer"
-//                           onClick={handleuser}
-//                         >
+//                         <h2 className="text-lg font-semibold cursor-pointer"
+//                         onClick={handleuser}>
 //                           Your Account
 //                         </h2>
 //                         <ul>
 //                           <li className="mb-2">
-//                             <a
-//                               href="#"
-//                               className="text-lg text-blue-900"
-//                               onClick={handleorder}
-//                             >
+//                             <a href="#" className="text-lg text-blue-900" onClick={handleorder}>
 //                               Order List
 //                             </a>
 //                           </li>
@@ -599,7 +609,7 @@ export default Nav;
 //         </ul>
 //         {/* down div elemenet  */}
 //         <div
-//           className="flex flex-row w-16  md:w-screen   xl:gap-2 2xl:gap-12 lg:w-screen md:gap-20 
+//           className="flex flex-row w-16  md:w-screen   xl:gap-20  2xl:gap-12 lg:w-screen md:gap-20
 //          xl:w-screen items-center h-fit text-black border-2 border-grey-500 shadow-lg  lg:px-0 lg:h-fit bg-gray-200"
 //         >
 //           <div
@@ -657,27 +667,18 @@ export default Nav;
 //           <div className=" ">
 //             <ul className="list-none text-lg md:ml-10  font-normal">
 //               <div
-//                 className=" xl:gap-12 grid grid-rows-2 grid-cols-2 md:flex md:flex-row md:gap-4 lg:gap-2  xl:justify-between text-gray-500    items-center py-2 px-2 lg:px-0 "
+//                 className=" xl:gap-10 grid grid-rows-2 grid-cols-2 md:flex md:flex-row md:gap-4 lg:gap-2  xl:justify-between text-gray-500    items-center py-2 px-2 lg:px-0 "
 //                 // style={{ fontFamily: "helveticaNeue" }}
 //               >
-//                 <div
-//                   className="flex flex-row gap-1 lg:gap-2 items-center cursor-pointer"
-//                   onClick={handleBuy}
-//                 >
+//                 <div className="flex flex-row gap-1 lg:gap-2 items-center cursor-pointer" onClick={handleBuy}>
 //                   <img src={Buy} className="w-fit h-8" />
 //                   <li className="text-base">Buy</li>
 //                 </div>
-//                 <div
-//                   className="flex flex-row gap-1 lg:gap-2 items-center cursor-pointer"
-//                   onClick={handleClick}
-//                 >
+//                 <div className="flex flex-row gap-1 lg:gap-2 items-center cursor-pointer" onClick={handleClick}>
 //                   <img src={hand} className="w-fit  h-8" />
 //                   <li className="text-base">Join</li>
 //                 </div>
-//                 <div
-//                   className="flex flex-row gap-1 lg:gap-2 items-center cursor-pointer"
-//                   onClick={handleAdmin}
-//                 >
+//                 <div className="flex flex-row gap-1 lg:gap-2 items-center cursor-pointer" onClick={handleAdmin}>
 //                   <img src={sale} className="w-fit  h-8" />
 //                   <li className="text-base">Sell</li>
 //                 </div>
@@ -724,3 +725,4 @@ export default Nav;
 // }
 
 // export default Nav;
+
