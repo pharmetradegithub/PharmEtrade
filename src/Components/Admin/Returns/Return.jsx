@@ -4,7 +4,7 @@
 import React, { useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { FiPlus } from "react-icons/fi";
-import ProductFields from "./ProductFields";
+import ProductFields from "../Components/ProductFields";
 
 const Return = () => {
   const stats = [
@@ -33,7 +33,7 @@ const Return = () => {
   const records = [];
 
   return (
-    <div className="relative w-[calc(100%-256px)] h-full flex justify-center items-center ">
+    <div className="relative w-full h-full flex justify-center items-center ">
       <div className=" w-[95%] h-full mt-4">
         <div className=" flex justify-between">
           <p className="text-[22px] text-blue-900 font-medium">
@@ -55,7 +55,7 @@ const Return = () => {
           )}
         </div>
 
-        <div className="flex my-4 -ml-8 justify-around items-center p-4">
+        <div className="flex my-4 flex-wrap gap-2 justify-normal items-center p-4">
           {stats.map((stat, index) => (
             <div
               key={index}

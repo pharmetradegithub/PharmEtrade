@@ -31,7 +31,7 @@ function UpsShipping() {
   return (
 
     
-    <div className=' w-[calc(100%-256px)]  px-4 '>
+    <div className=' w-full  px-4 '>
       {message && (
         <div className={`my-4 p-1 text-lg ${isError ? 'text-red-800 bg-red-200' : 'text-green-800 bg-green-200'} `}>
           {message}

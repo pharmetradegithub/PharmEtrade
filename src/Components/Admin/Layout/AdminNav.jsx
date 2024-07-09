@@ -2,7 +2,7 @@ import React from "react";
 import { FiUser } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 // import Logo from "../../assets/Icons/Etrade.png";
-import Logo from "../../assets/Icons/logo.png";
+import Logo from "../../../assets/Icons/logo.png";
 
 const AdminNav = () => {
   function handleclicked() {
@@ -12,7 +12,7 @@ const AdminNav = () => {
   let navigate = useNavigate();
 
   return (
-    <div className="flex justify-between items-center border border-gray-300 bg-white p-4 font-ubuntu">
+    <div className="flex h-[80px] justify-between items-center border border-gray-300 bg-white p-4 font-ubuntu">
       <div className="font-bold text-xl cursor-pointer" onClick={handleclicked}>
         <img
           src={Logo}

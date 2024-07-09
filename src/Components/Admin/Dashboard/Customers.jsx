@@ -216,13 +216,13 @@ function Customers() {
   );
 
   return (
-    <div className="bg-gray-100 w-[calc(100%-256px)] h-full flex items-center justify-center">
+    <div className="bg-gray-100 w-full h-full flex items-center justify-center">
       <div className="w-[95%] h-full mt-8">
         <div className="flex justify-between">
           <h1 className="text-[22px] text-blue-900 font-medium">Marketplace Customers</h1>
         </div>
 
-        <div className="flex justify-evenly w-[80%] mt-4 -ml-8">
+        <div className="flex justify-normal flex-wrap gap-2 w-full mt-4 ">
           {stats.map((stat, index) => (
             <div key={index} 
             className="bg-white w-56 rounded-lg shadow-lg h-28 p-4">

@@ -84,7 +84,7 @@ const ManageShipping = () => {
   };
 
   return (
-    <div className="w-[calc(100%-288px)] h-full justify-center flex items-center">
+    <div className="w-full h-full justify-center flex items-center">
       <div className="w-[95%] h-full">
       {message && (
           <div

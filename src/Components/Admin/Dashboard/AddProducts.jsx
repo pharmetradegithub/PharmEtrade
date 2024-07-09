@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa6";
-import ProductFields from "./ProductFields";
-import EditFields from "./EditFields";
+import ProductFields from "../Components/ProductFields";
+import EditFields from "../Components/EditFields";
 
 const AddProducts = () => {
   const stats = [
@@ -79,7 +79,7 @@ const AddProducts = () => {
   };
 
   return (
-    <div className="relative bg-gray-100 w-[calc(100%-256px)] h-full flex justify-center items-center ">
+    <div className="relative bg-gray-100 w-full h-full flex justify-center items-center ">
       <div className=" w-[95%] h-full mt-4">
         <div className=" flex justify-between">
           <h2 className="text-[22px] text-blue-900 font-medium">
@@ -105,7 +105,7 @@ const AddProducts = () => {
           )}
         </div>
 
-        <div className=" flex my-4 -ml-8 justify-around items-center p-4">
+        <div className=" flex flex-wrap gap-2 justify-normal items-center p-4">
           {stats.map((stat, index) => (
             <div
               key={index}

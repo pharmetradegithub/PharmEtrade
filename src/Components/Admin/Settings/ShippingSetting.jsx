@@ -2,7 +2,7 @@ import React from "react";
 
 const ShippingSetting = () => {
   return (
-    <div className=" w-[calc(100%-256px)] h-full justify-center flex items-center">
+    <div className=" w-full h-full justify-center flex items-center">
       <div className="w-[95%]  h-full">
         <div className="  flex flex-col my-4">
           <h1 className="text-[22px] text-blue-900 font-semibold ">

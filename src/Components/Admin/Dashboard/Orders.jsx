@@ -44,7 +44,7 @@ function Orders() {
   );
 
   return (
-    <div className="bg-gray-100 w-[calc(100%-256px)] h-full flex items-center justify-center">
+    <div className="bg-gray-100 w-full h-full flex items-center justify-center">
       <div className="w-[95%] h-full mt-4">
         <div className="flex justify-between">
           <h1 className="text-[22px] text-blue-900 font-medium">List of Orders</h1>
@@ -53,7 +53,7 @@ function Orders() {
           </button>
         </div>
 
-        <div className="flex my-4 -ml-8 justify-around items-center p-4">
+        <div className="flex flex-wrap my-4 gap-2 -ml-8 justify-normal items-center p-4">
           {stats.map((stat, index) => (
             <div
               key={index}

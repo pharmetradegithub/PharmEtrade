@@ -41,7 +41,18 @@ export default {
       },
       height:{
         '85vh': '85vh'
-      }
+      },
+      screens: {
+        veryTiny:"300px",
+        tiny:"450px",
+        verySmall:"500",
+        small:"650px",
+        Small:"800px",
+        medium:"900px",
+        Medium:"1000px",
+        large:"1100px",
+        Large:"1200px"
+    }
       
     },
   },

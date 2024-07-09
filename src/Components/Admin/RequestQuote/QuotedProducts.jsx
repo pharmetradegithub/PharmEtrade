@@ -1,11 +1,21 @@
+// import React from 'react'
+
+// const QuotedProducts = () => {
+//   return (
+//     <div>
+//       Quoted
+//     </div>
+//   )
+// }
+
+// export default QuotedProducts
+
+
 import React, { useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
-import { FiPlus } from "react-icons/fi";
-import ProductFields from "./ProductFields";
-import EditFields from "./EditFields";
-import QuoteDetail from "./QuoteDetail";
+import QuoteDetail from "../Components/QuoteDetail";
 
-const RequestQuote = () => {
+const QuotedProducts = () => {
   const stats = [
     { label: "Return Requested", value: 150, percentage: 75 },
     { label: "Return Approved", value: 120, percentage: 60 },
@@ -14,47 +24,47 @@ const RequestQuote = () => {
   ];
 
   const [showEditPopup, setShowEditPopup] = useState(false);
-  const [selectedRequest, setSelectedRequest] = useState(null);
 
-  const handleEditProduct = (request) => {
-    setSelectedRequest(request);
+  const handleEditProduct = () => {
     setShowEditPopup(true);
   };
 
-  const requests = [
+  const quotes = [
     {
-      customer: "Ram",
-      quote: "Metrogyl",
-      status: "Pending",
+      id: 234,
+      thumbnail: "Metrogyl",
+      name: "Product A3",
+      status: "Sent to Seller",
+      bulk: "4",
       created: "22-08-12",
-      action: "View",
-      bulkQuantity: 1000
+      updated: "22-08-12",
     },
     {
-      customer: "Shyam",
-      quote: "HYDROCORT 60ML7",
-      status: "Answered",
-      created: "22-08-14",
-      action: "View",
-      bulkQuantity: 500
+      id: 430,
+      thumbnail: "Metrogyl",
+      name: "Product A4",
+      status: "Sent to Seller",
+      bulk: "6",
+      created: "22-08-12",
+      updated: "22-08-12",
     },
   ];
 
   return (
-    <div className="relative bg-gray-100 w-[calc(100%-256px)] h-full flex justify-center items-center ">
+    <div className="relative bg-gray-100 w-full h-full flex justify-center items-center ">
       <div className=" w-[95%] h-full mt-8">
         <div className=" flex justify-between">
           <p className="text-[22px] text-blue-900 font-medium">
             {" "}
-            All Requested Quote{" "}
+            All Quoted Products{" "}
           </p>
         </div>
 
-        <div className="flex my-4 -ml-8 justify-around items-center p-4">
+        <div className="flex my-4 gap-2 flex-wrap justify-normal items-center p-4">
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="p-4 h-28 w-56  border rounded-lg shadow-lg flex justify-between items-center bg-white"
+              className="p-4 h-28 w-56 border rounded-lg shadow-lg flex justify-between items-center bg-white"
             >
               <div className="w-full">
                 <div className="flex justify-between items-center">
@@ -92,43 +102,50 @@ const RequestQuote = () => {
               <thead className="bg-blue-900 text-white">
                 <tr>
                   <th className="border-b-2 py-4 min-w-36 pl-4 text-left">
-                    Customer Name
+                    Product Id
                   </th>
                   <th className="border-b-2 min-w-36 text-left">
-                    Requested Quote For Product
+                    Thumbnail
                   </th>
+                  <th className="border-b-2 min-w-36 text-left">Name</th>
                   <th className="border-b-2 min-w-36 text-left">Status</th>
+                  <th className="border-b-2 min-w-36 text-left">Bulk Order Quantity</th>
                   <th className="border-b-2 min-w-36 text-left">Created At</th>
-                  <th className="border-b-2 min-w-36 text-left">Action</th>
+                  <th className="border-b-2 min-w-36 text-left">Updated At</th>
                 </tr>
               </thead>
               <tbody>
-                {requests.length === 0 ? (
+                {quotes.length === 0 ? (
                   <tr>
                     <td colSpan="9" className="text-gray-600 text-lg py-4 px-2">
                       We couldn't find any records
                     </td>
                   </tr>
                 ) : (
-                  requests.map((request, index) => (
+                  quotes.map((quoted, index) => (
                     <tr key={index}>
                       <td className="border-b-2 py-2 min-w-36 pl-4 text-left">
-                        {request.customer}
+                        {quoted.id}
                       </td>
                       <td className="border-b-2 min-w-36 text-left">
-                        {request.quote}
+                        {quoted.thumbnail}
                       </td>
                       <td className="border-b-2 min-w-36 text-left">
-                        {request.status}
+                        {quoted.name}
                       </td>
                       <td className="border-b-2 min-w-36 text-left">
-                        {request.created}
+                        {quoted.status}
                       </td>
                       <td
-                        className="border-b-2 min-w-36 text-left cursor-pointer"
-                        onClick={() => handleEditProduct(request)}
-                      >
-                        {request.action}
+                        className="border-b-2 min-w-36 text-left cursor-pointer">
+                        {quoted.bulk}
+                      </td>
+                      <td
+                        className="border-b-2 min-w-36 text-left cursor-pointer">
+                        {quoted.created}
+                      </td><td
+                        className="border-b-2 min-w-36 text-left cursor-pointer">
+                        {quoted.updated}
                       </td>
                     </tr>
                   ))
@@ -138,13 +155,8 @@ const RequestQuote = () => {
           </div>
         </div>
       </div>
-      {showEditPopup && selectedRequest && (
-        <div className="absolute inset-0 flex overflow-scroll bg-gray-100 ">
-          <QuoteDetail request={selectedRequest} />
-        </div>
-      )}
     </div>
   );
 };
 
-export default RequestQuote;
+export default QuotedProducts;
