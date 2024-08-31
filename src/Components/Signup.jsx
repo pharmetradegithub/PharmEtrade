@@ -29,7 +29,12 @@ import {
 import TermsAndConditions from "./TermsAndConditions";
 
 function getSteps() {
-  return ["User-Info", "Account-Type", "Address-Info1", "Address-Info-2"];
+  return [
+    { label: "User", para: "Information" },
+    { label: "Account Type" },
+    { label: "Address", para: "Informatiom" },
+    {label: "Account", para: "Information"}
+  ];
 }
 
 const Signup = () => {
@@ -201,6 +206,83 @@ const Signup = () => {
       console.error("Error occurred during the upload:", error);
     }
   };
+
+  // const [formDatas, setFormDatas] = useState({ taxId: '' });
+  // const [errorss, setErrorss] = useState({});
+
+  // const taxIdRegex = /^\d{2}-\d{7}$/;
+
+  // const handleInputChanges = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormDatas({ ...formDatas, [name]: value });
+
+  //   if (!value.match(taxIdRegex)) {
+  //     setErrorss({ ...errorss, [name]: "Valid Federal Tax ID (EIN) is required" });
+  //   } else {
+  //     setErrorss({ ...errorss, [name]: '' });
+  //   }
+  // };
+  // const handleInputChanges = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormDatas({ ...formDatas, [name]: value });
+
+  //   const taxIdRegex = /^\d{2}-\d{7}$/; // Match XX-XXXXXXX format
+  //   if (!value.match(taxIdRegex)) {
+  //     setErrorss({ ...errorss, [name]: "Valid Federal Tax ID (EIN) is required. Format: XX-XXXXXXX" });
+  //   } else {
+  //     setErrorss({ ...errorss, [name]: '' });
+  //   }
+  // };
+  // const handleInputChanges = (e) => {
+  //   const { name, value } = e.target;
+  //   let formattedValue = '';
+
+  //   // Format the input value as XX-XXXXXXX
+  //   if (value.length <= 2) {
+  //     formattedValue = value;
+  //   } else if (value.length > 2 && value.length <= 9) {
+  //     formattedValue = `${value.slice(0, 2)}-${value.slice(2)}`;
+  //   } else {
+  //     formattedValue = value;
+  //   }
+
+  //   setFormDatas({ ...formDatas, [name]: formattedValue });
+
+  //   const taxIdRegex = /^\d{2}-\d{7}$/;
+  //   if (!formattedValue.match(taxIdRegex)) {
+  //     setErrorss({ ...errorss, [name]: "Valid Federal Tax ID (EIN) is required. Format: XX-XXXXXXX" });
+  //   } else {
+  //     setErrorss({ ...errorss, [name]: '' });
+  //   }
+  // };
+
+  // const handleInputChanges = (e) => {
+  //   const { name, value } = e.target;
+  //   let formattedValue = value;
+
+  //   // Remove all non-digit characters
+  //   formattedValue = formattedValue.replace(/\D+/g, '');
+
+  //   // Add the hyphen after the first two digits
+  //   if (formattedValue.length > 2) {
+  //     formattedValue = formattedValue.substring(0, 2) + '-' + formattedValue.substring(2);
+  //   }
+
+  //   // Restrict the input to 10 characters
+  //   if (formattedValue.length > 10) {
+  //     formattedValue = formattedValue.substring(0, 10);
+  //   }
+
+  //   setFormDatas({ ...formDatas, [name]: formattedValue });
+
+  //   if (!formattedValue.match(taxIdRegex)) {
+  //     setErrorss({ ...errorss, [name]: "Invalid Federal Tax ID (EIN) format. Please use xx-xxxxxxx." });
+  //   } else {
+  //     setErrorss({ ...errorss, [name]: '' });
+  //   }
+  // };
+
+
   const handleInputChange = async (e) => {
     const { name, value, type, files, checked } = e.target;
     setErrors((prevErrors) => ({
@@ -1448,6 +1530,20 @@ const Signup = () => {
                   tabIndex={9}
                   className="w-full"
                 />
+{/* 
+                <InputMask
+                  mask="99-9999999"
+                  label="Federal Tax ID"
+                  id="outlined-size-small"
+                  name="taxId"
+                  value={formData.taxId}
+                  onChange={handleInputChanges}
+                  error={!!errorss.taxId}
+                  size="small"
+                  className="w-[92%]"
+                  helperText={errorss.taxId}
+                  inputProps={{ maxLength: 10 }} // Restrict input to 10 characters
+                /> */}
               </div>
             </div>
             <div className=" w-full">
@@ -1553,10 +1649,10 @@ const Signup = () => {
                 SignUp
               </span>
               <div className={`flex my-4 ${activeStep == 4 ? "hidden" : ""}  `}>
-                {steps.map((label, index) => (
+                {steps.map(({ label, para }, index) => (
                   <div
                     key={label}
-                    className="flex  items-center flex-1 flex-col"
+                    className="flex items-center flex-1 flex-col"
                   >
                     <div
                       className=" w-11 h-11 border rounded-full bg-blue-900 text-white flex justify-center items-center"
@@ -1566,7 +1662,10 @@ const Signup = () => {
                     >
                       {index + 1}
                     </div>
-                    <div className="text-base">{label}</div>
+                    <div className="text-base p-0 m-0">
+                      <p className="text-center">{label}</p>
+                        {para && <p className="-mt-1.5">{para}</p>} 
+                    </div>
                   </div>
                 ))}
               </div>
@@ -1605,6 +1704,3 @@ const activeCircleStyle = {
 };
 
 export default Signup;
-
-
-

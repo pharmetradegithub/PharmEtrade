@@ -4,6 +4,7 @@ import { useDropzone } from "react-dropzone";
 import filter from "../../../assets/Icons/filter_icon.png";
 import deleteicon from "../../../assets/trash.png";
 import { useStates } from "react-us-states";
+import { Box, Radio } from "@mui/material";
 
 function LayoutaddProduct() {
   const products = [
@@ -51,6 +52,8 @@ function LayoutaddProduct() {
 
   const [activeTab, setActiveTab] = useState(0);
   const [images, setImages] = useState([]);
+  const [error, setError] = useState('');
+
   const [showPopup, setShowPopup] = useState(false);
   const [sizeData, setsizeData] = useState({
     Height: "",
@@ -188,31 +191,10 @@ function LayoutaddProduct() {
   const removeImage = (index) => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
 
-    // If the removed image is the first one, clear the imageUrl in formData
-    // if (index === 0 && images.length > 0) {
-    //   const reader = new FileReader();
-    //   reader.onloadend = () => {
-    //     setFormData((prevFormData) => ({
-    //       ...prevFormData,
-    //       imageUrl: reader.result || "", // Set the next image or clear the field
-    //     }));
-    //   };
-    //   if (images[1]) {
-    //     reader.readAsDataURL(images[1].file);
-    //   } else {
-    //     setFormData((prevFormData) => ({
-    //       ...prevFormData,
-    //       imageUrl: "",
-    //     }));
-    //   }
-    // }
+
   };
 
-  // const { getRootProps, getInputProps } = useDropzone({
-  //   onDrop,
-  //   accept: "image/*",
-  //   multiple: true,
-  // });
+
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -367,6 +349,30 @@ function LayoutaddProduct() {
     }
   };
 
+  const [selectedValue, setSelectedValue] = React.useState("");
+
+  const handleChange = (e) => {
+    setSelectedValue(e.target.value);
+  };
+
+  //  start upload single image
+
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedImage(URL.createObjectURL(file));
+    }
+  };
+
+  //  upload single image complete
+
+
+  const handleRemoveImage = () => {
+    setSelectedImage(null);
+  };
+
   const handleSizeSubmit = async () => {
     try {
       const response = await fetch(
@@ -492,8 +498,20 @@ function LayoutaddProduct() {
           <div className="w-[100%]   h-full flex font-sans font-medium overflow-hidden ">
             <div className="flex  w-full Largest:w-[80%]  justify-between text-sm">
               <div className=" ">
-                <div className="flex gap-4 my-4 ">
-                  <div>
+                <div className="font-semibold flex flex-col mb-4">
+                  <label>
+                    NDC / UPC:<span className="text-red-600">*</span>
+                  </label>
+                  <input
+                    name="ndcUpc"
+                    type="text"
+                    className="w-80 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                    onChange={handleInputChange}
+                    value={formData.ndcUpc}
+                  />
+                </div>
+                <div className="flex   ">
+                  <div className="flex flex-col mr-5">
                     <label className="font-semibold">
                       Category Specification:
                       <span className="text-red-600">*</span>
@@ -510,7 +528,7 @@ function LayoutaddProduct() {
                       <option value="3">General Merchandise</option>
                     </select>
                   </div>
-                  <div className="-ml-11">
+                  {/* <div className="-ml-10">
                     <label className="font-semibold">
                       Product Type:<span className="text-red-600">*</span>
                     </label>
@@ -522,8 +540,8 @@ function LayoutaddProduct() {
                       value={formData.ndcUpc}
                     />
 
-                  </div>
-                  <div className="">
+                  </div> */}
+                  <div className="flex flex-col mr-7">
                     <label className="font-semibold">
                       Product Category:
                       <span className="text-red-600">*</span>
@@ -542,23 +560,7 @@ function LayoutaddProduct() {
                       <option value="5">Health & Beauty</option>
                     </select>
                   </div>
-                </div>
-
-                <div className="flex gap-4 my-4">
-                  <div className="font-semibold">
-                    <label>
-                      NDC / UPC:<span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      name="ndcUpc"
-                      type="text"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={formData.ndcUpc}
-                    />
-                  </div>
-
-                  <div className="font-semibold -ml-3 ">
+                  <div className="font-semibold flex flex-col mr-6">
                     <label>
                       Product Name:<span className="text-red-600">*</span>
                     </label>
@@ -570,7 +572,48 @@ function LayoutaddProduct() {
                       value={formData.productName}
                     />
                   </div>
-                  <div className="font-semibold -ml-5">
+
+                  {/* <div className="font-semibold -ml-7">
+                    <label>
+                      NDC / UPC:<span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      name="ndcUpc"
+                      type="text"
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.ndcUpc}
+                    />
+                  </div> */}
+                </div>
+
+                <div className="flex  my-4 gap-4">
+                  {/* <div className="font-semibold">
+                    <label>
+                      NDC / UPC:<span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      name="ndcUpc"
+                      type="text"
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.ndcUpc}
+                    />
+                  </div> */}
+
+                  {/* <div className="font-semibold flex flex-col ">
+                    <label>
+                      Product Name:<span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      name="productName"
+                      type="text"
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.productName}
+                    />
+                  </div> */}
+                  <div className="font-semibold  ml-0 flex flex-col">
                     <label>
                       Brand Name:<span className="text-red-600">*</span>
                     </label>
@@ -580,6 +623,30 @@ function LayoutaddProduct() {
                       className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       onChange={handleInputChange}
                       value={formData.brandName}
+                    />
+                  </div>
+
+                  <div className="flex flex-col mx-2">
+                    <label className="text-sm font-semibold">
+                      Manufacturer:
+                    </label>
+                    <input
+                      name="manufacturer"
+                      type="text"
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.manufacturer}
+                    />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label className="text-sm font-semibold">Strength:</label>
+                    <input
+                      name="strength"
+                      type="text"
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.strength}
                     />
                   </div>
 
@@ -624,20 +691,11 @@ function LayoutaddProduct() {
                     />
                   </div>
                 </div> */}
-                <div className="flex gap-4 my-4">
+                <div className="flex ">
                   <div className="flex flex-col">
-                    <label className="text-sm font-semibold">
-                      Manufacturer:
-                    </label>
-                    <input
-                      name="manufacturer"
-                      type="text"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={formData.manufacturer}
-                    />
-                  </div>
-                  <div className="flex flex-col">
+                    <div className="flex gap-4 ">
+
+                      {/* <div className="flex flex-col">
                     <label className="text-sm font-semibold">Strength:</label>
                     <input
                       name="strength"
@@ -646,30 +704,43 @@ function LayoutaddProduct() {
                       onChange={handleInputChange}
                       value={formData.strength}
                     />
-                  </div>
-                  <div className="flex flex-col mx-2">
-                    <label className="text-sm font-semibold">Lot Number:</label>
-                    <input
-                      name="lotNumber"
-                      type="text"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={formData.lotNumber}
-                    />
-                  </div>
-                </div>
+                  </div> */}
+                      <div className="flex flex-col">
+                        <label className="text-sm font-semibold">Lot Number:</label>
+                        <input
+                          name="lotNumber"
+                          type="text"
+                          className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                          onChange={handleInputChange}
+                          value={formData.lotNumber}
+                        />
+                      </div>
+                      <div className="flex flex-col mx-2">
+                        <label className="text-sm font-semibold">Form:</label>
+                        <input
+                          name="form"
+                          type="text"
+                          className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                          onChange={handleInputChange}
+                          value={formData.form}
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <label className="text-sm font-semibold">
+                          Expiration Date:
+                        </label>
+                        <input
+                          name="expirationDate"
+                          type="Date"
+                          className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                          onChange={handleInputChange}
+                          value={formData.expirationDate}
+                        />
+                      </div>
+                    </div>
 
-                <div className="flex gap-4 my-4">
-                  <div className="flex flex-col">
-                    <label className="text-sm font-semibold">Form:</label>
-                    <input
-                      name="form"
-                      type="Date"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={formData.form}
-                    />
-                  </div>
+                    {/* <div className="flex gap-4 my-4">
+               
 
                   <div className="flex flex-col">
                     <label className="text-sm font-semibold">
@@ -684,10 +755,42 @@ function LayoutaddProduct() {
                     />
                   </div>
 
+                </div> */}
+                  </div>
+
+                  <div className="flex justify-end ml-5">
+
+                    {/* <div className="w-full">
+                  <div className="">
+                    <span className="text-base font-semibold">
+                      States :
+                    </span>
+                    <div className="w-56 h-24 pl-2   py-1 border border-slate-300 rounded-md overflow-y-scroll">
+                      <label className="flex items-center">All Selected</label>
+                      {states.map((state) => (
+                        <label
+                          className="flex  mt-1"
+                          key={state.abbreviation}
+                        >
+                          <input
+                            type="checkbox"
+                            name="states"
+                            value={state.abbreviation}
+                            onChange={handleInputChange}
+                            checked={formData.states.includes(state.abbreviation)}
+                            className="mr-2 overflow-y-scroll"
+                          />
+                          {state.name}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div> */}
+                  </div>
                 </div>
 
                 <div>
-                  <div className="flex w-full ">
+                  <div className="flex w-full mt-3">
                     <div className="mr-4 flex flex-col w-[47%] ">
                       <label className="font-semibold">Product Details:</label>
                       <textarea
@@ -935,55 +1038,50 @@ function LayoutaddProduct() {
 
               {/* section start */}
 
-              <div className="w-[20%]   ">
+              <div className="w-[19%] flex flex-col ">
                 <div className=" ">
-                  <p className="text-sm font-semibold">
-                    Main Product Image: ( JPEG, PNG)
+                  <p className="text-sm mt-1 font-semibold">
+                    Main Product Image:</p>
+                  <p className="text-sm font-semibold"> ( JPEG, PNG)
                   </p>
-                  <div className="flex flex-col items-center   p-2 border rounded-lg shadow-md">
-                    <div
-                      {...getRootProps()}
-                      className="w-full p-8 border-2 border-dashed  border-gray-300 rounded-lg cursor-pointer hover:border-gray-400"
-                    >
-                      <input {...getInputProps()} />
-                      <p
-                        className="text-gray-500  items-center flex justify-center"
-                        type="file"
-                        onChange={handleFileChange}
+                  <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
+                    {selectedImage ? (
+                      <div className="relative">
+                        <img
+                          src={selectedImage}
+                          alt="Selected"
+                          className="w-64 h-64 object-cover rounded-md"
+                        />
+                        <button
+                          onClick={handleRemoveImage}
+                          className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full focus:outline-none"
+                        >
+                          &times;
+                        </button>
+                      </div>
+                    ) : (
+                      <label
+                        htmlFor="imageUpload"
+                        className="flex flex-col justify-center  items-center w-full h-32 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200"
                       >
-                        Click here or drag and drop images
-                      </p>
-                    </div>
-
-                    <div className="mt-4 ">
-                      {images.map((image, index) => (
-                        <div key={index} className="flex">
-                          <img
-                            src={image.preview}
-                            alt={`Preview ${index}`}
-                            className="w-20  object-contain "
-                          />
-                          <button
-                            onClick={() => removeImage(index)}
-                            className=" rounded-full p-1 hover:bg-gray-100 text-red-400"
-                          >
-                            <img src={deleteicon} className="w-5" />
-
-                            {/* <FaTrash className="w-4" />  */}
-                          </button>
-                        </div>
-                      ))}
-                    </div>
+                        <span className="text-gray-500   text-center">  Click here or drag and drop image</span>
+                        <input
+                          type="file"
+                          id="imageUpload"
+                          accept="image/*"
+                          onChange={handleImageChange}
+                          className="hidden"
+                        />
+                      </label>
+                    )}
                   </div>
                 </div>
-
                 <div className="w-full">
-                  <div className="my-2">
+                  <div className="">
                     <span className="text-base font-semibold">
                       States :
-                      {/* (Please select multiple states by clicking on CtrlButton) : */}
                     </span>
-                    <div className="w-40 h-32 pl-3  pr-3 py-1 border border-slate-300 rounded-md overflow-auto">
+                    <div className="w-56 h-24 pl-2   py-1 border border-slate-300 rounded-md overflow-y-scroll">
                       <label className="flex items-center">All Selected</label>
                       {states.map((state) => (
                         <label
@@ -1004,6 +1102,9 @@ function LayoutaddProduct() {
                     </div>
                   </div>
                 </div>
+
+
+
               </div>
 
             </div>
@@ -1148,12 +1249,44 @@ function LayoutaddProduct() {
               </div>
             </div>
             <div className="my-4">
-              <div className="flex gap-2">
-              <label className="font-semibold">Shipping Price</label>
+              <div className="flex gap-2 items-center">
+                <label className="font-semibold">Shipping Cost</label>
+                <Box sx={{ display: "flex", gap: 2 }}>
+                  <div>
+                    <Radio
+                      checked={selectedValue === "a"}
+                      onChange={handleChange}
+                      value="a"
+                      name="radio-buttons"
+                      size="small"
+                      slotProps={{ input: { "aria-label": "A" } }}
+                      sx={{
+                        '& .MuiSvgIcon-root': {
+                          fontSize: 14, // adjust the size of the icon
+                        },
+                      }}
+                    />
+                    <span>YES</span>
+                  </div>
+                  <div>
+                    <Radio
+                      checked={selectedValue === "b"}
+                      onChange={handleChange}
+                      value="b"
+                      name="radio-buttons"
+                      size="small"
+                      slotProps={{ input: { "aria-label": "B" } }}
+                      sx={{
+                        '& .MuiSvgIcon-root': {
+                          fontSize: 14, // adjust the size of the icon
+                        },
+                      }}
+                    />
+                    <span>NO</span>
+                  </div>
+                </Box>
+              </div>
 
-                    <input
-                    type="radio"/>
-                   </div> 
 
             </div>
 
@@ -1811,35 +1944,37 @@ function LayoutaddProduct() {
               </button>
             </div>
             {isvisible && (
-              <div className=" bg-white p-2 px-5  w-full Largest:w-[80%] ">
+              <div className=" bg-white p-2 px-4   w-full Largest:w-[80%] ">
                 <div className="flex justify-between">
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
                     <label>Id From</label>
                     <input className="border rounded-sm" />
                   </div>
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
+                    <label>to</label>
+                    <input className="border rounded-sm" />
+                  </div>
+                  <div className="flex flex-col w-36">
                     <label>Price From</label>
                     <input className="border rounded-sm" />
                   </div>
+                  <div className="flex flex-col w-36">
+                    <label>to</label>
+                    <input className="border rounded-sm" />
+                  </div>
 
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
                     <label>Name</label>
                     <input className="border rounded-sm" />
                   </div>
                 </div>
 
-                <div className="flex justify-between">
-                  <div className="flex flex-col w-52">
-                    <label>to</label>
-                    <input className="border rounded-sm" />
-                  </div>
+                <div className="flex justify-between my-2">
 
-                  <div className="flex flex-col w-52">
-                    <label>to</label>
-                    <input className="border rounded-sm" />
-                  </div>
 
-                  <div className="flex flex-col w-52">
+
+
+                  <div className="flex flex-col w-36">
                     <label>Status</label>
                     <select className="border rounded-sm">
                       <option></option>
@@ -1847,10 +1982,8 @@ function LayoutaddProduct() {
                       <option>Disable</option>
                     </select>
                   </div>
-                </div>
 
-                <div className="flex justify-between  ">
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
                     <label> Attribute Set</label>
                     <select className="border rounded-sm">
                       <option></option>
@@ -1860,7 +1993,7 @@ function LayoutaddProduct() {
                     </select>
                   </div>
 
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
                     <label>Type</label>
                     <select className="border rounded-sm w-">
                       <option></option>
@@ -1874,24 +2007,26 @@ function LayoutaddProduct() {
                     </select>
                   </div>
 
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
                     <label>SKU</label>
                     <input className="border rounded-sm" />
                   </div>
+
+                  <div className="my-4 flex">
+                    <button
+                      onClick={handleRelateClick}
+                      className="bg-blue-900 p-2 mx-1 text-white border rounded-md"
+                    >
+                      {" "}
+                      Cancel
+                    </button>
+                    <button className="bg-blue-900 text-white p-2 mx-2 border rounded-md">
+                      Apply
+                    </button>
+                  </div>
                 </div>
 
-                <div className="my-4 flex justify-end">
-                  <button
-                    onClick={handleRelateClick}
-                    className="bg-blue-900 p-2 text-white border rounded-md"
-                  >
-                    {" "}
-                    Cancel
-                  </button>
-                  <button className="bg-blue-900 text-white p-2 mx-4 border rounded-md">
-                    Apply Filter
-                  </button>
-                </div>
+
               </div>
             )}
 
@@ -1948,8 +2083,11 @@ function LayoutaddProduct() {
                 higher-quality alternative to the product the customer is
                 looking at.
               </p>
+
+            </div>
+            <div className="flex justify-end">
               <button
-                className={` text-base font-medium p-2 rounded-md  h-8 flex items-center ${ButtonUpClick
+                className={`  text-base font-medium p-2 rounded-md  h-8 flex  items-center justify-end ${ButtonUpClick
                   ? "bg-white text-blue-900"
                   : "bg-blue-900 text-white"
                   }`}
@@ -1963,33 +2101,32 @@ function LayoutaddProduct() {
             {isVisible && (
               <div className=" bg-white p-2 px-5   w-full Largest:w-[80%]">
                 <div className="flex justify-between">
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
                     <label>Id From</label>
                     <input className="border rounded-sm" />
                   </div>
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
+                    <label>to</label>
+                    <input className="border rounded-sm" />
+                  </div>
+                  <div className="flex flex-col w-36">
                     <label>Price From</label>
                     <input className="border rounded-sm" />
                   </div>
+                  <div className="flex flex-col w-36">
+                    <label>to</label>
+                    <input className="border rounded-sm" />
+                  </div>
 
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
                     <label>Name</label>
                     <input className="border rounded-sm" />
                   </div>
                 </div>
 
                 <div className="flex justify-between">
-                  <div className="flex flex-col w-52">
-                    <label>to</label>
-                    <input className="border rounded-sm" />
-                  </div>
 
-                  <div className="flex flex-col w-52">
-                    <label>to</label>
-                    <input className="border rounded-sm" />
-                  </div>
-
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
                     <label>Status</label>
                     <select className="border rounded-sm">
                       <option></option>
@@ -1997,10 +2134,8 @@ function LayoutaddProduct() {
                       <option>Disable</option>
                     </select>
                   </div>
-                </div>
 
-                <div className="flex justify-between ">
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
                     <label> Attribute Set</label>
                     <select className="border rounded-sm">
                       <option></option>
@@ -2010,7 +2145,7 @@ function LayoutaddProduct() {
                     </select>
                   </div>
 
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
                     <label>Type</label>
                     <select className="border rounded-sm w-">
                       <option></option>
@@ -2024,24 +2159,28 @@ function LayoutaddProduct() {
                     </select>
                   </div>
 
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
                     <label>SKU</label>
                     <input className="border rounded-sm" />
                   </div>
+
+                  <div className="my-4 flex justify-end">
+                    <button
+                      onClick={Click}
+                      className="bg-blue-900 p-2 mx-2 text-white border rounded-md"
+                    >
+                      {" "}
+                      Cancel
+                    </button>
+                    <button className="bg-blue-900 text-white p-2 mx-1 border rounded-md">
+                      Apply
+                    </button>
+                  </div>
                 </div>
 
-                <div className="my-4 flex justify-end">
-                  <button
-                    onClick={Click}
-                    className="bg-blue-900 p-2 text-white border rounded-md"
-                  >
-                    {" "}
-                    Cancel
-                  </button>
-                  <button className="bg-blue-900 text-white p-2 mx-4 border rounded-md">
-                    Apply Filter
-                  </button>
-                </div>
+
+
+
               </div>
             )}
             <div className="my-6 border rounded-md bg-white w-full Largest:w-[80%] ">
@@ -2095,6 +2234,7 @@ function LayoutaddProduct() {
                 className={` text-base font-medium  p-2 rounded-md  h-8 flex items-center ${isButtonClicked
                   ? "bg-white text-blue-900"
                   : "bg-blue-900 text-white"
+
                   }`}
                 onClick={handleCrossClick}
               >
@@ -2105,33 +2245,31 @@ function LayoutaddProduct() {
             {visible && (
               <div className=" bg-white p-2 px-5  w-full Largest:w-[80%] ">
                 <div className="flex justify-between">
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
                     <label>Id From</label>
                     <input className="border rounded-sm" />
                   </div>
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
+                    <label>to</label>
+                    <input className="border rounded-sm" />
+                  </div>
+                  <div className="flex flex-col w-36">
                     <label>Price From</label>
                     <input className="border rounded-sm" />
                   </div>
+                  <div className="flex flex-col w-36">
+                    <label>to</label>
+                    <input className="border rounded-sm" />
+                  </div>
 
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
                     <label>Name</label>
                     <input className="border rounded-sm" />
                   </div>
                 </div>
 
                 <div className="flex justify-between">
-                  <div className="flex flex-col w-52">
-                    <label>to</label>
-                    <input className="border rounded-sm" />
-                  </div>
-
-                  <div className="flex flex-col w-52">
-                    <label>to</label>
-                    <input className="border rounded-sm" />
-                  </div>
-
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
                     <label>Status</label>
                     <select className="border rounded-sm">
                       <option></option>
@@ -2139,10 +2277,8 @@ function LayoutaddProduct() {
                       <option>Disable</option>
                     </select>
                   </div>
-                </div>
 
-                <div className="flex justify-between ">
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
                     <label> Attribute Set</label>
                     <select className="border rounded-sm">
                       <option></option>
@@ -2152,7 +2288,7 @@ function LayoutaddProduct() {
                     </select>
                   </div>
 
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
                     <label>Type</label>
                     <select className="border rounded-sm w-">
                       <option></option>
@@ -2166,24 +2302,27 @@ function LayoutaddProduct() {
                     </select>
                   </div>
 
-                  <div className="flex flex-col w-52">
+                  <div className="flex flex-col w-36">
                     <label>SKU</label>
                     <input className="border rounded-sm" />
                   </div>
+                  <div className="my-4 flex justify-end">
+                    <button
+                      onClick={handleCrossRemoveClick}
+                      className="bg-blue-900 p-2 mx-2 text-white border rounded-md"
+                    >
+                      {" "}
+                      Cancel
+                    </button>
+                    <button className="bg-blue-900 text-white p-2 mx-1 border rounded-md">
+                      Apply
+                    </button>
+                  </div>
                 </div>
 
-                <div className="my-4 flex justify-end">
-                  <button
-                    onClick={handleCrossRemoveClick}
-                    className="bg-blue-900 p-2 text-white border rounded-md"
-                  >
-                    {" "}
-                    Cancel
-                  </button>
-                  <button className="bg-blue-900 text-white p-2 mx-4 border rounded-md">
-                    Apply Filter
-                  </button>
-                </div>
+
+
+
               </div>
             )}
             <div className="my-6 border rounded-md bg-white w-full Largest:w-[80%]">
@@ -2233,46 +2372,49 @@ function LayoutaddProduct() {
         return (
           <div className="space-y-4 font-sans font-medium ">
             <p className="font-semibold">
-              Product Image: (Accepted Formats: JPEG, PNG)
+              Main Product Image: (Accepted Formats: JPEG, PNG)
             </p>
 
             <div className="flex w-full gap-4 justify-between">
-              <div className="flex flex-col w-full  p-4 border rounded-lg shadow-md">
-                <h1 className="text-xl font-bold mb-4 text-justify">
-                  Upload Images
-                </h1>
 
-                <div
-                  {...getRootProps()}
-                  className="w-full p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400"
-                >
-                  <input {...getInputProps()} />
-                  <p className="text-gray-500 text-center">
-                    Click here or drag and drop images
-                  </p>
-                </div>
-                <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-                  {images.map((image, index) => (
-                    <div key={index} className="relative">
-                      <img
-                        src={image.preview}
-                        alt={`Preview ${index}`}
-                        className="w-full h-20 object-cover"
-                      />
-                      <button
-                        onClick={() => removeImage(index)}
-                        className="text-sm absolute top-0 right-0 m-1 text-red-500 bg-white rounded-full p-1 hover:bg-gray-100"
-                      >
-                        <img src={deleteicon} className="w-4" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
+              <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
+                {selectedImage ? (
+                  <div className="relative">
+                    <img
+                      src={selectedImage}
+                      alt="Selected"
+                      className="w-64 h-64 object-cover rounded-md"
+                    />
+                    <button
+                      onClick={handleRemoveImage}
+                      className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full focus:outline-none"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                ) : (
+                  <label
+                    htmlFor="imageUpload"
+                      className="flex flex-col justify-center  items-center w-full  h-32 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200"
+                  >
+                    <span className="text-gray-500   text-center">  Click here or drag and drop image</span>
+                    <input
+                      type="file"
+                      id="imageUpload"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="hidden"
+                    />
+                  </label>
+                )}
               </div>
-              <div className="flex flex-col w-full  p-4 border rounded-lg shadow-md">
-                <h1 className="text-xl font-bold mb-4 text-justify">
-                  Upload Sub Images
-                </h1>
+
+
+
+
+
+              <div className="flex flex-col w-full p-4 border rounded-lg shadow-md">
+                <h1 className="text-xl font-bold mb-4 text-justify">Upload Thumbnails</h1>
 
                 <div
                   {...getRootProps()}
@@ -2283,6 +2425,9 @@ function LayoutaddProduct() {
                     Click here or drag and drop images
                   </p>
                 </div>
+                {error && (
+                  <p className="text-red-500 text-sm mt-2 text-center">{error}</p>
+                )}
                 <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
                   {images.map((image, index) => (
                     <div key={index} className="relative">
@@ -2295,7 +2440,7 @@ function LayoutaddProduct() {
                         onClick={() => removeImage(index)}
                         className="text-sm absolute top-0 right-0 m-1 text-red-500 bg-white rounded-full p-1 hover:bg-gray-100"
                       >
-                        <img src={deleteicon} className="w-4" />
+                        <img src={deleteicon} className="w-4" alt="delete icon" />
                       </button>
                     </div>
                   ))}
