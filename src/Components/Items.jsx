@@ -273,8 +273,7 @@ function Items({
     //   vendorId: prod.sellerId
     // }
     // navigate(`/checkout?total=${prod.priceName}`)
-    navigate(`/checkout?total=${quantity*prod.salePrice}`)
-
+    
     const currentDate = new Date();
     const payLoad = {
       orderId: "0",
@@ -291,6 +290,7 @@ function Items({
       pricePerProduct: prod.salePrice,
       vendorId: prod.sellerId
     }
+    navigate(`/checkout?total=${quantity * prod.salePrice}`)
     
     try {
       await customerOrderApi(payLoad);
@@ -513,7 +513,7 @@ function Items({
           <div className="w-[50%] min-h-full mr-12  p-3 flex flex-col items-center  ">
             <div className="border rounded-lg shadow-lg  pb-4 w-full h-full">
               <div className="p-4">
-                <p className="text-black text-[22px]">${prod?.priceName}</p>
+                <p className="text-black text-[22px]">${prod?.salePrice}</p>
 
                 <p className="text-gray-600 text-[14px]">
                   Delivery by{" "}
