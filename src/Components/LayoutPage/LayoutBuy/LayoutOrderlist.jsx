@@ -13,7 +13,6 @@ function LayoutOrderList() {
   const localData = localStorage.getItem("userId")
   // const customerId = localData?.userId;
   const orderList = useSelector((state) => state.orders)
-  console.log("order---->",orderList)
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -30,9 +29,10 @@ function LayoutOrderList() {
         console.error("Error fetching orders:", error);
       }
     };
-
+    
     fetchOrders();
   }, []);
+  console.log("order---->",orderList)
 
   // useEffect(() => {
   //   if (orderList.length > 0) {
@@ -110,6 +110,7 @@ function LayoutOrderList() {
       },
     },
   }));
+
 
   return (
     <div

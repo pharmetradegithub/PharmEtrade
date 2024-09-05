@@ -952,7 +952,8 @@ import visa from '../assets/visa.png'
 import Discover from '../assets/Discover.png'
 import dotspaymenticon from '../assets/dotpaymenticon.png'
 import net from '../assets/net.png'
-
+import dropdown from '../assets/Icons/dropDownb.png'
+import offer from '../assets/offers_1.png'
 import {
   Box,
   TextField,
@@ -1018,7 +1019,26 @@ function Address({ topMargin, totalAmount }) {
     }
   ];
 
-  const [selectedPayment, setSelectedPayment] = useState('');
+
+  const itemsdetails = [
+    {
+      // img: 'offer',  // Assuming 'offer' is a string representing the image or icon name
+      name: "Pharmacy Pharmetrade",
+      type: "Syrup",
+      Strength: '500mg',
+      Price: 320,
+      purchase: "sold by",
+      Company_Name: 'Pharmetrade',
+      option: "Choose a delivery option",
+      delivery1: 'Monday 9 Sept',
+      deliivery_type1: 'FREE Delivery'
+
+
+    }
+
+  ];
+
+  const [selectedPayment, setSelectedPayment] = useState(false);
 
   const [isPopupShow, setIsPopupShow] = useState(false);
   const [isCardPopup, setIsCardPopup] = useState(false);
@@ -1139,6 +1159,27 @@ function Address({ topMargin, totalAmount }) {
   const handleNavigate = () => {
     navigate('/app')
   }
+
+  // year month drop down
+
+  const generateYears = (startYear, endYear) => {
+    let years = [];
+    for (let year = startYear; year <= endYear; year++) {
+      years.push(year);
+    }
+    return years;
+  };
+
+  const generateMonths = () => {
+    const months = [
+     1,2,3,4,5,6,7,8,9,10,11,12
+    ];
+    return months;
+  };
+
+  const currentYear = new Date().getFullYear();
+  const futureYears = generateYears(2024, currentYear + 40); // Including future years (e.g., 10 years ahead)
+  const months = generateMonths();
 
   return (
     <div
@@ -1292,12 +1333,15 @@ function Address({ topMargin, totalAmount }) {
 
                                 <div className="my-4 cursor-pointer">
                                   <h1>Delivery instructions (optional)</h1>
+                                  <div className="flex" onClick={handleshortpopOpen}>
+                                  <img src={dropdown} className="w-5 h-5 "/>
                                   <p
                                     className="hover:text-red-400 hover:underline text-base text-cyan-600"
-                                    onClick={handleshortpopOpen}
+                                   
                                   >
                                     Add Preference, notes, access codes and more
                                   </p>
+                                  </div>
 
                                   {shortPopup && (
                                     <div>
@@ -1554,7 +1598,7 @@ function Address({ topMargin, totalAmount }) {
                                   <p className='mx-2'>{detail.Country},</p>
                                   <p>{detail.Pin}</p>
                                 </div>
-                                <p className='text-cyan-500 cursor-pointer hover:text-red-400 hover:underline' onClick={handleAddaddress}>Add a new address</p>
+                                <p className='text-cyan-500 cursor-pointer hover:text-red-400 hover:underline' onClick={handleAddaddress}>Add delivery instruction</p>
 
 
                                 {shortPopup && (
@@ -1784,7 +1828,23 @@ function Address({ topMargin, totalAmount }) {
                                     </div>
                                     <div className="flex flex-col mb-3">
                                       <label>Expiry Date</label>
-                                      <input type="text" className="h-8 border border-black px-2 mt-1" />
+                                      <div className="flex">
+                                        <select className="border border-black rounded-md mx-2 shadow-md bg-slate-200">
+                                          {futureYears.map((year) => (
+                                            <option key={year} value={year}>
+                                              {year}
+                                            </option>
+                                          ))}
+                                        </select>
+
+                                        <select className="border border-black rounded-md mx-2 shadow-md bg-slate-200">
+                                          {months.map((month, index) => (
+                                            <option key={index} value={month}>
+                                              {month}
+                                            </option>
+                                          ))}
+                                        </select>
+                                      </div>
                                     </div>
                                     <div className="text-sm text-gray-600">
                                       <p>Please ensure that you enable your card for online payments from your bank’s app.</p>
@@ -1874,7 +1934,23 @@ function Address({ topMargin, totalAmount }) {
                                                       </div>
                                                       <div className="flex flex-col mb-3">
                                                         <label>Expiry Date</label>
-                                                        <input type="text" className="h-8 border border-black px-2 mt-1" />
+                                                        <div className="flex">
+                                                          <select className="border border-black rounded-md mx-2 shadow-md bg-slate-200">
+                                                            {futureYears.map((year) => (
+                                                              <option key={year} value={year}>
+                                                                {year}
+                                                              </option>
+                                                            ))}
+                                                          </select>
+
+                                                          <select className="border border-black rounded-md mx-2 shadow-md bg-slate-200">
+                                                            {months.map((month, index) => (
+                                                              <option key={index} value={month}>
+                                                                {month}
+                                                              </option>
+                                                            ))}
+                                                          </select>
+                                                        </div>
                                                       </div>
                                                       <div className="text-sm text-gray-600">
                                                         <p>Please ensure that you enable your card for online payments from your bank’s app.</p>
@@ -1928,6 +2004,66 @@ function Address({ topMargin, totalAmount }) {
                           </div>
                         </div>
                       </div>
+
+                      <div>
+                        <div className="my-2 border-b">
+                          <h1> 3 Offers</h1>
+                        </div>
+
+                        <div>
+                          <h1>4 Review items and delivery</h1>
+
+                          <div className=" border rounded-md p-4 ">
+
+                            <h1 className="text-lg font-semibold text-green-600">Arriving 7 Sept 2024</h1>
+                            <p className="text-base">If you order in the next 10 hours and 50 minutes ( Details )</p>
+                            <p className="text-base">Items dispatched by Pharmetrade </p>
+                            {itemsdetails.map((itemsdetail, index) => (
+
+                              <div key={index} className="flex justify-around my-4">
+                                <div className="mt-4">
+                                  {/* <p>{itemsdetail.src}</p> */}
+                                  <img src={offer} className="w-28 h-24  " />
+                                </div>
+                                <div>
+                                  <p className="text-base font-semibold">{itemsdetail.name}</p>
+                                  <p className="text-base font-semibold">{itemsdetail.type}</p>
+                                  <p className="text-base font-semibold">{itemsdetail.Strength}</p>
+                                  <p className="text-red-600 font-semibold"> ${itemsdetail.Price}</p>
+                                  <input
+                                    type="number"
+                                    //  value={quantities[index]}
+                                    // onChange={(e) =>
+                                    //   handleQuantityChange(index, Number(e.target.value))
+                                    // }
+                                    className="text-xl border rounded-lg p-1 w-16"
+                                    min="1"
+                                  />
+                                  <div className="flex">
+                                    <p>{itemsdetail.purchase}</p>
+                                    <p>{itemsdetail.Company_Name}</p>
+                                  </div>
+
+
+
+                                </div>
+
+                                <div>
+                                  <p className="text-base font-semibold">{itemsdetail.option} :</p>
+                                  <label className="flex items-center text-base text-green-600 font-semibold">
+                                    <input type="radio" name={`delivery${index}`} value={itemsdetail.delivery_type1} className="mr-2" />
+                                    {itemsdetail.delivery1}
+                                  </label>
+                                  <p className="text-base ml-5">{itemsdetail.deliivery_type1}</p>
+                                </div>
+                              </div>
+                            ))}
+
+
+                          </div>
+                        </div>
+
+                      </div>
                     </div>
                   )}
                 </div>
@@ -1935,7 +2071,7 @@ function Address({ topMargin, totalAmount }) {
 
                   <div className="border fixed shadow-md rounded-md p-7 py-5">
                     <div className="flex items-center justify-center">
-                      <button className="border rounded-full text-sm flex justify-center items-center w-32 h-8 bg-blue-900 text-white">Use</button>
+                      <button className="border rounded-full text-sm flex justify-center items-center w-32 h-8 bg-blue-900 text-white">Use this address</button>
                     </div>
                     <div className="text-base flex items-center justify-center flex-col my-1 border-b">
                       <p>Choose a shipping address and payment</p>
@@ -2038,18 +2174,20 @@ function Address({ topMargin, totalAmount }) {
           </div>
 
           {/* other components start */}
-          <div className="w-[60%]">
-            <div className="border-b my-3">
-              <h1>2 Payment method</h1>
-            </div>
-            <div className="border-b my-3">
-              <h1>3 Offers</h1>
-            </div>
-            <div className="border-b my-3">
-              <h1>4 Items and delivery</h1>
-            </div>
+          {!isTotalHidden && (
+            <div className="w-[60%]">
+              <div className="border-b my-3">
+                <h1>2 Payment method</h1>
+              </div>
+              <div className="border-b my-3">
+                <h1>3 Offers</h1>
+              </div>
+              <div className="border-b my-3">
+                <h1>4 Items and delivery</h1>
+              </div>
 
-          </div>
+            </div>
+         )} 
         </div>
       </div>
     </div>

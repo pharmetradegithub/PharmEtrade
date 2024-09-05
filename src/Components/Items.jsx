@@ -272,8 +272,7 @@ console.log(id)
     //   vendorId: prod.sellerId
     // }
     // navigate(`/checkout?total=${prod.priceName}`)
-    navigate(`/checkout?total=${quantity*prod.salePrice}`)
-
+    
     const currentDate = new Date();
     const payLoad = {
       orderId: "0",
@@ -290,6 +289,7 @@ console.log(id)
       pricePerProduct: prod.salePrice,
       vendorId: prod.sellerId
     }
+    navigate(`/checkout?total=${quantity * prod.salePrice}`)
     
     try {
       await customerOrderApi(payLoad);
