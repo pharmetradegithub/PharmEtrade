@@ -4,18 +4,21 @@ import img from "../../../assets/img1.png";
 import { styled, alpha } from "@mui/material/styles";
 import searchimg from "../../../assets/search1.png";
 import InputBase from "@mui/material/InputBase";
+import { useSelector } from "react-redux";
 
 
 function LayoutOrderList() {
   const [searchQuery, setSearchQuery] = useState("");
   const [orders, setOrders] = useState([]);
-  const localData = JSON.parse(localStorage.getItem("login"));
-  const customerId = localData?.userId;
+  const localData = localStorage.getItem("userId")
+  // const customerId = localData?.userId;
+  const orderList = useSelector((state) => state.orders)
+  console.log("order---->",orderList)
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const response = await fetch(
-            `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Orders/Get?customerId=${customerId}`
+          `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Orders/Get?customerId=${localData}`
         );
         const data = await response.json();
         if (data.statusCode === 200) {
@@ -30,6 +33,12 @@ function LayoutOrderList() {
 
     fetchOrders();
   }, []);
+
+  // useEffect(() => {
+  //   if (orderList.length > 0) {
+  //     setOrders(orderList);
+  //     }
+  // }, [])
   const generateYears = (startYear, endYear) => {
     let years = [];
     for (let year = startYear; year <= endYear; year++) {

@@ -112,6 +112,7 @@ import ProductsPanel from "./Components/HomeProducts/Layout/ProductsPanel";
 import AllProducts from "./Components/HomeProducts/Components/AllProducts";
 import OtcProducts from "./Components/HomeProducts/Components/OtcProducts";
 import RxProducts from "./Components/HomeProducts/Components/RxProducts";
+import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
 function App() {
   const location1 = useLocation();
@@ -266,6 +267,7 @@ function App() {
         </Route>
 
         <Route path="/checkout" element={<Checkout />} />
+
 
         <Route path="/allProducts" element={<ProductsPanel topDivRef={topDivRef} cartItems={cartItems}  topMargin={topMargin}  />}>
           <Route path="" element={<AllProducts />} />

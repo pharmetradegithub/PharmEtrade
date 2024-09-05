@@ -25,6 +25,7 @@ import {
   OutlinedInput,
   InputAdornment,
   IconButton,
+  Autocomplete,
 } from "@mui/material";
 import TermsAndConditions from "./TermsAndConditions";
 
@@ -768,6 +769,11 @@ const Signup = () => {
   //   }
   //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
   // };
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredStates = states.filter((state) => {
+    return state.name.toLowerCase().includes(searchTerm.toLowerCase());
+  });
 
   const formatPhoneNumber = (phoneNumber) => {
     // Remove non-digit characters
@@ -1244,7 +1250,37 @@ const Signup = () => {
               />
             </div>
 
+            
             <div>
+              {/* <Autocomplete
+                options={states}
+                getOptionLabel={(option) => option.name}
+                getOptionSelected={(option, value) => option.abbreviation === value}
+                size="small"
+                // value={formData.State}
+                onChange={(e, value) => handleInputChange(e, value.abbreviation)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="State"
+                    placeholder="Search"
+                    placement= "bottom"
+                    error={!!errors.State}
+                    style={{
+                      width: 225
+                    }}
+                      
+                  />
+                )}
+                PopupProps={{
+                  anchor: 'bottom'
+                }}
+                // anchor={null}
+                // anchorOrigin={{
+                //   vertical: 'bottom',
+                //   horizontal: 'left'
+                // }}
+              /> */}
               <FormControl
                 className="w-[92%]"
                 size="small"
@@ -1279,6 +1315,54 @@ const Signup = () => {
                 </Select>
                 {errors.State && <span>{errors.State}</span>}
               </FormControl>
+              {/* <FormControl
+                className="w-[80%]"
+                size="small"
+                error={!!errors.State}
+              >
+                <InputLabel id="state-select-label">State</InputLabel>
+                <Select
+                  id="state-select"
+                  label="State"
+                  value={formData.State}
+                  name="State"
+                  onChange={handleInputChange}
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: 200, // Set the maximum height of the dropdown
+                      
+                      },
+                    },
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem>
+                    <TextField
+                      placeholder="Search"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      style={{
+                        minWidth: '60%',
+                        padding: '10px',
+                        border: 'none',
+                        outline: 'none',
+                      }}
+                    />
+                  </MenuItem>
+                  {filteredStates.map((state) => (
+                    <MenuItem
+                      key={state.abbreviation}
+                      value={state.abbreviation}
+                    >
+                      {state.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+                {errors.State && <span>{errors.State}</span>}
+              </FormControl> */}
             </div>
 
             <div>

@@ -17,7 +17,7 @@ const cartSlice = createSlice({
       state.cart.push(action.payload);
       const product = state.cart.find((item) => item.cartId === cartId);
       if (product) {
-        product.CartQuantity = action.payload.quantity;a
+        product.CartQuantity = action.payload.quantity;
       }
     },
     removeFromCart(state, action) {
@@ -72,6 +72,21 @@ const userSlice = createSlice({
     },
   },
 });
+
+const customerSlice = {
+  name: 'customer',
+  initialState: { customer: [] },
+  reducers: {
+    AddOrderList(state, action) {
+      state.customer = action.payload;
+    },
+    setOrder(state, action) {
+      state.cart = action.payload;
+    },
+
+  }
+};
+  
 const initialProductsState = {
   Products: [],
   rxProducts: [],
@@ -140,12 +155,13 @@ const bannerSlice = createSlice({
 
 const store = configureStore({
   reducer: {
+    orders: customerSlice.reducer,
     cart: cartSlice.reducer,
     user: userSlice.reducer,
     product: productsSlice.reducer,
     banner: bannerSlice.reducer,
     wishlist: wishlistSlice.reducer,
-    home:homeSlice.reducer,
+    home: homeSlice.reducer,
   },
 });
 

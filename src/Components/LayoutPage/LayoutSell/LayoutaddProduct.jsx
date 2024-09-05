@@ -446,7 +446,7 @@ function LayoutaddProduct() {
       console.log(data);
       const response = await AddProductApi(data, user.customerId);
       console.log("Product Data", response);
-      setNotification({ show: true, message: "Product added succefully!" });
+      setNotification({ show: true, message: "Product Added Successfully!" });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
@@ -544,9 +544,9 @@ function LayoutaddProduct() {
                       <option value="">Select a product category</option>
                       <option value="1">Default Category</option>
                       <option value="2">Electronics</option>
-                      <option value="3">Apparel</option>
+                      {/* <option value="3">Apparel</option>
                       <option value="4">Home Goods</option>
-                      <option value="5">Health & Beauty</option>
+                      <option value="5">Health & Beauty</option> */}
                     </select>
                   </div>
                   <div className="font-semibold flex flex-col mr-6">

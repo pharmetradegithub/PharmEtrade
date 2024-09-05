@@ -236,7 +236,7 @@ const Signin = () => {
                     <Link to="/password">Forgot Password /</Link>
                   </label>
                   <label className="text-[18px] ">
-                    New Customer ?{" "}
+                    New User ?{" "}
                     <Link className="underline hover:text-red-500" to="/signup">
                       Start Here
                     </Link>
