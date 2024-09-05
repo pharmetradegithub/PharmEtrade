@@ -108,6 +108,10 @@ import { fetchWishlistItemsApi } from "./Api/WishList";
 import { LoadingApi, TopMarginApi } from "./Api/HomeStaticApi";
 import { fetchAllBannersApi } from "./Api/BannerApi";
 import { fetchAllProductsApi, fetchOtcProductsApi, fetchRecentSoldProductsApi, fetchRxProductsApi } from "./Api/ProductApi";
+import ProductsPanel from "./Components/HomeProducts/Layout/ProductsPanel";
+import AllProducts from "./Components/HomeProducts/Components/AllProducts";
+import OtcProducts from "./Components/HomeProducts/Components/OtcProducts";
+import RxProducts from "./Components/HomeProducts/Components/RxProducts";
 import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
 function App() {
@@ -218,8 +222,7 @@ function App() {
               topDivRef={topDivRef}
               cartItems={cartItems}
             />
-          }
-        >
+          }>
           <Route
             path="/cart"
             element={<Cart cartItems={cartItems} setCartItems={setCartItems} />}
@@ -265,6 +268,14 @@ function App() {
 
         <Route path="/checkout" element={<Checkout />} />
 
+
+        <Route path="/allProducts" element={<ProductsPanel topDivRef={topDivRef} cartItems={cartItems}  topMargin={topMargin}  />}>
+          <Route path="" element={<AllProducts />} />
+          <Route path="/allProducts/OtcProducts" element={<OtcProducts />} />
+          <Route path="/allProducts/RxProducts" element={<RxProducts />} />
+          
+        </Route>
+
         <Route path="/seller" element={<SellerPanel />}>
           <Route path="" element={<Dashboard />} />
           <Route path="orders" element={<Orders />} />
@@ -290,6 +301,9 @@ function App() {
           <Route path="shipping-settings" element={<ShippingSetting />} />
           <Route path="manage-shipping" element={<ManageShipping />} />
         </Route>
+
+
+       
 
         <Route path="/layout" element={<LayoutPanel cartItems={cartItems} />}>
           <Route

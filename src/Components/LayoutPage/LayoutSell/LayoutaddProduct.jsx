@@ -175,6 +175,8 @@ function LayoutaddProduct() {
     setVideoPreviews([]);
   };
 
+  
+
   const tabs = [
     "Product Info",
     "Price Details",
@@ -336,6 +338,9 @@ function LayoutaddProduct() {
   const handleRemoveImage = () => {
     setSelectedImage(null);
   };
+
+
+  
 
   const handleSizeSubmit = async () => {
     if (formData.productSizeId != 0) {

@@ -55,18 +55,22 @@ function Items({
   productList,
   quantities,
 }) {
-  const user = useSelector((state)=>state.user.user);
-  const wishlist = useSelector((state)=>state.wishlist.wishlist);
-  const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
+  const user = useSelector((state) => state.user.user);
+  const wishlist = useSelector((state) => state.wishlist.wishlist);
+  const [wishlistProductIDs, setwishlistProductIDs] = useState(
+    wishlist.map((wishItem) => wishItem.product.productID)
+  );
   const getWishlistIdByProductID = (productID) => {
-    const wishlistItem = wishlist.find((item) => item.product.productID === productID);
-    return wishlistItem ? wishlistItem.wishListId : null; 
+    const wishlistItem = wishlist.find(
+      (item) => item.product.productID === productID
+    );
+    return wishlistItem ? wishlistItem.wishListId : null;
   };
 
   const [img, setimg] = useState(null);
   const { id } = useParams();
   const images = Array(8).fill(nature);
-console.log(id)
+  console.log(id);
   const [selectedMl, setSelectedMl] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   // const [showViewCart, setShowViewCart] = useState(false);
@@ -74,12 +78,12 @@ console.log(id)
   const [prod, setprod] = useState(null);
   const [thumnailList, setthumnailList] = useState([]);
   const newProducts = useSelector((state) => state.product.recentSoldProducts);
-  
+
   useEffect(() => {
     const NewProductsAPI = async () => {
       try {
-        const product=await fetchProductByIdApi(id);
-        console.log(product)
+        const product = await fetchProductByIdApi(id);
+        console.log(product);
         setprod(product);
       } catch (error) {
         console.log(error);
@@ -87,7 +91,7 @@ console.log(id)
     };
     NewProductsAPI();
   }, []);
-  
+
   useEffect(() => {
     if (prod) {
       setimg(prod.imageUrl);
@@ -116,41 +120,38 @@ console.log(id)
     setSelectedColor(null);
   };
 
-
-   const handleCart = async(index) => {
-    if(user==null)
-    {
+  const handleCart = async (index) => {
+    if (user == null) {
       console.log("login to add");
       return;
     }
     const cartData = {
-      customerId: user.customerId, 
+      customerId: user.customerId,
       productId: id,
       quantity: 1,
       isActive: 1,
     };
     try {
       await addCartApi(cartData);
-
     } catch (error) {
       console.error("Error adding product to cart:", error);
     }
   };
 
   const handleClick = async (productID) => {
-    if(wishlistProductIDs.includes(productID))
-    {
-      setwishlistProductIDs(wishlistProductIDs.filter(id => id !== productID));
-      await removeFromWishlistApi(getWishlistIdByProductID(productID))
-    }
-    else{
+    if (wishlistProductIDs.includes(productID)) {
+      setwishlistProductIDs(
+        wishlistProductIDs.filter((id) => id !== productID)
+      );
+      await removeFromWishlistApi(getWishlistIdByProductID(productID));
+    } else {
       setwishlistProductIDs([...wishlistProductIDs, productID]);
       const wishListData = {
         wishListId: "0",
         productId: id,
         customerId: user.customerId,
-        isActive: 1
-      } 
+        isActive: 1,
+      };
       await addToWishlistApi(wishListData);
     }
   };
@@ -369,9 +370,9 @@ console.log(id)
 
               <div className="flex items-center">
                 <span className="text-sky-500 font-semibold text-[18px] ">
-                  {prod?.priceName}
+                  {prod?.salePrice }
                 </span>
-                <p className="text-xs ml-1 line-through">${prod?.salePrice} </p>
+                <p className="text-xs ml-1 line-through">${prod?.priceName} </p>
               </div>
               <div className="text-[12px]">Inclusive of all taxes</div>
 
@@ -384,29 +385,6 @@ console.log(id)
                 <div className="ml-2 text-[13px]">(1048 ratings)</div>
               </div>
             </div>
-
-            {/* <div className="flex flex-col text-[17px] border-y-2 w-[320px] py-4 mb-2 ">
-              <div className="flex items-center ">
-                <TbSquareRoundedCheckFilled className="text-sky-500  mr-1" />
-                <span>In Stock</span>
-                <div className="flex">
-                  <p className="text-sky-500 font-semibold ml-4">NDC/UPC: </p>
-                  <span>6545555</span>
-                </div>
-              </div>
-              <div className="flex">
-                <div className="flex">
-                  <p className="text-sky-500 font-semibold ">SKU:</p>
-                  <span>6545555</span>
-                </div>
-                <div className="flex">
-                  <p className="text-sky-500 font-semibold ml-4">
-                    Expiration Date:
-                  </p>
-                  <span>20/06/2025</span>
-                </div>
-              </div>
-            </div> */}
 
             <div className="bg-gray-100 p-2 w-full border rounded-lg my-4 flex text-green-600">
               <p>
@@ -432,14 +410,6 @@ console.log(id)
                     className=" w-6 h-6"
                   />
                 </button>
-                {/* <button
-                  onClick={() => setIsFormVisible(!isFormVisible)}
-                  className="text-base"
-                >
-                  {" "}
-                  Calculate Shipping Cost
-                  {isFormVisible ? "˄" : "v"}
-                </button> */}
               </div>
               {isFormVisible && (
                 <form
@@ -536,34 +506,8 @@ console.log(id)
                     irregularities.
                   </li>
                 </p>
-                {/* <div className="border-t border-gray-200 pt-4 text-[15px] font-sans">
-                  <div className="p-2 bg-gray-100 rounded-lg mr-4">
-                    <p className="font-semibold text-gray-600">SOLD BY</p>
-                    <p className="text-red-600">Manda</p>
-                    <p className="hover:text-red-600">Company Website</p>
-                    <div className="flex flex-col">
-                      <div className="flex  items-center space-x-2 hover:text-red-500">
-                        <img src={product} className="w-fit h-10" />
-                        <span className=" font-semibold">17 PRODUCTS</span>
-                      </div>
-                      <div className="flex items-center space-x-2 hover:text-red-500">
-                        <img src={phone} className="w-fit h-10" />
-                        <span>Contact Seller</span>
-                      </div>
-                      <div className="flex items-center space-x-2 hover:text-red-500 cursor-pointer">
-                        <img src={report} className="w-fit h-8" />
-                        <span>Report Product</span>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
               </div>
             </div>
-            {/* <div>
-              <p className="text-teal-400 underline">
-                Report an issue with this product
-              </p>
-            </div> */}
           </div>
 
           <div className="w-[50%] min-h-full mr-12  p-3 flex flex-col items-center  ">
@@ -604,29 +548,6 @@ console.log(id)
                   </div>
                 </div>
               </div>
-
-              {/* <div className="flex flex-col justify-center items-center cursor-pointer">
-                <h1 className="text-lg font-semibold text-blue-900">
-                  {" "}
-                  Vitamin C(1000IU) Cap X
-                </h1>
-                <h1 className="text-sm">UPN Member Price $25.00</h1>
-                <p className="text-red-500">$30.00-$40.00</p>
-
-                <div>
-                  {Array.from({ length: totalStars }, (v, i) => (
-                    <Star
-                      key={i}
-                      filled={i < rating}
-                      onClick={() => setRating(i + 1)}
-                      className="text-orange-400 mt-2"
-                    />
-                  ))}
-                  <p>
-                    The rating is {rating} out of {totalStars}.
-                  </p>
-                </div>
-              </div> */}
 
               <div className="flex items-center space-x-2 pb-2 px-4">
                 <label className="text-lg font-semibold">Quantity:</label>
@@ -768,7 +689,6 @@ console.log(id)
 }
 
 export default Items;
-
 
 // import React, { useContext, useEffect, useRef, useState } from "react";
 // import { Link, useNavigate, useParams } from "react-router-dom";
