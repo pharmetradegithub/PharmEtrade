@@ -369,9 +369,9 @@ console.log(id)
 
               <div className="flex items-center">
                 <span className="text-sky-500 font-semibold text-[18px] ">
-                  {prod?.priceName}
+                  {prod?.salePrice }
                 </span>
-                <p className="text-xs ml-1 line-through">${prod?.salePrice} </p>
+                <p className="text-xs ml-1 line-through">${prod?.priceName} </p>
               </div>
               <div className="text-[12px]">Inclusive of all taxes</div>
 
@@ -569,7 +569,7 @@ console.log(id)
           <div className="w-[50%] min-h-full mr-12  p-3 flex flex-col items-center  ">
             <div className="border rounded-lg shadow-lg  pb-4 w-full h-full">
               <div className="p-4">
-                <p className="text-black text-[22px]">${prod?.priceName}</p>
+                <p className="text-black text-[22px]">${prod?.salePrice}</p>
 
                 <p className="text-gray-600 text-[14px]">
                   Delivery by{" "}

@@ -114,7 +114,7 @@
 //                   CLICK HERE TO ENTER YOUR CODE
 //                 </a>
 //                 </h1>
-              
+
 //             </div>
 //             <h1 className="mb-4 text-xl font-semibold">Billing Details</h1>
 //           </div>
@@ -481,79 +481,79 @@
 //     phone: "",
 //   });
 
-  // const [isPopupShow,setIsPopupShow]= useState(false)
-  // const handleopen =()=>{
-  //     setIsPopupShow (true)
-  // }
-  // const details = {
-  //   name: "Ram",
-  //   lastname: 'Manda',
-  //   Address: "Dollars",
-  //   City: "Dollars",
-  //   State: "US",
-  //   Country: 'US',
-  //   Pin: '78906',
-  //   email: "ram@gmail.com",
-  //   phone: 7894561230
-  // };
+// const [isPopupShow,setIsPopupShow]= useState(false)
+// const handleopen =()=>{
+//     setIsPopupShow (true)
+// }
+// const details = {
+//   name: "Ram",
+//   lastname: 'Manda',
+//   Address: "Dollars",
+//   City: "Dollars",
+//   State: "US",
+//   Country: 'US',
+//   Pin: '78906',
+//   email: "ram@gmail.com",
+//   phone: 7894561230
+// };
 
-  // const [isTotalHidden, setIsTotalHidden] = useState(false);
+// const [isTotalHidden, setIsTotalHidden] = useState(false);
 
-  // Function to handle the "Use this address" button click
-  // const handleUseAddress = () => {
-  //   setIsTotalHidden(true);
-  // };
+// Function to handle the "Use this address" button click
+// const handleUseAddress = () => {
+//   setIsTotalHidden(true);
+// };
 
-  // const details = [
-  //   {
-  //     name: "Ram",
-  //     // lastname: "Smith",
-  //     // Address: 'h-no:4-567/Dollars',
-  //     City: "Dollars",
-  //     State: "Dollars",
-  //     Country: "US",
-  //     Pin: 56789,
-  //     email: "ram@example.com",
-  //     phone: "+1234567890"
-  //   }
-  // ];
+// const details = [
+//   {
+//     name: "Ram",
+//     // lastname: "Smith",
+//     // Address: 'h-no:4-567/Dollars',
+//     City: "Dollars",
+//     State: "Dollars",
+//     Country: "US",
+//     Pin: 56789,
+//     email: "ram@example.com",
+//     phone: "+1234567890"
+//   }
+// ];
 
-  // const [showPopUp, setShowPopUp] = useState(false);
+// const [showPopUp, setShowPopUp] = useState(false);
 
-  // const handleOpen = () => {
-  //   setShowPopUp(true);
-  //   document.body.style.overflow = 'hidden'; // Disable scrolling
-  // };
+// const handleOpen = () => {
+//   setShowPopUp(true);
+//   document.body.style.overflow = 'hidden'; // Disable scrolling
+// };
 
-  // const handleRemove = () => {
-  //   setShowPopUp(false);
-  //   document.body.style.overflow = 'auto'; // Enable scrolling
-  // };
+// const handleRemove = () => {
+//   setShowPopUp(false);
+//   document.body.style.overflow = 'auto'; // Enable scrolling
+// };
 
-  // const handleUseAddress = () => {
-  //   setFormData({
-  //     ...formData,
-  //     firstName: details.name,
-  //     lastName: details.lastname,
-  //     streetAddress: details.Address,
-  //     townCity: details.City,
-  //     stateCountry: details.State,
-  //     postalCode: details.Pin,
-  //     email: details.email,
-  //     phone: details.phone
-  //   });
-  //   handleRemove();
-  // };
+// const handleUseAddress = () => {
+//   setFormData({
+//     ...formData,
+//     firstName: details.name,
+//     lastName: details.lastname,
+//     streetAddress: details.Address,
+//     townCity: details.City,
+//     stateCountry: details.State,
+//     postalCode: details.Pin,
+//     email: details.email,
+//     phone: details.phone
+//   });
+//   handleRemove();
+// };
 
-  // return (
-  //   <div
-  //     style={{ marginTop: `${topMargin}px` }}
-  //     className="bg-white w-full h-fit text-lg text-black px-12 py-2 relative"
-  //   >
-  //     <img src={logo} className="w-48 h-16" alt="Logo" />
-  //     <h1 className="text-3xl flex justify-center items-center text-black mb-3">Checkout</h1>
-  //     <div className="bg-white p-4 w-full h-full border-t">
-  //       <div className="flex flex-col">
+// return (
+//   <div
+//     style={{ marginTop: `${topMargin}px` }}
+//     className="bg-white w-full h-fit text-lg text-black px-12 py-2 relative"
+//   >
+//     <img src={logo} className="w-48 h-16" alt="Logo" />
+//     <h1 className="text-3xl flex justify-center items-center text-black mb-3">Checkout</h1>
+//     <div className="bg-white p-4 w-full h-full border-t">
+//       <div className="flex flex-col">
 {/* <div>
           <h1 className="text-orange-700 font-semibold text-lg my-2">1 Select a delivery and service address</h1>
           <div className="flex justify-between">
@@ -742,30 +742,30 @@
               <div className="flex items-center justify-center text-base">
                 <h1 className="font-semibold">{details[0].name},</h1>
                 {/* <h1 className="mx-1">{details[0].lastname},</h1> */}
-                {/* <p>{details[0].Address},</p> */}
-            //     <p className="mx-1">{details[0].City},</p>
-            //     <p>{details[0].State},</p>
-            //     <p className="mx-1">{details[0].Country},</p>
-            //     <p>{details[0].Pin},</p>
-            //     <p className="">{details[0].email},</p>
-            //     <p>{details[0].phone}</p>
-            //     <p className="mx-2 text-sm flex hover:text-red-500 hover:underline font-semibold text-cyan-500">Edit  </p>
-            //     <div>
-            //       <p className="text-sm hover:text-red-500 hover:underline font-semibold text-cyan-500">Address</p>
-            //     </div>
-            //   </div>
-            // </div>
+{/* <p>{details[0].Address},</p> */ }
+//     <p className="mx-1">{details[0].City},</p>
+//     <p>{details[0].State},</p>
+//     <p className="mx-1">{details[0].Country},</p>
+//     <p>{details[0].Pin},</p>
+//     <p className="">{details[0].email},</p>
+//     <p>{details[0].phone}</p>
+//     <p className="mx-2 text-sm flex hover:text-red-500 hover:underline font-semibold text-cyan-500">Edit  </p>
+//     <div>
+//       <p className="text-sm hover:text-red-500 hover:underline font-semibold text-cyan-500">Address</p>
+//     </div>
+//   </div>
+// </div>
 
-            {/* Hide this button after it's clicked */}
-      //       <button
-      //         className="border rounded-full h-8 text-sm w-32 bg-blue-900 text-white mt-6"
-      //         onClick={handleUseAddress}
-      //       >
-      //         Use this address
-      //       </button>
-      //     </div>
-      //   </div>
-      // )}
+{/* Hide this button after it's clicked */ }
+//       <button
+//         className="border rounded-full h-8 text-sm w-32 bg-blue-900 text-white mt-6"
+//         onClick={handleUseAddress}
+//       >
+//         Use this address
+//       </button>
+//     </div>
+//   </div>
+// )}
 
 
 
@@ -798,10 +798,10 @@
 //                 <p>Change</p>
 //               </div>
 // </div> */}
-              {/* Add your additional logic or content here */}
+{/* Add your additional logic or content here */ }
 
 
-              {/* <div>
+{/* <div>
                     <h2 className='text-orange-500'>2 Select a payment method</h2>
 
                     <div className='border rounded-md p-4'>
@@ -875,7 +875,7 @@
           )}
         </div> */}
 
-        {/* <div className=" w-[30%]  ml-6 flex flex-col pt-2 items-center">
+{/* <div className=" w-[30%]  ml-6 flex flex-col pt-2 items-center">
           
             <div className="border-b ">
               <div className="flex items-center justify-center">
@@ -906,7 +906,7 @@
 
         
         </div> */}
-        {/* </div>
+{/* </div>
 
 
 
@@ -916,8 +916,8 @@
 
       </div>
     </div> */}
-          
-        {/* other components start */}
+
+{/* other components start */ }
 //         <div className="w-[75%]">
 //          <div className="border-b my-3">
 //              <h1>2 Payment method</h1>
@@ -965,8 +965,8 @@ function Address({ topMargin, totalAmount }) {
   const fetchData = useSelector((state) => state.product.Products);
   const [searchParams] = useSearchParams();
   const total = searchParams.get("total");
-  
-  
+
+
   console.log("ffffffff--->", totalAmount)
   const [isActive, setIsActive] = useState(true);
   const [ischeck, setIsCheck] = useState(false);
@@ -1172,7 +1172,7 @@ function Address({ topMargin, totalAmount }) {
 
   const generateMonths = () => {
     const months = [
-     1,2,3,4,5,6,7,8,9,10,11,12
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
     ];
     return months;
   };
@@ -1186,14 +1186,14 @@ function Address({ topMargin, totalAmount }) {
       style={{ marginTop: `${topMargin}px` }}
       className="bg-white w-full h-fit text-lg text-black px-12 py-2 relative"
     >
-      <img src={logo} className="w-48 h-16 cursor-pointer" alt='logo' onClick={ handleNavigate} />
+      <img src={logo} className="w-48 h-16 cursor-pointer" alt='logo' onClick={handleNavigate} />
       <h1 className="text-3xl flex justify-center items-center text-black mb-3">Checkout</h1>
       <div className="bg-white p-4 w-full h-full border-t">
         <div className="flex flex-col">
 
           <div>
 
-            <h1 className="text-orange-700 font-semibold text-lg my-2">1 Select a delivery and service address</h1>
+            {!isTotalHidden && (<h1 className="text-orange-700 font-semibold text-lg my-2">1 Select a delivery and service address</h1>)}
             <div className="flex justify-evenly">
 
               {!isTotalHidden && (
@@ -1334,13 +1334,13 @@ function Address({ topMargin, totalAmount }) {
                                 <div className="my-4 cursor-pointer">
                                   <h1>Delivery instructions (optional)</h1>
                                   <div className="flex" onClick={handleshortpopOpen}>
-                                  <img src={dropdown} className="w-5 h-5 "/>
-                                  <p
-                                    className="hover:text-red-400 hover:underline text-base text-cyan-600"
-                                   
-                                  >
-                                    Add Preference, notes, access codes and more
-                                  </p>
+                                    <img src={dropdown} className="w-5 h-5 " />
+                                    <p
+                                      className="hover:text-red-400 hover:underline text-base text-cyan-600"
+
+                                    >
+                                      Add Preference, notes, access codes and more
+                                    </p>
                                   </div>
 
                                   {shortPopup && (
@@ -2187,7 +2187,7 @@ function Address({ topMargin, totalAmount }) {
               </div>
 
             </div>
-         )} 
+          )}
         </div>
       </div>
     </div>
