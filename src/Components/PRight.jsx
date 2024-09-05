@@ -199,7 +199,7 @@ function PRight({ Title, topMargin, addCart, wishList }) {
               </div>
               {/* </Link> */}
               <div className="w-full py-1">
-                <h2 className="text-fonts">{item.productName}</h2>
+                <h2 className="text-fonts h-12">{item.productName}</h2>
                 <h1 className="text-fonts font-semibold">${item.priceName}</h1>
               </div>
               <div>
