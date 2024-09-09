@@ -116,7 +116,7 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
                 <div className="flex justify-between items-center">
                   <div className="flex gap-1 items-center">
                     <h3 className="text-black font-semibold">${item.salePrice}</h3>
-                    <span className="text-[10px] line-through">(${item.priceName})</span>
+                    <span className="text-[10px] line-through">(${item.unitPrice})</span>
                   </div>
                 </div>
               </div>

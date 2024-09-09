@@ -1237,7 +1237,8 @@ function LayoutBuy({
 
     try {
       await addCartApi(cartData);
-      
+      setNotification({ show: true, message: "Item Added To Cart Successfully!" });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     } catch (error) {
       console.error("Error adding product to cart:", error);
       
