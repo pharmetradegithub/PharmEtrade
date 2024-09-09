@@ -181,7 +181,7 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                       ${item.salePrice}
                     </h3>
                     <span className="text-[10px] line-through">
-                      (${item.priceName})
+                      (${item.unitPrice})
                     </span>
                   </div>
                 </div>
