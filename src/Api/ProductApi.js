@@ -20,7 +20,33 @@ export const fetchAllProductsApi = async () => {
           ...product,
           CartQuantity:cartItemsMap.get(product.productID)||0
         }))
-        store.dispatch({ type: SET_PRODUCTS, payload: products });
+        store.dispatch({ type: SET_PRODUCTS, payload: {products:products, name: "ALL PRODUCTS"} });
+      } else {
+        console.error('Failed to fetch all products:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching all products:', error);
+    }
+  };
+  export const fetchCriteriaProductsApi = async (data,name) => {
+    try {
+      const response = await axios.post(
+        "/api/Product/GetByCriteria",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );      
+      if (response.status === 200) {
+        const cartItems = store.getState().cart.cart;
+        const cartItemsMap = new Map(cartItems.map(item=>[item.product.productID,item.quantity]));
+        const products = response.data.result.map(product=>({
+          ...product,
+          CartQuantity:cartItemsMap.get(product.productID)||0
+        }))
+        store.dispatch({ type: SET_PRODUCTS, payload: {products:products,name:name } });
       } else {
         console.error('Failed to fetch all products:', response.data.message);
       }
@@ -94,12 +120,12 @@ export const fetchAllProductsApi = async () => {
     }
   };
 
-  export const uploadImageApi = async (sellerId, file) => {
+  export const uploadImageApi = async (sellerId,productId, file) => {
     try {
       const imgData = new FormData();
       imgData.append('image', file);
-  
-      const response = await axios.post(`/api/Product/Image/Upload?sellerId=${sellerId}`, imgData, {
+      console.log(sellerId,productId);
+      const response = await axios.post(`/api/Product/Image/Upload?sellerId=${sellerId}&productId=${productId}`, imgData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -138,6 +164,75 @@ export const fetchAllProductsApi = async () => {
       throw error;
     }
   };
+  export const AddProductInfoApi = async (FormData, user) => {
+    try {
+      const response = await axios.post(
+        "/api/Product/ProductInfo/Add",
+        FormData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      if (response.status === 200) {
+        return response.data.result[0].productID;
+      } else {
+        console.error("Failed to submit product:", response.data.message);
+      }
+
+    } catch (error) {
+      console.error("There was a problem with the axios operation:", error);
+      throw error;
+    }
+  };
+  export const AddProductGallery = async (FormData, user) => {
+    try {
+      const response = await axios.post(
+        "/api/Product/Gallery/Add",
+        FormData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      if (response.status === 200) {
+        return "Added";
+      } else {
+        console.error("Failed to submit product:", response.data.message);
+      }
+
+    } catch (error) {
+      console.error("There was a problem with the axios operation:", error);
+      throw error;
+    }
+  };
+  export const AddProductPriceApi = async (FormData, user) => {
+    try {
+      const response = await axios.post(
+        "/api/Product/Price/Add",
+        FormData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      if (response.status === 200) {
+        return "Added";
+      } else {
+        console.error("Failed to submit product:", response.data.message);
+      }
+
+    } catch (error) {
+      console.error("There was a problem with the axios operation:", error);
+      throw error;
+    }
+  };
   export const AddProductSizeApi = async (FormData) => {
     try {
       const response = await axios.post(
@@ -152,6 +247,77 @@ export const fetchAllProductsApi = async () => {
   
       if (response.status === 200) {
         return response.data.result[0].productSizeId;
+      } else {
+        console.error("Failed to submit product:", response.data.message);
+      }
+
+    } catch (error) {
+      console.error("There was a problem with the axios operation:", error);
+      throw error;
+    }
+  };
+
+
+  export const EditProductInfoApi = async (FormData, user) => {
+    try {
+      const response = await axios.post(
+        "/api/Product/ProductInfo/Edit",
+        FormData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      if (response.status === 200) {
+        return response.data.result[0].productID;
+      } else {
+        console.error("Failed to submit product:", response.data.message);
+      }
+
+    } catch (error) {
+      console.error("There was a problem with the axios operation:", error);
+      throw error;
+    }
+  };
+  export const EditProductGallery = async (FormData, user) => {
+    try {
+      const response = await axios.post(
+        "/api/Product/Gallery/Edit",
+        FormData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      if (response.status === 200) {
+        return "Added";
+      } else {
+        console.error("Failed to submit product:", response.data.message);
+      }
+
+    } catch (error) {
+      console.error("There was a problem with the axios operation:", error);
+      throw error;
+    }
+  };
+  export const EditProductPriceApi = async (FormData, user) => {
+    try {
+      const response = await axios.post(
+        "/api/Product/Price/Edit",
+        FormData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      if (response.status === 200) {
+        return "Added";
       } else {
         console.error("Failed to submit product:", response.data.message);
       }

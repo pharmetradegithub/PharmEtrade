@@ -47,11 +47,11 @@ const LayoutPostingProducts = () => {
   }, []);
 
   const handleAddNewProductClick = () => {
-    navigate("/seller/add-single-product");
+    navigate("layout/addproduct");
   };
 
   const handleEditProduct = (product) => {
-    navigate(`/layout/layout-edit-single-product/${product.productID}`);
+    navigate(`/layout/addproduct?productId=${product.productID}`);
   };
 
   const handleClosePopup = () => {
@@ -128,31 +128,33 @@ const LayoutPostingProducts = () => {
               <table className="w-full">
                 <thead className="bg-blue-900 text-white">
                   <tr className="border-b-2">
-                    <th className=" px-4 py-2 text-left">Product Name</th>
-                    <th className="px-4 py-2 text-left">
-                      Category Specification
+                  <th className="px-4 py-2 text-left">
+                      Thumbnail
                     </th>
-                    <th className="px-4 py-2 text-left">Brand Name</th>
-                    <th className="px-4 py-2 text-left">Product Status</th>
+                    <th className=" px-4 py-2 text-left">Product Name</th>
                     <th className="px-4 py-2 text-left">Manufacturer</th>
-                    <th className="px-4 py-2 text-left">Action</th>
+                    <th className="px-4 py-2 text-left">Brand Name</th>
+                    {/* <th className="px-4 py-2 text-left">Product Status</th> */}
+                    
+                    <th className="px-4 py-2 ">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {products.map((product) => (
                     <tr key={product.id} className="border-b">
-                      <td className="px-4 py-2 ">{product.productName}</td>
                       <td className="px-4 py-2">
-                        {
-                          product?.categorySpecification
-                            ?.categorySpecificationId
-                        }
+                        <img
+                        
+                         src={ product?.imageUrl} className="w-6 object-cover"
+                        />
                       </td>
-                      <td className="px-4 py-2">{product.brandName}</td>
-                      <td className="px-4 py-2">{product.packCondition}</td>
+                      <td className="px-4 py-2 ">{product.productName}</td>
                       <td className="px-4 py-2">{product.manufacturer}</td>
+                      <td className="px-4 py-2">{product.brandName}</td>
+                      {/* <td className="px-4 py-2">{product.packCondition}</td> */}
                      
-                      <td className="px-4 py-2 cursor-pointer flex items-center space-x-4">
+                     
+                      <td className="px-4 py-2 cursor-pointer flex items-center space-x-2">
                         <img
                           src={edit}
                           alt="Edit"

@@ -1,6 +1,6 @@
 import React from "react";
 
-import Logo from "../../../assets/logo2.png"
+import Logo from "../../../assets/logo2.png";
 import Search from "../../../assets/search.png";
 import cartNav from "../../../assets/cartNav2.png";
 import like from "../../../assets/wishlistnav_icon.png";
@@ -28,32 +28,32 @@ import { IoLogoInstagram } from "react-icons/io";
 import { FiShoppingCart } from "react-icons/fi";
 import myaccount from "../../../assets/My Account.png";
 import { TbTruckReturn } from "react-icons/tb";
-import Baby from "../../All Category/Baby";
-import Beauty from "../../All Category/Beauty";
-import Grocery from "../../All Category/Grocery";
-import HealthTopics from "../../All Category/HealthTopics";
-import Herbs from "../../All Category/Herbs";
-import Home from "../../All Category/Home";
-import Medicines from "../../All Category/Medicines";
-import PersonalCare from "../../All Category/PersonalCare";
-import Pets from "../../All Category/Pets";
-import SportsNutrition from "../../All Category/SportsNutrition";
-import Suppliments from "../../All Category/Suppliments";
+// import Baby from "../../All Category/Baby";
+// import Beauty from "../../All Category/Beauty";
+// import Grocery from "../../All Category/Grocery";
+// import HealthTopics from "../../All Category/HealthTopics";
+// import Herbs from "../../All Category/Herbs";
+// import Home from "../../All Category/Home";
+// import Medicines from "../../All Category/Medicines";
+// import PersonalCare from "../../All Category/PersonalCare";
+// import Pets from "../../All Category/Pets";
+// import SportsNutrition from "../../All Category/SportsNutrition";
+// import Suppliments from "../../All Category/Suppliments";
 import WhyPharma from "../NavLinks/WhyPharma";
 import search from "../../../assets/search-icon.png";
 import dropdown from "../../../assets/Down-arrow .png";
 import { useSelector } from "react-redux";
+import { fetchCriteriaProductsApi } from "../../../Api/ProductApi";
 
-function Nav({ topDivRef, Form_Data }) {
-  const cartItems = [];
+function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   let navigate = useNavigate();
-  const user = useSelector((state)=>state.user.user);
-  const cart = useSelector((state)=>state.cart.cart);
+  const user = useSelector((state) => state.user.user);
+  const cart = useSelector((state) => state.cart.cart);
 
   const [selectedIndex, setSelectedIndex] = useState();
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-  const [popUps, setPopUps] = useState(<Baby />);
+  // const [popUps, setPopUps] = useState(<Baby />);
 
   const dropdownRef = useRef(null);
   const handleClickOutside = (event) => {
@@ -135,24 +135,120 @@ function Nav({ topDivRef, Form_Data }) {
     { icon: twitter, path: "#" },
   ];
 
+  // const components = [
+  //   { id: 1, name: "Deals", component: <Baby /> },
+  //   { id: 2, name: "Brands ", component: <Beauty /> },
+  //   { id: 3, name: "Generic", component: <HealthTopics /> },
+  //   { id: 4, name: "Discount > 75%", component: <Home /> },
+  //   { id: 5, name: "Discount > 50%", component: <Medicines /> },
+  //   { id: 6, name: "Discount > 25%", component: <PersonalCare /> },
+  //   { id: 7, name: "Expiring within 3 months", component: <Pets /> },
+  //   { id: 8, name: "Expiring within 6 months", component: <SportsNutrition /> },
+  //   { id: 9, name: "Expiring within 12 months", component: <Suppliments /> },
+  //   { id: 10, name: "Whole saler item ", component: <Suppliments /> },
+  //   { id: 11, name: "Pharmacy item ", component: <Suppliments /> },
+  //   { id: 12, name: "Prescription Drugs ", component: <Suppliments /> },
+  //   { id: 13, name: "OTC Products ", component: <Suppliments /> },
+  //   { id: 14, name: "VAWD Sellers", component: <Suppliments /> },
+  //   { id: 15, name: "Top Selling Products ", component: <Suppliments /> },
+  //   { id: 16, name: "Buy Again  ", component: <Suppliments /> },
+  // ];
+
+
   const components = [
-    { name: "Deals", component: <Baby /> },
-    { name: "Brands ", component: <Beauty /> },
-    { name: "Generic", component: <HealthTopics /> },
-    { name: "Discount > 75%", component: <Home /> },
-    { name: "Discount > 50%", component: <Medicines /> },
-    { name: "Discount > 25%", component: <PersonalCare /> },
-    { name: "Expiring within 3 months", component: <Pets /> },
-    { name: "Expiring within 6 months", component: <SportsNutrition /> },
-    { name: "Expiring within 12 months", component: <Suppliments /> },
-    { name: "Whole saler item ", component: <Suppliments /> },
-    { name: "Pharmacy item ", component: <Suppliments /> },
-    { name: "Prescription Drugs ", component: <Suppliments /> },
-    { name: "OTC Products ", component: <Suppliments /> },
-    { name: "VAWD Sellers", component: <Suppliments /> },
-    { name: "Top Selling Products ", component: <Suppliments /> },
-    { name: "Buy Again  ", component: <Suppliments /> },
+    { id: 1, name: "Deals" },
+    { id: 2, name: "Brands " },
+    { id: 3, name: "Generic" },
+    { id: 4, name: "Discount > 75%" },
+    { id: 5, name: "Discount > 50%" },
+    { id: 6, name: "Discount > 25%" },
+    { id: 7, name: "Expiring within 3 months" },
+    { id: 8, name: "Expiring within 6 months" },
+    { id: 9, name: "Expiring within 12 months" },
+    { id: 10, name: "Whole saler item " },
+    { id: 11, name: "Pharmacy item " },
+    { id: 12, name: "Prescription Drugs " },
+    { id: 13, name: "OTC Products " },
+    { id: 14, name: "VAWD Sellers" },
+    { id: 15, name: "Top Selling Products " },
+    { id: 16, name: "Buy Again  "},
   ];
+
+  const handleCriteria =async (obj) => {
+    let Criteria = {
+      deals: "string",
+      brands: "string",
+      generics: "string",
+      discount: 0,
+      expiring: 0,
+      wholeSeller: "string",
+      pharmacyItems: "string",
+      prescriptionDrugs: "string",
+      otcProducts: "string",
+      vawdSeller: "string",
+      topSellingProducts: "string",
+      buyAgain: "string",
+    };
+    if (obj.id == 1) {
+      Criteria.deals = obj.name;
+    }
+    if (obj.id == 2) {
+      Criteria.brands = obj.name;
+    }
+    if (obj.id == 3) {
+      Criteria.generics = obj.name;
+    }
+    if (obj.id == 4) {
+      Criteria.discount = 75;
+    }
+    if (obj.id == 5) {
+      Criteria.discount = 50;
+    }
+    if (obj.id == 6) {
+      Criteria.discount = 25;
+    }
+    if (obj.id == 7) {
+      Criteria.expiring = 9;
+    }
+    if (obj.id == 8) {
+      Criteria.expiring = 6;
+
+    }
+    if (obj.id == 9) {
+      Criteria.expiring = 3;
+
+    }
+    if (obj.id == 10) {
+      Criteria.wholeSeller = obj.name;
+    }
+    if (obj.id == 11) {
+      Criteria.pharmacyItems = obj.name;
+
+    }
+    if (obj.id == 12) {
+      Criteria.prescriptionDrugs = obj.name;
+
+    }
+    if (obj.id == 13) {
+      Criteria.otcProducts = obj.name;
+
+    }
+    if (obj.id == 14) {
+      Criteria.vawdSeller = obj.name;
+
+    }
+    if (obj.id == 15) {
+      Criteria.topSellingProducts = obj.name;
+
+    }
+    if (obj.id == 16) {
+      Criteria.buyAgain = obj.name;
+
+    }
+    await fetchCriteriaProductsApi(Criteria,obj.name);
+    navigate('/products');
+
+  };
 
   const handleSelect = (index) => {
     setSelectedIndex(index);
@@ -366,8 +462,6 @@ function Nav({ topDivRef, Form_Data }) {
                               Account Settings
                             </Link>
                           </li>
-
-        
                         </ul>
                       </div>
                     </div>
@@ -489,16 +583,16 @@ function Nav({ topDivRef, Form_Data }) {
                 >
                   <div className="bg-white px-4 py-3 rounded shadow-lg w-64">
                     {components.map((items, index) => (
-                      <ul key={index}>
+                      <ul onClick={() => handleCriteria(items)} key={index}>
                         <li className="">
                           <a
-                            className="hover:text-black text-sm font-medium text-blue-900"
+                            className="hover:text-black cursor-pointer text-sm font-medium text-blue-900"
                             onClick={() => handleItemClick(items.name)}
                             onMouseLeave={handleCatMouseLeave}
                           >
                             {items.name}
                           </a>
-                          {popUps === items.name && (
+                          {/* {popUps === items.name && (
                             <div
                               className="absolute bg-white border border-gray-300 rounded shadow-lg"
                               style={{
@@ -509,7 +603,7 @@ function Nav({ topDivRef, Form_Data }) {
                             >
                               {items.component}
                             </div>
-                          )}
+                          )} */}
                         </li>
                       </ul>
                     ))}

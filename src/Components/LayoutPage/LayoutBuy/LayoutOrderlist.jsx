@@ -12,7 +12,7 @@ function LayoutOrderList() {
   const [orders, setOrders] = useState([]);
   const localData = localStorage.getItem("userId")
   // const customerId = localData?.userId;
-  const orderList = useSelector((state) => state.orders)
+  const orderList = useSelector((state) => state.order.orders)
   useEffect(() => {
     const fetchOrders = async () => {
       try {

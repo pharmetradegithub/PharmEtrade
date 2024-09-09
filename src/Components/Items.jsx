@@ -43,7 +43,8 @@ import { useSelector } from "react-redux";
 import { fetchProductByIdApi } from "../Api/ProductApi";
 import { addCartApi } from "../Api/CartApi";
 import { addToWishlistApi, removeFromWishlistApi } from "../Api/WishList";
-import { customerOrderApi, customerOrderGetApi } from "../Api/CustomerOrderList";
+import { orderApi, orderGetApi } from "../Api/CustomerOrderList";
+// import { customerOrderApi, customerOrderGetApi } from "../Api/CustomerOrderList";
 
 function Items({
   onClose,
@@ -293,8 +294,10 @@ function Items({
     navigate(`/checkout?total=${quantity * prod.salePrice}`)
     
     try {
-      await customerOrderApi(payLoad);
-      await customerOrderGetApi(userId)
+      // await customerOrderApi(payLoad);
+      // await customerOrderGetApi(userId)
+      await orderApi(payLoad)
+      await orderGetApi(userId)
     } catch (error) {
       console.error("Error adding product to cart:", error);
     }
@@ -372,7 +375,7 @@ function Items({
                 <span className="text-sky-500 font-semibold text-[18px] ">
                   {prod?.salePrice }
                 </span>
-                <p className="text-xs ml-1 line-through">${prod?.priceName} </p>
+                <p className="text-xs ml-1 line-through">${prod?.unitPrice} </p>
               </div>
               <div className="text-[12px]">Inclusive of all taxes</div>
 

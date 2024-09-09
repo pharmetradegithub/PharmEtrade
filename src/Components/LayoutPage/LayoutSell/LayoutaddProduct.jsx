@@ -8,13 +8,21 @@ import { fetchNdcUpcListApi } from "../../../Api/MasterDataApi";
 import Notification from "../../../Components/Notification";
 import {
   AddProductApi,
+  AddProductGallery,
+  AddProductInfoApi,
+  AddProductPriceApi,
   AddProductSizeApi,
+  EditProductGallery,
+  EditProductInfoApi,
+  EditProductPriceApi,
+  fetchProductByIdApi,
   uploadImageApi,
 } from "../../../Api/ProductApi";
 import { useSelector } from "react-redux";
 
 function LayoutaddProduct() {
   const user = useSelector((state) => state.user.user);
+
   const products = [
     {
       serial: "",
@@ -110,7 +118,68 @@ function LayoutaddProduct() {
     thumbnail5: null,
     thumbnail6: null,
   });
+  const [productFetched, setproductFetched] = useState();
+  const [Heading, setHeading] = useState("ADD PRODUCT");
+  const AssignFormData = (product) => {
+    setFormData({  
+      categorySpecification: product.categorySpecification.categorySpecificationId,
+      productType: product.productType, 
+      productCategory: product.productCategory,
+      productName: product.productName,
+      ndcUpc: product.ndCorUPC,
+      brandName: product.brandName,
+      price: product.priceName,
+      amountInStock: product.amountInStock,
+      taxable: product.taxable,
+      productDetails: product.productDescription,
+      aboutProduct: product.aboutTheProduct,
+      states: [],
+      upnMemberPrice: product.upnMemberPrice,
+      salePrice: product.salePrice,
+      salePriceForm: "",
+      salePriceTo: "",
+      manufacturer: product.manufacturer,
+      strength: product.strength,
+      form: product.form,
+      lotNumber: product.lotNumber,
+      expirationDate: product.expiryDate,
+      packQuantity: product.packQuantity,
+      packType: product.packType,
+      packCondition: {
+        tornLabel: false,
+        otherCondition: "",
+      },
+      imageUrl: product.imageUrl,
+      productSizeId: 0,
+      thumbnail1: null,
+      thumbnail2: null,
+      thumbnail3: null,
+      thumbnail4: null,
+      thumbnail5: null,
+      thumbnail6: null,
+    });
+  };
+  useEffect(() => {
+    const productId = localStorage.getItem("productId");
+    const searchParams = new URLSearchParams(location.search);
+    const queryProductId = searchParams.get("productId");
 
+    const fetchProduct = async () => {
+      if (queryProductId) {
+        const response = await fetchProductByIdApi(queryProductId);
+        localStorage.removeItem("productId");
+        setHeading("EDIT PRODUCT");
+        AssignFormData(response);
+        setproductFetched(response);
+      } else {
+        const response = await fetchProductByIdApi(productId);
+        setHeading("ADD PRODUCT");
+        setproductFetched(response);
+      }
+    };
+    fetchProduct();
+  }, []);
+  console.log(productFetched, "hey");
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const handleClick = () => {
@@ -141,7 +210,6 @@ function LayoutaddProduct() {
     setIsVisible(true);
     setButtonUpClick(true);
   };
-
   const Click = () => {
     setIsVisible(false);
     setButtonUpClick(false);
@@ -174,8 +242,6 @@ function LayoutaddProduct() {
     setSelectedVideos([]);
     setVideoPreviews([]);
   };
-
-  
 
   const tabs = [
     "Product Info",
@@ -339,9 +405,6 @@ function LayoutaddProduct() {
     setSelectedImage(null);
   };
 
-
-  
-
   const handleSizeSubmit = async () => {
     if (formData.productSizeId != 0) {
       setFormData({ ...formData, ["productSizeId"]: 0 });
@@ -366,34 +429,39 @@ function LayoutaddProduct() {
   };
   console.log(user);
   const handleSubmit = async () => {
+    const productId = localStorage.getItem("productId");
+
+    const searchParams = new URLSearchParams(location.search);
+    const queryProductId = searchParams.get("productId");
+
     const imageUrl =
       formData.imageUrl == null
         ? "null"
-        : await uploadImageApi(user.customerId, formData.imageUrl);
+        : await uploadImageApi(user.customerId,productId, formData.imageUrl);
     const thumbnail1 =
       formData.thumbnail1 == null
         ? "null"
-        : await uploadImageApi(user.customerId, formData.thumbnail1);
+        : await uploadImageApi(user.customerId,productId, formData.thumbnail1);
     const thumbnail2 =
-      formData.thumbail2 == null
+      formData.thumbnail2 == null
         ? "null"
-        : await uploadImageApi(user.customerId, formData.thumbnail2);
+        : await uploadImageApi(user.customerId,productId, formData.thumbnail2);
     const thumbnail3 =
       formData.thumbnail3 == null
         ? "null"
-        : await uploadImageApi(user.customerId, formData.thumbnail3);
+        : await uploadImageApi(user.customerId,productId, formData.thumbnail3);
     const thumbnail4 =
       formData.thumbnail4 == null
         ? "null"
-        : await uploadImageApi(user.customerId, formData.thumbnail4);
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail4);
     const thumbnail5 =
       formData.thumbnail5 == null
         ? "null"
-        : await uploadImageApi(user.customerId, formData.thumbnail5);
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail5);
     const thumbnail6 =
       formData.thumbnail6 == null
         ? "null"
-        : await uploadImageApi(user.customerId, formData.thumbnail6);
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail6);
 
     const data = {
       productID: "0",
@@ -442,10 +510,101 @@ function LayoutaddProduct() {
       imageUrl: imageUrl, // Added missing field, placeholder value
       caption: "Sample product caption", // Added missing field, placeholder value
     };
+    const tab1 = {
+      productID: "0",
+      productCategoryId: formData.productCategory,
+      productName: formData.productName,
+      ndCorUPC: formData.ndcUpc,
+      brandName: formData.brandName,
+      size: "Size",
+      manufacturer: formData.manufacturer,
+      strength: formData.strength,
+      lotNumber: formData.lotNumber,
+      availableFromDate: "2024-09-01",
+      expiryDate: formData.expirationDate,
+      formattedAvailableFromDate:"2024-09-01",
+      formattedExpiryDate:formData.expirationDate,
+      packQuantity: 200,
+      packType: formData.packType,
+      packCondition: formData.packCondition.tornLabel
+        ? "torn"
+        : formData.packCondition.otherCondition,
+      productDescription: formData.productDetails,
+      aboutTheProduct: formData.aboutProduct, // Correct field name
+      categorySpecificationId: formData.categorySpecification, // Correct field name
+      productTypeId: 1, // Static value
+      sellerId: user.customerId, // Static value
+      states: formData.states.join(","),
+      unitOfMeasure: "nill",
+    };
+    const tab2 = {
+      productPriceId: "string",
+      productId: productId,
+      unitPrice: formData.price,
+      upnMemberPrice: formData.upnMemberPrice,
+      discount: formData.discount,
+      salePrice: formData.salePrice,
+      salePriceValidFrom: formData.salePriceForm,
+      salePriceValidTo: formData.salePriceTo,
+      taxable: formData.taxable == 1 ? true : false,
+      shippingCostApplicable: true,
+      shippingCost: 20,
+      amountInStock: 200,
+    };
+    const tab4 = {
+      productGalleryId: "0",
+      productId: productId,
+      caption: "Caption",
+      imageUrl: imageUrl,
+      thumbnail1: thumbnail1,
+      thumbnail2: thumbnail2,
+      thumbnail3: thumbnail3,
+      thumbnail4: thumbnail4,
+      thumbnail5: thumbnail5,
+      thumbnail6: thumbnail6,
+      videoUrl: "VideoUrl",
+    };
     try {
-      console.log(data);
-      const response = await AddProductApi(data, user.customerId);
-      console.log("Product Data", response);
+      if (activeTab == 0) {
+        if(queryProductId)
+        {
+          const response = await EditProductInfoApi(tab1, user.customerId);
+          console.log("Product Data", response);
+        }
+        else
+        {
+          const response = await AddProductInfoApi(tab1, user.customerId);
+          localStorage.setItem("productId", response);
+        }
+      } else if (activeTab == 1) {
+        if(queryProductId)
+        {
+          const response = await EditProductPriceApi(tab2, user.customerId);
+          console.log("Product Data", response);
+        }
+        else
+        {
+          const response = await AddProductPriceApi(tab2, user.customerId);
+          console.log("Product Data", response);
+        }
+        
+      } else if (activeTab == 3) {
+        if(queryProductId)
+        {
+          console.log(tab4)
+          const response = await EditProductGallery(tab4, user.customerId);
+          console.log("Product Data", response);
+        }
+        else
+        {
+          console.log(tab4)
+
+          const response = await AddProductGallery(tab4, user.customerId);
+          console.log("Product Data", response);
+        }
+        
+      }
+
       setNotification({ show: true, message: "Product Added Successfully!" });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     } catch (error) {
@@ -517,19 +676,7 @@ function LayoutaddProduct() {
                       <option value="3">General Merchandise</option>
                     </select>
                   </div>
-                  {/* <div className="-ml-10">
-                    <label className="font-semibold">
-                      Product Type:<span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      name="ndcUpc"
-                      type="text"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={formData.ndcUpc}
-                    />
 
-                  </div> */}
                   <div className="flex flex-col mr-7">
                     <label className="font-semibold">
                       Product Category:
@@ -561,61 +708,10 @@ function LayoutaddProduct() {
                       value={formData.productName}
                     />
                   </div>
-
-                  {/* <div className="font-semibold -ml-7">
-                    <label>
-                      NDC / UPC:<span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      name="ndcUpc"
-                      type="text"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={formData.ndcUpc}
-                    />
-                  </div> */}
                 </div>
 
                 <div className="flex  my-4 gap-4">
-                  {/* <div className="font-semibold">
-                    <label>
-                      NDC / UPC:<span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      name="ndcUpc"
-                      type="text"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={formData.ndcUpc}
-                    />
-                  </div> */}
-
-                  {/* <div className="font-semibold flex flex-col ">
-                    <label>
-                      Product Name:<span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      name="productName"
-                      type="text"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={formData.productName}
-                    />
-                  </div> */}
-                  <div className="font-semibold  ml-0 flex flex-col">
-                    <label>
-                      Brand Name:<span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      name="brandName"
-                      type="text"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={formData.brandName}
-                    />
-                  </div>
-
-                  <div className="flex flex-col mx-2">
+                  <div className="flex flex-col ">
                     <label className="text-sm font-semibold">
                       Manufacturer:
                     </label>
@@ -629,6 +725,42 @@ function LayoutaddProduct() {
                   </div>
 
                   <div className="flex flex-col">
+                    <label className="text-sm font-semibold">Size:</label>
+                    <input
+                      name="size"
+                      type="text"
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.size}
+                    />
+                  </div>
+                  <div className="flex flex-col mx-2">
+                    <label className="text-sm font-semibold">Form:</label>
+                    <input
+                      name="form"
+                      type="text"
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.form}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex  my-4 gap-4">
+                  <div className="flex flex-col">
+                    <label className="text-sm font-semibold">
+                      Unit Of Measurement:
+                    </label>
+                    <input
+                      name="strength"
+                      type="text"
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.strength}
+                    />
+                  </div>
+
+                  <div className="flex flex-col">
                     <label className="text-sm font-semibold">Strength:</label>
                     <input
                       name="strength"
@@ -638,35 +770,7 @@ function LayoutaddProduct() {
                       value={formData.strength}
                     />
                   </div>
-                </div>
-
-                {/* <div className="flex gap-4 my-4">
-                  <div className="font-semibold">
-                    <label>
-                      NDC / UPC:<span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      name="ndcUpc"
-                      type="text"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={formData.ndcUpc}
-                    />
-                  </div>
-                  <div className="font-semibold">
-                    <label>
-                      Product Name:<span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      name="productName"
-                      type="text"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={formData.productName}
-                    />
-                  </div>
-
-                  <div className="font-semibold mx-1">
+                  <div className="font-semibold  ml-0 flex flex-col">
                     <label>
                       Brand Name:<span className="text-red-600">*</span>
                     </label>
@@ -678,20 +782,11 @@ function LayoutaddProduct() {
                       value={formData.brandName}
                     />
                   </div>
-                </div> */}
+                </div>
+
                 <div className="flex ">
                   <div className="flex flex-col">
                     <div className="flex gap-4 ">
-                      {/* <div className="flex flex-col">
-                    <label className="text-sm font-semibold">Strength:</label>
-                    <input
-                      name="strength"
-                      type="text"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={formData.strength}
-                    />
-                  </div> */}
                       <div className="flex flex-col">
                         <label className="text-sm font-semibold">
                           Lot Number:
@@ -704,16 +799,7 @@ function LayoutaddProduct() {
                           value={formData.lotNumber}
                         />
                       </div>
-                      <div className="flex flex-col mx-2">
-                        <label className="text-sm font-semibold">Form:</label>
-                        <input
-                          name="form"
-                          type="text"
-                          className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                          onChange={handleInputChange}
-                          value={formData.form}
-                        />
-                      </div>
+
                       <div className="flex flex-col">
                         <label className="text-sm font-semibold">
                           Expiration Date:
@@ -727,53 +813,6 @@ function LayoutaddProduct() {
                         />
                       </div>
                     </div>
-
-                    {/* <div className="flex gap-4 my-4">
-               
-
-                  <div className="flex flex-col">
-                    <label className="text-sm font-semibold">
-                      Expiration Date:
-                    </label>
-                    <input
-                      name="expirationDate"
-                      type="Date"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={formData.expirationDate}
-                    />
-                  </div>
-
-                </div> */}
-                  </div>
-
-                  <div className="flex justify-end ml-5">
-                    {/* <div className="w-full">
-                  <div className="">
-                    <span className="text-base font-semibold">
-                      States :
-                    </span>
-                    <div className="w-56 h-24 pl-2   py-1 border border-slate-300 rounded-md overflow-y-scroll">
-                      <label className="flex items-center">All Selected</label>
-                      {states.map((state) => (
-                        <label
-                          className="flex  mt-1"
-                          key={state.abbreviation}
-                        >
-                          <input
-                            type="checkbox"
-                            name="states"
-                            value={state.abbreviation}
-                            onChange={handleInputChange}
-                            checked={formData.states.includes(state.abbreviation)}
-                            className="mr-2 overflow-y-scroll"
-                          />
-                          {state.name}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                </div> */}
                   </div>
                 </div>
 
@@ -1122,6 +1161,33 @@ function LayoutaddProduct() {
                       value={formData.price === 0 ? "" : formData.price}
                     />
                   </div>
+
+                  <div className="flex flex-col">
+                    <label className="text-sm font-semibold">Discount:</label>
+                    <input
+                      name="discount"
+                      type="number"
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.discount === "" ? "" : formData.discount}
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="text-sm font-semibold">
+                      Sale Price ($):
+                    </label>
+                    <input
+                      name="salePrice"
+                      type="number"
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={
+                        formData.salePrice === "" ? "" : formData.salePrice
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="flex items-center gap-8">
                   <div className="flex flex-col">
                     <label className="text-sm font-semibold">
                       UPN Member Price ($):
@@ -1135,38 +1201,6 @@ function LayoutaddProduct() {
                         formData.upnMemberPrice === ""
                           ? ""
                           : formData.upnMemberPrice
-                      }
-                    />
-                  </div>
-                  <div className="font-semibold flex flex-col">
-                    <label>
-                      Amount in Stock:<span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      name="amountInStock"
-                      type="number"
-                      className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={
-                        formData.amountInStock === 0
-                          ? ""
-                          : formData.amountInStock
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="flex items-center gap-8">
-                  <div className="flex flex-col">
-                    <label className="text-sm font-semibold">
-                      Sale Price ($):
-                    </label>
-                    <input
-                      name="salePrice"
-                      type="number"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={
-                        formData.salePrice === "" ? "" : formData.salePrice
                       }
                     />
                   </div>
@@ -1200,6 +1234,22 @@ function LayoutaddProduct() {
                 </div>
 
                 <div className="flex items-center gap-8 ">
+                  <div className="font-semibold flex flex-col">
+                    <label>
+                      Amount in Stock:<span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      name="amountInStock"
+                      type="number"
+                      className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={
+                        formData.amountInStock === 0
+                          ? ""
+                          : formData.amountInStock
+                      }
+                    />
+                  </div>
                   <div className="flex flex-col">
                     <label className="font-semibold">
                       Taxable:<span className="text-red-600">*</span>
@@ -1216,29 +1266,6 @@ function LayoutaddProduct() {
                       <option value="1">Yes</option>
                     </select>
                   </div>
-                  {/* <div className="flex flex-col">
-                    <label className="text-sm font-semibold">Form:</label>
-                    <input
-                      name="form"
-                      type="Date"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={formData.form}
-                    />
-                  </div> */}
-
-                  {/* <div className="flex flex-col">
-                    <label className="text-sm font-semibold">
-                      Expiration Date:
-                    </label>
-                    <input
-                      name="expirationDate"
-                      type="Date"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={formData.expirationDate}
-                    />
-                  </div> */}
                 </div>
               </div>
             </div>
@@ -1283,170 +1310,6 @@ function LayoutaddProduct() {
                 </Box>
               </div>
             </div>
-
-            {/* section 2 */}
-            {/* <div className="">
-              <div className=" my-2 flex items-center">
-                <span className="text-sm font-semibold">Pack Quantity : </span>
-
-                <div className=" flex items-center">
-                  <div className="flex items-center">
-                    {" "}
-                    <input
-                      type="radio"
-                      id="full"
-                      name="option"
-                      value="full"
-                      checked={formData.packQuantity === "full"}
-                      onChange={handleInputChange}
-                      className="mx-1"
-                    />{" "}
-                    <label
-                      htmlFor="full"
-                      className="text-sm mx-1 font-semibold"
-                    >
-                      Full
-                    </label>
-                  </div>
-                  <div className="flex items-center">
-                    <input
-                      type="radio"
-                      id="partial"
-                      name="option"
-                      value="partial"
-                      checked={formData.packQuantity === "partial"}
-                      onChange={handleInputChange}
-                      className="ml-2 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                    />
-                    <label
-                      htmlFor="partial"
-                      className="text-sm mx-1 font-semibold"
-                    >
-                      Partial
-                    </label>
-                  </div>
-                </div>
-
-                <input
-                  type="text"
-                  name="packQuantityAmount"
-                  value={formData.packQuantityAmount || ""}
-                  onChange={handleInputChange}
-                  className="w-[30%] Largest:w-[15%] mx-1 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:shadow focus:shadow-blue-400"
-                />
-                <label className="text-sm mx-1 font-semibold">EA</label>
-              </div>
-            </div> */}
-            {/* section 2 end */}
-
-            {/* section3 start */}
-            {/* <div>
-              <div>
-                <div className=" my-2 flex items-center">
-                  <span className="text-sm font-semibold">Pack Type :</span>
-
-                  <div className="flex items-center">
-                    <div className="flex items-center">
-                      <input
-                        type="radio"
-                        id="original"
-                        name="product"
-                        value="original"
-                        checked={formData.packType === "original"}
-                        onChange={handleInputChange}
-                        className="ml-2"
-                      />
-                      <label
-                        htmlFor="original"
-                        className="text-sm mx-1 font-semibold"
-                      >
-                        {" "}
-                        ORIGINAL PACKAGE
-                      </label>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        type="radio"
-                        id="non-original"
-                        name="product"
-                        value="non-original"
-                        checked={formData.packType === "non-original"}
-                        onChange={handleInputChange}
-                        className="ml-2"
-                      />
-                      <label
-                        htmlFor="non-original"
-                        className="text-sm mx-1 font-semibold"
-                      >
-                        ORIGINAL PACKAGE - NON SEALED
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-            {/* section 3 end */}
-
-            {/* section4 start */}
-            {/* <div>
-              <div className=" my-2">
-                <div>
-                  <span className="text-sm font-semibold">
-                    Pack Condition :
-                  </span>
-                  <input
-                    type="checkbox"
-                    id="tornLabel"
-                    name="tornLabel"
-                    checked={formData.packCondition.tornLabel}
-                    onChange={handleInputChange}
-                    className="ml-[2%]"
-                  />{" "}
-                  <label className="text-sm ml-1 font-semibold">
-                    TORN PACKAGE LABEL
-                  </label>
-                  <input
-                    type="checkbox"
-                    id="otherCondition"
-                    name="otherCondition"
-                    checked={
-                      formData.packCondition.otherConditionChecked || false
-                    }
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        packCondition: {
-                          ...formData.packCondition,
-                          otherConditionChecked: e.target.checked,
-                          otherCondition: e.target.checked
-                            ? formData.packCondition.otherCondition
-                            : "",
-                        },
-                      })
-                    }
-                    className="ml-[2%]"
-                  />{" "}
-                  <label className="text-sm ml-1 font-semibold">OTHER</label>
-                  <input
-                    type="text"
-                    name="otherConditionText"
-                    value={formData.packCondition.otherCondition || ""}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        packCondition: {
-                          ...formData.packCondition,
-                          otherCondition: e.target.value,
-                        },
-                      })
-                    }
-                    disabled={!formData.packCondition.otherConditionChecked}
-                    className="mx-1 w-[30%] Largest:w-[15%] h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:shadow focus:shadow-blue-400"
-                  />
-                </div>
-              </div>
-            </div> */}
-            {/* section4 end */}
 
             {/* section5 start */}
             <div className="flex flex-col w-full Largest:w-[60%]  justify-between text-sm ">
@@ -1689,89 +1552,6 @@ function LayoutaddProduct() {
           /* section4 start */
         }
         {
-          /* <div className="flex flex-col w-full Largest:w-[80%]  justify-between text-sm my-4">
-              <div className="flex flex-col  ">
-                <label className="text-base">Tier Price:</label>
-                <div className="border rounded-md  bg-white ">
-                  <table className="w-full Largest:w-[80%] ">
-                    <thead className="p-10">
-                      <tr className="text-xl border-b bg-blue-900 text-white">
-                        <th className=" font-normal text-center text-base h-10">
-                          Websites
-                        </th>
-                        <th className="  font-normal text-center text-base ">
-                          Customer Group
-                        </th>
-                        <th className="    font-normal text-base  text-center ">
-                          Qty
-                        </th>
-                        <th className="  font-normal  text-base  text-center ">
-                          ($) Price
-                        </th>
-                        <th className="  font-normal  text-base  text-center  ">
-                          Action
-                        </th>
-                        <th className="   font-normal   text-base  text-center  ">
-                          <button
-                            className="border border-gray-950 -ml-3 bg-white text-black w-14"
-                            onClick={handleClick}
-                          >
-                            Add
-                          </button>{" "}
-                        </th>
-                      </tr>
-                    </thead>
-                    {isPopupVisible && (
-                      // <div>
-                      <tbody className="w-full Largest:w-[80%]">
-                        <tr>
-                          <td className="border bg-slate-200">
-                            <select className=" py-1 text-left text-base h-9  w-40 m-2 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400">
-                              <option className=" py-2 text-left text-base h-9  ">
-                                All Websites
-                              </option>
-                              <option>Main Website</option>
-                            </select>
-                          </td>
-                          <td className="border bg-slate-200">
-                            <select className=" py-1 text-left text-base h-9 w-40 m-2 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400">
-                              <option className=" py-1 text-left text-base h-9 hover:bg-blue-900 ">
-                                All Groups
-                              </option>
-                              <option>Not Logged In</option>
-                              <option>General</option>
-                              <option>Prescription seller</option>
-                              <option>General Merchandise seller</option>
-                              <option>UPN Member</option>
-                            </select>
-                          </td>
-                          <td className="border bg-slate-200">
-                            <input
-                              type="text"
-                              className=" py-1  m-2  text-left text-base h-9 w-40  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                            />
-                          </td>
-                          <td className="border bg-slate-200">
-                            <input
-                              type="text"
-                              className=" border m-2   py-1 text-left text-base h-9 w-40  border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                            />
-                          </td>
-                          <td className=" w-36">
-                            <button
-                              className=" m-2 border-slate-700 bg-blue-900 text-white w-20 flex justify-center p-2"
-                              onClick={handleremove}
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    )}
-                  </table>
-                </div>
-              </div>
-            </div> */
         }
         {
           /* section4 end */
@@ -1835,88 +1615,6 @@ function LayoutaddProduct() {
           /* // ); */
         }
 
-      // case 2:
-      //   return (
-      //     <div className="font-medium font-sans">
-      //       <div className="w-full Largest:w-[80%] ">
-      //         <div className="flex justify-between my-6">
-      //           <div className="flex flex-col">
-      //             <p>
-      //               Customizable products allow customers to choose options (Ex:
-      //               shirt color). You need to create a simple product for each
-      //             </p>
-      //             <p>customization (Ex: a product for each color).</p>
-      //           </div>
-      //           <div>
-      //             <button className="border rounded-md flex items-center justify-center border-gray-600 bg-blue-900 text-white text-base p-2 font-semibold w-44 h-9">
-      //               {" "}
-      //               Create Customization
-      //             </button>
-      //           </div>
-      //         </div>
-      //       </div>
-      //       {/* section start */}
-      //       <div className="my-3 font-semibold">
-      //         <div className="flex flex-row w-[80%] gap-4">
-      //           <div className="flex flex-col">
-      //             <label className="text-sm">Height {""} in</label>
-      //             <input
-      //               type="text"
-      //               name="Height"
-      //               value={sizeData.Height}
-      //               onChange={handleSizeChange}
-      //               className="w-40 h-8
-      //              pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-      //             />
-      //           </div>
-      //           <div className="flex flex-col mx-4 ">
-      //             <label className="text-sm">Width {""} in</label>
-      //             <input
-      //               type="text"
-      //               name="Width"
-      //               value={sizeData.Width}
-      //               onChange={handleSizeChange}
-      //               className="w-40 h-8
-      //              pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-      //             />
-      //           </div>
-      //           <div className="flex flex-col  ">
-      //             <label className="text-sm">Length {""} in</label>
-      //             <input
-      //               type="text"
-      //               name="Length"
-      //               value={sizeData.Length}
-      //               onChange={handleSizeChange}
-      //               className="w-40 h-8
-      //              pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-      //             />
-      //           </div>
-      //           <div className="flex flex-col mx-4 ">
-      //             <label className="text-sm">Weight {""} in</label>
-      //             <input
-      //               type="text"
-      //               name="Weight"
-      //               value={sizeData.Weight}
-      //               onChange={handleSizeChange}
-      //               className="w-40 h-8
-      //              pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-      //             />
-      //           </div>
-
-      //           <div>
-      //             <div className="flex my-5 justify-end mx-7 ml-10 ">
-      //               <button
-      //                 onClick={() => handleSizeSubmit()}
-      //                 className="border rounded-lg border-gray-400  bg-blue-900 text-white text-base  font-semibold  w-20 h-8  "
-      //               >
-      //                 SAVE
-      //               </button>
-      //             </div>
-      //           </div>
-      //         </div>
-      //       </div>
-      //     </div>
-      //   );
       case 2:
         return (
           <div className="font-sans font-medium">
@@ -2500,7 +2198,7 @@ function LayoutaddProduct() {
         <div className="flex  justify-between ">
           <div>
             <h1 className="text-2xl font-bold text-blue-900 -mt-5">
-              ADD PRODUCT
+              {Heading}
             </h1>
             <p className="border-b border-blue-900 w-40  "></p>
           </div>
@@ -2540,10 +2238,9 @@ function LayoutaddProduct() {
       <div className="flex 2xl:w-[60%] xl:w-full justify-end">
         <button
           onClick={handleSubmit}
-          className={`border bg-blue-900 text-white my-4 h-8 w-16 rounded-md font-semibold ${
-            activeTab === 3 ? "" : "opacity-50 cursor-not-allowed"
-          }`}
-          disabled={activeTab !== 3}
+          className={`border bg-blue-900 text-white my-4 h-8 w-16 rounded-md font-semibold 
+       
+          `}
         >
           Save
         </button>
