@@ -95,7 +95,7 @@ function Items({
 
   useEffect(() => {
     if (prod) {
-      setimg(prod.imageUrl);
+      setimg(prod.productGallery.imageUrl);
       setthumnailList([
         prod.productGallery.imageUrl,
         prod.productGallery?.thumbnail1,
