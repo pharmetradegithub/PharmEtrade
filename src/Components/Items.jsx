@@ -58,15 +58,28 @@ function Items({
 }) {
   const user = useSelector((state) => state.user.user);
   const wishlist = useSelector((state) => state.wishlist.wishlist);
-  const [wishlistProductIDs, setwishlistProductIDs] = useState(
-    wishlist.map((wishItem) => wishItem.product.productID)
-  );
+  // const [wishlistProductIDs, setwishlistProductIDs] = useState(
+  //   wishlist.map((wishItem) => wishItem.product.productID)
+  // );
+  const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
+
   const getWishlistIdByProductID = (productID) => {
-    const wishlistItem = wishlist.find(
-      (item) => item.product.productID === productID
-    );
+    const wishlistItem = wishlist.find((item) => item.product.productID === productID);
     return wishlistItem ? wishlistItem.wishListId : null;
   };
+
+  useEffect(() => {
+    if (Array.isArray(wishlist)) {
+      setwishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
+    }
+  }, [wishlist]);
+
+  // const getWishlistIdByProductID = (productID) => {
+  //   const wishlistItem = wishlist.find(
+  //     (item) => item.product.productID === productID
+  //   );
+  //   return wishlistItem ? wishlistItem.wishListId : null;
+  // };
 
   const [img, setimg] = useState(null);
   const { id } = useParams();
@@ -95,9 +108,9 @@ function Items({
 
   useEffect(() => {
     if (prod) {
-      setimg(prod.imageUrl);
+      setimg(prod.productGallery.imageUrl);
       setthumnailList([
-        prod.imageUrl,
+        prod.productGallery.imageUrl,
         prod.productGallery?.thumbnail1,
         prod.productGallery?.thumbnail2,
         prod.productGallery?.thumbnail3,
