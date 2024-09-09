@@ -930,7 +930,8 @@ function LayoutDashboard({
 
     try {
       await addCartApi(cartData);
-      
+      setNotification({ show: true, message: "Item Added To Cart Successfully!" });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     } catch (error) {
       console.error("Error adding product to cart:", error);
       
@@ -938,12 +939,12 @@ function LayoutDashboard({
   };
   const handleClick = async (productID) => {
     if (wishlistProductIDs.includes(productID)) {
-      setwishlistProductIDs(
+      setWishlistProductIDs(
         wishlistProductIDs.filter((id) => id !== productID)
       );
       await removeFromWishlistApi(getWishlistIdByProductID(productID));
     } else {
-      setwishlistProductIDs([...wishlistProductIDs, productID]);
+      setWishlistProductIDs([...wishlistProductIDs, productID]);
       const wishListData = {
         wishListId: "0",
         productId: productID,
