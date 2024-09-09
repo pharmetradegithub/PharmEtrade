@@ -173,9 +173,9 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                   className="h-48 w-48 object-contain rounded-lg hover:cursor-pointer"
                 />
               </div>
-              <div className="p-2">
+              <div className="p-2 w-48">
                 <div className="flex justify-between flex-col font-medium">
-                  <h2 className="text-black font-bold">{item.productName}</h2>
+                  <h2 className="text-black font-bold h-12">{item.productName}</h2>
                   <div className="flex gap-1 items-center">
                     <h3 className="text-black font-semibold">
                       ${item.salePrice}
@@ -185,7 +185,14 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                     </span>
                   </div>
                 </div>
-                <div>
+                <div className="flex items-center   ">
+                  <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                </div>
+                {/* <div>
                   {Array.from({ length: totalStars }, (v, i) => (
                     <Star
                       key={i}
@@ -193,7 +200,7 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                       onClick={() => setRating(i + 1)}
                     />
                   ))}
-                </div>
+                </div> */}
                 <div
                 onClick={() => handleCart(index)}
                 className="bg-blue-900 flex gap-1 p-1 rounded-lg justify-center items-center  cursor-pointer"
