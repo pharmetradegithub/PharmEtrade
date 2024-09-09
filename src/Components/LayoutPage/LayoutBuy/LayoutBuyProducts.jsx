@@ -1205,11 +1205,6 @@ function LayoutBuy({
 
 
 
-
-
-
-
-
   // const [wishlistProductIDs, setwishlistProductIDs] = useState(
   //   wishlist.map((wishItem) => wishItem.product.productID)
   // );
@@ -1221,6 +1216,7 @@ function LayoutBuy({
   // };
   const products = useSelector((state) => state.product.Products);
   const [productList, setproductList] = useState(products);
+  console.log("layoutproduct-->",productList)
   useEffect(() => {
     if (products) {
       const updatedProducts = products.map((product) => ({
@@ -1433,7 +1429,7 @@ function LayoutBuy({
                   >
                     <div className="flex flex-col mx-2">
                       <img
-                        src={product.imageUrl}
+                        src={product.productGallery.imageUrl}
                         className="w-36 p-2 hover:cursor-pointer rounded-lg h-28 bg-slate-200"
                         alt="Product"
                         onClick={() =>

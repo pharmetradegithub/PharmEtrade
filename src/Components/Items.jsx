@@ -97,7 +97,7 @@ function Items({
     if (prod) {
       setimg(prod.imageUrl);
       setthumnailList([
-        prod.imageUrl,
+        prod.productGallery.imageUrl,
         prod.productGallery?.thumbnail1,
         prod.productGallery?.thumbnail2,
         prod.productGallery?.thumbnail3,
