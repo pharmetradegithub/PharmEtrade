@@ -28,6 +28,7 @@ function PRight({ Title, topMargin, addCart, wishList }) {
   const { pop, setPop } = useNavbarContext();
   const navigate = useNavigate();
   const products = useSelector((state) => state.product.Products);
+  const Heading = useSelector((state)=>state.product.Heading);
   const user = useSelector((state)=>state.user.user);
   const wishlist = useSelector((state)=>state.wishlist.wishlist);
   const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
@@ -153,7 +154,7 @@ function PRight({ Title, topMargin, addCart, wishList }) {
     <div className="w-full mt-4 h-full overflow-y-scroll">
       <div className=" flex justify-between bg-blue-900 p-1 rounded-lg">
         <div className="text-2xl text-white">
-          {Title ? Title : "All Products"}
+          {{Heading} ? Heading : "All Products"}
         </div>
 
         <Search>
@@ -170,7 +171,7 @@ function PRight({ Title, topMargin, addCart, wishList }) {
 
       <div className="w-[95%]">
         <div className="grid grid-cols-4 grid-rows-2 gap-4 mt-8">
-          {products.map((item, index) => (
+          {products?.map((item, index) => (
             <div
               key={item.productID}
               className="w-full max-w-md border p-2  shadow-md"
