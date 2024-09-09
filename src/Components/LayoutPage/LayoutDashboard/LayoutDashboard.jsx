@@ -1122,7 +1122,7 @@ function LayoutDashboard({
                   >
                     <div className="flex flex-col mx-2">
                       <img
-                        src={product.imageUrl}
+                        src={product.productGallery.imageUrl}
                         className="w-36 p-2 hover:cursor-pointer rounded-lg h-28 bg-slate-200"
                         alt="Product"
                         onClick={() =>

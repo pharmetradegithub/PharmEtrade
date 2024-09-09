@@ -209,7 +209,7 @@ function PRight({ Title, topMargin, addCart, wishList }) {
 
                 <Link to={`/detailspage/${item.productID}`}>
                   <img
-                    src={item.imageUrl}
+                    src={item.productGallery.imageUrl}
                     alt={`nature-${index + indexOfFirstItem}`}
                     className="h-40 w-28 rounded-lg"
                   />

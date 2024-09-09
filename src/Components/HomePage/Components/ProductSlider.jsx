@@ -167,7 +167,7 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                   className="h-48 w-48 object-contain rounded-lg hover:cursor-pointer"
                 /> */}
                 <img
-                  src={item.imageUrl}
+                  src={item.productGallery.imageUrl}
                   onClick={() => handleProductDetails(item.productID)} // Assuming item.id is the product ID
                   alt={item.name}
                   className="h-48 w-48 object-contain rounded-lg hover:cursor-pointer"
