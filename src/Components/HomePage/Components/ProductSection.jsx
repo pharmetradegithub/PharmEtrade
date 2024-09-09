@@ -110,9 +110,9 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
                 alt="Other Icon"
               />
             </div>
-            <div className="p-2 rounded-b-lg">
+            <div className="p-2 rounded-b-lg w-40">
               <div className="flex justify-between flex-col font-medium">
-                <h2 className="text-black font-bold h-12">{item.productName}</h2>
+                <h2 className="text-black font-bold h-16 w-36 overflow-scroll">{item.productName}</h2>
                 <div className="flex justify-between items-center">
                   <div className="flex gap-1 items-center">
                     <h3 className="text-black font-semibold">${item.salePrice}</h3>
@@ -120,8 +120,14 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
                   </div>
                 </div>
               </div>
-            
-              <div>
+              <div className="flex items-center   ">
+                <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+              </div>
+              {/* <div>
                 {Array.from({ length: totalStars }, (v, i) => (
                   <Star
                     key={i}
@@ -129,7 +135,7 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
                     onClick={() => setRating(i + 1)}
                   />
                 ))}
-              </div>
+              </div> */}
               {/* <div onClick={() => handleCart(index)}>
                 <img src={addcart} className="h-7 p-1" alt="Add to Cart Icon" />
               </div> */}
