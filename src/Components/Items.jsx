@@ -142,7 +142,7 @@ function Items({
     const cartData = {
       customerId: user.customerId,
       productId: id,
-      quantity: 1,
+      quantity: quantity,
       isActive: 1,
     };
     try {

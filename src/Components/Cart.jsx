@@ -299,6 +299,7 @@ function Cart() {
         };
         return updatedList;
       });
+      handleCart(cartItems[index].product.productID, newQuantity - cartItems[index].quantity);
     }
   };
   // const handleQuantityChange = (index, newQuantity) => {
@@ -450,11 +451,11 @@ function Cart() {
                           className="text-xl border rounded-lg p-1 w-16"
                           min="1"
                         />
-                        {item.updateQuantity != item.quantity && (
+                        {/* {item.updateQuantity != item.quantity && (
                           <button onClick={()=>handleCart(item.product.productID,item.updateQuantity-item.quantity)} className="text-white px-2 bg-blue-900">
                             Update
                           </button>
-                        )}
+                        )} */}
                       </td>
                       <td className="px-2 md:px-4 py-3 whitespace-nowrap">
                         <strong>
