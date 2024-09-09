@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import addcart from "../../../assets/cartw_icon.png";
 import emptyHeart from "../../../assets/Wishlist1_icon.png";
@@ -12,13 +12,25 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
   const [rating, setRating] = useState(0);
   const user = useSelector((state)=>state.user.user);
   const wishlist = useSelector((state)=>state.wishlist.wishlist);
-  const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
+  const [wishlistProductIDs, setWishlistProductIDs] = useState([]);
+  //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
+  // const getWishlistIdByProductID = (productID) => {
+  //   const wishlistItem = wishlist.find((item) => item.product.productID === productID);
+  //   return wishlistItem ? wishlistItem.wishListId : null; 
+  // };
+
   const getWishlistIdByProductID = (productID) => {
     const wishlistItem = wishlist.find((item) => item.product.productID === productID);
     return wishlistItem ? wishlistItem.wishListId : null; 
   };
   const totalStars = 5;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (Array.isArray(wishlist)) {
+      setWishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
+    }
+  }, [wishlist]);
 
   const handleCart = async(productID) => {
     if(user==null)
@@ -69,7 +81,8 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
   return (
     <div className="bg-white w-full p-4">
       <h1 className="text-2xl font-bold text-text-blue">{heading}</h1>
-      <div className="grid grid-cols-3 grid-rows-1 gap-0  p-2">
+      {products.length > 0 ? (
+           <div className="grid grid-cols-3 grid-rows-1 gap-0  p-2">
         {products.map((item, index) => (
           <div
             key={item.id}
@@ -131,6 +144,10 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
           </div>
         ))}
       </div>
+       ) : (
+        <p className="text-center text-gray-500">No products available</p>
+      )}
+      
       <Link
         to={path}
         className="font-semibold hover:text-red-500 flex justify-end underline"

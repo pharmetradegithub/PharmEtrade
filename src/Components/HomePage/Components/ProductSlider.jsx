@@ -15,11 +15,18 @@ import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
 const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
   const user = useSelector((state)=>state.user.user);
   const wishlist = useSelector((state)=>state.wishlist.wishlist);
-  const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
+  const [wishlistProductIDs, setWishlistProductIDs] = useState([]);
+  //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
     const wishlistItem = wishlist.find((item) => item.product.productID === productID);
     return wishlistItem ? wishlistItem.wishListId : null; 
   };
+
+  useEffect(() => {
+    if (Array.isArray(wishlist)) {
+      setWishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
+    }
+  }, [wishlist]);
 
   const [rating, setRating] = useState(0);
   const [cartQuantities, setCartQuantities] = useState({});
