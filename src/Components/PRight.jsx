@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { Link } from "react-router-dom";
 // import addcart from "../assets/addcart.png";
 // import fav from "../assets/fav.png";
@@ -31,11 +31,28 @@ function PRight({ Title, topMargin, addCart, wishList }) {
   const Heading = useSelector((state)=>state.product.Heading);
   const user = useSelector((state)=>state.user.user);
   const wishlist = useSelector((state)=>state.wishlist.wishlist);
-  const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
+
+  const [wishlistProductIDs, setWishlistProductIDs] = useState([]);
+  //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
     const wishlistItem = wishlist.find((item) => item.product.productID === productID);
     return wishlistItem ? wishlistItem.wishListId : null; 
   };
+
+  useEffect(() => {
+    if (Array.isArray(wishlist)) {
+      setWishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
+    }
+  }, [wishlist]);
+
+
+
+
+  // const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
+  // const getWishlistIdByProductID = (productID) => {
+  //   const wishlistItem = wishlist.find((item) => item.product.productID === productID);
+  //   return wishlistItem ? wishlistItem.wishListId : null; 
+  // };
   const images = Array(115).fill(nature);
   const itemsPerPage = 12;
   const [currentPage, setCurrentPage] = useState(1);
@@ -70,11 +87,11 @@ function PRight({ Title, topMargin, addCart, wishList }) {
   const handleClick = async (productID) => {
     if(wishlistProductIDs.includes(productID))
     {
-      setwishlistProductIDs(wishlistProductIDs.filter(id => id !== productID));
+      setWishlistProductIDs(wishlistProductIDs.filter(id => id !== productID));
       await removeFromWishlistApi(getWishlistIdByProductID(productID))
     }
     else{
-      setwishlistProductIDs([...wishlistProductIDs, productID]);
+      setWishlistProductIDs([...wishlistProductIDs, productID]);
       const wishListData = {
         wishListId: "0",
         productId: productID,

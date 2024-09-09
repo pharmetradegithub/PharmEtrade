@@ -43,6 +43,14 @@ const Payment = () => {
       SetIsEmiPopup(true)
     }
 
+
+    const handleCardOpen = () => {
+      setIsCardPopup(true);
+    };
+  
+    const handleCardRemove = () => {
+      setIsCardPopup(false);
+    };
     const handlePaymentSelection = (paymentMethod) => {
         setSelectedPayment(paymentMethod);
         if (paymentMethod === 'card') {
@@ -52,13 +60,13 @@ const Payment = () => {
           setIsCardPopup(false);
         }
       };
-      const handleCardOpen = () => {
-        setIsCardPopup(true);
-      };
+      // const handleCardOpen = () => {
+      //   setIsCardPopup(true);
+      // };
     
-      const handleCardRemove = () => {
-        setIsCardPopup(false);
-      };
+      // const handleCardRemove = () => {
+      //   setIsCardPopup(false);
+      // };
   return (
     <div>
       <h2 className="text-orange-500">2 Select a payment method</h2>
@@ -195,7 +203,7 @@ const Payment = () => {
             </div>
           )}
 
-          <div
+          {/* <div
             className={`flex flex-col  p-2 mt-2 ${
               selectedPayment === "netbanking"
                 ? "bg-pink-50 border border-black rounded-md"
@@ -218,8 +226,8 @@ const Payment = () => {
                 <option>Axis</option>
               </select>
             </div>
-          </div>
-          <div
+          </div> */}
+          {/* <div
             className={`flex flex-col  p-2 mt-2 ${
               selectedPayment === "emi"
                 ? "bg-pink-50 border border-black rounded-md"
@@ -343,7 +351,7 @@ const Payment = () => {
                 </div>
               )}
             </div>
-          </div>
+          </div> */}
 
           <div
             className={`flex items-center p-2 mt-2 border-b ${

@@ -1190,15 +1190,35 @@ function LayoutBuy({
   const wishlist = useSelector((state) => state.wishlist.wishlist);
 
   console.log("cart--->",cart)
-  const [wishlistProductIDs, setwishlistProductIDs] = useState(
-    wishlist.map((wishItem) => wishItem.product.productID)
-  );
+  const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
+  //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
-    const wishlistItem = wishlist.find(
-      (item) => item.product.productID === productID
-    );
-    return wishlistItem ? wishlistItem.wishListId : null;
+    const wishlistItem = wishlist.find((item) => item.product.productID === productID);
+    return wishlistItem ? wishlistItem.wishListId : null; 
   };
+
+  useEffect(() => {
+    if (Array.isArray(wishlist)) {
+      setwishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
+    }
+  }, [wishlist]);
+
+
+
+
+
+
+
+
+  // const [wishlistProductIDs, setwishlistProductIDs] = useState(
+  //   wishlist.map((wishItem) => wishItem.product.productID)
+  // );
+  // const getWishlistIdByProductID = (productID) => {
+  //   const wishlistItem = wishlist.find(
+  //     (item) => item.product.productID === productID
+  //   );
+  //   return wishlistItem ? wishlistItem.wishListId : null;
+  // };
   const products = useSelector((state) => state.product.Products);
   const [productList, setproductList] = useState(products);
   useEffect(() => {
