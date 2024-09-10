@@ -176,18 +176,18 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
 
   const handleCriteria =async (obj) => {
     let Criteria = {
-      deals: "string",
-      brands: "string",
-      generics: "string",
+      deals: null,
+      brands: null,
+      generics: null,
       discount: 0,
       expiring: 0,
-      wholeSeller: "string",
-      pharmacyItems: "string",
-      prescriptionDrugs: "string",
-      otcProducts: "string",
-      vawdSeller: "string",
-      topSellingProducts: "string",
-      buyAgain: "string",
+      wholeSeller: null,
+      pharmacyItems: null,
+      prescriptionDrugs: null,
+      otcProducts: null,
+      vawdSeller: null,
+      topSellingProducts: null,
+      buyAgain: null,
     };
     if (obj.id == 1) {
       Criteria.deals = obj.name;
