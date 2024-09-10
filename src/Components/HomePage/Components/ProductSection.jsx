@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import addcart from "../../../assets/cartw_icon.png";
 import emptyHeart from "../../../assets/Wishlist1_icon.png";
@@ -7,18 +7,31 @@ import other from "../../../assets/CompareNav2.png";
 import { addCartApi } from "../../../Api/CartApi";
 import { useSelector } from "react-redux";
 import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
+import { fetchCriteriaProductsApi } from "../../../Api/ProductApi";
 
 const ProductSection = ({ products, heading, path, addCart, wishList }) => {
   const [rating, setRating] = useState(0);
   const user = useSelector((state)=>state.user.user);
   const wishlist = useSelector((state)=>state.wishlist.wishlist);
-  const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
+  const [wishlistProductIDs, setWishlistProductIDs] = useState([]);
+  //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
+  // const getWishlistIdByProductID = (productID) => {
+  //   const wishlistItem = wishlist.find((item) => item.product.productID === productID);
+  //   return wishlistItem ? wishlistItem.wishListId : null; 
+  // };
+
   const getWishlistIdByProductID = (productID) => {
     const wishlistItem = wishlist.find((item) => item.product.productID === productID);
     return wishlistItem ? wishlistItem.wishListId : null; 
   };
   const totalStars = 5;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (Array.isArray(wishlist)) {
+      setWishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
+    }
+  }, [wishlist]);
 
   const handleCart = async(productID) => {
     if(user==null)
@@ -65,11 +78,31 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
       {filled ? "★" : "☆"}
     </span>
   );
-
+  const handleProductCategory =async ()=>{
+    let Criteria = {
+      deals: null,
+      brands: null,
+      generics: null,
+      discount: 0,
+      expiring: 0,
+      wholeSeller: null,
+      pharmacyItems: null,
+      prescriptionDrugs: null,
+      otcProducts: null,
+      vawdSeller: null,
+      topSellingProducts: null,
+      buyAgain: null,
+    };
+    if(heading==="Rx Items")
+    await fetchCriteriaProductsApi(Criteria,"Prescription Drugs");
+  else
+    await fetchCriteriaProductsApi(Criteria,"OTC Products");
+    navigate('/products');  }
   return (
     <div className="bg-white w-full p-4">
       <h1 className="text-2xl font-bold text-text-blue">{heading}</h1>
-      <div className="grid grid-cols-3 grid-rows-1 gap-0  p-2">
+      {products.length > 0 ? (
+           <div className="grid grid-cols-3 grid-rows-1 gap-0  p-2">
         {products.map((item, index) => (
           <div
             key={item.id}
@@ -86,7 +119,7 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
                 alt="Favorite Icon"
               />
               <img
-                src={item.imageUrl} // Assuming item.img contains image URL
+                src={item.productGallery.imageUrl} // Assuming item.img contains image URL
                 className="h-40 cursor-pointer w-40 object-contain rounded-lg"
                 onClick={() => navigate(`/detailspage/${item.productID}`)}
                 alt={item.productName}
@@ -97,18 +130,24 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
                 alt="Other Icon"
               />
             </div>
-            <div className="p-2 rounded-b-lg">
+            <div className="p-2 rounded-b-lg w-40">
               <div className="flex justify-between flex-col font-medium">
-                <h2 className="text-black font-bold">{item.productName}</h2>
+                <h2 className="text-black font-bold h-16 w-36 overflow-scroll">{item.productName}</h2>
                 <div className="flex justify-between items-center">
                   <div className="flex gap-1 items-center">
                     <h3 className="text-black font-semibold">${item.salePrice}</h3>
-                    <span className="text-[10px] line-through">(${item.priceName})</span>
+                    <span className="text-[10px] line-through">(${item.unitPrice})</span>
                   </div>
                 </div>
               </div>
-            
-              <div>
+              <div className="flex items-center   ">
+                <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+              </div>
+              {/* <div>
                 {Array.from({ length: totalStars }, (v, i) => (
                   <Star
                     key={i}
@@ -116,7 +155,7 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
                     onClick={() => setRating(i + 1)}
                   />
                 ))}
-              </div>
+              </div> */}
               {/* <div onClick={() => handleCart(index)}>
                 <img src={addcart} className="h-7 p-1" alt="Add to Cart Icon" />
               </div> */}
@@ -131,8 +170,12 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
           </div>
         ))}
       </div>
+       ) : (
+        <p className="text-center text-gray-500">No products available</p>
+      )}
+      
       <Link
-        to={path}
+        onClick={()=>handleProductCategory()}
         className="font-semibold hover:text-red-500 flex justify-end underline"
       >
         See all products

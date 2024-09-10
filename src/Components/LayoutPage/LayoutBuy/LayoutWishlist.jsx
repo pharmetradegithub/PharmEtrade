@@ -37,8 +37,13 @@ import { Tooltip } from "@mui/material";
 function LayoutWishlist({ addCart }) {
   const [searchQuery, setSearchQuery] = useState("");
   const user = useSelector((state)=>state.user.user);
-  const wishItems = useSelector((state)=>state.wishlist.wishlist);
-  const [quantities, setQuantities] = useState(wishItems.map(() => 1));
+  const wishItems = useSelector((state) => state.wishlist.wishlist || []); // Fallback to empty array if null
+
+  //const wishItems = useSelector((state)=>state.wishlist.wishlist);
+  const [quantities, setQuantities] = useState(
+    Array.isArray(wishItems) ? wishItems.map(() => 1) : [] // Ensure wishItems is an array
+  );
+  //const [quantities, setQuantities] = useState(wishItems.map(() => 1));
   const navigate = useNavigate();
 
   const [showPopup, setShowPopup] = useState(false);
@@ -142,7 +147,7 @@ function LayoutWishlist({ addCart }) {
       },
     },
   }));
-  console.log(wishItems);
+  console.log("wishlist----layout",wishItems);
   return (
     <div
       className="bg-gray-200  p-8 overflow-scroll"

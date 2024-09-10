@@ -1,15 +1,3 @@
-// import React from 'react'
-
-// function LayoutPostingProducts() {
-//   return (
-//     <div>
-      
-//     </div>
-//   )
-// }
-
-// export default LayoutPostingProducts
-
 import React, { useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
@@ -17,9 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa6";
 // import ProductFields from "../Components/ProductFields";
 // import EditFields from "../Components/EditFields";
-import filter from "../../../../assets/Filter_icon.png"
+import filter from "../../../../assets/Filter_icon.png";
+import edit from "../../../../assets/Edit.png"
+import Bin from "../../../../assets/Bin.png"
+import Deactivate from "../../../../assets/Deactivate.png"
 
-const LayoutPostingProducts= () => {
+const LayoutPostingProducts = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,14 +18,14 @@ const LayoutPostingProducts= () => {
   const [showPopup, setShowPopup] = useState({
     editProduct: false,
   });
-  const [editProduct,seteditProduct] = useState(null);
+  const [editProduct, seteditProduct] = useState(null);
   const stats = [
     { label: "Total Product", value: 150, percentage: 75 },
     { label: "Total Approved Product", value: 120, percentage: 60 },
     { label: "Total Enabled Product", value: 90, percentage: -11 },
     { label: "Price", value: "$2000", percentage: 50 },
   ];
-  
+
   useEffect(() => {
     fetch(
       "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Product/GetAll"
@@ -55,18 +46,18 @@ const LayoutPostingProducts= () => {
       });
   }, []);
 
-
   const handleAddNewProductClick = () => {
-    navigate("/seller/add-single-product");
+    navigate("layout/addproduct");
   };
 
   const handleEditProduct = (product) => {
-    navigate(`/layout/layout-edit-single-product/${product.productID}`)
+    navigate(`/layout/addproduct?productId=${product.productID}`);
   };
 
   const handleClosePopup = () => {
     setShowPopup({ addProduct: false, editProduct: false });
   };
+  console.log("ghjkghfgvbg", products)
 
   return (
     <div className="relative  bg-gray-100 w-full h-full flex justify-center overflow-scroll items-center">
@@ -138,33 +129,51 @@ const LayoutPostingProducts= () => {
               <table className="w-full">
                 <thead className="bg-blue-900 text-white">
                   <tr className="border-b-2">
+                  <th className="px-4 py-2 text-left">
+                      Thumbnail
+                    </th>
                     <th className=" px-4 py-2 text-left">Product Name</th>
-                    <th className="px-4 py-2 text-left">Category Specification</th>
-                    <th className="px-4 py-2 text-left">Brand Name</th>
-                    {/* <th className="px-4 py-2 text-left">Product Type</th> */}
-                    <th className="px-4 py-2 text-left">Product Status</th>
                     <th className="px-4 py-2 text-left">Manufacturer</th>
-                    <th className="px-4 py-2 text-left">Strength</th>
-                    <th className="px-4 py-2 text-left">Action</th>
+                    <th className="px-4 py-2 text-left">Brand Name</th>
+                    {/* <th className="px-4 py-2 text-left">Product Status</th> */}
+                    
+                    <th className="px-4 py-2 ">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {products.map((product) => (
                     <tr key={product.id} className="border-b">
-                      <td className="px-4 py-2 ">{product.productName}</td>
-                      <td className="px-4 py-2">{product.categorySpecificationId}</td>
-                      <td className="px-4 py-2">{product.brandName}</td>
-                      {/* <td className="px-4 py-2">{product.attributeSet}</td> */}
-                      <td className="px-4 py-2">{product.packCondition}</td>
-                      <td className="px-4 py-2">{product.manufacturer}</td>
-                      <td className="px-4 py-2">{product.strength}</td>
-                      <td
-                        className="px-4 py-2 cursor-pointer"
-
-                        onClick={()=>handleEditProduct(product)}
-                      >
+                      <td className="px-4 py-2">
+                        <img
                         
-                        Edit
+                         src={ product?.productGallery?.imageUrl} className="w-14 object-cover"
+                        />
+                      </td>
+                      <td className="px-4 py-2 ">{product.productName}</td>
+                      <td className="px-4 py-2">{product.manufacturer}</td>
+                      <td className="px-4 py-2">{product.brandName}</td>
+                      {/* <td className="px-4 py-2">{product.packCondition}</td> */}
+                     
+                     
+                      <td className="px-4 py-2 cursor-pointer flex items-center space-x-2">
+                        <img
+                          src={edit}
+                          alt="Edit"
+                          className="cursor-pointer w-7 h-7"
+                          onClick={() => handleEditProduct(product)}
+                        />
+                        <img
+                          src={Bin}
+                          alt="Delete"
+                          className="cursor-pointer w-4 h-4"
+                          // onClick={() => handleDeleteProduct(product)}
+                        />
+                        <img
+                          src={Deactivate}
+                          alt="Deactivate"
+                          className="cursor-pointer w-4 h-4"
+                          // onClick={() => handleDeactivateProduct(product)}
+                        />
                       </td>
                     </tr>
                   ))}

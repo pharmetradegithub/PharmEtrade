@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { Link } from "react-router-dom";
 // import addcart from "../assets/addcart.png";
 // import fav from "../assets/fav.png";
@@ -28,13 +28,31 @@ function PRight({ Title, topMargin, addCart, wishList }) {
   const { pop, setPop } = useNavbarContext();
   const navigate = useNavigate();
   const products = useSelector((state) => state.product.Products);
+  const Heading = useSelector((state)=>state.product.Heading);
   const user = useSelector((state)=>state.user.user);
   const wishlist = useSelector((state)=>state.wishlist.wishlist);
-  const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
+
+  const [wishlistProductIDs, setWishlistProductIDs] = useState([]);
+  //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
     const wishlistItem = wishlist.find((item) => item.product.productID === productID);
     return wishlistItem ? wishlistItem.wishListId : null; 
   };
+
+  useEffect(() => {
+    if (Array.isArray(wishlist)) {
+      setWishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
+    }
+  }, [wishlist]);
+
+
+
+
+  // const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
+  // const getWishlistIdByProductID = (productID) => {
+  //   const wishlistItem = wishlist.find((item) => item.product.productID === productID);
+  //   return wishlistItem ? wishlistItem.wishListId : null; 
+  // };
   const images = Array(115).fill(nature);
   const itemsPerPage = 12;
   const [currentPage, setCurrentPage] = useState(1);
@@ -69,11 +87,11 @@ function PRight({ Title, topMargin, addCart, wishList }) {
   const handleClick = async (productID) => {
     if(wishlistProductIDs.includes(productID))
     {
-      setwishlistProductIDs(wishlistProductIDs.filter(id => id !== productID));
+      setWishlistProductIDs(wishlistProductIDs.filter(id => id !== productID));
       await removeFromWishlistApi(getWishlistIdByProductID(productID))
     }
     else{
-      setwishlistProductIDs([...wishlistProductIDs, productID]);
+      setWishlistProductIDs([...wishlistProductIDs, productID]);
       const wishListData = {
         wishListId: "0",
         productId: productID,
@@ -153,7 +171,7 @@ function PRight({ Title, topMargin, addCart, wishList }) {
     <div className="w-full mt-4 h-full overflow-y-scroll">
       <div className=" flex justify-between bg-blue-900 p-1 rounded-lg">
         <div className="text-2xl text-white">
-          {Title ? Title : "All Products"}
+          {{Heading} ? Heading : "All Products"}
         </div>
 
         <Search>
@@ -170,7 +188,7 @@ function PRight({ Title, topMargin, addCart, wishList }) {
 
       <div className="w-[95%]">
         <div className="grid grid-cols-4 grid-rows-2 gap-4 mt-8">
-          {products.map((item, index) => (
+          {products?.map((item, index) => (
             <div
               key={item.productID}
               className="w-full max-w-md border p-2  shadow-md"
@@ -191,7 +209,7 @@ function PRight({ Title, topMargin, addCart, wishList }) {
 
                 <Link to={`/detailspage/${item.productID}`}>
                   <img
-                    src={item.imageUrl}
+                    src={item.productGallery.imageUrl}
                     alt={`nature-${index + indexOfFirstItem}`}
                     className="h-40 w-28 rounded-lg"
                   />
@@ -200,7 +218,7 @@ function PRight({ Title, topMargin, addCart, wishList }) {
               {/* </Link> */}
               <div className="w-full py-1">
                 <h2 className="text-fonts h-12">{item.productName}</h2>
-                <h1 className="text-fonts font-semibold">${item.priceName}</h1>
+                <h1 className="text-fonts font-semibold">${item.salePrice}</h1>
               </div>
               <div>
                 {Array.from({ length: totalStars }, (v, i) => (
@@ -213,7 +231,8 @@ function PRight({ Title, topMargin, addCart, wishList }) {
               </div>
               <div className="flex flex-row items-center justify-between w-full px-1">
                 <div className="text-foot text-xs">UPN Member Price:</div>
-                <div className="text-base font-semibold">${item.salePrice}</div>
+                <div className="text-base font-semibold">${item.upnMemberPrice
+}</div>
               </div>
               <div
                 className="flex bg-blue-900 p-1 rounded-md justify-center"

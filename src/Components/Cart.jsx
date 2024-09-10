@@ -299,6 +299,7 @@ function Cart() {
         };
         return updatedList;
       });
+      handleCart(cartItems[index].product.productID, newQuantity - cartItems[index].quantity);
     }
   };
   // const handleQuantityChange = (index, newQuantity) => {
@@ -423,15 +424,16 @@ function Cart() {
                   {cartItems.map((item, index) => (
                     <tr key={index}>
                       <td className="px-2 md:px-3 py-2 whitespace-nowrap">
-                        <Link to={`/detailspage/${item.product.productID}`}>
+
+                      <Link to={`/detailspage/${item.product.productID}`}>
+
                         <img
                           className="h-16 w-16 rounded-lg"
-                          onClick={handlemove}
                           src={item.product.imageUrl}
                           alt={item.product.id}
                         />
                         </Link>
-                        
+
                       </td>
                       <td className="px-2 md:px-4 py-3 whitespace-nowrap">
                         {item.product.productName}
@@ -449,11 +451,11 @@ function Cart() {
                           className="text-xl border rounded-lg p-1 w-16"
                           min="1"
                         />
-                        {item.updateQuantity != item.quantity && (
+                        {/* {item.updateQuantity != item.quantity && (
                           <button onClick={()=>handleCart(item.product.productID,item.updateQuantity-item.quantity)} className="text-white px-2 bg-blue-900">
                             Update
                           </button>
-                        )}
+                        )} */}
                       </td>
                       <td className="px-2 md:px-4 py-3 whitespace-nowrap">
                         <strong>

@@ -1190,17 +1190,33 @@ function LayoutBuy({
   const wishlist = useSelector((state) => state.wishlist.wishlist);
 
   console.log("cart--->",cart)
-  const [wishlistProductIDs, setwishlistProductIDs] = useState(
-    wishlist.map((wishItem) => wishItem.product.productID)
-  );
+  const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
+  //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
-    const wishlistItem = wishlist.find(
-      (item) => item.product.productID === productID
-    );
-    return wishlistItem ? wishlistItem.wishListId : null;
+    const wishlistItem = wishlist.find((item) => item.product.productID === productID);
+    return wishlistItem ? wishlistItem.wishListId : null; 
   };
+
+  useEffect(() => {
+    if (Array.isArray(wishlist)) {
+      setwishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
+    }
+  }, [wishlist]);
+
+
+
+  // const [wishlistProductIDs, setwishlistProductIDs] = useState(
+  //   wishlist.map((wishItem) => wishItem.product.productID)
+  // );
+  // const getWishlistIdByProductID = (productID) => {
+  //   const wishlistItem = wishlist.find(
+  //     (item) => item.product.productID === productID
+  //   );
+  //   return wishlistItem ? wishlistItem.wishListId : null;
+  // };
   const products = useSelector((state) => state.product.Products);
   const [productList, setproductList] = useState(products);
+  console.log("layoutproduct-->",productList)
   useEffect(() => {
     if (products) {
       const updatedProducts = products.map((product) => ({
@@ -1221,7 +1237,8 @@ function LayoutBuy({
 
     try {
       await addCartApi(cartData);
-      
+      setNotification({ show: true, message: "Item Added To Cart Successfully!" });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     } catch (error) {
       console.error("Error adding product to cart:", error);
       
@@ -1413,7 +1430,7 @@ function LayoutBuy({
                   >
                     <div className="flex flex-col mx-2">
                       <img
-                        src={product.imageUrl}
+                        src={product.productGallery.imageUrl}
                         className="w-36 p-2 hover:cursor-pointer rounded-lg h-28 bg-slate-200"
                         alt="Product"
                         onClick={() =>

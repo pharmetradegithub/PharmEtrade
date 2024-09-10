@@ -15,11 +15,18 @@ import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
 const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
   const user = useSelector((state)=>state.user.user);
   const wishlist = useSelector((state)=>state.wishlist.wishlist);
-  const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
+  const [wishlistProductIDs, setWishlistProductIDs] = useState([]);
+  //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
     const wishlistItem = wishlist.find((item) => item.product.productID === productID);
     return wishlistItem ? wishlistItem.wishListId : null; 
   };
+
+  useEffect(() => {
+    if (Array.isArray(wishlist)) {
+      setWishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
+    }
+  }, [wishlist]);
 
   const [rating, setRating] = useState(0);
   const [cartQuantities, setCartQuantities] = useState({});
@@ -160,25 +167,32 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                   className="h-48 w-48 object-contain rounded-lg hover:cursor-pointer"
                 /> */}
                 <img
-                  src={item.imageUrl}
+                  src={item.productGallery.imageUrl}
                   onClick={() => handleProductDetails(item.productID)} // Assuming item.id is the product ID
                   alt={item.name}
                   className="h-48 w-48 object-contain rounded-lg hover:cursor-pointer"
                 />
               </div>
-              <div className="p-2">
+              <div className="p-2 w-48">
                 <div className="flex justify-between flex-col font-medium">
-                  <h2 className="text-black font-bold">{item.productName}</h2>
+                  <h2 className="text-black font-bold h-12">{item.productName}</h2>
                   <div className="flex gap-1 items-center">
                     <h3 className="text-black font-semibold">
                       ${item.salePrice}
                     </h3>
                     <span className="text-[10px] line-through">
-                      (${item.priceName})
+                      (${item.unitPrice})
                     </span>
                   </div>
                 </div>
-                <div>
+                <div className="flex items-center   ">
+                  <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                </div>
+                {/* <div>
                   {Array.from({ length: totalStars }, (v, i) => (
                     <Star
                       key={i}
@@ -186,7 +200,7 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                       onClick={() => setRating(i + 1)}
                     />
                   ))}
-                </div>
+                </div> */}
                 <div
                 onClick={() => handleCart(index)}
                 className="bg-blue-900 flex gap-1 p-1 rounded-lg justify-center items-center  cursor-pointer"
