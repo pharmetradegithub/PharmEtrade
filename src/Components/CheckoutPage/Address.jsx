@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from "react";
 import {
   Link,
@@ -39,6 +41,7 @@ function Address({ topMargin, totalAmount }) {
     postalCode: "",
     email: "",
     phone: "",
+    Bussiness_phone: ''
   });
 
   // const [states, setStates] = useState([]);
@@ -67,13 +70,15 @@ function Address({ topMargin, totalAmount }) {
     {
       name: "Ram",
       // lastname: "Smith",
-       Address: 'Dollars',
+      Address: 'Dollars',
       City: "Dollars",
       States: "Dollars",
       Country: "US",
       Pin: 56789,
       email: "ram@example.com",
       phone: "+1234567890",
+      Bussiness_phone: "1234567890",
+
 
     },
   ];
@@ -81,7 +86,8 @@ function Address({ topMargin, totalAmount }) {
     First_Name: "",
     Phone_Number: "",
     Town_City: "",
-    Pin_Code: ""
+    Pin_Code: "",
+    Bussiness_phone: "",
   });
 
 
@@ -108,6 +114,7 @@ function Address({ topMargin, totalAmount }) {
   const [isShowPopUp, setIsShowPopUp] = useState(false);
 
   const [shortPopup, setShortPopup] = useState(false);
+  const [isShortPopup, setIsShortPopup] = useState(false)
   const [selectedAddressType, setSelectedAddressType] = useState("");
   const [iscardEmiopen, SetIsCardEmiOpen] = useState(false);
 
@@ -137,6 +144,26 @@ function Address({ topMargin, totalAmount }) {
   const handleAddaddressremove = () => {
     setShortPopup(false);
   };
+
+
+  // const [newAddressForm, setNewAddressForm] = useState({
+  //   first_Name: '',
+  //   phone_Number: '',
+  //   address: '',
+  //   city: '',
+  //   states: '',
+  //   pin_Code: '',
+  //   bussiness_phone: '',
+  // });
+
+  // const [fullName, setFullName] = useState('')
+  // const [address, setAddress] = useState('')
+  // const [phone, setPhone] = useState('')
+  // const [city, setCity] = useState('')
+  // const [states, setStates] = useState('')
+  // const [pincode, setPincode] = useState('')
+  // const [businessPhone, setBusinessPhone] = useState('')
+
 
   const handleUseAddressbutton = () => {
     const errors = {};
@@ -175,6 +202,57 @@ function Address({ topMargin, totalAmount }) {
   };
   const navigate = useNavigate();
 
+  const userId = localStorage.getItem('userId')
+
+  // const handleSubmitForm = async (e) => {
+  //   e.preventDefault();
+  //   const payLaodNewForm = {
+  //     addressId: "0",
+  //     customerId: userId,
+  //     firstName: newAddressForm.first_Name,
+  //     middleName: null,
+  //     lastName: null,
+  //     phoneNumber: newAddressForm.phone_Number,
+  //     pincode: newAddressForm.pin_Code,
+  //     address1: newAddressForm.address,
+  //     address2: null,
+  //     landmark: null,
+  //     city: newAddressForm.city,
+  //     state: newAddressForm.states,
+  //     country: null,
+  //     isDefault: 1,
+  //     addressTypeId: 0,
+  //     deliveryInstructions: null
+  //   }
+
+  //   try {
+  //     const response = await fetch('http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/Add', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         // 'Authorization': `Bearer ${localStorage.getItem('token')}`
+  //       },
+  //       body: JSON.stringify(payLaodNewForm)
+  //       });
+  //     if (!response.ok) {
+  //         throw new Error("Failed to add product to cart");
+  //     }
+  //     const responseData = await response.json();
+  //     console.log("Product added to cart:", responseData);
+  //     //       // setProductData(response)
+
+  //     //       fetchCartData();
+  //     //       // window.location.reload()
+  //     } catch (error) {
+  //        console.error("Error adding product to cart:", error);
+  //     }
+    
+  //   } 
+  // const handleChangeForm = (e) => {
+  //   const newForm = { ...newAddressForm }
+  //   newForm[e.target.id] = e.target.value
+  //   setNewAddressForm(newForm)
+  // }
   //   const handleNavigate = () => {
   //     navigate("/app");
   //   };
@@ -230,6 +308,13 @@ function Address({ topMargin, totalAmount }) {
   //   Town_City: '',
   // });
 
+  const handleDeliveryInstruction = () => {
+    setIsShortPopup(true)
+  }
+  const handledeliveryremove = () => {
+    setIsShortPopup(false)
+  }
+
   const [addressForm, setAddressForm] = useState({
     First_Name: '',
     Phone_Number: '',
@@ -239,6 +324,9 @@ function Address({ topMargin, totalAmount }) {
     States: '',
     Town_City: '',
   });
+
+
+
   // const handleEditAddress = () => {
   //   const selectedAddress = details;
   //   setEditAddressIndex();
@@ -264,8 +352,9 @@ function Address({ topMargin, totalAmount }) {
       Phone_Number: selectedAddress.phone,
       Town_City: selectedAddress.City,
       Pin_Code: selectedAddress.Pin,
-      States:selectedAddress.States,
-      Address:selectedAddress.Address,
+      States: selectedAddress.States,
+      Address: selectedAddress.Address,
+      Bussiness_phone: selectedAddress.Bussiness_phone,
     });
 
     // Show the popup with the pre-filled address
@@ -309,6 +398,140 @@ function Address({ topMargin, totalAmount }) {
     console.log("Address saved:", addressForm);
     setShowPopUp(false);
   };
+  const [newAddressForm, setNewAddressForm] = useState({
+    First_Name: '',
+    Phone_Number: '',
+    Address: '',
+    Town_City: '',
+    States: '',
+    Pin_Code: '',
+    Bussiness_phone: '',
+  });
+
+  // const [formErrors, setFormErrors] = useState({});
+
+  const handleChangeForm = (e) => {
+    const { name, value } = e.target;
+    setNewAddressForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
+  };
+
+  const [newAddressData, setNewAddressData] = useState([]);
+  const [getAddress, setGetAddress] = useState([])
+  // useEffect(() => {
+    // const fetchGetFormData = async () => {
+    //   try {
+    //     const response = await fetch(
+    //       `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/GetById?addressId=${newAddressData.addressId}`,
+    //       {
+    //         method: "GET",
+    //       }
+    //     );
+
+    //     if (!response.ok) {
+    //       const errorDetails = await response.json();
+    //       throw new Error(
+    //         `Error: ${response.status} ${response.statusText
+    //         } - ${JSON.stringify(errorDetails)}`
+    //       );
+    //     }
+
+    //     const result = await response.json();
+    //     // setProductData(result.result[0]);
+    //     console.log("getnewForm-->",result)
+    //   } catch (error) {
+    //     console.error("There was a problem with the fetch operation:", error);
+    //     throw error;
+    //   }
+    // };
+    // fetchGetFormData();
+  // }, []);
+
+  const handleSubmitForm = async (e) => {
+    e.preventDefault();
+    // Perform form validation and submission logic here
+    const payLaodNewForm = {
+      addressId: "0",
+      customerId: userId,
+      firstName: newAddressForm.First_Name,
+      middleName: null,
+      lastName: null,
+      phoneNumber: newAddressForm.Phone_Number,
+      pincode: newAddressForm.Pin_Code,
+      address1: newAddressForm.Address,
+      address2: null,
+      landmark: '',
+      city: newAddressForm.Town_City,
+      state: newAddressForm.States,
+      country: null,
+      isDefault: true,
+      addressTypeId: 1,
+      deliveryInstructions: null
+    }
+
+      try {
+        const response = await fetch('http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/Add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // 'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify(payLaodNewForm)
+          });
+        if (!response.ok) {
+            throw new Error("Failed to form");
+        }
+        const responseData = await response.json();
+        setNewAddressData(responseData.result);  // Save the entire response array to state
+        console.log("Address added successfully:", responseData.message);
+        console.log("New address data--->", responseData.result);
+        // fetchGetFormData();
+        // fetchGetFormData()
+        //       // setProductData(response)
+
+        //       fetchCartData();
+        //       // window.location.reload()
+        } catch (error) {
+           console.error("Error", error);
+        }
+    // console.log('Form submitted:', newAddressForm);
+  };
+
+  // useEffect(() => {
+  //   if (newAddressData.length > 0 && newAddressData.addressId) {  // Ensure data is present and valid
+  //     fetchGetFormData(newAddressData.addressId);
+  //   }
+  // }, [newAddressData]);
+
+//   const fetchGetFormData = async () => {
+//     try {
+//       const response = await fetch(
+//         `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/GetById?addressId=${newAddressData.addressId}`,
+//         {
+//           method: "GET",
+//         }
+//       );
+
+//       if (!response.ok) {
+//         const errorDetails = await response.json();
+//         throw new Error(
+//           `Error: ${response.status} ${response.statusText
+//           } - ${JSON.stringify(errorDetails)}`
+//         );
+//       }
+
+//       const result = await response.json();
+//       // setProductData(result.result[0]);
+//       setGetAddress(result.result)
+//       console.log("getnewForm-->", getAddress.result)
+//     } catch (error) {
+//       console.error("There was a problem with the fetch operation:", error);
+//       throw error;
+//     }
+//   };
+
 
   return (
     <div className="w-full flex justify-center">
@@ -358,109 +581,10 @@ function Address({ topMargin, totalAmount }) {
                   <div className="flex min-w-full">
                     {/* <div className=""> */}
                     <div className=" border shadow-md rounded-md h-full">
-                      <div className="p-2 mx-8 ">
+                      <div className="p-2 mx-5 ">
                         <h1 className="border-b-2 text-base">Your Address</h1>
-                        <div className="border flex-col rounded-md flex my-2 p-2  px-8  bg-pink-50 border-orange-200">
-                          {/* <div className="flex">
-                            <input
-                              type="radio"
-                              checked
-                              className="mr-2"
-                              readOnly
-                            />
-                            <div className="flex items-center justify-center text-base">
-                              <h1 className="font-semibold">
-                                {details[0].name},
-                              </h1>
-                              <p>{details[0].Address},</p>
-                              <p className="mx-1">{details[0].City},</p>
-                              <p>{details[0].State},</p>
-                              <p className="mx-1">{details[0].Country},</p>
-                              <p>{details[0].Pin},</p>
-                              <p className="mx-1">{details[0].email},</p>
-                              <p>{details[0].phone}</p>
-                              <div className="flex hover:underline hover:text-red-500 cursor-pointer ml-2" onClick={() => handleEditAddress()}>
-                                <p className=" text-sm    text-cyan-500">
-                                  Edit{" "}
-                                </p>
-                                <p className=" text-sm  text-cyan-500">
-                                  Address{" "}
-                                </p>
-                              </div>
+                        <div className="border flex-col rounded-md flex my-2 p-2  px-6  bg-pink-50 border-orange-200">
 
-                              {showPopUp && (
-                                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                  <div className="bg-white p-6 w-[45%] rounded-md shadow-lg relative overflow-y-scroll max-h-[90vh]">
-                                    <div className="flex justify-between border-b pb-4 items-center">
-                                      <h1>Edit Address</h1>
-                                      <img src={cross} className="w-5 h-5 cursor-pointer" onClick={() => setShowPopUp(false)} alt="Close Icon" />
-                                    </div>
-
-                                    
-                                    <div className="my-4">
-                                      <TextField
-                                        label="First Name"
-                                        name="First_Name"
-                                        size="small"
-                                        className="w-full"
-                                        value={addressForm.First_Name}
-                                        onChange={handleInputChange}
-                                        error={!!formErrors.First_Name}
-                                        helperText={formErrors.First_Name}
-                                      />
-                                    </div>
-                                    <div className="my-4">
-                                      <TextField
-                                        label="Phone Number"
-                                        name="Phone_Number"
-                                        size="small"
-                                        className="w-full"
-                                        value={addressForm.Phone_Number}
-                                        onChange={handleInputChange}
-                                        error={!!formErrors.Phone_Number}
-                                        helperText={formErrors.Phone_Number}
-                                      />
-                                    </div>
-                                    
-                                   
-                                    <div className="my-4">
-                                      <TextField
-                                        label="Town/City"
-                                        name="Town_City"
-                                        size="small"
-                                        className="w-full"
-                                        value={addressForm.Town_City}
-                                        onChange={handleInputChange}
-                                        error={!!formErrors.Town_City}
-                                        helperText={formErrors.Town_City}
-                                      />
-                                    </div>
-                                    <div className="my-4">
-                                      <TextField
-                                        label="Pin Code"
-                                        name="Pin_Code"
-                                        size="small"
-                                        className="w-full"
-                                        value={addressForm.Pin_Code}
-                                        onChange={handleInputChange}
-                                        error={!!formErrors.Pin_Code}
-                                        helperText={formErrors.Pin_Code}
-                                      />
-                                    </div>
-
-                                    <div className="flex justify-between mt-6">
-                                      <button className="w-48 border py-2 bg-orange-400 hover:bg-yellow-500 text-sm text-white" onClick={handleSaveAddress}>
-                                        Save Address
-                                      </button>
-                                      <button className="w-48 border py-2 bg-gray-200 hover:bg-gray-300 text-sm" onClick={() => setShowPopUp(false)}>
-                                        Cancel
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          </div> */}
 
 
                           <div className="flex">
@@ -475,10 +599,12 @@ function Address({ topMargin, totalAmount }) {
                               <p>{details[0].Address},</p>
                               <p className="mx-1">{details[0].City},</p>
                               <p>{details[0].States},</p>
+                              <p>{details[0].phone},</p>
                               <p className="mx-1">{details[0].Country},</p>
                               <p>{details[0].Pin},</p>
                               <p className="mx-1">{details[0].email},</p>
-                              <p>{details[0].phone}</p>
+
+                              {/* <p>{details[0].Bussiness_phone}</p> */}
 
                               <div className="flex hover:underline hover:text-red-500 cursor-pointer ml-2" onClick={handleEditAddress}>
                                 <p className="text-sm text-cyan-500">Edit</p>
@@ -549,8 +675,8 @@ function Address({ topMargin, totalAmount }) {
                                       />
                                     </div>
 
-                                   
-                                 
+
+
 
                                     <div className="flex my-2 gap-2">
                                       <TextField
@@ -579,17 +705,255 @@ function Address({ topMargin, totalAmount }) {
                                     </div>
 
 
-                                    <div className="flex gap-2">
+                                    {/* <div className="flex gap-2">
                                       <TextField
                                         label="Bussiness_phone"
                                         id="Bussiness_phone"
                                         name="Bussiness_phone"
                                         size="small"
                                         className="w-[49%]"
+                                        value={addressForm.Bussiness_phone}
+                                        onChange={handleInputChange}
                                         error={!!formErrors.Bussiness_phone}
                                         helperText={formErrors.Bussiness_phone}
                                       />
+                                    </div> */}
+
+                                    <div className="my-4">
+                                      <input type="checkbox" id="default-address" />
+                                      <label
+                                        htmlFor="default-address"
+                                        className="ml-2"
+                                      >
+                                        Make this my default address
+                                      </label>
                                     </div>
+
+                                    {/* <div className="my-4 cursor-pointer">
+                                      <h1>Delivery instructions (optional)</h1>
+                                      <div
+                                        className="flex"
+                                        onClick={handleshortpopOpen}
+                                      >
+                                        <img src={dropdown} className="w-5 h-5 " />
+                                        <p className="hover:text-red-400 hover:underline text-base text-cyan-600">
+                                          Add Preference, notes, access codes and
+                                          more
+                                        </p>
+                                      </div>
+
+                                      {shortPopup && (
+                                        <div>
+                                          <div>
+                                            <h1>Address Type</h1>
+                                            <div className="flex">
+                                              <h1
+                                                className={`border text-base border-black p-1 rounded-full flex justify-center items-center w-16 h-7 cursor-pointer ${selectedAddressType === "House" &&
+                                                  "bg-gray-300"
+                                                  }`}
+                                                onClick={() =>
+                                                  handleAddressTypeClick("House")
+                                                }
+                                              >
+                                                House
+                                              </h1>
+                                              <h1
+                                                className={`border text-base border-black p-1 mx-3 rounded-full flex justify-center items-center w-24 h-7 cursor-pointer ${selectedAddressType ===
+                                                  "Apartment" && "bg-gray-300"
+                                                  }`}
+                                                onClick={() =>
+                                                  handleAddressTypeClick(
+                                                    "Apartment"
+                                                  )
+                                                }
+                                              >
+                                                Apartment
+                                              </h1>
+                                              <h1
+                                                className={`border text-base border-black p-1 rounded-full flex justify-center items-center w-18 h-7 cursor-pointer ${selectedAddressType ===
+                                                  "Business" && "bg-gray-300"
+                                                  }`}
+                                                onClick={() =>
+                                                  handleAddressTypeClick("Business")
+                                                }
+                                              >
+                                                Business
+                                              </h1>
+                                              <h1
+                                                className={`border text-base border-black p-1 mx-3 rounded-full flex justify-center items-center w-16 h-7 cursor-pointer ${selectedAddressType === "Other" &&
+                                                  "bg-gray-300"
+                                                  }`}
+                                                onClick={() =>
+                                                  handleAddressTypeClick("Other")
+                                                }
+                                              >
+                                                Other
+                                              </h1>
+                                            </div>
+                                          </div>
+
+                                          <div className="my-4">
+                                            {(selectedAddressType === "House" ||
+                                              selectedAddressType ===
+                                              "Apartment") && (
+                                                <div className="border rounded-md shadow-md  p-4">
+                                                  <h1 className="text-sm">
+                                                    Independent house, villa, or
+                                                    builder floor (6 AM - 11 PM
+                                                    delivery)
+                                                  </h1>
+
+                                                  <div className="flex justify-evenly flex-col mt-4">
+                                                    <div className="flex flex-col">
+                                                      <div
+                                                        onClick={() =>
+                                                          setShowWeekendOptions(
+                                                            !showWeekendOptions
+                                                          )
+                                                        }
+                                                        className="cursor-pointer"
+                                                      >
+                                                        <p className="text-base border-b hover:text-cyan-500">
+                                                          Can you receive deliveries
+                                                          at this address on weekends?
+                                                        </p>
+                                                      </div>
+                                                      {showWeekendOptions && (
+                                                        <div className="flex border-b mt-2">
+                                                          <div className="flex-col flex mr-4">
+                                                            <h1>Saturday</h1>
+                                                            <div className="flex justify-between mt-1">
+                                                              <p className="border hover:border-cyan-500 hover:bg-slate-400 w-12 flex items-center justify-center rounded-full border-black h-6">
+                                                                Yes
+                                                              </p>
+                                                              <p className="border hover:border-cyan-500 hover:bg-slate-400 w-12 flex items-center justify-center rounded-full border-black h-6">
+                                                                No
+                                                              </p>
+                                                            </div>
+                                                          </div>
+                                                          <div className="flex-col flex">
+                                                            <h1>Sunday</h1>
+                                                            <div className="flex justify-between mt-1">
+                                                              <p className="border hover:border-cyan-500 hover:bg-slate-400 w-12 flex items-center justify-center rounded-full border-black h-6">
+                                                                Yes
+                                                              </p>
+                                                              <p className="border hover:border-cyan-500 hover:bg-slate-400 w-12 flex items-center justify-center rounded-full border-black h-6">
+                                                                No
+                                                              </p>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      )}
+                                                    </div>
+
+                                                    <div className="flex flex-col mt-4">
+                                                      <div
+                                                        onClick={() =>
+                                                          setShowInstructions(
+                                                            !showInstructions
+                                                          )
+                                                        }
+                                                        className="cursor-pointer"
+                                                      >
+                                                        <p className="border-b text-base hover:text-cyan-500">
+                                                          Do we need additional
+                                                          instructions to deliver to
+                                                          this address?
+                                                        </p>
+                                                      </div>
+                                                      {showInstructions && (
+                                                        <div className="mt-2">
+                                                          <textarea
+                                                            type="text"
+                                                            className="w-96 h-20 border border-black outline-none"
+                                                            placeholder="provide details such as building description , a nearby landmark, or other navigation instructions."
+                                                          />
+                                                        </div>
+                                                      )}
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              )}
+
+                                            {(selectedAddressType === "Business" ||
+                                              selectedAddressType === "Other") && (
+                                                <div className="border rounded-md shadow-md  p-4">
+                                                  <h1 className="text-sm">
+                                                    Commercial building, office, or
+                                                    store (10 AM - 7 PM delivery)
+                                                  </h1>
+                                                  <div className="mt-3 border-b pb-2">
+                                                    <div className="flex ">
+                                                      <input type="checkbox" />
+                                                      <h1 className="mx-2">Monday</h1>
+                                                    </div>
+                                                    <div className="flex  ">
+                                                      <input type="checkbox" />
+                                                      <h1 className="mx-2">
+                                                        Tuesday
+                                                      </h1>
+                                                    </div>
+                                                    <div className="flex ">
+                                                      <input type="checkbox" />
+                                                      <h1 className="mx-2">
+                                                        Wednesday
+                                                      </h1>
+                                                    </div>
+                                                    <div className="flex ">
+                                                      <input type="checkbox" />
+                                                      <h1 className="mx-2">
+                                                        Thursday
+                                                      </h1>
+                                                    </div>
+                                                    <div className="flex ">
+                                                      <input type="checkbox" />
+                                                      <h1 className="mx-2">Friday</h1>
+                                                    </div>
+                                                    <div className="flex ">
+                                                      <input type="checkbox" />
+                                                      <h1 className="mx-2">
+                                                        Saturday
+                                                      </h1>
+                                                    </div>
+                                                    <div className="flex ">
+                                                      <input type="checkbox" />
+                                                      <h1 className="mx-2">Sunday</h1>
+                                                    </div>
+                                                  </div>
+
+                                                  <div className="flex flex-col mt-4">
+                                                    <div
+                                                      onClick={() =>
+                                                        setShowInstructions(
+                                                          !showInstructions
+                                                        )
+                                                      }
+                                                      className="cursor-pointer"
+                                                    >
+                                                      <p className="border-b text-sm hover:text-cyan-500">
+                                                        Do we need additional
+                                                        instructions to deliver to
+                                                        this address?
+                                                      </p>
+                                                    </div>
+                                                    {showInstructions && (
+                                                      <div className="mt-2">
+                                                        <textarea
+                                                          type="text"
+                                                          className="w-96 h-20 border border-black outline-none"
+                                                          placeholder="provide details such as building description , a nearby landmark, or other navigation instructions."
+                                                        />
+                                                      </div>
+                                                    )}
+                                                  </div>
+                                                </div>
+                                              )}
+                                          </div>
+                                        </div>
+                                      )}
+                                    </div> */}
+
+
                                     <div className="flex justify-between mt-6">
                                       <button
                                         className="w-48 border py-2 bg-orange-400 hover:bg-yellow-500 text-sm text-white"
@@ -610,11 +974,208 @@ function Address({ topMargin, totalAmount }) {
                             </div>
                           </div>
 
-                          <div>
-                            <p className=" text-sm  ml-5  text-cyan-500">
+                          {/* <div>
+                            <p className=" text-sm  ml-5  text-cyan-500" onClick={handleDeliveryInstruction}>
                               Add delivery instruction{" "}
                             </p>
-                          </div>
+                          </div> */}
+
+                          {/* {isShortPopup && (
+                            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                              <div className="bg-white p-6 rounded-md shadow-lg max-h-[90vh] overflow-auto">
+                                <div className="flex justify-between">
+                                  <h1>Address Type</h1>
+                                  <img
+                                    src={cross}
+                                    onClick={handledeliveryremove}
+                                    className="w-5 h-4 cursor-pointer"
+                                    alt="Close"
+                                  />
+                                </div>
+                                <div className="flex mt-4">
+                                  <h1
+                                    className={`border text-base border-black p-1 rounded-full flex justify-center items-center w-16 h-7 cursor-pointer ${selectedAddressType === "House" &&
+                                      "bg-gray-300"
+                                      }`}
+                                    onClick={() =>
+                                      handleAddressTypeClick("House")
+                                    }
+                                  >
+                                    House
+                                  </h1>
+                                  <h1
+                                    className={`border text-base border-black p-1 mx-3 rounded-full flex justify-center items-center w-24 h-7 cursor-pointer ${selectedAddressType === "Apartment" &&
+                                      "bg-gray-300"
+                                      }`}
+                                    onClick={() =>
+                                      handleAddressTypeClick("Apartment")
+                                    }
+                                  >
+                                    Apartment
+                                  </h1>
+                                  <h1
+                                    className={`border text-base border-black p-1 rounded-full flex justify-center items-center w-18 h-7 cursor-pointer ${selectedAddressType === "Business" &&
+                                      "bg-gray-300"
+                                      }`}
+                                    onClick={() =>
+                                      handleAddressTypeClick("Business")
+                                    }
+                                  >
+                                    Business
+                                  </h1>
+                                  <h1
+                                    className={`border text-base border-black p-1 mx-3 rounded-full flex justify-center items-center w-16 h-7 cursor-pointer ${selectedAddressType === "Other" &&
+                                      "bg-gray-300"
+                                      }`}
+                                    onClick={() =>
+                                      handleAddressTypeClick("Other")
+                                    }
+                                  >
+                                    Other
+                                  </h1>
+                                </div>
+
+                                <div className="my-4">
+                                  {(selectedAddressType === "House" ||
+                                    selectedAddressType === "Apartment") && (
+                                      <div className="border rounded-md shadow-md p-4">
+                                        <h1 className="text-sm">
+                                          Independent house, villa, or builder
+                                          floor (6 AM - 11 PM delivery)
+                                        </h1>
+
+                                        <div className="flex justify-evenly flex-col mt-4">
+                                          <div className="flex flex-col">
+                                            <div
+                                              onClick={() =>
+                                                setShowWeekendOptions(
+                                                  !showWeekendOptions
+                                                )
+                                              }
+                                              className="cursor-pointer"
+                                            >
+                                              <p className="text-base border-b hover:text-cyan-500">
+                                                Can you receive deliveries at
+                                                this address on weekends?
+                                              </p>
+                                            </div>
+                                            {showWeekendOptions && (
+                                              <div className="flex border-b mt-2">
+                                                <div className="flex-col flex mr-4">
+                                                  <h1>Saturday</h1>
+                                                  <div className="flex justify-between mt-1">
+                                                    <p className="border hover:border-cyan-500 hover:bg-slate-400 w-12 flex items-center justify-center rounded-full border-black h-6 cursor-pointer">
+                                                      Yes
+                                                    </p>
+                                                    <p className="border hover:border-cyan-500 hover:bg-slate-400 w-12 flex items-center justify-center rounded-full border-black h-6 cursor-pointer">
+                                                      No
+                                                    </p>
+                                                  </div>
+                                                </div>
+                                                <div className="flex-col flex">
+                                                  <h1>Sunday</h1>
+                                                  <div className="flex justify-between mt-1">
+                                                    <p className="border hover:border-cyan-500 hover:bg-slate-400 w-12 flex items-center justify-center rounded-full border-black h-6 cursor-pointer">
+                                                      Yes
+                                                    </p>
+                                                    <p className="border hover:border-cyan-500 hover:bg-slate-400 w-12 flex items-center justify-center rounded-full border-black h-6 cursor-pointer">
+                                                      No
+                                                    </p>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            )}
+                                          </div>
+
+                                          <div className="flex flex-col mt-4">
+                                            <div
+                                              onClick={() =>
+                                                setShowInstructions(
+                                                  !showInstructions
+                                                )
+                                              }
+                                              className="cursor-pointer"
+                                            >
+                                              <p className="border-b text-base hover:text-cyan-500">
+                                                Do we need additional
+                                                instructions to deliver to this
+                                                address?
+                                              </p>
+                                            </div>
+                                            {showInstructions && (
+                                              <div className="mt-2">
+                                                <textarea
+                                                  className="w-96 h-20 border border-black outline-none"
+                                                  placeholder="Provide details such as building description, a nearby landmark, or other navigation instructions."
+                                                />
+                                              </div>
+                                            )}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    )}
+
+                                  {(selectedAddressType === "Business" ||
+                                    selectedAddressType === "Other") && (
+                                      <div className="border rounded-md shadow-md p-4">
+                                        <h1 className="text-sm">
+                                          Commercial building, office, or store
+                                          (10 AM - 7 PM delivery)
+                                        </h1>
+                                        <div className="mt-3 border-b pb-2">
+                                          {[
+                                            "Monday",
+                                            "Tuesday",
+                                            "Wednesday",
+                                            "Thursday",
+                                            "Friday",
+                                            "Saturday",
+                                            "Sunday",
+                                          ].map((day) => (
+                                            <div
+                                              className="flex items-center mt-2"
+                                              key={day}
+                                            >
+                                              <input type="checkbox" />
+                                              <h1 className="mx-2">{day}</h1>
+                                            </div>
+                                          ))}
+                                        </div>
+
+                                        <div className="flex flex-col mt-4">
+                                          <div
+                                            onClick={() =>
+                                              setShowInstructions(
+                                                !showInstructions
+                                              )
+                                            }
+                                            className="cursor-pointer"
+                                          >
+                                            <p className="border-b text-sm hover:text-cyan-500">
+                                              Do we need additional instructions
+                                              to deliver to this address?
+                                            </p>
+                                          </div>
+                                          {showInstructions && (
+                                            <div className="mt-2">
+                                              <textarea
+                                                className="w-96 h-20 border border-black outline-none"
+                                                placeholder="Provide details such as building description, a nearby landmark, or other navigation instructions."
+                                              />
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
+                                    )}
+                                </div>
+                                <div className="flex justify-end">
+                                  <button className="rounded-full bg-blue-900 text-white border w-40 h-8 flex items-center justify-center">
+                                    Save Instructions
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          )} */}
                         </div>
                         <div className="flex cursor-pointer">
                           <img src={plus} className="w-5 h-5" />
@@ -628,6 +1189,7 @@ function Address({ topMargin, totalAmount }) {
                           {showPopUp && (
                             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                               <div className="bg-white p-6 w-[45%] rounded-md shadow-lg relative overflow-y-scroll max-h-[90vh]">
+                              {/* <form onSubmit={handleSubmitForm}>                  
                                 <div className="flex justify-between border-b pb-4 items-center">
                                   <h1>Add a new address</h1>
                                   <img
@@ -637,130 +1199,123 @@ function Address({ topMargin, totalAmount }) {
                                     alt="Close Icon"
                                   />
                                 </div>
-                                <div className="flex my-2 gap-2">
-                                  <TextField
-                                    label="Full Name"
-                                    id="First_Name"
-                                    name="First_Name"
-                                    size="small"
-                                    className="w-full "
-                                    error={!!formErrors.First_Name}
-                                    helperText={formErrors.First_Name}
-                                  />
+                                {/* <div className="flex my-2 gap-2">
+                                    <TextField
+                                      label="Full Nameeeeeee"
+                                      id="First_Name"
+                                      name="First_Name"
+                                      value={newAddressForm.first_Name}
+                                      onChange={handleChangeForm}
+                                      size="small"
+                                      className="w-full"
+                                      error={!!formErrors.First_Name}
+                                      helperText={formErrors.First_Name}
+                                    />
 
-                                  <TextField
-                                    label="Phone Number"
-                                    id="Phone_Number"
-                                    name="Phone_Number"
-                                    size="small"
-                                    className="w-full "
-                                    error={!!formErrors.Phone_Number}
-                                    helperText={formErrors.Phone_Number}
-                                  />
-                                </div>
+                                    <TextField
+                                      label="Phone Number"
+                                      type="phoneNumber"
+                                      id="Phone_Number"
+                                      name="Phone_Number"
+                                      value={newAddressForm.phone_Number}
+                                      size="small"
+                                      className="w-full"
+                                      error={!!formErrors.Phone_Number}
+                                      helperText={formErrors.Phone_Number}
+                                    />
+                                </div> */}
+                                  {/* <div className="flex my-2 gap-2">
+                                    <TextField
+                                      label="Full Name"
+                                      id="First_Name"
+                                      type="text"
+                                      name="first_Name" */}
+                                      {/* // value={addressForm.First_Name} */}
+                                      {/* onChange={handleChangeForm}
+                                      size="small"
+                                      className="w-full"
+                                      error={!!formErrors.First_Name}
+                                      helperText={formErrors.First_Name}
+                                    /> */}
+
+                                    {/* <TextField
+                                      label="Phone Number"
+                                      type="tel"
+                                      id="Phone_Number"
+                                      name="phone_Number" */}
+                                      {/* // value={addressForm.Phone_Number} */}
+                                      {/* onChange={handleChangeForm}
+                                      size="small"
+                                      className="w-full"
+                                      error={!!formErrors.Phone_Number}
+                                      helperText={formErrors.Phone_Number}
+                                    /> */}
+                                  {/* </div>
                                 <div className="my-4 flex gap-2">
-                                  <TextField
-                                    label="Address"
-                                    id="Address"
-                                    name="Address"
-                                    size="small"
-                                    className="w-full"
-                                    error={
-                                      !!formErrors.Address
-                                    }
-                                    helperText={
-                                      formErrors.Address
-                                    }
-                                  />
+                                    <TextField
+                                      label="Address"
+                                      id="Address"
+                                      name="Address" */}
+                                      {/* // value={addressForm.Address} */}
+                                      {/* onChange={handleChangeForm}
+                                      size="small"
+                                      className="w-full"
+                                      error={!!formErrors.Address}
+                                      helperText={formErrors.Address}
+                                    /> */}
 
-                                  <TextField
-                                    label="City"
-                                    id="Town_City"
-                                    name="Town_City"
-                                    size="small"
-                                    className="w-full"
-                                    error={!!formErrors.Town_City}
-                                    helperText={formErrors.Town_City}
-                                  />
+                                    {/* <TextField
+                                      label="City"
+                                      id="Town_City"
+                                      name="Town_City" */}
+                                      {/* // value={addressForm.Town_City} */}
+                                      {/* size="small"
+                                      className="w-full"
+                                      onChange={handleChangeForm}
+                                      error={!!formErrors.Town_City}
+                                      helperText={formErrors.Town_City}
+                                    />
                                 </div>
                                 <div className="flex my-2 gap-2">
-                                  <TextField
-                                    label="States"
-                                    id="States"
-                                    name="States"
-                                    size="small"
-                                    className="w-full"
-                                    error={!!formErrors.States}
-                                    helperText={formErrors.States}
-                                  />
+                                    <TextField
+                                      label="States"
+                                      id="States"
+                                      name="States"
+                                      size="small" */}
+                                      {/* // value={addressForm.States} */}
+                                      {/* onChange={handleChangeForm}
+                                      className="w-full"
+                                      error={!!formErrors.States}
+                                      helperText={formErrors.States}
+                                    /> */}
 
-                                  <TextField
-                                    label="Pin Code"
-                                    id="Pin_Code"
-                                    name="Pin_Code"
-                                    size="small"
-                                    className="w-full"
-                                    error={!!formErrors.Pin_Code}
-                                    helperText={formErrors.Pin_Code}
-                                  />
-
-                                </div>
+                                    {/* <TextField
+                                      label="Pin Code"
+                                      id="Pin_Code"
+                                      name="Pin_Code"
+                                      size="small" */}
+                                      {/* // value={addressForm.Pin_Code} */}
+                                      {/* className="w-full"
+                                      error={!!formErrors.Pin_Code}
+                                      helperText={formErrors.Pin_Code}
+                                    /> */}
+                                {/* </div>
                                 <div className="flex my-2 gap-2">
-                                  {/* <TextField
-                                    label="LandMark"
-                                    id="LandMark"
-                                    name="LandMark"
-                                    size="small"
-                                    className="w-full"
-                                    error={!!formErrors.LandMark}
-                                    helperText={formErrors.LandMark}
-                                  /> */}
-                                  {/* <FormControl
-                className="w-[92%]"
-                size="small"
-                // error={!!errors.State}
-              >
-                <InputLabel id="state-select-label">State</InputLabel>
-                <Select
-                  id="state-select"
-                  label="State"
-                  value={formData.State}
-                  name="State"
-                  onChange={handleInputChange}
-                  MenuProps={{
-                    PaperProps: {
-                      style: {
-                        maxHeight: 200, // Set the maximum height of the dropdown
-                      },
-                    },
-                  }}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {states.map((state) => (
-                    <MenuItem
-                      key={state.abbreviation}
-                      value={state.abbreviation}
-                    >
-                      {state.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-                {errors.State && <span>{errors.State}</span>}
-              </FormControl> */}
-                                  <TextField
-                                    label="Bussiness_phone"
-                                    id="Bussiness_phone"
-                                    name="Bussiness_phone"
-                                    size="small"
-                                    className="w-[49%]"
-                                    error={!!formErrors.Bussiness_phone}
-                                    helperText={formErrors.Bussiness_phone}
-                                  />
+
+                                    <TextField
+                                      label="Bussiness_phone"
+                                      id="Bussiness_phone"
+                                      name="Bussiness_phone"
+                                      size="small"
+                                      // value={addressForm.Phone_Number}
+                                      className="w-full"
+                                      onChange={handleChangeForm}
+                                      error={!!formErrors.Bussiness_phone}
+                                      helperText={formErrors.Bussiness_phone}
+                                    /> */}
 
 
-                                </div>
+                                {/* </div>
 
 
                                 <div className="my-4">
@@ -991,8 +1546,8 @@ function Address({ topMargin, totalAmount }) {
                                                 )}
                                               </div>
                                             </div>
-                                          )}
-                                      </div>
+                                          )} */}
+                                      {/* </div>
                                     </div>
                                   )}
                                 </div>
@@ -1000,7 +1555,7 @@ function Address({ topMargin, totalAmount }) {
                                 <div className="flex justify-between mt-6">
                                   <button
                                     className="w-48 border py-2 bg-orange-400 hover:bg-yellow-500 text-sm text-white"
-                                    onClick={handleUseAddressbutton}
+                                    onClick={(e) => handleUseAddressbutton(e)}
                                   >
                                     Use this address
                                   </button>
@@ -1011,8 +1566,126 @@ function Address({ topMargin, totalAmount }) {
                                     Cancel
                                   </button>
                                 </div>
+                              </form> */} 
+                              <form onSubmit={handleSubmitForm}>
+                                <div className="flex justify-between border-b pb-4 items-center">
+                                  <h1>Add a new address</h1>
+                                  <img
+                                    src={cross}
+                                    className="w-5 h-5 cursor-pointer"
+                                    onClick={handleRemove}
+                                    alt="Close Icon"
+                                  />
+                                </div>
+
+                                <div className="flex my-2 gap-2">
+                                  <TextField
+                                    label="Full Name"
+                                    id="First_Name"
+                                    name="First_Name"
+                                    value={newAddressForm.First_Name}
+                                    onChange={handleChangeForm}
+                                    size="small"
+                                    className="w-full"
+                                    error={!!formErrors.First_Name}
+                                    helperText={formErrors.First_Name}
+                                  />
+                                  <TextField
+                                    label="Phone Number"
+                                    id="Phone_Number"
+                                    name="Phone_Number"
+                                    value={newAddressForm.Phone_Number}
+                                    onChange={handleChangeForm}
+                                    size="small"
+                                    className="w-full"
+                                    error={!!formErrors.Phone_Number}
+                                    helperText={formErrors.Phone_Number}
+                                  />
+                                </div>
+
+                                <div className="my-4 flex gap-2">
+                                  <TextField
+                                    label="Address"
+                                    id="Address"
+                                    name="Address"
+                                    value={newAddressForm.Address}
+                                    onChange={handleChangeForm}
+                                    size="small"
+                                    className="w-full"
+                                    error={!!formErrors.Address}
+                                    helperText={formErrors.Address}
+                                  />
+                                  <TextField
+                                    label="City"
+                                    id="Town_City"
+                                    name="Town_City"
+                                    value={newAddressForm.Town_City}
+                                    onChange={handleChangeForm}
+                                    size="small"
+                                    className="w-full"
+                                    error={!!formErrors.Town_City}
+                                    helperText={formErrors.Town_City}
+                                  />
+                                </div>
+
+                                <div className="flex my-2 gap-2">
+                                  <TextField
+                                    label="States"
+                                    id="States"
+                                    name="States"
+                                    value={newAddressForm.States}
+                                    onChange={handleChangeForm}
+                                    size="small"
+                                    className="w-full"
+                                    error={!!formErrors.States}
+                                    helperText={formErrors.States}
+                                  />
+                                  <TextField
+                                    label="Pin Code"
+                                    id="Pin_Code"
+                                    name="Pin_Code"
+                                    value={newAddressForm.Pin_Code}
+                                    onChange={handleChangeForm}
+                                    size="small"
+                                    className="w-full"
+                                    error={!!formErrors.Pin_Code}
+                                    helperText={formErrors.Pin_Code}
+                                  />
+                                </div>
+
+                                {/* <div className="flex my-2 gap-2">
+                                  <TextField
+                                    label="Business Phone"
+                                    id="Bussiness_phone"
+                                    name="Bussiness_phone"
+                                    value={newAddressForm.Bussiness_phone}
+                                    onChange={handleChangeForm}
+                                    size="small"
+                                    className="w-[49%]"
+                                    error={!!formErrors.Bussiness_phone}
+                                    helperText={formErrors.Bussiness_phone}
+                                  />
+                                </div> */}
+
+                                <div className="my-4">
+                                  <input type="checkbox" id="default-address" />
+                                  <label htmlFor="default-address" className="ml-2">
+                                    Make this my default address
+                                  </label>
+                                </div>
+
+                                <div className="flex justify-between mt-6">
+                                  <button className="w-48 border py-2 bg-orange-400 hover:bg-yellow-500 text-sm text-white" type="submit">
+                                    Use this address
+                                  </button>
+                                  <button className="w-48 border py-2 bg-gray-200 hover:bg-gray-300 text-sm" onClick={handleRemove}>
+                                    Cancel
+                                  </button>
+                                </div>
+                              </form>
+
                               </div>
-                            </div>
+                              </div>
                           )}
                         </div>
 
@@ -1095,18 +1768,18 @@ function Address({ topMargin, totalAmount }) {
                             <p>{detail.Address}</p>
                             <p>{detail.City}</p>
                             <div className="flex">
-                              <p>{detail.State},</p>
+                              <p>{detail.States},</p>
                               <p className="mx-2">{detail.Country},</p>
                               <p>{detail.Pin}</p>
                             </div>
-                            <p
+                            {/* <p
                               className="text-cyan-500 cursor-pointer hover:text-red-400 hover:underline"
                               onClick={handleAddaddress}
                             >
                               Add delivery instruction
-                            </p>
+                            </p> */}
 
-                            {shortPopup && (
+                            {/* {shortPopup && (
                               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                                 <div className="bg-white p-6 rounded-md shadow-lg max-h-[90vh] overflow-auto">
                                   <div className="flex justify-between">
@@ -1301,7 +1974,7 @@ function Address({ topMargin, totalAmount }) {
                                   </div>
                                 </div>
                               </div>
-                            )}
+                            )} */}
                           </div>
                         ))}
                       </div>
@@ -1325,79 +1998,7 @@ function Address({ topMargin, totalAmount }) {
 
                       <ItemsAndDelivery />
 
-                      {/* <div>
-                        <h1>4 Review items and delivery</h1>
 
-                        <div className=" border rounded-md p-4 ">
-                          <h1 className="text-lg font-semibold text-green-600">
-                            Arriving 7 Sept 2024
-                          </h1>
-                          <p className="text-base">
-                            If you order in the next 10 hours and 50 minutes (
-                            Details )
-                          </p>
-                          <p className="text-base">
-                            Items dispatched by Pharmetrade{" "}
-                          </p>
-                          {itemsdetails.map((itemsdetail, index) => (
-                            <div
-                              key={index}
-                              className="flex justify-around my-4"
-                            >
-                              <div className="mt-4">
-                                {/* <p>{itemsdetail.src}</p>  
-                                <img src={offer} className="w-28 h-24  " />
-                              </div>
-                              <div>
-                                <p className="text-base font-semibold">
-                                  {itemsdetail.name}
-                                </p>
-                                <p className="text-base font-semibold">
-                                  {itemsdetail.type}
-                                </p>
-                                <p className="text-base font-semibold">
-                                  {itemsdetail.Strength}
-                                </p>
-                                <p className="text-red-600 font-semibold">
-                                  {" "}
-                                  ${itemsdetail.Price}
-                                </p>
-                                <input
-                                  type="number"
-                                  //  value={quantities[index]}
-                                  // onChange={(e) =>
-                                  //   handleQuantityChange(index, Number(e.target.value))
-                                  // }
-                                  className="text-xl border rounded-lg p-1 w-16"
-                                  min="1"
-                                />
-                                <div className="flex">
-                                  <p>{itemsdetail.purchase}</p>
-                                  <p>{itemsdetail.Company_Name}</p>
-                                </div>
-                              </div>
-
-                              <div>
-                                <p className="text-base font-semibold">
-                                  {itemsdetail.option} :
-                                </p>
-                                <label className="flex items-center text-base text-green-600 font-semibold">
-                                  <input
-                                    type="radio"
-                                    name={`delivery${index}`}
-                                    value={itemsdetail.delivery_type1}
-                                    className="mr-2"
-                                  />
-                                  {itemsdetail.delivery1}
-                                </label>
-                                <p className="text-base ml-5">
-                                  {itemsdetail.deliivery_type1}
-                                </p>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div> */}
                     </div>
                   </div>
                   <div className=" w-[30%] mx-16 flex flex-col pt-2 items-center">

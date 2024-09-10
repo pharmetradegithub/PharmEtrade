@@ -9,72 +9,72 @@ import cross from "../../assets/letter-x[1].png";
 
 
 import {
-    Box,
-    TextField,
-  } from "@mui/material";
+  Box,
+  TextField,
+} from "@mui/material";
 
 
 const Payment = () => {
 
-    const [selectedPayment, setSelectedPayment] = useState(false);
-    const [isPopupShow, setIsPopupShow] = useState(false);
-    const [isCardPopup, setIsCardPopup] = useState(false);
-    const [isEmiPopup, SetIsEmiPopup] = useState(false)
+  const [selectedPayment, setSelectedPayment] = useState(false);
+  const [isPopupShow, setIsPopupShow] = useState(false);
+  const [isCardPopup, setIsCardPopup] = useState(false);
+  const [isEmiPopup, SetIsEmiPopup] = useState(false)
 
 
-    const generateYears = (startYear, endYear) => {
-        let years = [];
-        for (let year = startYear; year <= endYear; year++) {
-          years.push(year);
-        }
-        return years;
-      };
-    
-      const generateMonths = () => {
-        const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-        return months;
-      };
-    
-      const currentYear = new Date().getFullYear();
-      const futureYears = generateYears(2024, currentYear + 40); // Including future years (e.g., 10 years ahead)
-      const months = generateMonths();
-
-    const handleemiopen = () => {
-      SetIsEmiPopup(true)
+  const generateYears = (startYear, endYear) => {
+    let years = [];
+    for (let year = startYear; year <= endYear; year++) {
+      years.push(year);
     }
+    return years;
+  };
+
+  const generateMonths = () => {
+    const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    return months;
+  };
+
+  const currentYear = new Date().getFullYear();
+  const futureYears = generateYears(2024, currentYear + 40); // Including future years (e.g., 10 years ahead)
+  const months = generateMonths();
+
+  const handleemiopen = () => {
+    SetIsEmiPopup(true)
+  }
 
 
-    const handleCardOpen = () => {
-      setIsCardPopup(true);
-    };
-  
-    const handleCardRemove = () => {
+  const handleCardOpen = () => {
+    setIsCardPopup(true);
+  };
+
+  const handleCardRemove = () => {
+    setIsCardPopup(false);
+  };
+  const handlePaymentSelection = (paymentMethod) => {
+    setSelectedPayment(paymentMethod);
+    if (paymentMethod === 'card') {
+      setIsPopupShow(true);
+    } else {
+      setIsPopupShow(false);
       setIsCardPopup(false);
-    };
-    const handlePaymentSelection = (paymentMethod) => {
-        setSelectedPayment(paymentMethod);
-        if (paymentMethod === 'card') {
-          setIsPopupShow(true);
-        } else {
-          setIsPopupShow(false);
-          setIsCardPopup(false);
-        }
-      };
-      // const handleCardOpen = () => {
-      //   setIsCardPopup(true);
-      // };
-    
-      // const handleCardRemove = () => {
-      //   setIsCardPopup(false);
-      // };
+    }
+  };
+  // const handleCardOpen = () => {
+  //   setIsCardPopup(true);
+  // };
+
+  // const handleCardRemove = () => {
+  //   setIsCardPopup(false);
+  // };
   return (
     <div>
       <h2 className="text-orange-500">2 Select a payment method</h2>
 
       <div className="border rounded-md p-4">
-        <h1 className="border-b text-lg">Your available balance</h1>
+        {/* <h1 className="border-b text-lg">Your available balance</h1> */}
 
-        <div className="flex items-center my-3">
+        {/* <div className="flex items-center my-3">
           <img src={plus} className="w-5 h-5 mr-3" />
           <TextField
             label="Enter Code"
@@ -86,20 +86,19 @@ const Payment = () => {
           <button className="border mx-3 w-16 h-8  text-base  bg-blue-900 text-white flex items-center justify-center rounded-full">
             Apply
           </button>
-        </div>
+        </div> */}
 
-        <div>
+        {/* <div>
           <h1 className="border-b">Another payment method</h1>
-        </div>
+        </div> */}
 
         <div>
           <div className="flex flex-col">
             <div
-              className={`flex items-center p-2 ${
-                selectedPayment === "card"
+              className={`flex items-center p-2 ${selectedPayment === "card"
                   ? "bg-pink-50 border border-black rounded-md"
                   : ""
-              }`}
+                }`}
               onClick={() => handlePaymentSelection("card")}
             >
               <input
@@ -354,11 +353,10 @@ const Payment = () => {
           </div> */}
 
           <div
-            className={`flex items-center p-2 mt-2 border-b ${
-              selectedPayment === "cod"
+            className={`flex items-center p-2 mt-2 border-b ${selectedPayment === "cod"
                 ? "bg-pink-50 border border-black rounded-md"
                 : ""
-            }`}
+              }`}
             onClick={() => handlePaymentSelection("cod")}
           >
             <input type="radio" checked={selectedPayment === "cod"} readOnly />
@@ -376,3 +374,4 @@ const Payment = () => {
 };
 
 export default Payment;
+

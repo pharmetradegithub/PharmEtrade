@@ -91,13 +91,13 @@ function LayoutaddProduct() {
     size: "",
     unitOfMeasurement: "",
     price: "",
-    amountInStock: 0,
+    amountInStock: "",
     taxable: "",
     productDetails: "",
     aboutProduct: "",
     states: [],
-    upnMemberPrice: 0,
-    salePrice: 0,
+    upnMemberPrice: "",
+    salePrice: "",
     salePriceForm: "",
     salePriceTo: "",
     manufacturer: "",
@@ -124,7 +124,8 @@ function LayoutaddProduct() {
   const [Heading, setHeading] = useState("ADD PRODUCT");
   const AssignFormData = (product) => {
     setFormData({
-      categorySpecification: product.categorySpecification.categorySpecificationId,
+      categorySpecification:
+        product.categorySpecification.categorySpecificationId,
       productType: product.productType,
       productCategory: product.productCategoryId,
       productName: product.productName,
@@ -137,7 +138,7 @@ function LayoutaddProduct() {
       aboutProduct: product.aboutTheProduct,
       states: [],
       size: product.size,
-      form:product.form,
+      form: product.form,
       unitOfMeasure: product.unitOfMeasure,
       upnMemberPrice: product.upnMemberPrice,
       salePrice: product.salePrice,
@@ -365,8 +366,8 @@ function LayoutaddProduct() {
           const isSelected = formData.states.includes(value);
           const updatedStates = isSelected
             ? formData.states.filter(
-              (state) => state !== value && state !== "all"
-            )
+                (state) => state !== value && state !== "all"
+              )
             : [...formData.states, value];
 
           setFormData({
@@ -574,48 +575,50 @@ function LayoutaddProduct() {
         if (queryProductId) {
           const response = await EditProductInfoApi(tab1, user.customerId);
           console.log("Product Data", response);
-          setNotification({ show: true, message: "Product Info Edited Successfully!" });
+          setNotification({
+            show: true,
+            message: "Product Info Edited Successfully!",
+          });
           setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-
-        }
-        else {
+        } else {
           const response = await AddProductInfoApi(tab1, user.customerId);
           localStorage.setItem("productId", response);
-          setNotification({ show: true, message: "Product Info Added Successfully!" });
+          setNotification({
+            show: true,
+            message: "Product Info Added Successfully!",
+          });
           setTimeout(() => setNotification({ show: false, message: "" }), 3000);
         }
       } else if (activeTab == 1) {
         if (queryProductId) {
           const response = await EditProductPriceApi(tab2, user.customerId);
           console.log("Product Data", response);
-
-        }
-        else {
+        } else {
           const response = await AddProductPriceApi(tab2, user.customerId);
           console.log("Product Data", response);
-          setNotification({ show: true, message: "Price Details Added Successfully!" });
+          setNotification({
+            show: true,
+            message: "Price Details Added Successfully!",
+          });
           setTimeout(() => setNotification({ show: false, message: "" }), 3000);
         }
-
       } else if (activeTab == 3) {
         if (queryProductId) {
-          console.log(tab4)
+          console.log(tab4);
           const response = await EditProductGallery(tab4, user.customerId);
           console.log("Product Data", response);
-
-        }
-        else {
-          console.log(tab4)
+        } else {
+          console.log(tab4);
 
           const response = await AddProductGallery(tab4, user.customerId);
           console.log("Product Data", response);
-          setNotification({ show: true, message: "Product Added Successfully!" });
+          setNotification({
+            show: true,
+            message: "Product Added Successfully!",
+          });
           setTimeout(() => setNotification({ show: false, message: "" }), 3000);
         }
-
       }
-
-      
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
       throw error;
@@ -632,7 +635,7 @@ function LayoutaddProduct() {
           ["manufacturer"]: response.manufacturerName,
           ["form"]: response.form,
           ["size"]: response.size,
-          ["unitOfMeasurement"]: response.unitOfMeasurement
+          ["unitOfMeasurement"]: response.unitOfMeasurement,
         });
       else return;
       // console.log(manufacturerName,"response");
@@ -659,14 +662,15 @@ function LayoutaddProduct() {
                       type="text"
                       className="w-80 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       onChange={handleInputChange}
+                      onBlur={() => handleNdcUpc(formData.ndcUpc)}
                       value={formData.ndcUpc}
                     />
-                    <button
+                    {/* <button
                       onClick={() => handleNdcUpc(formData.ndcUpc)}
                       className="bg-blue-900 text-white px-2 rounded-sm"
                     >
                       Apply
-                    </button>
+                    </button> */}
                   </div>
                 </div>
                 <div className="flex   ">
@@ -1629,6 +1633,199 @@ function LayoutaddProduct() {
       case 2:
         return (
           <div className="font-sans font-medium">
+            <div className=" bg-white p-2 px-4   w-full Largest:w-[60%] ">
+              <div className="flex flex-col justify-between">
+              <div className="flex justify-between items-center">
+                {/* <div className="flex flex-col w-36">
+                    <label>Id From</label>
+                    <input className="border rounded-sm" />
+                  </div> */}
+                <div className="flex flex-col mr-5">
+                  <label className="font-semibold">
+                    Category Specification:
+                    <span className="text-red-600">*</span>
+                  </label>
+                  <select
+                    className="w-52 h-8  pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                    onChange={handleInputChange}
+                    value={formData.categorySpecification}
+                    name="categorySpecification"
+                  >
+                    <option value="">Select a category</option>
+                    <option value="1"> Prescription Drug</option>
+                    <option value="2">OTC Product</option>
+                    <option value="3">General Merchandise</option>
+                  </select>
+                </div>
+                <div className="flex flex-col mr-7">
+                  <label className="font-semibold">
+                    Product Category:
+                    <span className="text-red-600">*</span>
+                  </label>
+                  <select
+                    name="productCategory"
+                    className="w-56 h-8 pl-1 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                    onChange={handleInputChange}
+                    value={formData.productCategory}
+                  >
+                    <option value="">Select a product category</option>
+                    <option value="1">Default Category</option>
+                    <option value="2">Electronics</option>
+                  </select>
+                </div>
+                <div className="flex flex-col mr-6 ">
+                  <label className="text-sm font-semibold">Manufacturer:</label>
+                  <input
+                    name="manufacturer"
+                    type="text"
+                    className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                    onChange={handleInputChange}
+                    value={formData.manufacturer}
+                  />
+                </div>
+                <div className="font-semibold  ml-0 flex flex-col">
+                  <label>
+                    Brand Name:<span className="text-red-600">*</span>
+                  </label>
+                  <input
+                    name="brandName"
+                    type="text"
+                    className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                    onChange={handleInputChange}
+                    value={formData.brandName}
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-between items-center my-2">
+                <div className="flex flex-col">
+                  <label className="text-sm font-semibold">
+                    Expiration Date:
+                  </label>
+                  <input
+                    name="expirationDate"
+                    type="Date"
+                    className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                    onChange={handleInputChange}
+                    value={formData.expirationDate}
+                  />
+                </div>
+                <div className="font-semibold flex flex-col ">
+                  <label>
+                    NDC / UPC:<span className="text-red-600">*</span>
+                  </label>
+                    <input
+                      name="ndcUpc"
+                      type="text"
+                      className="w-56 h-8 pl-1 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.ndcUpc}
+                    />
+                </div>
+                <div className="flex flex-col  ">
+                  <label className="text-sm font-semibold">
+                    Sale Price Form ($):
+                  </label>
+                  <input
+                    name="salePriceForm"
+                    type="Date"
+                    className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                    onChange={handleInputChange}
+                    value={formData.salePriceForm}
+                  />
+                </div>
+
+                
+                  <div className="flex flex-col ">
+                    <label className="text-sm font-semibold">
+                      Sale Price To($):
+                    </label>
+                    <input
+                      name="salePriceTo"
+                      type="Date"
+                      className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.salePriceTo}
+                    />
+                  </div>
+                
+
+                
+              </div>
+              </div>
+              <div className="flex  justify-between ">
+              <div className="font-semibold flex flex-col mr-6">
+                  <label>
+                    Product Name:<span className="text-red-600">*</span>
+                  </label>
+                  <input
+                    name="productName"
+                    type="text"
+                    className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                    onChange={handleInputChange}
+                    value={formData.productName}
+                  />
+                </div>
+              <div className="my-4 flex">
+              <button className="bg-blue-900 text-white p-2 mx-2 border rounded-md">
+                    APPLY FILTER
+                  </button>
+                  <button
+                    onClick={handleRelateClick}
+                    className="bg-blue-900 p-2 mx-1 text-white border rounded-md"
+                  >
+                    {" "}
+                    RESET
+                  </button>
+                  
+                </div>
+                </div>
+
+            </div>
+
+            <div>
+              <div className="my-6 border w-full Largest:w-[60%] rounded-md bg-white ">
+                <table className="w-full">
+                  <thead className="bg-blue-900 text-white">
+                    <tr className="border-b font-semibold">
+                      {/* <th className=" p-4  text-left text-sm  w-32">
+                        <select className="text-black">
+                          <option>-</option>
+                        </select>
+                      </th> */}
+                      <th className=" p-2  text-left text-sm w-32">ID</th>
+                      <th className=" p-2  text-left text-sm w-40">
+                        Thumbnail
+                      </th>
+                      <th className=" p-2  text-left text-sm  w-80">Name</th>
+                      
+                      <th className=" p-2  text-left text-sm w-32">Status</th>
+                      <th className=" p-2  text-left text-sm bw-44">Type</th>
+                      <th className=" p-2  text-left text-sm  w-44">Price</th>
+                      <th className=" p-2  text-left text-sm w-48">
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {products.map((product, index) => (
+                      <tr key={index} className="border-b">
+                        {/* <td className=" p-2">
+                          <input className=" h-6 w-4" type="checkbox" />
+                        </td> */}
+                        <td className="text-sm p-2"> {product.id}</td>
+                        <td className="text-sm p-2">{product.thumbnail}</td>
+                        <td className="text-sm p-2">{product.name}</td>
+                        <td className="text-sm p-2">{product.status}</td>
+                        <td className="text-sm p-2">{product.type}</td>
+                        <td className="text-sm p-2">{product.price}</td>
+                        <td className="text-sm p-2">{product.attribute}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
             <h1 className="text-2xl font-semibold">Related Products </h1>
             <div className="flex  justify-between w-full Largest:w-[60%]">
               <p>
@@ -1636,10 +1833,11 @@ function LayoutaddProduct() {
                 the customer is looking at.{" "}
               </p>
               <button
-                className={`  text-base font-medium p-2 rounded-md  h-8 flex items-center  ${buttonClick
+                className={`  text-base font-medium p-2 rounded-md  h-8 flex items-center  ${
+                  buttonClick
                     ? "bg-white text-blue-900"
                     : "bg-blue-900 text-white"
-                  }`}
+                }`}
                 onClick={handleRelateclick}
               >
                 <img src={filter} className="w-6 h-3 px-1" />
@@ -1781,10 +1979,11 @@ function LayoutaddProduct() {
                   looking at.
                 </p>
                 <button
-                  className={`  text-base font-medium p-2 rounded-md  h-8 flex  items-center justify-end ${ButtonUpClick
+                  className={`  text-base font-medium p-2 rounded-md  h-8 flex  items-center justify-end ${
+                    ButtonUpClick
                       ? "bg-white text-blue-900"
                       : "bg-blue-900 text-white"
-                    }`}
+                  }`}
                   onClick={click}
                 >
                   {" "}
@@ -1923,10 +2122,11 @@ function LayoutaddProduct() {
                 cross-sells to the items already in the shopping cart.
               </p>
               <button
-                className={` text-base font-medium  p-2 rounded-md  h-8 flex items-center ${isButtonClicked
+                className={` text-base font-medium  p-2 rounded-md  h-8 flex items-center ${
+                  isButtonClicked
                     ? "bg-white text-blue-900"
                     : "bg-blue-900 text-white"
-                  }`}
+                }`}
                 onClick={handleCrossClick}
               >
                 <img src={filter} className="w-6 h-3 px-1" />
@@ -2217,10 +2417,11 @@ function LayoutaddProduct() {
           {tabs.map((tab, index) => (
             <li key={index} className=" mr-2 gap-4 ">
               <button
-                className={`w-full  flex justify-center items-center px-2   p-3 py-1 mt-7   shadow-md  ${activeTab === index
+                className={`w-full  flex justify-center items-center px-2   p-3 py-1 mt-7   shadow-md  ${
+                  activeTab === index
                     ? "text-white  bg-blue-900 rounded-t-xl font-semibold "
                     : "text-blue-900  shadow-none rounded-t-xl bg-white "
-                  }`}
+                }`}
                 onClick={() => setActiveTab(index)}
               >
                 {tab}
@@ -2257,4 +2458,3 @@ function LayoutaddProduct() {
 }
 
 export default LayoutaddProduct;
-
