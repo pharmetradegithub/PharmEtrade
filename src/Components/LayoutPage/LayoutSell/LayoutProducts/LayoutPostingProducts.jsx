@@ -57,6 +57,7 @@ const LayoutPostingProducts = () => {
   const handleClosePopup = () => {
     setShowPopup({ addProduct: false, editProduct: false });
   };
+  console.log("ghjkghfgvbg", products)
 
   return (
     <div className="relative  bg-gray-100 w-full h-full flex justify-center overflow-scroll items-center">
@@ -145,7 +146,7 @@ const LayoutPostingProducts = () => {
                       <td className="px-4 py-2">
                         <img
                         
-                         src={ product?.imageUrl} className="w-6 object-cover"
+                         src={ product?.productGallery?.imageUrl} className="w-14 object-cover"
                         />
                       </td>
                       <td className="px-4 py-2 ">{product.productName}</td>

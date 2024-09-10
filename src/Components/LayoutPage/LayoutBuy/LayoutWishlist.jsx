@@ -147,7 +147,7 @@ function LayoutWishlist({ addCart }) {
       },
     },
   }));
-  console.log(wishItems);
+  console.log("wishlist----layout",wishItems);
   return (
     <div
       className="bg-gray-200  p-8 overflow-scroll"
