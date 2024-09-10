@@ -7,6 +7,7 @@ import other from "../../../assets/CompareNav2.png";
 import { addCartApi } from "../../../Api/CartApi";
 import { useSelector } from "react-redux";
 import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
+import { fetchCriteriaProductsApi } from "../../../Api/ProductApi";
 
 const ProductSection = ({ products, heading, path, addCart, wishList }) => {
   const [rating, setRating] = useState(0);
@@ -77,7 +78,26 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
       {filled ? "★" : "☆"}
     </span>
   );
-
+  const handleProductCategory =async ()=>{
+    let Criteria = {
+      deals: null,
+      brands: null,
+      generics: null,
+      discount: 0,
+      expiring: 0,
+      wholeSeller: null,
+      pharmacyItems: null,
+      prescriptionDrugs: null,
+      otcProducts: null,
+      vawdSeller: null,
+      topSellingProducts: null,
+      buyAgain: null,
+    };
+    if(heading==="Rx Items")
+    await fetchCriteriaProductsApi(Criteria,"Prescription Drugs");
+  else
+    await fetchCriteriaProductsApi(Criteria,"OTC Products");
+    navigate('/products');  }
   return (
     <div className="bg-white w-full p-4">
       <h1 className="text-2xl font-bold text-text-blue">{heading}</h1>
@@ -155,7 +175,7 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
       )}
       
       <Link
-        to={path}
+        onClick={()=>handleProductCategory()}
         className="font-semibold hover:text-red-500 flex justify-end underline"
       >
         See all products
