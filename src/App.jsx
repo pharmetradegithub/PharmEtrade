@@ -113,6 +113,7 @@ import AllProducts from "./Components/HomeProducts/Components/AllProducts";
 import OtcProducts from "./Components/HomeProducts/Components/OtcProducts";
 import RxProducts from "./Components/HomeProducts/Components/RxProducts";
 import Address from "./Components/CheckoutPage/Address";
+import LayoutOtcProducts from "./Components/LayoutPage/LayoutNavComponents/LayoutOtcProducts";
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
 function App() {
@@ -317,6 +318,7 @@ function App() {
             path="/layout/addbulkproduct"
             element={<LayoutAddBulkProduct />}
           />
+
           <Route
             path="/layout/postingproducts"
             element={<LayoutPostingProducts />}
@@ -383,6 +385,7 @@ function App() {
           <Route path="/layout/layoutorderlist" element={<LayoutOrderlist />} />
           {/* <Route path='/layout/layoutreturn' element={<LayoutReturn />} /> */}
           <Route path="/layoutsidebar" element={<LayoutSidebar />} />
+          <Route path="/layout/layoutOtcProducts" element={<LayoutOtcProducts />} />
         </Route>
 
         <Route path="/admin" element={<AdminPanel />}>

@@ -498,12 +498,13 @@ function Items({
                 <h1 className="text-lg font-bold">Quick Overview</h1>
                 <p>
                   <li>
-                    The Ordinary's Azelaic Acid 10% Suspension Brightening Cream
-                    is a multi-functional formula great for those looking for
-                    solutions for dullness, uneven tone, and textural
-                    irregularities.
+                {prod?.productDescription}
+                
                   </li>
                   <li>
+                  {prod?.aboutTheProduct}
+                  </li>
+                  {/* <li>
                     The Ordinary's Azelaic Acid 10% Suspension Brightening Cream
                     is a multi-functional formula great for those looking for
                     solutions for dullness, uneven tone, and textural
@@ -520,7 +521,7 @@ function Items({
                     is a multi-functional formula great for those looking for
                     solutions for dullness, uneven tone, and textural
                     irregularities.
-                  </li>
+                  </li> */}
                 </p>
               </div>
             </div>
