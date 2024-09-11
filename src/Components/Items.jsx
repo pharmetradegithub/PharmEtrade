@@ -498,7 +498,7 @@ function Items({
                 <h1 className="text-lg font-bold">Quick Overview</h1>
                 <p>
                   <li>
-                {prod?.productDescription}
+                {prod?.aboutTheProduct}
                 
                   </li>
                   {/* <li>
@@ -640,7 +640,7 @@ function Items({
       </div>
 
       <div className="h-full w-full flex flex-col  justify-center items-center">
-        <ProductDetails aboutdescription= {prod?.productDescription} />
+        <ProductDetails productdescription= {prod?.productDescription} />
 
         <div className="w-[92%] flex flex-col md:flex-row border-t-2 shadow-inner justify-start gap-8 p-4">
           <div className="w-full md:w-1/3">
