@@ -883,9 +883,8 @@ function LayoutDashboard({
   const wishlist = useSelector((state) => state.wishlist.wishlist);
 
   console.log("cart--->",cart)
-
-  const [wishlistProductIDs, setWishlistProductIDs] = useState([]);
-
+  const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
+  //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
     const wishlistItem = wishlist.find((item) => item.product.productID === productID);
     return wishlistItem ? wishlistItem.wishListId : null; 
@@ -893,9 +892,11 @@ function LayoutDashboard({
 
   useEffect(() => {
     if (Array.isArray(wishlist)) {
-      setWishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
+      setwishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
     }
   }, [wishlist]);
+
+
 
   // const [wishlistProductIDs, setwishlistProductIDs] = useState(
   //   wishlist.map((wishItem) => wishItem.product.productID)
@@ -906,10 +907,9 @@ function LayoutDashboard({
   //   );
   //   return wishlistItem ? wishlistItem.wishListId : null;
   // };
-
-
   const products = useSelector((state) => state.product.Products);
   const [productList, setproductList] = useState(products);
+  console.log("layoutproduct-->",productList)
   useEffect(() => {
     if (products) {
       const updatedProducts = products.map((product) => ({
@@ -939,12 +939,12 @@ function LayoutDashboard({
   };
   const handleClick = async (productID) => {
     if (wishlistProductIDs.includes(productID)) {
-      setWishlistProductIDs(
+      setwishlistProductIDs(
         wishlistProductIDs.filter((id) => id !== productID)
       );
       await removeFromWishlistApi(getWishlistIdByProductID(productID));
     } else {
-      setWishlistProductIDs([...wishlistProductIDs, productID]);
+      setwishlistProductIDs([...wishlistProductIDs, productID]);
       const wishListData = {
         wishListId: "0",
         productId: productID,
@@ -1139,9 +1139,9 @@ function LayoutDashboard({
 
                         <p className="text-xs mt-1 w-60">
                           {showMore[index]
-                            ? product.productDescription
-                            : `${product.productDescription.slice(0, 50)}...`}
-                          {product.productDescription.length > 50 && (
+                            ? product.aboutTheProduct                            
+                            : `${product.aboutTheProduct.slice(0, 50)}...`}
+                          {product.aboutTheProduct.length > 50 && (
                             <button
                               className="text-blue-500 ml-1"
                               onClick={() => toggleShowMore(index)}
@@ -1293,3 +1293,4 @@ function LayoutDashboard({
 }
 
 export default LayoutDashboard;
+

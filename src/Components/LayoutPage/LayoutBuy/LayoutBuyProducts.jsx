@@ -1446,9 +1446,9 @@ function LayoutBuy({
 
                         <p className="text-xs mt-1 w-60">
                           {showMore[index]
-                            ? product.productDescription
-                            : `${product.productDescription.slice(0, 50)}...`}
-                          {product.productDescription.length > 50 && (
+                            ? product.aboutTheProduct                            
+                            : `${product.aboutTheProduct.slice(0, 50)}...`}
+                          {product.aboutTheProduct.length > 50 && (
                             <button
                               className="text-blue-500 ml-1"
                               onClick={() => toggleShowMore(index)}
