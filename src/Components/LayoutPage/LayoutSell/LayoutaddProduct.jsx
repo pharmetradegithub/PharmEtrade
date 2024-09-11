@@ -1102,11 +1102,12 @@ function LayoutaddProduct() {
                         name="Weight"
                         value={sizeData.Weight}
                         onChange={handleSizeChange}
+                        
                         className="w-40 h-8 
                    pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       />
                     </div>
-                    {formData.productSizeId != 0 ? (
+                    {/* {formData.productSizeId != 0 ? (
                       <button
                         onClick={() => handleSizeSubmit()}
                         className="flex text-white justify-center items-center mt-3 bg-red-900 px-3"
@@ -1120,7 +1121,7 @@ function LayoutaddProduct() {
                       >
                         Apply
                       </button>
-                    )}
+                    )} */}
                   </div>
                 </div>
               </div>
@@ -2477,9 +2478,7 @@ function LayoutaddProduct() {
       <div className="flex 2xl:w-[60%] xl:w-full justify-end">
         <button
           onClick={handleSubmit}
-          className={`border bg-blue-900 text-white my-4 h-8 w-16 rounded-md font-semibold 
-       
-          `}
+          className={`border bg-blue-900 text-white my-4 h-8 w-16 rounded-md font-semibold `}
         >
           Save
         </button>

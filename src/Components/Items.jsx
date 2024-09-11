@@ -560,8 +560,7 @@ function Items({
                     <p className="text-sky-500 font-normal ">
                       Expiration Date:
                     </p>
-                    <span>{prod?.
-                      availableFromDate}</span>
+                    <span>{prod?.expiryDate}</span>
                   </div>
                 </div>
               </div>
