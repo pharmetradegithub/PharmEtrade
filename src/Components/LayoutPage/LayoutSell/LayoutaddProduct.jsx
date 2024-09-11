@@ -440,34 +440,71 @@ function LayoutaddProduct() {
     const searchParams = new URLSearchParams(location.search);
     const queryProductId = searchParams.get("productId");
 
+    const defaultImageUrl = "https://pharmaetrade.s3.us-east-1.amazonaws.com/PharmaEtrade/Products/510b1b0a-596d-11ef-8a1f-0affd374995f/30d4c3d5-6f52-11ef-8a1f-0affd374995f/NO_IMG.jpg";
+
     const imageUrl =
       formData.imageUrl == null
-        ? "null"
+        ? defaultImageUrl
         : await uploadImageApi(user.customerId, productId, formData.imageUrl);
+
     const thumbnail1 =
       formData.thumbnail1 == null
-        ? "null"
+        ? defaultImageUrl
         : await uploadImageApi(user.customerId, productId, formData.thumbnail1);
+
     const thumbnail2 =
       formData.thumbnail2 == null
-        ? "null"
+        ? defaultImageUrl
         : await uploadImageApi(user.customerId, productId, formData.thumbnail2);
+
     const thumbnail3 =
       formData.thumbnail3 == null
-        ? "null"
+        ? defaultImageUrl
         : await uploadImageApi(user.customerId, productId, formData.thumbnail3);
+
     const thumbnail4 =
       formData.thumbnail4 == null
-        ? "null"
+        ? defaultImageUrl
         : await uploadImageApi(user.customerId, productId, formData.thumbnail4);
+
     const thumbnail5 =
       formData.thumbnail5 == null
-        ? "null"
+        ? defaultImageUrl
         : await uploadImageApi(user.customerId, productId, formData.thumbnail5);
+
     const thumbnail6 =
       formData.thumbnail6 == null
-        ? "null"
+        ? defaultImageUrl
         : await uploadImageApi(user.customerId, productId, formData.thumbnail6);
+
+    // const imageUrl =
+    //   formData.imageUrl == null
+    //     ? "null"
+    //     : await uploadImageApi(user.customerId, productId, formData.imageUrl);
+    // const thumbnail1 =
+    //   formData.thumbnail1 == null
+    //     ? "null"
+    //     : await uploadImageApi(user.customerId, productId, formData.thumbnail1);
+    // const thumbnail2 =
+    //   formData.thumbnail2 == null
+    //     ? "null"
+    //     : await uploadImageApi(user.customerId, productId, formData.thumbnail2);
+    // const thumbnail3 =
+    //   formData.thumbnail3 == null
+    //     ? "null"
+    //     : await uploadImageApi(user.customerId, productId, formData.thumbnail3);
+    // const thumbnail4 =
+    //   formData.thumbnail4 == null
+    //     ? "null"
+    //     : await uploadImageApi(user.customerId, productId, formData.thumbnail4);
+    // const thumbnail5 =
+    //   formData.thumbnail5 == null
+    //     ? "null"
+    //     : await uploadImageApi(user.customerId, productId, formData.thumbnail5);
+    // const thumbnail6 =
+    //   formData.thumbnail6 == null
+    //     ? "null"
+    //     : await uploadImageApi(user.customerId, productId, formData.thumbnail6);
 
     const data = {
       productID: "0",
@@ -1635,85 +1672,87 @@ function LayoutaddProduct() {
           <div className="font-sans font-medium">
             <div className=" bg-white p-2 px-4   w-full Largest:w-[60%] ">
               <div className="flex flex-col justify-between">
-              <div className="flex justify-between items-center">
-                {/* <div className="flex flex-col w-36">
+                <div className="flex justify-between items-center">
+                  {/* <div className="flex flex-col w-36">
                     <label>Id From</label>
                     <input className="border rounded-sm" />
                   </div> */}
-                <div className="flex flex-col mr-5">
-                  <label className="font-semibold">
-                    Category Specification:
-                    <span className="text-red-600">*</span>
-                  </label>
-                  <select
-                    className="w-52 h-8  pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                    onChange={handleInputChange}
-                    value={formData.categorySpecification}
-                    name="categorySpecification"
-                  >
-                    <option value="">Select a category</option>
-                    <option value="1"> Prescription Drug</option>
-                    <option value="2">OTC Product</option>
-                    <option value="3">General Merchandise</option>
-                  </select>
+                  <div className="flex flex-col mr-5">
+                    <label className="font-semibold">
+                      Category Specification:
+                      <span className="text-red-600">*</span>
+                    </label>
+                    <select
+                      className="w-52 h-8  pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.categorySpecification}
+                      name="categorySpecification"
+                    >
+                      <option value="">Select a category</option>
+                      <option value="1"> Prescription Drug</option>
+                      <option value="2">OTC Product</option>
+                      <option value="3">General Merchandise</option>
+                    </select>
+                  </div>
+                  <div className="flex flex-col mr-7">
+                    <label className="font-semibold">
+                      Product Category:
+                      <span className="text-red-600">*</span>
+                    </label>
+                    <select
+                      name="productCategory"
+                      className="w-56 h-8 pl-1 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.productCategory}
+                    >
+                      <option value="">Select a product category</option>
+                      <option value="1">Default Category</option>
+                      <option value="2">Electronics</option>
+                    </select>
+                  </div>
+                  <div className="flex flex-col mr-6 ">
+                    <label className="text-sm font-semibold">
+                      Manufacturer:
+                    </label>
+                    <input
+                      name="manufacturer"
+                      type="text"
+                      className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.manufacturer}
+                    />
+                  </div>
+                  <div className="font-semibold  ml-0 flex flex-col">
+                    <label>
+                      Brand Name:<span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      name="brandName"
+                      type="text"
+                      className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.brandName}
+                    />
+                  </div>
                 </div>
-                <div className="flex flex-col mr-7">
-                  <label className="font-semibold">
-                    Product Category:
-                    <span className="text-red-600">*</span>
-                  </label>
-                  <select
-                    name="productCategory"
-                    className="w-56 h-8 pl-1 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                    onChange={handleInputChange}
-                    value={formData.productCategory}
-                  >
-                    <option value="">Select a product category</option>
-                    <option value="1">Default Category</option>
-                    <option value="2">Electronics</option>
-                  </select>
-                </div>
-                <div className="flex flex-col mr-6 ">
-                  <label className="text-sm font-semibold">Manufacturer:</label>
-                  <input
-                    name="manufacturer"
-                    type="text"
-                    className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                    onChange={handleInputChange}
-                    value={formData.manufacturer}
-                  />
-                </div>
-                <div className="font-semibold  ml-0 flex flex-col">
-                  <label>
-                    Brand Name:<span className="text-red-600">*</span>
-                  </label>
-                  <input
-                    name="brandName"
-                    type="text"
-                    className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                    onChange={handleInputChange}
-                    value={formData.brandName}
-                  />
-                </div>
-              </div>
 
-              <div className="flex justify-between items-center my-2">
-                <div className="flex flex-col">
-                  <label className="text-sm font-semibold">
-                    Expiration Date:
-                  </label>
-                  <input
-                    name="expirationDate"
-                    type="Date"
-                    className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                    onChange={handleInputChange}
-                    value={formData.expirationDate}
-                  />
-                </div>
-                <div className="font-semibold flex flex-col ">
-                  <label>
-                    NDC / UPC:<span className="text-red-600">*</span>
-                  </label>
+                <div className="flex justify-between items-center my-2">
+                  <div className="flex flex-col">
+                    <label className="text-sm font-semibold">
+                      Expiration Date:
+                    </label>
+                    <input
+                      name="expirationDate"
+                      type="Date"
+                      className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.expirationDate}
+                    />
+                  </div>
+                  <div className="font-semibold flex flex-col ">
+                    <label>
+                      NDC / UPC:<span className="text-red-600">*</span>
+                    </label>
                     <input
                       name="ndcUpc"
                       type="text"
@@ -1721,21 +1760,20 @@ function LayoutaddProduct() {
                       onChange={handleInputChange}
                       value={formData.ndcUpc}
                     />
-                </div>
-                <div className="flex flex-col  ">
-                  <label className="text-sm font-semibold">
-                    Sale Price Form ($):
-                  </label>
-                  <input
-                    name="salePriceForm"
-                    type="Date"
-                    className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                    onChange={handleInputChange}
-                    value={formData.salePriceForm}
-                  />
-                </div>
+                  </div>
+                  <div className="flex flex-col  ">
+                    <label className="text-sm font-semibold">
+                      Sale Price Form ($):
+                    </label>
+                    <input
+                      name="salePriceForm"
+                      type="Date"
+                      className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.salePriceForm}
+                    />
+                  </div>
 
-                
                   <div className="flex flex-col ">
                     <label className="text-sm font-semibold">
                       Sale Price To($):
@@ -1748,13 +1786,10 @@ function LayoutaddProduct() {
                       value={formData.salePriceTo}
                     />
                   </div>
-                
-
-                
-              </div>
+                </div>
               </div>
               <div className="flex  justify-between ">
-              <div className="font-semibold flex flex-col mr-6">
+                <div className="font-semibold flex flex-col mr-6">
                   <label>
                     Product Name:<span className="text-red-600">*</span>
                   </label>
@@ -1766,8 +1801,8 @@ function LayoutaddProduct() {
                     value={formData.productName}
                   />
                 </div>
-              <div className="my-4 flex">
-              <button className="bg-blue-900 text-white p-2 mx-2 border rounded-md">
+                <div className="my-4 flex">
+                  <button className="bg-blue-900 text-white p-2 mx-2 border rounded-md">
                     APPLY FILTER
                   </button>
                   <button
@@ -1777,10 +1812,8 @@ function LayoutaddProduct() {
                     {" "}
                     RESET
                   </button>
-                  
                 </div>
-                </div>
-
+              </div>
             </div>
 
             <div>
@@ -1798,13 +1831,11 @@ function LayoutaddProduct() {
                         Thumbnail
                       </th>
                       <th className=" p-2  text-left text-sm  w-80">Name</th>
-                      
+                      <th className=" p-2  text-left text-sm w-32">Category</th>
                       <th className=" p-2  text-left text-sm w-32">Status</th>
                       <th className=" p-2  text-left text-sm bw-44">Type</th>
                       <th className=" p-2  text-left text-sm  w-44">Price</th>
-                      <th className=" p-2  text-left text-sm w-48">
-                        Action
-                      </th>
+                      <th className=" p-2  text-left text-sm w-48">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1816,10 +1847,10 @@ function LayoutaddProduct() {
                         <td className="text-sm p-2"> {product.id}</td>
                         <td className="text-sm p-2">{product.thumbnail}</td>
                         <td className="text-sm p-2">{product.name}</td>
+                        <td className="text-sm p-2">{product.attribute}</td>
                         <td className="text-sm p-2">{product.status}</td>
                         <td className="text-sm p-2">{product.type}</td>
                         <td className="text-sm p-2">{product.price}</td>
-                        <td className="text-sm p-2">{product.attribute}</td>
                       </tr>
                     ))}
                   </tbody>
