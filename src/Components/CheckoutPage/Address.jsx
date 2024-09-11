@@ -4238,15 +4238,15 @@ function Address({ topMargin, totalAmount }) {
                     <div className="flex justify-between">
                       <h1>1 Delivery address</h1>
                       <div>
-                        {details.map((detail, index) => (
+                        {getAddress.map((item, index) => (
                           <div key={index}>
-                            <p>{detail.name}</p>
-                            <p>{detail.Address}</p>
-                            <p>{detail.City}</p>
+                            <p>{item.firstName}</p>
+                            <p>{item.address1}</p>
+                            <p>{item.city}</p>
                             <div className="flex">
-                              <p>{detail.States},</p>
-                              <p className="mx-2">{detail.Country},</p>
-                              <p>{detail.Pin}</p>
+                              <p>{item.state},</p>
+                              {/* <p className="mx-2">{detail.Country},</p> */}
+                              <p>{item.pincode}</p>
                             </div>
                             {/* <p
                               className="text-cyan-500 cursor-pointer hover:text-red-400 hover:underline"
