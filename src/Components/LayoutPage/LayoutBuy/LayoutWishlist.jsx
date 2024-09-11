@@ -181,7 +181,7 @@ function LayoutWishlist({ addCart }) {
                 className="border rounded-lg flex justify-evenly h-56 p-4 max-w-6xl bg-white shadow-md"
               >
                 <img
-                  className="h-48 w-40 rounded-lg"
+                  className="h-40 w-40 rounded-lg"
                   src={item.product.imageUrl}
                   alt={item.product.productName}
                 />
@@ -198,10 +198,10 @@ function LayoutWishlist({ addCart }) {
                     <p className="text-xl font-semibold">${item.product.salePrice}</p>
                   </Link>
                   <p className="pt-2 text-xl font-semibold">Manufacturer: <span className="font-normal">{item.product.manufacturer}</span> </p>
-                  <p>Quantity: 1</p>
+                  {/* <p>Quantity: 1</p> */}
                   <div className="flex flex-col">
-                    <span className="text-lg">Expires on or after :</span>
-                    <p>Dec-24</p>
+                    <span className="text-lg font-semibold">Brand Name :</span>
+                    <p>{item.product.brandName}</p>
                   </div>
                 </div>
                 <div className="flex flex-col items-center justify-center">

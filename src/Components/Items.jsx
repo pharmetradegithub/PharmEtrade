@@ -501,9 +501,9 @@ function Items({
                 {prod?.productDescription}
                 
                   </li>
-                  <li>
+                  {/* <li>
                   {prod?.aboutTheProduct}
-                  </li>
+                  </li> */}
                   {/* <li>
                     The Ordinary's Azelaic Acid 10% Suspension Brightening Cream
                     is a multi-functional formula great for those looking for
@@ -640,7 +640,7 @@ function Items({
       </div>
 
       <div className="h-full w-full flex flex-col  justify-center items-center">
-        <ProductDetails />
+        <ProductDetails aboutdescription= {prod?.productDescription} />
 
         <div className="w-[92%] flex flex-col md:flex-row border-t-2 shadow-inner justify-start gap-8 p-4">
           <div className="w-full md:w-1/3">
