@@ -156,6 +156,13 @@ const Payment = () => {
                   <div className="flex flex-col mb-3">
                     <label>Expiry Date</label>
                     <div className="flex">
+                      <select className="border border-black rounded-md  shadow-md bg-slate-200">
+                        {months.map((month, index) => (
+                          <option key={index} value={month}>
+                            {month}
+                          </option>
+                        ))}
+                      </select>
                       <select className="border border-black rounded-md mx-2 shadow-md bg-slate-200">
                         {futureYears.map((year) => (
                           <option key={year} value={year}>
@@ -163,14 +170,13 @@ const Payment = () => {
                           </option>
                         ))}
                       </select>
+                      <div className="flex">
+                        <input type="text" className="w-48 h-8 border border-black" />
+                        <label>CVV</label>
+                        
+                      </div>
 
-                      <select className="border border-black rounded-md mx-2 shadow-md bg-slate-200">
-                        {months.map((month, index) => (
-                          <option key={index} value={month}>
-                            {month}
-                          </option>
-                        ))}
-                      </select>
+                    
                     </div>
                   </div>
                   <div className="text-sm text-gray-600">
