@@ -3,9 +3,12 @@ import { useDropzone } from "react-dropzone";
 import filter from "../../../assets/Icons/filter_icon.png";
 import deleteicon from "../../../assets/trash.png";
 import { useStates } from "react-us-states";
-import { Box, Radio } from "@mui/material";
+import { Box, Radio, Tooltip } from "@mui/material";
 import { fetchNdcUpcListApi } from "../../../Api/MasterDataApi";
 import Notification from "../../../Components/Notification";
+import related from "../../../assets/Related.png";
+import upSell from "../../../assets/upSell.png";
+import crossSell from "../../../assets/crossSell.png";
 import {
   AddProductApi,
   AddProductGallery,
@@ -1836,7 +1839,7 @@ function LayoutaddProduct() {
                       <th className=" p-2  text-left text-sm w-32">Status</th>
                       <th className=" p-2  text-left text-sm bw-44">Type</th>
                       <th className=" p-2  text-left text-sm  w-44">Price</th>
-                      <th className=" p-2  text-left text-sm w-48">Action</th>
+                      <th className=" p-2   text-sm w-48">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1852,6 +1855,30 @@ function LayoutaddProduct() {
                         <td className="text-sm p-2">{product.status}</td>
                         <td className="text-sm p-2">{product.type}</td>
                         <td className="text-sm p-2">{product.price}</td>
+                        <td className="px-4 py-2 cursor-pointer flex items-center space-x-2">
+                        <Tooltip title = "Related Products" placement="top">
+                        <img
+                          src={related}
+                          alt="related"
+                          className="cursor-pointer w-6 h-6"
+                          onClick={() => handlerelatedProduct(product)}
+                        />
+                        </Tooltip>
+                        <Tooltip title = "Up-Sell Products" placement="top">
+                        <img
+                          src={upSell}
+                          alt="upSell"
+                          className="cursor-pointer w-6 h-5"
+                        />
+                        </Tooltip>
+                        <Tooltip title = "Cross-Sell Products" placement="top">
+                        <img
+                          src={crossSell}
+                          alt="crossSell"
+                          className="cursor-pointer w-7 h-7"
+                        />
+                        </Tooltip>
+                      </td>
                       </tr>
                     ))}
                   </tbody>

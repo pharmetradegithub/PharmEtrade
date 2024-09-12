@@ -377,8 +377,8 @@ function Cart() {
       </p>
       <div className="w-full bg-white rounded-lg shadow-lg p-5">
         <div className="flex justify-between">
-          <h2 className="text-xl md:text-2xl mb-4 font-semibold">Cart</h2>
-          <div className="flex bg-white m-5">
+          <h2 className="text-xl md:text-2xl -mb-2 font-semibold">Cart</h2>
+          <div className="flex bg-white mb-4">
             <Search>
               <SearchIconWrapper>
                 <img
