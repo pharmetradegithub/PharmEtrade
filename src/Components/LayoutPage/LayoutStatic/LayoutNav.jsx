@@ -225,8 +225,9 @@ import { useNavigate } from "react-router-dom";
 import OTCProd from "../../../assets/OtcProduct.png";
 import notification from "../../../assets/Notification.png";
 import { useSelector } from "react-redux";
+import warning from '../../../assets/Icons/warning2.png'
 
-const LayoutNav = ({  }) => {
+const LayoutNav = ({ Form_Data, }) => {
   const [isContainerFocused, setIsContainerFocused] = useState(false);
   const [isButtonFocused, setIsButtonFocused] = useState(false);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -286,13 +287,30 @@ const LayoutNav = ({  }) => {
   //   { image: sell, text: "SELL" },
   // ];
 
+  const user = useSelector((state) => state.user.user);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleItemclick = (item) => {
+    if (user?.accountTypeId == 1 && item.text === "SELL") {
+      setErrorMessage(
+        // "You have login as buyer contact us help@pharmetrade.com"
+        <>
+        You have login as buyer contact us {" "}
+      
+        <a href="  " className="text-blue-900 underline ">help@pharmetrade.com</a></>
+      );
+    } else {
+      navigate(item.path);
+    }
+  };
+
   const navItems = [
-    { image: buy, text: "BUY", path: "/layout/layoutbuy" },
+    { image: buy, text: "BUY", path: "/layout/layoutbuy"  },
     { image: sell, text: "SELL", path: "/layout/addproduct" },
   ];
 
   const iconItems = [
-    { icon: OTCProd, text: "OTC Products" },
+    { icon: OTCProd, text: "OTC Products", path: "/layout/layoutOtcProducts" },
     { icon: buyagain, text: "Buy Again" },
     { icon: deals, text: "Deals" },
 
@@ -302,25 +320,19 @@ const LayoutNav = ({  }) => {
   return (
     <div className="my-3 pb-2 cursor-pointer border-b-2 border-gray-300 shadow-lg">
       <div className="flex justify-around items-center">
-        {/* Navigation items with images */}
-        {/* <div className="flex">
-          {navItems.map((item, index) => (
-            <div key={index} className="flex items-center  ml-2">
-
-              <img src={item.image} className="w-8 h-8 mr-[2px]" alt={item.text} />
-              <span className="text-sm font-semibold my-1  ">
-                {item.text}
-              </span>
-            </div>
-          ))}
-        </div> */}
 
         <div className="flex">
           {navItems.map((item, index) => (
             <div
               key={index}
-              className="flex items-center ml-2 cursor-pointer"
-              onClick={() => navigate(item.path)}
+              className={`flex items-center ml-2 cursor-pointer
+              ${ item.text === "SELL" &&
+                Form_Data?.userType === "Retail Customer"
+                  ? "hidden"
+                  : ""
+              }`}
+              // onClick={() => navigate(item.path)}
+              onClick={() => handleItemclick(item)}
             >
               <img
                 src={item.image}
@@ -331,6 +343,29 @@ const LayoutNav = ({  }) => {
             </div>
           ))}
         </div>
+
+        {errorMessage && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+              <div className="bg-gray-100 p-4 rounded-md shadow-md text-center">
+                <div className="flex justify-start items-center border-b border-black">
+                  <img src={warning} className=" w-12 h-12" />
+                  <p className="text-red-600 text-xl font-semibold mt-2">
+                    Warning !
+                  </p>
+                </div>
+                <div className="mt-4">
+                  <p className="text-black mb-4">{errorMessage}</p>
+                  <button
+                    onClick={() => setErrorMessage("")}
+                    className="bg-red-500 text-white px-4 py-2 rounded mb-2"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
 
         {/* Search and dropdown */}
         <div className="flex rounded-lg w-[40%]">
@@ -455,7 +490,7 @@ const LayoutNav = ({  }) => {
         {/* Icons with text */}
         <div className="flex items-center">
           {iconItems.map((item, index) => (
-            <div key={index} className="flex items-center ">
+            <div key={index} className="flex items-center "  onClick={() => navigate(item.path)}>
               <img src={item.icon} className="w-8 h-8 mr-[2px]" />
               <span className="text-base font-semibold mr-4">{item.text}</span>
             </div>

@@ -6,7 +6,7 @@ import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
 import emptyHeart from "../../../assets/Wishlist1_icon.png";
 import filledHeart from "../../../assets/wishlist2_icon.png";
 import other from "../../../assets/CompareNav2.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import nature from "../../../assets/img1.png";
 import previous from "../../../assets/Previous_icon.png";
 import next from "../../../assets/Next_icon.png";
@@ -23,9 +23,11 @@ const LayoutOtcProducts = () => {
   const [rating, setRating] = useState(0);
   const totalStars = 5;
   const { pop, setPop } = useNavbarContext();
+  const navigate = useNavigate();
 
   const OTCProducts = useSelector((state) => state.product.otcProducts);
   const user = useSelector((state) => state.user.user);
+  const cart = useSelector((state) => state.cart.cart);
   const wishlist = useSelector((state) => state.wishlist.wishlist);
   const [wishlistProductIDs, setwishlistProductIDs] = useState(
     wishlist.map((wishItem) => wishItem.product.productID)
@@ -101,10 +103,12 @@ const LayoutOtcProducts = () => {
   const handlePreviousPage = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
-
+  const handleProductDetails = (productID, product) => {
+    navigate(`/detailspage/${productID}`);
+  };
   return (
-    <div>
-      <div className="w-[95%]">
+    <>
+      <div className="w-[95%]  overflow-y-scroll">
         <div className="flex flex-col justify-between">
           {OTCProducts.length > 0 ? (
             OTCProducts.map((product, index) => (
@@ -253,7 +257,7 @@ const LayoutOtcProducts = () => {
           )}
         </div>
       </div>
-      <div className="flex justify-end my-2">
+      {/* <div className="flex justify-end my-2">
         <button
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
@@ -271,8 +275,8 @@ const LayoutOtcProducts = () => {
         >
           <img src={next} className="w-2" />
         </button>
-      </div>
-    </div>
+      </div> */}
+    </>
   );
 };
 

@@ -9,6 +9,7 @@ import filter from "../../../../assets/Filter_icon.png";
 import edit from "../../../../assets/Edit.png"
 import Bin from "../../../../assets/Bin.png"
 import Deactivate from "../../../../assets/Deactivate.png"
+import Loading from "../../../Loading";
 
 const LayoutPostingProducts = () => {
   const navigate = useNavigate();
@@ -122,8 +123,8 @@ const LayoutPostingProducts = () => {
             </select>
           </div>
 
-          <div className="border rounded-md bg-white text-[15px] mt-4">
-            {loading && <div>Loading...</div>}
+          <div className="  text-[15px] mt-4">
+            {loading && <div><Loading/></div>}
             {error && <div>Error: {error.message}</div>}
             {!loading && !error && (
               <table className="w-full">
