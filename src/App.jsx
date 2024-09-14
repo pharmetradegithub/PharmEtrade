@@ -114,6 +114,7 @@ import OtcProducts from "./Components/HomeProducts/Components/OtcProducts";
 import RxProducts from "./Components/HomeProducts/Components/RxProducts";
 import Address from "./Components/CheckoutPage/Address";
 import LayoutOtcProducts from "./Components/LayoutPage/LayoutNavComponents/LayoutOtcProducts";
+import Gethelphere from "./Components/Gethelphere";
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
 function App() {
@@ -269,6 +270,8 @@ function App() {
         </Route>
 
         <Route path="/checkout" element={<Address />} />
+
+        <Route path="/gethelphere" element={<Gethelphere />} />
 
 
         <Route path="/allProducts" element={<ProductsPanel topDivRef={topDivRef} cartItems={cartItems}  topMargin={topMargin}  />}>
