@@ -1730,7 +1730,7 @@ const Signup = () => {
                   activeStep == 4 ? "hidden" : ""
                 } text-[25px]  text-center font-bold     flex justify-center items-center  `}
               >
-                SignUp
+                Sign Up
               </span>
               <div className={`flex my-4 ${activeStep == 4 ? "hidden" : ""}  `}>
                 {steps.map(({ label, para }, index) => (

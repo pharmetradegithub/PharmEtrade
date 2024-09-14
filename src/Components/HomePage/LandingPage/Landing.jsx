@@ -12,7 +12,7 @@ import "./Landing.css";
 import { useSelector } from "react-redux";
 
 function Landing({ topMargin, wishList, addCart }) {
-  const BannerData = useSelector((state)=>state.banner.banner);
+  const BannerData = useSelector((state) => state.banner.banner);
   console.log(BannerData);
   const settings = {
     dots: true,
@@ -21,8 +21,8 @@ function Landing({ topMargin, wishList, addCart }) {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
-    autoplay: true,       // Auto play slides
-    autoplaySpeed: 3000,  // Slide change interval (3 seconds)
+    autoplay: true, // Auto play slides
+    autoplaySpeed: 3000, // Slide change interval (3 seconds)
   };
 
   return (
@@ -35,21 +35,21 @@ function Landing({ topMargin, wishList, addCart }) {
           }}
         >
           <div className="w-full relative h-[350px] overflow-hidden">
-          {BannerData.length > 0 ? (
-        <Slider {...settings}>
-          {BannerData.map((item, index) => (
-            <div key={index}>
-              <img
-                src={item.imageUrl}
-                alt={`Carousel Image ${index + 1}`}
-                className="w-full h-[350px] object-cover"
-              />
-            </div>
-          ))}
-        </Slider>
-      ) : (
-        <p className="text-center text-gray-500">No banners available</p>
-      )}
+            {BannerData.length > 0 ? (
+              <Slider {...settings}>
+                {BannerData.map((item, index) => (
+                  <div key={index}>
+                    <img
+                      src={item.imageUrl}
+                      alt={`Carousel Image ${index + 1}`}
+                      className="w-full h-[350px] Largest:h-[350px] Largest:object-fill "
+                    />
+                  </div>
+                ))}
+              </Slider>
+            ) : (
+              <p className="text-center text-gray-500">No banners available</p>
+            )}
           </div>
         </div>
         <div className="w-full bg-slate-200 px-6">
