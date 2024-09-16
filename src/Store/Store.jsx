@@ -438,7 +438,9 @@ const initialProductsState = {
   recentSoldProducts: [],
   productsBySeller: {},
   productById: {},
-  productSpecialOffer: []
+  productRelatedProduct: [],
+  productSpecialOffer: [],
+  getProductSpecialOffer : []
 };
 
 const productsSlice = createSlice({
@@ -479,6 +481,14 @@ const productsSlice = createSlice({
       console.log('Special offer in reducer:', action.payload);
       state.productSpecialOffer = action.payload; 
     },
+    setGetProductSpecialOffer(state, action) {
+      console.log('Get special offer in reducer:', action.payload);
+      state.getProductSpecialOffer = action.payload
+    },
+    getRelatedProduct(state, action){
+      console.log('related in reducer:', action.payload);
+      state.productRelatedProduct = action.payload
+    },
   },
 });
 
@@ -503,6 +513,9 @@ const bannerSlice = createSlice({
   },
 });
 export const { setSpecialOffer } = productsSlice.actions;
+export const { getRelatedProduct } = productsSlice.actions;
+export const { setGetProductSpecialOffer } = productsSlice.actions
+
 const store = configureStore({
   reducer: {
     home: homeSlice.reducer,

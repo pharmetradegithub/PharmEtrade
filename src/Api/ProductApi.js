@@ -331,7 +331,8 @@
 
 
 import axios from 'axios';
-import store, { setSpecialOffer } from '../Store/Store';
+import store, { getRelatedProduct, setSpecialOffer, setGetProductSpecialOffer } from '../Store/Store';
+// import store, { setGetProductSpecialOffer } from '../Store/Store';
 
 axios.defaults.baseURL = 'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/';
 
@@ -400,6 +401,44 @@ export const fetchAllProductsApi = async () => {
     } catch (error) {
       console.error('Error fetching product by ID:', error);
     }
+};
+
+
+export const fetchRelatedProductApi = async (productID) => {
+  return async (dispatch) => {
+  try {
+    const response = await axios.get(`/api/Product/GetRelatedProducts?productId=${productID}`);
+    if (response.status === 200) {
+      const relatedProduct = response.data.result;
+      console.log('Dispatching action:', relatedProduct); // Log before dispatch
+      dispatch(getRelatedProduct(relatedProduct)); // Dispatch action
+    } else {
+      console.error('Failed to fetch product by ID:', response.data.message);
+    }
+  } catch (error) {
+    console.error('Error fetching product by ID:', error);
+  }
+}
+};
+
+
+export const fetchGetProductOffer = (categorySpecificationId) => {
+  console.log("ApiOffer-->", categorySpecificationId)
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/api/Product/GetProductOffers?specificationId=${categorySpecificationId}`);
+      console.log('API response:', response.data); // Log API response
+      if (response.status === 200) {
+        const specialOffer = response.data.result;
+        console.log('Dispatching setSpecialOffer action:', specialOffer); // Log before dispatch
+        dispatch(setGetProductSpecialOffer(specialOffer)); // Dispatch action
+      } else {
+        console.error('Failed to fetch Special Offer:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching special offer:', error);
+    }
+  };
 };
   
 export const fetchProductOffer = () => {
