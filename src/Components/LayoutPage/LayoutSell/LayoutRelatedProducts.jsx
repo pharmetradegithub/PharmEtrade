@@ -5,8 +5,8 @@ import upSell from "../../../assets/upSell.png";
 import crossSell from "../../../assets/crossSell.png";
 import filter from "../../../assets/Icons/filter_icon.png";
 import { fetchCriteriaProductsApi } from "../../../Api/ProductApi";
-
-
+import { useDispatch, useSelector } from "react-redux";
+import {fetchRelatedProductApi } from "../../../Api/ProductApi";
 
 const LayoutRelatedProducts = () => {
   const [buttonClick, setButtonClick] = useState(false);
@@ -15,9 +15,13 @@ const LayoutRelatedProducts = () => {
   const [ButtonUpClick, setButtonUpClick] = useState(false);
   const [isButtonClicked, setButtonClicked] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [product, setproduct] = useState(null);
+  const productDetails = useSelector((state) => state.product.Products);
 
+  console.log("relted-->", productDetails);
 
-
+  const relatedProducts = useSelector((state) => state.product)
+  console.log("relaated-->",relatedProducts)
 
   const handleRelateclick = () => {
     setIsvisible(true);
@@ -36,93 +40,29 @@ const LayoutRelatedProducts = () => {
     setButtonClicked(true);
   };
 
-  const handleCriteria =async () => {
+  const handleCriteria = async () => {
     let Criteria = {
-    //   deals: null,
-    //   brands: null,
-    //   generics: null,
-    //   discount: 0,
-    //   expiring: 0,
-    //   wholeSeller: null,
-    //   pharmacyItems: null,
-    //   prescriptionDrugs: null,
-    //   otcProducts: null,
-    //   vawdSeller: null,
-    //   topSellingProducts: null,
-    //   buyAgain: null,
-    deals: "string",
-    brands: "string",
-    generics: "string",
-    discount: 0,
-    expiring: 0,
-    wholeSeller: "string",
-    pharmacyItems: true,
-    prescriptionDrugs: true,
-    otcProducts: true,
-    vawdSeller: "string",
-    topSellingProducts: true,
-    buyAgain: true,
-    productCategoryId: 0,
-    categorySpecificationId: 0,
-    expiryDate: "2024-09-14T11:09:45.838Z",
-    ndcupc: "string",
-    salePriceValidFrom: "2024-09-14T11:09:45.838Z",
-    salePriceValidTo: "2024-09-14T11:09:45.838Z",
-    productName: "string"
+      deals: "",
+      brands: "",
+      generics: "",
+      discount: 0,
+      expiring: 0,
+      wholeSeller: "",
+      pharmacyItems: false,
+      prescriptionDrugs: false,
+      otcProducts: false,
+      vawdSeller: "",
+      topSellingProducts: false,
+      buyAgain: false,
+      productCategoryId: formData.productCategory,
+      categorySpecificationId: formData.categorySpecification,
+      ndcupc: formData.ndcUpc,
+      productName: formData.productName,
     };
-   
-    await fetchCriteriaProductsApi(Criteria, "Apply Filter");
 
+    await fetchCriteriaProductsApi(Criteria, "Apply Filter");
   };
 
-
-
-
-// const handleCriteria = async () => {
-//     let Criteria = {
-//       deals: null,
-//       brands: formData.brandName || null,
-//       generics: null,
-//       discount: 0,
-//       expiring: 0,
-//       wholeSeller: null,
-//       pharmacyItems: true,
-//       prescriptionDrugs: true,
-//       otcProducts: true,
-//       vawdSeller: null,
-//       topSellingProducts: true,
-//       buyAgain: true,
-//       productCategoryId: formData.productCategory || 0,
-//       categorySpecificationId: formData.categorySpecification || 0,
-//       expiryDate: formData.expirationDate || new Date().toISOString(),
-//       ndcupc: formData.ndcUpc || '',
-//       salePriceValidFrom: formData.salePriceForm || new Date().toISOString(),
-//       salePriceValidTo: formData.salePriceTo || new Date().toISOString(),
-//       productName: formData.productName || ''
-//     };
-  
-//     try {
-//       // Fetch data from the API
-//       const response = await fetchCriteriaProductsApi(Criteria);
-      
-//       // Log the full response for debugging purposes
-//       console.log("API response:", response);
-  
-//       // Check if response is valid and has a statusCode
-//       if (response && response.statusCode === 200) {
-//         console.log("Successfully Fetched Data:", response.result);
-//         // Set the data in state if needed
-//         setFetchedData(response.result);
-//       } else {
-//         // Handle case where the response is not as expected
-//         console.error("Unexpected API response:", response?.message || "No message available");
-//       }
-//     } catch (error) {
-//       // Catch any errors that occur during the API call
-//       console.error("API call failed:", error);
-//     }
-  
-//   };
 
   const [formData, setFormData] = useState({
     categorySpecification: "",
@@ -195,6 +135,17 @@ const LayoutRelatedProducts = () => {
       price: "$75.99",
     },
   ];
+
+
+  const dispatch = useDispatch(); // Hook for dispatch
+
+ 
+const handlerelatedProduct = (productID) => {
+    console.log("productIdddddd-->", productID)
+    
+      fetchRelatedProductApi(productID); // Dispatch the thunk
+   
+  };
 
   return (
     <div className="font-sans font-medium">
@@ -336,19 +287,19 @@ const LayoutRelatedProducts = () => {
             </button>
           </div> */}
           <div className="my-4 flex">
-  <button
-    onClick={handleCriteria}
-    className="bg-blue-900 text-white p-2 mx-2 border rounded-md"
-  >
-    APPLY FILTER
-  </button>
-  <button
-    // onClick={() => setFormData(initialFormState)} 
-    className="bg-blue-900 p-2 mx-1 text-white border rounded-md"
-  >
-    RESET
-  </button>
-</div>
+            <button
+              onClick={handleCriteria}
+              className="bg-blue-900 text-white p-2 mx-2 border rounded-md"
+            >
+              APPLY FILTER
+            </button>
+            <button
+              // onClick={() => setFormData(initialFormState)}
+              className="bg-blue-900 p-2 mx-1 text-white border rounded-md"
+            >
+              RESET
+            </button>
+          </div>
         </div>
       </div>
 
@@ -373,25 +324,26 @@ const LayoutRelatedProducts = () => {
               </tr>
             </thead>
             <tbody>
-              {products.map((product, index) => (
+              {productDetails.map((product, index) => (
                 <tr key={index} className="border-b">
                   {/* <td className=" p-2">
                           <input className=" h-6 w-4" type="checkbox" />
                         </td> */}
                   <td className="text-sm p-2"> {product.id}</td>
-                  <td className="text-sm p-2">{product.thumbnail}</td>
-                  <td className="text-sm p-2">{product.name}</td>
-                  <td className="text-sm p-2">{product.attribute}</td>
+                  <td className="text-sm p-2">
+                    <img src={product.productGallery.imageUrl} className="w-12 h-12"/></td>
+                  <td className="text-sm p-2">{product.productName}</td>
+                  <td className="text-sm p-2">{product.categorySpecification.specificationName}</td>
                   <td className="text-sm p-2">{product.status}</td>
-                  <td className="text-sm p-2">{product.type}</td>
-                  <td className="text-sm p-2">{product.price}</td>
+                  <td className="text-sm p-2">{product.productCategory.categoryName}</td>
+                  <td className="text-sm p-2">{product.salePrice}</td>
                   <td className="px-4 py-2 cursor-pointer flex items-center space-x-2">
                     <Tooltip title="Related Products" placement="top">
                       <img
                         src={related}
                         alt="related"
                         className="cursor-pointer w-6 h-6"
-                        onClick={() => handlerelatedProduct(product)}
+                        onClick={() => handlerelatedProduct(product?.productID)}
                       />
                     </Tooltip>
                     <Tooltip title="Up-Sell Products" placement="top">
