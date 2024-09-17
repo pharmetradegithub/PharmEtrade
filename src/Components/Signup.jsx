@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../App.css";
 import logoImage from "../assets/logo2.png";
-import logo from "../assets/Icons/logo2.png";
+import logo from "../assets/logo2.png";
+// import logo from "../assets/Icons/logo2.png";
 import back from "../assets/Previous1_icon.png";
 import next from "../assets/Next1_icon.png";
 import background_image from "../assets/homepharma.png";

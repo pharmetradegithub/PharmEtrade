@@ -256,7 +256,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import background_image from "../assets/homepharma.png";
-import logo from "../assets/Icons/logo2.png";
+import logo from "../assets/logo2.png";
 import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
 import refresh from "../assets/reload-arrow (1).png";
