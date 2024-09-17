@@ -1,6 +1,3 @@
-
-
-
 import React, { useContext, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
@@ -136,7 +133,7 @@ function Wishlist({ topMargin, addCart }) {
 
   console.log("wishListonly-->", wishItems)
   return (
-    <div className="bg-gray-200 p-8" style={{ marginTop: `${topMargin}px `}}>
+    <div className="bg-gray-200 p-8 " style={{ marginTop: `${topMargin}px `}}>
       <h1 className="text-2xl mb-2 text-blue-900 font-semibold">PharmEtrade {">"} Wishlist</h1>
       <div className="w-full h-full bg-white rounded-lg shadow-lg p-4">
         <div className="flex justify-between">
@@ -160,7 +157,7 @@ function Wishlist({ topMargin, addCart }) {
           <div className="flex flex-col gap-6">
             {wishItems.map((item, index) => (
               <div key={index} className="border rounded-lg flex justify-evenly h-56 p-4 max-w-6xl bg-white shadow-md">
-                <img className="h-48 w-40 rounded-lg" src={item.product.
+                <img className="h-48 w-40 rounded-lg cursor-pointer" src={item.product.
                   imageUrl} alt={item.product.productName} />
                 <div className="flex flex-col font-medium">
                   <Link to={`/detailspage/${item.product.productID}`} className="hover:text-red-600">
@@ -181,7 +178,7 @@ function Wishlist({ topMargin, addCart }) {
                    <img src={cart} className="w-5 h-5 mx-1"/>
                     ADD
                   </button>
-                  <div className="flex items-center justify-between my-4">
+                  <div className="flex items-center cursor-pointer justify-between my-4">
                      <Tooltip title = "Share" placement="top">
 
                     <img src={share} className="w-6 mx-3 " onClick={handleSharePopupToggle}/>
@@ -218,7 +215,7 @@ function Wishlist({ topMargin, addCart }) {
                     <img src={deleteicon}  onClick={() => handleremove(item.wishListId)} className=" w-5 " />
                     {/* <MdDeleteOutline className="border rounded-md text-2xl hover:bg-sky-200" /> */}
                   </div>
-                  <p onClick={handlePopupToggle} className="hover:text-red-400 hover:underline font-semibold text-blue-900">Add comment, quantity & priority</p>
+                  <p onClick={handlePopupToggle} className="hover:text-red-400 cursor-pointer hover:underline font-semibold text-blue-900">Add comment, quantity & priority</p>
                   {showPopup && (
                     <div className="flex flex-col justify-center items-center h-full absolute inset-0 bg-transparent z-auto">
                       <div className="border w-[30%] rounded-lg bg-gray-100">

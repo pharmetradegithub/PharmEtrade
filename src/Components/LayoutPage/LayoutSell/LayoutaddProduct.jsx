@@ -665,7 +665,7 @@ function LayoutaddProduct() {
             brandName: "",
             size: "",
             form: "",
-            Weight:"",
+            Width:"",
             Height:"",
             Weight:"",
             Length:"",

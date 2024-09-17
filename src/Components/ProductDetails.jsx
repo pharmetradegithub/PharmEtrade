@@ -180,7 +180,7 @@ import Items from "./Items";
 // import { useNavbarContext } from "./NavbarContext";
 import { useNavigate } from "react-router-dom";
 
-const ProductDetails = () => {
+const ProductDetails = ({productdescription}) => {
   // const { pop, setPop } = useNavbarContext();
   const navigate = useNavigate();
   const images = Array(4).fill(nature);
@@ -209,7 +209,8 @@ const ProductDetails = () => {
         <div>
           <h4 className="text-xl font-semibold text-blue-900 mt-2">Description</h4>
           <div className="h-full w-[95%]  font-medium space-y-2">
-            <p className="font-normal text-[16px] font-sans">
+          {productdescription}
+            {/* <p className="font-normal text-[16px] font-sans">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet.
             </p>
             <p className="font-normal text-[16px] font-sans">
@@ -227,7 +228,7 @@ const ProductDetails = () => {
             <p className="font-normal text-[16px] font-sans">
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio
               molestiae fugiat optio recusandae praesentium consectetur earum !
-            </p>
+            </p> */}
           </div>
 
           <div>

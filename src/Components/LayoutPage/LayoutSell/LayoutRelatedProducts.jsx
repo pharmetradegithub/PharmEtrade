@@ -1,45 +1,94 @@
+
+
 import { Tooltip } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import related from "../../../assets/Related.png";
 import upSell from "../../../assets/upSell.png";
 import crossSell from "../../../assets/crossSell.png";
 import filter from "../../../assets/Icons/filter_icon.png";
-import { fetchCriteriaProductsApi } from "../../../Api/ProductApi";
+import { AddCrossSellProductAPI, AddRelatedProductAPI, AddUpSellProductAPI, fetchCriteriaProductsApi, fetchCrossSellProductApi, fetchUpsellProductApi } from "../../../Api/ProductApi";
 import { useDispatch, useSelector } from "react-redux";
 import {fetchRelatedProductApi } from "../../../Api/ProductApi";
+import Bin from "../../../assets/Bin.png"
 
 const LayoutRelatedProducts = () => {
   const [buttonClick, setButtonClick] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const [isvisible, setIsvisible] = useState(false);
   const [ButtonUpClick, setButtonUpClick] = useState(false);
   const [isButtonClicked, setButtonClicked] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const [isUpsellFilterVisible, setIsUpsellFilterVisible] = useState(false);
+  const [isRelatedFiltervisible, setIsRelatedFiltervisible] = useState(false);
+  const [isCrossSellFiltervisible, setCrossSellFilterVisible] = useState(false);
   const [product, setproduct] = useState(null);
   const productDetails = useSelector((state) => state.product.Products);
+  const productsByCriteria = useSelector((state)=>state.product.productsByCriteria);
+  const relatedProducts = useSelector((state)=>state.product.RelatedProducts);
+  const UpSellProducts = useSelector((state)=>state.product.UpSellProducts);
+  const CrossSellProducts = useSelector((state)=>state.product.CrossSellProducts);
 
-  console.log("relted-->", productDetails);
+  console.log(productsByCriteria,"gnn");
+  const [loading,setloading] = useState(true);
 
-  const relatedProducts = useSelector((state) => state.product)
-  console.log("relaated-->",relatedProducts)
-
-  const handleRelateclick = () => {
-    setIsvisible(true);
-    setButtonClick(true);
+  console.log(relatedProducts,UpSellProducts,CrossSellProducts,"related one");
+  // const relatedProducts = useSelector((state) => state.product)
+  useEffect(() => {
+    const fetchAll =async ()=>{
+      const productId = localStorage.getItem("productId");
+        fetchRelatedProductApi(productId);
+        fetchCrossSellProductApi(productId);
+        fetchUpsellProductApi(productId);
+    }
+    fetchAll()
+  }, [])
+  
+  const handleRelatedFilter = () => {
+  setIsRelatedFiltervisible(true);
+  setButtonClick(true);
   };
-  const click = () => {
-    setIsVisible(true);
+  const handleCancelRelated = () => {
+    setIsRelatedFiltervisible(false);
+    setButtonClick(false);
+    };
+  const handleUpsellFilter = () => {
+    setIsUpsellFilterVisible(true);
     setButtonUpClick(true);
   };
-  const Click = () => {
-    setIsVisible(false);
-    setButtonUpClick(false);
+  const handleCancelUpsell = () => {
+   setIsUpsellFilterVisible(false);
+   setButtonUpClick(false);
   };
-  const handleCrossClick = () => {
-    setVisible(true);
+  const handleCrossSellFilter = () => {
+    setCrossSellFilterVisible(true);
     setButtonClicked(true);
   };
 
+  const handleCrossSellCancel =()=>{
+    setCrossSellFilterVisible(false);
+    setButtonClicked(false);
+}
+const handleAddSelected = async(index,toproductID)=>{
+  const productId = localStorage.getItem("productId");
+  console.log(productId,toproductID,index);
+  try {
+    if(index==1)
+    {
+      await AddRelatedProductAPI(productId,toproductID);
+      await fetchRelatedProductApi(productId);
+    }
+    else if(index==2)
+    {
+      await AddUpSellProductAPI(productId,toproductID);
+      await fetchUpsellProductApi(productId);
+    }
+    else
+    {
+      await AddCrossSellProductAPI(productId,toproductID);
+      await fetchCrossSellProductApi(productId);
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+}
   const handleCriteria = async () => {
     let Criteria = {
       deals: "",
@@ -59,8 +108,9 @@ const LayoutRelatedProducts = () => {
       ndcupc: formData.ndcUpc,
       productName: formData.productName,
     };
-
+    setloading(true);
     await fetchCriteriaProductsApi(Criteria, "Apply Filter");
+    setloading(false);
   };
 
 
@@ -76,6 +126,7 @@ const LayoutRelatedProducts = () => {
     productName: "",
   });
 
+
   // Handle input change for all form fields
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -86,7 +137,7 @@ const LayoutRelatedProducts = () => {
   };
 
   // Placeholder for reset functionality
-  const handleRelateClick = () => {
+  const handleRelatedClick = () => {
     setFormData({
       categorySpecification: "",
       productCategory: "",
@@ -146,6 +197,8 @@ const handlerelatedProduct = (productID) => {
       fetchRelatedProductApi(productID); // Dispatch the thunk
    
   };
+
+  
 
   return (
     <div className="font-sans font-medium">
@@ -303,7 +356,7 @@ const handlerelatedProduct = (productID) => {
         </div>
       </div>
 
-      <div>
+      <div className={`${loading==true?"hidden":"false"}`}>
         <div className="my-6 border w-full Largest:w-[60%] rounded-md bg-white ">
           <table className="w-full">
             <thead className="bg-blue-900 text-white">
@@ -324,7 +377,7 @@ const handlerelatedProduct = (productID) => {
               </tr>
             </thead>
             <tbody>
-              {productDetails.map((product, index) => (
+              {productsByCriteria.map((product, index) => (
                 <tr key={index} className="border-b">
                   {/* <td className=" p-2">
                           <input className=" h-6 w-4" type="checkbox" />
@@ -343,7 +396,7 @@ const handlerelatedProduct = (productID) => {
                         src={related}
                         alt="related"
                         className="cursor-pointer w-6 h-6"
-                        onClick={() => handlerelatedProduct(product?.productID)}
+                        onClick={() => handleAddSelected(1,product.productID)}
                       />
                     </Tooltip>
                     <Tooltip title="Up-Sell Products" placement="top">
@@ -351,6 +404,8 @@ const handlerelatedProduct = (productID) => {
                         src={upSell}
                         alt="upSell"
                         className="cursor-pointer w-6 h-5"
+                        onClick={() => handleAddSelected(2,product.productID)}
+
                       />
                     </Tooltip>
                     <Tooltip title="Cross-Sell Products" placement="top">
@@ -358,6 +413,8 @@ const handlerelatedProduct = (productID) => {
                         src={crossSell}
                         alt="crossSell"
                         className="cursor-pointer w-7 h-7"
+                        onClick={() => handleAddSelected(3,product.productID)}
+
                       />
                     </Tooltip>
                   </td>
@@ -377,13 +434,13 @@ const handlerelatedProduct = (productID) => {
           className={`  text-base font-medium p-2 rounded-md  h-8 flex items-center  ${
             buttonClick ? "bg-white text-blue-900" : "bg-blue-900 text-white"
           }`}
-          onClick={handleRelateclick}
+          onClick={handleRelatedFilter}
         >
           <img src={filter} className="w-6 h-3 px-1" />
           Filter
         </button>
       </div>
-      {isvisible && (
+      {isRelatedFiltervisible && (
         <div className=" bg-white p-2 px-4   w-full Largest:w-[60%] ">
           <div className="flex justify-between">
             <div className="flex flex-col w-36">
@@ -450,7 +507,7 @@ const handlerelatedProduct = (productID) => {
 
             <div className="my-4 flex">
               <button
-                onClick={handleRelateClick}
+                onClick={handleCancelRelated}
                 className="bg-blue-900 p-2 mx-1 text-white border rounded-md"
               >
                 {" "}
@@ -478,27 +535,38 @@ const handlerelatedProduct = (productID) => {
                 <th className=" p-2  text-left text-sm w-32">ID</th>
                 <th className=" p-2  text-left text-sm w-40">Thumbnail</th>
                 <th className=" p-2  text-left text-sm  w-80">Name</th>
-                <th className=" p-2  text-left text-sm w-48">Attribute Set</th>
+                <th className=" p-2  text-left text-sm w-48">Category</th>
                 <th className=" p-2  text-left text-sm w-32">Status</th>
                 <th className=" p-2  text-left text-sm bw-44">Type</th>
-                <th className=" p-2  text-left text-sm  w-44">SKU</th>
                 <th className=" p-2  text-left text-sm  w-44">Price</th>
+                <th className=" p-2  text-left text-sm  w-44">Action</th>
               </tr>
             </thead>
             <tbody>
-              {products.map((product, index) => (
+              {relatedProducts.map((product, index) => (
                 <tr key={index} className="border-b">
                   <td className=" p-2">
                     <input className=" h-6 w-4" type="checkbox" />
                   </td>
-                  <td className="text-sm p-2"> {product.id}</td>
-                  <td className="text-sm p-2">{product.thumbnail}</td>
-                  <td className="text-sm p-2">{product.name}</td>
-                  <td className="text-sm p-2">{product.attribute}</td>
+                  <td className="text-sm p-2"> {product.productID}</td>
+                  <td className="text-sm p-2">
+                    <img src={product.productGallery.imageUrl} className="w-7 h-7"/></td>
+                  <td className="text-sm p-2">{product.productName}</td>
+                  <td className="text-sm p-2">{product.categorySpecification.specificationName}</td>
                   <td className="text-sm p-2">{product.status}</td>
-                  <td className="text-sm p-2">{product.type}</td>
-                  <td className="text-sm p-2">{product.sku}</td>
-                  <td className="text-sm p-2">{product.price}</td>
+                  <td className="text-sm p-2">{product.productCategory.categoryName}</td>
+                  <td className="text-sm p-2">{product.salePrice}</td>
+                  <td className="px-4 py-2 cursor-pointer">
+                  <Tooltip title="Delete" placement="top">
+                      <img
+                        src={Bin}
+                        alt="Delete"
+                        className="cursor-pointer w-7 h-7"
+                        onClick={() => handleRelatedDelete()}
+
+                      />
+                    </Tooltip>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -519,14 +587,14 @@ const handlerelatedProduct = (productID) => {
                 ? "bg-white text-blue-900"
                 : "bg-blue-900 text-white"
             }`}
-            onClick={click}
+            onClick={handleUpsellFilter}
           >
             {" "}
             <img src={filter} className="w-6 h-3 px-1" />
             Filter
           </button>
         </div>
-        {isVisible && (
+        {isUpsellFilterVisible && (
           <div className=" bg-white p-2 px-5   w-full Largest:w-[60%]">
             <div className="flex justify-between">
               <div className="flex flex-col w-36">
@@ -593,7 +661,7 @@ const handlerelatedProduct = (productID) => {
 
               <div className="my-4 flex justify-end">
                 <button
-                  onClick={Click}
+                  onClick={handleCancelUpsell}
                   className="bg-blue-900 p-2 mx-2 text-white border rounded-md"
                 >
                   {" "}
@@ -618,27 +686,37 @@ const handlerelatedProduct = (productID) => {
                 <th className=" p-2  text-left text-sm w-32">ID</th>
                 <th className=" p-2  text-left text-sm w-40">Thumbnail</th>
                 <th className=" p-2  text-left text-sm  w-80">Name</th>
-                <th className=" p-2  text-left text-sm w-48">Attribute Set</th>
+                <th className=" p-2  text-left text-sm w-48">Category</th>
                 <th className=" p-2  text-left text-sm w-32">Status</th>
                 <th className=" p-2 text-left text-sm bw-44">Type</th>
-                <th className=" p-2  text-left text-sm  w-44">SKU</th>
                 <th className=" p-2  text-left text-sm  w-44">Price</th>
+                <th className=" p-2  text-left text-sm  w-44">Action</th>
               </tr>
             </thead>
             <tbody>
-              {products.map((product, index) => (
+              {UpSellProducts.map((product, index) => (
                 <tr key={index} className="border-b">
                   <td className=" p-2">
                     <input className=" h-6 w-4" type="checkbox" />
                   </td>
-                  <td className="text-sm p-2"> {product.id}</td>
-                  <td className="text-sm p-2">{product.thumbnail}</td>
-                  <td className="text-sm p-2">{product.name}</td>
-                  <td className="text-sm p-2">{product.attribute}</td>
+                  <td className="text-sm p-2"> {product.productID}</td>
+                  <td className="text-sm p-2">
+                    <img src={product.productGallery.imageUrl} className="w-7 h-7"/></td>
+                  <td className="text-sm p-2">{product.productName}</td>
+                  <td className="text-sm p-2">{product.categorySpecification.specificationName}</td>
                   <td className="text-sm p-2">{product.status}</td>
-                  <td className="text-sm p-2">{product.type}</td>
-                  <td className="text-sm p-2">{product.sku}</td>
-                  <td className="text-sm p-2">{product.price}</td>
+                  <td className="text-sm p-2">{product.productCategory.categoryName}</td>
+                  <td className="text-sm p-2">{product.salePrice}</td>
+                  <td className="px-4 py-2 cursor-pointer">
+                  <Tooltip title="Delete" placement="top">
+                      <img
+                        src={Bin}
+                        alt="Delete"
+                        className="cursor-pointer w-7 h-7"
+                        onClick={() => handleRelatedDelete()}
+
+                      />
+                    </Tooltip></td>
                 </tr>
               ))}
             </tbody>
@@ -658,13 +736,13 @@ const handlerelatedProduct = (productID) => {
               ? "bg-white text-blue-900"
               : "bg-blue-900 text-white"
           }`}
-          onClick={handleCrossClick}
+          onClick={handleCrossSellFilter}
         >
           <img src={filter} className="w-6 h-3 px-1" />
           Filter
         </button>
       </div>
-      {visible && (
+      {isCrossSellFiltervisible && (
         <div className=" bg-white p-2 px-5  w-full Largest:w-[60%] ">
           <div className="flex justify-between">
             <div className="flex flex-col w-36">
@@ -730,7 +808,7 @@ const handlerelatedProduct = (productID) => {
             </div>
             <div className="my-4 flex justify-end">
               <button
-                onClick={handleCrossRemoveClick}
+                onClick={handleCrossSellCancel}
                 className="bg-blue-900 p-2 mx-2 text-white border rounded-md"
               >
                 {" "}
@@ -755,27 +833,36 @@ const handlerelatedProduct = (productID) => {
               <th className=" p-2  text-left text-sm w-32">ID</th>
               <th className="p-2  text-left text-sm  w-40">Thumbnail</th>
               <th className=" p-2  text-left text-sm w-80">Name</th>
-              <th className=" p-2  text-left text-sm w-48 ">Attribute Set</th>
+              <th className=" p-2  text-left text-sm w-48 ">Category</th>
               <th className=" p-2  text-left text-sm w-32">Status</th>
               <th className=" p-2 text-left text-sm w-44">Type</th>
-              <th className=" p-2  text-left text-sm w-44">SKU</th>
-              <th className=" p-2 text-left text-sm w-32">Price</th>
+              <th className=" p-2  text-left text-sm w-44">Price</th>
+              <th className=" p-2 text-left text-sm w-32">Action</th>
             </tr>
           </thead>
           <tbody>
-            {products.map((product, index) => (
+            {CrossSellProducts.map((product, index) => (
               <tr key={index} className="border-b">
                 <td className=" p-2">
                   <input className=" h-6 w-4" type="checkbox" />
                 </td>
-                <td className="text-sm p-2"> {product.id}</td>
-                <td className="text-sm p-2">{product.thumbnail}</td>
-                <td className="text-sm p-2">{product.name}</td>
-                <td className="text-sm p-2">{product.attribute}</td>
+                <td className="text-sm p-2"> {product.productID}</td>
+                <td className="text-sm p-2"><img src={product.productGallery.imageUrl} className="w-7 h-8"/></td>
+                <td className="text-sm p-2">{product.productName}</td>
+                <td className="text-sm p-2">{product.categorySpecification.specificationName}</td>
                 <td className="text-sm p-2">{product.status}</td>
-                <td className="text-sm p-2">{product.type}</td>
-                <td className="text-sm p-2">{product.sku}</td>
-                <td className="text-sm p-2">{product.price}</td>
+                <td className="text-sm p-2">{product.productCategory.categoryName}</td>
+                <td className="text-sm p-2">{product.salePrice}</td>
+                <td className="px-4 py-2 cursor-pointer">
+                  <Tooltip title="Delete" placement="top">
+                      <img
+                        src={Bin}
+                        alt="Delete"
+                        className="cursor-pointer w-7 h-7"
+                        onClick={() => handleRelatedDelete()}
+
+                      />
+                    </Tooltip></td>
               </tr>
             ))}
           </tbody>
@@ -783,7 +870,9 @@ const handlerelatedProduct = (productID) => {
       </div>
       {/* section end */}
     </div>
+     
   );
 };
 
 export default LayoutRelatedProducts;
+
