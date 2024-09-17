@@ -12,26 +12,36 @@ import { fetchCriteriaProductsApi } from "../../../Api/ProductApi";
 const ProductSection = ({ products, heading, path, addCart, wishList }) => {
   const [rating, setRating] = useState(0);
   const user = useSelector((state)=>state.user.user);
-  const wishlist = useSelector((state)=>state.wishlist.wishlist);
-  const [wishlistProductIDs, setWishlistProductIDs] = useState([]);
+  // const wishlist = useSelector((state)=>state.wishlist.wishlist);
+  // const [wishlistProductIDs, setWishlistProductIDs] = useState([]);
   //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   // const getWishlistIdByProductID = (productID) => {
   //   const wishlistItem = wishlist.find((item) => item.product.productID === productID);
   //   return wishlistItem ? wishlistItem.wishListId : null; 
   // };
-
+  const wishlist = useSelector((state) => state.wishlist.wishlist);
+  const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
+  //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
     const wishlistItem = wishlist.find((item) => item.product.productID === productID);
-    return wishlistItem ? wishlistItem.wishListId : null; 
+    return wishlistItem ? wishlistItem.wishListId : null;
   };
-  const totalStars = 5;
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (Array.isArray(wishlist)) {
-      setWishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
+      setwishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
     }
   }, [wishlist]);
+
+
+  const totalStars = 5;
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   if (Array.isArray(wishlist)) {
+  //     setWishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
+  //   }
+  // }, [wishlist]);
 
   const handleCart = async(productID) => {
     if(user==null)
@@ -53,19 +63,19 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
     }
   };
   const handleClick = async (productID) => {
-    if(wishlistProductIDs.includes(productID))
-    {
-      setwishlistProductIDs(wishlistProductIDs.filter(id => id !== productID));
-      await removeFromWishlistApi(getWishlistIdByProductID(productID))
-    }
-    else{
+    if (wishlistProductIDs.includes(productID)) {
+      setwishlistProductIDs(
+        wishlistProductIDs.filter((id) => id !== productID)
+      );
+      await removeFromWishlistApi(getWishlistIdByProductID(productID));
+    } else {
       setwishlistProductIDs([...wishlistProductIDs, productID]);
       const wishListData = {
         wishListId: "0",
         productId: productID,
         customerId: user.customerId,
-        isActive: 1
-      }
+        isActive: 1,
+      };
       await addToWishlistApi(wishListData);
     }
   };
@@ -111,10 +121,14 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
             <div className="relative rounded-t-sm bg-slate-100 m-2">
               <img
                 onClick={(e) => {
-                  e.stopPropagation(); // Prevent event from bubbling to parent
+                  // e.stopPropagation(); // Prevent event from bubbling to parent
                   handleClick(item.productID);
                 }}
-                src={wishlistProductIDs.includes(item.productID) ? filledHeart : emptyHeart}
+                src={
+                  wishlistProductIDs.includes(item.productID)
+                    ? filledHeart
+                    : emptyHeart
+                }
                 className="absolute h-6 w-6  right-1 p-1 cursor-pointer"
                 alt="Favorite Icon"
               />
@@ -185,3 +199,4 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
 };
 
 export default ProductSection;
+
