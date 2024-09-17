@@ -22,6 +22,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Notification from "../Notification";
+import { useStates } from "react-us-states";
 
 // import { setAddress } from "../../Store/Store";
 function Address({ topMargin, totalAmount }) {
@@ -80,6 +81,22 @@ function Address({ topMargin, totalAmount }) {
     Pin_Code: "",
     Bussiness_phone: "",
   });
+
+
+  const formatPhoneNumber = (phoneNumber) => {
+    // Remove non-digit characters
+    phoneNumber = phoneNumber.replace(/\D/g, "");
+
+    // Format as 3-3-4
+    let formattedPhoneNumber = "";
+    for (let i = 0; i < phoneNumber.length; i++) {
+      if (i === 3 || i === 6) {
+        formattedPhoneNumber += "-";
+      }
+      formattedPhoneNumber += phoneNumber[i];
+    }
+    return formattedPhoneNumber;
+  }
 
   useEffect(() => {
     if (shortPopup) {
@@ -512,6 +529,18 @@ function Address({ topMargin, totalAmount }) {
 
   console.log("add----->", getAddress);
 
+  const [states, setStates] = useState([]);
+
+  useEffect(() => {
+    // Set the states data
+    setStates(useStates); // Adjust based on actual structure
+  }, []);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredStates = states.filter((state) => {
+    return state.name.toLowerCase().includes(searchTerm.toLowerCase());
+  });
+
   // const [selectedaddressId, setSelectedaddressId] = useState(getAddress[0]?.addressId);
 
   // useEffect(() => {
@@ -683,16 +712,17 @@ function Address({ topMargin, totalAmount }) {
                                   helperText={formErrors.First_Name}
                                 />
 
-                                <TextField
+<TextField
                                   label="Phone Number"
                                   name="Phone_Number"
                                   size="small"
                                   className="w-full"
-                                  value={addressForm.Phone_Number}
+                                  value={formatPhoneNumber(addressForm.Phone_Number)}
                                   onChange={handleInputChange}
                                   error={!!formErrors.Phone_Number}
                                   helperText={formErrors.Phone_Number}
-                                />
+                                  inputProps={{maxLength:12}}
+                                />
                               </div>
 
                               <div className="my-4 flex gap-2">
@@ -721,17 +751,40 @@ function Address({ topMargin, totalAmount }) {
                               </div>
 
                               <div className="flex my-2 gap-2">
-                                <TextField
-                                  label="States"
-                                  id="States"
-                                  name="States"
+                              <FormControl
+                                  className="w-[92%]"
                                   size="small"
-                                  className="w-full"
-                                  value={addressForm.States}
-                                  onChange={handleInputChange}
                                   error={!!formErrors.States}
-                                  helperText={formErrors.States}
-                                />
+                                >
+                                  <InputLabel id="state-select-label">State</InputLabel>
+                                  <Select
+                                    id="state-select"
+                                    label="State"
+                                    value={formData.States}
+                                    name="State"
+                                    onChange={handleInputChange}
+                                    MenuProps={{
+                                      PaperProps: {
+                                        style: {
+                                          maxHeight: 200, // Set the maximum height of the dropdown
+                                        },
+                                      },
+                                    }}
+                                  >
+                                    <MenuItem value="">
+                                      <em>None</em>
+                                    </MenuItem>
+                                    {states.map((state) => (
+                                      <MenuItem
+                                        key={state.abbreviation}
+                                        value={state.abbreviation}
+                                      >
+                                        {state.name}
+                                      </MenuItem>
+                                    ))}
+                                  </Select>
+                                  {/* {error.State && <span className="text-red-500">{error.State}</span>} */}
+                                </FormControl>
 
                                 <TextField
                                   label="Pin Code"
@@ -810,17 +863,17 @@ function Address({ topMargin, totalAmount }) {
                                       error={!!formErrors.First_Name}
                                       helperText={formErrors.First_Name}
                                     />
-                                    <TextField
-                                      label="Phone Number"
-                                      id="Phone_Number"
-                                      name="Phone_Number" // Matches state key
-                                      value={newAddressForm.Phone_Number}
-                                      onChange={handleChangeForm}
-                                      size="small"
-                                      className="w-full"
-                                      error={!!formErrors.Phone_Number}
-                                      helperText={formErrors.Phone_Number}
-                                    />
+                                   <TextField
+                                  label="Phone Number"
+                                  name="Phone_Number"
+                                  size="small"
+                                  className="w-full"
+                                  value={formatPhoneNumber(addressForm.Phone_Number)}
+                                  onChange={handleInputChange}
+                                  error={!!formErrors.Phone_Number}
+                                  helperText={formErrors.Phone_Number}
+                                  inputProps={{maxLength:12}}
+                                />
                                   </div>
 
                                   <div className="my-4 flex gap-2">
@@ -849,17 +902,40 @@ function Address({ topMargin, totalAmount }) {
                                   </div>
 
                                   <div className="flex my-2 gap-2">
-                                    <TextField
-                                      label="States"
-                                      id="States"
-                                      name="States" // Matches state key
-                                      value={newAddressForm.States}
-                                      onChange={handleChangeForm}
-                                      size="small"
-                                      className="w-full"
-                                      error={!!formErrors.States}
-                                      helperText={formErrors.States}
-                                    />
+                                  <FormControl
+                                  className="w-[92%]"
+                                  size="small"
+                                  error={!!formErrors.States}
+                                >
+                                  <InputLabel id="state-select-label">State</InputLabel>
+                                  <Select
+                                    id="state-select"
+                                    label="State"
+                                    value={formData.States}
+                                    name="State"
+                                    onChange={handleInputChange}
+                                    MenuProps={{
+                                      PaperProps: {
+                                        style: {
+                                          maxHeight: 200, // Set the maximum height of the dropdown
+                                        },
+                                      },
+                                    }}
+                                  >
+                                    <MenuItem value="">
+                                      <em>None</em>
+                                    </MenuItem>
+                                    {states.map((state) => (
+                                      <MenuItem
+                                        key={state.abbreviation}
+                                        value={state.abbreviation}
+                                      >
+                                        {state.name}
+                                      </MenuItem>
+                                    ))}
+                                  </Select>
+                                  {/* {error.State && <span className="text-red-500">{error.State}</span>} */}
+                                </FormControl>
                                     <TextField
                                       label="Pin Code"
                                       id="Pin_Code"
