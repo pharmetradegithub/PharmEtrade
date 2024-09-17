@@ -815,22 +815,22 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
 
 
   const components = [
-    { id: 1, name: "Deals" },
-    { id: 2, name: "Brands " },
-    { id: 3, name: "Generic" },
-    { id: 4, name: "Discount > 75%" },
-    { id: 5, name: "Discount > 50%" },
-    { id: 6, name: "Discount > 25%" },
-    { id: 7, name: "Expiring within 3 months" },
-    { id: 8, name: "Expiring within 6 months" },
-    { id: 9, name: "Expiring within 12 months" },
-    { id: 10, name: "Whole saler item " },
-    { id: 11, name: "Pharmacy item " },
-    { id: 12, name: "Prescription Drugs " },
-    { id: 13, name: "OTC Products " },
-    { id: 14, name: "VAWD Sellers" },
-    { id: 15, name: "Top Selling Products " },
-    { id: 16, name: "Buy Again  "},
+    { id: 1, name: "Prescription Medications" },
+    { id: 2, name: "Baby & Child Care Products" },
+    { id: 3, name: "Health care products" },
+    { id: 4, name: "Household Suppliers" },
+    { id: 5, name: "Oral Care Products" },
+    { id: 6, name: "Stationery & Gift Wrapping Supplies" },
+    { id: 7, name: "Vision Products" },
+    { id: 8, name: "Diet & Sports Nutrition" },
+    { id: 9, name: "Vitamins, Minerals & Supplements" },
+    { id: 10, name: "Personal Care products" },
+    // { id: 11, name: "Pharmacy item " },
+    // { id: 12, name: "Prescription Drugs " },
+    // { id: 13, name: "OTC Products " },
+    // { id: 14, name: "VAWD Sellers" },
+    // { id: 15, name: "Top Selling Products " },
+    // { id: 16, name: "Buy Again  "},
   ];
 
   const handleCriteria =async (obj) => {
