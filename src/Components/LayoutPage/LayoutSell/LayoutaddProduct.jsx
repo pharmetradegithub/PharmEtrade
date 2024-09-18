@@ -127,15 +127,16 @@ function LayoutaddProduct() {
     thumbnail4: null,
     thumbnail5: null,
     thumbnail6: null,
+    // videoUrl: null,
   });
   const [productFetched, setproductFetched] = useState();
   const [Heading, setHeading] = useState("ADD PRODUCT");
   const AssignFormData = (product) => {
     setThumnails([
       product.productGallery.thumbnail1,
-   product.productGallery.thumbnail2,
+      product.productGallery.thumbnail2,
       product.productGallery.thumbnail3,
-       product.productGallery.thumbnail4,
+      product.productGallery.thumbnail4,
       product.productGallery.thumbnail5,
       product.productGallery.thumbnail6,
     ]);
@@ -179,7 +180,6 @@ function LayoutaddProduct() {
       thumbnail5: product.productGallery.thumbnail5,
       thumbnail6: product.productGallery.thumbnail6,
     });
-   
   };
   useEffect(() => {
     const productId = localStorage.getItem("productId");
@@ -250,21 +250,22 @@ function LayoutaddProduct() {
   };
 
   // video
-  const [selectedVideos, setSelectedVideos] = useState([]);
-  const [videoPreviews, setVideoPreviews] = useState([]);
+  // const [selectedVideos, setSelectedVideos] = useState([]);
+  // const [videoPreviews, setVideoPreviews] = useState([]);
 
-  const handleVideoSelect = (event) => {
-    const files = Array.from(event.target.files);
-    setSelectedVideos(files);
+  // const handleVideoSelect = (event) => {
+  //   const files = Array.from(event.target.files);
+  //   setSelectedVideos(files);
 
-    const previews = files.map((file) => URL.createObjectURL(file));
-    setVideoPreviews(previews);
-  };
+  //   const previews = files.map((file) => URL.createObjectURL(file));
+  //   setVideoPreviews(previews);
+  //   setFormData({ ...formData, ["videoUrl"]: files });
+  // };
 
-  const handleClearSelection = () => {
-    setSelectedVideos([]);
-    setVideoPreviews([]);
-  };
+  // const handleClearSelection = () => {
+  //   setSelectedVideos([]);
+  //   setVideoPreviews([]);
+  // };
 
   const tabs = [
     "Product Info",
@@ -277,7 +278,7 @@ function LayoutaddProduct() {
 
   const removeImage = (index) => {
     setThumnails((prevImages) => prevImages.filter((_, i) => i !== index));
-    setFormData({...formData,[`thumbnail${index+1}`]:null})
+    setFormData({ ...formData, [`thumbnail${index + 1}`]: null });
   };
 
   const [selectedImage, setSelectedImage] = useState(null);
@@ -307,7 +308,7 @@ function LayoutaddProduct() {
         console.log("This file has already been uploaded.");
         return;
       }
-      console.log(acceptedFiles[0],"file");
+      console.log(acceptedFiles[0], "file");
       setThumnails([...thumbnails, acceptedFiles[0]]);
       if (formData.thumbnail1 == null) {
         setFormData({ ...formData, thumbnail1: acceptedFiles[0] });
@@ -328,7 +329,7 @@ function LayoutaddProduct() {
     accept: "image/*",
     multiple: false,
   });
-  console.log(thumbnails,"thumnails")
+  console.log(thumbnails, "thumnails");
   // const handleSizeChange = (e) => {
   //   const { name, value, type, options, id } = e.target;
   //   setsizeData({
@@ -466,39 +467,58 @@ function LayoutaddProduct() {
     const imageUrl =
       formData.imageUrl == null
         ? defaultImageUrl
-        : typeof formData.imageUrl === "string"? formData.imageUrl : await uploadImageApi(user.customerId, productId, formData.imageUrl);
+        : typeof formData.imageUrl === "string"
+        ? formData.imageUrl
+        : await uploadImageApi(user.customerId, productId, formData.imageUrl);
 
     const thumbnail1 =
       formData.thumbnail1 == null
         ? defaultImageUrl
-        :typeof formData.thumbnail1 === "string"? formData.thumbnail1 : await uploadImageApi(user.customerId, productId, formData.thumbnail1);
+        : typeof formData.thumbnail1 === "string"
+        ? formData.thumbnail1
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail1);
 
     const thumbnail2 =
       formData.thumbnail2 == null
         ? defaultImageUrl
-        :typeof formData.thumbnail2 === "string"? formData.thumbnail2 : await uploadImageApi(user.customerId, productId, formData.thumbnail2);
+        : typeof formData.thumbnail2 === "string"
+        ? formData.thumbnail2
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail2);
 
     const thumbnail3 =
       formData.thumbnail3 == null
         ? defaultImageUrl
-        :typeof formData.thumbnail3 === "string"? formData.thumbnail3 : await uploadImageApi(user.customerId, productId, formData.thumbnail3);
+        : typeof formData.thumbnail3 === "string"
+        ? formData.thumbnail3
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail3);
 
     const thumbnail4 =
       formData.thumbnail4 == null
         ? defaultImageUrl
-        :typeof formData.thumbnail4 === "string"? formData.thumbnail4 : await uploadImageApi(user.customerId, productId, formData.thumbnail4);
+        : typeof formData.thumbnail4 === "string"
+        ? formData.thumbnail4
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail4);
 
     const thumbnail5 =
       formData.thumbnail5 == null
         ? defaultImageUrl
-        :typeof formData.thumbnail5 === "string"? formData.thumbnail5 : await uploadImageApi(user.customerId, productId, formData.thumbnail5);
+        : typeof formData.thumbnail5 === "string"
+        ? formData.thumbnail5
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail5);
 
     const thumbnail6 =
       formData.thumbnail6 == null
         ? defaultImageUrl
-        :typeof formData.thumbnail6 === "string"? formData.thumbnail6 : await uploadImageApi(user.customerId, productId, formData.thumbnail6);
+        : typeof formData.thumbnail6 === "string"
+        ? formData.thumbnail6
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail6);
 
-  
+    // const videoUrl =
+    //   formData.videoUrl == null
+    //     ? null
+    //     : typeof formData.videoUrl === "string"
+    //     ? formData.videoUrl
+    //     : await uploadImageApi(user.customerId, productId, formData.videoUrl);
 
     // const data = {
     //   productID: "0",
@@ -554,11 +574,11 @@ function LayoutaddProduct() {
       ndCorUPC: formData.ndcUpc,
       brandName: formData.brandName,
       size: formData.size,
-      form:formData.form,
-      height:formData.Height,
-      width:formData.Width,
-      length:formData.Length,
-      weight:formData.Weight,
+      form: formData.form,
+      height: formData.Height,
+      width: formData.Width,
+      length: formData.Length,
+      weight: formData.Weight,
       manufacturer: formData.manufacturer,
       strength: formData.strength,
       lotNumber: formData.lotNumber,
@@ -578,9 +598,9 @@ function LayoutaddProduct() {
       sellerId: user.customerId, // Static value
       states: formData.states.join(","),
       unitOfMeasure: formData.unitOfMeasurement,
-      mainImageUrl:imageUrl,
+      mainImageUrl: imageUrl,
     };
-    setFormData({...formData,["imageUrl"]:imageUrl});
+    setFormData({ ...formData, ["imageUrl"]: imageUrl });
     const tab2 = {
       productPriceId: "string",
       productId: productId,
@@ -595,19 +615,32 @@ function LayoutaddProduct() {
       shippingCost: 20,
       amountInStock: formData.amountInStock,
     };
+    // const tab4 = {
+    //   productGalleryId: "0",
+    //   productId: productId,
+    //   caption: "Caption",
+    //   imageUrl: formData.imageUrl,
+    //   thumbnail1: thumbnail1,
+    //   thumbnail2: thumbnail2,
+    //   thumbnail3: thumbnail3,
+    //   thumbnail4: thumbnail4,
+    //   thumbnail5: thumbnail5,
+    //   thumbnail6: thumbnail6,
+    //   videoUrl: videoUrl,
+    // };
     const tab4 = {
       productGalleryId: "0",
       productId: productId,
       caption: "Caption",
-      imageUrl: formData.imageUrl,
+      imageUrl: imageUrl,
       thumbnail1: thumbnail1,
       thumbnail2: thumbnail2,
       thumbnail3: thumbnail3,
       thumbnail4: thumbnail4,
       thumbnail5: thumbnail5,
       thumbnail6: thumbnail6,
-      videoUrl: "VideoUrl",
-    };
+      videoUrl: "videoUrl",
+    };
     try {
       if (activeTab == 0) {
         if (queryProductId) {
@@ -618,7 +651,6 @@ function LayoutaddProduct() {
             message: "Product Info Edited Successfully!",
           });
           setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-         
         } else {
           const response = await AddProductInfoApi(tab1, user.customerId);
           localStorage.setItem("productId", response);
@@ -647,7 +679,7 @@ function LayoutaddProduct() {
           const response = await EditProductGallery(tab4, user.customerId);
           console.log("Product Data", response);
         } else {
-          console.log(tab4); 
+          console.log(tab4);
 
           const response = await AddProductGallery(tab4, user.customerId);
           console.log("Product Data", response);
@@ -665,10 +697,10 @@ function LayoutaddProduct() {
             brandName: "",
             size: "",
             form: "",
-            Width:"",
-            Height:"",
-            Weight:"",
-            Length:"",
+            Weight: "",
+            Height: "",
+            Weight: "",
+            Length: "",
             unitOfMeasurement: "",
             price: "",
             amountInStock: "",
@@ -698,10 +730,9 @@ function LayoutaddProduct() {
             thumbnail4: null,
             thumbnail5: null,
             thumbnail6: null,
-        }); 
-        setThumnails([]); 
+          });
+          setThumnails([]);
         }
-        
       }
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
@@ -1060,7 +1091,11 @@ function LayoutaddProduct() {
                         type="checkbox"
                         id="tornLabel"
                         name="tornLabel"
-                        checked={formData.packCondition.tornLabel!=null? formData.packCondition.tornLabel:null}
+                        checked={
+                          formData.packCondition.tornLabel != null
+                            ? formData.packCondition.tornLabel
+                            : null
+                        }
                         onChange={handleInputChange}
                         className="ml-[2%]"
                       />{" "}
@@ -1188,7 +1223,11 @@ function LayoutaddProduct() {
                     {formData.imageUrl ? (
                       <div className="relative">
                         <img
-                          src={formData.imageUrl} // Show the selected image or the default URL
+                          src={
+                            typeof formData.imageUrl === "object"
+                              ? URL.createObjectURL(formData.imageUrl)
+                              : formData.imageUrl
+                          }
                           alt="Selected"
                           className="w-64 h-64 object-cover rounded-md"
                         />
@@ -1369,7 +1408,13 @@ function LayoutaddProduct() {
                       name="taxable"
                       className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       onChange={handleInputChange}
-                      value={formData.taxable == null ? "" : formData.taxable ==true? 1:0}
+                      value={
+                        formData.taxable == null
+                          ? ""
+                          : formData.taxable == true
+                          ? 1
+                          : 0
+                      }
                     >
                       <option value="">Select an option</option>
                       <option value="0">No</option>
@@ -1727,7 +1772,9 @@ function LayoutaddProduct() {
 
       case 2:
         return (
-          <div><LayoutRelatedProducts/> </div>
+          <div>
+            <LayoutRelatedProducts formData={formData} handleInputChange={handleInputChange} />{" "}
+          </div>
           // <div className="font-sans font-medium">
           //   <div className=" bg-white p-2 px-4   w-full Largest:w-[60%] ">
           //     <div className="flex flex-col justify-between">
@@ -2438,7 +2485,9 @@ function LayoutaddProduct() {
                         src={
                           typeof image === "string"
                             ? image
-                            : image!=null ? URL.createObjectURL(image):""
+                            : image != null
+                            ? URL.createObjectURL(image)
+                            : ""
                         } // Check if `image` is a string (URL) or a File object
                         alt={`Preview ${image}`}
                         className="w-full h-40 object-cover"
@@ -2470,10 +2519,10 @@ function LayoutaddProduct() {
                     type="file"
                     accept="video/*"
                     multiple
-                    onChange={handleVideoSelect}
+                    // onChange={handleVideoSelect}
                     className="block mb-4 w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                   />
-                  <div className="flex flex-wrap gap-4 mb-4">
+                  {/* <div className="flex flex-wrap gap-4 mb-4">
                     {videoPreviews.map((preview, index) => (
                       <div key={index} className="w-1/4">
                         <video
@@ -2483,15 +2532,15 @@ function LayoutaddProduct() {
                         />
                       </div>
                     ))}
-                  </div>
-                  {selectedVideos.length > 0 && (
+                  </div> */}
+                  {/* {selectedVideos.length > 0 && (
                     <button
                       onClick={handleClearSelection}
                       className="bg-red-500 h-7 font-semibold text-white px-4  rounded shadow hover:bg-red-600"
                     >
                       Clear
                     </button>
-                  )}
+                  )} */}
                 </div>
               </div>
 
