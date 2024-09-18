@@ -1,17 +1,14 @@
-
-
 import { Tooltip } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import related from "../../../assets/Related.png";
 import upSell from "../../../assets/upSell.png";
 import crossSell from "../../../assets/crossSell.png";
 import filter from "../../../assets/Icons/filter_icon.png";
-import { AddCrossSellProductAPI, AddRelatedProductAPI, AddUpSellProductAPI, fetchCriteriaProductsApi, fetchCrossSellProductApi, fetchUpsellProductApi } from "../../../Api/ProductApi";
+import { AddCrossSellProductAPI, AddRelatedProductAPI, AddUpSellProductAPI, fetchCriteriaProductsApi, fetchCrossSellProductApi, fetchUpsellProductApi, RemoveCrossSellProductAPI, RemoveRelatedProductAPI, RemoveUpsellProductAPI } from "../../../Api/ProductApi";
 import { useDispatch, useSelector } from "react-redux";
 import {fetchRelatedProductApi } from "../../../Api/ProductApi";
-import Bin from "../../../assets/Bin.png"
 
-const LayoutRelatedProducts = () => {
+const LayoutRelatedProducts = ({formData,handleInputChange}) => {
   const [buttonClick, setButtonClick] = useState(false);
   const [ButtonUpClick, setButtonUpClick] = useState(false);
   const [isButtonClicked, setButtonClicked] = useState(false);
@@ -33,9 +30,11 @@ const LayoutRelatedProducts = () => {
   useEffect(() => {
     const fetchAll =async ()=>{
       const productId = localStorage.getItem("productId");
-        fetchRelatedProductApi(productId);
-        fetchCrossSellProductApi(productId);
-        fetchUpsellProductApi(productId);
+      const searchParams = new URLSearchParams(location.search);
+      const queryProductId = searchParams.get("productId");
+        fetchRelatedProductApi(queryProductId==null? productId:queryProductId);
+        fetchCrossSellProductApi(queryProductId==null? productId:queryProductId);
+        fetchUpsellProductApi(queryProductId==null? productId:queryProductId);
     }
     fetchAll()
   }, [])
@@ -67,22 +66,50 @@ const LayoutRelatedProducts = () => {
 }
 const handleAddSelected = async(index,toproductID)=>{
   const productId = localStorage.getItem("productId");
+  const searchParams = new URLSearchParams(location.search);
+  const queryProductId = searchParams.get("productId");
   console.log(productId,toproductID,index);
   try {
     if(index==1)
     {
-      await AddRelatedProductAPI(productId,toproductID);
-      await fetchRelatedProductApi(productId);
+      await AddRelatedProductAPI(queryProductId==null? productId:queryProductId,toproductID);
+      await fetchRelatedProductApi(queryProductId==null? productId:queryProductId);
     }
     else if(index==2)
     {
-      await AddUpSellProductAPI(productId,toproductID);
-      await fetchUpsellProductApi(productId);
+      await AddUpSellProductAPI(queryProductId==null? productId:queryProductId,toproductID);
+      await fetchUpsellProductApi(queryProductId==null? productId:queryProductId);
     }
     else
     {
-      await AddCrossSellProductAPI(productId,toproductID);
-      await fetchCrossSellProductApi(productId);
+      await AddCrossSellProductAPI(queryProductId==null? productId:queryProductId,toproductID);
+      await fetchCrossSellProductApi(queryProductId==null? productId:queryProductId);
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+const handleRemoveSelectedProducts = async(index,toproductID)=>{
+  const productId = localStorage.getItem("productId");
+  const searchParams = new URLSearchParams(location.search);
+  const queryProductId = searchParams.get("productId");
+  console.log(productId,toproductID,index);
+  try {
+    if(index==1)
+    {
+      await RemoveRelatedProductAPI(queryProductId==null? productId:queryProductId,toproductID);
+      await fetchRelatedProductApi(queryProductId==null? productId:queryProductId);
+    }
+    else if(index==2)
+    {
+      await RemoveUpsellProductAPI(queryProductId==null? productId:queryProductId,toproductID);
+      await fetchUpsellProductApi(queryProductId==null? productId:queryProductId);
+    }
+    else
+    {
+      await RemoveCrossSellProductAPI(queryProductId==null? productId:queryProductId,toproductID);
+      await fetchCrossSellProductApi(queryProductId==null? productId:queryProductId);
     }
 
   } catch (error) {
@@ -114,42 +141,42 @@ const handleAddSelected = async(index,toproductID)=>{
   };
 
 
-  const [formData, setFormData] = useState({
-    categorySpecification: "",
-    productCategory: "",
-    manufacturer: "",
-    brandName: "",
-    expirationDate: "",
-    ndcUpc: "",
-    salePriceForm: "",
-    salePriceTo: "",
-    productName: "",
-  });
+  // const [formData, setFormData] = useState({
+  //   categorySpecification: "",
+  //   productCategory: "",
+  //   manufacturer: "",
+  //   brandName: "",
+  //   expirationDate: "",
+  //   ndcUpc: "",
+  //   salePriceForm: "",
+  //   salePriceTo: "",
+  //   productName: "",
+  // });
 
 
   // Handle input change for all form fields
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData({
+  //     ...formData,
+  //     [name]: value,
+  //   });
+  // };
 
   // Placeholder for reset functionality
-  const handleRelatedClick = () => {
-    setFormData({
-      categorySpecification: "",
-      productCategory: "",
-      manufacturer: "",
-      brandName: "",
-      expirationDate: "",
-      ndcUpc: "",
-      salePriceForm: "",
-      salePriceTo: "",
-      productName: "",
-    });
-  };
+  // const handleRelatedClick = () => {
+  //   setFormData({
+  //     categorySpecification: "",
+  //     productCategory: "",
+  //     manufacturer: "",
+  //     brandName: "",
+  //     expirationDate: "",
+  //     ndcUpc: "",
+  //     salePriceForm: "",
+  //     salePriceTo: "",
+  //     productName: "",
+  //   });
+  // };
 
   const products = [
     {
@@ -191,12 +218,12 @@ const handleAddSelected = async(index,toproductID)=>{
   const dispatch = useDispatch(); // Hook for dispatch
 
  
-const handlerelatedProduct = (productID) => {
-    console.log("productIdddddd-->", productID)
+// const handlerelatedProduct = (productID) => {
+//     console.log("productIdddddd-->", productID)
     
-      fetchRelatedProductApi(productID); // Dispatch the thunk
+//       fetchRelatedProductApi(productID); // Dispatch the thunk
    
-  };
+//   };
 
   
 
@@ -535,14 +562,35 @@ const handlerelatedProduct = (productID) => {
                 <th className=" p-2  text-left text-sm w-32">ID</th>
                 <th className=" p-2  text-left text-sm w-40">Thumbnail</th>
                 <th className=" p-2  text-left text-sm  w-80">Name</th>
-                <th className=" p-2  text-left text-sm w-48">Category</th>
+                <th className=" p-2  text-left text-sm w-48">Attribute Set</th>
                 <th className=" p-2  text-left text-sm w-32">Status</th>
                 <th className=" p-2  text-left text-sm bw-44">Type</th>
+                <th className=" p-2  text-left text-sm  w-44">SKU</th>
                 <th className=" p-2  text-left text-sm  w-44">Price</th>
                 <th className=" p-2  text-left text-sm  w-44">Action</th>
+
               </tr>
             </thead>
-            <tbody>
+            {/* <tbody>
+              {relatedProducts.map((product, index) => (
+                <tr key={index} className="border-b">
+                  <td className=" p-2">
+                    <input className=" h-6 w-4" type="checkbox" />
+                  </td>
+                  <td className="text-sm p-2"> {product.productID}</td>
+                  <td className="text-sm p-2">{product.thumbnail}</td>
+                  <td className="text-sm p-2">{product.name}</td>
+                  <td className="text-sm p-2">{product.attribute}</td>
+                  <td className="text-sm p-2">{product.status}</td>
+                  <td className="text-sm p-2">{product.type}</td>
+                  <td className="text-sm p-2">{product.sku}</td>
+                  <td className="text-sm p-2">{product.price}</td>
+                  <td onClick={()=>handleRemoveSelectedProducts(1,product.productID)} className="text-sm p-2">remove</td>
+
+                </tr>
+              ))}
+            </tbody> */}
+                  <tbody>
               {relatedProducts.map((product, index) => (
                 <tr key={index} className="border-b">
                   <td className=" p-2">
@@ -686,14 +734,36 @@ const handlerelatedProduct = (productID) => {
                 <th className=" p-2  text-left text-sm w-32">ID</th>
                 <th className=" p-2  text-left text-sm w-40">Thumbnail</th>
                 <th className=" p-2  text-left text-sm  w-80">Name</th>
-                <th className=" p-2  text-left text-sm w-48">Category</th>
+                <th className=" p-2  text-left text-sm w-48">Attribute Set</th>
                 <th className=" p-2  text-left text-sm w-32">Status</th>
                 <th className=" p-2 text-left text-sm bw-44">Type</th>
+                <th className=" p-2  text-left text-sm  w-44">SKU</th>
                 <th className=" p-2  text-left text-sm  w-44">Price</th>
-                <th className=" p-2  text-left text-sm  w-44">Action</th>
+                <th className=" p-2 text-left text-sm w-32">Action</th>
+
+                
               </tr>
             </thead>
-            <tbody>
+            {/* <tbody>
+              {UpSellProducts.map((product, index) => (
+                <tr key={index} className="border-b">
+                  <td className=" p-2">
+                    <input className=" h-6 w-4" type="checkbox" />
+                  </td>
+                  <td className="text-sm p-2"> {product.productID}</td>
+                  <td className="text-sm p-2">{product.thumbnail}</td>
+                  <td className="text-sm p-2">{product.name}</td>
+                  <td className="text-sm p-2">{product.attribute}</td>
+                  <td className="text-sm p-2">{product.status}</td>
+                  <td className="text-sm p-2">{product.type}</td>
+                  <td className="text-sm p-2">{product.sku}</td>
+                  <td className="text-sm p-2">{product.price}</td>
+                  <td onClick={()=>handleRemoveSelectedProducts(2,product.productID)} className="text-sm p-2">remove</td>
+
+                </tr>
+              ))}
+            </tbody> */}
+                        <tbody>
               {UpSellProducts.map((product, index) => (
                 <tr key={index} className="border-b">
                   <td className=" p-2">
@@ -833,14 +903,35 @@ const handlerelatedProduct = (productID) => {
               <th className=" p-2  text-left text-sm w-32">ID</th>
               <th className="p-2  text-left text-sm  w-40">Thumbnail</th>
               <th className=" p-2  text-left text-sm w-80">Name</th>
-              <th className=" p-2  text-left text-sm w-48 ">Category</th>
+              <th className=" p-2  text-left text-sm w-48 ">Attribute Set</th>
               <th className=" p-2  text-left text-sm w-32">Status</th>
               <th className=" p-2 text-left text-sm w-44">Type</th>
-              <th className=" p-2  text-left text-sm w-44">Price</th>
+              <th className=" p-2  text-left text-sm w-44">SKU</th>
+              <th className=" p-2 text-left text-sm w-32">Price</th>
               <th className=" p-2 text-left text-sm w-32">Action</th>
+
             </tr>
           </thead>
-          <tbody>
+          {/* <tbody>
+            {CrossSellProducts.map((product, index) => (
+              <tr key={index} className="border-b">
+                <td className=" p-2">
+                  <input className=" h-6 w-4" type="checkbox" />
+                </td>
+                <td className="text-sm p-2"> {product.productID}</td>
+                <td className="text-sm p-2">{product.thumbnail}</td>
+                <td className="text-sm p-2">{product.name}</td>
+                <td className="text-sm p-2">{product.attribute}</td>
+                <td className="text-sm p-2">{product.status}</td>
+                <td className="text-sm p-2">{product.type}</td>
+                <td className="text-sm p-2">{product.sku}</td>
+                <td className="text-sm p-2">{product.price}</td>
+                <td onClick={()=>handleRemoveSelectedProducts(3,product.productID)} className="text-sm p-2">remove</td>
+
+              </tr>
+            ))}
+          </tbody> */}
+                    <tbody>
             {CrossSellProducts.map((product, index) => (
               <tr key={index} className="border-b">
                 <td className=" p-2">
