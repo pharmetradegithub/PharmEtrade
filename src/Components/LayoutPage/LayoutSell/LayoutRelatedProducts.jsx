@@ -9,7 +9,23 @@ import { useDispatch, useSelector } from "react-redux";
 import {fetchRelatedProductApi } from "../../../Api/ProductApi";
 import Bin from "../../../assets/trash.png"
 
-const LayoutRelatedProducts = ({formData,handleInputChange}) => {
+const LayoutRelatedProducts = () => {
+  
+  const [formData, setFormData] = useState({
+    categorySpecification: "",
+    productCategory: "",
+    manufacturer: "",
+    brandName: "",
+    expirationDate: "",
+    ndcUpc: "",
+    salePriceForm: "",
+    salePriceTo: "",
+    productName: "",
+  });
+
+
+
+
   const [buttonClick, setButtonClick] = useState(false);
   const [ButtonUpClick, setButtonUpClick] = useState(false);
   const [isButtonClicked, setButtonClicked] = useState(false);
@@ -75,16 +91,23 @@ const handleAddSelected = async(index,toproductID)=>{
     {
       await AddRelatedProductAPI(queryProductId==null? productId:queryProductId,toproductID);
       await fetchRelatedProductApi(queryProductId==null? productId:queryProductId);
+      // await AddRelatedProductAPI(toproductID,toproductID);
+      // await fetchRelatedProductApi(toproductID);
     }
     else if(index==2)
     {
       await AddUpSellProductAPI(queryProductId==null? productId:queryProductId,toproductID);
       await fetchUpsellProductApi(queryProductId==null? productId:queryProductId);
+      // await AddUpSellProductAPI(toproductID,toproductID);
+      // await fetchUpsellProductApi(toproductID);
+      
     }
     else
     {
       await AddCrossSellProductAPI(queryProductId==null? productId:queryProductId,toproductID);
       await fetchCrossSellProductApi(queryProductId==null? productId:queryProductId);
+      // await AddCrossSellProductAPI(toproductID,toproductID);
+      // await fetchCrossSellProductApi(toproductID);
     }
 
   } catch (error) {
@@ -142,27 +165,17 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
   };
 
 
-  // const [formData, setFormData] = useState({
-  //   categorySpecification: "",
-  //   productCategory: "",
-  //   manufacturer: "",
-  //   brandName: "",
-  //   expirationDate: "",
-  //   ndcUpc: "",
-  //   salePriceForm: "",
-  //   salePriceTo: "",
-  //   productName: "",
-  // });
+  
 
 
   // Handle input change for all form fields
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData({
-  //     ...formData,
-  //     [name]: value,
-  //   });
-  // };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   // Placeholder for reset functionality
   // const handleRelatedClick = () => {
@@ -266,8 +279,18 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
                 value={formData.productCategory}
               >
                 <option value="">Select a product category</option>
-                <option value="1">Default Category</option>
-                <option value="2">Electronics</option>
+                {/* <option value="1">Default Category</option>
+                <option value="2">Electronics</option> */}
+                <option value="1">Prescription Medications</option>
+                      <option value="2">Baby & Child Care Products</option>
+                      <option value="4">Health care products</option>
+                      <option value="5">Household Suppliers</option>
+                      <option value="6">Oral Care Products</option>
+                      <option value="7">Stationery & Gift Wrapping Supplies</option>
+                      <option value="8">Vision Products</option>
+                      <option value="9">Diet & Sports Nutrition</option>
+                      <option value="10">Vitamins, Minerals & Supplements</option>
+                      <option value="11">Personal Care products</option>
               </select>
             </div>
             <div className="flex flex-col mr-6 ">
@@ -410,21 +433,21 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
                   {/* <td className=" p-2">
                           <input className=" h-6 w-4" type="checkbox" />
                         </td> */}
-                  <td className="text-sm p-2"> {product.id}</td>
+                  <td className="text-sm p-2"> {product?.id}</td>
                   <td className="text-sm p-2">
-                    <img src={product.productGallery.imageUrl} className="w-12 h-12"/></td>
-                  <td className="text-sm p-2">{product.productName}</td>
-                  <td className="text-sm p-2">{product.categorySpecification.specificationName}</td>
-                  <td className="text-sm p-2">{product.status}</td>
-                  <td className="text-sm p-2">{product.productCategory.categoryName}</td>
-                  <td className="text-sm p-2">{product.salePrice}</td>
+                    <img src={product?.productGallery.imageUrl} className="w-12 h-12"/></td>
+                  <td className="text-sm p-2">{product?.productName}</td>
+                  <td className="text-sm p-2">{product?.categorySpecification.specificationName}</td>
+                  <td className="text-sm p-2">{product?.status}</td>
+                  <td className="text-sm p-2">{product?.productCategory.categoryName}</td>
+                  <td className="text-sm p-2">{product?.salePrice}</td>
                   <td className="px-4 py-2 cursor-pointer flex items-center space-x-2">
                     <Tooltip title="Related Products" placement="top">
                       <img
                         src={related}
                         alt="related"
                         className="cursor-pointer w-6 h-6"
-                        onClick={() => handleAddSelected(1,product.productID)}
+                        onClick={() => handleAddSelected(1,product?.productID)}
                       />
                     </Tooltip>
                     <Tooltip title="Up-Sell Products" placement="top">
@@ -563,10 +586,9 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
                 <th className=" p-2  text-left text-sm w-32">ID</th>
                 <th className=" p-2  text-left text-sm w-40">Thumbnail</th>
                 <th className=" p-2  text-left text-sm  w-80">Name</th>
-                <th className=" p-2  text-left text-sm w-48">Attribute Set</th>
+                <th className=" p-2  text-left text-sm w-48">Category</th>
                 <th className=" p-2  text-left text-sm w-32">Status</th>
                 <th className=" p-2  text-left text-sm bw-44">Type</th>
-                <th className=" p-2  text-left text-sm  w-44">SKU</th>
                 <th className=" p-2  text-left text-sm  w-44">Price</th>
                 <th className=" p-2  text-left text-sm  w-44">Action</th>
 
@@ -611,7 +633,7 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
                         src={Bin}
                         alt="Delete"
                         className="cursor-pointer w-7 h-7"
-                        onClick={() => handleRelatedDelete()}
+                        onClick={() => handleRemoveSelectedProducts(1,product?.productID)}
 
                       />
                     </Tooltip>
@@ -735,10 +757,9 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
                 <th className=" p-2  text-left text-sm w-32">ID</th>
                 <th className=" p-2  text-left text-sm w-40">Thumbnail</th>
                 <th className=" p-2  text-left text-sm  w-80">Name</th>
-                <th className=" p-2  text-left text-sm w-48">Attribute Set</th>
+                <th className=" p-2  text-left text-sm w-48">Category</th>
                 <th className=" p-2  text-left text-sm w-32">Status</th>
                 <th className=" p-2 text-left text-sm bw-44">Type</th>
-                <th className=" p-2  text-left text-sm  w-44">SKU</th>
                 <th className=" p-2  text-left text-sm  w-44">Price</th>
                 <th className=" p-2 text-left text-sm w-32">Action</th>
 
@@ -784,7 +805,7 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
                         src={Bin}
                         alt="Delete"
                         className="cursor-pointer w-7 h-7"
-                        onClick={() => handleRelatedDelete()}
+                        onClick={() => handleRemoveSelectedProducts(2,product?.productID)}
 
                       />
                     </Tooltip></td>
@@ -904,10 +925,9 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
               <th className=" p-2  text-left text-sm w-32">ID</th>
               <th className="p-2  text-left text-sm  w-40">Thumbnail</th>
               <th className=" p-2  text-left text-sm w-80">Name</th>
-              <th className=" p-2  text-left text-sm w-48 ">Attribute Set</th>
+              <th className=" p-2  text-left text-sm w-48 ">Category</th>
               <th className=" p-2  text-left text-sm w-32">Status</th>
               <th className=" p-2 text-left text-sm w-44">Type</th>
-              <th className=" p-2  text-left text-sm w-44">SKU</th>
               <th className=" p-2 text-left text-sm w-32">Price</th>
               <th className=" p-2 text-left text-sm w-32">Action</th>
 
@@ -951,7 +971,7 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
                         src={Bin}
                         alt="Delete"
                         className="cursor-pointer w-7 h-7"
-                        onClick={() => handleRelatedDelete()}
+                        onClick={() => handleRemoveSelectedProducts(3,product?.productID)}
 
                       />
                     </Tooltip></td>

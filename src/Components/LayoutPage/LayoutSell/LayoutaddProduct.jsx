@@ -94,6 +94,7 @@ function LayoutaddProduct() {
     brandName: "",
     size: "",
     unitOfMeasurement: "",
+    mainImageUrl:null,
     price: "",
     amountInStock: "",
     taxable: null,
@@ -443,6 +444,14 @@ function LayoutaddProduct() {
     const defaultImageUrl =
       "https://pharmaetrade.s3.us-east-1.amazonaws.com/PharmaEtrade/Products/510b1b0a-596d-11ef-8a1f-0affd374995f/30d4c3d5-6f52-11ef-8a1f-0affd374995f/NO_IMG.jpg";
 
+      const mainImageUrl =
+      formData.mainImageUrl == null
+        ? defaultImageUrl
+        : typeof formData.mainImageUrl === "string"
+        ? formData.mainImageUrl
+        : await uploadImageApi(user.customerId, productId, formData.mainImageUrl);
+
+
     const imageUrl =
       formData.imageUrl == null
         ? defaultImageUrl
@@ -606,7 +615,18 @@ function LayoutaddProduct() {
           });
           setTimeout(() => setNotification({ show: false, message: "" }), 3000);
         }
-      } else if (activeTab == 3) {
+      } 
+
+      else if (activeTab == 2) {
+          setNotification({
+            show: true,
+            message: "Related Products Added Successfully!",
+          });
+          setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+        
+      }
+      
+      else if (activeTab == 3) {
         if (queryProductId) {
           console.log(tab4);
           const response = await EditProductGallery(tab4, user.customerId);
@@ -752,8 +772,17 @@ function LayoutaddProduct() {
                       value={formData.productCategory}
                     >
                       <option value="">Select a product category</option>
-                      <option value="1">Default Category</option>
-                      <option value="2">Electronics</option>
+                      <option value="1">Prescription Medications</option>
+                      <option value="2">Baby & Child Care Products</option>
+                      <option value="4">Health care products</option>
+                      <option value="5">Household Suppliers</option>
+                      <option value="6">Oral Care Products</option>
+                      <option value="7">Stationery & Gift Wrapping Supplies</option>
+                      <option value="8">Vision Products</option>
+                      <option value="9">Diet & Sports Nutrition</option>
+                      <option value="10">Vitamins, Minerals & Supplements</option>
+                      <option value="11">Personal Care products</option>
+
                       {/* <option value="3">Apparel</option>
                       <option value="4">Home Goods</option>
                       <option value="5">Health & Beauty</option> */}
