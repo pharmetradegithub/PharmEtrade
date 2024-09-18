@@ -7,6 +7,7 @@ import filter from "../../../assets/Icons/filter_icon.png";
 import { AddCrossSellProductAPI, AddRelatedProductAPI, AddUpSellProductAPI, fetchCriteriaProductsApi, fetchCrossSellProductApi, fetchUpsellProductApi, RemoveCrossSellProductAPI, RemoveRelatedProductAPI, RemoveUpsellProductAPI } from "../../../Api/ProductApi";
 import { useDispatch, useSelector } from "react-redux";
 import {fetchRelatedProductApi } from "../../../Api/ProductApi";
+import Bin from "../../../assets/trash.png"
 
 const LayoutRelatedProducts = ({formData,handleInputChange}) => {
   const [buttonClick, setButtonClick] = useState(false);
