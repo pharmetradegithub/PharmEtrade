@@ -4,13 +4,26 @@ import related from "../../../assets/Related.png";
 import upSell from "../../../assets/upSell.png";
 import crossSell from "../../../assets/crossSell.png";
 import filter from "../../../assets/Icons/filter_icon.png";
-import { AddCrossSellProductAPI, AddRelatedProductAPI, AddUpSellProductAPI, fetchCriteriaProductsApi, fetchCrossSellProductApi, fetchUpsellProductApi, RemoveCrossSellProductAPI, RemoveRelatedProductAPI, RemoveUpsellProductAPI } from "../../../Api/ProductApi";
+import next from "../../../assets/Next_icon.png";
+import previous from "../../../assets/Previous_icon.png";
+import Notification from "../../../Components/Notification";
+
+import {
+  AddCrossSellProductAPI,
+  AddRelatedProductAPI,
+  AddUpSellProductAPI,
+  fetchCriteriaProductsApi,
+  fetchCrossSellProductApi,
+  fetchUpsellProductApi,
+  RemoveCrossSellProductAPI,
+  RemoveRelatedProductAPI,
+  RemoveUpsellProductAPI,
+} from "../../../Api/ProductApi";
 import { useDispatch, useSelector } from "react-redux";
-import {fetchRelatedProductApi } from "../../../Api/ProductApi";
-import Bin from "../../../assets/trash.png"
+import { fetchRelatedProductApi } from "../../../Api/ProductApi";
+import Bin from "../../../assets/trash.png";
 
 const LayoutRelatedProducts = () => {
-  
   const [formData, setFormData] = useState({
     categorySpecification: "",
     productCategory: "",
@@ -23,9 +36,6 @@ const LayoutRelatedProducts = () => {
     productName: "",
   });
 
-
-
-
   const [buttonClick, setButtonClick] = useState(false);
   const [ButtonUpClick, setButtonUpClick] = useState(false);
   const [isButtonClicked, setButtonClicked] = useState(false);
@@ -34,112 +44,148 @@ const LayoutRelatedProducts = () => {
   const [isCrossSellFiltervisible, setCrossSellFilterVisible] = useState(false);
   const [product, setproduct] = useState(null);
   const productDetails = useSelector((state) => state.product.Products);
-  const productsByCriteria = useSelector((state)=>state.product.productsByCriteria);
-  const relatedProducts = useSelector((state)=>state.product.RelatedProducts);
-  const UpSellProducts = useSelector((state)=>state.product.UpSellProducts);
-  const CrossSellProducts = useSelector((state)=>state.product.CrossSellProducts);
+  const productsByCriteria = useSelector(
+    (state) => state.product.productsByCriteria
+  );
+  const relatedProducts = useSelector((state) => state.product.RelatedProducts);
+  const UpSellProducts = useSelector((state) => state.product.UpSellProducts);
+  const CrossSellProducts = useSelector(
+    (state) => state.product.CrossSellProducts
+  );
 
-  console.log(productsByCriteria,"gnn");
-  const [loading,setloading] = useState(true);
+  console.log(productsByCriteria, "gnn");
+  const [loading, setloading] = useState(true);
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+  });
 
-  console.log(relatedProducts,UpSellProducts,CrossSellProducts,"related one");
+  console.log(
+    relatedProducts,
+    UpSellProducts,
+    CrossSellProducts,
+    "related one"
+  );
   // const relatedProducts = useSelector((state) => state.product)
   useEffect(() => {
-    const fetchAll =async ()=>{
+    const fetchAll = async () => {
       const productId = localStorage.getItem("productId");
       const searchParams = new URLSearchParams(location.search);
       const queryProductId = searchParams.get("productId");
-        fetchRelatedProductApi(queryProductId==null? productId:queryProductId);
-        fetchCrossSellProductApi(queryProductId==null? productId:queryProductId);
-        fetchUpsellProductApi(queryProductId==null? productId:queryProductId);
-    }
-    fetchAll()
-  }, [])
-  
+      fetchRelatedProductApi(
+        queryProductId == null ? productId : queryProductId
+      );
+      fetchCrossSellProductApi(
+        queryProductId == null ? productId : queryProductId
+      );
+      fetchUpsellProductApi(
+        queryProductId == null ? productId : queryProductId
+      );
+    };
+    fetchAll();
+  }, []);
+
   const handleRelatedFilter = () => {
-  setIsRelatedFiltervisible(true);
-  setButtonClick(true);
+    setIsRelatedFiltervisible(true);
+    setButtonClick(true);
   };
   const handleCancelRelated = () => {
     setIsRelatedFiltervisible(false);
     setButtonClick(false);
-    };
+  };
   const handleUpsellFilter = () => {
     setIsUpsellFilterVisible(true);
     setButtonUpClick(true);
   };
   const handleCancelUpsell = () => {
-   setIsUpsellFilterVisible(false);
-   setButtonUpClick(false);
+    setIsUpsellFilterVisible(false);
+    setButtonUpClick(false);
   };
   const handleCrossSellFilter = () => {
     setCrossSellFilterVisible(true);
     setButtonClicked(true);
   };
 
-  const handleCrossSellCancel =()=>{
+  const handleCrossSellCancel = () => {
     setCrossSellFilterVisible(false);
     setButtonClicked(false);
-}
-const handleAddSelected = async(index,toproductID)=>{
-  const productId = localStorage.getItem("productId");
-  const searchParams = new URLSearchParams(location.search);
-  const queryProductId = searchParams.get("productId");
-  console.log(productId,toproductID,index);
-  try {
-    if(index==1)
-    {
-      await AddRelatedProductAPI(queryProductId==null? productId:queryProductId,toproductID);
-      await fetchRelatedProductApi(queryProductId==null? productId:queryProductId);
-      // await AddRelatedProductAPI(toproductID,toproductID);
-      // await fetchRelatedProductApi(toproductID);
+  };
+  const handleAddSelected = async (index, toproductID) => {
+    const productId = localStorage.getItem("productId");
+    const searchParams = new URLSearchParams(location.search);
+    const queryProductId = searchParams.get("productId");
+    console.log(productId, toproductID, index);
+    try {
+      if (index == 1) {
+        await AddRelatedProductAPI(
+          queryProductId == null ? productId : queryProductId,
+          toproductID
+        );
+        await fetchRelatedProductApi(
+          queryProductId == null ? productId : queryProductId
+        );
+        // await AddRelatedProductAPI(toproductID,toproductID);
+        // await fetchRelatedProductApi(toproductID);
+      } else if (index == 2) {
+        await AddUpSellProductAPI(
+          queryProductId == null ? productId : queryProductId,
+          toproductID
+        );
+        await fetchUpsellProductApi(
+          queryProductId == null ? productId : queryProductId
+        );
+        // await AddUpSellProductAPI(toproductID,toproductID);
+        // await fetchUpsellProductApi(toproductID);
+      } else {
+        await AddCrossSellProductAPI(
+          queryProductId == null ? productId : queryProductId,
+          toproductID
+        );
+        await fetchCrossSellProductApi(
+          queryProductId == null ? productId : queryProductId
+        );
+        // await AddCrossSellProductAPI(toproductID,toproductID);
+        // await fetchCrossSellProductApi(toproductID);
+      }
+    } catch (error) {
+      console.log(error);
     }
-    else if(index==2)
-    {
-      await AddUpSellProductAPI(queryProductId==null? productId:queryProductId,toproductID);
-      await fetchUpsellProductApi(queryProductId==null? productId:queryProductId);
-      // await AddUpSellProductAPI(toproductID,toproductID);
-      // await fetchUpsellProductApi(toproductID);
-      
+  };
+  const handleRemoveSelectedProducts = async (index, toproductID) => {
+    const productId = localStorage.getItem("productId");
+    const searchParams = new URLSearchParams(location.search);
+    const queryProductId = searchParams.get("productId");
+    console.log(productId, toproductID, index);
+    try {
+      if (index == 1) {
+        await RemoveRelatedProductAPI(
+          queryProductId == null ? productId : queryProductId,
+          toproductID
+        );
+        await fetchRelatedProductApi(
+          queryProductId == null ? productId : queryProductId
+        );
+      } else if (index == 2) {
+        await RemoveUpsellProductAPI(
+          queryProductId == null ? productId : queryProductId,
+          toproductID
+        );
+        await fetchUpsellProductApi(
+          queryProductId == null ? productId : queryProductId
+        );
+      } else {
+        await RemoveCrossSellProductAPI(
+          queryProductId == null ? productId : queryProductId,
+          toproductID
+        );
+        await fetchCrossSellProductApi(
+          queryProductId == null ? productId : queryProductId
+        );
+      }
+    } catch (error) {
+      console.log(error);
     }
-    else
-    {
-      await AddCrossSellProductAPI(queryProductId==null? productId:queryProductId,toproductID);
-      await fetchCrossSellProductApi(queryProductId==null? productId:queryProductId);
-      // await AddCrossSellProductAPI(toproductID,toproductID);
-      // await fetchCrossSellProductApi(toproductID);
-    }
-
-  } catch (error) {
-    console.log(error);
-  }
-}
-const handleRemoveSelectedProducts = async(index,toproductID)=>{
-  const productId = localStorage.getItem("productId");
-  const searchParams = new URLSearchParams(location.search);
-  const queryProductId = searchParams.get("productId");
-  console.log(productId,toproductID,index);
-  try {
-    if(index==1)
-    {
-      await RemoveRelatedProductAPI(queryProductId==null? productId:queryProductId,toproductID);
-      await fetchRelatedProductApi(queryProductId==null? productId:queryProductId);
-    }
-    else if(index==2)
-    {
-      await RemoveUpsellProductAPI(queryProductId==null? productId:queryProductId,toproductID);
-      await fetchUpsellProductApi(queryProductId==null? productId:queryProductId);
-    }
-    else
-    {
-      await RemoveCrossSellProductAPI(queryProductId==null? productId:queryProductId,toproductID);
-      await fetchCrossSellProductApi(queryProductId==null? productId:queryProductId);
-    }
-
-  } catch (error) {
-    console.log(error);
-  }
-}
+  };
   const handleCriteria = async () => {
     let Criteria = {
       deals: "",
@@ -163,10 +209,6 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
     await fetchCriteriaProductsApi(Criteria, "Apply Filter");
     setloading(false);
   };
-
-
-  
-
 
   // Handle input change for all form fields
   const handleInputChange = (e) => {
@@ -228,21 +270,44 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
     },
   ];
 
-
   const dispatch = useDispatch(); // Hook for dispatch
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentItems, setCurrentItems] = useState([]);
 
- 
-// const handlerelatedProduct = (productID) => {
-//     console.log("productIdddddd-->", productID)
-    
-//       fetchRelatedProductApi(productID); // Dispatch the thunk
-   
-//   };
+  const itemsPerPage = 2;
 
-  
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const totalPages = Math.ceil(
+    (productsByCriteria?.length || 0) / itemsPerPage
+  );
+
+  useEffect(() => {
+    if (productsByCriteria) {
+      setCurrentItems(
+        productsByCriteria.slice(indexOfFirstItem, indexOfLastItem)
+      );
+    }
+  }, [productsByCriteria, indexOfFirstItem, indexOfLastItem]);
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  // const handlerelatedProduct = (productID) => {
+  //     console.log("productIdddddd-->", productID)
+
+  //       fetchRelatedProductApi(productID); // Dispatch the thunk
+
+  //   };
 
   return (
     <div className="font-sans font-medium">
+       <Notification show={notification.show} message={notification.message} />
       <div className=" bg-white p-2 px-4   w-full Largest:w-[60%] ">
         <div className="flex flex-col justify-between">
           <div className="flex justify-between items-center">
@@ -282,15 +347,15 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
                 {/* <option value="1">Default Category</option>
                 <option value="2">Electronics</option> */}
                 <option value="1">Prescription Medications</option>
-                      <option value="2">Baby & Child Care Products</option>
-                      <option value="4">Health care products</option>
-                      <option value="5">Household Suppliers</option>
-                      <option value="6">Oral Care Products</option>
-                      <option value="7">Stationery & Gift Wrapping Supplies</option>
-                      <option value="8">Vision Products</option>
-                      <option value="9">Diet & Sports Nutrition</option>
-                      <option value="10">Vitamins, Minerals & Supplements</option>
-                      <option value="11">Personal Care products</option>
+                <option value="2">Baby & Child Care Products</option>
+                <option value="4">Health care products</option>
+                <option value="5">Household Suppliers</option>
+                <option value="6">Oral Care Products</option>
+                <option value="7">Stationery & Gift Wrapping Supplies</option>
+                <option value="8">Vision Products</option>
+                <option value="9">Diet & Sports Nutrition</option>
+                <option value="10">Vitamins, Minerals & Supplements</option>
+                <option value="11">Personal Care products</option>
               </select>
             </div>
             <div className="flex flex-col mr-6 ">
@@ -407,7 +472,7 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
         </div>
       </div>
 
-      <div className={`${loading==true?"hidden":"false"}`}>
+      <div className={`${loading == true ? "hidden" : "false"}`}>
         <div className="my-6 border w-full Largest:w-[60%] rounded-md bg-white ">
           <table className="w-full">
             <thead className="bg-blue-900 text-white">
@@ -435,28 +500,65 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
                         </td> */}
                   <td className="text-sm p-2"> {product?.id}</td>
                   <td className="text-sm p-2">
-                    <img src={product?.productGallery.imageUrl} className="w-12 h-12"/></td>
+                    <img
+                      src={product?.productGallery.imageUrl}
+                      className="w-12 h-12"
+                    />
+                  </td>
                   <td className="text-sm p-2">{product?.productName}</td>
-                  <td className="text-sm p-2">{product?.categorySpecification.specificationName}</td>
+                  <td className="text-sm p-2">
+                    {product?.categorySpecification.specificationName}
+                  </td>
                   <td className="text-sm p-2">{product?.status}</td>
-                  <td className="text-sm p-2">{product?.productCategory.categoryName}</td>
+                  <td className="text-sm p-2">
+                    {product?.productCategory.categoryName}
+                  </td>
                   <td className="text-sm p-2">{product?.salePrice}</td>
                   <td className="px-4 py-2 cursor-pointer flex items-center space-x-2">
+                    {/* <Tooltip title="Related Products" placement="top">
+                      <img
+                        src={related}
+                        alt="related"
+                        className="cursor-pointer w-6 h-6"
+                        onClick={() => handleAddSelected(1, product?.productID)}
+                        
+                      />
+                    </Tooltip> */}
                     <Tooltip title="Related Products" placement="top">
                       <img
                         src={related}
                         alt="related"
                         className="cursor-pointer w-6 h-6"
-                        onClick={() => handleAddSelected(1,product?.productID)}
+                        onClick={() => {
+                          handleAddSelected(1, product?.productID);
+                          setNotification({
+                            show: true,
+                            message: "Added to Related Product!",
+                          });
+                          setTimeout(
+                            () => setNotification({ show: false, message: "" }),
+                            3000
+                          );
+                        }}
                       />
                     </Tooltip>
+
                     <Tooltip title="Up-Sell Products" placement="top">
                       <img
                         src={upSell}
                         alt="upSell"
                         className="cursor-pointer w-6 h-5"
-                        onClick={() => handleAddSelected(2,product.productID)}
+                        onClick={() =>{ handleAddSelected(2, product.productID);
+                          setNotification({
+                            show: true,
+                            message: "Added to Up-Sell Product!",
+                          });
+                          setTimeout(
+                            () => setNotification({ show: false, message: "" }),
+                            3000
+                          );
 
+                         } }
                       />
                     </Tooltip>
                     <Tooltip title="Cross-Sell Products" placement="top">
@@ -464,8 +566,16 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
                         src={crossSell}
                         alt="crossSell"
                         className="cursor-pointer w-7 h-7"
-                        onClick={() => handleAddSelected(3,product.productID)}
-
+                        onClick={() => {handleAddSelected(3, product.productID);
+                          setNotification({
+                            show: true,
+                            message: "Added to Cross Sell Product!",
+                          });
+                          setTimeout(
+                            () => setNotification({ show: false, message: "" }),
+                            3000
+                          );
+                         } }
                       />
                     </Tooltip>
                   </td>
@@ -473,6 +583,26 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
               ))}
             </tbody>
           </table>
+        </div>
+
+        <div className="flex justify-end my-2">
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+            className="mx-2 px-4 border p-2 text-white rounded-lg"
+          >
+            <img src={previous} className="w-2" alt="Previous Page" />
+          </button>
+          <span className="mx-2 px-4 flex items-center bg-white text-black rounded-lg">
+            {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className="mx-2 px-4 border p-2 text-white rounded-lg"
+          >
+            <img src={next} className="w-2" alt="Next Page" />
+          </button>
         </div>
       </div>
       <h1 className="text-2xl font-semibold">Related Products </h1>
@@ -591,7 +721,6 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
                 <th className=" p-2  text-left text-sm bw-44">Type</th>
                 <th className=" p-2  text-left text-sm  w-44">Price</th>
                 <th className=" p-2  text-left text-sm  w-44">Action</th>
-
               </tr>
             </thead>
             {/* <tbody>
@@ -613,7 +742,7 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
                 </tr>
               ))}
             </tbody> */}
-                  <tbody>
+            <tbody>
               {relatedProducts.map((product, index) => (
                 <tr key={index} className="border-b">
                   <td className=" p-2">
@@ -621,20 +750,29 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
                   </td>
                   <td className="text-sm p-2"> {product.productID}</td>
                   <td className="text-sm p-2">
-                    <img src={product.productGallery.imageUrl} className="w-7 h-7"/></td>
+                    <img
+                      src={product.productGallery.imageUrl}
+                      className="w-7 h-7"
+                    />
+                  </td>
                   <td className="text-sm p-2">{product.productName}</td>
-                  <td className="text-sm p-2">{product.categorySpecification.specificationName}</td>
+                  <td className="text-sm p-2">
+                    {product.categorySpecification.specificationName}
+                  </td>
                   <td className="text-sm p-2">{product.status}</td>
-                  <td className="text-sm p-2">{product.productCategory.categoryName}</td>
+                  <td className="text-sm p-2">
+                    {product.productCategory.categoryName}
+                  </td>
                   <td className="text-sm p-2">{product.salePrice}</td>
                   <td className="px-4 py-2 cursor-pointer">
-                  <Tooltip title="Delete" placement="top">
+                    <Tooltip title="Delete" placement="top">
                       <img
                         src={Bin}
                         alt="Delete"
                         className="cursor-pointer w-7 h-7"
-                        onClick={() => handleRemoveSelectedProducts(1,product?.productID)}
-
+                        onClick={() =>
+                          handleRemoveSelectedProducts(1, product?.productID)
+                        }
                       />
                     </Tooltip>
                   </td>
@@ -762,8 +900,6 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
                 <th className=" p-2 text-left text-sm bw-44">Type</th>
                 <th className=" p-2  text-left text-sm  w-44">Price</th>
                 <th className=" p-2 text-left text-sm w-32">Action</th>
-
-                
               </tr>
             </thead>
             {/* <tbody>
@@ -785,7 +921,7 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
                 </tr>
               ))}
             </tbody> */}
-                        <tbody>
+            <tbody>
               {UpSellProducts.map((product, index) => (
                 <tr key={index} className="border-b">
                   <td className=" p-2">
@@ -793,22 +929,32 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
                   </td>
                   <td className="text-sm p-2"> {product.productID}</td>
                   <td className="text-sm p-2">
-                    <img src={product.productGallery.imageUrl} className="w-7 h-7"/></td>
+                    <img
+                      src={product.productGallery.imageUrl}
+                      className="w-7 h-7"
+                    />
+                  </td>
                   <td className="text-sm p-2">{product.productName}</td>
-                  <td className="text-sm p-2">{product.categorySpecification.specificationName}</td>
+                  <td className="text-sm p-2">
+                    {product.categorySpecification.specificationName}
+                  </td>
                   <td className="text-sm p-2">{product.status}</td>
-                  <td className="text-sm p-2">{product.productCategory.categoryName}</td>
+                  <td className="text-sm p-2">
+                    {product.productCategory.categoryName}
+                  </td>
                   <td className="text-sm p-2">{product.salePrice}</td>
                   <td className="px-4 py-2 cursor-pointer">
-                  <Tooltip title="Delete" placement="top">
+                    <Tooltip title="Delete" placement="top">
                       <img
                         src={Bin}
                         alt="Delete"
                         className="cursor-pointer w-7 h-7"
-                        onClick={() => handleRemoveSelectedProducts(2,product?.productID)}
-
+                        onClick={() =>
+                          handleRemoveSelectedProducts(2, product?.productID)
+                        }
                       />
-                    </Tooltip></td>
+                    </Tooltip>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -930,7 +1076,6 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
               <th className=" p-2 text-left text-sm w-44">Type</th>
               <th className=" p-2 text-left text-sm w-32">Price</th>
               <th className=" p-2 text-left text-sm w-32">Action</th>
-
             </tr>
           </thead>
           {/* <tbody>
@@ -952,29 +1097,40 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
               </tr>
             ))}
           </tbody> */}
-                    <tbody>
+          <tbody>
             {CrossSellProducts.map((product, index) => (
               <tr key={index} className="border-b">
                 <td className=" p-2">
                   <input className=" h-6 w-4" type="checkbox" />
                 </td>
                 <td className="text-sm p-2"> {product.productID}</td>
-                <td className="text-sm p-2"><img src={product.productGallery.imageUrl} className="w-7 h-8"/></td>
+                <td className="text-sm p-2">
+                  <img
+                    src={product.productGallery.imageUrl}
+                    className="w-7 h-8"
+                  />
+                </td>
                 <td className="text-sm p-2">{product.productName}</td>
-                <td className="text-sm p-2">{product.categorySpecification.specificationName}</td>
+                <td className="text-sm p-2">
+                  {product.categorySpecification.specificationName}
+                </td>
                 <td className="text-sm p-2">{product.status}</td>
-                <td className="text-sm p-2">{product.productCategory.categoryName}</td>
+                <td className="text-sm p-2">
+                  {product.productCategory.categoryName}
+                </td>
                 <td className="text-sm p-2">{product.salePrice}</td>
                 <td className="px-4 py-2 cursor-pointer">
                   <Tooltip title="Delete" placement="top">
-                      <img
-                        src={Bin}
-                        alt="Delete"
-                        className="cursor-pointer w-7 h-7"
-                        onClick={() => handleRemoveSelectedProducts(3,product?.productID)}
-
-                      />
-                    </Tooltip></td>
+                    <img
+                      src={Bin}
+                      alt="Delete"
+                      className="cursor-pointer w-7 h-7"
+                      onClick={() =>
+                        handleRemoveSelectedProducts(3, product?.productID)
+                      }
+                    />
+                  </Tooltip>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -982,9 +1138,7 @@ const handleRemoveSelectedProducts = async(index,toproductID)=>{
       </div>
       {/* section end */}
     </div>
-     
   );
 };
 
 export default LayoutRelatedProducts;
-
