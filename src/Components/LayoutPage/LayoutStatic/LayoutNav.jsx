@@ -271,6 +271,27 @@ const LayoutNav = ({ Form_Data, }) => {
     }
   };
 
+  const components = [
+    { id: 1, name: "Prescription Medications" },
+    { id: 2, name: "Baby & Child Care Products" },
+    { id: 3, name: "Health care products" },
+    { id: 4, name: "Household Suppliers" },
+    { id: 5, name: "Oral Care Products" },
+    { id: 6, name: "Stationery & Gift Wrapping Supplies" },
+    { id: 7, name: "Vision Products" },
+    { id: 8, name: "Diet & Sports Nutrition" },
+    { id: 9, name: "Vitamins, Minerals & Supplements" },
+    { id: 10, name: "Personal Care products" },
+    // { id: 11, name: "Pharmacy item " },
+    // { id: 12, name: "Prescription Drugs " },
+    // { id: 13, name: "OTC Products " },
+    // { id: 14, name: "VAWD Sellers" },
+    // { id: 15, name: "Top Selling Products " },
+    // { id: 16, name: "Buy Again  "},
+  ];
+  const handleCatMouseLeave = () => {
+    setPopUps(null);
+  };
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -389,10 +410,10 @@ const LayoutNav = ({ Form_Data, }) => {
               </span>
             </button>
 
-            {isDropdownOpen && (
+            {/* {isDropdownOpen && (
               <div className="absolute z-10 top-[30px] left-0">
                 <div className="bg-white px-4 py-3 rounded shadow-lg w-64">
-                  {/* Dropdown items */}
+                
                   {[
                     { name: "Deals", component: "Component for deals" },
                     { name: "Brands", component: "Component for brands" },
@@ -472,7 +493,41 @@ const LayoutNav = ({ Form_Data, }) => {
                   ))}
                 </div>
               </div>
-            )}
+            )} */}
+            {isDropdownOpen && (
+                <div
+                  className="absolute z-10"
+                  style={{ top: "30px", left: "0px" }}
+                >
+                  <div className="bg-white px-4 py-3 rounded shadow-lg w-64">
+                    {components.map((items, index) => (
+                      <ul onClick={() => handleCriteria(items)} key={index}>
+                        <li className="">
+                          <a
+                            className="hover:text-black cursor-pointer text-sm font-medium text-blue-900"
+                            onClick={() => handleItemClick(items.name)}
+                            onMouseLeave={handleCatMouseLeave}
+                          >
+                            {items.name}
+                          </a>
+                          {/* {popUps === items.name && (
+                            <div
+                              className="absolute bg-white border border-gray-300 rounded shadow-lg"
+                              style={{
+                                top: "0%",
+                                left: "100%",
+                                width: "150px",
+                              }}
+                            >
+                              {items.component}
+                            </div>
+                          )} */}
+                        </li>
+                      </ul>
+                    ))}
+                  </div>
+                </div>
+              )}
 
             <div className="flex w-full h-10 border container-focus">
               <input

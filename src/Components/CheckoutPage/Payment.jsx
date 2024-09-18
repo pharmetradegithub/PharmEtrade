@@ -381,7 +381,6 @@
 
 // export default Payment;
 
-
 import React, { useState } from "react";
 import plus from '../../assets/Icons/plus[1].png';
 import AmericanExpress from "../../assets/AmericanExpress.png";
@@ -532,7 +531,7 @@ const Payment = () => {
         
           <div className="bg-white border rounded-md w-96 p-5">
             <div className="flex justify-between border-b pb-3">
-              <h1>Enter Card Details</h1>
+              <h1> Card Details</h1>
               <img
                   src={cross} // Replace with your cross icon path
                 className="w-5 h-5 cursor-pointer"
@@ -608,6 +607,7 @@ const Payment = () => {
   className="w-32 h-8 border border-black"
   placeholder="CVV"
 />
+<label>CVV</label>
                   </div>
                 </div>
               </div>
@@ -620,7 +620,7 @@ const Payment = () => {
             </div>
             <div className="flex justify-end mt-5">
               <button
-                className="border rounded-full w-24 border-black h-8 mr-2"
+                className="border rounded-full w-24 bg-red-500 text-white h-8 mr-2"
                 onClick={handleCardRemove}
               >
                 Cancel

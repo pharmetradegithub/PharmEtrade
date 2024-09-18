@@ -1,6 +1,9 @@
+
+
+
 // import React, { useState, useRef, useEffect } from "react";
 // import background_image from "../assets/homepharma.png";
-// import logo from "../assets/Icons/logo2.png";
+// import logo from "../assets/logo2.png";
 // import { Link, useNavigate } from "react-router-dom";
 // import { TextField } from "@mui/material";
 // import refresh from "../assets/reload-arrow (1).png";
@@ -231,14 +234,17 @@
 //                   </button>
 //                 </div>
 
-//                 <div className="flex justify-center mb-4 w-96">
+//                 <div className="flex justify-center  w-96">
 //                   <label className="text-[18px] text-blue-900">
-//                     <Link to="/password">Forgot Password /</Link>
+//                     <Link to="/password">Forgot Password </Link>
 //                   </label>
-//                   <label className="text-[18px] ">
+                
+//                 </div>
+//                 <div>
+//                 <label className="text-[18px]  text-blue-900">
 //                     New User ?{" "}
 //                     <Link className="underline hover:text-red-500" to="/signup">
-//                       Start Here
+//                       Sign Up 
 //                     </Link>
 //                   </label>
 //                 </div>
@@ -254,9 +260,10 @@
 // export default Signin;
 
 
-import React, { useState, useRef, useEffect } from "react";
+
+import React, { useState, useEffect } from "react";
 import background_image from "../assets/homepharma.png";
-import logo from "../assets/logo2.png";
+import logo from "../assets/Icons/logo2.png";
 import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
 import refresh from "../assets/reload-arrow (1).png";
@@ -268,50 +275,6 @@ import {
   loginUserApi,
   logoutUserApi,
 } from "../Api/UserApi";
-const OTPInput = ({ length, onChangeOTP }) => {
-  const [otp, setOTP] = useState(new Array(length).fill(""));
-  const inputRefs = useRef([]);
-
-  const handleChange = (element, index) => {
-    const value = element.value.replace(/[^0-9]/g, "");
-    if (value) {
-      const newOTP = [...otp];
-      newOTP[index] = value;
-      setOTP(newOTP);
-      if (index < length - 1) {
-        inputRefs.current[index + 1].focus();
-      }
-      onChangeOTP(newOTP.join(""));
-    }
-  };
-
-  const handleBackspace = (element, index) => {
-    if (element.value === "") {
-      if (index > 0) {
-        inputRefs.current[index - 1].focus();
-      }
-    }
-  };
-
-  return (
-    <div style={{ display: "flex" }}>
-      {otp.map((data, index) => (
-        <input
-          key={index}
-          type="text"
-          value={data}
-          maxLength="1"
-          onChange={(e) => handleChange(e.target, index)}
-          onKeyDown={(e) =>
-            e.key === "Backspace" && handleBackspace(e.target, index)
-          }
-          ref={(el) => (inputRefs.current[index] = el)}
-          className="w-[22px] h-[22px] flex border rounded-md border-gray-500 mx-1"
-        />
-      ))}
-    </div>
-  );
-};
 
 const Signin = () => {
   const [captcha, setCaptcha] = useState(generateCaptcha());
@@ -322,7 +285,6 @@ const Signin = () => {
   });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-  const [token, setToken] = useState("");
   const nav = useNavigate();
 
   useEffect(() => {
@@ -332,6 +294,7 @@ const Signin = () => {
   function generateCaptcha() {
     return Math.floor(10000 + Math.random() * 90000).toString();
   }
+
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
@@ -369,24 +332,40 @@ const Signin = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (validate()) {
-      const userId = await loginUserApi(formData.email, formData.password);
-      if (userId) {
-        await getUserByCustomerIdApi(userId);
+    setErrors({}); // Clear previous errors
 
-        setFormData({ email: "", password: "", captcha: "" });
-        setErrors({});
-        nav("/");
+    if (validate()) {
+      try {
+        const userId = await loginUserApi(formData.email, formData.password);
+
+        if (userId) {
+          // Login successful, navigate to the homepage
+          await getUserByCustomerIdApi(userId);
+          setFormData({ email: "", password: "", captcha: "" });
+          nav("/");
+        } else {
+          // Login failed, specific incorrect email/password error
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            general: "Incorrect email or password",
+          }));
+        }
+      } catch (error) {
+        // Handle network/API errors
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          general: "Login failed. Please try again later.",
+        }));
       }
     }
   };
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-
   return (
-    <div className="h-screen w-screen ">
+    <div className="h-screen w-screen">
       <img
         src={background_image}
         style={{
@@ -400,7 +379,7 @@ const Signin = () => {
         }}
       />
 
-      <div className="w-full h-75% ml-2 ">
+      <div className="w-full h-75% ml-2">
         <Link to="/">
           <img src={logo} style={{ width: "220px" }} />
         </Link>
@@ -409,6 +388,10 @@ const Signin = () => {
             <h2 className="text-blue-900 text-[25px] font-bold my-8">
               Sign-In
             </h2>
+            
+            {/* Display error messages above the form */}
+           
+
             <form
               onSubmit={handleSubmit}
               className="w-full h-full flex flex-col justify-center items-center"
@@ -436,7 +419,7 @@ const Signin = () => {
                     value={formData.password}
                     onChange={handleInputChange}
                     error={!!errors.password}
-                    helperText={formData.password.length > 0 && errors.password}
+                    helperText={errors.password}
                     size="small"
                     InputProps={{
                       endAdornment: (
@@ -453,6 +436,11 @@ const Signin = () => {
                     }}
                   />
                 </div>
+                {errors.general && (
+              <div className="w-[80%] -mt-4 text-red-500 text-center">
+                {errors.general}
+              </div>
+            )}
 
                 <div className="flex justify-center items-center my-2">
                   <div className="flex border rounded-md bg-slate-200 p-2 mx-2">
@@ -474,7 +462,7 @@ const Signin = () => {
                     label="Enter Captcha"
                     variant="standard"
                     error={!!errors.captcha}
-                    helperText={formData.captcha !== captcha && errors.captcha}
+                    helperText={errors.captcha}
                   />
                 </div>
 
@@ -487,17 +475,16 @@ const Signin = () => {
                   </button>
                 </div>
 
-                <div className="flex justify-center  w-96">
+                <div className="flex justify-center w-96">
                   <label className="text-[18px] text-blue-900">
                     <Link to="/password">Forgot Password </Link>
                   </label>
-                
                 </div>
                 <div>
-                <label className="text-[18px]  text-blue-900">
-                    New User ?{" "}
+                  <label className="text-[18px] text-blue-900">
+                    New User?{" "}
                     <Link className="underline hover:text-red-500" to="/signup">
-                      Sign Up 
+                      Sign Up
                     </Link>
                   </label>
                 </div>
@@ -511,3 +498,4 @@ const Signin = () => {
 };
 
 export default Signin;
+

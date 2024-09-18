@@ -787,7 +787,7 @@ function Address({ topMargin, totalAmount }) {
                                 </FormControl>
 
                                 <TextField
-                                  label="Pin Code"
+                                  label="Zip "
                                   name="Pin_Code"
                                   size="small"
                                   className="w-full"
@@ -937,7 +937,7 @@ function Address({ topMargin, totalAmount }) {
                                   {/* {error.State && <span className="text-red-500">{error.State}</span>} */}
                                 </FormControl>
                                     <TextField
-                                      label="Pin Code"
+                                      label="zip"
                                       id="Pin_Code"
                                       name="Pin_Code" // Matches state key
                                       value={newAddressForm.Pin_Code}
