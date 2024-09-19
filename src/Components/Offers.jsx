@@ -347,13 +347,15 @@ const Offers = ({ topMargin, addCart, wishList }) => {
                   </Link>
                 </div>
                 <div className="flex justify-center flex-col items-center mb-1 cursor-pointer">
+                <Link to={`/detailspage/${offer.productID}`}>
                   <p
                     className="font-semibold text-lg hover:underline w-52 items-start justify-start text-center whitespace-nowrap overflow-hidden text-ellipsis"
                     title={offer.productName}
-                    onClick={() => navigate(`/detailspage/${index}`)}
+                    // onClick={() => navigate(`/detailspage/${index}`)}
                   >
                     {offer.productName}
                   </p>
+                  </Link>
                   <span className="">${offer.salePrice}</span>
                 </div>
                 <div className="flex justify-between mx-2">
