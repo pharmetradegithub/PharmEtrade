@@ -393,7 +393,7 @@ function App() {
           <Route path="/layout/layoutOtcProducts" element={<LayoutOtcProducts />} />
         </Route>
 
-        <Route path="/admin" element={<AdminPanel />}>
+        <Route path="/PharmEtradeadmin" element={<AdminPanel />}>
           <Route path="" element={<AdminDasboard />} />
         </Route>
 

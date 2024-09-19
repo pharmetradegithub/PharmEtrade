@@ -42,7 +42,7 @@ import dropdown from "../assets/Down-arrow .png";
 import DropUpIcon from "../assets/Icons/dropDownb.png";
 import DropDownIcon from "../assets/Icons/dropUpB.png";
 import { useSelector } from "react-redux";
-import { fetchProductByIdApi, fetchRelatedProductApi } from "../Api/ProductApi";
+import { fetchProductByIdApi, fetchRelatedProductApi, fetchUpsellProductApi } from "../Api/ProductApi";
 import { addCartApi } from "../Api/CartApi";
 import { addToWishlistApi, removeFromWishlistApi } from "../Api/WishList";
 import { orderApi, orderGetApi } from "../Api/CustomerOrderList";
@@ -100,6 +100,9 @@ function Items({
   const RelatedProducts = useSelector((state)=> state.product.RelatedProducts);
   console.log("Rrrrrrrr", RelatedProducts)
 
+  const upsellProducts = useSelector((state) => state.product);
+  console.log("uuuuuuu", upsellProducts)
+
   useEffect(() => {
     const NewProductsAPI = async () => {
       try {
@@ -132,6 +135,12 @@ function Items({
 
   useEffect(() => {
     fetchRelatedProductApi(id)
+   
+  }, [id])
+
+  useEffect(() => {
+    fetchUpsellProductApi(id)
+   
   }, [id])
 
 
@@ -714,6 +723,25 @@ function Items({
             data={newProducts}
           />
         </div>
+
+        {/* <div className="w-[92%] border-t-2 shadow-inner ">
+          <ProductSlider
+            productList={productList}
+            addCart={addCart}
+            Title={"Up Sell Products"}
+            data={newProducts}
+          />
+        </div>  */}
+        <div className="w-[92%] border-t-2 shadow-inner ">
+          <ProductSlider
+            productList={productList}
+            addCart={addCart}
+            Title={"Cross Sell Products"}
+            data={newProducts}
+          />
+        </div>
+
+
       </div>
 
       <ScrollToTop />
