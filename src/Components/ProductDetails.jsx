@@ -81,9 +81,6 @@
 
 // // export default ProductDetails;
 
-
-
-
 // import React from "react";
 // import { Link } from "react-router-dom";
 // import addcart from "../assets/addcart.png";
@@ -168,8 +165,6 @@
 
 // export default ProductDetails;
 
-
-
 import React from "react";
 import { Link } from "react-router-dom";
 import addcart from "../assets/addcart.png";
@@ -180,7 +175,15 @@ import Items from "./Items";
 // import { useNavbarContext } from "./NavbarContext";
 import { useNavigate } from "react-router-dom";
 
-const ProductDetails = ({description, manufacturer, size, UOM, strength, brand, product}) => {
+const ProductDetails = ({
+  description,
+  manufacturer,
+  size,
+  UOM,
+  strength,
+  brand,
+  product,
+}) => {
   // const { pop, setPop } = useNavbarContext();
   const navigate = useNavigate();
   const images = Array(4).fill(nature);
@@ -197,109 +200,133 @@ const ProductDetails = ({description, manufacturer, size, UOM, strength, brand, 
       Height: "10in",
       Weight: "40gr",
       Width: "40%",
-      Length: "40"
-    }
-  ]
-
+      Length: "40",
+    },
+  ];
 
   return (
     <div className="w-[95%] h-full flex justify-center border-t-2 shadow-inner pt-4 ">
       <div className="h-full w-[95%] ">
         <h2 className="text-xl font-bold text-black">PRODUCT DETAILS</h2>
-        <div>
-          <h4 className="text-xl font-semibold text-blue-900 mt-2">Description</h4>
+        <div className="w-full">
+          <h4 className="text-xl font-semibold text-blue-900 mt-2">
+            Description
+          </h4>
           <div className="h-full w-[95%]  font-medium space-y-2">
-          {description}
+            {description}
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold text-blue-900 mt-3">Product Form</h2>
+            <h2 className="text-xl font-semibold text-blue-900 mt-3">
+              Product Form
+            </h2>
             <span className="font-normal text-[16px]">Tablet</span>
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold text-blue-900 mt-4">Directions for Use:</h2>
+            <h2 className="text-xl font-semibold text-blue-900 mt-4">
+              Directions for Use:
+            </h2>
             <span className="font-normal text-[16px]">
               Take one tablet daily or as directed by your physician.
             </span>
           </div>
-         
-<p className="text-xl text-blue-900  my-4 font-semibold">Product Information</p>
-          <div className="my-4">
-            {detailsTables.map((detailsTable, index) => (
-              <div key={index} className="flex ">
-                <table className="table-fixed border border-gray-400 w-[40%] h-auto">
-                  <tbody >
-                    <tr className="grid grid-cols-2 border-b">
-                      <th className="p-2 text-left bg-slate-100">Product Name:</th>
-                      <td className="p-2">{product}</td>
-                    </tr>
-                    <tr className="grid grid-cols-2 border-b">
-                      <th className="p-2 text-left bg-slate-100">Manufacturer:</th>
-                      <td className="p-2">{manufacturer}</td>
-                    </tr>
-                    <tr className="grid grid-cols-2 border-b">
-                      <th className="p-2 text-left bg-slate-100">Size:</th>
-                      <td className="p-2">{detailsTable.Size}</td>
-                    </tr>
-                    <tr className="grid grid-cols-2 border-b">
-                      <th className="p-2 text-left bg-slate-100">Form:</th>
-                      <td className="p-2">{detailsTable.Form}</td>
-                    </tr>
-                    <tr className="grid grid-cols-2 border-b">
-                      <th className="p-2 text-left bg-slate-100">UOM:</th>
-                      <td className="p-2">{UOM}</td>
-                    </tr>
-                    <tr className="grid grid-cols-2 border-b">
-                      <th className="p-2 text-left bg-slate-100">Strength:</th>
-                      <td className="p-2">{strength}</td>
-                    </tr>
-                    <tr className="grid grid-cols-2 border-b">
-                      <th className="p-2 text-left bg-slate-100">Brand Name:</th>
-                      <td className="p-2">{brand}</td>
-                    </tr>
-                    <tr className="grid grid-cols-2 border-b">
-                      <th className="p-2 text-left bg-slate-100">Height:</th>
-                      <td className="p-2">{detailsTable.Height}</td>
-                    </tr>
-                    <tr className="grid grid-cols-2 border-b">
-                      <th className="p-2 text-left bg-slate-100">Weight:</th>
-                      <td className="p-2">{detailsTable.Weight}</td>
-                    </tr>
-                    <tr className="grid grid-cols-2 border-b">
-                      <th className="p-2 text-left bg-slate-100">Width:</th>
-                      <td className="p-2">{detailsTable.Width}</td>
-                    </tr>
-                    <tr className="grid grid-cols-2">
-                      <th className="p-2 text-left bg-slate-100">Length:</th>
-                      <td className="p-2">{detailsTable.Length}</td>
-                    </tr>
-                  </tbody>
-                </table>
+          <div className="flex w-full ">
+            <div className=" w-[60%] ">
+              <p className="text-xl text-blue-900  my-4 font-semibold">
+                Product Information
+              </p>
+              <div className="my-4">
+                {detailsTables.map((detailsTable, index) => (
+                  <div key={index} className="flex ">
+                    <table className="table-fixed border border-gray-400 w-[90%] h-auto">
+                      <tbody>
+                        <tr className="grid grid-cols-2 border-b">
+                          <th className="p-2 text-left bg-slate-100">
+                            Product Name:
+                          </th>
+                          <td className="p-2">{product}</td>
+                        </tr>
+                        <tr className="grid grid-cols-2 border-b">
+                          <th className="p-2 text-left bg-slate-100">
+                            Manufacturer:
+                          </th>
+                          <td className="p-2">{manufacturer}</td>
+                        </tr>
+                        <tr className="grid grid-cols-2 border-b">
+                          <th className="p-2 text-left bg-slate-100">Size:</th>
+                          <td className="p-2">{detailsTable.Size}</td>
+                        </tr>
+                        <tr className="grid grid-cols-2 border-b">
+                          <th className="p-2 text-left bg-slate-100">Form:</th>
+                          <td className="p-2">{detailsTable.Form}</td>
+                        </tr>
+                        <tr className="grid grid-cols-2 border-b">
+                          <th className="p-2 text-left bg-slate-100">UOM:</th>
+                          <td className="p-2">{UOM}</td>
+                        </tr>
+                        <tr className="grid grid-cols-2 border-b">
+                          <th className="p-2 text-left bg-slate-100">
+                            Strength:
+                          </th>
+                          <td className="p-2">{strength}</td>
+                        </tr>
+                        <tr className="grid grid-cols-2 border-b">
+                          <th className="p-2 text-left bg-slate-100">
+                            Brand Name:
+                          </th>
+                          <td className="p-2">{brand}</td>
+                        </tr>
+                        <tr className="grid grid-cols-2 border-b">
+                          <th className="p-2 text-left bg-slate-100">
+                            Height:
+                          </th>
+                          <td className="p-2">{detailsTable.Height}</td>
+                        </tr>
+                        <tr className="grid grid-cols-2 border-b">
+                          <th className="p-2 text-left bg-slate-100">
+                            Weight:
+                          </th>
+                          <td className="p-2">{detailsTable.Weight}</td>
+                        </tr>
+                        <tr className="grid grid-cols-2 border-b">
+                          <th className="p-2 text-left bg-slate-100">Width:</th>
+                          <td className="p-2">{detailsTable.Width}</td>
+                        </tr>
+                        <tr className="grid grid-cols-2">
+                          <th className="p-2 text-left bg-slate-100">
+                            Length:
+                          </th>
+                          <td className="p-2">{detailsTable.Length}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
 
-
-
-          <div className="">
-            <h2 className="text-xl font-semibold text-blue-900 mt-4">Safety Information:</h2>
-            <div className="p-6">
-              <ul className="font-normal list-disc font-sans text-[16px] pl-5 space-y-2">
-                <li>Keep out of reach of children</li>
-                <li>Use under medical supervision</li>
-                <li>Do not exceed the recommended dose</li>
-                <li>Store in a cool, dry place away from direct sunlight</li>
-                <li>
-                  Pregnant or nursing mothers, children, and people with medical
-                  conditions must consult a physician before taking this
-                  supplement
-                </li>
-                <li>
-                  Do not use if the product appears to be tampered with or the
-                  seal is broken
-                </li>
-              </ul>
+            <div className="w-[40%">
+              <h2 className="text-xl font-semibold text-blue-900 mt-4">
+                Safety Information:
+              </h2>
+              <div className="p-6">
+                <ul className="font-normal list-disc font-sans text-[16px] pl- space-y-2">
+                  <li>Keep out of reach of children</li>
+                  <li>Use under medical supervision</li>
+                  <li>Do not exceed the recommended dose</li>
+                  <li>Store in a cool, dry place away from direct sunlight</li>
+                  <li>
+                    Pregnant or nursing mothers, children, and people with
+                    medical conditions must consult a physician before taking
+                    this supplement
+                  </li>
+                  <li>
+                    Do not use if the product appears to be tampered with or the
+                    seal is broken
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
