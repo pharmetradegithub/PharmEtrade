@@ -42,7 +42,7 @@ import dropdown from "../assets/Down-arrow .png";
 import DropUpIcon from "../assets/Icons/dropDownb.png";
 import DropDownIcon from "../assets/Icons/dropUpB.png";
 import { useSelector } from "react-redux";
-import { fetchProductByIdApi, fetchRelatedProductApi, fetchUpsellProductApi } from "../Api/ProductApi";
+import { fetchCrossSellProductApi, fetchProductByIdApi, fetchRelatedProductApi, fetchUpsellProductApi } from "../Api/ProductApi";
 import { addCartApi } from "../Api/CartApi";
 import { addToWishlistApi, removeFromWishlistApi } from "../Api/WishList";
 import { orderApi, orderGetApi } from "../Api/CustomerOrderList";
@@ -100,8 +100,11 @@ function Items({
   const RelatedProducts = useSelector((state)=> state.product.RelatedProducts);
   console.log("Rrrrrrrr", RelatedProducts)
 
-  const upsellProducts = useSelector((state) => state.product);
+  const upsellProducts = useSelector((state) => state.product.UpSellProducts);
   console.log("uuuuuuu", upsellProducts)
+
+  const crossSellProducts = useSelector((state) => state.product.CrossSellProducts);
+  console.log("ccccccccc", crossSellProducts)
 
   useEffect(() => {
     const NewProductsAPI = async () => {
@@ -132,6 +135,11 @@ function Items({
     setIsItemAdded(true);
   };
 
+
+  useEffect(() => {
+    fetchCrossSellProductApi(id)
+   
+  }, [id])
 
   useEffect(() => {
     fetchRelatedProductApi(id)
@@ -719,27 +727,27 @@ function Items({
           <ProductSlider
             productList={productList}
             addCart={addCart}
-            Title={"More Products By Same Seller(Manda)"}
-            data={newProducts}
+            Title={"Up Sell Products"}
+            data={upsellProducts}
           />
         </div>
 
-        {/* <div className="w-[92%] border-t-2 shadow-inner ">
-          <ProductSlider
-            productList={productList}
-            addCart={addCart}
-            Title={"Up Sell Products"}
-            data={newProducts}
-          />
-        </div>  */}
         <div className="w-[92%] border-t-2 shadow-inner ">
           <ProductSlider
             productList={productList}
             addCart={addCart}
             Title={"Cross Sell Products"}
+            data={crossSellProducts}
+          />
+        </div> 
+        {/* <div className="w-[92%] border-t-2 shadow-inner ">
+          <ProductSlider
+            productList={productList}
+            addCart={addCart}
+            Title={"More Products By Same Seller(Manda)"}
             data={newProducts}
           />
-        </div>
+        </div> */}
 
 
       </div>
