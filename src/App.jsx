@@ -9,7 +9,7 @@ import Logo from "./assets/logo2.png";
 import Nav from "./Components/HomePage/Layout/Nav";
 import { NavbarProvider } from "./Components/NavbarContext";
 import Product from "./Components/Product";
-import Products from "./Components/Products";
+// import Products from "./Components/Products";
 import Items from "./Components/Items";
 import Signup from "./Components/Signup";
 import OTP2 from "./Components/OTP2";
@@ -115,6 +115,7 @@ import RxProducts from "./Components/HomeProducts/Components/RxProducts";
 import Address from "./Components/CheckoutPage/Address";
 import LayoutOtcProducts from "./Components/LayoutPage/LayoutNavComponents/LayoutOtcProducts";
 import Gethelphere from "./Components/Gethelphere";
+import CategoryProducts from "./Components/HomeProducts/Components/CategoryProducts";
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
 function App() {
@@ -230,10 +231,10 @@ function App() {
             path="/cart"
             element={<Cart cartItems={cartItems} setCartItems={setCartItems} />}
           />
-          <Route
+          {/* <Route
             path="/products"
             element={<Products addCart={addCart} wishList={wishList} />}
-          />
+          /> */}
           {/* <Route path="/checkout" element={<Checkout />} /> */}
           <Route path="/order" element={<Order />} />
           <Route path="/pops" element={<Product />} />
@@ -279,7 +280,7 @@ function App() {
           <Route path="" element={<AllProducts />} />
           <Route path="/allProducts/OtcProducts" element={<OtcProducts />} />
           <Route path="/allProducts/RxProducts" element={<RxProducts />} />
-          
+          <Route path="/allProducts/CategoryProducts" element={<CategoryProducts />} />
         </Route>
 
         <Route path="/seller" element={<SellerPanel />}>
