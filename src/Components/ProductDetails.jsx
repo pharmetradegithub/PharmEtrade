@@ -180,7 +180,7 @@ import Items from "./Items";
 // import { useNavbarContext } from "./NavbarContext";
 import { useNavigate } from "react-router-dom";
 
-const ProductDetails = ({productdescription}) => {
+const ProductDetails = ({description, manufacturer, size, UOM, strength, brand, product}) => {
   // const { pop, setPop } = useNavbarContext();
   const navigate = useNavigate();
   const images = Array(4).fill(nature);
@@ -209,26 +209,7 @@ const ProductDetails = ({productdescription}) => {
         <div>
           <h4 className="text-xl font-semibold text-blue-900 mt-2">Description</h4>
           <div className="h-full w-[95%]  font-medium space-y-2">
-          {productdescription}
-            {/* <p className="font-normal text-[16px] font-sans">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet.
-            </p>
-            <p className="font-normal text-[16px] font-sans">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae
-              voluptate in fugit!
-            </p>
-            <p className="font-normal text-[16px] font-sans">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa
-              aliquam in quisquam. Cumque cupiditate laudantium deleniti culpa
-              illum adipisci eos quis fuga neque dolor repellendus, ullam autem,
-              dolores architecto voluptate tempore reprehenderit quidem. Quae
-              quia distinctio rerum saepe officiis quasi ex explicabo qui optio
-              libero? In autem praesentium necessitatibus corrupti?
-            </p>
-            <p className="font-normal text-[16px] font-sans">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio
-              molestiae fugiat optio recusandae praesentium consectetur earum !
-            </p> */}
+          {description}
           </div>
 
           <div>
@@ -242,46 +223,7 @@ const ProductDetails = ({productdescription}) => {
               Take one tablet daily or as directed by your physician.
             </span>
           </div>
-          {/* <div>
-            {detailsTables.map((detailsTable, index) => (
-              <div key={index} className="flex">
-                <table className="flex border w-[40%] h-[500px] justify-around items-center">
-                  <thead className=" flex justify-start items-start " >
-                  <tr className="flex flex-col gap-4  ">
-                    <th >Product Name </th>
-                    <th>Manufacturer:</th>
-                    <th>Size:</th>
-                    <th>Form:</th>
-                    <th>Unit Of Measurement: </th>
-                    <th>Strength:</th>
-                    <th>Brand Name:
-                    </th>
-                    <th>Height</th>
-                    <th>Weight</th>
-                    <th>Width</th>
-                    <th>Length</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr className="flex flex-col gap-4">
-                    <td>{detailsTable.Product_Name}</td>
-                    <td>{detailsTable.Manufacture}</td>
-                    <td>{detailsTable.Size}</td>
-                    <td>{detailsTable.Form}</td>
-                    <td>{detailsTable.UnitOfMeasurement}</td>
-                    <td>{detailsTable.Strength}</td>
-                    <td>{detailsTable.Brand_Name}</td>
-                    <td>{detailsTable.Height}</td>
-                    <td>{detailsTable.Weight}</td>
-                    <td>{detailsTable.Width}</td>
-                    <td>{detailsTable.Length}</td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-
-            ))}
-          </div> */}
+         
 <p className="text-xl text-blue-900  my-4 font-semibold">Product Information</p>
           <div className="my-4">
             {detailsTables.map((detailsTable, index) => (
@@ -290,11 +232,11 @@ const ProductDetails = ({productdescription}) => {
                   <tbody >
                     <tr className="grid grid-cols-2 border-b">
                       <th className="p-2 text-left bg-slate-100">Product Name:</th>
-                      <td className="p-2">{detailsTable.Product_Name}</td>
+                      <td className="p-2">{product}</td>
                     </tr>
                     <tr className="grid grid-cols-2 border-b">
                       <th className="p-2 text-left bg-slate-100">Manufacturer:</th>
-                      <td className="p-2">{detailsTable.Manufacture}</td>
+                      <td className="p-2">{manufacturer}</td>
                     </tr>
                     <tr className="grid grid-cols-2 border-b">
                       <th className="p-2 text-left bg-slate-100">Size:</th>
@@ -305,16 +247,16 @@ const ProductDetails = ({productdescription}) => {
                       <td className="p-2">{detailsTable.Form}</td>
                     </tr>
                     <tr className="grid grid-cols-2 border-b">
-                      <th className="p-2 text-left bg-slate-100">Unit Of Measurement:</th>
-                      <td className="p-2">{detailsTable.UnitOfMeasurement}</td>
+                      <th className="p-2 text-left bg-slate-100">UOM:</th>
+                      <td className="p-2">{UOM}</td>
                     </tr>
                     <tr className="grid grid-cols-2 border-b">
                       <th className="p-2 text-left bg-slate-100">Strength:</th>
-                      <td className="p-2">{detailsTable.Strength}</td>
+                      <td className="p-2">{strength}</td>
                     </tr>
                     <tr className="grid grid-cols-2 border-b">
                       <th className="p-2 text-left bg-slate-100">Brand Name:</th>
-                      <td className="p-2">{detailsTable.Brand_Name}</td>
+                      <td className="p-2">{brand}</td>
                     </tr>
                     <tr className="grid grid-cols-2 border-b">
                       <th className="p-2 text-left bg-slate-100">Height:</th>

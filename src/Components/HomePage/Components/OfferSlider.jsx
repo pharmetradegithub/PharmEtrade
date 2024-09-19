@@ -221,6 +221,7 @@ const OfferSlider = ({ images, Title }) => {
                     src={element.image}
                     className="w-[300px] cursor-pointer Laptop:w-[320px] shadow-sm shadow-slate-100 Laptop:h-[200px] h-[180px] rounded-sm"
                     alt={`Offer ${index + 1}`}
+                    onClick={()=>handleSeeOffers(element?.categorySpecificationId)}
                   />
                 </Link>
               </div>

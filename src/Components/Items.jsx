@@ -501,27 +501,8 @@ function Items({
                 {prod?.aboutTheProduct}
                 
                   </li>
-                  {/* <li>
-                  {prod?.aboutTheProduct}
-                  </li> */}
-                  {/* <li>
-                    The Ordinary's Azelaic Acid 10% Suspension Brightening Cream
-                    is a multi-functional formula great for those looking for
-                    solutions for dullness, uneven tone, and textural
-                    irregularities.
-                  </li>
-                  <li>
-                    The Ordinary's Azelaic Acid 10% Suspension Brightening Cream
-                    is a multi-functional formula great for those looking for
-                    solutions for dullness, uneven tone, and textural
-                    irregularities.
-                  </li>{" "}
-                  <li>
-                    The Ordinary's Azelaic Acid 10% Suspension Brightening Cream
-                    is a multi-functional formula great for those looking for
-                    solutions for dullness, uneven tone, and textural
-                    irregularities.
-                  </li> */}
+                  
+                  
                 </p>
               </div>
             </div>
@@ -639,7 +620,7 @@ function Items({
       </div>
 
       <div className="h-full w-full flex flex-col  justify-center items-center">
-        <ProductDetails productdescription= {prod?.productDescription} />
+        <ProductDetails description= {prod?.productDescription} manufacturer= {prod?.manufacturer} size= {prod?.size} UOM={prod?.unitOfMeasure} strength= {prod?.strength} brand={prod?.brandName} product={prod?.productName}  />
 
         <div className="w-[92%] flex flex-col md:flex-row border-t-2 shadow-inner justify-start gap-8 p-4">
           <div className="w-full md:w-1/3">
