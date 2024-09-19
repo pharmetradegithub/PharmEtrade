@@ -47,6 +47,7 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
       behavior: "smooth",
     });
   };
+  
 
 
   const handleCart = async(index) => {

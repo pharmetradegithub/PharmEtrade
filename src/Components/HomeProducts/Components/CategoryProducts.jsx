@@ -1,4 +1,3 @@
-
 import React, { useState ,useEffect} from "react";
 import { Link } from "react-router-dom";
 // import addcart from "../assets/addcart.png";
@@ -25,15 +24,18 @@ import { useSelector } from "react-redux";
 import { addCartApi } from "../../../Api/CartApi";
 import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
 import bottontotop from '../../../Components/ScrollToTop'
-function AllProducts({ Title, topMargin, addCart, wishList }) {
+function CategoryProducts({ Title, topMargin, addCart, wishList }) {
   const { pop, setPop } = useNavbarContext();
   const navigate = useNavigate();
   const products = useSelector((state) => state.product.Products);
   const Heading = useSelector((state)=>state.product.Heading);
   const user = useSelector((state)=>state.user.user);
-  const wishlist = useSelector((state)=>state.wishlist.wishlist);
+  const wishlist = useSelector((state) => state.wishlist.wishlist);
+  const productCriteria = useSelector((state) => state.product.productsByCriteria)
+  console.log("procri-->", productCriteria)
 
   const [wishlistProductIDs, setWishlistProductIDs] = useState([]);
+  const [filterSearch, setFilterSearch] = useState()
   //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
     const wishlistItem = wishlist.find((item) => item.product.productID === productID);
@@ -168,11 +170,13 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
   //   </span>
   // );
 
+
   return (
     <div className="w-full mt-4 h-full overflow-y-scroll">
       <div className=" flex justify-between bg-blue-900 p-1 rounded-lg">
-        <div className="text-2xl text-white">All Products
+        <div className="text-2xl text-white">
           {/* {{Heading} ? Heading : "All Products"} */}
+          <div>{productCriteria[0]?.productCategory?.categoryName}</div>
         </div>
 
         <Search>
@@ -189,7 +193,7 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
 
       <div className="w-[95%]">
         <div className="grid grid-cols-4 grid-rows-2 gap-4 mt-8">
-          {products?.map((item, index) => (
+          { productCriteria.map((item, index) => (
             <div
               key={item.productID}
               className="w-full max-w-md border p-2  shadow-md"
@@ -301,4 +305,4 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
   );
 }
 
-export default AllProducts;
+export default CategoryProducts;

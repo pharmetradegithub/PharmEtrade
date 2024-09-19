@@ -817,14 +817,14 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   const components = [
     { id: 1, name: "Prescription Medications" },
     { id: 2, name: "Baby & Child Care Products" },
-    { id: 3, name: "Health care products" },
-    { id: 4, name: "Household Suppliers" },
-    { id: 5, name: "Oral Care Products" },
-    { id: 6, name: "Stationery & Gift Wrapping Supplies" },
-    { id: 7, name: "Vision Products" },
-    { id: 8, name: "Diet & Sports Nutrition" },
-    { id: 9, name: "Vitamins, Minerals & Supplements" },
-    { id: 10, name: "Personal Care products" },
+    { id: 4, name: "Health care products" },
+    { id: 5, name: "Household Suppliers" },
+    { id: 6, name: "Oral Care Products" },
+    { id: 7, name: "Stationery & Gift Wrapping Supplies" },
+    { id: 8, name: "Vision Products" },
+    { id: 9, name: "Diet & Sports Nutrition" },
+    { id: 10, name: "Vitamins, Minerals & Supplements" },
+    { id: 11, name: "Personal Care products" },
     // { id: 11, name: "Pharmacy item " },
     // { id: 12, name: "Prescription Drugs " },
     // { id: 13, name: "OTC Products " },
@@ -833,86 +833,99 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
     // { id: 16, name: "Buy Again  "},
   ];
 
+  // const handleCriteria =async (obj) => {
+  //   let Criteria = {
+  //     deals: null,
+  //     brands: null,
+  //     generics: null,
+  //     discount: 0,
+  //     expiring: 0,
+  //     wholeSeller: null,
+  //     pharmacyItems: null,
+  //     prescriptionDrugs: null,
+  //     otcProducts: null,
+  //     vawdSeller: null,
+  //     topSellingProducts: null,
+  //     buyAgain: null,
+  //   };
+  //   if (obj.id == 1) {
+  //     Criteria.deals = obj.name;
+  //   }
+  //   if (obj.id == 2) {
+  //     Criteria.brands = obj.name;
+  //   }
+  //   if (obj.id == 3) {
+  //     Criteria.generics = obj.name;
+  //   }
+  //   if (obj.id == 4) {
+  //     Criteria.discount = 75;
+  //   }
+  //   if (obj.id == 5) {
+  //     Criteria.discount = 50;
+  //   }
+  //   if (obj.id == 6) {
+  //     Criteria.discount = 25;
+  //   }
+  //   if (obj.id == 7) {
+  //     Criteria.expiring = 9;
+  //   }
+  //   if (obj.id == 8) {
+  //     Criteria.expiring = 6;
+
+  //   }
+  //   if (obj.id == 9) {
+  //     Criteria.expiring = 3;
+
+  //   }
+  //   if (obj.id == 10) {
+  //     Criteria.wholeSeller = obj.name;
+  //   }
+  //   if (obj.id == 11) {
+  //     Criteria.pharmacyItems = obj.name;
+
+  //   }
+  //   if (obj.id == 12) {
+  //     Criteria.prescriptionDrugs = obj.name;
+
+  //   }
+  //   if (obj.id == 13) {
+  //     Criteria.otcProducts = obj.name;
+
+  //   }
+  //   if (obj.id == 14) {
+  //     Criteria.vawdSeller = obj.name;
+
+  //   }
+  //   if (obj.id == 15) {
+  //     Criteria.topSellingProducts = obj.name;
+
+  //   }
+  //   if (obj.id == 16) {
+  //     Criteria.buyAgain = obj.name;
+
+  //   }
+  //   await fetchCriteriaProductsApi(Criteria,obj.name);
+  //   navigate('/products');
+
+  // };
+
+
   const handleCriteria =async (obj) => {
     let Criteria = {
-      deals: null,
-      brands: null,
-      generics: null,
-      discount: 0,
-      expiring: 0,
-      wholeSeller: null,
-      pharmacyItems: null,
-      prescriptionDrugs: null,
-      otcProducts: null,
-      vawdSeller: null,
-      topSellingProducts: null,
-      buyAgain: null,
+      productCategoryId: obj.id
     };
-    if (obj.id == 1) {
-      Criteria.deals = obj.name;
-    }
-    if (obj.id == 2) {
-      Criteria.brands = obj.name;
-    }
-    if (obj.id == 3) {
-      Criteria.generics = obj.name;
-    }
-    if (obj.id == 4) {
-      Criteria.discount = 75;
-    }
-    if (obj.id == 5) {
-      Criteria.discount = 50;
-    }
-    if (obj.id == 6) {
-      Criteria.discount = 25;
-    }
-    if (obj.id == 7) {
-      Criteria.expiring = 9;
-    }
-    if (obj.id == 8) {
-      Criteria.expiring = 6;
 
-    }
-    if (obj.id == 9) {
-      Criteria.expiring = 3;
+    console.log("cr--->", Criteria)
 
-    }
-    if (obj.id == 10) {
-      Criteria.wholeSeller = obj.name;
-    }
-    if (obj.id == 11) {
-      Criteria.pharmacyItems = obj.name;
-
-    }
-    if (obj.id == 12) {
-      Criteria.prescriptionDrugs = obj.name;
-
-    }
-    if (obj.id == 13) {
-      Criteria.otcProducts = obj.name;
-
-    }
-    if (obj.id == 14) {
-      Criteria.vawdSeller = obj.name;
-
-    }
-    if (obj.id == 15) {
-      Criteria.topSellingProducts = obj.name;
-
-    }
-    if (obj.id == 16) {
-      Criteria.buyAgain = obj.name;
-
-    }
-    await fetchCriteriaProductsApi(Criteria,obj.name);
-    navigate('/products');
+    await fetchCriteriaProductsApi(Criteria);
+    navigate('/allProducts/CategoryProducts');
 
   };
 
   const handleSelect = (index) => {
     setSelectedIndex(index);
     if (MenuItems[index] === "Home") navigate("/app");
-    else if (MenuItems[index] === "Products") navigate("/products");
+    else if (MenuItems[index] === "Products") navigate("/allProducts");
     else if (MenuItems[index] === "Why PharmEtrade")
       navigate("/whypharmetrade");
     else if (MenuItems[index] === "About Us") navigate("/aboutus");
@@ -1205,6 +1218,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
               onFocus={handleFocusIn}
               onBlur={handleFocusOut}
             >
+              {/* <Link to="/allProducts/CategoryProducts"> */}
               <button
                 className={`h-12 pl-2 mr-[1px] font-semibold text-left gap-1 text-[14px] flex items-center text-gray-600 bg-gray-100 border-gray-300 rounded-l-md border ${
                   isButtonFocused ? "ring-2 ring-blue-500" : ""
@@ -1218,6 +1232,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                   <img src={dropdown} className="h-4 w-4" />
                 </span>
               </button>
+              {/* </Link> */}
 
               {isDropdownOpen && (
                 <div
