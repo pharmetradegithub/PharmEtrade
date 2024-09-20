@@ -274,7 +274,7 @@ function Wishlist({ topMargin, addCart }) {
             <h2 className="text-2xl font-semibold text-gray-700">
               Your wishlist is currently empty.
             </h2>
-            <Link to="/products" className="mt-5 px-8 py-3 font-bold text-white text-xl bg-blue-900 border-2 rounded-full">
+            <Link to="/allProducts" className="mt-5 px-8 py-3 font-bold text-white text-xl bg-blue-900 border-2 rounded-full">
               RETURN TO SHOP
             </Link>
           </div>

@@ -225,7 +225,7 @@ function Landing2({ wishList, addCart }) {
   const handleClick = (index) => {
     switch (index) {
       case 0:
-        navigate("/products");
+        navigate("/allProducts");
         break;
      
       case 1:
@@ -368,7 +368,7 @@ function Landing2({ wishList, addCart }) {
         <img
           src={allproduct}
           alt="Descriptive Alt Text"
-          onClick={() => navigate("/products")}
+          onClick={() => navigate("/allProducts")}
           className="cursor-pointer w-48 mb-8"
         />
       </div>
