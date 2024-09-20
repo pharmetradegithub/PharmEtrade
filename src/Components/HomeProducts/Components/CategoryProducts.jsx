@@ -24,6 +24,7 @@ import { useSelector } from "react-redux";
 import { addCartApi } from "../../../Api/CartApi";
 import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
 import bottontotop from '../../../Components/ScrollToTop'
+import { fetchCriteriaProductsApi } from "../../../Api/ProductApi";
 function CategoryProducts({ Title, topMargin, addCart, wishList }) {
   const { pop, setPop } = useNavbarContext();
   const navigate = useNavigate();
@@ -171,27 +172,107 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
   // );
 
 
+  const [term, setTerm] = useState(""); // Search term
+  const [filteredProducts, setFilteredProducts] = useState(productCriteria); // Products filtered by API
+  const [loading, setLoading] = useState(false); // Loader during API call
+
+  // Ensure productCriteria updates filteredProducts when it changes
+  useEffect(() => {
+    console.log("productCriteria updated:", productCriteria); // Check if productCriteria changes
+    setFilteredProducts(productCriteria); // Reset to initial products
+  }, [productCriteria]);
+
+  // Handle search term and reset products if the search term is cleared
+  useEffect(() => {
+    console.log("useEffect: term changed to", term); // Check if term is updated correctly
+
+    if (term) {
+      console.log("Searching for products with term:", term);
+      searchProducts(term, productCriteria);
+    } else {
+      console.log("Search term cleared, resetting to initial products");
+      setFilteredProducts(productCriteria);
+    }
+  }, [term]); // Rerun when either term or productCriteria changes
+
+  // Search API call function
+  const searchProducts = async (searchTerm, productCriteria) => {
+    setLoading(true); // Start loading
+
+    try {
+      const productCategoryId = productCriteria[0]?.productCategory?.productCategoryId;
+      if (!productCategoryId) {
+        console.warn("No productCategoryId available");
+        setLoading(false);
+        return;
+      }
+
+      const productName = {
+        productCategoryId: productCategoryId,
+        productName: searchTerm,
+      };
+
+      console.log("Calling API with searchTerm:", searchTerm); // Debugging
+      const response = await fetchCriteriaProductsApi(productName);
+      console.log("API response:", response); // Check response
+
+      setFilteredProducts(response.data); // Update products
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle search input changes
+  const searchFilter = (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    setTerm(searchTerm);
+    // if (searchTerm === "") {
+    //   productName.productName = ""; // Clear productName in payload
+    // } else {
+    //   productName.productName = input; // Update productName with search term
+    // }
+     // Clear the search term
+    // setFilteredProducts(productCriteria); 
+    // setTerm(e.target.value.toLowerCase()); // Update term
+    // console.log("searchFilter: Search term is", searchTerm); // Debugging
+  };
+
+
+
   return (
     <div className="w-full mt-4 h-full overflow-y-scroll">
       <div className=" flex justify-between bg-blue-900 p-1 rounded-lg">
-        <div className="text-2xl text-white">
+        <div className="text-xl flex items-center pl-2 text-white">
           {/* {{Heading} ? Heading : "All Products"} */}
           <div>{productCriteria[0]?.productCategory?.categoryName}</div>
         </div>
-
+{/* 
         <Search>
           <SearchIconWrapper>
             <img src={search} className="w-4" />
-            {/* <SearchIcon /> */}
+            {/* <SearchIcon /> 
           </SearchIconWrapper>
           <StyledInputBase
             placeholder="Search…"
             inputProps={{ "aria-label": "search" }}
           />
-        </Search>
+        </Search> */}
+
+<div className="relative flex">
+          <input
+            type="text"
+            placeholder="Search Product"
+            value={term}
+            onChange={searchFilter}
+            className="rounded-xl h-8 w-64 text-left px-2  bg-transparent gap-2 border-transparent my-1 text-white border-blue-900"
+          />
+          {/* <CiSearch className="absolute left-0 top-2 text-gray-400 mr-5" /> */}
+        </div>
       </div>
 
-      <div className="w-[95%]">
+      {/* <div className="w-[95%]">
         <div className="grid grid-cols-4 grid-rows-2 gap-4 mt-8">
           { productCriteria.map((item, index) => (
             <div
@@ -199,7 +280,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
               className="w-full max-w-md border p-2  shadow-md"
             >
               {/* <Link to={`/detailspage/${index + indexOfFirstItem}`}> */}
-              <div className="flex justify-center bg-slate-200 relative">
+              {/* <div className="flex justify-center bg-slate-200 relative">
                 <img
                   onClick={() => handleClick(item.productID)}
                   src={wishlistProductIDs.includes(item.productID)? filledHeart : emptyHeart}
@@ -219,12 +300,12 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                     className="h-40 w-28 rounded-lg"
                   />
                 </Link>
-              </div>
+              </div> */}
               {/* </Link> */}
-              <div className="w-full py-1">
+              {/* <div className="w-full py-1">
                 <h2 className="text-fonts h-12">{item.productName}</h2>
                 <h1 className="text-fonts font-semibold">${item.salePrice}</h1>
-              </div>
+              </div> */}
               {/* <div>
                 {Array.from({ length: totalStars }, (v, i) => (
                   <Star
@@ -234,7 +315,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                   />
                 ))}
               </div> */}
-               <div className="flex items-center   ">
+               {/* <div className="flex items-center   ">
                 <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                 <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                 <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
@@ -252,7 +333,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
               >
                 <img src={addcart} alt="Add to cart" className="h-8 p-[6px]" />
                 <button className="text-white font-semibold">ADD</button>
-              </div>
+              </div> */}
               {/*<ul className="flex flex-row justify-around border bg-gray-100 border-gray-300 shadow-md rounded-xl  py-2">
               <li>
                 <img
@@ -275,7 +356,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                 <img src={other} alt="Other" className="h-8 p-[6px]" />
               </li>
             </ul>*/}
-              {pop && <Items topMargin={topMargin} onClose={handleClose} />}
+              {/* {pop && <Items topMargin={topMargin} onClose={handleClose} />}
             </div>
           ))}
         </div>
@@ -299,8 +380,84 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
         >
           <img src={next} className="w-2" />
         </button>
-      </div>
-      
+      </div> */}
+       {loading ? (
+        <div>Loading...</div> // Display loading indicator while fetching data
+      ) : (
+        <div className="w-[95%]">
+          <div className="grid grid-cols-4 grid-rows-2 gap-4 mt-8">
+            {filteredProducts.map((item, index) => (
+              <div
+                key={item.productID}
+                className="w-full max-w-md border p-2 shadow-md"
+              >
+                <div className="flex justify-center bg-slate-200 relative">
+                  <img
+                    onClick={() => handleClick(item.productID)}
+                    src={wishlistProductIDs.includes(item.productID) ? filledHeart : emptyHeart}
+                    className="h-8 p-[6px] absolute right-0"
+                    alt="Favorite Icon"
+                  />
+                  <Link to={`/detailspage/${item.productID}`}>
+                    <img
+                      src={item.productGallery.imageUrl}
+                      alt={`nature-${index}`}
+                      className="h-40 w-28 rounded-lg"
+                    />
+                  </Link>
+                </div>
+
+                <div className="w-full py-1">
+                  <h2 className="text-fonts h-12">{item.productName}</h2>
+                  <h1 className="text-fonts font-semibold">${item.salePrice}</h1>
+                </div>
+
+                <div className="flex items-center">
+                  <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                </div>
+
+                <div className="flex flex-row items-center justify-between w-full px-1">
+                  <div className="text-foot text-xs">UPN Member Price:</div>
+                  <div className="text-base font-semibold">${item.upnMemberPrice}</div>
+                </div>
+
+                <div
+                  className="flex bg-blue-900 p-1 rounded-md justify-center"
+                  onClick={() => handleCart(item.productID)}
+                >
+                  <img src={addcart} alt="Add to cart" className="h-8 p-[6px]" />
+                  <button className="text-white font-semibold">ADD</button>
+                </div>
+
+                {pop && <Items topMargin={topMargin} onClose={handleClose} />}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+       <div className="flex justify-end my-2">
+        <button
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+          className="mx-2 px-4 border p-2 text-white rounded-lg"
+        >
+          <img src={previous} className="w-2" />
+        </button>
+        <span className="mx-2 px-4 flex items-center  bg-white text-black rounded-lg">
+          {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+          className="mx-2 px-4 border p-2 text-white rounded-lg"
+        >
+          <img src={next} className="w-2" />
+        </button>
+      </div> 
     </div>
   );
 }

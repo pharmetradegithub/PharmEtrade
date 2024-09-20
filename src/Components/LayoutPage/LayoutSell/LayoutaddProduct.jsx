@@ -1111,7 +1111,7 @@ function LayoutaddProduct() {
                 <div className="my-3 font-semibold">
                   <div className="flex flex-row w-[90%] gap-2 ">
                     <div className="flex flex-col">
-                      <label className="text-sm">Height {""} in</label>
+                      <label className="text-sm">Height {""}(Inches)</label>
                       <input
                         type="number"
                         name="Height"
@@ -1122,7 +1122,7 @@ function LayoutaddProduct() {
                       />
                     </div>
                     <div className="flex flex-col  ">
-                      <label className="text-sm">Width {""} in</label>
+                      <label className="text-sm">Width {""} (Cm) </label>
                       <input
                         type="number"
                         name="Width"
@@ -1133,7 +1133,7 @@ function LayoutaddProduct() {
                       />
                     </div>
                     <div className="flex flex-col  ">
-                      <label className="text-sm">Length {""} in</label>
+                      <label className="text-sm">Length {""} (Cm) </label>
                       <input
                         type="number"
                         name="Length"
@@ -1144,7 +1144,7 @@ function LayoutaddProduct() {
                       />
                     </div>
                     <div className="flex flex-col  ">
-                      <label className="text-sm">Weight {""} in</label>
+                      <label className="text-sm">Weight {""} (Grams)</label>
                       <input
                         type="number"
                         name="Weight"
