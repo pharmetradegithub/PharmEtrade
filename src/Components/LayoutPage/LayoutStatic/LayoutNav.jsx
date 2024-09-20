@@ -226,6 +226,7 @@ import OTCProd from "../../../assets/OtcProduct.png";
 import notification from "../../../assets/Notification.png";
 import { useSelector } from "react-redux";
 import warning from '../../../assets/Icons/warning2.png'
+import { fetchCriteriaProductsApi } from "../../../Api/ProductApi";
 
 const LayoutNav = ({ Form_Data, }) => {
   const [isContainerFocused, setIsContainerFocused] = useState(false);
@@ -271,23 +272,49 @@ const LayoutNav = ({ Form_Data, }) => {
     }
   };
 
+  const handleCriteria =async (obj) => {
+    let Criteria = {
+      productCategoryId: obj.id
+    };
+
+    console.log("cr--->", Criteria)
+
+    await fetchCriteriaProductsApi(Criteria);
+    navigate('/allProducts/CategoryProducts');
+
+  };
+
+  // const components = [
+  //   { id: 1, name: "Prescription Medications" },
+  //   { id: 2, name: "Baby & Child Care Products" },
+  //   { id: 3, name: "Health care products" },
+  //   { id: 4, name: "Household Suppliers" },
+  //   { id: 5, name: "Oral Care Products" },
+  //   { id: 6, name: "Stationery & Gift Wrapping Supplies" },
+  //   { id: 7, name: "Vision Products" },
+  //   { id: 8, name: "Diet & Sports Nutrition" },
+  //   { id: 9, name: "Vitamins, Minerals & Supplements" },
+  //   { id: 10, name: "Personal Care products" },
+  //   // { id: 11, name: "Pharmacy item " },
+  //   // { id: 12, name: "Prescription Drugs " },
+  //   // { id: 13, name: "OTC Products " },
+  //   // { id: 14, name: "VAWD Sellers" },
+  //   // { id: 15, name: "Top Selling Products " },
+  //   // { id: 16, name: "Buy Again  "},
+  // ];
+
+  
   const components = [
     { id: 1, name: "Prescription Medications" },
     { id: 2, name: "Baby & Child Care Products" },
-    { id: 3, name: "Health care products" },
-    { id: 4, name: "Household Suppliers" },
-    { id: 5, name: "Oral Care Products" },
-    { id: 6, name: "Stationery & Gift Wrapping Supplies" },
-    { id: 7, name: "Vision Products" },
-    { id: 8, name: "Diet & Sports Nutrition" },
-    { id: 9, name: "Vitamins, Minerals & Supplements" },
-    { id: 10, name: "Personal Care products" },
-    // { id: 11, name: "Pharmacy item " },
-    // { id: 12, name: "Prescription Drugs " },
-    // { id: 13, name: "OTC Products " },
-    // { id: 14, name: "VAWD Sellers" },
-    // { id: 15, name: "Top Selling Products " },
-    // { id: 16, name: "Buy Again  "},
+    { id: 4, name: "Health care products" },
+    { id: 5, name: "Household Suppliers" },
+    { id: 6, name: "Oral Care Products" },
+    { id: 7, name: "Stationery & Gift Wrapping Supplies" },
+    { id: 8, name: "Vision Products" },
+    { id: 9, name: "Diet & Sports Nutrition" },
+    { id: 10, name: "Vitamins, Minerals & Supplements" },
+    { id: 11, name: "Personal Care products" },
   ];
   const handleCatMouseLeave = () => {
     setPopUps(null);

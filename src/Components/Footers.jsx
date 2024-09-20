@@ -147,7 +147,8 @@
 
 import React from "react";
 import email from "../assets/email.png";
-import logo from "../assets/logo_05.png";
+// import logo from "../assets/logo_05.png";
+import logo from "../assets/Icons/Logo_white.png";
 import { IoIosArrowUp } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -174,11 +175,11 @@ function Footers({ topMargin}) {
         <IoIosArrowUp className="w-8 h-6" />
       </div>
     <div className="text-white bg-blue-900 relative z-40">
-      <div className="flex flex-col xl:flex-row justify-center xl:gap-20 gap-8 w-full p-6 xl:p-10">
+      <div className="flex flex-col xl:flex-row justify-center xl:gap-12 gap-6 w-full p-6 xl:p-10">
         {/* About Us Section */}
 
         <div className=" flex items-center">
-          <img src={logo} className="w-80 h-10"/>
+          <img src={logo} className="w-96 h-12"/>
         </div>
         <div className="flex flex-col xl:text-md  w-full xl:w-auto">
           <p className="text-md font-semibold mb-4">About Us</p>
@@ -215,7 +216,7 @@ function Footers({ topMargin}) {
               <p className="text-md mb-4 font-semibold">Quick Links</p>
               <ul className="list-disc list-inside ">
                 <li>
-                  <Link to="/seller" className="underline ">
+                  <Link to="/layout" className="underline ">
                     Seller Dashboard
                   </Link>
                 </li>
