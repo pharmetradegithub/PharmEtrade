@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dropdown from "../../../assets/Icons/dropdown.png";
 import dropdownup from "../../../assets/Icons/dropdownUp.png";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 const categories = [
   // "All categories",
@@ -31,7 +32,20 @@ function ProductSideBar() {
   //   brands: false,
   //   packing: false,
   // });
-  const productCriteria = useSelector((state) => state.product.productsByCriteria)
+  const productCriteria = useSelector(
+    (state) => state.product.productsByCriteria
+  );
+  const location = useLocation();
+  const [categoryName, setCategoryName] = useState("");
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const category = searchParams.get("CategoryName");
+
+    if (category) {
+      setCategoryName(category);
+    }
+  }, [location.search]);
 
   const toggleDropdown = (category) => {
     setDropdownOpen((prevState) => ({
@@ -47,8 +61,8 @@ function ProductSideBar() {
           key={index}
           className="w-[90%] mb-2 rounded-md bg-blue-900 text-white"
         >
-          <div className="border-1 bg-blue-900 px-4 py-1 rounded-md flex justify-between items-center cursor-pointer text-white hover:bg-red-900 hover:text-black ">
-            <p>{category }</p>
+          <div className={`border-1 ${categoryName.split(" ")[0] === category.split(" ")[0]?"bg-gray-400":"bg-blue-900"} px-4 py-1 rounded-md flex justify-between items-center cursor-pointer text-white hover:bg-gray-400 hover:text-black `}>
+            <p>{category}</p>
           </div>
         </div>
       ))}
@@ -57,6 +71,3 @@ function ProductSideBar() {
 }
 
 export default ProductSideBar;
-
-
-

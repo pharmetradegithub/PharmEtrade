@@ -79,7 +79,7 @@ const AdminDashboard = () => {
   });
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-6 bg-gray-100 overflow-y-scroll">
       <h1 className="flex items-center text-3xl font-bold mb-6">
         Manage Banners{" "}
         <p className="text-lg mt-2 ml-3">

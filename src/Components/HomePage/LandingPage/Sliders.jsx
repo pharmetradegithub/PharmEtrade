@@ -149,30 +149,6 @@ function Sliders({wishList,addCart}) {
   const RXProducts = useSelector((state) => state.product.rxProducts);
 
 
-  // useEffect(() => {
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       entries.forEach((entry) => {
-  //         if (entry.isIntersecting) {
-  //           entry.target.classList.add("");
-  //         } else {
-  //           entry.target.classList.remove("");
-  //         }
-  //       });
-  //     },
-  //     { threshold: 0.5 } // Adjust threshold as needed
-  //   );
-
-  //   if (searchBarRef.current) {
-  //     observer.observe(searchBarRef.current);
-  //   }
-
-  //   return () => {
-  //     if (searchBarRef.current) {
-  //       observer.unobserve(searchBarRef.current);
-  //     }
-  //   };
-  // }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

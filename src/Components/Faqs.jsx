@@ -102,7 +102,7 @@ function Faqs() {
     ]
 
   return (
-    <div className='w-screen h-full mt-32 flex flex-col  '>
+    <div className='w-screen h-full flex flex-col  '>
          
         <div className='flex justify-center items-center overflow-y-auto'>
        

@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { FaChevronDown, FaChevronUp, FaBars, FaTimes } from "react-icons/fa";
+import { FaChevronDown, FaChevronUp, FaBars, FaTimes  } from "react-icons/fa";
+// import logo from "../../../assets/logo_05.png";
+import logo from "../../../assets/Icons/Logo_white.png";
+import profile from "../../../assets/ProfileSetting.png";
+import { useSelector } from "react-redux";
 import sellerIcon from "../../../assets/Dashboard_icon.png";
 import chatIcon from "../../../assets/Dashboard_icon.png";
 import customerIcon from "../../../assets/Dashboard_icon.png";
@@ -9,7 +14,8 @@ import orderListIcon from "../../../assets/Dashboard_icon.png";
 import customerListIcon from "../../../assets/Dashboard_icon.png";
 import orderDetailsIcon from "../../../assets/Dashboard_icon.png";
 
-const AdminSidebar = () => {
+function AdminSidebar() {
+
   let navigate = useNavigate();
   let location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
@@ -46,16 +52,26 @@ const AdminSidebar = () => {
   };
 
   const navItems = [
+
+    {
+      label: "Dashboard",
+      icon: sellerIcon,
+    },
+
+    {
+      label: "Banners",
+      icon: sellerIcon,
+    },
+
+
     {
       label: "Seller",
       icon: sellerIcon,
       isOpen: isSellerDropdownOpen,
       toggleDropdown: toggleSellerDropdown,
       links: [
-        // { to: "/admin/seller/orders", label: "Orders", icon: ordersIcon },
+       
         { to: "/admin/seller/order-list", label: "Seller List", icon: orderListIcon },
-        // { to: "/admin/seller/customer-list", label: "Customer List", icon: customerListIcon },
-        // { to: "/admin/seller/order-details", label: "Order Details", icon: orderDetailsIcon },
       ],
     },
     {
@@ -82,10 +98,30 @@ const AdminSidebar = () => {
 
   return (
     <div
-      className={`p-2 bg-blue-900 absolute h-[calc(100%-80px)] overflow-scroll z-[100] font-normal flex flex-col shadow-lg ${
+      className={`p-2 overflow-scroll h-full w-full z-[100] font-normal font-sans flex flex-col  shadow-lg ${
         isCollapsed ? "min-w-16 items-center" : "min-w-64"
       }`}
+      style={{ backgroundColor: "rgba(14, 81, 140, 1)" }}
     >
+      <div className="w-full flex flex-col justify-center items-center my-5">
+        <Link to="/app">
+          <img src={logo} className="w-44 mb-2" alt="Logo" />
+        </Link>
+        <div className="flex w-40 h-28 justify-center items-center border rounded-md bg-white">
+          <div className="flex justify-center flex-col items-center">
+            <img
+              src={profile}
+              className="w-10 h-10 rounded-full "
+              alt="Profile"
+            />
+            <p className="text-base text-red-500 font-semibold my-1">
+              Admin
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div>
       <div className="flex medium:hidden items-center justify-end p-2">
         <button
           onClick={toggleCollapse}
@@ -163,7 +199,11 @@ const AdminSidebar = () => {
         ))}
       </nav>
     </div>
+     
+    </div>
   );
-};
+}
 
 export default AdminSidebar;
+
+
