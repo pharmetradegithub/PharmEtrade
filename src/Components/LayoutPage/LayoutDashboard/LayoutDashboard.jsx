@@ -987,8 +987,9 @@ const products = [
   // Images for each option (you can replace these with actual image URLs or paths)
   const imageMap = {
     Yearly: 'https://th.bing.com/th/id/OIP.CS3OjmHCzVZEsK3JNkHNyQHaE8?w=222&h=180&c=7&r=0&o=5&pid=1.7',
-    Monthly: 'https://th.bing.com/th/id/OIP.TKhbxQD2DPdLgz6sBKPUuQAAAA?w=183&h=183&c=7&r=0&o=5&pid=1.7',
-    Weekly: 'https://th.bing.com/th/id/OIP.Kr5OwT-qB9UclxQ8uzsYgwHaJl?w=122&h=180&c=7&r=0&o=5&pid=1.7',
+    Monthly: 
+"https://i.ytimg.com/vi/dBJynLx819I/maxresdefault.jpg"    ,
+    Weekly:"https://s3.envato.com/files/500220660/screenshots/15.png",
     Daily: 'https://th.bing.com/th/id/OIP.aoXhfbHqx42fr7fUzSHh4gHaEK?w=286&h=180&c=7&r=0&o=5&pid=1.7',
   };
 

@@ -197,13 +197,13 @@ function Footers({ topMargin}) {
           </p>
           <p className="mt-4 text-md font-thin">
             Ready to learn more? Schedule a{" "}
-            <a href="#" className="font-medium underline">
+            <Link to="/requestdemo" className="font-medium underline">
               demo
-            </a>{" "}
+            </Link>{" "}
             or{" "}
-            <a href="#" className="font-medium underline">
+            <Link to="/signup" className="font-medium underline">
               join
-            </a>{" "}
+            </Link>{" "}
             today!!
           </p>
           <p className="mt-2 text-md font-thin"><span className="text-xl">*</span>Conditions Apply</p>

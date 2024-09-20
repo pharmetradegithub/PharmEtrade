@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import transh from '../../../assets/trash.png'
+import trash from "../../../assets/trash.png";
 import { useDropzone } from "react-dropzone";
 import { useSelector } from "react-redux";
+import edit from "../../../assets/Edit.png";
 
 const AdminDashboard = () => {
   const [banners, setBanners] = useState([]);
@@ -80,14 +81,15 @@ const AdminDashboard = () => {
   });
 
   const BannerData = useSelector((state) => state.banner.banner);
-  console.log("bbbbbb",BannerData);
+  console.log("bbbbbb", BannerData);
 
   return (
     <div className="p-6 bg-gray-100 overflow-y-scroll">
       <h1 className="flex items-center text-3xl font-bold mb-6">
         Manage Banners{" "}
         <p className="text-lg mt-2 ml-3">
-          (Banner Size Should be in  Width: 7680px , Height: 2200px , Resolution:300)
+          (Banner Size Should be in Width: 7680px , Height: 2200px ,
+          Resolution:300)
         </p>
       </h1>
 
@@ -106,7 +108,9 @@ const AdminDashboard = () => {
           className="w-96 p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400"
         >
           <input {...getInputProps()} multiple />
-          <p className="text-gray-500 text-center">Click here to select images</p>
+          <p className="text-gray-500 text-center">
+            Click here to select images
+          </p>
         </div>
         <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
           {newBanners.map((banner, index) => (
@@ -131,31 +135,27 @@ const AdminDashboard = () => {
       <div className="bg-white p-4 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold mb-4">Existing Banners</h2>
         <div className="grid grid-cols-3 gap-4">
-          
           <div className="w-full relative  overflow-hidden">
             {BannerData.length > 0 ? (
               <div>
                 {BannerData.map((item, index) => (
-                  <div key={index}>
+                  <div key={index} className="">
                     <img
                       src={item.imageUrl}
                       alt={`Carousel Image ${index + 1}`}
-                      
                     />
+                    <div className="flex ">
+                    <button onClick={() => handleEditBanner(index)}>
+                      <img src={edit} className="w-8 h-8" />
+                    </button>
                     <button
-                onClick={() => handleEditBanner(index)}
-                className="bg-yellow-500 text-white px-4 py-2 rounded mr-2"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => handleDeleteBanner(index)}
-                className="bg-white text-white px-4 py-2 rounded"
-              >
-                <img src={transh} className="w-6 h-6"/>
-              </button>
+                      onClick={() => handleDeleteBanner(index)}
+                      className="bg-white text-white px-4 py-2 rounded"
+                    >
+                      <img src={trash} className="w-5 h-5" />
+                    </button>
+                    </div>
                   </div>
-                  
                 ))}
               </div>
             ) : (
