@@ -521,7 +521,7 @@ function Cart() {
                   Proceed to checkout
                 </button>
                 <button className="w-full mt-2 px-4 py-2 font-bold text-black text-lg bg-slate-300 rounded-full">
-                  <Link to="/products">Continue Shopping</Link>
+                  <Link to="/allProducts">Continue Shopping</Link>
                 </button>
               </div>
             </div>
@@ -532,7 +532,7 @@ function Cart() {
               Your cart is currently empty.
             </h2>
             <Link
-              to="/products"
+              to="/allProducts"
               className="mt-5 px-8 py-2 font-semibold text-white text-lg bg-blue-900 rounded-full"
             >
               RETURN TO SHOP

@@ -95,16 +95,12 @@ function Items({
   const [thumnailList, setthumnailList] = useState([]);
   const newProducts = useSelector((state) => state.product.recentSoldProducts);
 
-  console.log("nnnnnn", newProducts)
 
   const RelatedProducts = useSelector((state)=> state.product.RelatedProducts);
-  console.log("Rrrrrrrr", RelatedProducts)
 
   const upsellProducts = useSelector((state) => state.product.UpSellProducts);
-  console.log("uuuuuuu", upsellProducts)
 
   const crossSellProducts = useSelector((state) => state.product.CrossSellProducts);
-  console.log("ccccccccc", crossSellProducts)
 
   useEffect(() => {
     const NewProductsAPI = async () => {
@@ -273,18 +269,7 @@ function Items({
     1: 5, // 5% of ratings are 1 star
   };
 
-  // const newProducts = [
-  //   { id: 1, img: img1, name: "Nature Mask", price: "$99.00" },
-  //   { id: 2, img: img2, name: "Eco-Friendly Mask", price: "$89.00" },
-  //   { id: 3, img: img3, name: "Reusable Mask", price: "$79.00" },
-  //   { id: 4, img: img4, name: "Protective Mask", price: "$69.00" },
-  //   { id: 5, img: img5, name: "Breathable Mask", price: "$59.00" },
-  //   { id: 6, img: img1, name: "Comfy Mask", price: "$49.00" },
-  //   { id: 7, img: img2, name: "Stylish Mask", price: "$39.00" },
-  //   { id: 8, img: img3, name: "Daily Mask", price: "$29.00" },
-  //   { id: 9, img: img4, name: "Night Mask", price: "$19.00" },
-  //   { id: 10, img: img5, name: "Morning Mask", price: "$9.00" },
-  // ];
+ 
 
   const [popup, SetPopup] = useState(false);
 
@@ -309,20 +294,7 @@ function Items({
   console.log("productDataItem-->",prod)
   const userId = localStorage.getItem("userId");
   const handleOrder = async () => {
-    // const payLoad = {
-    //   orderId: "0",
-    //   customerId: userId,
-    //   totalAmount: quantity * prod.salePrice,
-    //   orderDate: "2024-09-04T06:53:09.596Z",
-    //   shippingMethodId: 1,
-    //   orderStatusId: 1,
-    //   trackingNumber: "",
-    //   productId: prod.productID,
-    //   quantity: quantity,
-    //   pricePerProduct: prod.salePrice,
-    //   vendorId: prod.sellerId
-    // }
-    // navigate(`/checkout?total=${prod.priceName}`)
+   
     
     const currentDate = new Date();
     const payLoad = {
@@ -383,7 +355,7 @@ function Items({
                 onMouseLeave={() => setIsHovered(false)}
               >
                 <iframe
-                  src={videoSample}
+                  src={prod?.productGallery.videoUrl}
                   type="video/mp4"
                   className="w-full h-full rounded-lg border"
                 />
@@ -392,7 +364,7 @@ function Items({
             <div className="bg-gray-200 border rounded-lg w-68 h-[400px] flex justify-center items-center">
               {img === videoSample ? (
                 <video className="object-contain w-96 h-72 " controls>
-                  <source src={videoSample} type="video/mp4" className="" />
+                  <source src={prod?.productGallery.videoUrl} type="video/mp4" className="" />
                 </video>
               ) : (
                 <img

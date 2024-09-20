@@ -128,7 +128,7 @@ function LayoutaddProduct() {
     thumbnail4: null,
     thumbnail5: null,
     thumbnail6: null,
-    // videoUrl: null,
+    videoUrl: null,
   });
   const [productFetched, setproductFetched] = useState();
   const [Heading, setHeading] = useState("ADD PRODUCT");
@@ -157,7 +157,7 @@ function LayoutaddProduct() {
       states: [],
       size: product.size,
       form: product.form,
-      unitOfMeasure: product.unitOfMeasure,
+      unitOfMeasurement: product.unitOfMeasure,
       upnMemberPrice: product.upnMemberPrice,
       salePrice: product.salePrice,
       salePriceForm: product.salePriceValidFrom,
@@ -251,22 +251,22 @@ function LayoutaddProduct() {
   };
 
   // video
-  // const [selectedVideos, setSelectedVideos] = useState([]);
-  // const [videoPreviews, setVideoPreviews] = useState([]);
+  const [selectedVideos, setSelectedVideos] = useState([]);
+  const [videoPreviews, setVideoPreviews] = useState([]);
 
-  // const handleVideoSelect = (event) => {
-  //   const files = Array.from(event.target.files);
-  //   setSelectedVideos(files);
+  const handleVideoSelect = (event) => {
+    const files = Array.from(event.target.files);
+    setSelectedVideos(files);
 
-  //   const previews = files.map((file) => URL.createObjectURL(file));
-  //   setVideoPreviews(previews);
-  //   setFormData({ ...formData, ["videoUrl"]: files });
-  // };
+    const previews = files.map((file) => URL.createObjectURL(file));
+    setVideoPreviews(previews);
+    setFormData({ ...formData, ["videoUrl"]: files[0] });
+  };
 
-  // const handleClearSelection = () => {
-  //   setSelectedVideos([]);
-  //   setVideoPreviews([]);
-  // };
+  const handleClearSelection = () => {
+    setSelectedVideos([]);
+    setVideoPreviews([]);
+  };
 
   const tabs = [
     "Product Info",
@@ -501,12 +501,12 @@ function LayoutaddProduct() {
         ? formData.thumbnail6
         : await uploadImageApi(user.customerId, productId, formData.thumbnail6);
 
-    // const videoUrl =
-    //   formData.videoUrl == null
-    //     ? null
-    //     : typeof formData.videoUrl === "string"
-    //     ? formData.videoUrl
-    //     : await uploadImageApi(user.customerId, productId, formData.videoUrl);
+    const videoUrl =
+      formData.videoUrl == null
+        ? "null"
+        : typeof formData.videoUrl === "string"
+        ? formData.videoUrl
+        : await uploadImageApi(user.customerId, productId, formData.videoUrl);
 
     
     const tab1 = {
@@ -539,7 +539,7 @@ function LayoutaddProduct() {
       productTypeId: 1, // Static value
       sellerId: user.customerId, // Static value
       states: formData.states.join(","),
-      unitOfMeasure: formData.unitOfMeasurement,
+      UnitOfMeasure: formData.unitOfMeasurement,
       mainImageUrl: imageUrl,
     };
     setFormData({ ...formData, ["imageUrl"]: imageUrl });
@@ -581,7 +581,7 @@ function LayoutaddProduct() {
       thumbnail4: thumbnail4,
       thumbnail5: thumbnail5,
       thumbnail6: thumbnail6,
-      videoUrl: "videoUrl",
+      videoUrl: videoUrl,
     };
     try {
       if (activeTab == 0) {
@@ -848,7 +848,7 @@ function LayoutaddProduct() {
                       type="text"
                       className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       onChange={handleInputChange}
-                      value={formData.unitOfMeasure}
+                      value={formData.unitOfMeasurement}
                     />
                   </div>
 
@@ -1229,10 +1229,10 @@ function LayoutaddProduct() {
                           <input
                             type="checkbox"
                             name="states"
-                            value={state.abbreviation}
+                            value={state.name}
                             onChange={handleInputChange}
                             checked={formData.states.includes(
-                              state.abbreviation
+                              state.name
                             )}
                             className="mr-2 overflow-y-scroll"
                           />
@@ -1842,10 +1842,10 @@ function LayoutaddProduct() {
                     type="file"
                     accept="video/*"
                     multiple
-                    // onChange={handleVideoSelect}
+                    onChange={handleVideoSelect}
                     className="block mb-4 w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                   />
-                  {/* <div className="flex flex-wrap gap-4 mb-4">
+                  <div className="flex flex-wrap gap-4 mb-4">
                     {videoPreviews.map((preview, index) => (
                       <div key={index} className="w-1/4">
                         <video
@@ -1855,15 +1855,15 @@ function LayoutaddProduct() {
                         />
                       </div>
                     ))}
-                  </div> */}
-                  {/* {selectedVideos.length > 0 && (
+                  </div>
+                  {selectedVideos.length > 0 && (
                     <button
                       onClick={handleClearSelection}
                       className="bg-red-500 h-7 font-semibold text-white px-4  rounded shadow hover:bg-red-600"
                     >
                       Clear
                     </button>
-                  )} */}
+                  )}
                 </div>
               </div>
 

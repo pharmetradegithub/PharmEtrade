@@ -232,7 +232,7 @@ const ProductDetails = ({
             </span>
           </div>
           <div className="flex w-full ">
-            <div className=" w-[60%] ">
+            <div className=" w-[50%] ">
               <p className="text-xl text-blue-900  my-4 font-semibold">
                 Product Information
               </p>
@@ -306,12 +306,12 @@ const ProductDetails = ({
               </div>
             </div>
 
-            <div className="w-[40%">
+            <div className="w-[50%]">
               <h2 className="text-xl font-semibold text-blue-900 mt-4">
                 Safety Information:
               </h2>
               <div className="p-6">
-                <ul className="font-normal list-disc font-sans text-[16px] pl- space-y-2">
+                <ul className="font-normal list-disc font-sans text-[16px] space-y-2">
                   <li>Keep out of reach of children</li>
                   <li>Use under medical supervision</li>
                   <li>Do not exceed the recommended dose</li>

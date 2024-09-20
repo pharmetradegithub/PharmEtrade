@@ -229,7 +229,7 @@ function LayoutOrderList() {
                   </p>
                   <div className="flex my-2">
                     <button className="border rounded-lg p-2 bg-blue-900 text-white w-48 shadow-md">
-                      <Link to="/products"> Buy it again</Link>
+                      <Link to="/allProducts"> Buy it again</Link>
                     </button>
                     <button className="border rounded-lg p-2 mx-3 shadow-md w-48">
                       <Link to={`/detailspage/${order.productId}`}>
