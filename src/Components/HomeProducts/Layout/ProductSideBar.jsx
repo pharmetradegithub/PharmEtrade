@@ -61,7 +61,7 @@ function ProductSideBar() {
           key={index}
           className="w-[90%] mb-2 rounded-md bg-blue-900 text-white"
         >
-          <div className={`border-1 ${categoryName.split(" ")[0] === category.split(" ")[0]?"bg-gray-400":"bg-blue-900"} px-4 py-1 rounded-md flex justify-between items-center cursor-pointer text-white hover:bg-gray-400 hover:text-black `}>
+          <div className={`border-1 ${categoryName.split(" ")[0] === category.split(" ")[0]?"bg-gray-400":"bg-blue-900"} px-4 py-1 rounded-md text-base flex justify-between items-center cursor-pointer text-white hover:bg-gray-400 hover:text-black `}>
             <p>{category}</p>
           </div>
         </div>

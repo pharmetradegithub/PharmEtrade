@@ -844,453 +844,408 @@
 
 
 
+import React, { useState } from 'react';
+import LayoutDashboardgrid from '../LayoutDashboard/LayoutDashboardGrid'
+const LayoutDashboard = () => {
 
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { styled, alpha } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
-import { useNavbarContext } from "../../NavbarContext";
-import Notification from "../../../Components/Notification"; // Import Notification component
+  const [isGridOpen, setIsGridOpen] = useState(false);
+  const [isPercentageShown, setIsPercentageShown] = useState(false);
 
-import other from "../../../assets/compare1_Icon.png";
-import addcart from "../../../assets/cartw_icon.png";
-import emptyHeart from "../../../assets/Wishlist1_icon.png";
-import filledHeart from "../../../assets/wishlist2_icon.png";
-import Expicon from "../../../assets/Expicon.png";
-import search from "../../../assets/search1.png";
-import nature from "../../../assets/img1.png";
-import { useSelector } from "react-redux";
-import { addCartApi } from "../../../Api/CartApi";
-import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
+// Handle Latest button click to show percentage or close the grid
+const handleClick = () => {
+  if (isGridOpen) {
+    // If grid is open, close it
+    setIsGridOpen(false);
+    setIsPercentageShown(false);
+  } else if (!isPercentageShown) {
+    // Show percentage first
+    setIsPercentageShown(true);
+  } else {
+    // If percentage is shown, open the grid
+    setIsGridOpen(true);
+  }
+};
 
-function LayoutDashboard({
-  topMargin,
-  addCart,
-  wishList,
-  quantities,
-  setQuantities,
-}) {
-  const navigate = useNavigate();
-  const itemsPerPage = 12;
-  const [currentPage, setCurrentPage] = useState(1);
-  const [showMore, setShowMore] = useState({});
-  const [notification, setNotification] = useState({
-    show: false,
-    message: "",
-  });
-  const user = useSelector((state) => state.user.user);
-  const cart = useSelector((state) => state.cart.cart);
-  const wishlist = useSelector((state) => state.wishlist.wishlist);
+ // Handle closing the grid
+ const closeGrid = () => {
+  setIsGridOpen(false);
+  setIsPercentageShown(false); // Reset everything when the grid is closed
+};
 
-  console.log("cart--->",cart)
-  const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
-  //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
-  const getWishlistIdByProductID = (productID) => {
-    const wishlistItem = wishlist.find((item) => item.product.productID === productID);
-    return wishlistItem ? wishlistItem.wishListId : null; 
+   // Handle percentage click to show the grid
+   const handlePercentageClick = () => {
+    setIsGridVisible(true);
   };
-
-  useEffect(() => {
-    if (Array.isArray(wishlist)) {
-      setwishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
-    }
-  }, [wishlist]);
-
-
-
-  // const [wishlistProductIDs, setwishlistProductIDs] = useState(
-  //   wishlist.map((wishItem) => wishItem.product.productID)
-  // );
-  // const getWishlistIdByProductID = (productID) => {
-  //   const wishlistItem = wishlist.find(
-  //     (item) => item.product.productID === productID
-  //   );
-  //   return wishlistItem ? wishlistItem.wishListId : null;
-  // };
-  const products = useSelector((state) => state.product.Products);
-  const [productList, setproductList] = useState(products);
-  console.log("layoutproduct-->",productList)
-  useEffect(() => {
-    if (products) {
-      const updatedProducts = products.map((product) => ({
-        ...product,
-        CartQuantity: 1, // Set initial quantity to 1 for all products
-      }));
-      setproductList(updatedProducts);
-    }
-  }, [products]);
-
-  const handleCart = async (productID, Quantity) => {
-    const cartData = {
-      customerId: user.customerId,
-      productId: productID,
-      quantity: Quantity,
-      isActive: 1,
-    };
-
-    try {
-      await addCartApi(cartData);
-      setNotification({ show: true, message: "Item Added To Cart Successfully!" });
-      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-    } catch (error) {
-      console.error("Error adding product to cart:", error);
-      
-    }
-  };
-  const handleClick = async (productID) => {
-    if (wishlistProductIDs.includes(productID)) {
-      setwishlistProductIDs(
-        wishlistProductIDs.filter((id) => id !== productID)
-      );
-      await removeFromWishlistApi(getWishlistIdByProductID(productID));
-    } else {
-      setwishlistProductIDs([...wishlistProductIDs, productID]);
-      const wishListData = {
-        wishListId: "0",
-        productId: productID,
-        customerId: user.customerId,
-        isActive: 1,
-      };
-      await addToWishlistApi(wishListData);
-    }
-  };
-  // const handleClick = async (index) => {
-  //   setFavoriteItems(prevState => ({
-  //     ...prevState,
-  //     [index]: !prevState[index],
-  //   }));
-
-  //   const jsondata = {
-  //     wishListId: "0",
-  //     productID: productList[index].productID,
-  //     customerId: customerId,
-  //     isActive: 1
-  //   };
-
-  //   try {
-  //     const response = await fetch(
-  //       'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/WishList/Add',
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //         body: JSON.stringify(jsondata),
-  //       }
-  //     );
-
-  //     if (!response.ok) {
-  //       const errorDetails = await response.json();
-  //       throw new Error(
-  //         `Error: ${response.status} ${response.statusText} - ${JSON.stringify(errorDetails)}`
-  //       );
-  //     }
-
-  //     const result = await response.json();
-  //     fetchWishListData();
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // };
-
-  const handleQuantityChange = (index, newQuantity) => {
-    // if (newQuantity) {
-      const quantity = Math.max(1, newQuantity);
-      setproductList((prev) => {
-        const updatedList = [...prev];
-        updatedList[index] = {
-          ...updatedList[index],
-          CartQuantity: quantity,
-        };
-        return updatedList;
-      });
-    // }
-  };
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(productList.length / itemsPerPage);
-
-  const handleNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  };
-
-  const handlePreviousPage = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
-  };
-
-  const Search = styled("div")(({ theme }) => ({
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
+// grid data
+const products = [
+  {
+    id: "000",
+    thumbnail: "D061D23",
+    name: "Generic Medicine",
+    attributeSet: "350",
+    productStatus: "",
+    status: "",
+    type: "View Order",
+  },
+  {
+    id: "001",
+    thumbnail: "D061D23",
+    name: "Another Medicine",
+    attributeSet: "250",
+    productStatus: "",
+    status: "",
+    type: "View Order",
+  },
+  {
+      id: "000",
+      thumbnail: "D061D23",
+      name: "Generic Medicine",
+      attributeSet: "350",
+      productStatus: "",
+      status: "",
+      type: "View Order",
     },
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(1),
-      width: "auto",
+    {
+      id: "000",
+      thumbnail: "D061D23",
+      name: "Generic Medicine",
+      attributeSet: "350",
+      productStatus: "",
+      status: "",
+      type: "View Order",
     },
-  }));
-
-  const SearchIconWrapper = styled("div")(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  }));
-
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: "black",
-    border: "1px solid gray",
-    borderRadius: "5px",
-    width: "100%",
-    "& .MuiInputBase-input": {
-      padding: theme.spacing(1, 1, 1, 0),
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create("width"),
-      [theme.breakpoints.up("sm")]: {
-        width: "12ch",
-        "&:focus": {
-          width: "20ch",
-        },
-      },
+    {
+      id: "000",
+      thumbnail: "D061D23",
+      name: "Generic Medicine",
+      attributeSet: "350",
+      productStatus: "",
+      status: "",
+      type: "View Order",
     },
-  }));
+    {
+      id: "000",
+      thumbnail: "D061D23",
+      name: "Generic Medicine",
+      attributeSet: "350",
+      productStatus: "",
+      status: "",
+      type: "View Order",
+    },
+    {
+      id: "000",
+      thumbnail: "D061D23",
+      name: "Generic Medicine",
+      attributeSet: "350",
+      productStatus: "",
+      status: "",
+      type: "View Order",
+    },
+    {
+      id: "000",
+      thumbnail: "D061D23",
+      name: "Generic Medicine",
+      attributeSet: "350",
+      productStatus: "",
+      status: "",
+      type: "View Order",
+    },
+  {
+      id: "001",
+      thumbnail: "D061D23",
+      name: "Another Medicine",
+      attributeSet: "250",
+      productStatus: "",
+      status: "",
+      type: "View Order",
+    },
+];
 
-  const toggleShowMore = (index) => {
-    setShowMore((prevState) => ({
-      ...prevState,
-      [index]: !prevState[index],
-    }));
+
+  const details = [
+    { totalOrder:10,label: "Pending", percentage: 85, color: "red" }, // Red
+    { label: "Processing", percentage: 65, color: "orange" }, // Yellow
+    { label: "Completed", percentage: 10, color: "green" }, // Green
+ 
+  ];
+
+  const productdetails =[
+    {totalproducts:9,heading:"Top Selling Products",label:"ALEGRA 24 HOUR",number:5,sales:"Sales",text:"DAYQUIL LIQ 80Z",quantity:3},
+    
+  ]
+  const customerdetails =[
+    {totalcutomers:200,label:"This month customer count",Quantity:0,text:"Last month customer count", number:0}
+  ]
+
+  const [selectedOption, setSelectedOption] = useState('Yearly'); // Default option
+
+  // Handle dropdown selection
+  const handleOptionChange = (e) => {
+    setSelectedOption(e.target.value);
   };
 
-  const handleProductDetails = (productID, product) => {
-    navigate(`/detailspage/${productID}`);
+  // Images for each option (you can replace these with actual image URLs or paths)
+  const imageMap = {
+    Yearly: 'https://th.bing.com/th/id/OIP.CS3OjmHCzVZEsK3JNkHNyQHaE8?w=222&h=180&c=7&r=0&o=5&pid=1.7',
+    Monthly: 'https://th.bing.com/th/id/OIP.TKhbxQD2DPdLgz6sBKPUuQAAAA?w=183&h=183&c=7&r=0&o=5&pid=1.7',
+    Weekly: 'https://th.bing.com/th/id/OIP.Kr5OwT-qB9UclxQ8uzsYgwHaJl?w=122&h=180&c=7&r=0&o=5&pid=1.7',
+    Daily: 'https://th.bing.com/th/id/OIP.aoXhfbHqx42fr7fUzSHh4gHaEK?w=286&h=180&c=7&r=0&o=5&pid=1.7',
   };
+
+  const CircleProgress = ({ percentage, color }) => {
+    const radius = 20;
+    const strokeWidth = 4;
+    const circumference = 2 * Math.PI * radius;
+    const progress = (percentage / 100) * circumference;
+
+    return (
+      <svg width={50} height={50}>
+        <circle
+          cx="25"
+          cy="25"
+          r={radius}
+          stroke="#e0e0e0"
+          strokeWidth={strokeWidth}
+          fill="none"
+        />
+        <circle
+          cx="25"
+          cy="25"
+          r={radius}
+          stroke={color}
+          strokeWidth={strokeWidth}
+          fill="none"
+          strokeDasharray={circumference}
+          strokeDashoffset={circumference - progress}
+          strokeLinecap="round"
+          transform="rotate(-90 25 25)" // Start progress from the top
+        />
+         {/* Percentage Text */}
+         <text
+          x="50%"
+          y="50%"
+          dominantBaseline="middle"
+          textAnchor="middle"
+          fontSize="10"
+          fill={color}
+          fontWeight="bold"
+        >
+          {percentage}%
+        </text>
+      </svg>
+    );
+  };
+
   return (
-    <div className="w-[95%] mt-4 ml-4 h-full overflow-y-scroll">
-      {notification.show && <Notification show={notification.show} message={notification.message} />}
+    <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
+      <div className="w-[95%] h-full mt-8">
+        <div className="flex justify-between">
+          <h1 className="text-[22px] text-blue-900  font-semibold">Seller Dashboard</h1>
+        </div>
 
-      <div className="flex justify-between">
-        <h1 className="text-2xl font-semibold text-blue-900">Buy Products</h1>
-        <div className="flex">
-          <div className="flex gap-1">
-            <select className="bg-white h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center">
-              <option>Discounted Price Low to High</option>
-              <option>Discounted Price High to Low</option>
-              <option>Posted date : Old to Latest</option>
-              <option>Show Prescription Products First</option>
-              <option>Show OTC Products First</option>
-              <option>Discount Percentage Low to High</option>
-              <option>Discounted Percentage High to Low</option>
-              <option>Expiry date : Short to Long</option>
-              <option>Expiry date : Long to Short</option>
-              <option>Name : Ascending (A-Z)</option>
-              <option>Name : Decending (Z-A)</option>
-              <option>Strength Low to High</option>
-              <option>Strength High to Low</option>
-            </select>
+        <div className="flex flex-col ">
+          <div className='flex justify-normal flex-wrap  gap-4 w-full mt-8 border p-4 rounded-lg shadow-lg'>
+           
+            <div className='flex flex-col items-center justify-center ml-7'>
+          <h1 className='text-xl font-semibold'>Order(s)</h1>
+          <p className='text-3xl '>10</p>
           </div>
-          <div>
-            <Search>
-              <SearchIconWrapper>
-                <img src={search} className="w-6" />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ "aria-label": "search" }}
-              />
-            </Search>
+          <div className='flex gap-4 ml-2 '>
+          {details.map((detail, index) => (
+            <div className='flex gap-4'>
+              
+             {/* <h1 className='text-3xl  items-center text-center  justify-start flex'>{detail.totalOrder}</h1> */}
+            <div
+              key={index}
+              className="bg-white w-48 rounded-lg shadow-xl   h-28 p-4 flex flex-col justify-between"
+              style={{ borderBottom: `4px solid ${detail.color}` }} // Set bottom border color
+            >
+              
+              <div className="flex justify-between items-center">
+                <h1>{detail.label}</h1>
+               
+              </div>
+              <div className="flex justify-between">
+              <p className='items-center flex justify-center text-3xl mt-4 font-semibold'>{detail.percentage}%</p>
+                <CircleProgress percentage={detail.percentage} color={detail.color} />
+              </div>
+            </div>
+            </div>
+          ))}
+          </div>
+          {/* <div className='w-48 h-28 bg-white rounded-lg shadow-xl   border-b-4 border-b-blue-900'>
+          <h1 className=' cursor-pointer hover:text-red-500 items-center justify-center flex font-semibold text-xl text-center p-10'
+          onClick={handleClick}>
+                {isGridOpen ? 'Close Latest' : 'Latest'} 
+                </h1>
+          </div> */}
+
+<div
+            className="w-48 h-28 bg-white rounded-lg shadow-xl border-b-4 border-b-blue-900 flex items-center justify-center cursor-pointer"
+            onClick={handleClick}
+          >
+            {!isPercentageShown ? (
+              <h1 className="hover:text-red-500 font-semibold text-xl text-center">
+                Latest
+              </h1>
+            ) : !isGridOpen ? (
+              <h1 className="text-blue-900 font-semibold text-3xl text-center">
+                85%
+              </h1> // Example percentage
+            ) : (
+              <h1 className="hover:text-red-500 font-semibold text-xl text-center">
+                Close Latest
+              </h1>
+            )}
+          </div>
+          
+
+          </div>
+
+          <div className='flex flex-wrap gap-6 w-full mt-8 border rounded-lg shadow-lg p-4'>
+          {/* products */}
+           
+            {/* <h1 className='text-xl font-semibold'> Product(s)</h1> */}
+            <div className='flex flex-col items-center justify-center ml-4'>
+          <h1 className='text-xl font-semibold'>Product(s)</h1>
+          <p className='text-3xl '>9</p>
+          </div>
+            {/* <p>Top Selling Products</p> */}
+           
+            <div className=''>
+              {productdetails.map((productdetail,index)=>(
+                <div >
+                  {/* <h1 className='text-3xl items-center justify-start text-center flex'>{productdetail.totalproducts}</h1> */}
+                <div className='w-48 p-4  border rounded-lg shadow-lg  h-28 bg-white '>
+                  <div className=''>
+                  <h1 className='flex justify-center '>{productdetail.heading}</h1>
+                  <p className='border mt-2'></p>
+                  </div>
+                  <div className='overflow-y-scroll h-10 '>
+                    
+                  <div className='flex justify-between mt-2  '>
+                    <h1 className=' flex flex-wrap'> {productdetail.label}</h1>
+                    <div className='flex flex-col'>
+                    <p>{productdetail.number}</p>
+                    <p>{productdetail.sales}</p>
+                    </div>
+                    </div>
+                    <div className='flex justify-between  '>
+                    <h1 className=' flex flex-wrap'> {productdetail.text}</h1>
+                    <div className='flex flex-col '>
+                    <p>{productdetail.quantity}</p>
+                    <p>{productdetail.sales}</p>
+                    </div>
+
+                      </div>
+                      <div className='flex justify-between mt-2  '>
+                    <h1 className='flex flex-wrap'> {productdetail.label}</h1>
+                    <div className='flex flex-col'>
+                    <p>{productdetail.number}</p>
+                    <p>{productdetail.sales}</p>
+                    </div>
+                    </div>
+                      <div className='flex justify-between  '>
+                    <h1 className=' flex flex-wrap'> {productdetail.text}</h1>
+                    <div className='flex flex-col '>
+                    <p>{productdetail.quantity}</p>
+                    <p>{productdetail.sales}</p>
+                    </div>
+
+                      </div>
+                      </div>
+                    </div>
+                    </div>
+              ))}
+            </div>
+
+            {/* customers */}
+
+            <div className=' flex gap-8'>
+            <div className='flex flex-col items-center justify-center ml-5'>
+          <h1 className='text-xl font-semibold'>Customers(s)</h1>
+          <p className='text-3xl '>50</p>
+          </div>
+              <div   >
+                {customerdetails.map((customerdetail,index)=>(
+                  <div className='flex'>
+                    {/* <h1 className='text-3xl items-center text-center -ml-5 justify-start flex'>{customerdetail.totalcutomers}</h1> */}
+                  <div className='w-48 p-4 ml-8  border rounded-lg shadow-lg h-28 bg-white'>
+                    <div className='flex border-b -mt-2'>
+                    <h1> {customerdetail.label} :</h1>
+                    <p className=''>{customerdetail.Quantity}</p>
+                    </div>
+            
+
+                    <div className='flex '>
+                    <h1> {customerdetail.text} :</h1>
+                    < p className=''>{customerdetail.number}</p>
+                    </div>
+                    </div>
+                    </div>
+                ))}
+
+              </div>
+            </div>
+
           </div>
         </div>
+
+{/* lifetime sales */}
+<div className='flex flex-col  mt-8 gap-2'>
+
+  <h1 className='text-2xl font-semibold text-blue-900'>Earnings</h1>
+  <div className='flex gap-2'>
+<div className='flex border bg-white gap-1 w-60 p-3 justify-center items-center rounded-lg shadow-lg '>
+  <h1 className='text-xl'> Lifetime Sales  {" "}</h1>
+  <span className='text-xl text-orange-500 ml-1'> $37.84</span>
+</div>
+{/* Totalpayout */}
+<div>
+  <div className='flex  gap-1  p-3  justify-between  rounded-lg shadow-lg w-72'>
+   <div className='flex '>
+    <h1 className='text-xl'>Total Payout    {"  "}</h1>
+    <span className='text-xl text-orange-500 ml-1'> $0.00</span>
+    </div>
+    <div>
+          <select value={selectedOption} onChange={handleOptionChange} className='border  rounded'>
+            <option value="Yearly">Yearly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Daily">Daily</option>
+          </select>
+        </div>
+
+        {/* Display corresponding image below based on the dropdown selection */}
+     
+  </div>
+</div>
+
+{/* Activity */}
+<div className='flex  gap-1  p-3  justify-between  rounded-lg shadow-lg w-60'>
+  <h1 className='text-xl'>Acitivities</h1>
+  <p className='bg-white text-sm h-6 items-center rounded-md justify-center flex p-1'>View All</p>
+</div>
+</div>
+</div>
+
+<div className='mt-5'>
+        {selectedOption && (
+          <div className='flex flex-col '>
+            {/* <h1 className='text-xl mb-3'>{selectedOption} Report</h1> */}
+            <img src={imageMap[selectedOption]} alt={`${selectedOption} Report`} className='w-[78%] h-56 rounded-lg shadow-lg' />
+          </div>
+        )}
       </div>
 
-      <div className="w-full mt-5">
-        <div>
-          <div className="flex flex-col">
-            <div className="flex flex-col justify-between">
-              {productList.length > 0 ? (
-                productList.map((product, index) => (
-                  <div
-                    key={index}
-                    className="flex p-4 border w-full justify-around shadow-lg rounded-md mb-4"
-                  >
-                    <div className="flex flex-col mx-2">
-                      <img
-                        src={product.productGallery.imageUrl}
-                        className="w-36 p-2 hover:cursor-pointer rounded-lg h-28 bg-slate-200"
-                        alt="Product"
-                        onClick={() =>
-                          handleProductDetails(product.productID, product)
-                        }
-                      />
-                    </div>
-
-                    <div className="flex flex-col mx-3">
-                      <p className="font-semibold">Item Details</p>
-                      <div className="mt-2">
-                        <p className="font-semibold">{product.productName}</p>
-
-                        <p className="text-xs mt-1 w-60">
-                          {showMore[index]
-                            ? product.aboutTheProduct                            
-                            : `${product.aboutTheProduct.slice(0, 50)}...`}
-                          {product.aboutTheProduct.length > 50 && (
-                            <button
-                              className="text-blue-500 ml-1"
-                              onClick={() => toggleShowMore(index)}
-                            >
-                              {showMore[index] ? "See Less" : " More details"}
-                            </button>
-                          )}
-                        </p>
-                        <div className="flex w-full mt-1 gap-1">
-                          <img src={Expicon} className="w-6 h-6" />
-                          <div className="flex flex-col">
-                            <p>Exp.Date :</p>
-                            <p className="font-semibold">
-                              {product.expiryDate}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col mx-3">
-                      <p className="font-semibold">Package Details</p>
-                      <div className="mt-2">
-                        <p className="text-red-500 font-semibold">
-                          {product.package}
-                        </p>
-                        <p className="text-base mt-1">
-                          {product.packCondition}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col mx-3">
-                      <p className="font-semibold">Unit Price</p>
-                      <div className="mt-2">
-                        <p className="font-semibold">${product.salePrice}</p>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col mx-3">
-                      <p className="font-semibold">Quantity</p>
-                      <div className="mt-2 flex">
-                        <input
-                          type="number"
-                          disabled={
-                            cart.some(
-                              (item) =>
-                                item.product.productID == product.productID
-                            ) === 1
-                          }
-                          value={product.CartQuantity
-                            // cart.some(
-                            //     (item) =>
-                            //         item.product.productID === product.productID
-                            //   )
-                            //     ? cart.find(
-                            //         (item) =>
-                            //             item.product.productID === product.productID
-                            //       ).quantity
-                            //       : product.CartQuantity
-                              }
-                          onChange={(e) =>
-                            handleQuantityChange(
-                              index,
-                              parseInt(e.target.value)
-                            )
-                          }
-                          className="w-16 border rounded-md text-center"
-                          min="1"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Wishlist */}
-                    <div className="flex flex-col items-center justify-between">
-                      <div className="mt-2">
-                        <img
-                          src={
-                            wishlistProductIDs.includes(product.productID)
-                              ? filledHeart
-                              : emptyHeart
-                          }
-                          className="w-6 h-6 cursor-pointer"
-                          onClick={() => handleClick(product.productID)}
-                          alt="Wishlist Icon"
-                        />
-                      </div>
-
-                      {/* Add to Cart */}
-                      {/* {cart.some(
-                        (item) => item.product.productID == product.productID
-                      ) == 0 ? ( */}
-                        <div
-                          onClick={() =>
-                            handleCart(product.productID, product.CartQuantity)
-                          }
-                          className="flex text-white h-[40px] cursor-pointer px-2 rounded-lg bg-blue-900 mx-3 justify-center items-center"
-                        >
-                          <div className="mr-1">
-                            <img
-                              src={addcart}
-                              className="w-6 h-6 cursor-pointer"
-                              alt="Add to Cart Icon"
-                            />
-                          </div>
-                          <p className="font-semibold">{"Add to Cart"}</p>
-                        </div>
-                      {/* ) : ( */}
-                        {/* <div className="flex text-white cursor-pointer h-[40px] px-2 rounded-lg bg-sky-600 mx-3 justify-center items-center">
-                          <div className="mr-1">
-                            <img
-                              src={addcart}
-                              className="w-6 h-6 "
-                              alt="Add to Cart Icon"
-                            />
-                          </div>
-                          <p className="font-semibold">{"Added Cart"}</p>
-                        </div> */}
-                      {/* )} */}
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p>No products available</p>
-              )}
-            </div>
-
-            <div className="flex justify-center mt-4">
-              <button
-                className="px-4 py-2 bg-blue-500 text-white rounded-md mx-2"
-                onClick={handlePreviousPage}
-                disabled={currentPage === 1}
-              >
-                Previous
-              </button>
-              <button
-                className="px-4 py-2 bg-blue-500 text-white rounded-md mx-2"
-                onClick={handleNextPage}
-                disabled={currentPage === totalPages}
-              >
-                Next
-              </button>
-            </div>
+      <div className='mt-8'>
+            {isGridOpen && (
+              <LayoutDashboardgrid data={products} onClose={closeGrid} />
+            )}
           </div>
-        </div>
       </div>
     </div>
   );
-}
+};
 
 export default LayoutDashboard;
-

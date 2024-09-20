@@ -157,9 +157,6 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   ];
 
  
-
-
-
   const handleCriteria =async (obj) => {
     let Criteria = {
       productCategoryId: obj.id
@@ -243,6 +240,61 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
       setIsButtonFocused(false);
     }
   };
+
+
+  const productCriteria = useSelector((state) => state.product.productsByCriteria)
+  const [term, setTerm] = useState(""); // Search term
+  const [filteredProducts, setFilteredProducts] = useState(productCriteria); // Products filtered by API
+  const [loading, setLoading] = useState(false); // For showing a loader during API call
+
+  useEffect(() => {
+    // Update filtered products when productCriteria changes
+    setFilteredProducts(productCriteria);
+  }, [productCriteria]);
+
+  useEffect(() => {
+    if (term) {
+      // Trigger search based on the term entered by the user
+      searchProducts(term);
+    } else {
+      // If search term is cleared, show original products
+      setFilteredProducts(productCriteria);
+    }
+  }, [term]);
+
+  const searchProducts = async (searchTerm) => {
+    setLoading(true); // Start loading
+    try {
+      const productCategoryId = productCriteria[0]?.productCategory?.productCategoryId;
+
+      if (!productCategoryId) {
+        console.warn('No productCategoryId available');
+        setLoading(false);
+        return;
+      }
+
+      const productName = {
+        productName: searchTerm,
+        productCategoryId: productCategoryId, // Use productCategoryId here
+      };
+
+      // Make the API call to get filtered products
+      const response = await fetchCriteriaProductsApi(productName);
+      // Update with the API results
+      setFilteredProducts(response.data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false); // End loading
+    }
+  };
+
+  const searchFilter = (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    setTerm(searchTerm); // Update term which triggers useEffect and API call
+    setFilteredProducts(productCriteria); 
+  };
+
 
   return (
     <div
@@ -513,6 +565,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                   type="text"
                   placeholder="Search for products..."
                   className="flex-grow p-4 border-none focus:outline-none container-focus"
+                  onChange={searchFilter}
                 />
                 <a className="w-[40px] flex items-center justify-center p-2 bg-blue-900 text-white border-blue-500 rounded-r-md focus:outline-none container-focus">
                   <img src={search} />

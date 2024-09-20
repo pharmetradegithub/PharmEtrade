@@ -171,20 +171,31 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
   return (
     <div className="w-full mt-4 h-full overflow-y-scroll">
       <div className=" flex justify-between bg-blue-900 p-1 rounded-lg">
-        <div className="text-2xl text-white">All Products
+        <div className="text-xl pl-2 flex items-center text-white">All Products
           {/* {{Heading} ? Heading : "All Products"} */}
         </div>
 
-        <Search>
+        {/* <Search>
           <SearchIconWrapper>
             <img src={search} className="w-4" />
-            {/* <SearchIcon /> */}
+            {/* <SearchIcon /> 
           </SearchIconWrapper>
           <StyledInputBase
             placeholder="Search…"
             inputProps={{ "aria-label": "search" }}
           />
-        </Search>
+        </Search> */}
+        <div className="relative flex">
+          <input
+            type="text"
+            placeholder="Search Product"
+            
+            // value={term}
+            // onChange={(e) => setTerm(e.target.value)}
+            className=" rounded-xl h-8 w-64 text-left px-2  bg-transparent gap-2 border-transparent my-1"
+          />
+          {/* <CiSearch className="absolute left-0 top-2 text-gray-400 mr-5" /> */}
+        </div>
       </div>
 
       <div className="w-[95%]">
