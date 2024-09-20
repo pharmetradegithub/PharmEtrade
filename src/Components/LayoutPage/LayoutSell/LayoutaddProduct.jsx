@@ -23,6 +23,7 @@ import {
 } from "../../../Api/ProductApi";
 import { useSelector } from "react-redux";
 import LayoutRelatedProducts from "./LayoutRelatedProducts";
+import { ProductInfoValidation } from "../../../Validations/AddProduct";
 
 function LayoutaddProduct() {
   const user = useSelector((state) => state.user.user);
@@ -77,7 +78,7 @@ function LayoutaddProduct() {
     show: false,
     message: "",
   });
-
+  const [Submitted , setSubmitted] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [sizeData, setsizeData] = useState({
     Height: "",
@@ -94,12 +95,13 @@ function LayoutaddProduct() {
     brandName: "",
     size: "",
     unitOfMeasurement: "",
-    mainImageUrl:null,
+    mainImageUrl: null,
     price: "",
     amountInStock: "",
     taxable: null,
     productDetails: "",
     aboutProduct: "",
+    discount: "",
     form: "",
     Height: "",
     Weight: "",
@@ -146,6 +148,11 @@ function LayoutaddProduct() {
         product.categorySpecification.categorySpecificationId,
       productType: product.productType,
       productCategory: product.productCategoryId,
+      Height: product.height,
+      Weight: product.weight,
+      Length: product.length,
+      Width: product.width,
+      discount: product.discount,
       productName: product.productName,
       ndcUpc: product.ndCorUPC,
       brandName: product.brandName,
@@ -154,7 +161,7 @@ function LayoutaddProduct() {
       taxable: product.taxable,
       productDetails: product.productDescription,
       aboutProduct: product.aboutTheProduct,
-      states: [],
+      states: product.states.split(",").map((state) => state.trim()),
       size: product.size,
       form: product.form,
       unitOfMeasurement: product.unitOfMeasure,
@@ -166,10 +173,10 @@ function LayoutaddProduct() {
       strength: product.strength,
       lotNumber: product.lotNumber,
       expirationDate: product.expiryDate,
-      packQuantity: product.packQuantity,
+      packQuantity: "full",
       packType: product.packType,
       packCondition: {
-        tornLabel: false,
+        tornLabel: true,
         otherCondition: "",
       },
       imageUrl: product.productGallery.imageUrl,
@@ -433,9 +440,12 @@ function LayoutaddProduct() {
     setFormData({ ...formData, ["imageUrl"]: null });
   };
 
- 
   console.log(user);
   const handleSubmit = async () => {
+    // if(ProductInfoValidation(formData)==true)
+    // {
+    //     return;
+    // }
     const productId = localStorage.getItem("productId");
 
     const searchParams = new URLSearchParams(location.search);
@@ -444,13 +454,16 @@ function LayoutaddProduct() {
     const defaultImageUrl =
       "https://pharmaetrade.s3.us-east-1.amazonaws.com/PharmaEtrade/Products/510b1b0a-596d-11ef-8a1f-0affd374995f/30d4c3d5-6f52-11ef-8a1f-0affd374995f/NO_IMG.jpg";
 
-      const mainImageUrl =
+    const mainImageUrl =
       formData.mainImageUrl == null
         ? defaultImageUrl
         : typeof formData.mainImageUrl === "string"
         ? formData.mainImageUrl
-        : await uploadImageApi(user.customerId, productId, formData.mainImageUrl);
-
+        : await uploadImageApi(
+            user.customerId,
+            productId,
+            formData.mainImageUrl
+          );
 
     const imageUrl =
       formData.imageUrl == null
@@ -461,42 +474,42 @@ function LayoutaddProduct() {
 
     const thumbnail1 =
       formData.thumbnail1 == null
-        ? defaultImageUrl
+        ? "null"
         : typeof formData.thumbnail1 === "string"
         ? formData.thumbnail1
         : await uploadImageApi(user.customerId, productId, formData.thumbnail1);
 
     const thumbnail2 =
       formData.thumbnail2 == null
-        ? defaultImageUrl
+        ? "null"
         : typeof formData.thumbnail2 === "string"
         ? formData.thumbnail2
         : await uploadImageApi(user.customerId, productId, formData.thumbnail2);
 
     const thumbnail3 =
       formData.thumbnail3 == null
-        ? defaultImageUrl
+        ? "null"
         : typeof formData.thumbnail3 === "string"
         ? formData.thumbnail3
         : await uploadImageApi(user.customerId, productId, formData.thumbnail3);
 
     const thumbnail4 =
       formData.thumbnail4 == null
-        ? defaultImageUrl
+        ? "null"
         : typeof formData.thumbnail4 === "string"
         ? formData.thumbnail4
         : await uploadImageApi(user.customerId, productId, formData.thumbnail4);
 
     const thumbnail5 =
       formData.thumbnail5 == null
-        ? defaultImageUrl
+        ? "null"
         : typeof formData.thumbnail5 === "string"
         ? formData.thumbnail5
         : await uploadImageApi(user.customerId, productId, formData.thumbnail5);
 
     const thumbnail6 =
       formData.thumbnail6 == null
-        ? defaultImageUrl
+        ? "null"
         : typeof formData.thumbnail6 === "string"
         ? formData.thumbnail6
         : await uploadImageApi(user.customerId, productId, formData.thumbnail6);
@@ -508,9 +521,8 @@ function LayoutaddProduct() {
         ? formData.videoUrl
         : await uploadImageApi(user.customerId, productId, formData.videoUrl);
 
-    
     const tab1 = {
-      productID: "0",
+      productID: queryProductId != null ? queryProductId : "string",
       productCategoryId: formData.productCategory,
       productName: formData.productName,
       ndCorUPC: formData.ndcUpc,
@@ -545,7 +557,7 @@ function LayoutaddProduct() {
     setFormData({ ...formData, ["imageUrl"]: imageUrl });
     const tab2 = {
       productPriceId: "string",
-      productId: productId,
+      productId: queryProductId != null ? queryProductId : productId,
       unitPrice: formData.price,
       upnMemberPrice: formData.upnMemberPrice,
       discount: formData.discount,
@@ -572,7 +584,7 @@ function LayoutaddProduct() {
     // };
     const tab4 = {
       productGalleryId: "0",
-      productId: productId,
+      productId: queryProductId != null ? queryProductId : productId,
       caption: "Caption",
       imageUrl: imageUrl,
       thumbnail1: thumbnail1,
@@ -582,12 +594,13 @@ function LayoutaddProduct() {
       thumbnail5: thumbnail5,
       thumbnail6: thumbnail6,
       videoUrl: videoUrl,
-    };
+    };
     try {
       if (activeTab == 0) {
         if (queryProductId) {
           const response = await EditProductInfoApi(tab1, user.customerId);
           console.log("Product Data", response);
+          setSubmitted([...Submitted,0]);
           setNotification({
             show: true,
             message: "Product Info Edited Successfully!",
@@ -596,6 +609,8 @@ function LayoutaddProduct() {
         } else {
           const response = await AddProductInfoApi(tab1, user.customerId);
           localStorage.setItem("productId", response);
+          setSubmitted([...Submitted,0]);
+
           setNotification({
             show: true,
             message: "Product Info Added Successfully!",
@@ -605,37 +620,49 @@ function LayoutaddProduct() {
       } else if (activeTab == 1) {
         if (queryProductId) {
           const response = await EditProductPriceApi(tab2, user.customerId);
-          console.log("Product Data", response);
+          setSubmitted([...Submitted,1]);
+
+          setNotification({
+            show: true,
+            message: "Price Details Edited Successfully!",
+          });
+          setTimeout(() => setNotification({ show: false, message: "" }), 3000);
         } else {
           const response = await AddProductPriceApi(tab2, user.customerId);
           console.log("Product Data", response);
+          setSubmitted([...Submitted,1]);
+
           setNotification({
             show: true,
             message: "Price Details Added Successfully!",
           });
           setTimeout(() => setNotification({ show: false, message: "" }), 3000);
         }
-      } 
-
-      else if (activeTab == 2) {
-          setNotification({
-            show: true,
-            message: "Related Products Added Successfully!",
-          });
-          setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-        
-      }
-      
-      else if (activeTab == 3) {
+      } else if (activeTab == 2) {
+        setNotification({
+          show: true,
+          message: "Related Products Added Successfully!",
+        });
+        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      } else if (activeTab == 3) {
         if (queryProductId) {
           console.log(tab4);
           const response = await EditProductGallery(tab4, user.customerId);
           console.log("Product Data", response);
+          setSubmitted([...Submitted,3]);
+
+          setNotification({
+            show: true,
+            message: "Product Edited Successfully!",
+          });
+          setTimeout(() => setNotification({ show: false, message: "" }), 3000);
         } else {
           console.log(tab4);
 
           const response = await AddProductGallery(tab4, user.customerId);
           console.log("Product Data", response);
+          setSubmitted([]);
+
           setNotification({
             show: true,
             message: "Product Added Successfully!",
@@ -690,6 +717,17 @@ function LayoutaddProduct() {
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
       throw error;
+    }
+  };
+  const [allSelected, setAllSelected] = useState(false);
+
+  const handleSelectAll = (e) => {
+    const { checked } = e.target;
+    setAllSelected(checked);
+    if (checked) {
+      setFormData({ ...formData, states: states.map((state) => state.name) });
+    } else {
+      setFormData({ ...formData, states: [] });
     }
   };
   const handleNdcUpc = async (value) => {
@@ -777,10 +815,14 @@ function LayoutaddProduct() {
                       <option value="4">Health care products</option>
                       <option value="5">Household Suppliers</option>
                       <option value="6">Oral Care Products</option>
-                      <option value="7">Stationery & Gift Wrapping Supplies</option>
+                      <option value="7">
+                        Stationery & Gift Wrapping Supplies
+                      </option>
                       <option value="8">Vision Products</option>
                       <option value="9">Diet & Sports Nutrition</option>
-                      <option value="10">Vitamins, Minerals & Supplements</option>
+                      <option value="10">
+                        Vitamins, Minerals & Supplements
+                      </option>
                       <option value="11">Personal Care products</option>
 
                       {/* <option value="3">Apparel</option>
@@ -1223,7 +1265,16 @@ function LayoutaddProduct() {
                   <div className="">
                     <span className="text-base font-semibold">States :</span>
                     <div className="w-56 h-44 pl-2   py-1 border border-slate-300 rounded-md overflow-y-scroll">
-                      <label className="flex items-center">All Selected</label>
+                      <label className="flex items-center">
+                        <input
+                          type="checkbox"
+                          name="selectAll"
+                          checked={allSelected}
+                          onChange={handleSelectAll}
+                          className="mr-2"
+                        />
+                        All Selected
+                      </label>{" "}
                       {states.map((state) => (
                         <label className="flex  mt-1" key={state.abbreviation}>
                           <input
@@ -1231,9 +1282,7 @@ function LayoutaddProduct() {
                             name="states"
                             value={state.name}
                             onChange={handleInputChange}
-                            checked={formData.states.includes(
-                              state.name
-                            )}
+                            checked={formData.states.includes(state.name)}
                             className="mr-2 overflow-y-scroll"
                           />
                           {state.name}
@@ -1275,22 +1324,7 @@ function LayoutaddProduct() {
                       value={formData.discount === "" ? "" : formData.discount}
                     />
                   </div>
-                  <div className="flex flex-col">
-                    <label className="text-sm font-semibold">
-                      Sale Price ($):
-                    </label>
-                    <input
-                      name="salePrice"
-                      type="number"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={
-                        formData.salePrice === "" ? "" : formData.salePrice
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="flex items-center gap-8">
+
                   <div className="flex flex-col">
                     <label className="text-sm font-semibold">
                       UPN Member Price ($):
@@ -1304,6 +1338,22 @@ function LayoutaddProduct() {
                         formData.upnMemberPrice === ""
                           ? ""
                           : formData.upnMemberPrice
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="flex items-center gap-8">
+                  <div className="flex flex-col">
+                    <label className="text-sm font-semibold">
+                      Sale Price ($):
+                    </label>
+                    <input
+                      name="salePrice"
+                      type="number"
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={
+                        formData.salePrice === "" ? "" : formData.salePrice
                       }
                     />
                   </div>
@@ -1735,9 +1785,11 @@ function LayoutaddProduct() {
       case 2:
         return (
           <div>
-            <LayoutRelatedProducts formData={formData} handleInputChange={handleInputChange} />{" "}
+            <LayoutRelatedProducts
+              formData={formData}
+              handleInputChange={handleInputChange}
+            />{" "}
           </div>
-        
         );
       case 3:
         return (
@@ -1936,8 +1988,13 @@ function LayoutaddProduct() {
       <div className="flex 2xl:w-[60%] xl:w-full justify-end">
         <button
           onClick={handleSubmit}
-          className={`border bg-blue-900 text-white my-4 h-8 w-16 rounded-md font-semibold `}
-        >
+          disabled={Submitted.includes(activeTab)}
+          className={`
+            border bg-blue-900 flex justify-center items-center text-white my-4 h-8 w-16 rounded-md font-semibold
+            ${Submitted.includes(activeTab) 
+              ? 'opacity-50 cursor-not-allowed' 
+              : 'flex hover:bg-blue-800 active:bg-blue-700'}
+          `}        >
           Save
         </button>
       </div>
