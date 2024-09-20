@@ -708,19 +708,19 @@ const LayoutRelatedProducts = () => {
           <table className="w-full">
             <thead className="bg-blue-900 text-white">
               <tr className="border-b font-semibold">
-                <th className=" p-4  text-left text-sm  w-32">
+                <th className=" p-4  text-left text-sm  w-16">
                   <select className="text-black">
                     <option>-</option>
                   </select>
                 </th>
-                <th className=" p-2  text-left text-sm w-32">ID</th>
-                <th className=" p-2  text-left text-sm w-40">Thumbnail</th>
+                <th className=" p-2  text-left text-sm w-10">ID</th>
+                <th className=" p-2  text-left text-sm w-24">Thumbnail</th>
                 <th className=" p-2  text-left text-sm  w-80">Name</th>
                 <th className=" p-2  text-left text-sm w-48">Category</th>
-                <th className=" p-2  text-left text-sm w-32">Status</th>
-                <th className=" p-2  text-left text-sm bw-44">Type</th>
-                <th className=" p-2  text-left text-sm  w-44">Price</th>
-                <th className=" p-2  text-left text-sm  w-44">Action</th>
+                <th className=" p-2  text-left text-sm w-24">Status</th>
+                <th className=" p-2  text-left text-sm w-52">Type</th>
+                <th className=" p-2  text-left text-sm  w-24">Price</th>
+                <th className=" p-2  text-left text-sm  w-24">Action</th>
               </tr>
             </thead>
             {/* <tbody>
@@ -748,7 +748,7 @@ const LayoutRelatedProducts = () => {
                   <td className=" p-2">
                     <input className=" h-6 w-4" type="checkbox" />
                   </td>
-                  <td className="text-sm p-2"> {product.productID}</td>
+                  <td className="text-sm p-2"> {index+1}</td>
                   <td className="text-sm p-2">
                     <img
                       src={product.productGallery.imageUrl}
@@ -887,19 +887,19 @@ const LayoutRelatedProducts = () => {
           <table className="w-full">
             <thead className="bg-blue-900 text-white  ">
               <tr className="border-b font-semibold">
-                <th className=" p-4  text-left text-sm  w-32">
+                <th className=" p-4  text-left text-sm  w-16">
                   <select className="text-black">
                     <option>-</option>
                   </select>
                 </th>
-                <th className=" p-2  text-left text-sm w-32">ID</th>
-                <th className=" p-2  text-left text-sm w-40">Thumbnail</th>
+                <th className=" p-2  text-left text-sm w-10">ID</th>
+                <th className=" p-2  text-left text-sm w-24">Thumbnail</th>
                 <th className=" p-2  text-left text-sm  w-80">Name</th>
                 <th className=" p-2  text-left text-sm w-48">Category</th>
-                <th className=" p-2  text-left text-sm w-32">Status</th>
-                <th className=" p-2 text-left text-sm bw-44">Type</th>
-                <th className=" p-2  text-left text-sm  w-44">Price</th>
-                <th className=" p-2 text-left text-sm w-32">Action</th>
+                <th className=" p-2  text-left text-sm w-24">Status</th>
+                <th className=" p-2 text-left text-sm w-52">Type</th>
+                <th className=" p-2  text-left text-sm  w-24">Price</th>
+                <th className=" p-2 text-left text-sm w-24">Action</th>
               </tr>
             </thead>
             {/* <tbody>
@@ -927,7 +927,7 @@ const LayoutRelatedProducts = () => {
                   <td className=" p-2">
                     <input className=" h-6 w-4" type="checkbox" />
                   </td>
-                  <td className="text-sm p-2"> {product.productID}</td>
+                  <td className="text-sm p-2"> {index+1}</td>
                   <td className="text-sm p-2">
                     <img
                       src={product.productGallery.imageUrl}
@@ -1063,19 +1063,19 @@ const LayoutRelatedProducts = () => {
         <table className="w-full">
           <thead className="bg-blue-900 text-white  ">
             <tr className="border-b font-semibold">
-              <th className=" p-4  text-left text-sm   w-32">
+              <th className=" p-4  text-left text-sm   w-16">
                 <select className="text-black">
                   <option>-</option>
                 </select>
               </th>
-              <th className=" p-2  text-left text-sm w-32">ID</th>
-              <th className="p-2  text-left text-sm  w-40">Thumbnail</th>
+              <th className=" p-2  text-left text-sm w-10">ID</th>
+              <th className="p-2  text-left text-sm  w-24">Thumbnail</th>
               <th className=" p-2  text-left text-sm w-80">Name</th>
               <th className=" p-2  text-left text-sm w-48 ">Category</th>
-              <th className=" p-2  text-left text-sm w-32">Status</th>
-              <th className=" p-2 text-left text-sm w-44">Type</th>
-              <th className=" p-2 text-left text-sm w-32">Price</th>
-              <th className=" p-2 text-left text-sm w-32">Action</th>
+              <th className=" p-2  text-left text-sm w-24">Status</th>
+              <th className=" p-2 text-left text-sm w-52">Type</th>
+              <th className=" p-2 text-left text-sm w-24">Price</th>
+              <th className=" p-2 text-left text-sm w-24">Action</th>
             </tr>
           </thead>
           {/* <tbody>
@@ -1103,7 +1103,7 @@ const LayoutRelatedProducts = () => {
                 <td className=" p-2">
                   <input className=" h-6 w-4" type="checkbox" />
                 </td>
-                <td className="text-sm p-2"> {product.productID}</td>
+                <td className="text-sm p-2"> {index+1}</td>
                 <td className="text-sm p-2">
                   <img
                     src={product.productGallery.imageUrl}
