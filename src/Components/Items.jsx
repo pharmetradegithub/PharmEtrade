@@ -34,7 +34,7 @@ import img3 from "../assets/img3.png";
 import img4 from "../assets/img4.png";
 import img5 from "../assets/img5.png";
 import Wishlist from "../assets/wishlistnav_icon.png";
-import filledheart from '../assets/wishlistfilled_icon.png'
+import filledheart from "../assets/wishlistfilled_icon.png";
 import cart from "../assets/CartNav_icon.png";
 import compare from "../assets/CompareNav2.png";
 import dropdown from "../assets/Down-arrow .png";
@@ -42,7 +42,12 @@ import dropdown from "../assets/Down-arrow .png";
 import DropUpIcon from "../assets/Icons/dropDownb.png";
 import DropDownIcon from "../assets/Icons/dropUpB.png";
 import { useSelector } from "react-redux";
-import { fetchCrossSellProductApi, fetchProductByIdApi, fetchRelatedProductApi, fetchUpsellProductApi } from "../Api/ProductApi";
+import {
+  fetchCrossSellProductApi,
+  fetchProductByIdApi,
+  fetchRelatedProductApi,
+  fetchUpsellProductApi,
+} from "../Api/ProductApi";
 import { addCartApi } from "../Api/CartApi";
 import { addToWishlistApi, removeFromWishlistApi } from "../Api/WishList";
 import { orderApi, orderGetApi } from "../Api/CustomerOrderList";
@@ -66,13 +71,17 @@ function Items({
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
 
   const getWishlistIdByProductID = (productID) => {
-    const wishlistItem = wishlist.find((item) => item.product.productID === productID);
+    const wishlistItem = wishlist.find(
+      (item) => item.product.productID === productID
+    );
     return wishlistItem ? wishlistItem.wishListId : null;
   };
 
   useEffect(() => {
     if (Array.isArray(wishlist)) {
-      setwishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
+      setwishlistProductIDs(
+        wishlist.map((wishItem) => wishItem.product.productID)
+      );
     }
   }, [wishlist]);
 
@@ -95,12 +104,13 @@ function Items({
   const [thumnailList, setthumnailList] = useState([]);
   const newProducts = useSelector((state) => state.product.recentSoldProducts);
 
-
-  const RelatedProducts = useSelector((state)=> state.product.RelatedProducts);
+  const RelatedProducts = useSelector((state) => state.product.RelatedProducts);
 
   const upsellProducts = useSelector((state) => state.product.UpSellProducts);
 
-  const crossSellProducts = useSelector((state) => state.product.CrossSellProducts);
+  const crossSellProducts = useSelector(
+    (state) => state.product.CrossSellProducts
+  );
 
   useEffect(() => {
     const NewProductsAPI = async () => {
@@ -115,38 +125,54 @@ function Items({
     NewProductsAPI();
   }, []);
 
+  // useEffect(() => {
+  //   if (prod) {
+  //     setimg(prod.productGallery.imageUrl);
+  //     setthumnailList([
+  //       prod.productGallery.imageUrl,
+  //       prod.productGallery?.thumbnail1,
+  //       prod.productGallery?.thumbnail2,
+  //       prod.productGallery?.thumbnail3,
+  //     ]);
+
+  //   }
+  // }, [prod]);
+
   useEffect(() => {
-    if (prod) {
-      setimg(prod.productGallery.imageUrl);
-      setthumnailList([
+    if (prod && prod.productGallery) {
+      // Filter out values that are "null" (string) or any falsy values (null, undefined, or empty)
+      const validThumbnails = [
         prod.productGallery.imageUrl,
         prod.productGallery?.thumbnail1,
         prod.productGallery?.thumbnail2,
         prod.productGallery?.thumbnail3,
-      ]);
+        prod.productGallery?.thumbnail4,
+        prod.productGallery?.thumbnail5,
+        prod.productGallery?.thumbnail6,
+        prod.productGallery?.videoUrl,
+      ].filter((item) => item && item !== "null" && item.trim() !== "");
+
+      setimg(prod.productGallery.imageUrl);
+      setthumnailList(validThumbnails);
     }
   }, [prod]);
+
   const handleAddToCart = () => {
     // setShowViewCart(true);
     setIsItemAdded(true);
   };
 
+  useEffect(() => {
+    fetchCrossSellProductApi(id);
+  }, [id]);
 
   useEffect(() => {
-    fetchCrossSellProductApi(id)
-   
-  }, [id])
+    fetchRelatedProductApi(id);
+  }, [id]);
 
   useEffect(() => {
-    fetchRelatedProductApi(id)
-   
-  }, [id])
-
-  useEffect(() => {
-    fetchUpsellProductApi(id)
-   
-  }, [id])
-
+    fetchUpsellProductApi(id);
+  }, [id]);
 
   const mlOptions = [250, 350, 500];
   const colorOptions = [
@@ -269,8 +295,6 @@ function Items({
     1: 5, // 5% of ratings are 1 star
   };
 
- 
-
   const [popup, SetPopup] = useState(false);
 
   const handleopen = () => {
@@ -291,11 +315,9 @@ function Items({
       setQuantity((prevQuantity) => prevQuantity - 1);
     }
   };
-  console.log("productDataItem-->",prod)
+  console.log("productDataItem-->", prod);
   const userId = localStorage.getItem("userId");
   const handleOrder = async () => {
-   
-    
     const currentDate = new Date();
     const payLoad = {
       orderId: "0",
@@ -310,19 +332,19 @@ function Items({
       productId: prod.productID,
       quantity: quantity,
       pricePerProduct: prod.salePrice,
-      vendorId: prod.sellerId
-    }
-    navigate(`/checkout?total=${quantity * prod.salePrice}`)
-    
+      vendorId: prod.sellerId,
+    };
+    navigate(`/checkout?total=${quantity * prod.salePrice}`);
+
     try {
       // await customerOrderApi(payLoad);
       // await customerOrderGetApi(userId)
-      await orderApi(payLoad)
-      await orderGetApi(userId)
+      await orderApi(payLoad);
+      await orderGetApi(userId);
     } catch (error) {
       console.error("Error adding product to cart:", error);
     }
-  }
+  };
   return (
     <div
       className="Largest:w-[1550px] mt-2  Laptop:w-full  w-full  flex flex-col font-sans overflow-y-scroll"
@@ -332,9 +354,21 @@ function Items({
     >
       <div className="  flex gap-4 mt-4 justify-around h-full w-full mb-4">
         <div className="w-[40%] mb-3">
-          <div className="flex ml-10  cursor-pointer">
-            <div className="flex flex-col mr-4 items-center overflow-y-scroll">
+          <div className="flex ml-10 h-[400px] cursor-pointer">
+            <div className="flex flex-col mr-4 items-center   overflow-y-scroll">
               {thumnailList?.map((item, index) => {
+                return (
+                  <div key={index} className="">
+                    <img
+                      onMouseEnter={() => setimg(item)}
+                      src={item}
+                      className="w-16  object-cover  bg-gray-200 border rounded-lg object-fit hover:border-sky-500 hover:border-2 "
+                    />
+                  </div>
+                );
+              })}
+
+              {/* {thumnailList?.map((item, index) => {
                 return (
                   <div key={index}>
                     <img
@@ -344,10 +378,10 @@ function Items({
                     />
                   </div>
                 );
-              })}
+              })} */}
 
               <div
-                className={` w-16 h-20 ${isHovered ? "bg-gray-200" : ""}`}
+                className={` w-16 h-16 ${isHovered ? "bg-gray-200" : ""}`}
                 onMouseEnter={() => {
                   setimg(videoSample);
                   setIsHovered(true);
@@ -364,7 +398,11 @@ function Items({
             <div className="bg-gray-200 border rounded-lg w-68 h-[400px] flex justify-center items-center">
               {img === videoSample ? (
                 <video className="object-contain w-96 h-72 " controls>
-                  <source src={prod?.productGallery.videoUrl} type="video/mp4" className="" />
+                  <source
+                    src={prod?.productGallery.videoUrl}
+                    type="video/mp4"
+                    className=""
+                  />
                 </video>
               ) : (
                 <img
@@ -394,7 +432,7 @@ function Items({
 
               <div className="flex items-center">
                 <span className="text-sky-500 font-semibold text-[18px] ">
-                  {prod?.salePrice }
+                  {prod?.salePrice}
                 </span>
                 <p className="text-xs ml-1 line-through">${prod?.unitPrice} </p>
               </div>
@@ -505,12 +543,7 @@ function Items({
               <div className=" w-[80%] mt-3  bg-white space-y-4">
                 <h1 className="text-lg font-bold">Quick Overview</h1>
                 <p>
-                  <li>
-                {prod?.aboutTheProduct}
-                
-                  </li>
-                  
-                  
+                  <li>{prod?.aboutTheProduct}</li>
                 </p>
               </div>
             </div>
@@ -518,31 +551,29 @@ function Items({
 
           <div className="w-[50%] min-h-full mr-12  p-3 flex flex-col items-center  ">
             <div className="border rounded-lg shadow-lg  pb-4 w-full h-full">
-            <div className="p-4">
+              <div className="p-4">
                 <div className="flex justify-between">
-                <p className="text-black text-[22px]">${prod?.salePrice}</p>
-                {/* <img src={ ?Wishlist :filledheart} className="w-5 h-5 flex   "/> */}
-                <img
-      src={isWishlisted ? filledheart : Wishlist}
-      className="w-5 h-5 flex cursor-pointer"
-      onClick={handleWishlistClick}
-      alt="Wishlist Icon"
-    />
+                  <p className="text-black text-[22px]">${prod?.salePrice}</p>
+                  {/* <img src={ ?Wishlist :filledheart} className="w-5 h-5 flex   "/> */}
+                  <img
+                    src={isWishlisted ? filledheart : Wishlist}
+                    className="w-5 h-5 flex cursor-pointer"
+                    onClick={handleWishlistClick}
+                    alt="Wishlist Icon"
+                  />
                 </div>
                 <div className="flex justify-between">
-                    <div className="flex">
-                <p className="text-gray-600 text-[14px]">
-                  Delivery by{" "}
-                  <span className="text-black">
-                    Tommorrow, 8:00 am - 12:00 pm
-                  </span>
-                  </p>
+                  <div className="flex">
+                    <p className="text-gray-600 text-[14px]">
+                      Delivery by{" "}
+                      <span className="text-black">
+                        Tommorrow, 8:00 am - 12:00 pm
+                      </span>
+                    </p>
                   </div>
                   <div>
-                  <img src={compare} className="w-5 h-5"/>
-                 
-               
-                </div>
+                    <img src={compare} className="w-5 h-5" />
+                  </div>
                 </div>
               </div>
 
@@ -645,7 +676,15 @@ function Items({
       </div>
 
       <div className="h-full w-full flex flex-col  justify-center items-center">
-        <ProductDetails description= {prod?.productDescription} manufacturer= {prod?.manufacturer} size= {prod?.size} UOM={prod?.unitOfMeasure} strength= {prod?.strength} brand={prod?.brandName} product={prod?.productName}  />
+        <ProductDetails
+          description={prod?.productDescription}
+          manufacturer={prod?.manufacturer}
+          size={prod?.size}
+          UOM={prod?.unitOfMeasure}
+          strength={prod?.strength}
+          brand={prod?.brandName}
+          product={prod?.productName}
+        />
 
         <div className="w-[92%] flex flex-col md:flex-row border-t-2 shadow-inner justify-start gap-8 p-4">
           <div className="w-full md:w-1/3">
@@ -711,7 +750,7 @@ function Items({
             Title={"Cross Sell Products"}
             data={crossSellProducts}
           />
-        </div> 
+        </div>
         {/* <div className="w-[92%] border-t-2 shadow-inner ">
           <ProductSlider
             productList={productList}
@@ -720,8 +759,6 @@ function Items({
             data={newProducts}
           />
         </div> */}
-
-
       </div>
 
       <ScrollToTop />

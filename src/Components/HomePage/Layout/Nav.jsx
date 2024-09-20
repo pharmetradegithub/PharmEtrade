@@ -124,7 +124,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
     // { label: "JOIN", icon: join, path: "/login" },
     // { label: "SELL", icon: sell, path:"/layout/addproduct" },
     // { label: "BID", icon: bid, path: "/bid" },
-    { label: "BUY", icon: Buy, path: user ? "/layout" : "login" },
+    { label: "BUY", icon: Buy, path: user ? "/layout/layoutbuy" : "login" },
     {
       label: "SELL",
       icon: sell,

@@ -318,7 +318,7 @@ const LayoutRelatedProducts = () => {
             <div className="flex flex-col mr-5">
               <label className="font-semibold">
                 Category Specification:
-                <span className="text-red-600">*</span>
+                
               </label>
               <select
                 className="w-52 h-8  pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
@@ -335,7 +335,7 @@ const LayoutRelatedProducts = () => {
             <div className="flex flex-col mr-7">
               <label className="font-semibold">
                 Product Category:
-                <span className="text-red-600">*</span>
+               
               </label>
               <select
                 name="productCategory"
@@ -370,7 +370,7 @@ const LayoutRelatedProducts = () => {
             </div>
             <div className="font-semibold  ml-0 flex flex-col">
               <label>
-                Brand Name:<span className="text-red-600">*</span>
+                Brand Name:
               </label>
               <input
                 name="brandName"
@@ -395,7 +395,7 @@ const LayoutRelatedProducts = () => {
             </div>
             <div className="font-semibold flex flex-col ">
               <label>
-                NDC / UPC:<span className="text-red-600">*</span>
+                NDC / UPC:
               </label>
               <input
                 name="ndcUpc"
@@ -433,7 +433,7 @@ const LayoutRelatedProducts = () => {
         <div className="flex  justify-between ">
           <div className="font-semibold flex flex-col mr-6">
             <label>
-              Product Name:<span className="text-red-600">*</span>
+              Product Name:
             </label>
             <input
               name="productName"
