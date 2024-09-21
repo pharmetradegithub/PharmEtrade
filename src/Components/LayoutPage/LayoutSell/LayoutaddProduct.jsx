@@ -111,6 +111,7 @@ function LayoutaddProduct() {
     Length: 0,
     Width: 0,
     states: [],
+    shippingCostApplicable: false,
     upnMemberPrice: 0,
     salePrice: 0,
     salePriceForm: "",
@@ -400,6 +401,11 @@ function LayoutaddProduct() {
           ...formData,
           packType: value,
         });
+      }  if (name === "shippingCostApplicable") {
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: value === "1" ? true : false,  // Set to true for "1" (Yes), false for "0" (No)
+        }));
       }
     } else if (type === "checkbox") {
       // Handle checkboxes for packCondition
@@ -626,7 +632,7 @@ function LayoutaddProduct() {
       salePriceValidFrom: formData.salePriceForm,
       salePriceValidTo: formData.salePriceTo,
       taxable: formData.taxable == 1 ? true : false,
-      shippingCostApplicable: true,
+      shippingCostApplicable: formData.shippingCostApplicable ==1 ? true :false,
       shippingCost: 20,
       amountInStock: formData.amountInStock,
     };
@@ -825,8 +831,8 @@ function LayoutaddProduct() {
           <div className="w-[100%] h-full flex font-sans font-medium overflow-hidden ">
             <div className="flex   w-full Largest:w-[100%] text-sm">
               <div className=" ">
-                <div className="font-semibold flex flex-col mb-4">
-                  <label>
+                <div className=" flex flex-col mb-4">
+                  <label className="font-semibold">
                     NDC / UPC:<span className="text-red-600">*</span>
                   </label>
                   <div className="flex gap-3">
@@ -912,8 +918,8 @@ function LayoutaddProduct() {
                       </span>
                     )}
                   </div>
-                  <div className="font-semibold flex flex-col mr-6">
-                    <label>
+                  <div className=" flex flex-col mr-6">
+                    <label className="font-semibold">
                       Product Name:<span className="text-red-600">*</span>
                     </label>
                     <input
@@ -1412,9 +1418,9 @@ function LayoutaddProduct() {
           <div className="flex flex-col w-full   font-medium font-sans justify-between text-sm">
             <div className="flex ">
               <div className="flex flex-col   ">
-                <div className="flex gap-8 my-2 items-center font-semibold">
+                <div className="flex gap-8 my-2 items-center ">
                   <div className="flex flex-col">
-                    <label>
+                    <label className="font-semibold">
                       Price ($):<span className="text-red-600">*</span>
                     </label>
                     <input
@@ -1606,7 +1612,7 @@ function LayoutaddProduct() {
                       }
                     />
                   </div>
-                  {/* <div className="flex flex-col">
+                  <div className="flex flex-col">
                     <label className="font-semibold">
                       Taxable:<span className="text-red-600">*</span>
                     </label>
@@ -1627,34 +1633,13 @@ function LayoutaddProduct() {
                       <option value="0">No</option>
                       <option value="1">Yes</option>
                     </select>
-                  </div> */}
-                  <div className="flex flex-col">
-                    <label className="font-semibold">
-                      Taxable:<span className="text-red-600">*</span>
-                    </label>
-
-                    <select
-                      name="taxable"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={
-                        formData.taxable == null
-                          ? 0 // Default to "No"
-                          : formData.taxable === true
-                          ? 1
-                          : 0
-                      }
-                    >
-                      <option value="">Select an option</option>
-                      <option value="0">No</option>
-                      <option value="1">Yes</option>
-                    </select>
                   </div>
+                  
                 </div>
               </div>
             </div>
             <div className="my-4">
-              <div className="flex gap-2 items-center">
+              {/* <div className="flex gap-2 items-center">
                 <label className="font-semibold">
                   Price includes the shipping cost
                 </label>
@@ -1692,7 +1677,40 @@ function LayoutaddProduct() {
                     <span>No</span>
                   </div>
                 </Box>
-              </div>
+              </div> */}
+           <div className="flex items-center">
+           <label className="font-semibold">
+                  Price includes the shipping cost
+                </label>
+  <input
+    type="radio"
+    id="yes"
+    name="shippingCostApplicable"
+    value="1"
+    checked={formData.shippingCostApplicable === true}
+    onChange={handleInputChange}
+    className="ml-2"
+  />
+  <label htmlFor="yes" className="text-sm mx-1 font-semibold">
+    Yes
+  </label>
+
+  <input
+    type="radio"
+    id="no"
+    name="shippingCostApplicable"
+    value="0"
+    checked={formData.shippingCostApplicable === false}
+    onChange={handleInputChange}
+    className="ml-2"
+  />
+  <label htmlFor="no" className="text-sm mx-1 font-semibold">
+    No
+  </label>
+</div>
+
+
+
             </div>
 
             {/* section5 start */}
