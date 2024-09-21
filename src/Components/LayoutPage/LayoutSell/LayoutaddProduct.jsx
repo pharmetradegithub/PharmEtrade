@@ -662,6 +662,8 @@ function LayoutaddProduct() {
           const response = await EditProductInfoApi(tab1, user.customerId);
           console.log("Product Data", response);
           setSubmitted([...Submitted, 0]);
+          setFormErrors({})
+          setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1));
           setNotification({
             show: true,
             message: "Product Info Edited Successfully!",
@@ -671,6 +673,7 @@ function LayoutaddProduct() {
           const response = await AddProductInfoApi(tab1, user.customerId);
           localStorage.setItem("productId", response);
           setSubmitted([...Submitted, 0]);
+          setFormErrors({})
           setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1));
           setNotification({
             show: true,
@@ -682,7 +685,8 @@ function LayoutaddProduct() {
         if (queryProductId) {
           const response = await EditProductPriceApi(tab2, user.customerId);
           setSubmitted([...Submitted, 1]);
-
+          setFormErrors({})
+          setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 2));
           setNotification({
             show: true,
             message: "Price Details Edited Successfully!",
@@ -692,6 +696,7 @@ function LayoutaddProduct() {
           const response = await AddProductPriceApi(tab2, user.customerId);
           console.log("Product Data", response);
           setSubmitted([...Submitted, 1]);
+          setFormErrors({})
           setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 2));
           setNotification({
             show: true,
