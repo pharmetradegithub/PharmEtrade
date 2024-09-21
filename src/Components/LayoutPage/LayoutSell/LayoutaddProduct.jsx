@@ -23,7 +23,10 @@ import {
 } from "../../../Api/ProductApi";
 import { useSelector } from "react-redux";
 import LayoutRelatedProducts from "./LayoutRelatedProducts";
-import { ProductInfoValidation } from "../../../Validations/AddProduct";
+import {
+  ProductInfoValidation,
+  ProductPriceValidation,
+} from "../../../Validations/AddProduct";
 
 function LayoutaddProduct() {
   const user = useSelector((state) => state.user.user);
@@ -78,7 +81,7 @@ function LayoutaddProduct() {
     show: false,
     message: "",
   });
-  const [Submitted , setSubmitted] = useState([]);
+  const [Submitted, setSubmitted] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [sizeData, setsizeData] = useState({
     Height: "",
@@ -87,7 +90,7 @@ function LayoutaddProduct() {
     Width: "",
   });
   const [formData, setFormData] = useState({
-    categorySpecification: "",
+    categorySpecification: 0,
     productType: "",
     productCategory: "",
     productName: "",
@@ -96,27 +99,27 @@ function LayoutaddProduct() {
     size: "",
     unitOfMeasurement: "",
     mainImageUrl: null,
-    price: "",
-    amountInStock: "",
+    price: 0,
+    amountInStock: 0,
     taxable: null,
     productDetails: "",
     aboutProduct: "",
-    discount: "",
+    discount: 0,
     form: "",
-    Height: "",
-    Weight: "",
-    Length: "",
-    Width: "",
+    Height: 0,
+    Weight: 0,
+    Length: 0,
+    Width: 0,
     states: [],
-    upnMemberPrice: "",
-    salePrice: "",
+    upnMemberPrice: 0,
+    salePrice: 0,
     salePriceForm: "",
     salePriceTo: "",
     manufacturer: "",
     strength: "",
     lotNumber: "",
     expirationDate: "",
-    packQuantity: "",
+    packQuantity: 0,
     packType: "",
     packCondition: {
       tornLabel: null,
@@ -441,11 +444,28 @@ function LayoutaddProduct() {
   };
 
   console.log(user);
+  const [formErrors, setFormErrors] = useState({});
+
   const handleSubmit = async () => {
-    // if(ProductInfoValidation(formData)==true)
-    // {
-    //     return;
-    // }
+    if (activeTab == 0) {
+      const validationErrorsTab1 = ProductInfoValidation(formData);
+      if (Object.keys(validationErrorsTab1).length > 0) {
+        setFormErrors(validationErrorsTab1);
+        return;
+      } else {
+        console.log("Form submitted successfully");
+      }
+    }
+    if (activeTab == 1) {
+      const validationErrorsTab2 = ProductPriceValidation(formData);
+      if (Object.keys(validationErrorsTab2).length > 0) {
+        setFormErrors(validationErrorsTab2);
+        return;
+      } else {
+        console.log("Price validation passed");
+      }
+    }
+
     const productId = localStorage.getItem("productId");
 
     const searchParams = new URLSearchParams(location.search);
@@ -600,7 +620,7 @@ function LayoutaddProduct() {
         if (queryProductId) {
           const response = await EditProductInfoApi(tab1, user.customerId);
           console.log("Product Data", response);
-          setSubmitted([...Submitted,0]);
+          setSubmitted([...Submitted, 0]);
           setNotification({
             show: true,
             message: "Product Info Edited Successfully!",
@@ -609,7 +629,7 @@ function LayoutaddProduct() {
         } else {
           const response = await AddProductInfoApi(tab1, user.customerId);
           localStorage.setItem("productId", response);
-          setSubmitted([...Submitted,0]);
+          setSubmitted([...Submitted, 0]);
 
           setNotification({
             show: true,
@@ -620,7 +640,7 @@ function LayoutaddProduct() {
       } else if (activeTab == 1) {
         if (queryProductId) {
           const response = await EditProductPriceApi(tab2, user.customerId);
-          setSubmitted([...Submitted,1]);
+          setSubmitted([...Submitted, 1]);
 
           setNotification({
             show: true,
@@ -630,7 +650,7 @@ function LayoutaddProduct() {
         } else {
           const response = await AddProductPriceApi(tab2, user.customerId);
           console.log("Product Data", response);
-          setSubmitted([...Submitted,1]);
+          setSubmitted([...Submitted, 1]);
 
           setNotification({
             show: true,
@@ -649,7 +669,7 @@ function LayoutaddProduct() {
           console.log(tab4);
           const response = await EditProductGallery(tab4, user.customerId);
           console.log("Product Data", response);
-          setSubmitted([...Submitted,3]);
+          setSubmitted([...Submitted, 3]);
 
           setNotification({
             show: true,
@@ -718,6 +738,7 @@ function LayoutaddProduct() {
       console.error("There was a problem with the fetch operation:", error);
       throw error;
     }
+  
   };
   const [allSelected, setAllSelected] = useState(false);
 
@@ -949,6 +970,11 @@ function LayoutaddProduct() {
                               : ""
                           }
                         />
+                        {formErrors.expirationDate && (
+                          <span className="text-red-500 text-sm">
+                            {formErrors.expirationDate}
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -1289,6 +1315,11 @@ function LayoutaddProduct() {
                         </label>
                       ))}
                     </div>
+                    {formErrors.states && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.states}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -1312,6 +1343,11 @@ function LayoutaddProduct() {
                       onChange={handleInputChange}
                       value={formData.price === 0 ? "" : formData.price}
                     />
+                    {formErrors.price && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.price}
+                      </span>
+                    )}
                   </div>
 
                   <div className="flex flex-col">
@@ -1356,6 +1392,11 @@ function LayoutaddProduct() {
                         formData.salePrice === "" ? "" : formData.salePrice
                       }
                     />
+                    {formErrors.salePrice && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.salePrice}
+                      </span>
+                    )}
                   </div>
                   <div className="flex flex-col">
                     <label className="text-sm font-semibold">
@@ -1372,6 +1413,11 @@ function LayoutaddProduct() {
                           : ""
                       }
                     />
+                    {formErrors.salePriceForm && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.salePriceForm}
+                      </span>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-8 my-2">
@@ -1390,6 +1436,11 @@ function LayoutaddProduct() {
                             : ""
                         }
                       />
+                      {formErrors.salePriceTo && (
+                        <span className="text-red-500 text-sm">
+                          {formErrors.salePriceTo}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -1991,10 +2042,13 @@ function LayoutaddProduct() {
           disabled={Submitted.includes(activeTab)}
           className={`
             border bg-blue-900 flex justify-center items-center text-white my-4 h-8 w-16 rounded-md font-semibold
-            ${Submitted.includes(activeTab) 
-              ? 'opacity-50 cursor-not-allowed' 
-              : 'flex hover:bg-blue-800 active:bg-blue-700'}
-          `}        >
+            ${
+              Submitted.includes(activeTab)
+                ? "opacity-50 cursor-not-allowed"
+                : "flex hover:bg-blue-800 active:bg-blue-700"
+            }
+          `}
+        >
           Save
         </button>
       </div>
