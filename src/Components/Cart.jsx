@@ -255,7 +255,7 @@ import { useSelector } from "react-redux";
 import { addCartApi, removeItemFromCartApi } from "../Api/CartApi";
 
 function Cart() {
-  const user = useSelector((state)=>state.user.user);
+  const user = useSelector((state) => state.user.user);
   const cartList = useSelector((state) => state.cart.cart);
   const [cartItems, setcartItems] = useState(cartList);
   // const { cartItems, setCartItems } = useContext(AppContext);
@@ -274,7 +274,7 @@ function Cart() {
       console.error("There was a problem with the fetch operation:", error);
     }
   };
-  const handleCart = async (productID,Quantity) => {
+  const handleCart = async (productID, Quantity) => {
     const cartData = {
       customerId: user.customerId,
       productId: productID,
@@ -284,7 +284,6 @@ function Cart() {
 
     try {
       await addCartApi(cartData);
-
     } catch (error) {
       console.error("Error adding product to cart:", error);
     }
@@ -299,7 +298,10 @@ function Cart() {
         };
         return updatedList;
       });
-      handleCart(cartItems[index].product.productID, newQuantity - cartItems[index].quantity);
+      handleCart(
+        cartItems[index].product.productID,
+        newQuantity - cartItems[index].quantity
+      );
     }
   };
   // const handleQuantityChange = (index, newQuantity) => {
@@ -424,22 +426,19 @@ function Cart() {
                   {cartItems.map((item, index) => (
                     <tr key={index}>
                       <td className="px-2 md:px-3 py-2 whitespace-nowrap">
-
-                      <Link to={`/detailspage/${item.product.productID}`}>
-
-                        <img
-                          className="h-16 w-16 rounded-lg"
-                          src={item.product.imageUrl}
-                          alt={item.product.id}
-                        />
+                        <Link to={`/detailspage/${item.product.productID}`}>
+                          <img
+                            className="h-16 w-16 rounded-lg"
+                            src={item.product.imageUrl}
+                            alt={item.product.id}
+                          />
                         </Link>
-
                       </td>
                       <td className="px-2 md:px-4 py-3 whitespace-nowrap">
                         {item.product.productName}
                       </td>
                       <td className="px-2 md:px-4 py-3 whitespace-nowrap">
-                        ${item.product.salePrice}
+                        ${item.product.salePrice?.toFixed(2)}
                       </td>
                       <td className="px-2 flex gap-2 md:px-4 py-3 whitespace-nowrap">
                         <input
@@ -457,13 +456,22 @@ function Cart() {
                           </button>
                         )} */}
                       </td>
-                      <td className="px-2 md:px-4 py-3 whitespace-nowrap">
+                      {/* <td className="px-2 md:px-4 py-3 whitespace-nowrap">
                         <strong>
                           $
                           {calculateSubtotal(
                             item.product.salePrice,
                             item.quantity
                           )}
+                        </strong>
+                      </td> */}
+                      <td className="px-2 md:px-4 py-3 whitespace-nowrap">
+                        <strong>
+                          $
+                          {calculateSubtotal(
+                            item.product.salePrice,
+                            item.quantity
+                          )?.toFixed(2)}
                         </strong>
                       </td>
                       <td className="px-2 md:px-4 py-8 whitespace-nowrap flex items-center justify-center">
@@ -506,11 +514,11 @@ function Cart() {
                   <tbody>
                     <tr>
                       <td className="px-4 py-2 font-semibold">Subtotal</td>
-                      <td className="px-4 py-2 text-right">${total}</td>
+                      <td className="px-4 py-2 text-right">${total?.toFixed(2)}</td>
                     </tr>
                     <tr>
                       <td className="px-4 py-2 font-semibold">Total</td>
-                      <td className="px-4 py-2 text-right">${total}</td>
+                      <td className="px-4 py-2 text-right">${total?.toFixed(2)}</td>
                     </tr>
                   </tbody>
                 </table>

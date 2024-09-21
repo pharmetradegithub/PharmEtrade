@@ -184,10 +184,10 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                   <h2 className="text-black font-bold h-12">{item.productName}</h2>
                   <div className="flex gap-1 items-center">
                     <h3 className="text-black font-semibold">
-                      ${item.salePrice}
+                      ${item.salePrice?.toFixed(2)}
                     </h3>
                     <span className="text-[10px] line-through">
-                      (${item.unitPrice})
+                      (${item.unitPrice?.toFixed(2)})
                     </span>
                   </div>
                 </div>

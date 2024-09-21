@@ -153,7 +153,7 @@ const RxProducts = () => {
               </div>
               <div className="flex flex-row items-center justify-between w-full px-1">
                 <div className="text-foot text-xs">UPN Member Price:</div>
-                <div className="text-base font-semibold">${item.salePrice}</div>
+                <div className="text-base font-semibold">${item.salePrice?.toFixed(2)}</div>
               </div>
               <div
                 className="flex bg-blue-900 p-1 rounded-md justify-center"

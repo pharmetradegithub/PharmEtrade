@@ -188,7 +188,7 @@ const LayoutRelatedProducts = () => {
   };
 
   const handleCriteria = async () => {
-    const sellerId= localStorage.getItem("userId")
+    const sellerId = localStorage.getItem("userId");
     let Criteria = {
       deals: "",
       brands: "",
@@ -309,7 +309,7 @@ const LayoutRelatedProducts = () => {
 
   return (
     <div className="font-sans font-medium">
-       <Notification show={notification.show} message={notification.message} />
+      <Notification show={notification.show} message={notification.message} />
       <div className=" bg-white p-2 px-4   w-full Largest:w-[60%] ">
         <div className="flex flex-col justify-between">
           <div className="flex justify-between items-center">
@@ -318,10 +318,7 @@ const LayoutRelatedProducts = () => {
                     <input className="border rounded-sm" />
                   </div> */}
             <div className="flex flex-col mr-5">
-              <label className="font-semibold">
-                Category Specification:
-                
-              </label>
+              <label className="font-semibold">Category Specification:</label>
               <select
                 className="w-52 h-8  pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                 onChange={handleInputChange}
@@ -335,10 +332,7 @@ const LayoutRelatedProducts = () => {
               </select>
             </div>
             <div className="flex flex-col mr-7">
-              <label className="font-semibold">
-                Product Category:
-               
-              </label>
+              <label className="font-semibold">Product Category:</label>
               <select
                 name="productCategory"
                 className="w-56 h-8 pl-1 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
@@ -371,9 +365,7 @@ const LayoutRelatedProducts = () => {
               />
             </div>
             <div className="font-semibold  ml-0 flex flex-col">
-              <label>
-                Brand Name:
-              </label>
+              <label>Brand Name:</label>
               <input
                 name="brandName"
                 type="text"
@@ -396,9 +388,7 @@ const LayoutRelatedProducts = () => {
               />
             </div>
             <div className="font-semibold flex flex-col ">
-              <label>
-                NDC / UPC:
-              </label>
+              <label>NDC / UPC:</label>
               <input
                 name="ndcUpc"
                 type="text"
@@ -434,9 +424,7 @@ const LayoutRelatedProducts = () => {
         </div>
         <div className="flex  justify-between ">
           <div className="font-semibold flex flex-col mr-6">
-            <label>
-              Product Name:
-            </label>
+            <label>Product Name:</label>
             <input
               name="productName"
               type="text"
@@ -484,7 +472,7 @@ const LayoutRelatedProducts = () => {
                           <option>-</option>
                         </select>
                       </th> */}
-                <th className=" p-2  text-left text-sm w-32">ID</th>
+                <th className=" p-2  text-left text-sm w-32 ">ID</th>
                 <th className=" p-2  text-left text-sm w-40">Thumbnail</th>
                 <th className=" p-2  text-left text-sm  w-80">Name</th>
                 <th className=" p-2  text-left text-sm w-32">Category</th>
@@ -495,94 +483,114 @@ const LayoutRelatedProducts = () => {
               </tr>
             </thead>
             <tbody>
-              {productsByCriteria.map((product, index) => (
-                <tr key={index} className="border-b">
-                  {/* <td className=" p-2">
-                          <input className=" h-6 w-4" type="checkbox" />
-                        </td> */}
-                  <td className="text-sm p-2"> {product?.id}</td>
-                  <td className="text-sm p-2">
-                    <img
-                      src={product?.productGallery.imageUrl}
-                      className="w-12 h-12"
-                    />
-                  </td>
-                  <td className="text-sm p-2">{product?.productName}</td>
-                  <td className="text-sm p-2">
-                    {product?.categorySpecification.specificationName}
-                  </td>
-                  <td className="text-sm p-2">{product?.status}</td>
-                  <td className="text-sm p-2">
-                    {product?.productCategory.categoryName}
-                  </td>
-                  <td className="text-sm p-2">{product?.salePrice}</td>
-                  <td className="px-4 py-2 cursor-pointer flex items-center space-x-2">
-                    {/* <Tooltip title="Related Products" placement="top">
+              {productsByCriteria && productsByCriteria.length > 0 ? (
+                productsByCriteria.map((product, index) => (
+                  <tr key={index} className="border-b">
+                    {/* <td className=" p-2">
+                <input className=" h-6 w-4" type="checkbox" />
+              </td> */}
+                    <td className="text-sm p-2 "> {product?.id}</td>
+                    <td className="text-sm p-2">
                       <img
-                        src={related}
-                        alt="related"
-                        className="cursor-pointer w-6 h-6"
-                        onClick={() => handleAddSelected(1, product?.productID)}
-                        
+                        src={
+                          product?.productGallery?.imageUrl ||
+                          "placeholder-image-url"
+                        }
+                        className="w-12 h-12"
+                        // alt={product?.productName || "No image"}
                       />
-                    </Tooltip> */}
-                    <Tooltip title=" Add to Related Products" placement="top">
-                      <img
-                        src={related}
-                        alt="related"
-                        className="cursor-pointer w-6 h-6"
-                        onClick={() => {
-                          handleAddSelected(1, product?.productID);
-                          setNotification({
-                            show: true,
-                            message: "Added to Related Product!",
-                          });
-                          setTimeout(
-                            () => setNotification({ show: false, message: "" }),
-                            3000
-                          );
-                        }}
-                      />
-                    </Tooltip>
+                    </td>
+                    <td className="text-sm p-2">
+                      {product?.productName || "No name"}
+                    </td>
+                    <td className="text-sm p-2">
+                      {product?.categorySpecification?.specificationName ||
+                        "No specification"}
+                    </td>
+                    <td className="text-sm p-2">
+                      {product?.status || "No status"}
+                    </td>
+                    <td className="text-sm p-2">
+                      {product?.productCategory?.categoryName || "No category"}
+                    </td>
+                    <td className="text-sm p-2">
+                      {product?.salePrice
+                        ? product.salePrice.toFixed(2)
+                        : "No price"}
+                    </td>
+                    <td className="px-4 py-2 cursor-pointer flex items-center space-x-2">
+                      <Tooltip title="Add to Related Products" placement="top">
+                        <img
+                          src={related}
+                          alt="related"
+                          className="cursor-pointer w-6 h-6"
+                          onClick={() => {
+                            handleAddSelected(1, product?.productID);
+                            setNotification({
+                              show: true,
+                              message: "Added to Related Product!",
+                            });
+                            setTimeout(
+                              () =>
+                                setNotification({ show: false, message: "" }),
+                              3000
+                            );
+                          }}
+                        />
+                      </Tooltip>
 
-                    <Tooltip title="Add to Up-Sell Products" placement="top">
-                      <img
-                        src={upSell}
-                        alt="upSell"
-                        className="cursor-pointer w-6 h-5"
-                        onClick={() =>{ handleAddSelected(2, product.productID);
-                          setNotification({
-                            show: true,
-                            message: "Added to Up-Sell Product!",
-                          });
-                          setTimeout(
-                            () => setNotification({ show: false, message: "" }),
-                            3000
-                          );
+                      <Tooltip title="Add to Up-Sell Products" placement="top">
+                        <img
+                          src={upSell}
+                          alt="upSell"
+                          className="cursor-pointer w-6 h-5"
+                          onClick={() => {
+                            handleAddSelected(2, product?.productID);
+                            setNotification({
+                              show: true,
+                              message: "Added to Up-Sell Product!",
+                            });
+                            setTimeout(
+                              () =>
+                                setNotification({ show: false, message: "" }),
+                              3000
+                            );
+                          }}
+                        />
+                      </Tooltip>
 
-                         } }
-                      />
-                    </Tooltip>
-                    <Tooltip title="Add to Cross-Sell Products" placement="top">
-                      <img
-                        src={crossSell}
-                        alt="crossSell"
-                        className="cursor-pointer w-7 h-7"
-                        onClick={() => {handleAddSelected(3, product.productID);
-                          setNotification({
-                            show: true,
-                            message: "Added to Cross Sell Product!",
-                          });
-                          setTimeout(
-                            () => setNotification({ show: false, message: "" }),
-                            3000
-                          );
-                         } }
-                      />
-                    </Tooltip>
+                      <Tooltip
+                        title="Add to Cross-Sell Products"
+                        placement="top"
+                      >
+                        <img
+                          src={crossSell}
+                          alt="crossSell"
+                          className="cursor-pointer w-7 h-7"
+                          onClick={() => {
+                            handleAddSelected(3, product?.productID);
+                            setNotification({
+                              show: true,
+                              message: "Added to Cross-Sell Product!",
+                            });
+                            setTimeout(
+                              () =>
+                                setNotification({ show: false, message: "" }),
+                              3000
+                            );
+                          }}
+                        />
+                      </Tooltip>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="8" className="text-center p-4">
+                    No products available
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
@@ -750,7 +758,7 @@ const LayoutRelatedProducts = () => {
                   <td className=" p-2">
                     <input className=" h-6 w-4" type="checkbox" />
                   </td>
-                  <td className="text-sm p-2"> {index+1}</td>
+                  <td className="text-sm p-2"> {index + 1}</td>
                   <td className="text-sm p-2">
                     <img
                       src={product.productGallery.imageUrl}
@@ -765,7 +773,9 @@ const LayoutRelatedProducts = () => {
                   <td className="text-sm p-2">
                     {product.productCategory.categoryName}
                   </td>
-                  <td className="text-sm p-2">{product.salePrice}</td>
+                  <td className="text-sm p-2">
+                    {product.salePrice?.toFixed(2)}
+                  </td>
                   <td className="px-4 py-2 cursor-pointer">
                     <Tooltip title="Delete" placement="top">
                       <img
@@ -929,7 +939,7 @@ const LayoutRelatedProducts = () => {
                   <td className=" p-2">
                     <input className=" h-6 w-4" type="checkbox" />
                   </td>
-                  <td className="text-sm p-2"> {index+1}</td>
+                  <td className="text-sm p-2"> {index + 1}</td>
                   <td className="text-sm p-2">
                     <img
                       src={product.productGallery.imageUrl}
@@ -944,7 +954,9 @@ const LayoutRelatedProducts = () => {
                   <td className="text-sm p-2">
                     {product.productCategory.categoryName}
                   </td>
-                  <td className="text-sm p-2">{product.salePrice}</td>
+                  <td className="text-sm p-2">
+                    {product.salePrice?.toFixed(2)}
+                  </td>
                   <td className="px-4 py-2 cursor-pointer">
                     <Tooltip title="Delete" placement="top">
                       <img
@@ -1105,7 +1117,7 @@ const LayoutRelatedProducts = () => {
                 <td className=" p-2">
                   <input className=" h-6 w-4" type="checkbox" />
                 </td>
-                <td className="text-sm p-2"> {index+1}</td>
+                <td className="text-sm p-2"> {index + 1}</td>
                 <td className="text-sm p-2">
                   <img
                     src={product.productGallery.imageUrl}
@@ -1120,7 +1132,7 @@ const LayoutRelatedProducts = () => {
                 <td className="text-sm p-2">
                   {product.productCategory.categoryName}
                 </td>
-                <td className="text-sm p-2">{product.salePrice}</td>
+                <td className="text-sm p-2">{product.salePrice?.toFixed(2)}</td>
                 <td className="px-4 py-2 cursor-pointer">
                   <Tooltip title="Delete" placement="top">
                     <img

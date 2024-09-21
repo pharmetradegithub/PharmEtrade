@@ -168,7 +168,7 @@ const LayoutOtcProducts = () => {
                 <div className="flex flex-col mx-3">
                   <p className="font-semibold">Unit Price</p>
                   <div className="mt-2">
-                    <p className="font-semibold">${product.salePrice}</p>
+                    <p className="font-semibold">${product.salePrice?.toFixed(2)}</p>
                   </div>
                 </div>
 

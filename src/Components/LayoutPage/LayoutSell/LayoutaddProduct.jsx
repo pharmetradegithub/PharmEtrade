@@ -235,6 +235,24 @@ function LayoutaddProduct() {
     setIsvisible(false);
     setButtonClick(false);
   };
+  // sales price from
+  const today = new Date().toISOString().split("T")[0];
+  // 
+
+  const [MinDate, setminDate] = useState("");
+
+  useEffect(() => {
+    const currentDate = new Date();
+
+    // Get tomorrow's date in YYYY-MM-DD format
+    const tomorrow = new Date();
+    tomorrow.setDate(currentDate.getDate() + 0);
+    const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
+
+    // Set the minimum date to tomorrow
+    setminDate(tomorrowFormatted);
+  }, []);
+
 
   // filter upsell pop ups
   const [isVisible, setIsVisible] = useState(false);
@@ -437,6 +455,29 @@ function LayoutaddProduct() {
   const handleChange = (e) => {
     setSelectedValue(e.target.value);
   };
+
+  // const [minDate, setMinDate] = useState("");
+  // const [maxDate, setMaxDate] = useState("");
+
+  // useEffect(() => {
+  //   const currentDate = new Date();
+
+  //   // Get date 15 days from today
+  //   const minAllowedDate = new Date(currentDate);
+  //   minAllowedDate.setDate(currentDate.getDate() + 15);
+  //   const minFormatted = minAllowedDate.toISOString().split("T")[0];
+
+  //   // Get date 20 days from today (5 days after the min date)
+  //   const maxAllowedDate = new Date(currentDate);
+  //   maxAllowedDate.setDate(currentDate.getDate() + 20);
+  //   const maxFormatted = maxAllowedDate.toISOString().split("T")[0];
+
+  //   // Set min and max dates for the date input
+  //   setMinDate(minFormatted);
+  //   setMaxDate(maxFormatted);
+  // }, []);
+
+  
 
   const handleRemoveImage = () => {
     setSelectedImage(null);
@@ -976,7 +1017,7 @@ function LayoutaddProduct() {
                         />
                       </div>
 
-                      <div className="flex flex-col">
+                      {/* <div className="flex flex-col">
                         <label className="text-sm font-semibold">
                           Expiration Date:
                         </label>
@@ -996,7 +1037,21 @@ function LayoutaddProduct() {
                             {formErrors.expirationDate}
                           </span>
                         )}
-                      </div>
+                      </div> */}
+                       <div className="flex flex-col">
+      <label className="text-sm font-semibold">Expiration Date:</label>
+      <input
+        name="expirationDate"
+        type="date"
+        className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+        onChange={handleInputChange}
+        value={formData.expirationDate ? formData.expirationDate.split("T")[0] : ""}
+        min={today} // Disable past dates
+      />
+      {formErrors.expirationDate && (
+        <span className="text-red-500 text-sm">{formErrors.expirationDate}</span>
+      )}
+    </div>
                     </div>
                   </div>
                 </div>
@@ -1419,7 +1474,7 @@ function LayoutaddProduct() {
                       </span>
                     )}
                   </div>
-                  <div className="flex flex-col">
+                  {/* <div className="flex flex-col">
                     <label className="text-sm font-semibold">
                       Sale Price From ($):
                     </label>
@@ -1434,15 +1489,40 @@ function LayoutaddProduct() {
                           : ""
                       }
                     />
+                     
                     {formErrors.salePriceForm && (
                       <span className="text-red-500 text-sm">
                         {formErrors.salePriceForm}
                       </span>
                     )}
-                  </div>
+                  </div> */}
+                  <div className="flex flex-col">
+  <label className="text-sm font-semibold">
+    Sale Price From ($):
+  </label>
+  <input
+    name="salePriceForm"
+    type="date" // Updated to lowercase for type consistency
+    className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+    onChange={handleInputChange}
+    value={
+      formData.salePriceForm
+        ? formData.salePriceForm.split("T")[0]
+        : ""
+    }
+    min={new Date().toISOString().split("T")[0]} // This disables past dates
+  />
+  
+  {formErrors.salePriceForm && (
+    <span className="text-red-500 text-sm">
+      {formErrors.salePriceForm}
+    </span>
+  )}
+</div>
+
 
                   <div className="flex items-center gap-8 my-2">
-                    <div className="flex flex-col">
+                    {/* <div className="flex flex-col">
                       <label className="text-sm font-semibold">
                         Sale Price To($):
                       </label>
@@ -1457,12 +1537,50 @@ function LayoutaddProduct() {
                             : ""
                         }
                       />
+                       
                       {formErrors.salePriceTo && (
                         <span className="text-red-500 text-sm">
                           {formErrors.salePriceTo}
                         </span>
                       )}
-                    </div>
+                    </div> */}
+                   
+     
+     {/* <div className="flex flex-col">
+      <label className="text-sm font-semibold">Sale Price To($):</label>
+      <input
+        name="expirationDate"
+        type="date"
+        className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+        onChange={handleInputChange}
+        value={formData.expirationDate}
+        min={minDate} // Set the minimum date to 15 days from today
+        max={maxDate} // Set the maximum date to 20 days from today (5 days range)
+      />
+      {formErrors.salePriceTo && (
+        <span className="text-red-500 text-sm">
+          {formErrors.salePriceTo}
+        </span>
+      )}
+    </div> */}
+     <div className="flex flex-col">
+      <label className="text-sm font-semibold">Sale Price To($):</label>
+      <input
+        name="salePriceTo"
+        type="date"
+        className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+        onChange={handleInputChange}
+        value={formData.salePriceTo}
+        min={MinDate} // Minimum date is tomorrow
+      />
+      {formErrors.salePriceTo && (
+        <span className="text-red-500 text-sm">
+          {formErrors.salePriceTo}
+        </span>
+      )}
+    </div>
+
+
                   </div>
                 </div>
 
