@@ -222,19 +222,19 @@ const LayoutRelatedProducts = () => {
   };
 
   // Placeholder for reset functionality
-  // const handleRelatedClick = () => {
-  //   setFormData({
-  //     categorySpecification: "",
-  //     productCategory: "",
-  //     manufacturer: "",
-  //     brandName: "",
-  //     expirationDate: "",
-  //     ndcUpc: "",
-  //     salePriceForm: "",
-  //     salePriceTo: "",
-  //     productName: "",
-  //   });
-  // };
+  const handleReset = () => {
+    setFormData({
+      categorySpecification: "",
+      productCategory: "",
+      manufacturer: "",
+      brandName: "",
+      expirationDate: "",
+      ndcUpc: "",
+      salePriceForm: "",
+      salePriceTo: "",
+      productName: "",
+    });
+  };
 
   const products = [
     {
@@ -454,6 +454,7 @@ const LayoutRelatedProducts = () => {
             </button>
             <button
               // onClick={() => setFormData(initialFormState)}
+              onClick={()=>handleReset()}
               className="bg-blue-900 p-2 mx-1 text-white border rounded-md"
             >
               RESET
