@@ -101,7 +101,7 @@ function LayoutaddProduct() {
     mainImageUrl: null,
     price: 0,
     amountInStock: 0,
-    taxable: null,
+    taxable: false,
     productDetails: "",
     aboutProduct: "",
     discount: 0,
@@ -445,7 +445,7 @@ function LayoutaddProduct() {
 
   console.log(user);
   const [formErrors, setFormErrors] = useState({});
-
+  const [showTab, setShowTab] = useState([1, 2, 3]);
   const handleSubmit = async () => {
     if (activeTab == 0) {
       const validationErrorsTab1 = ProductInfoValidation(formData);
@@ -630,7 +630,7 @@ function LayoutaddProduct() {
           const response = await AddProductInfoApi(tab1, user.customerId);
           localStorage.setItem("productId", response);
           setSubmitted([...Submitted, 0]);
-
+          setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1));
           setNotification({
             show: true,
             message: "Product Info Added Successfully!",
@@ -651,7 +651,7 @@ function LayoutaddProduct() {
           const response = await AddProductPriceApi(tab2, user.customerId);
           console.log("Product Data", response);
           setSubmitted([...Submitted, 1]);
-
+          setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 2));
           setNotification({
             show: true,
             message: "Price Details Added Successfully!",
@@ -659,6 +659,7 @@ function LayoutaddProduct() {
           setTimeout(() => setNotification({ show: false, message: "" }), 3000);
         }
       } else if (activeTab == 2) {
+        setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 3));
         setNotification({
           show: true,
           message: "Related Products Added Successfully!",
@@ -738,7 +739,6 @@ function LayoutaddProduct() {
       console.error("There was a problem with the fetch operation:", error);
       throw error;
     }
-  
   };
   const [allSelected, setAllSelected] = useState(false);
 
@@ -792,6 +792,11 @@ function LayoutaddProduct() {
                       onBlur={() => handleNdcUpc(formData.ndcUpc)}
                       value={formData.ndcUpc}
                     />
+                    {formErrors.ndcUpc && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.ndcUpc}
+                      </span>
+                    )}
                     {/* <button
                       onClick={() => handleNdcUpc(formData.ndcUpc)}
                       className="bg-blue-900 text-white px-2 rounded-sm"
@@ -817,6 +822,11 @@ function LayoutaddProduct() {
                       <option value="2">OTC Product</option>
                       <option value="3">General Merchandise</option>
                     </select>
+                    {formErrors.categorySpecification && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.categorySpecification}
+                      </span>
+                    )}
                   </div>
 
                   <div className="flex flex-col mr-7">
@@ -850,6 +860,11 @@ function LayoutaddProduct() {
                       <option value="4">Home Goods</option>
                       <option value="5">Health & Beauty</option> */}
                     </select>
+                    {formErrors.productCategory && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.productCategory}
+                      </span>
+                    )}
                   </div>
                   <div className="font-semibold flex flex-col mr-6">
                     <label>
@@ -862,6 +877,12 @@ function LayoutaddProduct() {
                       onChange={handleInputChange}
                       value={formData.productName}
                     />
+
+                    {formErrors.productName && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.productName}
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -1400,7 +1421,7 @@ function LayoutaddProduct() {
                   </div>
                   <div className="flex flex-col">
                     <label className="text-sm font-semibold">
-                      Sale Price Form ($):
+                      Sale Price From ($):
                     </label>
                     <input
                       name="salePriceForm"
@@ -1462,7 +1483,7 @@ function LayoutaddProduct() {
                       }
                     />
                   </div>
-                  <div className="flex flex-col">
+                  {/* <div className="flex flex-col">
                     <label className="font-semibold">
                       Taxable:<span className="text-red-600">*</span>
                     </label>
@@ -1475,6 +1496,28 @@ function LayoutaddProduct() {
                         formData.taxable == null
                           ? ""
                           : formData.taxable == true
+                          ? 1
+                          : 0
+                      }
+                    >
+                      <option value="">Select an option</option>
+                      <option value="0">No</option>
+                      <option value="1">Yes</option>
+                    </select>
+                  </div> */}
+                  <div className="flex flex-col">
+                    <label className="font-semibold">
+                      Taxable:<span className="text-red-600">*</span>
+                    </label>
+
+                    <select
+                      name="taxable"
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={
+                        formData.taxable == null
+                          ? 0 // Default to "No"
+                          : formData.taxable === true
                           ? 1
                           : 0
                       }
@@ -2006,15 +2049,38 @@ function LayoutaddProduct() {
         </div>
       </div>
       <div className=" mb-6    ">
-        <ul className="flex  border-b border-white  gap-2 w-[69%] opacity-1">
+        {/* <ul className="flex  border-b border-white  gap-2 w-[69%] opacity-1">
           {tabs.map((tab, index) => (
-            <li key={index} className=" mr-2 gap-4 ">
+            <li key={index}
+           
+             className=" mr-2 gap-4 ">
+               
               <button
+              disable={showTab.includes(index)}
                 className={`w-full  flex justify-center items-center px-2   p-3 py-1 mt-7   shadow-md  ${
                   activeTab === index
                     ? "text-white  bg-blue-900 rounded-t-xl font-semibold "
                     : "text-blue-900  shadow-none rounded-t-xl bg-white "
                 }`}
+                onClick={() => setActiveTab(index)}
+              >
+                {tab}
+              </button>
+            </li>
+          ))}
+        </ul> */}
+        <ul className="flex border-b border-white gap-2 w-[69%] opacity-1">
+          {tabs.map((tab, index) => (
+            <li key={index} className="mr-2 gap-4">
+              <button
+                disabled={showTab.includes(index)} // Corrected to 'disabled'
+                className={`w-full flex justify-center items-center px-2 p-3 py-1 mt-7 shadow-md ${
+                  activeTab === index
+                    ? "text-white bg-blue-900 rounded-t-xl font-semibold"
+                    : "text-blue-900 shadow-none rounded-t-xl bg-white"
+                } ${
+                  showTab.includes(index) ? "opacity-50 cursor-not-allowed" : ""
+                }`} // Style changes for disabled state
                 onClick={() => setActiveTab(index)}
               >
                 {tab}
