@@ -5,6 +5,25 @@ export const ProductInfoValidation = (formData) => {
     // if (formData.categorySpecification === 1 && !formData.expirationDate) {
     //     errors.expirationDate = "Expiration date is required when category specification is 1.";
     // }
+
+    if (!formData.productName) {
+        errors.productName = "Product Name is required.";
+    }
+
+    if (!formData.ndcUpc) {
+        errors.ndcUpc = "NDC/UPC is required.";
+    }
+
+
+
+    if (!formData.categorySpecification) {
+        errors.categorySpecification = "Category Specification is required.";
+    }
+
+    if (!formData.productCategory) {
+        errors.productCategory = "Product Category is required.";
+    }
+
     if (!formData.expirationDate) {
         errors.expirationDate = "Expiration date is required.";
     }
@@ -44,12 +63,12 @@ export const ProductPriceValidation = (formData) => {
 
     // Price is mandatory
     if (formData.price === null || formData.price === undefined || formData.price <= 0) {
-        errors.price = "Price is required and must be greater than 0.";
+        errors.price = "Price is required.";
     }
 
     // Sale price is mandatory
     if (formData.salePrice === null || formData.salePrice === undefined || formData.salePrice <= 0) {
-        errors.salePrice = "Sale price is required and must be greater than 0.";
+        errors.salePrice = "Sale price is required.";
     } else {
         // If sale price is provided, salePriceForm and salePriceTo are mandatory
         if (!formData.salePriceForm || formData.salePriceForm.trim() === "") {

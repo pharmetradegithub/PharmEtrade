@@ -186,7 +186,9 @@ const LayoutRelatedProducts = () => {
       console.log(error);
     }
   };
+
   const handleCriteria = async () => {
+    const sellerId= localStorage.getItem("userId")
     let Criteria = {
       deals: "",
       brands: "",
@@ -197,7 +199,7 @@ const LayoutRelatedProducts = () => {
       pharmacyItems: false,
       prescriptionDrugs: false,
       otcProducts: false,
-      vawdSeller: "",
+      vawdSeller: sellerId,
       topSellingProducts: false,
       buyAgain: false,
       productCategoryId: formData.productCategory,
