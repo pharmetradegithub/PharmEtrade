@@ -356,7 +356,7 @@ const Offers = ({ topMargin, addCart, wishList }) => {
                     {offer.productName}
                   </p>
                   </Link>
-                  <span className="">${offer.salePrice}</span>
+                  <span className="">${offer.salePrice?.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between mx-2">
                   <button

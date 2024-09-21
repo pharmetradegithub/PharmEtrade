@@ -426,15 +426,15 @@ function Items({
                 UPN Member Price:
                 <span className="text-orange-400 font-semibold">
                   {" "}
-                  ${prod?.upnMemberPrice}
+                  ${prod?.upnMemberPrice?.toFixed(2)}
                 </span>
               </h3>
 
               <div className="flex items-center">
                 <span className="text-sky-500 font-semibold text-[18px] ">
-                  {prod?.salePrice}
+                {prod?.salePrice?.toFixed(2)}
                 </span>
-                <p className="text-xs ml-1 line-through">${prod?.unitPrice} </p>
+                <p className="text-xs ml-1 line-through">${prod?.unitPrice?.toFixed(2)}</p>
               </div>
               <div className="text-[12px]">Inclusive of all taxes</div>
 
@@ -553,7 +553,7 @@ function Items({
             <div className="border rounded-lg shadow-lg  pb-4 w-full h-full">
               <div className="p-4">
                 <div className="flex justify-between">
-                  <p className="text-black text-[22px]">${prod?.salePrice}</p>
+                  <p className="text-black text-[22px]">${prod?.salePrice?.toFixed(2)}</p>
                   {/* <img src={ ?Wishlist :filledheart} className="w-5 h-5 flex   "/> */}
                   <img
                     src={isWishlisted ? filledheart : Wishlist}

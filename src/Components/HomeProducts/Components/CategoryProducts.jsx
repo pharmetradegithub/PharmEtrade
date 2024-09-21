@@ -409,7 +409,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
 
                 <div className="w-full py-1">
                   <h2 className="text-fonts h-12">{item.productName}</h2>
-                  <h1 className="text-fonts font-semibold">${item.salePrice}</h1>
+                  <h1 className="text-fonts font-semibold">${item.salePrice?.toFixed(2)}</h1>
                 </div>
 
                 <div className="flex items-center">
@@ -422,7 +422,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
 
                 <div className="flex flex-row items-center justify-between w-full px-1">
                   <div className="text-foot text-xs">UPN Member Price:</div>
-                  <div className="text-base font-semibold">${item.upnMemberPrice}</div>
+                  <div className="text-base font-semibold">${item.upnMemberPrice?.toFixed(2)}</div>
                 </div>
 
                 <div

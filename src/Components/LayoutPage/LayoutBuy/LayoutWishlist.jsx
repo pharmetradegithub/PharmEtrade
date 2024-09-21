@@ -195,7 +195,7 @@ function LayoutWishlist({ addCart }) {
                       {item.product.productName}
                     </h3>
                     {/* <p className="text-xl">Cough Syrup 1000mg</p> */}
-                    <p className="text-xl font-semibold">${item.product.salePrice}</p>
+                    <p className="text-xl font-semibold">${item.product.salePrice?.toFixed(2)}</p>
                   </Link>
                   <p className="pt-2 text-xl font-semibold">Manufacturer: <span className="font-normal">{item.product.manufacturer}</span> </p>
                   {/* <p>Quantity: 1</p> */}
