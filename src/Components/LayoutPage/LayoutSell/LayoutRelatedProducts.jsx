@@ -524,7 +524,7 @@ const LayoutRelatedProducts = () => {
                         
                       />
                     </Tooltip> */}
-                    <Tooltip title="Related Products" placement="top">
+                    <Tooltip title=" Add to Related Products" placement="top">
                       <img
                         src={related}
                         alt="related"
@@ -543,7 +543,7 @@ const LayoutRelatedProducts = () => {
                       />
                     </Tooltip>
 
-                    <Tooltip title="Up-Sell Products" placement="top">
+                    <Tooltip title="Add to Up-Sell Products" placement="top">
                       <img
                         src={upSell}
                         alt="upSell"
@@ -561,7 +561,7 @@ const LayoutRelatedProducts = () => {
                          } }
                       />
                     </Tooltip>
-                    <Tooltip title="Cross-Sell Products" placement="top">
+                    <Tooltip title="Add to Cross-Sell Products" placement="top">
                       <img
                         src={crossSell}
                         alt="crossSell"
