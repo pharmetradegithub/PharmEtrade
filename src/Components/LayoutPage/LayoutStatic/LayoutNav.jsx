@@ -338,19 +338,24 @@ const LayoutNav = ({ Form_Data, }) => {
   const user = useSelector((state) => state.user.user);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleItemclick = (item) => {
-    if (user?.accountTypeId == 1 && item.text === "SELL") {
-      setErrorMessage(
-        // "You have login as buyer contact us help@pharmetrade.com"
-        <>
-        You have login as buyer contact us {" "}
+  // const handleItemclick = (item) => {
+  //   if (user?.accountTypeId == 1 && item.text === "SELL") {
+  //     setErrorMessage(
+  //       // "You have login as buyer contact us help@pharmetrade.com"
+  //       <>
+  //       You have login as buyer contact us {" "}
       
-        <a href="  " className="text-blue-900 underline ">help@pharmetrade.com</a></>
-      );
-    } else {
-      navigate(item.path);
-    }
-  };
+  //       <a href="  " className="text-blue-900 underline ">help@pharmetrade.com</a></>
+  //     );
+  //   } else {
+  //     navigate(item.path);
+  //   }
+  // };
+
+
+  const handleItemclick =(item) => {
+    navigate(item.path)
+  }
 
   const navItems = [
     { image: buy, text: "BUY", path: "/layout/layoutbuy"  },
@@ -374,7 +379,8 @@ const LayoutNav = ({ Form_Data, }) => {
             <div
               key={index}
               className={`flex items-center ml-2 cursor-pointer
-              ${ item.text === "SELL" &&
+              ${
+                //  item.text === "SELL" &&
                 Form_Data?.userType === "Retail Customer"
                   ? "hidden"
                   : ""
