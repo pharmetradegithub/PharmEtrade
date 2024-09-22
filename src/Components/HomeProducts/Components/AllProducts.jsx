@@ -210,7 +210,7 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 <img
                   onClick={() => handleClick(item.productID)}
                   src={wishlistProductIDs.includes(item.productID)? filledHeart : emptyHeart}
-                  className="h-8 p-[6px]  absolute right-0 "
+                  className="h-8 p-[6px] cursor-pointer absolute right-0 "
                   alt="Favorite Icon"
                 />
                 <img
@@ -253,7 +253,7 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 <div className="text-base font-semibold">${item.upnMemberPrice?.toFixed(2)}</div>
               </div>
               <div
-                className="flex bg-blue-900 p-1 rounded-md justify-center"
+                className="flex bg-blue-900 p-1 cursor-pointer rounded-md justify-center"
                 onClick={() => handleCart(item.productID)}
               >
                 <img src={addcart} alt="Add to cart" className="h-8 p-[6px]" />

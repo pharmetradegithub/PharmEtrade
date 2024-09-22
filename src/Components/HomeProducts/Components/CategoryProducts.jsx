@@ -395,9 +395,14 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                   <img
                     onClick={() => handleClick(item.productID)}
                     src={wishlistProductIDs.includes(item.productID) ? filledHeart : emptyHeart}
-                    className="h-8 p-[6px] absolute right-0"
+                    className="h-8 p-[6px] cursor-pointer absolute right-0"
                     alt="Favorite Icon"
                   />
+                  <img
+                  src={other}
+                  className="h-5 w-5 right-1 cursor-pointer absolute bottom-1 text-green-700"
+                  alt="Other Icon"
+                />
                   <Link to={`/detailspage/${item.productID}`}>
                     <img
                       src={item.productGallery.imageUrl}
@@ -426,7 +431,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                 </div>
 
                 <div
-                  className="flex bg-blue-900 p-1 rounded-md justify-center"
+                  className="flex bg-blue-900 p-1 cursor-pointer rounded-md justify-center"
                   onClick={() => handleCart(item.productID)}
                 >
                   <img src={addcart} alt="Add to cart" className="h-8 p-[6px]" />
