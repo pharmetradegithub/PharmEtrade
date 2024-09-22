@@ -100,20 +100,25 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleItemclick = (item) => {
-    if (user?.accountTypeId == 1 && item.label === "SELL") {
-      setErrorMessage(
-        // "You have login as buyer contact us help@pharmetrade.com"
-        <>
-        You have login as buyer contact us {" "}
+  // const handleItemclick = (item) => {
+  //   if (user?.accountTypeId == 1 && item.label === "SELL") {
+  //     setErrorMessage(
+  //       // "You have login as buyer contact us help@pharmetrade.com"
+  //       <>
+  //       You have login as buyer contact us {" "}
       
-        <a href="  " className="text-blue-900 underline ">help@pharmetrade.com</a></>
-      );
-    } else {
-      navigate(item.path);
-    }
-  };
+  //       <a href="  " className="text-blue-900 underline ">help@pharmetrade.com</a></>
+  //     );
+  //   } else {
+  //     navigate(item.path);
+  //   }
+  // };
 
+  const handleItemclick = (item )=>{
+    navigate(item.path)
+  }
+
+ 
   // Clear error message after 3 seconds
   // if (errorMessage) {
   //   setTimeout(() => setErrorMessage(""), 10000);
@@ -473,7 +478,8 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 key={index}
                 onClick={() => handleItemclick(item)}
                 className={`flex gap-1 items-center justify-center cursor-pointer font-semibold hover:text-black
-                   ${ item.label === "SELL" &&
+                   ${
+                    //  item.label === "SELL" &&
                   Form_Data?.userType === "Retail Customer"
                     ? "hidden"
                     : ""

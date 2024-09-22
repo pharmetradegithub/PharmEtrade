@@ -662,53 +662,191 @@ function LayoutaddProduct() {
       thumbnail6: thumbnail6,
       videoUrl: videoUrl,
     };
+    // try {
+    //   if (activeTab == 0) {
+    //     if (queryProductId) {
+    //       const response = await EditProductInfoApi(tab1, user.customerId);
+    //       console.log("Product Data", response);
+    //       setSubmitted([...Submitted, 0]);
+    //       setFormErrors({})
+    //       setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1));
+    //       setNotification({
+    //         show: true,
+    //         message: "Product Info Edited Successfully!",
+    //       });
+    //       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    //     } else {
+    //       const response = await AddProductInfoApi(tab1, user.customerId);
+    //       localStorage.setItem("productId", response);
+    //       setSubmitted([...Submitted, 0]);
+    //       setFormErrors({})
+    //       setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1));
+    //       setNotification({
+    //         show: true,
+    //         message: "Product Info Added Successfully!",
+    //       });
+    //       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    //     }
+    //   } else if (activeTab == 1) {
+    //     if (queryProductId) {
+    //       const response = await EditProductPriceApi(tab2, user.customerId);
+    //       setSubmitted([...Submitted, 1]);
+    //       setFormErrors({})
+    //       setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 2));
+    //       setNotification({
+    //         show: true,
+    //         message: "Price Details Edited Successfully!",
+    //       });
+    //       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    //     } else {
+    //       const response = await AddProductPriceApi(tab2, user.customerId);
+    //       console.log("Product Data", response);
+    //       setSubmitted([...Submitted, 1]);
+    //       setFormErrors({})
+    //       setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 2));
+    //       setNotification({
+    //         show: true,
+    //         message: "Price Details Added Successfully!",
+    //       });
+    //       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    //     }
+    //   } else if (activeTab == 2) {
+    //     setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 3));
+    //     setNotification({
+    //       show: true,
+    //       message: "Related Products Added Successfully!",
+    //     });
+    //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    //   } else if (activeTab == 3) {
+    //     if (queryProductId) {
+    //       console.log(tab4);
+    //       const response = await EditProductGallery(tab4, user.customerId);
+    //       console.log("Product Data", response);
+    //       setSubmitted([...Submitted, 3]);
+
+    //       setNotification({
+    //         show: true,
+    //         message: "Product Edited Successfully!",
+    //       });
+    //       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    //     } else {
+    //       console.log(tab4);
+
+    //       const response = await AddProductGallery(tab4, user.customerId);
+    //       console.log("Product Data", response);
+    //       setSubmitted([]);
+
+    //       setNotification({
+    //         show: true,
+    //         message: "Product Added Successfully!",
+    //       });
+    //       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    //       setFormData({
+    //         categorySpecification: "",
+    //         productType: "",
+    //         productCategory: "",
+    //         productName: "",
+    //         ndcUpc: "",
+    //         brandName: "",
+    //         size: "",
+    //         form: "",
+    //         Weight: "",
+    //         Height: "",
+    //         Weight: "",
+    //         Length: "",
+    //         unitOfMeasurement: "",
+    //         price: "",
+    //         amountInStock: "",
+    //         taxable: "",
+    //         productDetails: "",
+    //         aboutProduct: "",
+    //         states: [],
+    //         upnMemberPrice: "",
+    //         salePrice: "",
+    //         salePriceForm: "",
+    //         salePriceTo: "",
+    //         manufacturer: "",
+    //         strength: "",
+    //         lotNumber: "",
+    //         expirationDate: "",
+    //         packQuantity: "",
+    //         packType: "",
+    //         packCondition: {
+    //           tornLabel: null,
+    //           otherCondition: "",
+    //         },
+    //         imageUrl: null,
+    //         productSizeId: 0,
+    //         thumbnail1: null,
+    //         thumbnail2: null,
+    //         thumbnail3: null,
+    //         thumbnail4: null,
+    //         thumbnail5: null,
+    //         thumbnail6: null,
+    //       });
+    //       setThumnails([]);
+    //     }
+    //   }
+    // } 
     try {
       if (activeTab == 0) {
         if (queryProductId) {
           const response = await EditProductInfoApi(tab1, user.customerId);
           console.log("Product Data", response);
           setSubmitted([...Submitted, 0]);
-          setFormErrors({})
+          setFormErrors({});
           setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1));
           setNotification({
             show: true,
             message: "Product Info Edited Successfully!",
           });
-          setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+          setTimeout(() => {
+            setNotification({ show: false, message: "" });
+            setActiveTab(1); // Move to the next tab
+          }, 3000);
         } else {
           const response = await AddProductInfoApi(tab1, user.customerId);
           localStorage.setItem("productId", response);
           setSubmitted([...Submitted, 0]);
-          setFormErrors({})
+          setFormErrors({});
           setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1));
           setNotification({
             show: true,
             message: "Product Info Added Successfully!",
           });
-          setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+          setTimeout(() => {
+            setNotification({ show: false, message: "" });
+            setActiveTab(1); // Move to the next tab
+          }, 3000);
         }
       } else if (activeTab == 1) {
         if (queryProductId) {
           const response = await EditProductPriceApi(tab2, user.customerId);
           setSubmitted([...Submitted, 1]);
-          setFormErrors({})
+          setFormErrors({});
           setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 2));
           setNotification({
             show: true,
             message: "Price Details Edited Successfully!",
           });
-          setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+          setTimeout(() => {
+            setNotification({ show: false, message: "" });
+            setActiveTab(2); // Move to the next tab
+          }, 3000);
         } else {
           const response = await AddProductPriceApi(tab2, user.customerId);
           console.log("Product Data", response);
           setSubmitted([...Submitted, 1]);
-          setFormErrors({})
+          setFormErrors({});
           setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 2));
           setNotification({
             show: true,
             message: "Price Details Added Successfully!",
           });
-          setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+          setTimeout(() => {
+            setNotification({ show: false, message: "" });
+            setActiveTab(2); // Move to the next tab
+          }, 3000);
         }
       } else if (activeTab == 2) {
         setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 3));
@@ -716,78 +854,88 @@ function LayoutaddProduct() {
           show: true,
           message: "Related Products Added Successfully!",
         });
-        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+        setTimeout(() => {
+          setNotification({ show: false, message: "" });
+          setActiveTab(3); // Move to the next tab
+        }, 3000);
       } else if (activeTab == 3) {
         if (queryProductId) {
           console.log(tab4);
           const response = await EditProductGallery(tab4, user.customerId);
           console.log("Product Data", response);
           setSubmitted([...Submitted, 3]);
-
+    
           setNotification({
             show: true,
             message: "Product Edited Successfully!",
           });
-          setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+          setTimeout(() => {
+            setNotification({ show: false, message: "" });
+            // Reset form or navigate elsewhere if needed
+          }, 3000);
         } else {
           console.log(tab4);
-
+    
           const response = await AddProductGallery(tab4, user.customerId);
           console.log("Product Data", response);
           setSubmitted([]);
-
+    
           setNotification({
             show: true,
             message: "Product Added Successfully!",
           });
-          setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-          setFormData({
-            categorySpecification: "",
-            productType: "",
-            productCategory: "",
-            productName: "",
-            ndcUpc: "",
-            brandName: "",
-            size: "",
-            form: "",
-            Weight: "",
-            Height: "",
-            Weight: "",
-            Length: "",
-            unitOfMeasurement: "",
-            price: "",
-            amountInStock: "",
-            taxable: "",
-            productDetails: "",
-            aboutProduct: "",
-            states: [],
-            upnMemberPrice: "",
-            salePrice: "",
-            salePriceForm: "",
-            salePriceTo: "",
-            manufacturer: "",
-            strength: "",
-            lotNumber: "",
-            expirationDate: "",
-            packQuantity: "",
-            packType: "",
-            packCondition: {
-              tornLabel: null,
-              otherCondition: "",
-            },
-            imageUrl: null,
-            productSizeId: 0,
-            thumbnail1: null,
-            thumbnail2: null,
-            thumbnail3: null,
-            thumbnail4: null,
-            thumbnail5: null,
-            thumbnail6: null,
-          });
-          setThumnails([]);
+          setTimeout(() => {
+            setNotification({ show: false, message: "" });
+            setFormData({
+              // Reset form data fields
+              categorySpecification: "",
+              productType: "",
+              productCategory: "",
+              productName: "",
+              ndcUpc: "",
+              brandName: "",
+              size: "",
+              form: "",
+              Weight: "",
+              Height: "",
+              Length: "",
+              unitOfMeasurement: "",
+              price: "",
+              amountInStock: "",
+              taxable: "",
+              productDetails: "",
+              aboutProduct: "",
+              states: [],
+              upnMemberPrice: "",
+              salePrice: "",
+              salePriceForm: "",
+              salePriceTo: "",
+              manufacturer: "",
+              strength: "",
+              lotNumber: "",
+              expirationDate: "",
+              packQuantity: "",
+              packType: "",
+              packCondition: {
+                tornLabel: null,
+                otherCondition: "",
+              },
+              imageUrl: null,
+              productSizeId: 0,
+              thumbnail1: null,
+              thumbnail2: null,
+              thumbnail3: null,
+              thumbnail4: null,
+              thumbnail5: null,
+              thumbnail6: null,
+            });
+            setThumnails([]);
+            // Optionally reset or move to another step
+          }, 3000);
         }
       }
-    } catch (error) {
+    }
+    catch (error) {
       console.error("There was a problem with the fetch operation:", error);
       throw error;
     }
@@ -2230,17 +2378,7 @@ function LayoutaddProduct() {
           ))}
         </ul>
       </div>
-      {/* <div className="">{renderTabContent()}
-      
-      </div>
-      <div className="flex 2xl:w-[60%] xl:w-full justify-end">
-        <button
-          onClick={handleSubmit}
-          className="border bg-blue-900 text-white my-4  h-8 w-16 rounded-md font-semibold  "
-        >
-          Save
-        </button>
-      </div> */}
+    
 
       <div className="">{renderTabContent()}</div>
       <div className="flex 2xl:w-[60%] xl:w-full justify-end">
@@ -2248,7 +2386,7 @@ function LayoutaddProduct() {
           onClick={handleSubmit}
           disabled={Submitted.includes(activeTab)}
           className={`
-            border bg-blue-900 flex justify-center items-center text-white my-4 h-8 w-16 rounded-md font-semibold
+            border bg-blue-900 flex justify-center items-center text-white my-4 p-2  rounded-md font-semibold
             ${
               Submitted.includes(activeTab)
                 ? "opacity-50 cursor-not-allowed"
@@ -2256,7 +2394,8 @@ function LayoutaddProduct() {
             }
           `}
         >
-          Save
+          {/* Save */}
+          {activeTab === 3 ? "Save" : "Save and Continue"}
         </button>
       </div>
     </div>
