@@ -1181,7 +1181,7 @@ function LayoutaddProduct() {
                   </div>
                   <div className="font-semibold  ml-0 flex flex-col">
                     <label>
-                      Brand Name:<span className="text-red-600">*</span>
+                      Brand Name:
                     </label>
                     <input
                       name="brandName"
@@ -1779,7 +1779,7 @@ function LayoutaddProduct() {
                 <div className="flex items-center gap-8 ">
                   <div className="font-semibold flex flex-col">
                     <label>
-                      Amount in Stock:<span className="text-red-600">*</span>
+                      Amount in Stock:
                     </label>
                     <input
                       name="amountInStock"

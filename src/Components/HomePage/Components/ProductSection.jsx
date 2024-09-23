@@ -103,11 +103,14 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
       topSellingProducts: null,
       buyAgain: null,
     };
-    if(heading==="Rx Items")
+    if(heading==="Rx Items"){
     await fetchCriteriaProductsApi(Criteria,"Prescription Drugs");
-  else
+    navigate(`/allProducts/RxProducts`); 
+    }
+  else{
     await fetchCriteriaProductsApi(Criteria,"OTC Products");
-    navigate(`/allProducts`); 
+    navigate(`/allProducts/OtcProducts`); 
+  }
    }
   return (
     <div className="bg-white w-full p-4">
