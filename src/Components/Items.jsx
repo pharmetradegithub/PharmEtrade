@@ -71,9 +71,9 @@ function Items({
   //   wishlist.map((wishItem) => wishItem.product.productID)
   // );
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
-  const addOrder = useSelector((state) => state.order.getOrder)
-  console.log("addOrder--->", addOrder)
-  const dispatch = useDispatch()
+  const addOrder = useSelector((state) => state.order.getOrder);
+  console.log("addOrder--->", addOrder);
+  const dispatch = useDispatch();
 
   const getWishlistIdByProductID = (productID) => {
     const wishlistItem = wishlist.find(
@@ -350,14 +350,12 @@ function Items({
     //   console.error("Error adding product to cart:", error);
     // }
     try {
-      
       await dispatch(fetchOrderApi(payLoad));
       await dispatch(fetchGetOrder(userId));
       navigate(`/checkout?total=${quantity * prod.salePrice}`);
     } catch (error) {
       console.log(error);
     }
-    
   };
   return (
     <div
@@ -444,12 +442,30 @@ function Items({
                 </span>
               </h3>
 
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <span className="text-sky-500 font-semibold text-[18px] ">
-                {prod?.unitPrice?.toFixed(2)}
+                  {prod?.salePrice?.toFixed(2)}
                 </span>
-                <p className="text-xs ml-1 line-through">${prod?.salePrice?.toFixed(2)}</p>
-              </div>
+                <p className="text-xs ml-1 line-through">${prod?.unitPrice?.toFixed(2)}</p>
+                
+              </div> */}
+              <div className="flex items-center">
+  {prod?.salePrice > 0 ? (
+    <>
+      <span className="text-sky-500 font-semibold text-[18px]">
+        {prod?.salePrice?.toFixed(2)}
+      </span>
+      <p className="text-xs ml-1 line-through">
+        ${prod?.unitPrice?.toFixed(2)}
+      </p>
+    </>
+  ) : (
+    <span className="text-sky-500 font-semibold text-[18px]">
+      ${prod?.unitPrice?.toFixed(2)}
+    </span>
+  )}
+</div>
+
               <div className="text-[12px]">Inclusive of all taxes</div>
 
               <div className="flex items-center   ">
@@ -567,7 +583,9 @@ function Items({
             <div className="border rounded-lg shadow-lg  pb-4 w-full h-full">
               <div className="p-4">
                 <div className="flex justify-between">
-                  <p className="text-black text-[22px]">${prod?.unitPrice?.toFixed(2)}</p>
+                  <p className="text-black text-[22px]">
+                    ${prod?.unitPrice?.toFixed(2)}
+                  </p>
                   {/* <img src={ ?Wishlist :filledheart} className="w-5 h-5 flex   "/> */}
                   <img
                     src={isWishlisted ? filledheart : Wishlist}

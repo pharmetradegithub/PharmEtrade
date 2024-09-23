@@ -1567,7 +1567,7 @@ function LayoutaddProduct() {
                           onChange={handleSelectAll}
                           className="mr-2"
                         />
-                        All Selected
+                        Select All States
                       </label>{" "}
                       {states.map((state) => (
                         <label className="flex  mt-1" key={state.abbreviation}>
