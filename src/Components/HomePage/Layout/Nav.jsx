@@ -158,7 +158,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
     { id: 8, name: "Vision Products" },
     { id: 9, name: "Diet & Sports Nutrition" },
     { id: 10, name: "Vitamins, Minerals & Supplements" },
-    { id: 11, name: "Personal Care products" },
+    { id: 11, name: "Personal Care Products" },
   ];
 
  

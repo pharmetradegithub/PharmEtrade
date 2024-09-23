@@ -612,21 +612,63 @@ const userSlice = createSlice({
   },
 });
 
+// const orderSlice = createSlice({
+//   name: "order",
+//   initialState: { orders: [] },
+//   reducers: {
+//     addOrder(state, action) {
+//       state.orders.push(action.payload);
+//     },
+//     setOrders(state, action) {
+//       state.orders = action.payload;
+//     },
+//     clearOrders(state) {
+//       state.orders = [];
+//     },
+//   },
+// });
+
+const initialOrderState = {
+  orders: [],
+  OrderBySellerId: [],
+  getOrder: []
+}
+
 const orderSlice = createSlice({
   name: "order",
-  initialState: { orders: [] },
+  initialState: initialOrderState,
   reducers: {
     addOrder(state, action) {
-      state.orders.push(action.payload);
-    },
-    setOrders(state, action) {
       state.orders = action.payload;
+      console.log("addorder-->", action.payload)
     },
-    clearOrders(state) {
-      state.orders = [];
+    // clearOrders(state) {
+    //   state.orders = [];
+    // },
+    setGetOrderBySellerId(state, action) {
+      state.OrderBySellerId = action.payload;
     },
+    setGetOrder(state, action) {
+      state.getOrder = action.payload;
+    }
   },
 });
+
+const initialDashboardState = {
+  getSellerId : []
+}
+
+const dashboardSlice = createSlice({
+  name: "dashboard",
+  initialState: initialDashboardState,
+  reducers : {
+    setSellerDashboardId(state, action) {
+      console.log('Action payload:', action.payload); // Check payload here
+      state.getSellerId = action.payload;
+    }
+  }
+})
+
 
 const initialProductsState = {
   Heading:"",
@@ -725,6 +767,14 @@ const bannerSlice = createSlice({
 export const { setSpecialOffer } = productsSlice.actions;
 export const { setGetProductSpecialOffer } = productsSlice.actions
 
+export const { setGetOrderBySellerId } = orderSlice.actions
+export const { setGetOrder } = orderSlice.actions
+export const { addOrder } = orderSlice.actions
+export const {setSellerDashboardId} = dashboardSlice.actions
+
+
+
+
 const store = configureStore({
   reducer: {
     home: homeSlice.reducer,
@@ -734,6 +784,7 @@ const store = configureStore({
     order: orderSlice.reducer,
     product: productsSlice.reducer,
     banner: bannerSlice.reducer,
+    dashboard: dashboardSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });

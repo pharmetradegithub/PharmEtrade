@@ -183,35 +183,85 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
   }, [productCriteria]);
 
   // Handle search term and reset products if the search term is cleared
+  // useEffect(() => {
+  //   console.log("useEffect: term changed to", term); // Check if term is updated correctly
+
+  //   if (term) {
+  //     console.log("Searching for products with term:", term);
+  //     searchProducts(term, productCriteria);
+  //   } else {
+  //     console.log("Search term cleared, resetting to initial products");
+  //     setFilteredProducts(productCriteria);
+  //   }
+  // }, [term]); // Rerun when either term or productCriteria changes
+
+
   useEffect(() => {
     console.log("useEffect: term changed to", term); // Check if term is updated correctly
 
-    if (term) {
+   // if (term) {
       console.log("Searching for products with term:", term);
       searchProducts(term, productCriteria);
-    } else {
-      console.log("Search term cleared, resetting to initial products");
-      setFilteredProducts(productCriteria);
-    }
-  }, [term]); // Rerun when either term or productCriteria changes
+  //  } else {
+      // console.log("Search term cleared, resetting to initial products");
+    //  setFilteredProducts(allProducts);
+     // console.log("allproducts",allProducts)
+      //setFilteredProducts(allProducts)
+  //  }
+  }, [term]); 
 
   // Search API call function
+  // const searchProducts = async (searchTerm, productCriteria) => {
+  //   setLoading(true); // Start loading
+
+  //   try {
+  //     const productCategoryId = productCriteria[0]?.productCategory?.productCategoryId;
+  //     if (!productCategoryId) {
+  //       console.warn("No productCategoryId available");
+  //       setLoading(false);
+  //       return;
+  //     }
+
+  //     const productName = {
+  //       productCategoryId: productCategoryId,
+  //       productName: searchTerm,
+  //     };
+
+  //     console.log("Calling API with searchTerm:", searchTerm); // Debugging
+  //     const response = await fetchCriteriaProductsApi(productName);
+  //     console.log("API response:", response); // Check response
+
+  //     setFilteredProducts(response.data); // Update products
+  //   } catch (error) {
+  //     console.error("Error fetching products:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+
   const searchProducts = async (searchTerm, productCriteria) => {
     setLoading(true); // Start loading
 
     try {
       const productCategoryId = productCriteria[0]?.productCategory?.productCategoryId;
-      if (!productCategoryId) {
-        console.warn("No productCategoryId available");
-        setLoading(false);
-        return;
+      // if (!productCategoryId) {
+      //   console.warn("No productCategoryId available");
+      //   setLoading(false);
+      //   return;
+      // }
+      let productName
+      if (term) {
+         productName = {
+          productCategoryId: productCategoryId,
+          productName: searchTerm,
+        };
       }
-
-      const productName = {
-        productCategoryId: productCategoryId,
-        productName: searchTerm,
-      };
-
+      else {
+         productName = {
+          productCategoryId: productCategoryId,
+        }
+      }
       console.log("Calling API with searchTerm:", searchTerm); // Debugging
       const response = await fetchCriteriaProductsApi(productName);
       console.log("API response:", response); // Check response
