@@ -151,7 +151,7 @@ function LayoutaddProduct() {
       categorySpecification:
         product.categorySpecification.categorySpecificationId,
       productType: product.productType,
-      productCategory: product.productCategoryId,
+      productCategory: product.productCategory.productCategoryId,
       Height: product.height,
       Weight: product.weight,
       Length: product.length,
@@ -172,7 +172,7 @@ function LayoutaddProduct() {
       upnMemberPrice: product.upnMemberPrice,
       salePrice: product.salePrice,
       salePriceForm: product.salePriceValidFrom,
-      salePriceTo: "",
+      salePriceTo: product.salePriceValidTo,
       manufacturer: product.manufacturer,
       strength: product.strength,
       lotNumber: product.lotNumber,
@@ -238,7 +238,7 @@ function LayoutaddProduct() {
   };
   // sales price from
   const today = new Date().toISOString().split("T")[0];
-  // 
+  //
 
   const [MinDate, setminDate] = useState("");
 
@@ -253,7 +253,6 @@ function LayoutaddProduct() {
     // Set the minimum date to tomorrow
     setminDate(tomorrowFormatted);
   }, []);
-
 
   // filter upsell pop ups
   const [isVisible, setIsVisible] = useState(false);
@@ -401,10 +400,11 @@ function LayoutaddProduct() {
           ...formData,
           packType: value,
         });
-      }  if (name === "shippingCostApplicable") {
+      }
+      if (name === "shippingCostApplicable") {
         setFormData((prevData) => ({
           ...prevData,
-          [name]: value === "1" ? true : false,  // Set to true for "1" (Yes), false for "0" (No)
+          [name]: value === "1" ? true : false, // Set to true for "1" (Yes), false for "0" (No)
         }));
       }
     } else if (type === "checkbox") {
@@ -482,8 +482,6 @@ function LayoutaddProduct() {
   //   setMinDate(minFormatted);
   //   setMaxDate(maxFormatted);
   // }, []);
-
-  
 
   const handleRemoveImage = () => {
     setSelectedImage(null);
@@ -632,7 +630,8 @@ function LayoutaddProduct() {
       salePriceValidFrom: formData.salePriceForm,
       salePriceValidTo: formData.salePriceTo,
       taxable: formData.taxable == 1 ? true : false,
-      shippingCostApplicable: formData.shippingCostApplicable ==1 ? true :false,
+      shippingCostApplicable:
+        formData.shippingCostApplicable == 1 ? true : false,
       shippingCost: 20,
       amountInStock: formData.amountInStock,
     };
@@ -739,7 +738,7 @@ function LayoutaddProduct() {
     //       const response = await EditProductGallery(tab4, user.customerId);
     //       console.log("Product Data", response);
     //       setSubmitted([...Submitted, 3]);
-    
+
     //       setNotification({
     //         show: true,
     //         message: "Product Edited Successfully!",
@@ -750,11 +749,11 @@ function LayoutaddProduct() {
     //       }, 3000);
     //     } else {
     //       console.log(tab4);
-    
+
     //       const response = await AddProductGallery(tab4, user.customerId);
     //       console.log("Product Data", response);
     //       setSubmitted([]);
-    
+
     //       setNotification({
     //         show: true,
     //         message: "Product Added Successfully!",
@@ -846,7 +845,9 @@ function LayoutaddProduct() {
           const response = await EditProductPriceApi(tab2, user.customerId);
           setSubmitted([...Submitted, 1]);
           setFormErrors({});
-          setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 2 && tab !== 3)); // Enable Tabs 2 and 3
+          setShowTab((prevTabs) =>
+            prevTabs.filter((tab) => tab !== 2 && tab !== 3)
+          ); // Enable Tabs 2 and 3
           setNotification({
             show: true,
             message: "Price Details Edited Successfully!",
@@ -860,7 +861,9 @@ function LayoutaddProduct() {
           console.log("Product Data", response);
           setSubmitted([...Submitted, 1]);
           setFormErrors({});
-          setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 2 && tab !== 3)); // Enable Tabs 2 and 3
+          setShowTab((prevTabs) =>
+            prevTabs.filter((tab) => tab !== 2 && tab !== 3)
+          ); // Enable Tabs 2 and 3
           setNotification({
             show: true,
             message: "Price Details Added Successfully!",
@@ -886,7 +889,7 @@ function LayoutaddProduct() {
           const response = await EditProductGallery(tab4, user.customerId);
           console.log("Product Data", response);
           setSubmitted([...Submitted, 3]);
-    
+
           setNotification({
             show: true,
             message: "Product Edited Successfully!",
@@ -901,11 +904,11 @@ function LayoutaddProduct() {
           }, 3000);
         } else {
           console.log(tab4);
-    
+
           const response = await AddProductGallery(tab4, user.customerId);
           console.log("Product Data", response);
           setSubmitted([]);
-    
+
           setNotification({
             show: true,
             message: "Product Added Successfully!",
@@ -929,7 +932,7 @@ function LayoutaddProduct() {
               Weight: 0,
               Height: 0,
               Length: 0,
-              Width:0,
+              Width: 0,
               unitOfMeasurement: "",
               price: 0,
               amountInStock: 0,
@@ -966,9 +969,7 @@ function LayoutaddProduct() {
           }, 3000);
         }
       }
-    }
-    
-    catch (error) {
+    } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
       throw error;
     }
@@ -1180,9 +1181,7 @@ function LayoutaddProduct() {
                     />
                   </div>
                   <div className="font-semibold  ml-0 flex flex-col">
-                    <label>
-                      Brand Name:
-                    </label>
+                    <label>Brand Name:</label>
                     <input
                       name="brandName"
                       type="text"
@@ -1230,20 +1229,28 @@ function LayoutaddProduct() {
                           </span>
                         )}
                       </div> */}
-                       <div className="flex flex-col">
-      <label className="text-sm font-semibold">Expiration Date:</label>
-      <input
-        name="expirationDate"
-        type="date"
-        className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-        onChange={handleInputChange}
-        value={formData.expirationDate ? formData.expirationDate.split("T")[0] : ""}
-        min={today} // Disable past dates
-      />
-      {formErrors.expirationDate && (
-        <span className="text-red-500 text-sm">{formErrors.expirationDate}</span>
-      )}
-    </div>
+                      <div className="flex flex-col">
+                        <label className="text-sm font-semibold">
+                          Expiration Date:
+                        </label>
+                        <input
+                          name="expirationDate"
+                          type="date"
+                          className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                          onChange={handleInputChange}
+                          value={
+                            formData.expirationDate
+                              ? formData.expirationDate.split("T")[0]
+                              : ""
+                          }
+                          min={today} // Disable past dates
+                        />
+                        {formErrors.expirationDate && (
+                          <span className="text-red-500 text-sm">
+                            {formErrors.expirationDate}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1567,7 +1574,7 @@ function LayoutaddProduct() {
                           onChange={handleSelectAll}
                           className="mr-2"
                         />
-                        All Selected
+                        Select All States
                       </label>{" "}
                       {states.map((state) => (
                         <label className="flex  mt-1" key={state.abbreviation}>
@@ -1689,29 +1696,28 @@ function LayoutaddProduct() {
                     )}
                   </div> */}
                   <div className="flex flex-col">
-  <label className="text-sm font-semibold">
-    Sale Price From ($):
-  </label>
-  <input
-    name="salePriceForm"
-    type="date" // Updated to lowercase for type consistency
-    className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-    onChange={handleInputChange}
-    value={
-      formData.salePriceForm
-        ? formData.salePriceForm.split("T")[0]
-        : ""
-    }
-    min={new Date().toISOString().split("T")[0]} // This disables past dates
-  />
-  
-  {formErrors.salePriceForm && (
-    <span className="text-red-500 text-sm">
-      {formErrors.salePriceForm}
-    </span>
-  )}
-</div>
+                    <label className="text-sm font-semibold">
+                      Sale Price From ($):
+                    </label>
+                    <input
+                      name="salePriceForm"
+                      type="date" // Updated to lowercase for type consistency
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={
+                        formData.salePriceForm
+                          ? formData.salePriceForm.split("T")[0]
+                          : ""
+                      }
+                      min={new Date().toISOString().split("T")[0]} // This disables past dates
+                    />
 
+                    {formErrors.salePriceForm && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.salePriceForm}
+                      </span>
+                    )}
+                  </div>
 
                   <div className="flex items-center gap-8 my-2">
                     {/* <div className="flex flex-col">
@@ -1736,9 +1742,8 @@ function LayoutaddProduct() {
                         </span>
                       )}
                     </div> */}
-                   
-     
-     {/* <div className="flex flex-col">
+
+                    {/* <div className="flex flex-col">
       <label className="text-sm font-semibold">Sale Price To($):</label>
       <input
         name="expirationDate"
@@ -1755,32 +1760,34 @@ function LayoutaddProduct() {
         </span>
       )}
     </div> */}
-     <div className="flex flex-col">
-      <label className="text-sm font-semibold">Sale Price To($):</label>
-      <input
-        name="salePriceTo"
-        type="date"
-        className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-        onChange={handleInputChange}
-        value={formData.salePriceTo}
-        min={MinDate} // Minimum date is tomorrow
-      />
-      {formErrors.salePriceTo && (
-        <span className="text-red-500 text-sm">
-          {formErrors.salePriceTo}
-        </span>
-      )}
-    </div>
-
-
+                    <div className="flex flex-col">
+                      <label className="text-sm font-semibold">
+                        Sale Price To($):
+                      </label>
+                      <input
+                        name="salePriceTo"
+                        type="date"
+                        className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                        onChange={() => handleInputChange()}
+                        value={
+                          formData.salePriceTo
+                            ? formData.salePriceTo.split("T")[0]
+                            : ""
+                        }
+                        min={MinDate}
+                      />
+                      {formErrors.salePriceTo && (
+                        <span className="text-red-500 text-sm">
+                          {formErrors.salePriceTo}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-8 ">
                   <div className="font-semibold flex flex-col">
-                    <label>
-                      Amount in Stock:
-                    </label>
+                    <label>Amount in Stock:</label>
                     <input
                       name="amountInStock"
                       type="number"
@@ -1815,7 +1822,6 @@ function LayoutaddProduct() {
                       <option value="1">Yes</option>
                     </select>
                   </div>
-                  
                 </div>
               </div>
             </div>
@@ -1859,39 +1865,36 @@ function LayoutaddProduct() {
                   </div>
                 </Box>
               </div> */}
-           <div className="flex items-center">
-           <label className="font-semibold">
+              <div className="flex items-center">
+                <label className="font-semibold">
                   Price includes the shipping cost
                 </label>
-  <input
-    type="radio"
-    id="yes"
-    name="shippingCostApplicable"
-    value="1"
-    checked={formData.shippingCostApplicable === true}
-    onChange={handleInputChange}
-    className="ml-2"
-  />
-  <label htmlFor="yes" className="text-sm mx-1 font-semibold">
-    Yes
-  </label>
+                <input
+                  type="radio"
+                  id="yes"
+                  name="shippingCostApplicable"
+                  value="1"
+                  checked={formData.shippingCostApplicable === true}
+                  onChange={handleInputChange}
+                  className="ml-2"
+                />
+                <label htmlFor="yes" className="text-sm mx-1 font-semibold">
+                  Yes
+                </label>
 
-  <input
-    type="radio"
-    id="no"
-    name="shippingCostApplicable"
-    value="0"
-    checked={formData.shippingCostApplicable === false}
-    onChange={handleInputChange}
-    className="ml-2"
-  />
-  <label htmlFor="no" className="text-sm mx-1 font-semibold">
-    No
-  </label>
-</div>
-
-
-
+                <input
+                  type="radio"
+                  id="no"
+                  name="shippingCostApplicable"
+                  value="0"
+                  checked={formData.shippingCostApplicable === false}
+                  onChange={handleInputChange}
+                  className="ml-2"
+                />
+                <label htmlFor="no" className="text-sm mx-1 font-semibold">
+                  No
+                </label>
+              </div>
             </div>
 
             {/* section5 start */}
@@ -2411,7 +2414,6 @@ function LayoutaddProduct() {
           ))}
         </ul>
       </div>
-    
 
       <div className="">{renderTabContent()}</div>
       <div className="flex 2xl:w-[60%] xl:w-full justify-end ">
