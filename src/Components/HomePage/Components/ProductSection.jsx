@@ -107,7 +107,8 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
     await fetchCriteriaProductsApi(Criteria,"Prescription Drugs");
   else
     await fetchCriteriaProductsApi(Criteria,"OTC Products");
-    navigate('/allProducts');  }
+    navigate(`/allProducts`); 
+   }
   return (
     <div className="bg-white w-full p-4">
       <h1 className="text-2xl font-bold text-text-blue">{heading}</h1>

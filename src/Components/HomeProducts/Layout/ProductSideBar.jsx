@@ -6,16 +6,16 @@ import { useLocation } from "react-router-dom";
 
 const categories = [
   // "All categories",
-  "Prescription Medications",
-  "Baby & Child Care Products",
-  "Health care products",
-  "Household Suppliers",
-  "Oral Care Products",
-  "Stationery & Gift Wrapping Supplies",
-  "Vision Products",
-  "Diet & Sports Nutrition",
-  "Vitamins, Minerals & Supplements",
-  "Personal Care products",
+  { id: 1, name: "Prescription Medications" },
+  { id: 2, name: "Baby & Child Care Products" },
+  { id: 4, name: "Health care products" },
+  { id: 5, name: "Household Suppliers" },
+  { id: 6, name: "Oral Care Products" },
+  { id: 7, name: "Stationery & Gift Wrapping Supplies" },
+  { id: 8, name: "Vision Products" },
+  { id: 9, name: "Diet & Sports Nutrition" },
+  { id: 10, name: "Vitamins, Minerals & Supplements" },
+  { id: 11, name: "Personal Care Products" },
 ];
 
 const allCategoriesSubItems = [
@@ -25,7 +25,7 @@ const allCategoriesSubItems = [
   // { name: "Digestive Health", checked: false },
 ];
 
-function ProductSideBar() {
+function ProductSideBar({ handleChange }) {
   // const [dropdownOpen, setDropdownOpen] = useState({
   //   allCategories: false,
   //   deals: false,
@@ -57,14 +57,26 @@ function ProductSideBar() {
   return (
     <div className="w-full overflow-y-scroll h-full bg-slate-50 text-lg py-4 pl-4">
       {categories.map((category, index) => (
+        // <div
+        //   key={index}
+        //   className="w-[90%] mb-2 rounded-md bg-blue-900 text-white"
+        // >
+        //   <div className={`border-1 ${categoryName.split(" ")[0] === category.split(" ")[0]?"bg-gray-400":"bg-blue-900"} px-4 py-1 rounded-md text-base flex justify-between items-center cursor-pointer text-white hover:bg-gray-400 hover:text-black `}>
+        //     <p>{category}</p>
+        //   </div>
+        // </div>
         <div
-          key={index}
-          className="w-[90%] mb-2 rounded-md bg-blue-900 text-white"
+        key={category.id}
+        className={`w-[90%] mb-2 rounded-md ${categoryName === category.name ? "bg-gray-400" : "bg-blue-900"
+          } text-white`}
+      >
+        <div
+          className={`border-1 ${categoryName.split(" ")[0] === category.name.split(" ")[0] ? "bg-gray-400" : "bg-blue-900"} px-4 py-1 rounded-md text-base flex justify-between items-center cursor-pointer text-white hover:bg-gray-400 hover:text-black `}
+          onClick={() => handleChange(category)}
         >
-          <div className={`border-1 ${categoryName.split(" ")[0] === category.split(" ")[0]?"bg-gray-400":"bg-blue-900"} px-4 py-1 rounded-md text-base flex justify-between items-center cursor-pointer text-white hover:bg-gray-400 hover:text-black `}>
-            <p>{category}</p>
-          </div>
+          <p>{category.name}</p>
         </div>
+      </div>
       ))}
     </div>
   );

@@ -41,7 +41,8 @@ import dropdown from "../assets/Down-arrow .png";
 
 import DropUpIcon from "../assets/Icons/dropDownb.png";
 import DropDownIcon from "../assets/Icons/dropUpB.png";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   fetchCrossSellProductApi,
   fetchProductByIdApi,
@@ -50,7 +51,8 @@ import {
 } from "../Api/ProductApi";
 import { addCartApi } from "../Api/CartApi";
 import { addToWishlistApi, removeFromWishlistApi } from "../Api/WishList";
-import { orderApi, orderGetApi } from "../Api/CustomerOrderList";
+import { fetchGetOrder, fetchOrderApi } from "../Api/OrderApi";
+// import { orderApi, orderGetApi } from "../Api/CustomerOrderList";
 // import { customerOrderApi, customerOrderGetApi } from "../Api/CustomerOrderList";
 
 function Items({
@@ -69,6 +71,9 @@ function Items({
   //   wishlist.map((wishItem) => wishItem.product.productID)
   // );
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
+  const addOrder = useSelector((state) => state.order.getOrder)
+  console.log("addOrder--->", addOrder)
+  const dispatch = useDispatch()
 
   const getWishlistIdByProductID = (productID) => {
     const wishlistItem = wishlist.find(
@@ -336,14 +341,23 @@ function Items({
     };
     navigate(`/checkout?total=${quantity * prod.salePrice}`);
 
+    // try {
+    //   // await customerOrderApi(payLoad);
+    //   // await customerOrderGetApi(userId)
+    //   await orderApi(payLoad);
+    //   await orderGetApi(userId);
+    // } catch (error) {
+    //   console.error("Error adding product to cart:", error);
+    // }
     try {
-      // await customerOrderApi(payLoad);
-      // await customerOrderGetApi(userId)
-      await orderApi(payLoad);
-      await orderGetApi(userId);
+      
+      await dispatch(fetchOrderApi(payLoad));
+      await dispatch(fetchGetOrder(userId));
+      navigate(`/checkout?total=${quantity * prod.salePrice}`);
     } catch (error) {
-      console.error("Error adding product to cart:", error);
+      console.log(error);
     }
+    
   };
   return (
     <div

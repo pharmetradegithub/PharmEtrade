@@ -437,7 +437,7 @@ function Cart() {
                       <td className="px-2 md:px-4 py-3 whitespace-nowrap">
                         {item.product.productName}
                       </td>
-                      <td className="px-2 md:px-4 py-3 whitespace-nowrap">
+                      <td className="px-2 md:px-4 py-3 text-right whitespace-nowrap">
                         ${item.product.salePrice?.toFixed(2)}
                       </td>
                       <td className="px-2 flex gap-2 md:px-4 py-3 whitespace-nowrap">
@@ -465,7 +465,7 @@ function Cart() {
                           )}
                         </strong>
                       </td> */}
-                      <td className="px-2 md:px-4 py-3 whitespace-nowrap">
+                      <td className="px-2 md:px-4 text-right py-3 whitespace-nowrap">
                         <strong>
                           $
                           {calculateSubtotal(
