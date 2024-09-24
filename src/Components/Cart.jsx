@@ -320,7 +320,7 @@ function Cart() {
   );
 
   const handleProceed = () => {
-    navigate(`/checkout?total=${total}`);
+    navigate(`/checkout?total=${total?.toFixed(2)}`);
   };
 
   const handlemove = () => {
