@@ -95,7 +95,10 @@ const OtcProducts = () => {
 
   return (
     <div>
-      <div className="w-[95%]">
+      <div className="w-full mt-2">
+        <div className='text-xl bg-blue-900 flex items-center p-2 rounded-lg text-white'>
+          <div>OTC PRODUCTS</div>
+        </div>
         <div className="grid grid-cols-4 grid-rows-2 gap-4 mt-8">
           {OTCProducts.map((item, index) => (
             <div
@@ -127,7 +130,7 @@ const OtcProducts = () => {
               {/* </Link> */}
               <div className="w-full py-1">
                 <h2 className="text-fonts h-12">{item.productName}</h2>
-                <h1 className="text-fonts font-semibold">${item.priceName}</h1>
+                <h1 className="text-fonts font-semibold">${item?.unitPrice?.toFixed(2)}</h1>
               </div>
               <div>
                 {Array.from({ length: totalStars }, (v, i) => (

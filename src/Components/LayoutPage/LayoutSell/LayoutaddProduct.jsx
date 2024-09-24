@@ -383,7 +383,7 @@ function LayoutaddProduct() {
         ...formData,
         [name]: Number(value),
       });
-    } else if (type === "number") {
+    } else if (type === "phone") {
       setFormData({
         ...formData,
         [name]: value === "" ? "" : Number(value),
@@ -1456,7 +1456,7 @@ function LayoutaddProduct() {
                     <div className="flex flex-col">
                       <label className="text-sm">Height {""}(Inches)</label>
                       <input
-                        type="number"
+                        type="phone"
                         name="Height"
                         value={formData.Height}
                         onChange={handleInputChange}
@@ -1467,7 +1467,7 @@ function LayoutaddProduct() {
                     <div className="flex flex-col  ">
                       <label className="text-sm">Width {""} (Cm) </label>
                       <input
-                        type="number"
+                        type="phone"
                         name="Width"
                         value={formData.Width}
                         onChange={handleInputChange}
@@ -1478,7 +1478,7 @@ function LayoutaddProduct() {
                     <div className="flex flex-col  ">
                       <label className="text-sm">Length {""} (Cm) </label>
                       <input
-                        type="number"
+                        type="phone"
                         name="Length"
                         value={formData.Length}
                         onChange={handleInputChange}
@@ -1489,7 +1489,7 @@ function LayoutaddProduct() {
                     <div className="flex flex-col  ">
                       <label className="text-sm">Weight {""} (Grams)</label>
                       <input
-                        type="number"
+                        type="phone"
                         name="Weight"
                         value={formData.Weight}
                         onChange={handleInputChange}
@@ -1613,7 +1613,7 @@ function LayoutaddProduct() {
                     </label>
                     <input
                       name="price"
-                      type="number"
+                      type="phone"
                       className="w-56 h-8 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       onChange={handleInputChange}
                       value={formData.price === 0 ? "" : formData.price}
@@ -1629,7 +1629,7 @@ function LayoutaddProduct() {
                     <label className="text-sm font-semibold">Discount:</label>
                     <input
                       name="discount"
-                      type="number"
+                      type="phone"
                       className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       onChange={handleInputChange}
                       value={formData.discount === "" ? "" : formData.discount}
@@ -1642,7 +1642,7 @@ function LayoutaddProduct() {
                     </label>
                     <input
                       name="upnMemberPrice"
-                      type="number"
+                      type="phone"
                       className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       onChange={handleInputChange}
                       value={
@@ -1660,7 +1660,7 @@ function LayoutaddProduct() {
                     </label>
                     <input
                       name="salePrice"
-                      type="number"
+                      type="phone"
                       className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       onChange={handleInputChange}
                       value={
@@ -1697,7 +1697,7 @@ function LayoutaddProduct() {
                   </div> */}
                   <div className="flex flex-col">
                     <label className="text-sm font-semibold">
-                      Sale Price From ($):
+                      Sale Price From:
                     </label>
                     <input
                       name="salePriceForm"
@@ -1762,7 +1762,7 @@ function LayoutaddProduct() {
     </div> */}
                     <div className="flex flex-col">
                       <label className="text-sm font-semibold">
-                        Sale Price To($):
+                        Sale Price To:
                       </label>
                       <input
                         name="salePriceTo"
@@ -1790,7 +1790,7 @@ function LayoutaddProduct() {
                     <label>Amount in Stock:</label>
                     <input
                       name="amountInStock"
-                      type="number"
+                      type="phone"
                       className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       onChange={handleInputChange}
                       value={
@@ -2430,7 +2430,19 @@ function LayoutaddProduct() {
           `}
         >
           {/* Save */}
-          {activeTab === 3 ? "Save" : "Save and Continue"}
+          {/* {activeTab === 3 ? "Save" : "Save and Continue"} */}
+          {
+            activeTab === 0
+              ? "Save and Continue to Price Details"
+              : activeTab === 1
+                ? "Save and Continue to Related Products"
+                : activeTab === 2
+                  ? "Save and Continue to Additional Images"
+                  : activeTab === 3
+                    ? "Save"
+                    : ""
+          }
+
         </button>
       </div>
     </div>

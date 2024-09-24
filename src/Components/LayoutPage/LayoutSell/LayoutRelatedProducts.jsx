@@ -1589,7 +1589,7 @@ const LayoutRelatedProducts = () => {
             </div>
             <div className="flex flex-col  ">
               <label className="text-sm font-semibold">
-                Sale Price Form ($):
+                Sale Price From:
               </label>
               <input
                 name="salePriceForm"
@@ -1601,7 +1601,7 @@ const LayoutRelatedProducts = () => {
             </div>
 
             <div className="flex flex-col ">
-              <label className="text-sm font-semibold">Sale Price To($):</label>
+              <label className="text-sm font-semibold">Sale Price To:</label>
               <input
                 name="salePriceTo"
                 type="Date"

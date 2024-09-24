@@ -1016,7 +1016,7 @@ function Address({ topMargin, totalAmount }) {
                         </div>
                         <div className="flex justify-between text-sm border-b my-2">
                           <p>Delivery :</p>
-                          <p>--</p>
+                          <p>$0.00</p>
                         </div>
                         <div className="flex justify-between text-red-500 font-semibold">
                           <p>Order Total:</p>
@@ -1111,15 +1111,15 @@ function Address({ topMargin, totalAmount }) {
                       </div>
                       <div className="flex justify-between text-sm mt-3">
                         <p>Delivery:</p>
-                        <p>--</p>
+                        <p>$0.00</p>
                       </div>
                       <div className="flex justify-between text-sm mt-3">
                         <p>Total:</p>
-                        <p>--</p>
+                        <p>${total}</p>
                       </div>
                       <div className="flex justify-between text-sm border-b my-2">
                         <p>Promotion Applied :</p>
-                        <p>--</p>
+                        <p>$0.00</p>
                       </div>
                       <div className="flex justify-between text-red-500 font-semibold">
                         <p>Order Total:</p>
