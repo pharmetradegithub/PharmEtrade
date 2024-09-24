@@ -339,7 +339,7 @@ function Items({
       pricePerProduct: prod.salePrice,
       vendorId: prod.sellerId,
     };
-    navigate(`/checkout?total=${quantity * prod.salePrice}`);
+    navigate(`/checkout?total=${quantity * prod.salePrice.toFixed(2)}`);
 
     // try {
     //   // await customerOrderApi(payLoad);
