@@ -20,3 +20,21 @@ export const fetchSellerDashboard = (customerId) => {
     }
   }
 }
+
+export const fetchCustomerDashboard = (customerId) => {
+  return async (dispatch) => {
+    try {
+      console.log('Fetching data for customer dashboard');
+      const response = await axios.get(`/api/Dashboard/GetBuyerDashboard?buyerId=${customerId}`)
+      console.log('API Response:', response);
+      if (response.status === 200) {
+        const customerData = response.data;
+        dispatch(setCustomerDashboard(customerData))
+      } else {
+        console.log('Failed to fetch dashboard:', response.message);
+      }
+    } catch (error) {
+      console.log('Error fetching dashboard:', error);
+    }
+  }
+}
