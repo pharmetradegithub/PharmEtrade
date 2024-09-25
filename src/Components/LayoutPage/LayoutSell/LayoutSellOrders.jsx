@@ -320,17 +320,25 @@ function LayoutSellOrders() {
               })()}
             </tbody> */}
               
-              {SellerOrder.map((product, index) => (
+              {Array.isArray(SellerOrder) && SellerOrder.length > 0 ?(
+                SellerOrder.map((product, index) => (
                   <tr key={product.productId} className="border-b">
                     <td className="px-4 py-2">{index + 1}</td>
                     <td className="px-4 py-2">{product?.orderDate}</td>
                     <td className="px-4 py-2">{product?.productName}</td>
                     <td className="px-4 py-2">{product?.totalAmount}</td>
                     <td className="px-4 py-2">{product?.customerName}</td>
-                    <td className="px-4 py-2">{product.status}</td>
+                    <td className="px-4 py-2">{product?.status}</td>
                     <td className="px-4 py-2">view order</td>
                   </tr>
-                ))}
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7" className="text-center py-4">
+                    No Product available
+                  </td>
+                </tr>
+              )}
               </tbody>
           </table>
         </div>

@@ -139,14 +139,19 @@ function LayoutaddProduct() {
   const [productFetched, setproductFetched] = useState();
   const [Heading, setHeading] = useState("ADD PRODUCT");
   const AssignFormData = (product) => {
-    setThumnails([
-      product.productGallery.thumbnail1,
-      product.productGallery.thumbnail2,
-      product.productGallery.thumbnail3,
-      product.productGallery.thumbnail4,
-      product.productGallery.thumbnail5,
-      product.productGallery.thumbnail6,
-    ]);
+    const thumnailArray = [
+      product?.productGallery?.thumbnail1,
+      product?.productGallery?.thumbnail2,
+      product?.productGallery?.thumbnail3,
+      product?.productGallery?.thumbnail4,
+      product?.productGallery?.thumbnail5,
+      product?.productGallery?.thumbnail6,
+    ];
+    const validThumbnails = thumnailArray.filter(
+      (thumb) => thumb !== "null" && thumb !== null
+    );
+    setThumnails(validThumbnails);
+
     setFormData({
       categorySpecification:
         product.categorySpecification.categorySpecificationId,
@@ -177,20 +182,38 @@ function LayoutaddProduct() {
       strength: product.strength,
       lotNumber: product.lotNumber,
       expirationDate: product.expiryDate,
-      packQuantity: "full",
+      packQuantity: product.packQuantity,
       packType: product.packType,
       packCondition: {
         tornLabel: true,
         otherCondition: "",
       },
-      imageUrl: product.productGallery.imageUrl,
+      imageUrl: product.mainImageUrl,
       productSizeId: 0,
-      thumbnail1: product.productGallery.thumbnail1,
-      thumbnail2: product.productGallery.thumbnail2,
-      thumbnail3: product.productGallery.thumbnail3,
-      thumbnail4: product.productGallery.thumbnail4,
-      thumbnail5: product.productGallery.thumbnail5,
-      thumbnail6: product.productGallery.thumbnail6,
+      thumbnail1:
+        product.productGallery.thumbnail1 === ""
+          ? null
+          : product.productGallery.thumbnail1,
+      thumbnail2:
+        product.productGallery.thumbnail2 === ""
+          ? null
+          : product.productGallery.thumbnail2,
+      thumbnail3:
+        product.productGallery.thumbnail3 === ""
+          ? null
+          : product.productGallery.thumbnail3,
+      thumbnail4:
+        product.productGallery.thumbnail4 === ""
+          ? null
+          : product.productGallery.thumbnail4,
+      thumbnail5:
+        product.productGallery.thumbnail5 === ""
+          ? null
+          : product.productGallery.thumbnail5,
+      thumbnail6:
+        product.productGallery.thumbnail6 === ""
+          ? null
+          : product.productGallery.thumbnail6,
     });
   };
   useEffect(() => {
@@ -201,7 +224,11 @@ function LayoutaddProduct() {
     const fetchProduct = async () => {
       if (queryProductId) {
         const response = await fetchProductByIdApi(queryProductId);
-        localStorage.removeItem("productId");
+        localStorage.setItem("productId", response.productID);
+        localStorage.setItem("productPriceId", response.productPriceId);
+        localStorage.setItem("productGalleryId", response.productGallery.productGalleryId);
+
+
         setHeading("EDIT PRODUCT");
         AssignFormData(response);
         setproductFetched(response);
@@ -210,11 +237,13 @@ function LayoutaddProduct() {
         const response = await fetchProductByIdApi(productId);
         setHeading("ADD PRODUCT");
         setproductFetched(response);
+        console.log("heyyyyy", response);
+        if (response != null) AssignFormData(response);
       }
     };
+    console.log("heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
     fetchProduct();
   }, []);
-  console.log(productFetched, "hey");
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const handleClick = () => {
@@ -324,6 +353,7 @@ function LayoutaddProduct() {
   };
 
   const [thumbnails, setThumnails] = useState([]);
+  console.log("printed ", thumbnails);
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles) => {
       const isDuplicate = thumbnails.some(
@@ -337,7 +367,6 @@ function LayoutaddProduct() {
         console.log("This file has already been uploaded.");
         return;
       }
-      console.log(acceptedFiles[0], "file");
       setThumnails([...thumbnails, acceptedFiles[0]]);
       if (formData.thumbnail1 == null) {
         setFormData({ ...formData, thumbnail1: acceptedFiles[0] });
@@ -358,7 +387,6 @@ function LayoutaddProduct() {
     accept: "image/*",
     multiple: false,
   });
-  console.log(thumbnails, "thumnails");
   // const handleSizeChange = (e) => {
   //   const { name, value, type, options, id } = e.target;
   //   setsizeData({
@@ -366,7 +394,7 @@ function LayoutaddProduct() {
   //     [name]: value === "" ? "" : Number(value),
   //   });
   // };
-  console.log(sizeData);
+
   const handleInputChange = (e) => {
     const { name, value, type, options, id } = e.target;
 
@@ -421,8 +449,8 @@ function LayoutaddProduct() {
           const isSelected = formData.states.includes(value);
           const updatedStates = isSelected
             ? formData.states.filter(
-                (state) => state !== value && state !== "all"
-              )
+              (state) => state !== value && state !== "all"
+            )
             : [...formData.states, value];
 
           setFormData({
@@ -488,7 +516,6 @@ function LayoutaddProduct() {
     setFormData({ ...formData, ["imageUrl"]: null });
   };
 
-  console.log(user);
   const [formErrors, setFormErrors] = useState({});
   const [showTab, setShowTab] = useState([1, 2, 3]);
   const handleSubmit = async () => {
@@ -512,6 +539,8 @@ function LayoutaddProduct() {
     }
 
     const productId = localStorage.getItem("productId");
+    const productPriceId = localStorage.getItem("productPriceId");
+    const productGalleryId = localStorage.getItem("productGalleryId");
 
     const searchParams = new URLSearchParams(location.search);
     const queryProductId = searchParams.get("productId");
@@ -523,8 +552,8 @@ function LayoutaddProduct() {
       formData.mainImageUrl == null
         ? defaultImageUrl
         : typeof formData.mainImageUrl === "string"
-        ? formData.mainImageUrl
-        : await uploadImageApi(
+          ? formData.mainImageUrl
+          : await uploadImageApi(
             user.customerId,
             productId,
             formData.mainImageUrl
@@ -534,60 +563,65 @@ function LayoutaddProduct() {
       formData.imageUrl == null
         ? defaultImageUrl
         : typeof formData.imageUrl === "string"
-        ? formData.imageUrl
-        : await uploadImageApi(user.customerId, productId, formData.imageUrl);
+          ? formData.imageUrl
+          : await uploadImageApi(user.customerId, productId, formData.imageUrl);
 
     const thumbnail1 =
       formData.thumbnail1 == null
         ? "null"
         : typeof formData.thumbnail1 === "string"
-        ? formData.thumbnail1
-        : await uploadImageApi(user.customerId, productId, formData.thumbnail1);
+          ? formData.thumbnail1
+          : await uploadImageApi(user.customerId, productId, formData.thumbnail1);
 
     const thumbnail2 =
       formData.thumbnail2 == null
         ? "null"
         : typeof formData.thumbnail2 === "string"
-        ? formData.thumbnail2
-        : await uploadImageApi(user.customerId, productId, formData.thumbnail2);
+          ? formData.thumbnail2
+          : await uploadImageApi(user.customerId, productId, formData.thumbnail2);
 
     const thumbnail3 =
       formData.thumbnail3 == null
         ? "null"
         : typeof formData.thumbnail3 === "string"
-        ? formData.thumbnail3
-        : await uploadImageApi(user.customerId, productId, formData.thumbnail3);
+          ? formData.thumbnail3
+          : await uploadImageApi(user.customerId, productId, formData.thumbnail3);
 
     const thumbnail4 =
       formData.thumbnail4 == null
         ? "null"
         : typeof formData.thumbnail4 === "string"
-        ? formData.thumbnail4
-        : await uploadImageApi(user.customerId, productId, formData.thumbnail4);
+          ? formData.thumbnail4
+          : await uploadImageApi(user.customerId, productId, formData.thumbnail4);
 
     const thumbnail5 =
       formData.thumbnail5 == null
         ? "null"
         : typeof formData.thumbnail5 === "string"
-        ? formData.thumbnail5
-        : await uploadImageApi(user.customerId, productId, formData.thumbnail5);
+          ? formData.thumbnail5
+          : await uploadImageApi(user.customerId, productId, formData.thumbnail5);
 
     const thumbnail6 =
       formData.thumbnail6 == null
         ? "null"
         : typeof formData.thumbnail6 === "string"
-        ? formData.thumbnail6
-        : await uploadImageApi(user.customerId, productId, formData.thumbnail6);
+          ? formData.thumbnail6
+          : await uploadImageApi(user.customerId, productId, formData.thumbnail6);
 
     const videoUrl =
       formData.videoUrl == null
         ? "null"
         : typeof formData.videoUrl === "string"
-        ? formData.videoUrl
-        : await uploadImageApi(user.customerId, productId, formData.videoUrl);
+          ? formData.videoUrl
+          : await uploadImageApi(user.customerId, productId, formData.videoUrl);
 
     const tab1 = {
-      productID: queryProductId != null ? queryProductId : "string",
+      productID:
+        queryProductId != null
+          ? queryProductId
+          : productId != null
+            ? productId
+            : "String",
       productCategoryId: formData.productCategory,
       productName: formData.productName,
       ndCorUPC: formData.ndcUpc,
@@ -605,7 +639,7 @@ function LayoutaddProduct() {
       expiryDate: formData.expirationDate,
       formattedAvailableFromDate: "2024-09-01",
       formattedExpiryDate: formData.expirationDate,
-      packQuantity: 200,
+      packQuantity: formData.packQuantity,
       packType: formData.packType,
       packCondition: formData.packCondition.tornLabel
         ? "torn"
@@ -621,7 +655,7 @@ function LayoutaddProduct() {
     };
     setFormData({ ...formData, ["imageUrl"]: imageUrl });
     const tab2 = {
-      productPriceId: "string",
+      productPriceId: productPriceId == null ? "string" : productPriceId,
       productId: queryProductId != null ? queryProductId : productId,
       unitPrice: formData.price,
       upnMemberPrice: formData.upnMemberPrice,
@@ -649,7 +683,7 @@ function LayoutaddProduct() {
     //   videoUrl: videoUrl,
     // };
     const tab4 = {
-      productGalleryId: "0",
+      productGalleryId: productGalleryId == null ? "string" : productGalleryId,
       productId: queryProductId != null ? queryProductId : productId,
       caption: "Caption",
       imageUrl: imageUrl,
@@ -811,68 +845,33 @@ function LayoutaddProduct() {
     // }
     try {
       if (activeTab == 0) {
-        if (queryProductId) {
-          const response = await EditProductInfoApi(tab1, user.customerId);
-          console.log("Product Data", response);
-          setSubmitted([...Submitted, 0]);
-          setFormErrors({});
-          setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1)); // Enable Tab 2
-          setNotification({
-            show: true,
-            message: "Product Info Edited Successfully!",
-          });
-          setTimeout(() => {
-            setNotification({ show: false, message: "" });
-            setActiveTab(1); // Move to the next tab
-          }, 3000);
-        } else {
-          const response = await AddProductInfoApi(tab1, user.customerId);
-          localStorage.setItem("productId", response);
-          setSubmitted([...Submitted, 0]);
-          setFormErrors({});
-          setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1)); // Enable Tab 2
-          setNotification({
-            show: true,
-            message: "Product Info Added Successfully!",
-          });
-          setTimeout(() => {
-            setNotification({ show: false, message: "" });
-            setActiveTab(1); // Move to the next tab
-          }, 3000);
-        }
+        const response = await AddProductInfoApi(tab1, user.customerId);
+        localStorage.setItem("productId", response);
+        setFormErrors({});
+        setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1)); // Enable Tab 2
+        setNotification({
+          show: true,
+          message: "Product Info Added Successfully!",
+        });
+        setTimeout(() => {
+          setNotification({ show: false, message: "" });
+          setActiveTab(1); // Move to the next tab
+        }, 3000);
       } else if (activeTab == 1) {
-        if (queryProductId) {
-          const response = await EditProductPriceApi(tab2, user.customerId);
-          setSubmitted([...Submitted, 1]);
-          setFormErrors({});
-          setShowTab((prevTabs) =>
-            prevTabs.filter((tab) => tab !== 2 && tab !== 3)
-          ); // Enable Tabs 2 and 3
-          setNotification({
-            show: true,
-            message: "Price Details Edited Successfully!",
-          });
-          setTimeout(() => {
-            setNotification({ show: false, message: "" });
-            setActiveTab(2); // Move to the next tab
-          }, 3000);
-        } else {
-          const response = await AddProductPriceApi(tab2, user.customerId);
-          console.log("Product Data", response);
-          setSubmitted([...Submitted, 1]);
-          setFormErrors({});
-          setShowTab((prevTabs) =>
-            prevTabs.filter((tab) => tab !== 2 && tab !== 3)
-          ); // Enable Tabs 2 and 3
-          setNotification({
-            show: true,
-            message: "Price Details Added Successfully!",
-          });
-          setTimeout(() => {
-            setNotification({ show: false, message: "" });
-            setActiveTab(2); // Move to the next tab
-          }, 3000);
-        }
+        const response = await AddProductPriceApi(tab2, user.customerId);
+        localStorage.setItem("productPriceId", response);
+        setFormErrors({});
+        setShowTab((prevTabs) =>
+          prevTabs.filter((tab) => tab !== 2 && tab !== 3)
+        ); // Enable Tabs 2 and 3
+        setNotification({
+          show: true,
+          message: "Price Details Added Successfully!",
+        });
+        setTimeout(() => {
+          setNotification({ show: false, message: "" });
+          setActiveTab(2); // Move to the next tab
+        }, 3000);
       } else if (activeTab == 2) {
         setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 3)); // Enable Tab 3
         setNotification({
@@ -881,44 +880,26 @@ function LayoutaddProduct() {
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
-          setActiveTab(3); // Move to the next tab
+          setActiveTab(3);
         }, 3000);
       } else if (activeTab == 3) {
-        if (queryProductId) {
-          console.log(tab4);
-          const response = await EditProductGallery(tab4, user.customerId);
-          console.log("Product Data", response);
-          setSubmitted([...Submitted, 3]);
+        console.log(tab4);
 
-          setNotification({
-            show: true,
-            message: "Product Edited Successfully!",
-          });
-          setTimeout(() => {
-            setNotification({ show: false, message: "" });
-            // Reset form or navigate elsewhere if needed
-            setActiveTab(0);
+        const response = await AddProductGallery(tab4, user.customerId);
+        localStorage.setItem("productGalleryId", response);
 
-            // Disable 2nd and 3rd tabs
-            setShowTab([1, 2, 3]);
-          }, 3000);
-        } else {
-          console.log(tab4);
-
-          const response = await AddProductGallery(tab4, user.customerId);
-          console.log("Product Data", response);
-          setSubmitted([]);
-
-          setNotification({
-            show: true,
-            message: "Product Added Successfully!",
-          });
-          setTimeout(() => {
-            setNotification({ show: false, message: "" });
-            setActiveTab(0);
-
-            // Disable 2nd and 3rd tabs
-            setShowTab([1, 2, 3]);
+        console.log("Product Data", response);
+        setNotification({
+          show: true,
+          message: "Product Added Successfully!",
+        });
+        setTimeout(() => {
+          setNotification({ show: false, message: "" });
+          setActiveTab(0);
+          localStorage.removeItem("productId");
+          // Disable 2nd and 3rd tabs
+          setShowTab([1, 2, 3]);
+          if (queryProductId == null) {
             setFormData({
               // Reset form data fields
               categorySpecification: 0,
@@ -928,28 +909,30 @@ function LayoutaddProduct() {
               ndcUpc: "",
               brandName: "",
               size: "",
-              form: "",
-              Weight: 0,
-              Height: 0,
-              Length: 0,
-              Width: 0,
               unitOfMeasurement: "",
+              mainImageUrl: null,
               price: 0,
               amountInStock: 0,
-              taxable: "",
+              taxable: false,
               productDetails: "",
               aboutProduct: "",
+              discount: 0,
+              form: "",
+              Height: 0,
+              Weight: 0,
+              Length: 0,
+              Width: 0,
               states: [],
+              shippingCostApplicable: false,
               upnMemberPrice: 0,
               salePrice: 0,
               salePriceForm: null,
               salePriceTo: null,
-              shippingCostApplicable: false,
               manufacturer: "",
               strength: "",
               lotNumber: "",
               expirationDate: null,
-              packQuantity: "",
+              packQuantity: 0,
               packType: "",
               packCondition: {
                 tornLabel: null,
@@ -963,11 +946,13 @@ function LayoutaddProduct() {
               thumbnail4: null,
               thumbnail5: null,
               thumbnail6: null,
+              videoUrl: null,
             });
             setThumnails([]);
-            // Optionally reset or move to another step
-          }, 3000);
-        }
+          }
+
+          // Optionally reset or move to another step
+        }, 3000);
       }
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
@@ -1295,8 +1280,7 @@ function LayoutaddProduct() {
                           id="full"
                           name="option"
                           value="full"
-                          checked={formData.packQuantity === "full"}
-                          onChange={handleInputChange}
+                          checked={formData.packQuantity !== 0}
                           className="mx-1"
                         />{" "}
                         <label
@@ -1326,9 +1310,9 @@ function LayoutaddProduct() {
                     </div>
 
                     <input
-                      type="text"
-                      name="packQuantityAmount"
-                      value={formData.packQuantityAmount || ""}
+                      type="number"
+                      name="packQuantity"
+                      value={formData.packQuantity || ""}
                       onChange={handleInputChange}
                       className="w-[30%] Largest:w-[15%] mx-1 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:shadow focus:shadow-blue-400"
                     />
@@ -1626,7 +1610,7 @@ function LayoutaddProduct() {
                   </div>
 
                   <div className="flex flex-col">
-                    <label className="text-sm font-semibold">Discount:</label>
+                    <label className="text-sm font-semibold">Discount ($):</label>
                     <input
                       name="discount"
                       type="phone"
@@ -1697,7 +1681,7 @@ function LayoutaddProduct() {
                   </div> */}
                   <div className="flex flex-col">
                     <label className="text-sm font-semibold">
-                      Sale Price From:
+                      Sale Price From :
                     </label>
                     <input
                       name="salePriceForm"
@@ -1768,7 +1752,7 @@ function LayoutaddProduct() {
                         name="salePriceTo"
                         type="date"
                         className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                        onChange={ handleInputChange}
+                        onChange={handleInputChange}
                         value={
                           formData.salePriceTo
                             ? formData.salePriceTo.split("T")[0]
@@ -1813,8 +1797,8 @@ function LayoutaddProduct() {
                         formData.taxable == null
                           ? ""
                           : formData.taxable == true
-                          ? 1
-                          : 0
+                            ? 1
+                            : 0
                       }
                     >
                       <option value="">Select an option</option>
@@ -2280,8 +2264,8 @@ function LayoutaddProduct() {
                           typeof image === "string"
                             ? image
                             : image != null
-                            ? URL.createObjectURL(image)
-                            : ""
+                              ? URL.createObjectURL(image)
+                              : ""
                         } // Check if `image` is a string (URL) or a File object
                         alt={`Preview ${image}`}
                         className="w-full h-40 object-cover"
@@ -2399,13 +2383,11 @@ function LayoutaddProduct() {
             <li key={index} className="mr-2 gap-4">
               <button
                 disabled={showTab.includes(index)} // Corrected to 'disabled'
-                className={`w-full flex justify-center items-center px-2 p-3 py-1 mt-7 shadow-md ${
-                  activeTab === index
+                className={`w-full flex justify-center items-center px-2 p-3 py-1 mt-7 shadow-md ${activeTab === index
                     ? "text-white bg-blue-900 rounded-t-xl font-semibold"
                     : "text-blue-900 shadow-none rounded-t-xl bg-white"
-                } ${
-                  showTab.includes(index) ? "opacity-50 cursor-not-allowed" : ""
-                }`} // Style changes for disabled state
+                  } ${showTab.includes(index) ? "opacity-50 cursor-not-allowed" : ""
+                  }`} // Style changes for disabled state
                 onClick={() => setActiveTab(index)}
               >
                 {tab}
@@ -2419,14 +2401,11 @@ function LayoutaddProduct() {
       <div className="flex 2xl:w-[60%] xl:w-full justify-end ">
         <button
           onClick={handleSubmit}
-          disabled={Submitted.includes(activeTab)}
           className={`
             border bg-blue-900 flex justify-center items-center text-white my-4 p-2 mr-32 rounded-md font-semibold
-            ${
-              Submitted.includes(activeTab)
-                ? "opacity-50 cursor-not-allowed"
-                : "flex hover:bg-blue-800 active:bg-blue-700"
-            }
+    
+              "flex hover:bg-blue-800 active:bg-blue-700"
+            
           `}
         >
           {/* Save */}
@@ -2439,10 +2418,9 @@ function LayoutaddProduct() {
                 : activeTab === 2
                   ? "Save and Continue to Additional Images"
                   : activeTab === 3
-                    ? "Save"
+                    ? "Save and Close"
                     : ""
           }
-
         </button>
       </div>
     </div>

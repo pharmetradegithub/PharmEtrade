@@ -263,7 +263,8 @@ import searchimg from "../../../assets/search1.png";
 import InputBase from "@mui/material/InputBase";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGetOrder } from "../../../Api/OrderApi";
-
+import next from '../../../assets/Next_icon.png'
+import previous from '../../../assets/Previous_icon.png'
 
 function LayoutOrderList() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -377,6 +378,20 @@ function LayoutOrderList() {
     },
   }));
 
+  const itemsPerPage = 2;
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = getOrder.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil((getOrder?.length || 0) / itemsPerPage);
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
 
   return (
     <div
@@ -443,75 +458,103 @@ function LayoutOrderList() {
       </div>
       {/* section start */}
 
-      {getOrder.map((order) => (
-        <div key={order.orderId} className="border my-6 rounded-lg shadow-md">
-          <div className="flex justify-between border-b pb-2 pt-2 pr-3 pl-3 bg-slate-200">
-            <div>
-              <h1>Order Placed</h1>
-              <p>{new Date(order.orderDate).toLocaleDateString()}</p>
-            </div>
-            <div>
-              <h1>Total</h1>
-              <p>${order.totalAmount.toFixed(2)}</p>
-            </div>
-            <div>
-              <h1>Ship To</h1>
-              <p className="text-blue-900">{order.customerName}</p>
-            </div>
-            <div>
-              <h1>Order ID</h1>
-              <p className="text-blue-900">
-                <Link to="/"> View Order Details | Invoice</Link>
-              </p>
-            </div>
-          </div>
-          <div className="">
-            <div className="flex justify-between pt-3 pr-3 pl-3">
-              <div className="">
-                <h1 className="text-xl font-semibold">Delivery Date</h1>
-                <p>Package was handed to resident</p>
+      {Array.isArray(getOrder) && getOrder.length > 0 ? (
+        currentItems.map((order) => (
+          <div key={order.orderId} className="border my-6 rounded-lg shadow-md">
+            <div className="flex justify-between border-b pb-2 pt-2 pr-3 pl-3 bg-slate-200">
+              <div>
+                <h1>Order Placed</h1>
+                <p>{new Date(order.orderDate).toLocaleDateString()}</p>
               </div>
-              <div className="flex flex-col">
-                <button className="border rounded-lg p-2 w-60 shadow-md">
-                  Leave Seller Feedback
-                </button>
-                <button className="border rounded-lg p-2 my-2 shadow-md">
-                  Write a product review
-                </button>
+              <div>
+                <h1>Total</h1>
+                <p>${order.totalAmount.toFixed(2)}</p>
+              </div>
+              <div>
+                <h1>Ship To</h1>
+                <p className="text-blue-900">{order.customerName}</p>
+              </div>
+              <div>
+                <h1>Order ID</h1>
+                <p className="text-blue-900">
+                  <Link to="/"> View Order Details | Invoice</Link>
+                </p>
               </div>
             </div>
-
-            <div className="flex border-b">
-              <div className="flex m-0">
-                <img src={order.imageUrl} className="w-24 h-40 m-0 p-0" alt="product" />
-
+            <div className="">
+              <div className="flex justify-between pt-3 pr-3 pl-3">
+                <div className="">
+                  <h1 className="text-xl font-semibold">Delivery Date</h1>
+                  <p>Package was handed to resident</p>
+                </div>
                 <div className="flex flex-col">
-                  <p className="max-w-2xl text-sky-900">
-                    {order.productDescription}
-                  </p>
-                  <p className="my-2 text-sm">
-                    Return Window closed on{" "}
-                    {new Date(order.orderDate).toLocaleDateString()}
-                  </p>
-                  <div className="flex my-2">
-                    <button className="border rounded-lg p-2 bg-blue-900 text-white w-48 shadow-md">
-                      <Link to="/allProducts"> Buy it again</Link>
-                    </button>
-                    <button className="border rounded-lg p-2 mx-3 shadow-md w-48">
-                      <Link to={`/detailspage/${order.productId}`}>
-                        View your item
-                      </Link>
-                    </button>
+                  <button className="border rounded-lg p-2 w-60 shadow-md">
+                    Leave Seller Feedback
+                  </button>
+                  <button className="border rounded-lg p-2 my-2 shadow-md">
+                    Write a product review
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex border-b">
+                <div className="flex m-0">
+                  <img
+                    src={order.imageUrl}
+                    className="w-24 h-40 m-0 p-2"
+                    alt="product"
+                  />
+                  <div className="flex flex-col">
+                    <p className="max-w-2xl text-sky-900 flex flex-wrap">
+                      {order.productDescription}
+                    </p>
+                    <p className="my-2 text-sm">
+                      Return Window closed on{" "}
+                      {new Date(order.orderDate).toLocaleDateString()}
+                    </p>
+                    <div className="flex my-2">
+                      <button className="border rounded-lg p-2 bg-blue-900 text-white w-48 shadow-md">
+                        <Link to="/allProducts"> Buy it again</Link>
+                      </button>
+                      <button className="border rounded-lg p-2 mx-3 shadow-md w-48">
+                        <Link to={`/detailspage/${order.productId}`}>
+                          View your item
+                        </Link>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="p-2">
-              <button className="text-blue-900">Archive order</button>
+              <div className="p-2">
+                <button className="text-blue-900">Archive order</button>
+              </div>
             </div>
           </div>
+        ))
+      ) : (
+        <div className="text-center my-4">
+          <p>No orders available</p>
         </div>
-      ))}
+      )}
+      <div className="flex justify-end my-2">
+        <button
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+          className="mx-2 px-4 border p-2 text-white rounded-lg"
+        >
+          <img src={previous} className="w-2" alt="Previous Page" />
+        </button>
+        <span className="mx-2 px-4 flex items-center bg-white text-black rounded-lg">
+          {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+          className="mx-2 px-4 border p-2 text-white rounded-lg"
+        >
+          <img src={next} className="w-2" alt="Next Page" />
+        </button>
+      </div>
       {/* section end */}
     </div>
 

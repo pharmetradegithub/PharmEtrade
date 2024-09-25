@@ -357,6 +357,14 @@ function Items({
       console.log(error);
     }
   };
+  const dateString = prod?.expiryDate;
+  const date = new Date(dateString);
+
+  const month = date.getMonth() + 1; // +1 because getMonth() returns 0-11
+  const day = date.getDate();
+  const year = date.getFullYear();
+
+  const formattedDate = `${month}-${day}-${year}`;
   return (
     <div
       className="Largest:w-[1550px] mt-2  Laptop:w-full  w-full  flex flex-col font-sans overflow-y-scroll"
@@ -630,7 +638,7 @@ function Items({
                     <p className="text-sky-500 font-normal ">
                       Expiration Date:
                     </p>
-                    <span>{prod?.expiryDate}</span>
+                    <span> {formattedDate}</span>
                   </div>
                 </div>
               </div>

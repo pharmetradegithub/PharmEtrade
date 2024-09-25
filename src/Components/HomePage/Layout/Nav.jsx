@@ -46,6 +46,7 @@ import search from "../../../assets/search-icon.png";
 import dropdown from "../../../assets/Down-arrow .png";
 import { useSelector } from "react-redux";
 import { fetchCriteriaProductsApi } from "../../../Api/ProductApi";
+import { Tooltip } from "@mui/material";
 
 function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   let navigate = useNavigate();
@@ -440,12 +441,14 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
             </div>
 
             <li className=" cursor-pointer" onClick={handleCart}>
-              <a>
+                  <a>
+                    <Tooltip title='cart' placement='top'>
                 <img
                   src={cartNav}
                   className="w-1 md:w-3 lg:w-5 xl:w-7 pt-2 h-3 md:h-5 lg:h-7 xl:h-9 text-blue-900 hover:text-gray-400 hover:scale-110 duration-500"
                   alt="Cart"
-                />
+                      />
+                    </Tooltip>
               </a>
               <div
                 className="absolute text-white rounded-full px-1 text-xs border bg-blue-900 top-5 right-16 font-medium"
@@ -454,13 +457,15 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
               </div>
             </li>
             <li>
-              <a>
+                  <a>
+                    <Tooltip title='like' placement='top'>
                 <img
                   src={like}
                   onClick={handleclick}
                   className="w-1 md:w-3 lg:w-5 xl:w-7 pt-2 h-2 md:h-4 lg:h-6 xl:h-8 cursor-pointer hover:scale-110 transition duration-300"
                   alt="Like"
-                />
+                      />
+                    </Tooltip>
               </a>
             </li>
           </div>
