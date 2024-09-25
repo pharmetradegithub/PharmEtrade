@@ -3355,6 +3355,19 @@ const Signup = () => {
                 />
               </div>
             </div>
+            <div>
+              <TextField
+                label="Company website"
+                id="outlined-size-small"
+                name="Company website"
+                value={formData.Business_Email}
+                onChange={handleInputChange}
+                error={!!errors.Business_Email}
+                helperText={errors.Business_Email}
+                size="small"
+                className="w-[92%]"
+              />
+            </div>
           </div>
         );
       case 3:

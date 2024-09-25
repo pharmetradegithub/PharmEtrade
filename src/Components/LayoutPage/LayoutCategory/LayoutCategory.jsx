@@ -1,11 +1,24 @@
+// import React from 'react'
+// import CategoryProducts from "../../HomeProducts/Components/CategoryProducts"
+
+// const LayoutCategory = () => {
+//   return (
+//     <div>
+//       <CategoryProducts/>
+//     </div>
+//   )
+// }
+
+// export default LayoutCategory
+
+
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import { useNavbarContext } from "../../NavbarContext";
 import Notification from "../../../Components/Notification"; // Import Notification component
-import next from '../../../assets/Next_icon.png'
-import previous from "../../../assets/Previous_icon.png";
+
 import other from "../../../assets/compare1_Icon.png";
 import addcart from "../../../assets/cartw_icon.png";
 import emptyHeart from "../../../assets/Wishlist1_icon.png";
@@ -17,7 +30,7 @@ import { useSelector } from "react-redux";
 import { addCartApi } from "../../../Api/CartApi";
 import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
 
-function LayoutBuy({
+function LayoutCategory({
   topMargin,
   addCart,
   wishList,
@@ -25,7 +38,7 @@ function LayoutBuy({
   setQuantities,
 }) {
   const navigate = useNavigate();
-  const itemsPerPage = 4;
+  const itemsPerPage = 12;
   const [currentPage, setCurrentPage] = useState(1);
   const [showMore, setShowMore] = useState({});
   const [notification, setNotification] = useState({
@@ -35,6 +48,7 @@ function LayoutBuy({
   const user = useSelector((state) => state.user.user);
   const cart = useSelector((state) => state.cart.cart);
   const wishlist = useSelector((state) => state.wishlist.wishlist);
+  const productCriteria = useSelector((state) => state.product.productsByCriteria)
 
   console.log("cart--->", cart)
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
@@ -50,29 +64,21 @@ function LayoutBuy({
     }
   }, [wishlist]);
 
+  const [filteredProducts, setFilteredProducts] = useState(productCriteria);
 
-
-  // const [wishlistProductIDs, setwishlistProductIDs] = useState(
-  //   wishlist.map((wishItem) => wishItem.product.productID)
-  // );
-  // const getWishlistIdByProductID = (productID) => {
-  //   const wishlistItem = wishlist.find(
-  //     (item) => item.product.productID === productID
-  //   );
-  //   return wishlistItem ? wishlistItem.wishListId : null;
-  // };
   const products = useSelector((state) => state.product.Products);
-  const [productList, setproductList] = useState(products);
-  console.log("layoutproduct-->", productList)
+  //   const [productList, setproductList] = useState(products);
+  //   console.log("layoutproduct-->",productList)
   useEffect(() => {
-    if (products) {
+    if (products && products.length > 0) {
       const updatedProducts = products.map((product) => ({
         ...product,
-        CartQuantity: 1, // Set initial quantity to 1 for all products
+        CartQuantity: product.CartQuantity || 1, // Ensure it initializes to 1 if not already set
       }));
-      setproductList(updatedProducts);
+      setFilteredProducts(updatedProducts);
     }
   }, [products]);
+
 
   const handleCart = async (productID, Quantity) => {
     const cartData = {
@@ -108,49 +114,11 @@ function LayoutBuy({
       await addToWishlistApi(wishListData);
     }
   };
-  // const handleClick = async (index) => {
-  //   setFavoriteItems(prevState => ({
-  //     ...prevState,
-  //     [index]: !prevState[index],
-  //   }));
 
-  //   const jsondata = {
-  //     wishListId: "0",
-  //     productID: productList[index].productID,
-  //     customerId: customerId,
-  //     isActive: 1
-  //   };
-
-  //   try {
-  //     const response = await fetch(
-  //       'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/WishList/Add',
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //         body: JSON.stringify(jsondata),
-  //       }
-  //     );
-
-  //     if (!response.ok) {
-  //       const errorDetails = await response.json();
-  //       throw new Error(
-  //         `Error: ${response.status} ${response.statusText} - ${JSON.stringify(errorDetails)}`
-  //       );
-  //     }
-
-  //     const result = await response.json();
-  //     fetchWishListData();
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // };
 
   const handleQuantityChange = (index, newQuantity) => {
-    // if (newQuantity) {
-    const quantity = Math.max(1, newQuantity);
-    setproductList((prev) => {
+    const quantity = Math.max(1, newQuantity || 1); // Ensure the quantity is at least 1
+    setFilteredProducts((prev) => {
       const updatedList = [...prev];
       updatedList[index] = {
         ...updatedList[index],
@@ -158,21 +126,21 @@ function LayoutBuy({
       };
       return updatedList;
     });
-    // }
   };
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil((productList?.length || 0) / itemsPerPage);
 
-  const handleNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  };
+  //   const indexOfLastItem = currentPage * itemsPerPage;
+  //   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  //   const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
+  //   const totalPages = Math.ceil(productList.length / itemsPerPage);
 
-  const handlePreviousPage = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
-  };
+  //   const handleNextPage = () => {
+  //     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  //   };
+
+  //   const handlePreviousPage = () => {
+  //     setCurrentPage((prev) => Math.max(prev - 1, 1));
+  //   };
 
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -227,57 +195,85 @@ function LayoutBuy({
   const handleProductDetails = (productID, product) => {
     navigate(`/detailspage/${productID}`);
   };
+
+
+
+  //   const [filteredProducts, setFilteredProducts] = useState(productCriteria); // Products filtered by API
+  const [loading, setLoading] = useState(false); // Loader during API call
+  const [term, setTerm] = useState(""); // Search term
+
+  // Ensure productCriteria updates filteredProducts when it changes
+  useEffect(() => {
+    console.log("productCriteria updated:", productCriteria); // Check if productCriteria changes
+    setFilteredProducts(productCriteria); // Reset to initial products
+  }, [productCriteria]);
+
+
+  useEffect(() => {
+    console.log("useEffect: term changed to", term); // Check if term is updated correctly
+
+    // if (term) {
+    console.log("Searching for products with term:", term);
+    searchProducts(term, productCriteria);
+
+  }, [term]);
+
+  const searchProducts = async (searchTerm, productCriteria) => {
+    setLoading(true); // Start loading
+
+    try {
+      const productCategoryId = productCriteria[0]?.productCategory?.productCategoryId;
+
+      let productName
+      if (term) {
+        productName = {
+          productCategoryId: productCategoryId,
+          productName: searchTerm,
+        };
+      }
+      else {
+        productName = {
+          productCategoryId: productCategoryId,
+        }
+      }
+      console.log("Calling API with searchTerm:", searchTerm); // Debugging
+      const response = await fetchCriteriaProductsApi(productName);
+      console.log("API response:", response); // Check response
+
+      setFilteredProducts(response.result); // Update products
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+
+
   return (
     <div className="w-[95%] mt-4 ml-4 h-full overflow-y-scroll">
       {notification.show && <Notification show={notification.show} message={notification.message} />}
 
       <div className="flex justify-between">
-        <h1 className="text-2xl font-semibold text-blue-900">Buy Products</h1>
-        <div className="flex">
-          <div className="flex gap-1">
-            <select className="bg-white h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center">
-              <option>Discounted Price Low to High</option>
-              <option>Discounted Price High to Low</option>
-              <option>Posted date : Old to Latest</option>
-              <option>Show Prescription Products First</option>
-              <option>Show OTC Products First</option>
-              <option>Discount Percentage Low to High</option>
-              <option>Discounted Percentage High to Low</option>
-              <option>Expiry date : Short to Long</option>
-              <option>Expiry date : Long to Short</option>
-              <option>Name : Ascending (A-Z)</option>
-              <option>Name : Decending (Z-A)</option>
-              <option>Strength Low to High</option>
-              <option>Strength High to Low</option>
-            </select>
-          </div>
-          <div>
-            {/* <Search>
-              <SearchIconWrapper>
-                <img src={search} className="w-6" />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ "aria-label": "search" }}
-              />
-            </Search> */}
-          </div>
-        </div>
+        <h1 className="text-2xl font-semibold text-blue-900">{productCriteria[0]?.productCategory?.categoryName}</h1>
       </div>
+
+
 
       <div className="w-full mt-5">
         <div>
           <div className="flex flex-col">
             <div className="flex flex-col justify-between">
-              {productList.length > 0 ? (
-                currentItems.map((product, index) => (
+              {filteredProducts.length > 0 ? (
+                filteredProducts.map((product, index) => (
                   <div
                     key={index}
                     className="flex p-4 border w-full justify-around shadow-lg rounded-md mb-4"
                   >
                     <div className="flex flex-col mx-2">
                       <img
-                        src={product.productGallery.imageUrl}
+                        src={product.mainImageUrl}
                         className="w-36 p-2 hover:cursor-pointer rounded-lg h-28 bg-slate-200"
                         alt="Product"
                         onClick={() =>
@@ -337,7 +333,7 @@ function LayoutBuy({
 
                     <div className="flex flex-col mx-3">
                       <p className="font-semibold">Quantity</p>
-                      <div className="mt-2 flex">
+                      {/* <div className="mt-2 flex">
                         <input
                           type="number"
                           disabled={
@@ -356,7 +352,7 @@ function LayoutBuy({
                             //             item.product.productID === product.productID
                             //       ).quantity
                             //       : product.CartQuantity
-                          }
+                              }
                           onChange={(e) =>
                             handleQuantityChange(
                               index,
@@ -366,8 +362,22 @@ function LayoutBuy({
                           className="w-16 border rounded-md text-center"
                           min="1"
                         />
+                      </div> */}
+
+                      <div className="mt-2 flex">
+                        <input
+                          type="number"
+                          disabled={cart.some((item) => item.product.productID === product.productID)}
+                          value={product.CartQuantity}
+                          onChange={(e) =>
+                            handleQuantityChange(index, parseInt(e.target.value) || 1)
+                          }
+                          className="w-16 border rounded-md text-center"
+                          min="1"
+                        />
                       </div>
                     </div>
+
 
                     {/* Wishlist */}
                     <div className="flex flex-col items-center justify-between">
@@ -423,25 +433,22 @@ function LayoutBuy({
               )}
             </div>
 
-            <div className="flex justify-end my-2">
+            {/* <div className="flex justify-center mt-4">
               <button
+                className="px-4 py-2 bg-blue-500 text-white rounded-md mx-2"
                 onClick={handlePreviousPage}
                 disabled={currentPage === 1}
-                className="mx-2 px-4 border p-2 text-white rounded-lg"
               >
-                <img src={previous} className="w-2" alt="Previous Page" />
+                Previous
               </button>
-              <span className="mx-2 px-4 flex items-center bg-white text-black rounded-lg">
-                {currentPage} of {totalPages}
-              </span>
               <button
+                className="px-4 py-2 bg-blue-500 text-white rounded-md mx-2"
                 onClick={handleNextPage}
                 disabled={currentPage === totalPages}
-                className="mx-2 px-4 border p-2 text-white rounded-lg"
               >
-                <img src={next} className="w-2" alt="Next Page" />
+                Next
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -449,5 +456,5 @@ function LayoutBuy({
   );
 }
 
-export default LayoutBuy;
+export default LayoutCategory;
 

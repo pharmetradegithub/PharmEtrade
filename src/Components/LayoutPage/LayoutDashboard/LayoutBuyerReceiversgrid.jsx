@@ -145,8 +145,8 @@ const LayoutBuyerReceiversgrid = () => {
     const endIndex = startIndex + itemsPerPage;
     const displayedItems = Buyergrids.slice(startIndex, endIndex);
 
-const navigate = useNavigate()
-    const handleClick =()=>{
+    const navigate = useNavigate()
+    const handleClick = () => {
         navigate('/detailspage/:id')
     }
 
@@ -154,24 +154,26 @@ const navigate = useNavigate()
         <div className='w-[95%] h-[80vh] mt-4 overflow-y-auto'>
             <div className='flex flex-col'>
                 <h1 className='text-xl text-blue-900 font-semibold'>Received Deliveries</h1>
-                
-                 {/* search start */}
-          <div className="relative flex my-4">
-            <input
-              type="text"
-              placeholder="Search Product....."
-            //   value={searchQuery}
-            //   onChange={(e) => setSearchQuery(e.target.value)}
-              className="border rounded-xl h-10 w-64 text-left px-8 gap-2"
-            />
-            <CiSearch className="absolute left-2 top-3 text-gray-400 " />
-          </div>
-          {/* search end */}
+
+                {/* search start */}
+                <div className="relative flex my-4">
+                    <input
+                        type="text"
+                        placeholder="Search Product....."
+                        //   value={searchQuery}
+                        //   onChange={(e) => setSearchQuery(e.target.value)}
+                        className="border rounded-xl h-10 w-64 text-left px-8 gap-2"
+                    />
+                    <CiSearch className="absolute left-2 top-3 text-gray-400 " />
+                </div>
+                {/* search end */}
                 <div className='w-full '>
                     {displayedItems.map((Buyergrid, index) => (
-                        <div key={index} className='pb-4 border rounded-lg shadow-lg items-center justify-around mb-4 flex'>
+                        <div key={index} className='pb-4 border rounded-lg shadow-lg  justify-around mb-4 flex'>
                             <div>
-                                <img src={Buyergrid.src} alt={Buyergrid.itemName} className='w-36 h-28 cursor-pointer' onClick={handleClick} />
+                                <img src={Buyergrid.src} alt={Buyergrid.itemName} className='w-36 h-28 cursor-pointer p-2' onClick={handleClick} />
+                                <p>Received Date :<span className='text-red-500 text-sm'> 04-17-2024</span></p>
+
                             </div>
                             <div className='flex flex-col mt-2 ml-4'>
                                 <p className='text-base font-semibold'>Item Details</p>
@@ -207,7 +209,7 @@ const navigate = useNavigate()
                         className={`px-3 py-1 rounded ${currentPage === 1 ? 'bg-gray-300' : 'bg-blue-500 text-white'}`}
                         disabled={currentPage === 1}
                     >
-                        <img src={previous} className='w-4 h-4'/>
+                        <img src={previous} className='w-4 h-4' />
                     </button>
 
                     {/* Page number buttons */}
@@ -220,16 +222,16 @@ const navigate = useNavigate()
                             {i + 1}
                         </button>
                     ))} */}
-                     <span className="mx-2 px-4 flex items-center bg-white text-black rounded-lg">
-                {currentPage} of {totalPages}
-              </span>
+                    <span className="mx-2 px-4 flex items-center bg-white text-black rounded-lg">
+                        {currentPage} of {totalPages}
+                    </span>
 
                     <button
                         onClick={() => handlePageChange(currentPage + 1)}
                         className={`px-3 py-1 rounded ${currentPage === totalPages ? 'bg-gray-300' : 'bg-blue-500 text-white'}`}
                         disabled={currentPage === totalPages}
                     >
-                        <img src={next} className='w-4 h-4'/>
+                        <img src={next} className='w-4 h-4' />
                     </button>
                 </div>
             </div>

@@ -121,6 +121,7 @@ import right from "../../../assets/arrowright.png";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGetProductOffer, fetchProductOffer } from "../../../Api/ProductApi";
+// import { fetchGetProductOffer, fetchProductOffer } from "../../../Api/ProductApi";
 
 let newoffer = [];
 

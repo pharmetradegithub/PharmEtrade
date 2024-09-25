@@ -213,7 +213,9 @@ import Bin from "../../../../assets/Bin.png"
 import Deactivate from "../../../../assets/Deactivate.png"
 import Loading from "../../../Loading";
 import { useSelector } from "react-redux";
-
+import { Tooltip } from "@mui/material";
+import next from '../../../../assets/Next_icon.png'
+import previous from '../../../../assets/Previous_icon.png'
 const LayoutPostingProducts = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
@@ -223,7 +225,7 @@ const LayoutPostingProducts = () => {
     editProduct: false,
   });
   const user = useSelector((state) => state.user.user);
-  console.log("userId-->",user)
+  console.log("userId-->", user)
   const [editProduct, seteditProduct] = useState(null);
   const stats = [
     { label: "Total Product", value: 150, percentage: 75 },
@@ -266,6 +268,21 @@ const LayoutPostingProducts = () => {
   };
   console.log("ghjkghfgvbg", products)
 
+  const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil((products?.length || 0) / itemsPerPage);
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
   return (
     <div className="relative  bg-gray-100 w-full h-full flex justify-center overflow-scroll items-center">
       <div className="w-[95%] h-full mt-4">
@@ -274,12 +291,12 @@ const LayoutPostingProducts = () => {
             Marketplace Product List
           </h2>
           <Link to="/layout/addproduct">
-          <button
-            className="bg-blue-900 flex items-center text-white p-2 text-[15px] rounded-md"
-            onClick={handleAddNewProductClick}
-          >
-            <FaPlus /> Add New Product
-          </button>
+            <button
+              className="bg-blue-900 flex items-center text-white p-2 text-[15px] rounded-md"
+              onClick={handleAddNewProductClick}
+            >
+              <FaPlus /> Add New Product
+            </button>
           </Link>
 
           {/* {showPopup.addProduct && (
@@ -308,9 +325,8 @@ const LayoutPostingProducts = () => {
                 <div className="flex justify-between mt-2 items-center">
                   <div className="text-2xl font-semibold">{stat.value}</div>
                   <div
-                    className={`text-sm p-1 rounded-lg ${
-                      stat.percentage > 0 ? "bg-green-400" : "bg-red-400"
-                    }`}
+                    className={`text-sm p-1 rounded-lg ${stat.percentage > 0 ? "bg-green-400" : "bg-red-400"
+                      }`}
                   >
                     {stat.percentage > 0 ? "↑" : "↓"}{" "}
                     {Math.abs(stat.percentage)}%
@@ -332,57 +348,63 @@ const LayoutPostingProducts = () => {
           </div>
 
           <div className="  text-[15px] mt-4">
-            {loading && <div><Loading/></div>}
+            {loading && <div><Loading /></div>}
             {error && <div>Error: {error.message}</div>}
             {!loading && !error && (
               <table className="w-full">
                 <thead className="bg-blue-900 text-white">
                   <tr className="border-b-2">
-                  <th className="px-4 py-2 text-left">
+                    <th className="px-4 py-2 text-left">
                       Thumbnail
                     </th>
                     <th className=" px-4 py-2 text-left">Product Name</th>
                     <th className="px-4 py-2 text-left">Manufacturer</th>
                     <th className="px-4 py-2 text-left">Brand Name</th>
                     {/* <th className="px-4 py-2 text-left">Product Status</th> */}
-                    
+
                     <th className="px-4 py-2 ">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {products.map((product) => (
+                  {currentItems.map((product) => (
                     <tr key={product.id} className="border-b">
                       <td className="px-4 py-2">
                         <img
-                        
-                         src={ product?.productGallery?.imageUrl} className="w-14 object-cover"
+
+                          src={product?.productGallery?.imageUrl} className="w-14 object-cover"
                         />
                       </td>
                       <td className="px-4 py-2 ">{product.productName}</td>
                       <td className="px-4 py-2">{product.manufacturer}</td>
                       <td className="px-4 py-2">{product.brandName}</td>
                       {/* <td className="px-4 py-2">{product.packCondition}</td> */}
-                     
-                     
+
+
                       <td className="px-4 py-2 cursor-pointer flex items-center space-x-2">
-                        <img
-                          src={edit}
-                          alt="Edit"
-                          className="cursor-pointer w-7 h-7"
-                          onClick={() => handleEditProduct(product)}
-                        />
-                        <img
-                          src={Bin}
-                          alt="Delete"
-                          className="cursor-pointer w-4 h-4"
+                        <Tooltip title="Edit" placement="top">
+                          <img
+                            src={edit}
+                            alt="Edit"
+                            className="cursor-pointer w-7 h-7"
+                            onClick={() => handleEditProduct(product)}
+                          />
+                        </Tooltip>
+                        <Tooltip placement="top" title="Delete">
+                          <img
+                            src={Bin}
+                            alt="Delete"
+                            className="cursor-pointer w-4 h-4"
                           // onClick={() => handleDeleteProduct(product)}
-                        />
-                        <img
-                          src={Deactivate}
-                          alt="Deactivate"
-                          className="cursor-pointer w-4 h-4"
+                          />
+                        </Tooltip>
+                        <Tooltip title="Deactivate" placement="top">
+                          <img
+                            src={Deactivate}
+                            alt="Deactivate"
+                            className="cursor-pointer w-4 h-4"
                           // onClick={() => handleDeactivateProduct(product)}
-                        />
+                          />
+                        </Tooltip>
                       </td>
                     </tr>
                   ))}
@@ -390,6 +412,27 @@ const LayoutPostingProducts = () => {
               </table>
             )}
           </div>
+        </div>
+
+
+        <div className="flex justify-end my-2">
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+            className="mx-2 px-4 border p-2 text-white rounded-lg"
+          >
+            <img src={previous} className="w-2" alt="Previous Page" />
+          </button>
+          <span className="mx-2 px-4 flex items-center bg-white text-black rounded-lg">
+            {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className="mx-2 px-4 border p-2 text-white rounded-lg"
+          >
+            <img src={next} className="w-2" alt="Next Page" />
+          </button>
         </div>
       </div>
       {/* {showPopup.editProduct && (

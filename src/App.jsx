@@ -118,6 +118,7 @@ import Address from "./Components/CheckoutPage/Address";
 import LayoutOtcProducts from "./Components/LayoutPage/LayoutNavComponents/LayoutOtcProducts";
 import Gethelphere from "./Components/Gethelphere";
 import CategoryProducts from "./Components/HomeProducts/Components/CategoryProducts";
+import LayoutCategory from "./Components/LayoutPage/LayoutCategory/LayoutCategory";
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
@@ -397,6 +398,7 @@ function App() {
           {/* <Route path='/layout/layoutreturn' element={<LayoutReturn />} /> */}
           <Route path="/layoutsidebar" element={<LayoutSidebar />} />
           <Route path="/layout/layoutOtcProducts" element={<LayoutOtcProducts />} />
+          <Route path="/layout/layoutCategoryProducts" element={<LayoutCategory />} />
         </Route>
 
         <Route path="/PharmEtradeadmin" element={<AdminPanel />}>

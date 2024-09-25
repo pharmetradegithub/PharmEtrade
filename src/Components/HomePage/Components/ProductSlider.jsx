@@ -141,7 +141,8 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
           ref={carouselContainer}
           className="flex w-full gap-6 overflow-x-scroll snap-x snap-mandatory"
         >
-          {data.map((item, index) => (
+          {/* {Array.isArray(data) && data.length > 0 ? (
+          data.map((item, index) => (
             <div
               key={index}
               className="snap-center border rounded-sm bg-white shrink-0"
@@ -172,7 +173,7 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                   alt={item.name}
                   className="h-48 w-48 object-contain rounded-lg hover:cursor-pointer"
                 /> */}
-                <img
+                {/* <img
                   src={item.productGallery.imageUrl}
                   onClick={() => handleProductDetails(item.productID)} // Assuming item.id is the product ID
                   alt={item.name}
@@ -197,7 +198,7 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                   <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                   <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                   <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
-                </div>
+                </div> */}
                 {/* <div>
                   {Array.from({ length: totalStars }, (v, i) => (
                     <Star
@@ -207,13 +208,13 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                     />
                   ))}
                 </div> */}
-                <div
+                {/* <div
                 onClick={() => handleCart(index)}
                 className="bg-blue-900 flex gap-1 p-1 rounded-lg justify-center items-center  cursor-pointer"
               >
                 <img src={addcart} className="h-7 p-1" />
                 <p className="text-white font-semibold">ADD</p>
-              </div>
+              </div> */}
                 {/* {cartQuantities[index] ? (
                   <div className="flex text-white justify-between items-center px-3 gap-2 mt-2">
                     <button
@@ -242,9 +243,78 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                     <p className="text-white font-semibold">ADD</p>
                   </div>
                 )} */}
-              </div>
+              {/* </div>
             </div>
-          ))}
+                ))
+                ):(
+              <div className="text-center my-4">
+                <p>No products available</p>
+              </div>
+                )
+          )}  */}
+          <div className="flex justify-center items-center h-full">
+            {Array.isArray(data) && data.length > 0 ? (
+              data.map((item, index) => (
+                <div
+                  key={index}
+                  className="snap-center border rounded-sm bg-white shrink-0"
+                >
+                  <div className="relative bg-slate-100 m-2">
+                    <img
+                      onClick={() => handleClick(item.productID)}
+                      src={
+                        wishlistProductIDs.includes(item.productID)
+                          ? filledHeart
+                          : emptyHeart
+                      }
+                      className="absolute h-7 w-7 right-1 p-1 cursor-pointer"
+                      alt="Favorite Icon"
+                    />
+                    <img src={comp} className="absolute h-7 w-7 bottom-0 right-1 p-1" />
+
+                    <img
+                      src={item.productGallery.imageUrl}
+                      onClick={() => handleProductDetails(item.productID)}
+                      alt={item.name}
+                      className="h-48 w-48 object-contain rounded-lg hover:cursor-pointer"
+                    />
+                  </div>
+                  <div className="p-2 w-48">
+                    <div className="flex justify-between flex-col font-medium">
+                      <h2 className="text-black font-bold h-12">{item.productName}</h2>
+                      <div className="flex gap-1 items-center">
+                        <h3 className="text-black font-semibold">
+                          ${item.salePrice?.toFixed(2)}
+                        </h3>
+                        <span className="text-[10px] line-through">
+                          (${item.unitPrice?.toFixed(2)})
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                      <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                      <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                      <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                      <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                    </div>
+                    <div
+                      onClick={() => handleCart(index)}
+                      className="bg-blue-900 flex gap-1 p-1 rounded-lg justify-center items-center cursor-pointer"
+                    >
+                      <img src={addcart} className="h-7 p-1" alt="Add to cart" />
+                      <p className="text-white font-semibold">ADD</p>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+                <div className="flex justify-center items-center w-full">
+                  <p className="text-gray-500 text-center">No Products Available</p>
+                </div>
+            )}
+          </div>
+
         </div>
       </div>
     </div>
