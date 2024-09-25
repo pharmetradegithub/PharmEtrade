@@ -655,7 +655,8 @@ const orderSlice = createSlice({
 });
 
 const initialDashboardState = {
-  getSellerId : []
+  getSellerId: [],
+  getCustomerId: []
 }
 
 const dashboardSlice = createSlice({
@@ -665,6 +666,10 @@ const dashboardSlice = createSlice({
     setSellerDashboardId(state, action) {
       console.log('Action payload:', action.payload); // Check payload here
       state.getSellerId = action.payload;
+    },
+    setCustomerDashboardId(state, action) {
+      console.log('Action payload:', action.payload); // Check payload here
+      state.getCustomerId = action.payload;
     }
   }
 })
@@ -770,7 +775,8 @@ export const { setGetProductSpecialOffer } = productsSlice.actions
 export const { setGetOrderBySellerId } = orderSlice.actions
 export const { setGetOrder } = orderSlice.actions
 export const { addOrder } = orderSlice.actions
-export const {setSellerDashboardId} = dashboardSlice.actions
+export const { setSellerDashboardId } = dashboardSlice.actions
+export const {setCustomerDashboardId} = dashboardSlice.actions
 
 
 

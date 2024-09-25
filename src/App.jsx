@@ -71,6 +71,8 @@ import AdminDasboard from "./Components/Admin/Dashboard/AdminDasboard";
 import Faqs from "./Components/Faqs";
 import LayoutPanel from "./Components/LayoutPage/LayoutStatic/LayoutPanel";
 import LayoutDashboard from "./Components/LayoutPage/LayoutDashboard/LayoutDashboard";
+import LayoutSellerDashboard from "./Components/LayoutPage/LayoutDashboard/LayoutSellerDashboard"
+import LayoutCustomerDashboard from "./Components/LayoutPage/LayoutDashboard/LayoutCustomerDashboard"
 import LayoutBuy from "./Components/LayoutPage/LayoutBuy/LayoutBuyProducts";
 import LayoutBid from "./Components/LayoutPage/LayoutBid/LayoutBid";
 import LayoutJoin from "./Components/LayoutPage/LayoutJoin/LayoutJoin";
@@ -116,6 +118,7 @@ import Address from "./Components/CheckoutPage/Address";
 import LayoutOtcProducts from "./Components/LayoutPage/LayoutNavComponents/LayoutOtcProducts";
 import Gethelphere from "./Components/Gethelphere";
 import CategoryProducts from "./Components/HomeProducts/Components/CategoryProducts";
+
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
 function App() {
@@ -317,6 +320,9 @@ function App() {
             path="/layout"
             element={<LayoutDashboard addCart={addCart} wishList={wishList} />}
           />
+          <Route path="/layout/layoutsellerdashboard" element={<LayoutSellerDashboard />} />
+          <Route path="/layout/layoutcustomerdashboard" element={<LayoutCustomerDashboard />} />
+
           <Route path="/layoutsell" element={<LayoutSell />} />
           <Route path="/layout/addproduct" element={<LayoutaddProduct />} />
           <Route
