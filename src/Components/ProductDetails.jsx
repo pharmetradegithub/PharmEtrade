@@ -197,10 +197,10 @@ const ProductDetails = ({
       UnitOfMeasurement: "Mg",
       Strength: "100",
       Brand_Name: "Cipla",
-      Height: "10in",
-      Weight: "40gr",
-      Width: "40%",
-      Length: "40",
+      Height: "10 (Inches)",
+      Weight: "40 (Grams)",
+      Width: "40 (Cm)",
+      Length: "40 (Cm)",
     },
   ];
 
@@ -281,23 +281,23 @@ const ProductDetails = ({
                           <th className="p-2 text-left bg-slate-100">
                             Height:
                           </th>
-                          <td className="p-2">{detailsTable.Height}</td>
+                          <td className="p-2">{detailsTable.Height } </td>
                         </tr>
                         <tr className="grid grid-cols-2 border-b">
                           <th className="p-2 text-left bg-slate-100">
                             Weight:
                           </th>
-                          <td className="p-2">{detailsTable.Weight}</td>
+                          <td className="p-2">{detailsTable.Weight} </td>
                         </tr>
                         <tr className="grid grid-cols-2 border-b">
                           <th className="p-2 text-left bg-slate-100">Width:</th>
-                          <td className="p-2">{detailsTable.Width}</td>
+                          <td className="p-2">{detailsTable.Width}  </td>
                         </tr>
                         <tr className="grid grid-cols-2">
                           <th className="p-2 text-left bg-slate-100">
                             Length:
                           </th>
-                          <td className="p-2">{detailsTable.Length}</td>
+                          <td className="p-2">{detailsTable.Length}  </td>
                         </tr>
                       </tbody>
                     </table>
