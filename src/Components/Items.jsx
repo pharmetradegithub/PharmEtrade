@@ -453,7 +453,7 @@ function Items({
   {prod?.salePrice > 0 ? (
     <>
       <span className="text-sky-500 font-semibold text-[18px]">
-        {prod?.salePrice?.toFixed(2)}
+        ${prod?.salePrice?.toFixed(2)}
       </span>
       <p className="text-xs ml-1 line-through">
         ${prod?.unitPrice?.toFixed(2)}
@@ -584,7 +584,8 @@ function Items({
               <div className="p-4">
                 <div className="flex justify-between">
                   <p className="text-black text-[22px]">
-                    ${prod?.unitPrice?.toFixed(2)}
+                  ${prod?.salePrice?.toFixed(2)}
+
                   </p>
                   {/* <img src={ ?Wishlist :filledheart} className="w-5 h-5 flex   "/> */}
                   <img
@@ -685,7 +686,7 @@ function Items({
             <div className="w-full  pt-4 text-[15px] font-sans">
               <div className="p-2 bg-gray-100 rounded-lg mr-4">
                 <p className="font-semibold text-gray-600">SOLD BY</p>
-                <p className="text-red-600">Manda</p>
+                <p className="text-red-600"> {prod?.sellerFirstName}{prod?.sellerLastName}</p>
                 <p className="hover:text-red-600">Company Website</p>
                 <div className="flex flex-col">
                   <div className="flex  items-center space-x-2 hover:text-red-500">
