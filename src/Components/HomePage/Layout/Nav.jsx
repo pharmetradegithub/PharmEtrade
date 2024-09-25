@@ -442,7 +442,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
 
             <li className=" cursor-pointer" onClick={handleCart}>
                   <a>
-                    <Tooltip title='cart' placement='top'>
+                    <Tooltip title='Cart' placement='top'>
                 <img
                   src={cartNav}
                   className="w-1 md:w-3 lg:w-5 xl:w-7 pt-2 h-3 md:h-5 lg:h-7 xl:h-9 text-blue-900 hover:text-gray-400 hover:scale-110 duration-500"
@@ -458,7 +458,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
             </li>
             <li>
                   <a>
-                    <Tooltip title='like' placement='top'>
+                    <Tooltip title='Wishlist' placement='top'>
                 <img
                   src={like}
                   onClick={handleclick}
