@@ -2179,6 +2179,9 @@ const Signup = () => {
     setShowPassword(!showPassword);
   };
 
+  // const [searchTerm, setSearchTerm] = useState('');
+
+
   const handleClickShowConfirmPassword = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
@@ -3187,40 +3190,35 @@ const Signup = () => {
                 //   horizontal: 'left'
                 // }}
               /> */}
-              <FormControl
-                className="w-[92%]"
-                size="small"
-                error={!!errors.State}
-              >
-                <InputLabel id="state-select-label">State</InputLabel>
-                <Select
-                  id="state-select"
-                  label="State"
-                  value={formData.State}
-                  name="State"
-                  onChange={handleInputChange}
-                  MenuProps={{
-                    PaperProps: {
-                      style: {
-                        maxHeight: 200, // Set the maximum height of the dropdown
-                      },
-                    },
-                  }}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {states.map((state) => (
-                    <MenuItem
-                      key={state.abbreviation}
-                      value={state.abbreviation}
-                    >
-                      {state.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-                {errors.State && <span className="text-red-400">{errors.State}</span>}
-              </FormControl>
+                <FormControl className="w-[92%]" error={!!errors.State}>
+      <InputLabel id="state-select-label"></InputLabel>
+      <Autocomplete
+        id="state-select"
+        options={states}
+        getOptionLabel={(option) => option.name}
+        value={states.find(state => state.abbreviation === formData.State) || null}
+        onChange={(event, newValue) => {
+          handleInputChange({
+            target: { name: 'State', value: newValue ? newValue.abbreviation : '' }
+          });
+        }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="State"
+            size="small"
+            variant="outlined"
+            error={!!errors.State}
+          />
+        )}
+        filterOptions={(options, { inputValue }) => {
+          return options.filter((option) =>
+            option.name.toLowerCase().includes(inputValue.toLowerCase())
+          );
+        }}
+      />
+      {errors.State && <FormHelperText>{errors.State}</FormHelperText>}
+    </FormControl>
               {/* <FormControl
                 className="w-[80%]"
                 size="small"
