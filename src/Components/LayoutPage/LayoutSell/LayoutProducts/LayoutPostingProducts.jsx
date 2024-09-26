@@ -61,7 +61,7 @@ const LayoutPostingProducts = () => {
         setError(error);
         setLoading(false);
       });
-  }, []);
+  }, [deleteProduct, deactive]);
 
   const handleAddNewProductClick = () => {
     navigate("layout/addproduct");

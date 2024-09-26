@@ -1604,6 +1604,9 @@ const LayoutRelatedProducts = () => {
                 className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                 onChange={handleInputChange}
                 value={formData.salePriceForm}
+                onKeyDown={(e) => {
+                  e.preventDefault();
+                }}
               />
             </div>
 
@@ -1615,6 +1618,9 @@ const LayoutRelatedProducts = () => {
                 className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                 onChange={handleInputChange}
                 value={formData.salePriceTo}
+                onKeyDown={(e) => {
+                  e.preventDefault();
+                }}
               />
             </div>
           </div>
