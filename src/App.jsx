@@ -122,6 +122,8 @@ import LayoutCategory from "./Components/LayoutPage/LayoutCategory/LayoutCategor
 import LayoutProfile from './Components/LayoutPage/LayoutProfile/LayoutProfile'
 // import AdminBanners from './Components/Admin/Banners/AdminBanners'
 import AdminBanners from './Components/Admin/Banners/AdminBanners'
+import Login from "./Components/Login";
+
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
@@ -222,6 +224,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/termsandconditions" element={<TermsAndConditions />} />
         <Route path="/login" element={<Signin />} />
+        <Route path="/PharmetradeLogin" element={<Login />} />
         <Route path="/otp2" element={<OTP2 />} />
         <Route path="/password" element={<Password />} />
         <Route path="/changepassword" element={<Changepassword />} />

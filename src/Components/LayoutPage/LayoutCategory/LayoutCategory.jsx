@@ -64,20 +64,37 @@ function LayoutCategory({
     }
   }, [wishlist]);
 
-  const [filteredProducts, setFilteredProducts] = useState(productCriteria);
+
 
   const products = useSelector((state) => state.product.Products);
-  //   const [productList, setproductList] = useState(products);
+    const [productList, setproductList] = useState(products);
   //   console.log("layoutproduct-->",productList)
   useEffect(() => {
-    if (products && products.length > 0) {
+    if (products) {
+      
       const updatedProducts = products.map((product) => ({
         ...product,
-        CartQuantity: product.CartQuantity || 1, // Ensure it initializes to 1 if not already set
+        CartQuantity: 1, // Set initial quantity to 1 for all products
       }));
-      setFilteredProducts(updatedProducts);
+      setproductList(updatedProducts);
     }
   }, [products]);
+
+
+  const handleQuantityChange = (index, newQuantity) => {
+    // if (newQuantity) {
+    const quantity = Math.max(1, newQuantity);
+    setproductList((prev) => {
+      const updatedList = [...prev];
+    
+        updatedList[index] = {
+          ...updatedList[index],
+          CartQuantity: quantity,
+        };
+      return updatedList;
+    });
+    // }
+  };
 
 
   const handleCart = async (productID, Quantity) => {
@@ -116,17 +133,6 @@ function LayoutCategory({
   };
 
 
-  const handleQuantityChange = (index, newQuantity) => {
-    const quantity = Math.max(1, newQuantity || 1); // Ensure the quantity is at least 1
-    setFilteredProducts((prev) => {
-      const updatedList = [...prev];
-      updatedList[index] = {
-        ...updatedList[index],
-        CartQuantity: quantity,
-      };
-      return updatedList;
-    });
-  };
 
 
   //   const indexOfLastItem = currentPage * itemsPerPage;
@@ -199,54 +205,54 @@ function LayoutCategory({
 
 
   //   const [filteredProducts, setFilteredProducts] = useState(productCriteria); // Products filtered by API
-  const [loading, setLoading] = useState(false); // Loader during API call
-  const [term, setTerm] = useState(""); // Search term
+  // const [loading, setLoading] = useState(false); // Loader during API call
+  // const [term, setTerm] = useState(""); // Search term
 
-  // Ensure productCriteria updates filteredProducts when it changes
-  useEffect(() => {
-    console.log("productCriteria updated:", productCriteria); // Check if productCriteria changes
-    setFilteredProducts(productCriteria); // Reset to initial products
-  }, [productCriteria]);
+  // // Ensure productCriteria updates filteredProducts when it changes
+  // useEffect(() => {
+  //   console.log("productCriteria updated:", productCriteria); // Check if productCriteria changes
+  //   setFilteredProducts(productCriteria); // Reset to initial products
+  // }, [productCriteria]);
 
 
-  useEffect(() => {
-    console.log("useEffect: term changed to", term); // Check if term is updated correctly
+  // useEffect(() => {
+  //   console.log("useEffect: term changed to", term); // Check if term is updated correctly
 
-    // if (term) {
-    console.log("Searching for products with term:", term);
-    searchProducts(term, productCriteria);
+  //   // if (term) {
+  //   console.log("Searching for products with term:", term);
+  //   searchProducts(term, productCriteria);
 
-  }, [term]);
+  // }, [term]);
 
-  const searchProducts = async (searchTerm, productCriteria) => {
-    setLoading(true); // Start loading
+  // const searchProducts = async (searchTerm, productCriteria) => {
+  //   setLoading(true); // Start loading
 
-    try {
-      const productCategoryId = productCriteria[0]?.productCategory?.productCategoryId;
+  //   try {
+  //     const productCategoryId = productCriteria[0]?.productCategory?.productCategoryId;
 
-      let productName
-      if (term) {
-        productName = {
-          productCategoryId: productCategoryId,
-          productName: searchTerm,
-        };
-      }
-      else {
-        productName = {
-          productCategoryId: productCategoryId,
-        }
-      }
-      console.log("Calling API with searchTerm:", searchTerm); // Debugging
-      const response = await fetchCriteriaProductsApi(productName);
-      console.log("API response:", response); // Check response
+  //     let productName
+  //     if (term) {
+  //       productName = {
+  //         productCategoryId: productCategoryId,
+  //         productName: searchTerm,
+  //       };
+  //     }
+  //     else {
+  //       productName = {
+  //         productCategoryId: productCategoryId,
+  //       }
+  //     }
+  //     console.log("Calling API with searchTerm:", searchTerm); // Debugging
+  //     const response = await fetchCriteriaProductsApi(productName);
+  //     console.log("API response:", response); // Check response
 
-      setFilteredProducts(response.result); // Update products
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     setFilteredProducts(response.result); // Update products
+  //   } catch (error) {
+  //     console.error("Error fetching products:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
 
 
@@ -265,8 +271,8 @@ function LayoutCategory({
         <div>
           <div className="flex flex-col">
             <div className="flex flex-col justify-between">
-              {filteredProducts.length > 0 ? (
-                filteredProducts.map((product, index) => (
+              {productList.length > 0 ? (
+                productCriteria.map((product, index) => (
                   <div
                     key={index}
                     className="flex p-4 border w-full justify-around shadow-lg rounded-md mb-4"
@@ -373,10 +379,28 @@ function LayoutCategory({
                       <div className="mt-2 flex">
                         <input
                           type="number"
-                          disabled={cart.some((item) => item.product.productID === product.productID)}
-                          value={product.CartQuantity}
+                          disabled={
+                            cart.some(
+                              (item) =>
+                                item.product.productID == product.productID
+                            ) === 1
+                          }
+                          value={product.CartQuantity
+                            // cart.some(
+                            //     (item) =>
+                            //         item.product.productID === product.productID
+                            //   )
+                            //     ? cart.find(
+                            //         (item) =>
+                            //             item.product.productID === product.productID
+                            //       ).quantity
+                            //       : product.CartQuantity
+                          }
                           onChange={(e) =>
-                            handleQuantityChange(index, parseInt(e.target.value) || 1)
+                            handleQuantityChange(
+                              index,
+                              parseInt(e.target.value)
+                            )
                           }
                           className="w-16 border rounded-md text-center"
                           min="1"

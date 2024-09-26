@@ -57,12 +57,23 @@ const LayoutNav = ({ Form_Data, }) => {
     }
   };
 
+  // const handleItemClick = (name) => {
+  //   if (activePopUp === name) {
+  //     setActivePopUp(null); // Close the popup if it's already open
+  //   } else {
+  //     setActivePopUp(name); // Set the active popup
+  //   }
+  // };
+
   const handleItemClick = (name) => {
     if (activePopUp === name) {
       setActivePopUp(null); // Close the popup if it's already open
+      setSelectedItem("All"); // Reset to "All" when closed
     } else {
       setActivePopUp(name); // Set the active popup
+      setSelectedItem(name); // Update the button label with the selected item
     }
+    setDropdownOpen(false); // Close the dropdown after selection
   };
 
   const handleCriteria = async (obj) => {
@@ -76,6 +87,7 @@ const LayoutNav = ({ Form_Data, }) => {
     navigate('/layout/layoutCategoryProducts');
 
   };
+  const [selectedItem, setSelectedItem] = useState("All"); 
   const [SearchInput, setSearchInput] = useState("");
   console.log(SearchInput, "search")
   const handleSearch = async (e) => {
@@ -219,103 +231,21 @@ const LayoutNav = ({ Form_Data, }) => {
             className={`w-full relative flex items-center ${isContainerFocused ? "ring-2 ring-blue-500 rounded-md" : ""
               }`}
           >
+            <div className="relative inline-block">
             <button
-              className={`h-10 pl-2 mr-[1px] font-semibold text-left gap-1 text-[14px] flex items-center text-gray-600 bg-gray-100 border-gray-300 rounded-l-md border ${isButtonFocused ? "ring-2 ring-blue-500" : ""
+              className={`h-10 pl-2 mr-[1px] font-semibold text-left gap-1 text-[14px] flex  w-auto items-center text-gray-600 bg-gray-100 border-gray-300 rounded-l-md border ${isButtonFocused ? "ring-2 ring-blue-500" : ""
                 } button-focus`}
               onClick={handleDropdownToggle}
               onFocus={handleFocusIn}
               onBlur={handleFocusOut}
             >
-              All
+              {selectedItem}
               <span>
                 <img src={dropdown} className="h-4 w-4" alt="dropdown" />
               </span>
             </button>
 
-            {/* {isDropdownOpen && (
-              <div className="absolute z-10 top-[30px] left-0">
-                <div className="bg-white px-4 py-3 rounded shadow-lg w-64">
-                
-                  {[
-                    { name: "Deals", component: "Component for deals" },
-                    { name: "Brands", component: "Component for brands" },
-                    { name: "Generics", component: "Component for generics" },
-                    {
-                      name: "Discount >75%",
-                      component: "Component for discount >75%",
-                    },
-                    {
-                      name: "Discount >50%",
-                      component: "Component for discount >50%",
-                    },
-                    {
-                      name: "Discount >25%",
-                      component: "Component for discount >25%",
-                    },
-                    {
-                      name: "Expiring within 3 months",
-                      component: "Component for Expiring within 3 months",
-                    },
-                    {
-                      name: "Expiring within 6 months",
-                      component: "Component for Expiring within 6 months",
-                    },
-                    {
-                      name: "Expiring within 12 months",
-                      component: "Component for Expiring within 12 months",
-                    },
-                    {
-                      name: "Whole saler item",
-                      component: "Component for Whole saler item",
-                    },
-                    {
-                      name: "Pharmacy item",
-                      component: "Component for Pharmacy item",
-                    },
-                    {
-                      name: "Prescription Drugs",
-                      component: "Component for Prescription Drugs",
-                    },
-                    {
-                      name: "OTC Products",
-                      component: "Component for OTC Products",
-                    },
-                    {
-                      name: "VAWD Sellers",
-                      component: "Component for VAWD Sellers",
-                    },
-                    {
-                      name: "Top Selling Products",
-                      component: "Component for Top Selling Products",
-                    },
-                    { name: "Buy Again", component: "Component for But Again" },
-                  ].map((item, index) => (
-                    <ul key={index}>
-                      <li>
-                        <a
-                          className="hover:text-black text-sm font-medium text-blue-900"
-                          onClick={() => handleItemClick(item.name)}
-                        >
-                          {item.name}
-                        </a>
-                        {activePopUp === item.name && (
-                          <div
-                            className="absolute bg-white border border-gray-300 rounded shadow-lg"
-                            style={{
-                              top: "0%",
-                              left: "100%",
-                              width: "150px",
-                            }}
-                          >
-                            {item.component}
-                          </div>
-                        )}
-                      </li>
-                    </ul>
-                  ))}
-                </div>
-              </div>
-            )} */}
+       
             {isDropdownOpen && (
               <div
                 className="absolute z-10"
@@ -350,8 +280,10 @@ const LayoutNav = ({ Form_Data, }) => {
                 </div>
               </div>
             )}
+            </div>
 
-            <div className="flex w-full h-10 border container-focus">
+
+            <div className="flex w-[60%] h-10 border container-focus">
               <input
                 type="text"
                 name="SearchInput"

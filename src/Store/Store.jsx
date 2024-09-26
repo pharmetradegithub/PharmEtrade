@@ -757,17 +757,27 @@ const productsSlice = createSlice({
   },
 });
 
+
 const bannerSlice = createSlice({
   name: "banner",
   initialState: { banner: [] },
   reducers: {
-    addBanner(state, action) {
-      state.banner.push(action.payload);
-    },
     removeBanner(state, action) {
       state.banner = state.banner.filter(
         (item) => item.bannerId !== action.payload.id
       );
+    },
+    addBanner(state, action) {
+      state.banner.push(action.payload);
+    },
+    editBanner(state, action) {
+      const index = state.banner.findIndex((item) => item.bannerId === action.payload.bannerId);
+      if (index !== -1) {
+        state.banner[index] = action.payload;
+      }
+    },
+    deleteBanner(state, action) {
+      state.banner = state.banner.filter((item) => item.bannerId !== action.payload);
     },
     setBanner(state, action) {
       state.banner = action.payload;

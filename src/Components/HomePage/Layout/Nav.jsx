@@ -15,7 +15,7 @@ import Buy from "../../../assets/buy3d.png";
 import sell from "../../../assets/sell3d.png";
 import bid from "../../../assets/Bid3d.png";
 import BackgroundImage from "../../../assets/BackgroundImage.png";
-import { Link, useNavigate } from "react-router-dom";
+
 import menu from "../../../assets/menu.png";
 import { useState, useEffect, useRef } from "react";
 import add from "../../../assets/add.png";
@@ -48,6 +48,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCriteriaProductsApi } from "../../../Api/ProductApi";
 import { Tooltip } from "@mui/material";
 import { fetchProductCategoriesGetAll } from "../../../Api/MasterDataApi";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   let navigate = useNavigate();
@@ -59,6 +60,19 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   const [selectedIndex, setSelectedIndex] = useState();
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  
+  const [activePopUp, setActivePopUp] = useState(null);
+  const [selectedItem, setSelectedItem] = useState("All");
+  const location = useLocation();
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const category = searchParams.get("CategoryName");
+
+    if (category) {
+      setSelectedItem(category);
+    }
+  }, [location.search]);
   // const [popUps, setPopUps] = useState(<Baby />);
 
   const dropdownRef = useRef(null);
@@ -77,12 +91,23 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   useEffect(() => {
     dispatch(fetchProductCategoriesGetAll())
   },[])
-  const handleDropdownToggle = () => {
+  const handleDropdownToggle = (e) => {
+    e.preventDefault();
     setDropdownOpen(!isDropdownOpen);
   };
 
+  // const handleItemClick = (name) => {
+  //   setPopUps(name);
+  // };
   const handleItemClick = (name) => {
-    setPopUps(name);
+    if (activePopUp === name) {
+      setActivePopUp(null); // Close the popup if it's already open
+      setSelectedItem("All"); // Reset to "All" when closed
+    } else {
+      setActivePopUp(name); // Set the active popup
+      setSelectedItem(name); // Update the button label with the selected item
+    }
+    setDropdownOpen(false); // Close the dropdown after selection
   };
 
   const handleCatMouseLeave = () => {
@@ -556,7 +581,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 onFocus={handleFocusIn}
                 onBlur={handleFocusOut}
               >
-                All
+                {selectedItem}
                 <span>
                   <img src={dropdown} className="h-4 w-4" />
                 </span>

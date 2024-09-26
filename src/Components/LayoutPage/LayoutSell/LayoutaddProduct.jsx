@@ -889,6 +889,9 @@ function LayoutaddProduct() {
 
         const response = await AddProductGallery(tab4, user.customerId);
         localStorage.setItem("productGalleryId", response);
+        localStorage.removeItem('productPriceId');
+        localStorage.removeItem('productGalleryId')
+        localStorage.removeItem('productId')
 
         console.log("Product Data", response);
         setNotification({
@@ -1235,12 +1238,27 @@ function LayoutaddProduct() {
                               : ""
                           }
                           min={today} // Disable past dates
+                          onKeyDown={(e) => {
+                            e.preventDefault();
+                          }}
                         />
                         {formErrors.expirationDate && (
                           <span className="text-red-500 text-sm">
                             {formErrors.expirationDate}
                           </span>
                         )}
+                      </div>
+                      <div className="flex flex-col">
+                        <label className="text-sm font-semibold">
+                          SKU:
+                        </label>
+                        <input
+                          name="SKU"
+                          type="text"
+                          className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                        // onChange={handleInputChange}
+                        // value={formData.lotNumber}
+                        />
                       </div>
                     </div>
                   </div>
@@ -1286,7 +1304,8 @@ function LayoutaddProduct() {
                           id="full"
                           name="option"
                           value="full"
-                          checked={formData.packQuantity !== 0}
+                          checked={formData.packQuantity == "full"}
+                          onChange={handleInputChange}
                           className="mx-1"
                         />{" "}
                         <label
@@ -1387,7 +1406,7 @@ function LayoutaddProduct() {
                         id="tornLabel"
                         name="tornLabel"
                         checked={
-                          formData.packCondition.tornLabel != null
+                          (formData.packCondition.tornLabel != null)
                             ? formData.packCondition.tornLabel
                             : null
                         }
@@ -1700,6 +1719,9 @@ function LayoutaddProduct() {
                           : ""
                       }
                       min={new Date().toISOString().split("T")[0]} // This disables past dates
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
                     />
 
                     {formErrors.salePriceForm && (
@@ -1765,6 +1787,9 @@ function LayoutaddProduct() {
                             : ""
                         }
                         min={MinDate}
+                        onKeyDown={(e) => {
+                          e.preventDefault();
+                        }}
                       />
                       {formErrors.salePriceTo && (
                         <span className="text-red-500 text-sm">
