@@ -309,7 +309,12 @@ function LayoutBuy({
                           <div className="flex flex-col">
                             <p>Exp.Date :</p>
                             <p className="font-semibold">
-                              {product.expiryDate}
+                              {/* {product.expiryDate} */}
+                              {new Date(product.expiryDate).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit',
+                              }).replace(/\//g, '-')}
                             </p>
                           </div>
                         </div>

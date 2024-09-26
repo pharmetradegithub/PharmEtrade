@@ -2242,7 +2242,7 @@ const Signup = () => {
           newErrors.Last_Name = "Last name is required."
 
       if (!formData.Email_id.match(regexp))
-        newErrors.Email_id = "Email_id is required";
+        newErrors.Email_id = "Email id is required";
 
       if (!formData.Phone_number.match(regphn)) {
         console.log(formData.Phone_number.length, "hmmmm");
@@ -2283,7 +2283,7 @@ const Signup = () => {
           if (responseEmail.ok) {
             const data = await responseEmail.json(); // Convert response to JSON
             if (data?.result != null) {
-              newErrors.Email_id = "Email_Id already Exists";
+              newErrors.Email_id = "Email Id already Exists";
             }
             // Now you can work with the data, e.g., update the UI
           } else {
@@ -2355,14 +2355,14 @@ const Signup = () => {
       }
 
       if (!formData.Business_Fax && userType != "Retail Customer")
-        newErrors.Business_Fax = "Business_Fax is required";
+        newErrors.Business_Fax = "Business Fax is required";
       if (!formData.Business_Email && userType != "Retail Customer")
-        newErrors.Business_Email = " Business_Email is required";
+        newErrors.Business_Email = " Business Email is required";
       else if (
         !formData.Business_Email.match(regexp) &&
         userType != "Retail Customer"
       )
-        newErrors.Business_Email = " Business_Email is required";
+        newErrors.Business_Email = " Business Email is required";
 
       // if (!formData.zip) newErrors.zip = "Zip is required";
       if (!formData.Address1) newErrors.Address1 = "Address is required";
@@ -2395,7 +2395,7 @@ const Signup = () => {
         userType != "Pharmacy Distributor" &&
         userType != "Retail Customer"
       )
-        newErrors.DEA_License_Copy = "DEA_License_Copy is required";
+        newErrors.DEA_License_Copy = "DEA License Copy is required";
 
       if (
         userType != "General Merchandise Seller" &&
@@ -2416,7 +2416,7 @@ const Signup = () => {
         userType != "Pharmacy Distributor" &&
         userType != "Retail Customer"
       )
-        newErrors.Pharmacy_License_Copy = "Pharmacy_License_Copy is required";
+        newErrors.Pharmacy_License_Copy = "Pharmacy License Copy is required";
 
       if (
         !formData.Pharmacy_License &&
@@ -2424,7 +2424,7 @@ const Signup = () => {
         userType != "Pharmacy Distributor" &&
         userType != "Retail Customer"
       )
-        newErrors.Pharmacy_License = "Pharmacy_License is required";
+        newErrors.Pharmacy_License = "Pharmacy License is required";
       if (
         !formData.NCPDP &&
         userType != "General Merchandise Seller" &&
@@ -3219,7 +3219,7 @@ const Signup = () => {
                     </MenuItem>
                   ))}
                 </Select>
-                {errors.State && <span>{errors.State}</span>}
+                {errors.State && <span className="text-red-400">{errors.State}</span>}
               </FormControl>
               {/* <FormControl
                 className="w-[80%]"
@@ -3360,10 +3360,10 @@ const Signup = () => {
                 label="Company website"
                 id="outlined-size-small"
                 name="Company website"
-                value={formData.Business_Email}
-                onChange={handleInputChange}
-                error={!!errors.Business_Email}
-                helperText={errors.Business_Email}
+                // value={formData.Business_Email}
+                // onChange={handleInputChange}
+                // error={!!errors.Business_Email}
+                // helperText={errors.Business_Email}
                 size="small"
                 className="w-[92%]"
               />
@@ -3439,7 +3439,10 @@ const Signup = () => {
       size="small"
       inputProps={{ tabIndex: "5", min: today }} // Set min to today's date
       tabIndex={5}
-      className="w-full"
+                  className="w-full"
+                  onKeyDown={(e) => {
+                    e.preventDefault();
+                  }}
       helperText={
         formData.DEA_Expiration_Date != null
           ? errors.DEA_Expiration_Date
@@ -3472,7 +3475,10 @@ const Signup = () => {
       label=""
       type="date"
       name="Pharmacy_Expiration_Date"
-      id="outlined-size-small"
+                  id="outlined-size-small"
+                  onKeyDown={(e) => {
+                    e.preventDefault();
+                  }}
       value={formData.Pharmacy_Expiration_Date}
       error={!!errors.Pharmacy_Expiration_Date}
       onChange={handleInputChange}

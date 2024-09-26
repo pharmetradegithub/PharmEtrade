@@ -1198,6 +1198,8 @@ const LayoutRelatedProducts = () => {
     productName: "",
   });
 
+  const components = useSelector((state) => state.master.productCategoryGetAll)
+  console.log("relatedproduct-->", components)
   const [buttonClick, setButtonClick] = useState(false);
   const [ButtonUpClick, setButtonUpClick] = useState(false);
   const [isButtonClicked, setButtonClicked] = useState(false);
@@ -1532,7 +1534,12 @@ const LayoutRelatedProducts = () => {
                 <option value="">Select a product category</option>
                 {/* <option value="1">Default Category</option>
                 <option value="2">Electronics</option> */}
-                <option value="1">Prescription Medications</option>
+                {components.map((items) => {
+                  return (
+                    <option value={items.productCategoryId}>{items.categoryName}</option>
+                  )
+                })}
+                {/* <option value="1">Prescription Medications</option>
                 <option value="2">Baby & Child Care Products</option>
                 <option value="4">Health care products</option>
                 <option value="5">Household Suppliers</option>
@@ -1541,7 +1548,7 @@ const LayoutRelatedProducts = () => {
                 <option value="8">Vision Products</option>
                 <option value="9">Diet & Sports Nutrition</option>
                 <option value="10">Vitamins, Minerals & Supplements</option>
-                <option value="11">Personal Care products</option>
+                <option value="11">Personal Care products</option> */}
               </select>
             </div>
             <div className="flex flex-col mr-6 ">

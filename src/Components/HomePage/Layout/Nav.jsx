@@ -44,14 +44,17 @@ import { TbTruckReturn } from "react-icons/tb";
 import WhyPharma from "../NavLinks/WhyPharma";
 import search from "../../../assets/search-icon.png";
 import dropdown from "../../../assets/Down-arrow .png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchCriteriaProductsApi } from "../../../Api/ProductApi";
 import { Tooltip } from "@mui/material";
+import { fetchProductCategoriesGetAll } from "../../../Api/MasterDataApi";
 
 function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   let navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
   const cart = useSelector((state) => state.cart.cart);
+  const components = useSelector((state) => state.master.productCategoryGetAll)
+  console.log("categoeryyy-->", components)
 
   const [selectedIndex, setSelectedIndex] = useState();
 
@@ -64,12 +67,16 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
       setDropdownOpen(false);
     }
   };
+  const dispatch = useDispatch()
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  useEffect(() => {
+    dispatch(fetchProductCategoriesGetAll())
+  },[])
   const handleDropdownToggle = () => {
     setDropdownOpen(!isDropdownOpen);
   };
@@ -149,29 +156,29 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   ];
 
  
-  const components = [
-    { id: 1, name: "Prescription Medications" },
-    { id: 2, name: "Baby & Child Care Products" },
-    { id: 4, name: "Health care products" },
-    { id: 5, name: "Household Suppliers" },
-    { id: 6, name: "Oral Care Products" },
-    { id: 7, name: "Stationery & Gift Wrapping Supplies" },
-    { id: 8, name: "Vision Products" },
-    { id: 9, name: "Diet & Sports Nutrition" },
-    { id: 10, name: "Vitamins, Minerals & Supplements" },
-    { id: 11, name: "Personal Care Products" },
-  ];
+  // const components = [
+  //   { id: 1, name: "Prescription Medications" },
+  //   { id: 2, name: "Baby & Child Care Products" },
+  //   { id: 4, name: "Health care products" },
+  //   { id: 5, name: "Household Suppliers" },
+  //   { id: 6, name: "Oral Care Products" },
+  //   { id: 7, name: "Stationery & Gift Wrapping Supplies" },
+  //   { id: 8, name: "Vision Products" },
+  //   { id: 9, name: "Diet & Sports Nutrition" },
+  //   { id: 10, name: "Vitamins, Minerals & Supplements" },
+  //   { id: 11, name: "Personal Care Products" },
+  // ];
 
  
   const handleCriteria =async (obj) => {
     let Criteria = {
-      productCategoryId: obj.id
+      productCategoryId: obj.productCategoryId
     };
 
     console.log("cr--->", obj)
 
     await fetchCriteriaProductsApi(Criteria);
-    navigate(`/allProducts/CategoryProducts?CategoryName=${obj.name}`);
+    navigate(`/allProducts/CategoryProducts?CategoryName=${obj.categoryName}`);
 
   };
 
@@ -217,7 +224,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   }
 
   function handleuser() {
-    navigate("/user");
+    navigate("/layout/layoutprofile");
   }
   function handleorder() {
     navigate("/orderhistory");
@@ -248,57 +255,66 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   };
 
 
-  const productCriteria = useSelector((state) => state.product.productsByCriteria)
-  const [term, setTerm] = useState(""); // Search term
-  const [filteredProducts, setFilteredProducts] = useState(productCriteria); // Products filtered by API
-  const [loading, setLoading] = useState(false); // For showing a loader during API call
+  // const productCriteria = useSelector((state) => state.product.productsByCriteria)
+  // const [term, setTerm] = useState(""); // Search term
+  // const [filteredProducts, setFilteredProducts] = useState(productCriteria); // Products filtered by API
+  // const [loading, setLoading] = useState(false); // For showing a loader during API call
 
-  useEffect(() => {
-    // Update filtered products when productCriteria changes
-    setFilteredProducts(productCriteria);
-  }, [productCriteria]);
+  // useEffect(() => {
+  //   // Update filtered products when productCriteria changes
+  //   setFilteredProducts(productCriteria);
+  // }, [productCriteria]);
 
-  useEffect(() => {
-    if (term) {
-      // Trigger search based on the term entered by the user
-      searchProducts(term);
-    } else {
-      // If search term is cleared, show original products
-      setFilteredProducts(productCriteria);
-    }
-  }, [term]);
+  // useEffect(() => {
+  //   if (term) {
+  //     // Trigger search based on the term entered by the user
+  //     searchProducts(term);
+  //   } else {
+  //     // If search term is cleared, show original products
+  //     setFilteredProducts(productCriteria);
+  //   }
+  // }, [term]);
 
-  const searchProducts = async (searchTerm) => {
-    setLoading(true); // Start loading
-    try {
-      const productCategoryId = productCriteria[0]?.productCategory?.productCategoryId;
+  // const searchProducts = async (searchTerm) => {
+  //   setLoading(true); // Start loading
+  //   try {
+  //     const productCategoryId = productCriteria[0]?.productCategory?.productCategoryId;
 
-      if (!productCategoryId) {
-        console.warn('No productCategoryId available');
-        setLoading(false);
-        return;
-      }
+  //     if (!productCategoryId) {
+  //       console.warn('No productCategoryId available');
+  //       setLoading(false);
+  //       return;
+  //     }
 
-      const productName = {
-        productName: searchTerm,
-        productCategoryId: productCategoryId, // Use productCategoryId here
-      };
+  //     const productName = {
+  //       productName: searchTerm,
+  //       productCategoryId: productCategoryId, // Use productCategoryId here
+  //     };
 
-      // Make the API call to get filtered products
-      const response = await fetchCriteriaProductsApi(productName);
-      // Update with the API results
-      setFilteredProducts(response.data);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    } finally {
-      setLoading(false); // End loading
-    }
-  };
+  //     // Make the API call to get filtered products
+  //     const response = await fetchCriteriaProductsApi(productName);
+  //     // Update with the API results
+  //     setFilteredProducts(response.data);
+  //   } catch (error) {
+  //     console.error("Error fetching products:", error);
+  //   } finally {
+  //     setLoading(false); // End loading
+  //   }
+  // };
 
-  const searchFilter = (e) => {
-    const searchTerm = e.target.value.toLowerCase();
-    setTerm(searchTerm); // Update term which triggers useEffect and API call
-    setFilteredProducts(productCriteria); 
+  const [SearchInput, setSearchInput] = useState("");
+  console.log(SearchInput, "search")
+  const handleSearch = async (e) => {
+    setSearchInput(e.target.value)
+    let Criteria = {
+      productName: SearchInput
+    };
+
+    console.log("g--->", Criteria)
+
+    await fetchCriteriaProductsApi(Criteria);
+    navigate(`/allProducts/CategoryProducts`);
+
   };
 
 
@@ -558,10 +574,10 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                         <li className="">
                           <a
                             className="hover:text-black cursor-pointer text-sm font-medium text-blue-900"
-                            onClick={() => handleItemClick(items.name)}
+                            onClick={() => handleItemClick(items.categoryName)}
                             onMouseLeave={handleCatMouseLeave}
                           >
-                            {items.name}
+                            {items.categoryName}
                           </a>
                           
                         </li>
@@ -575,8 +591,9 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 <input
                   type="text"
                   placeholder="Search for products..."
+                  value={SearchInput}
                   className="flex-grow p-4 border-none focus:outline-none container-focus"
-                  onChange={searchFilter}
+                  onChange={handleSearch}
                 />
                 <a className="w-[40px] flex items-center justify-center p-2 bg-blue-900 text-white border-blue-500 rounded-r-md focus:outline-none container-focus">
                   <img src={search} />

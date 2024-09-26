@@ -689,7 +689,9 @@ const initialProductsState = {
   productsByCriteria : [],
   RelatedProducts : [],
   UpSellProducts : [],
-  CrossSellProducts : [],
+  CrossSellProducts: [],
+  deactiveProduct: [],
+  deleteProduct: []
 };
 
 const productsSlice = createSlice({
@@ -746,6 +748,12 @@ const productsSlice = createSlice({
     setCrossSellProduct(state, action){
       state.CrossSellProducts = action.payload
     },
+    setDeactiveProduct(state, action) {
+      state.deactiveProduct = action.payload
+    },
+    setDeleteProduct(state, action) {
+      state.deleteProduct = action.payload
+    },
   },
 });
 
@@ -769,6 +777,18 @@ const bannerSlice = createSlice({
     },
   },
 });
+const initialMasterState = {
+  productCategoryGetAll: [],
+}
+const mastersSlice = createSlice({
+  name: 'master',
+  initialState: initialMasterState,
+  reducers: {
+    setProductCategoryGetAll(state, action) {
+      state.productCategoryGetAll = action.payload
+    }
+  }
+})
 export const { setSpecialOffer } = productsSlice.actions;
 export const { setGetProductSpecialOffer } = productsSlice.actions
 
@@ -776,7 +796,10 @@ export const { setGetOrderBySellerId } = orderSlice.actions
 export const { setGetOrder } = orderSlice.actions
 export const { addOrder } = orderSlice.actions
 export const { setSellerDashboardId } = dashboardSlice.actions
-export const {setCustomerDashboardId} = dashboardSlice.actions
+export const { setCustomerDashboardId } = dashboardSlice.actions
+export const { setDeactiveProduct } = productsSlice.actions
+export const { setDeleteProduct } = productsSlice.actions
+export const { setProductCategoryGetAll } = mastersSlice.actions
 
 
 
@@ -791,6 +814,7 @@ const store = configureStore({
     product: productsSlice.reducer,
     banner: bannerSlice.reducer,
     dashboard: dashboardSlice.reducer,
+    master: mastersSlice.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });

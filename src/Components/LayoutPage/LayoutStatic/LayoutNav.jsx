@@ -78,7 +78,8 @@ const LayoutNav = ({ Form_Data, }) => {
   };
   const [SearchInput, setSearchInput] = useState("");
   console.log(SearchInput, "search")
-  const handleSearch = async () => {
+  const handleSearch = async (e) => {
+    setSearchInput(e.target.value)
     let Criteria = {
       productName: SearchInput
     };
@@ -355,11 +356,11 @@ const LayoutNav = ({ Form_Data, }) => {
                 type="text"
                 name="SearchInput"
                 value={SearchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
+                onChange={handleSearch}
                 placeholder="Search for products..."
                 className="flex-grow p-4 border-none focus:outline-none container-focus"
               />
-              <button onClick={handleSearch}
+              <button 
                 className="w-[40px] flex items-center justify-center p-2 bg-blue-900 text-white border-blue-500 rounded-r-md focus:outline-none container-focus">
                 <img src={search} alt="search icon" />
               </button>

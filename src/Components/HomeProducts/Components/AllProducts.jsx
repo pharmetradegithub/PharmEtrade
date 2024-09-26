@@ -185,7 +185,7 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
             inputProps={{ "aria-label": "search" }}
           />
         </Search> */}
-        <div className="relative flex">
+        {/* <div className="relative flex">
           <input
             type="text"
             placeholder="Search Product"
@@ -194,8 +194,8 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
             // onChange={(e) => setTerm(e.target.value)}
             className=" rounded-xl h-8 w-64 text-left px-2  bg-transparent gap-2 border-transparent my-1"
           />
-          {/* <CiSearch className="absolute left-0 top-2 text-gray-400 mr-5" /> */}
-        </div>
+          {/* <CiSearch className="absolute left-0 top-2 text-gray-400 mr-5" /> 
+        </div> */}
       </div>
 
       <div className="w-[95%]">

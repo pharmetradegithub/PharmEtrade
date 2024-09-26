@@ -157,8 +157,10 @@ function Wishlist({ topMargin, addCart }) {
           <div className="flex flex-col gap-6">
             {wishItems.map((item, index) => (
               <div key={index} className="border rounded-lg flex justify-evenly h-56 p-4 max-w-6xl bg-white shadow-md">
+                <Link to={`/detailspage/${item.product.productID}`}>
                 <img className="h-48 w-40 rounded-lg cursor-pointer" src={item.product.
-                  imageUrl} alt={item.product.productName} />
+                    imageUrl} alt={item.product.productName} />
+                </Link>
                 <div className="flex flex-col font-medium">
                   <Link to={`/detailspage/${item.product.productID}`} className="hover:text-red-600">
                     {/* <h3 className="text-xl font-semibold">Vitamin C(1000IU) Cap X Syrup 1000mg Nature Made</h3> */}
@@ -212,7 +214,9 @@ function Wishlist({ topMargin, addCart }) {
                         </div>
                       </div>
                     )}
-                    <img src={deleteicon}  onClick={() => handleremove(item.wishListId)} className=" w-5 " />
+                    <Tooltip placement="top" title="Delete">
+                      <img src={deleteicon} onClick={() => handleremove(item.wishListId)} className=" w-5 " />
+                    </Tooltip>
                     {/* <MdDeleteOutline className="border rounded-md text-2xl hover:bg-sky-200" /> */}
                   </div>
                   <p onClick={handlePopupToggle} className="hover:text-red-400 cursor-pointer hover:underline font-semibold text-blue-900">Add comment, quantity & priority</p>
@@ -259,11 +263,18 @@ function Wishlist({ topMargin, addCart }) {
                       </div>
                     </div>
                   )}
-                  <div>
+                  {/* <div>
                     {Array.from({ length: totalStars }, (v, i) => (
                       <Star key={i} filled={i < rating} onClick={() => setRating(i + 1)}  className='text-orange-400'/>
                     ))}
                     <p>The rating is {rating} out of {totalStars}.</p>
+                  </div> */}
+                  <div className="flex items-center">
+                    <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                   </div>
                 </div>
               </div>

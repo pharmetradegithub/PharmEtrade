@@ -1013,7 +1013,7 @@
 
 
 import axios from 'axios';
-import store, { setSpecialOffer, setGetProductSpecialOffer } from '../Store/Store';
+import store, { setSpecialOffer, setGetProductSpecialOffer, setDeactiveProduct, setDeleteProduct } from '../Store/Store';
 // import store, { setGetProductSpecialOffer } from '../Store/Store';
 
 axios.defaults.baseURL = 'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/';
@@ -1262,6 +1262,40 @@ export const fetchGetProductOffer = (categorySpecificationId) => {
   };
 };
 
+export const fetchDeactiveProduct = (productID) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`/api/Product/DeActivateProduct?productId=${productID}`);
+      if (response.status === 200) {
+        const deactiveProduct = response.data.result;
+        console.log('Dispatching Deactive Product action:', deactiveProduct); // Log before dispatch
+        dispatch(setDeactiveProduct(deactiveProduct)); // Dispatch action
+      } else {
+        console.error('Failed to fetch Deactive Product:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching Deactive Product:', error);
+    }
+  };
+};
+
+export const fetchDeleteProduct = (productID) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`/api/Product/DeleteProduct?productId=${productID}`);
+      if (response.status === 200) {
+        const deleteProduct = response.data.result;
+        console.log('Dispatching Deactive Product action:', deleteProduct); // Log before dispatch
+        dispatch(setDeleteProduct(deleteProduct)); // Dispatch action
+      } else {
+        console.error('Failed to fetch Deactive Product:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching Deactive Product:', error);
+    }
+  };
+};
+
 export const fetchProductOffer = () => {
   return async (dispatch) => {
     try {
@@ -1272,10 +1306,10 @@ export const fetchProductOffer = () => {
         console.log('Dispatching setSpecialOffer action:', specialOffer); // Log before dispatch
         dispatch(setSpecialOffer(specialOffer)); // Dispatch action
       } else {
-        console.error('Failed to fetch Special Offer:', response.data.message);
+        console.error('Failed to fetch Deactive Product:', response.data.message);
       }
     } catch (error) {
-      console.error('Error fetching special offer:', error);
+      console.error('Error fetching Deactive Product:', error);
     }
   };
 };

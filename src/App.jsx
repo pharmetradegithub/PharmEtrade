@@ -119,6 +119,9 @@ import LayoutOtcProducts from "./Components/LayoutPage/LayoutNavComponents/Layou
 import Gethelphere from "./Components/Gethelphere";
 import CategoryProducts from "./Components/HomeProducts/Components/CategoryProducts";
 import LayoutCategory from "./Components/LayoutPage/LayoutCategory/LayoutCategory";
+import LayoutProfile from './Components/LayoutPage/LayoutProfile/LayoutProfile'
+// import AdminBanners from './Components/Admin/Banners/AdminBanners'
+import AdminBanners from './Components/Admin/Banners/AdminBanners'
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
@@ -320,7 +323,9 @@ function App() {
           <Route
             path="/layout"
             element={<LayoutDashboard addCart={addCart} wishList={wishList} />}
+
           />
+          <Route path="/layout/layoutprofile" element={<LayoutProfile/>}/>
           <Route path="/layout/layoutsellerdashboard" element={<LayoutSellerDashboard />} />
           <Route path="/layout/layoutcustomerdashboard" element={<LayoutCustomerDashboard />} />
 
@@ -401,8 +406,9 @@ function App() {
           <Route path="/layout/layoutCategoryProducts" element={<LayoutCategory />} />
         </Route>
 
-        <Route path="/PharmEtradeadmin" element={<AdminPanel />}>
+        <Route path="/pharmEtradeadmin" element={<AdminPanel />}>
           <Route path="" element={<AdminDasboard />} />
+          <Route path="/pharmEtradeadmin/AdminBanners" element={<AdminBanners />} />
         </Route>
 
         <Route element={<AccountPanel topMargin={topMargin} />}>
