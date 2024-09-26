@@ -1,15 +1,3 @@
-// import React from 'react'
-
-// function LayoutWishlist() {
-//   return (
-//     <div>
-//       Wishlist
-//     </div>
-//   )
-// }
-
-// export default LayoutWishlist
-
 import React, { useContext, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
@@ -36,7 +24,7 @@ import { removeFromWishlistApi } from "../../../Api/WishList";
 import { Tooltip } from "@mui/material";
 function LayoutWishlist({ addCart }) {
   const [searchQuery, setSearchQuery] = useState("");
-  const user = useSelector((state)=>state.user.user);
+  const user = useSelector((state) => state.user.user);
   const wishItems = useSelector((state) => state.wishlist.wishlist || []); // Fallback to empty array if null
 
   //const wishItems = useSelector((state)=>state.wishlist.wishlist);
@@ -50,23 +38,22 @@ function LayoutWishlist({ addCart }) {
   const [isShowPopup, setIsShowPopup] = useState(false);
   const [rating, setRating] = useState(0);
   const totalStars = 5;
-  const handleremove = async(wishListId) => {
+  const handleremove = async (wishListId) => {
     try {
       await removeFromWishlistApi(wishListId);
     } catch (error) {
       throw error;
     }
   }
-  
 
-  const handleCart = async(productID) => {
-    if(user==null)
-    {
+
+  const handleCart = async (productID) => {
+    if (user == null) {
       console.log("login to add");
       return;
     }
     const cartData = {
-      customerId: user.customerId, 
+      customerId: user.customerId,
       productId: productID,
       quantity: 1,
       isActive: 1,
@@ -78,19 +65,19 @@ function LayoutWishlist({ addCart }) {
       console.error("Error adding product to cart:", error);
     }
   };
-  const Star = ({ filled, onClick }) => (
-    <span
-      onClick={onClick}
-      style={{
-        cursor: "pointer",
-        fontSize: "25px",
-        color: "orange",
-        marginLeft: "8px",
-      }}
-    >
-      {filled ? "★" : "☆"}
-    </span>
-  );
+  // const Star = ({ filled, onClick }) => (
+  //   <span
+  //     onClick={onClick}
+  //     style={{
+  //       cursor: "pointer",
+  //       fontSize: "25px",
+  //       color: "orange",
+  //       marginLeft: "8px",
+  //     }}
+  //   >
+  //     {filled ? "★" : "☆"}
+  //   </span>
+  // );
 
   const handlePopupToggle = () => setShowPopup(!showPopup);
   const handleSharePopupToggle = () => setIsShowPopup(!isShowPopup);
@@ -147,11 +134,11 @@ function LayoutWishlist({ addCart }) {
       },
     },
   }));
-  console.log("wishlist----layout",wishItems);
+  console.log("wishlist----layout", wishItems);
   return (
     <div
       className="bg-gray-200  p-8 overflow-scroll"
-      // style={{ marginTop: `${topMargin}px `}}
+    // style={{ marginTop: `${topMargin}px `}}
     >
       <h1 className="text-2xl mb-2 text-blue-900 font-semibold">
         PharmEtrade {">"} Wishlist
@@ -180,11 +167,13 @@ function LayoutWishlist({ addCart }) {
                 key={index}
                 className="border rounded-lg flex justify-evenly h-56 p-4 max-w-6xl bg-white shadow-md"
               >
-                <img
-                  className="h-40 w-40 rounded-lg"
-                  src={item.product.imageUrl}
-                  alt={item.product.productName}
-                />
+                <Link to={`/detailspage/${item.product.productID}`}>
+                  <img
+                    className="h-40 w-40 rounded-lg cursor-pointer"
+                    src={item.product.imageUrl}
+                    alt={item.product.productName}
+                  />
+                </Link>
                 <div className="flex flex-col font-medium">
                   <Link
                     to={`/detailspage/${item.product.productID}`}
@@ -209,18 +198,18 @@ function LayoutWishlist({ addCart }) {
                     className="text-lg font-semibold text-white bg-blue-900  items-center justify-center flex h-9 w-36 rounded-full"
                     onClick={() => handleCart(item.product.productID)}
                   >
-                    <img src={cart} className="w-5 h-5 mx-1"/>
-                    ADD 
+                    <img src={cart} className="w-5 h-5 mx-1" />
+                    ADD
                   </button>
                   <div className="flex items-center justify-between my-4 cursor-pointer">
-                    <Tooltip title = "Share" placement="top">
+                    <Tooltip title="Share" placement="top">
 
-                    <img
-                      src={share}
-                      className="w-6 mx-3 "
-                      onClick={handleSharePopupToggle}
+                      <img
+                        src={share}
+                        className="w-6 mx-3 "
+                        onClick={handleSharePopupToggle}
 
-                    />
+                      />
                     </Tooltip>
                     {/* <RiShare2Fill className="border rounded-md text-2xl w-8 hover:bg-sky-200"  /> */}
                     {isShowPopup && (
@@ -255,11 +244,13 @@ function LayoutWishlist({ addCart }) {
                         </div>
                       </div>
                     )}
-                    <img
-                      src={deleteicon}
-                      onClick={() => handleremove(item.wishListId)}
-                      className=" w-5 "
-                    />
+                    <Tooltip title="Delete" placement="top">
+                      <img
+                        src={deleteicon}
+                        onClick={() => handleremove(item.wishListId)}
+                        className=" w-5 "
+                      />
+                    </Tooltip>
                     {/* <MdDeleteOutline className="border rounded-md text-2xl hover:bg-sky-200" /> */}
                   </div>
                   <p
@@ -331,7 +322,7 @@ function LayoutWishlist({ addCart }) {
                       </div>
                     </div>
                   )}
-                  <div>
+                  {/* <div>
                     {Array.from({ length: totalStars }, (v, i) => (
                       <Star
                         key={i}
@@ -343,6 +334,13 @@ function LayoutWishlist({ addCart }) {
                     <p>
                       The rating is {rating} out of {totalStars}.
                     </p>
+                  </div> */}
+                  <div className="flex items-center">
+                    <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                   </div>
                 </div>
               </div>

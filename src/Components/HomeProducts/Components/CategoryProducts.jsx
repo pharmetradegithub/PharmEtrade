@@ -168,66 +168,66 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
 
 
 
-  const [term, setTerm] = useState(""); // Search term
-  const [filteredProducts, setFilteredProducts] = useState(productCriteria); // Products filtered by API
+  // const [term, setTerm] = useState(""); // Search term
+  // const [filteredProducts, setFilteredProducts] = useState(productCriteria); // Products filtered by API
   const [loading, setLoading] = useState(false); // Loader during API call
 
-  // Ensure productCriteria updates filteredProducts when it changes
-  useEffect(() => {
-    console.log("productCriteria updated:", productCriteria); // Check if productCriteria changes
-    setFilteredProducts(productCriteria); // Reset to initial products
-  }, [productCriteria]);
+  // // Ensure productCriteria updates filteredProducts when it changes
+  // useEffect(() => {
+  //   console.log("productCriteria updated:", productCriteria); // Check if productCriteria changes
+  //   setFilteredProducts(productCriteria); // Reset to initial products
+  // }, [productCriteria]);
 
   
 
 
-  useEffect(() => {
-    console.log("useEffect: term changed to", term); // Check if term is updated correctly
+  // useEffect(() => {
+  //   console.log("useEffect: term changed to", term); // Check if term is updated correctly
 
-   // if (term) {
-      console.log("Searching for products with term:", term);
-      searchProducts(term, productCriteria);
+  //  // if (term) {
+  //     console.log("Searching for products with term:", term);
+  //     searchProducts(term, productCriteria);
  
-  }, [term]); 
+  // }, [term]); 
 
 
 
-  const searchProducts = async (searchTerm, productCriteria) => {
-    setLoading(true); // Start loading
+  // const searchProducts = async (searchTerm, productCriteria) => {
+  //   setLoading(true); // Start loading
 
-    try {
-      const productCategoryId = productCriteria[0]?.productCategory?.productCategoryId;
+  //   try {
+  //     const productCategoryId = productCriteria[0]?.productCategory?.productCategoryId;
      
-      let productName
-      if (term) {
-         productName = {
-          productCategoryId: productCategoryId,
-          productName: searchTerm,
-        };
-      }
-      else {
-         productName = {
-          productCategoryId: productCategoryId,
-        }
-      }
-      console.log("Calling API with searchTerm:", searchTerm); // Debugging
-      const response = await fetchCriteriaProductsApi(productName);
-      console.log("API response:", response); // Check response
+  //     let productName
+  //     if (term) {
+  //        productName = {
+  //         productCategoryId: productCategoryId,
+  //         productName: searchTerm,
+  //       };
+  //     }
+  //     else {
+  //        productName = {
+  //         productCategoryId: productCategoryId,
+  //       }
+  //     }
+  //     console.log("Calling API with searchTerm:", searchTerm); // Debugging
+  //     const response = await fetchCriteriaProductsApi(productName);
+  //     console.log("API response:", response); // Check response
 
-      setFilteredProducts(response.data); // Update products
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     setFilteredProducts(response.data); // Update products
+  //   } catch (error) {
+  //     console.error("Error fetching products:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  // Handle search input changes
-  const searchFilter = (e) => {
-    const searchTerm = e.target.value.toLowerCase();
-    setTerm(searchTerm);
+  // // Handle search input changes
+  // const searchFilter = (e) => {
+  //   const searchTerm = e.target.value.toLowerCase();
+  //   setTerm(searchTerm);
   
-  };
+  // };
 
 
 
@@ -241,7 +241,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
         </div>
 
 
-<div className="relative flex">
+{/* <div className="relative flex">
           <input
             type="text"
             placeholder="Search Product"
@@ -249,8 +249,8 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
             onChange={searchFilter}
             className="rounded-xl h-8 w-64 text-left px-2  bg-transparent gap-2 border-transparent my-1 text-white border-blue-900"
           />
-          {/* <CiSearch className="absolute left-0 top-2 text-gray-400 mr-5" /> */}
-        </div>
+          {/* <CiSearch className="absolute left-0 top-2 text-gray-400 mr-5" /> 
+        </div> */}
       </div>
 
     
@@ -259,7 +259,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
       ) : (
         <div className="w-[95%]">
           <div className="grid grid-cols-4 grid-rows-2 gap-4 mt-8">
-            {filteredProducts.map((item, index) => (
+              {productCriteria.map((item, index) => (
               <div
                 key={item.productID}
                 className="w-full max-w-md border p-2 shadow-md"

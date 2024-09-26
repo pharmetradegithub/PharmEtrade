@@ -77,6 +77,8 @@ function LayoutaddProduct() {
   const [activeTab, setActiveTab] = useState(0);
   const [images, setImages] = useState([]);
   const [error, setError] = useState("");
+  const components = useSelector((state) => state.master.productCategoryGetAll)
+  console.log("categoeryyyaddproduct-->", components)
   const [notification, setNotification] = useState({
     show: false,
     message: "",
@@ -1060,8 +1062,12 @@ function LayoutaddProduct() {
                       value={formData.productCategory}
                     >
                       <option value="">Select a product category</option>
-                      <option value="1">Prescription Medications</option>
-                      <option value="2">Baby & Child Care Products</option>
+                      {components.map((items) => {
+                        return(
+                          <option value={items.productCategoryId }>{items.categoryName}</option>
+                        )
+                      })}
+                      {/* <option value="1">Prescription Medications</option>
                       <option value="4">Health care products</option>
                       <option value="5">Household Suppliers</option>
                       <option value="6">Oral Care Products</option>
@@ -1073,7 +1079,7 @@ function LayoutaddProduct() {
                       <option value="10">
                         Vitamins, Minerals & Supplements
                       </option>
-                      <option value="11">Personal Care products</option>
+                      <option value="11">Personal Care products</option> */}
 
                       {/* <option value="3">Apparel</option>
                       <option value="4">Home Goods</option>
