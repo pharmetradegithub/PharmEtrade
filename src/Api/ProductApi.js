@@ -329,8 +329,9 @@ export const fetchOtcProductsApi = async () => {
 
 export const fetchProductsBySellerApi = async (sellerId) => {
   try {
-    const response = await axios.get(`/api/Product/GeBySeller?sellerId=${sellerId}`);
+    const response = await axios.get(`/api/Product/GetBySeller?sellerId=${sellerId}`);
     if (response.status === 200) {
+      console.log(response);
       store.dispatch({ type: SET_PRODUCTS_BY_SELLER, payload: { sellerId, products: response.data.result } });
     } else {
       console.error('Failed to fetch products by seller:', response.data.message);

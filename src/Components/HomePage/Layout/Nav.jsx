@@ -603,7 +603,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 </div>
               )}
 
-              <div className="flex w-[80%] h-12 border container-focus">
+              <div className="flex w-full h-12 border container-focus">
                 <input
                   type="text"
                   placeholder="Search for products..."
