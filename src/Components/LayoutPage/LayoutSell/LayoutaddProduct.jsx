@@ -648,6 +648,7 @@ const dispatch = useDispatch()
       height: formData.Height,
       width: formData.Width,
       length: formData.Length,
+      sku:formData.sku,
       weight: formData.Weight,
       manufacturer: formData.manufacturer,
       strength: formData.strength,
@@ -929,6 +930,7 @@ const dispatch = useDispatch()
               ndcUpc: "",
               brandName: "",
               size: "",
+              sku:"",
               unitOfMeasurement: "",
               mainImageUrl: null,
               price: 0,
@@ -1220,27 +1222,7 @@ const dispatch = useDispatch()
                         />
                       </div>
 
-                      {/* <div className="flex flex-col">
-                        <label className="text-sm font-semibold">
-                          Expiration Date:
-                        </label>
-                        <input
-                          name="expirationDate"
-                          type="Date"
-                          className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                          onChange={handleInputChange}
-                          value={
-                            formData.expirationDate
-                              ? formData.expirationDate.split("T")[0]
-                              : ""
-                          }
-                        />
-                        {formErrors.expirationDate && (
-                          <span className="text-red-500 text-sm">
-                            {formErrors.expirationDate}
-                          </span>
-                        )}
-                      </div> */}
+                      
                       <div className="flex flex-col">
                         <label className="text-sm font-semibold">
                           Expiration Date:
@@ -1271,11 +1253,11 @@ const dispatch = useDispatch()
                           SKU:
                         </label>
                         <input
-                          name="SKU"
+                          name="sku"
                           type="text"
                           className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                        // onChange={handleInputChange}
-                        // value={formData.lotNumber}
+                        onChange={handleInputChange}
+                        value={formData.sku}
                         />
                       </div>
                     </div>

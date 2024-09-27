@@ -194,7 +194,9 @@ const LayoutRelatedProducts = () => {
       console.log(error);
     }
   };
-  const productsbySeller = useSelector((state)=>state.product.productsBySeller);
+  const sellerId = localStorage.getItem("userId");
+
+  const productsbySeller = useSelector((state)=>state.product.productsBySeller[sellerId]);
   const handleCriteria = async () => {
     const sellerId = localStorage.getItem("userId");
     let Criteria = {
@@ -501,8 +503,8 @@ const LayoutRelatedProducts = () => {
               </tr>
             </thead>
             <tbody>
-              {productsbySeller && productsbySeller.length > 0 ? (
-                productsbySeller.map((product, index) => (
+              {productsByCriteria && productsByCriteria.length > 0 ? (
+                productsByCriteria.map((product, index) => (
                   <tr key={index} className="border-b">
                     {/* <td className=" p-2">
                 <input className=" h-6 w-4" type="checkbox" />
