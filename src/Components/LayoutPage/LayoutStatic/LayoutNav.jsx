@@ -87,11 +87,23 @@ const LayoutNav = ({ Form_Data, }) => {
     navigate('/layout/layoutCategoryProducts');
 
   };
+
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault();  // Prevent the default behavior
+        handleSearchAPI();           // Call submit function when Enter is pressed
+    }
+  }
   const [selectedItem, setSelectedItem] = useState("All"); 
   const [SearchInput, setSearchInput] = useState("");
-  console.log(SearchInput, "search")
   const handleSearch = async (e) => {
     setSearchInput(e.target.value)
+  };
+
+
+  console.log(SearchInput, "search")
+  const handleSearchAPI = async () => {
     let Criteria = {
       productName: SearchInput
     };
@@ -99,9 +111,11 @@ const LayoutNav = ({ Form_Data, }) => {
     console.log("g--->", Criteria)
 
     await fetchCriteriaProductsApi(Criteria);
-    navigate('/layout/layoutCategoryProducts');
+    navigate(`/layout/layoutCategoryProducts?Search=${SearchInput}`);
 
   };
+
+
 
 
 
@@ -289,12 +303,13 @@ const LayoutNav = ({ Form_Data, }) => {
                 name="SearchInput"
                 value={SearchInput}
                 onChange={handleSearch}
+                onKeyDown={handleKeyDown}
                 placeholder="Search for products..."
                 className="flex-grow p-4 border-none focus:outline-none container-focus"
               />
-              <button 
+              <button  onClick={()=>handleSearchAPI()}
                 className="w-[40px] flex items-center justify-center p-2 bg-blue-900 text-white border-blue-500 rounded-r-md focus:outline-none container-focus">
-                <img src={search} alt="search icon" />
+                <img src={search}  alt="search icon" />
               </button>
             </div>
           </div>

@@ -324,7 +324,11 @@ function LayoutSellOrders() {
                 SellerOrder.map((product, index) => (
                   <tr key={product.productId} className="border-b">
                     <td className="px-4 py-2">{index + 1}</td>
-                    <td className="px-4 py-2">{product?.orderDate}</td>
+                    <td className="px-4 py-2">{new Date(product.orderDate).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit',
+                              }).replace(/\//g, '-')}</td>
                     <td className="px-4 py-2">{product?.productName}</td>
                     <td className="px-4 py-2">{product?.totalAmount}</td>
                     <td className="px-4 py-2">{product?.customerName}</td>

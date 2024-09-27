@@ -1,3 +1,6 @@
+
+
+
 // import React, { useEffect, useState } from "react";
 // import "../App.css";
 // import logoImage from "../assets/logo2.png";
@@ -27,6 +30,7 @@
 //   InputAdornment,
 //   IconButton,
 //   Autocomplete,
+//   FormHelperText,
 // } from "@mui/material";
 // import TermsAndConditions from "./TermsAndConditions";
 
@@ -70,6 +74,28 @@
 //   const [showPassword, setShowPassword] = useState(false);
 //   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+
+//   // Federal Tax Id
+//   const formatFederalTaxID = (value) => {
+//     // Remove all non-numeric characters
+//     const numericValue = value.replace(/\D/g, '');
+  
+//     // Format according to the 99-9999999 pattern
+//     if (numericValue.length <= 2) {
+//       return numericValue; // 99
+//     } else if (numericValue.length <= 9) {
+//       return `${numericValue.slice(0, 2)}-${numericValue.slice(2)}`; // 99-9999999
+//     }
+    
+//     return `${numericValue.slice(0, 2)}-${numericValue.slice(2, 9)}`; // 99-9999999 (limit to 9 digits after dash)
+//   };
+//   const handleFederalTaxIDChange = (e) => {
+//     const { value } = e.target;
+//     const formattedValue = formatFederalTaxID(value);
+//     handleInputChange({
+//       target: { name: 'Federal_Tax_ID', value: formattedValue },
+//     });
+//   };
 //   const handleMouseDownPassword = (event) => {
 //     event.preventDefault();
 //   };
@@ -316,6 +342,35 @@
 
 //       await uploadFile(file, name);
 //     }
+
+//     if (name === 'DEA_Expiration_Date') {
+//       const today = getTodayDate();
+//       if (new Date(value) < new Date(today)) {
+//         setErrors((prev) => ({
+//           ...prev,
+//           DEA_Expiration_Date: 'DEA Expiration Date cannot be in the past.',
+//         }));
+//       } else {
+//         setErrors((prev) => ({
+//           ...prev,
+//           DEA_Expiration_Date: '',
+//         }));
+//       }
+//     }
+//     if (name === 'Pharmacy_Expiration_Date') {
+//       const today = getTodayDate();
+//       if (new Date(value) < new Date(today)) {
+//         setErrors((prev) => ({
+//           ...prev,
+//           Pharmacy_Expiration_Date: 'Pharmacy Expiration Date cannot be in the past.',
+//         }));
+//       } else {
+//         setErrors((prev) => ({
+//           ...prev,
+//           Pharmacy_Expiration_Date: '',
+//         }));
+//       }
+//     }
 //     // console.log(formData);
 //     if (name === "password") validatePassword(value);
 
@@ -334,8 +389,36 @@
 //     setShowPassword(!showPassword);
 //   };
 
+//   // const [searchTerm, setSearchTerm] = useState('');
+
+
 //   const handleClickShowConfirmPassword = () => {
 //     setShowConfirmPassword(!showConfirmPassword);
+//   };
+//   const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+
+
+//     // Prevent special characters from being typed
+//     const handleKeyPress = (e) => {
+//       const regexShop = /^[a-zA-Z0-9\s]*$/;
+//       if (!regexShop.test(e.key)) {
+//         e.preventDefault(); // Prevents special characters from being typed
+//       }
+//     };
+//     // bussiness afx
+//     // Function to format phone number as 222-222-1457
+//    const formatFaxNumber = (value) => {
+//     const cleaned = value.replace(/\D/g, ''); // Remove all non-numeric characters
+//     const match = cleaned.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
+
+//     if (match) {
+//       const part1 = match[1] ? `${match[1]}` : '';
+//       const part2 = match[2] ? `-${match[2]}` : '';
+//       const part3 = match[3] ? `-${match[3]}` : '';
+//       return `${part1}${part2}${part3}`;
+//     }
+
+//     return value;
 //   };
 
 //   // const validateForm = () => {
@@ -363,16 +446,16 @@
 //     const regphn = /^(?:\+1\s?)?(\(?\d{3}\)?[-.\s]?)?\d{3}[-.\s]?\d{4}$/;
 
 //     if (step === 0) {
-//       const regex = /^[a-zA-Z\s']+$/;
+//       // const regex = /^[a-zA-Z\s']+$/;
 //       const passwordRegex =
 //         /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-//       if (!formData.First_Name.match(regex))
-//         newErrors.First_Name = "First name is required.";
-//       if (!formData.Last_Name.match(regex))
-//         newErrors.Last_Name = "Last name is required.";
+//         if (!formData.First_Name)
+//           newErrors.First_Name = "First name is required.";
+//         if (!formData.Last_Name)
+//           newErrors.Last_Name = "Last name is required."
 
 //       if (!formData.Email_id.match(regexp))
-//         newErrors.Email_id = "Email_id is required";
+//         newErrors.Email_id = "Email id is required";
 
 //       if (!formData.Phone_number.match(regphn)) {
 //         console.log(formData.Phone_number.length, "hmmmm");
@@ -413,7 +496,7 @@
 //           if (responseEmail.ok) {
 //             const data = await responseEmail.json(); // Convert response to JSON
 //             if (data?.result != null) {
-//               newErrors.Email_id = "Email_Id already Exists";
+//               newErrors.Email_id = "Email Id already Exists";
 //             }
 //             // Now you can work with the data, e.g., update the UI
 //           } else {
@@ -485,16 +568,16 @@
 //       }
 
 //       if (!formData.Business_Fax && userType != "Retail Customer")
-//         newErrors.Business_Fax = "Business_Fax is required";
+//         newErrors.Business_Fax = "Business Fax is required";
 //       if (!formData.Business_Email && userType != "Retail Customer")
-//         newErrors.Business_Email = " Business_Email is required";
+//         newErrors.Business_Email = " Business Email is required";
 //       else if (
 //         !formData.Business_Email.match(regexp) &&
 //         userType != "Retail Customer"
 //       )
-//         newErrors.Business_Email = " Business_Email is required";
+//         newErrors.Business_Email = " Business Email is required";
 
-//       if (!formData.zip) newErrors.zip = "Zip is required";
+//       // if (!formData.zip) newErrors.zip = "Zip is required";
 //       if (!formData.Address1) newErrors.Address1 = "Address is required";
 //       if (!formData.city) newErrors.city = "City is required";
 //       if (!formData.State) newErrors.State = "State is required";
@@ -525,7 +608,7 @@
 //         userType != "Pharmacy Distributor" &&
 //         userType != "Retail Customer"
 //       )
-//         newErrors.DEA_License_Copy = "DEA_License_Copy is required";
+//         newErrors.DEA_License_Copy = "DEA License Copy is required";
 
 //       if (
 //         userType != "General Merchandise Seller" &&
@@ -546,7 +629,7 @@
 //         userType != "Pharmacy Distributor" &&
 //         userType != "Retail Customer"
 //       )
-//         newErrors.Pharmacy_License_Copy = "Pharmacy_License_Copy is required";
+//         newErrors.Pharmacy_License_Copy = "Pharmacy License Copy is required";
 
 //       if (
 //         !formData.Pharmacy_License &&
@@ -554,7 +637,7 @@
 //         userType != "Pharmacy Distributor" &&
 //         userType != "Retail Customer"
 //       )
-//         newErrors.Pharmacy_License = "Pharmacy_License is required";
+//         newErrors.Pharmacy_License = "Pharmacy License is required";
 //       if (
 //         !formData.NCPDP &&
 //         userType != "General Merchandise Seller" &&
@@ -805,26 +888,30 @@
 //           <div className="w-full">
 //             <div className="flex flex-row w-full  my-4 justify-evenly">
 //               <div className="w-[45%] ">
-//                 <TextField
+//               <TextField
 //                   label="First Name"
 //                   id="outlined-size-small"
 //                   name="First_Name"
 //                   value={formData.First_Name}
 //                   onChange={handleInputChange}
 //                   error={!!errors.First_Name}
+//                   helperText={errors.First_Name}
+
 //                   size="small"
 //                   className="w-full"
 //                 />
 //               </div>
 
 //               <div className="w-[45%]">
-//                 <TextField
+//               <TextField
 //                   label="Last Name"
 //                   id="outlined-size-small"
 //                   name="Last_Name"
 //                   value={formData.Last_Name}
 //                   onChange={handleInputChange}
 //                   error={!!errors.Last_Name}
+//                   helperText={errors.Last_Name}
+
 //                   size="small"
 //                   className="w-full"
 //                 />
@@ -833,8 +920,8 @@
 
 //             <div className="flex flex-row  w-full my-4 justify-evenly">
 //               <div className="w-[45%] ">
-//                 <TextField
-//                   label="Email ID/User ID"
+//               <TextField
+//                   label="Email ID"
 //                   id="outlined-size-small"
 //                   name="Email_id"
 //                   value={formData.Email_id}
@@ -851,7 +938,7 @@
 //               </div>
 
 //               <div className="w-[45%] ">
-//                 <TextField
+//               <TextField
 //                   label="Phone Number"
 //                   id="outlined-size-small"
 //                   name="Phone_number"
@@ -859,11 +946,13 @@
 //                   onChange={handleInputChange}
 //                   error={!!errors.Phone_number}
 //                   size="small"
-//                   helperText={
-//                     errors?.Phone_number !== null && formData.Phone_number != 0
-//                       ? errors.Phone_number
-//                       : ""
-//                   }
+//                   // helperText={
+//                   //   errors?.Phone_number !== null && formData.Phone_number != 0
+//                   //     ? errors.Phone_number
+//                   //     : ""
+//                   // }
+//                   helperText={errors.Phone_number} 
+//                   inputProps={{maxLength:12}}
 //                   className="w-full"
 //                 />
 //               </div>
@@ -979,6 +1068,8 @@
 //                 label="Enter Captcha"
 //                 variant="standard"
 //                 error={!!errors.captcha}
+//                 helperText={errors.captcha}
+
 //               />
 //             </div>
 //           </div>
@@ -1184,6 +1275,8 @@
 //                 value={formData.shopName}
 //                 onChange={handleInputChange}
 //                 error={!!errors.shopName}
+//                 helperText={errors.shopName}
+//                 onKeyPress={handleKeyPress} 
 //                 size="small"
 //                 className="w-[92%]"
 //               />
@@ -1193,13 +1286,22 @@
 //               className={`${userType === "Retail Customer" ? "hidden" : ""}`}
 //             >
 //               <div>
-//                 <TextField
+//               <TextField
 //                   label="Legal Business Name"
 //                   id="outlined-size-small"
 //                   name="legalBusinessName"
 //                   value={formData.legalBusinessName}
-//                   onChange={handleInputChange}
+//                   // onChange={handleInputChange}
+//                   onChange={(e) => {
+//                     const { value } = e.target;
+//                     // Allow only alphabets and spaces by replacing anything else
+//                     const alphabeticValue = value.replace(/[^a-zA-Z\s]/g, '');
+//                     handleInputChange({
+//                       target: { name: "legalBusinessName", value: alphabeticValue }
+//                     });
+//                   }}
 //                   error={!!errors.legalBusinessName}
+//                   helperText={errors.legalBusinessName}
 //                   size="small"
 //                   className="w-[92%]"
 //                 />
@@ -1214,41 +1316,57 @@
 //                   : ""
 //               } `}
 //             >
-//               <TextField
+//              <TextField
 //                 label="DBA"
 //                 id="outlined-size-small"
 //                 name="dbaName"
 //                 value={formData.dbaName}
 //                 onChange={handleInputChange}
 //                 error={!!errors.dbaName}
+//                 onKeyPress={handleKeyPress} 
+//                 helperText={errors.dbaName}
+
 //                 size="small"
 //                 className="w-[92%]"
 //               />
 //             </div>
 
 //             <div>
-//               <TextField
-//                 label="Address1"
+//             <TextField
+//                 label="Address"
 //                 id="outlined-size-small"
 //                 name="Address1"
 //                 value={formData.Address1}
 //                 onChange={handleInputChange}
 //                 error={!!errors.Address1}
+//                 helperText={errors.Address1}
+
 //                 size="small"
 //                 className="w-[92%]"
 //               />
 //             </div>
 //             <div>
-//               <TextField
+//             <TextField
 //                 label="City"
 //                 id="outlined-size-small"
 //                 name="city"
 //                 value={formData.city}
-//                 onChange={handleInputChange}
+//                 // onChange={handleInputChange}
+//                 onChange={(e) => {
+//                   const { value } = e.target;
+//                   // Allow only alphabets and spaces by replacing anything else
+//                   const alphabeticValue = value.replace(/[^a-zA-Z\s]/g, '');
+//                   handleInputChange({
+//                     target: { name: "city", value: alphabeticValue }
+//                   });
+//                 }}
 //                 error={!!errors.city}
+//                 helperText={errors.city}
+
 //                 size="small"
 //                 className="w-[92%]"
 //               />
+           
 //             </div>
 
             
@@ -1282,40 +1400,35 @@
 //                 //   horizontal: 'left'
 //                 // }}
 //               /> */}
-//               <FormControl
-//                 className="w-[92%]"
-//                 size="small"
-//                 error={!!errors.State}
-//               >
-//                 <InputLabel id="state-select-label">State</InputLabel>
-//                 <Select
-//                   id="state-select"
-//                   label="State"
-//                   value={formData.State}
-//                   name="State"
-//                   onChange={handleInputChange}
-//                   MenuProps={{
-//                     PaperProps: {
-//                       style: {
-//                         maxHeight: 200, // Set the maximum height of the dropdown
-//                       },
-//                     },
-//                   }}
-//                 >
-//                   <MenuItem value="">
-//                     <em>None</em>
-//                   </MenuItem>
-//                   {states.map((state) => (
-//                     <MenuItem
-//                       key={state.abbreviation}
-//                       value={state.abbreviation}
-//                     >
-//                       {state.name}
-//                     </MenuItem>
-//                   ))}
-//                 </Select>
-//                 {errors.State && <span>{errors.State}</span>}
-//               </FormControl>
+//                 <FormControl className="w-[92%]" error={!!errors.State}>
+//       <InputLabel id="state-select-label"></InputLabel>
+//       <Autocomplete
+//         id="state-select"
+//         options={states}
+//         getOptionLabel={(option) => option.name}
+//         value={states.find(state => state.abbreviation === formData.State) || null}
+//         onChange={(event, newValue) => {
+//           handleInputChange({
+//             target: { name: 'State', value: newValue ? newValue.abbreviation : '' }
+//           });
+//         }}
+//         renderInput={(params) => (
+//           <TextField
+//             {...params}
+//             label="State"
+//             size="small"
+//             variant="outlined"
+//             error={!!errors.State}
+//           />
+//         )}
+//         filterOptions={(options, { inputValue }) => {
+//           return options.filter((option) =>
+//             option.name.toLowerCase().includes(inputValue.toLowerCase())
+//           );
+//         }}
+//       />
+//       {errors.State && <FormHelperText>{errors.State}</FormHelperText>}
+//     </FormControl>
 //               {/* <FormControl
 //                 className="w-[80%]"
 //                 size="small"
@@ -1367,15 +1480,24 @@
 //             </div>
 
 //             <div>
-//               <TextField
+//             <TextField
 //                 label="Zip"
 //                 id="outlined-size-small"
 //                 name="zip"
 //                 value={formData.zip}
-//                 onChange={handleInputChange}
-//                 error={!!errors.zip}
+//                 // onChange={handleInputChange}
+//                 onChange={(e) => {
+//                   const { value } = e.target;
+//                   // Allow only numbers by replacing non-numeric characters
+//                   const numericValue = value.replace(/[^0-9]/g, '');
+//                   handleInputChange({
+//                     target: { name: "zip", value: numericValue }
+//                   });
+//                 }}
+//                 // error={!!errors.zip}
 //                 size="small"
 //                 className="w-[92%]"
+//                 inputProps={{maxLength:13}}
 //               />
 //             </div>
 
@@ -1385,7 +1507,7 @@
 //               className={`${userType === "Retail Customer" ? "hidden" : ""}`}
 //             >
 //               <div>
-//                 <TextField
+//               <TextField
 //                   label="Business Phone"
 //                   id="outlined-size-small"
 //                   name="BusinessPhone"
@@ -1409,16 +1531,18 @@
 //               className={`${userType === "Retail Customer" ? "hidden" : ""}`}
 //             >
 //               <div>
-//                 <TextField
-//                   label="Business Fax"
-//                   id="outlined-size-small"
-//                   name="Business_Fax"
-//                   value={formData.Business_Fax}
-//                   onChange={handleInputChange}
-//                   error={!!errors.Business_Fax}
-//                   size="small"
-//                   className="w-[92%]"
-//                 />
+//               <TextField
+//         label="Business Fax"
+//         id="outlined-size-small"
+//         name="Business_Fax"
+//         value={formatFaxNumber(formData.Business_Fax)} // Apply formatting
+//         onChange={handleInputChange}
+//         error={!!errors.Business_Fax}
+//         size="small"
+//         className="w-[92%]"
+//         helperText={errors.Business_Fax} // Display error message if present
+//         inputProps={{ maxLength: 12 }} // Limit input length for the formatted value
+//       />
 //               </div>
 //             </div>
 
@@ -1426,17 +1550,31 @@
 //               className={`${userType === "Retail Customer" ? "hidden" : ""}`}
 //             >
 //               <div>
-//                 <TextField
+//               <TextField
 //                   label="Business Email"
 //                   id="outlined-size-small"
 //                   name="Business_Email"
 //                   value={formData.Business_Email}
 //                   onChange={handleInputChange}
 //                   error={!!errors.Business_Email}
+//                   helperText={errors.Business_Email}
 //                   size="small"
 //                   className="w-[92%]"
 //                 />
 //               </div>
+//             </div>
+//             <div>
+//               <TextField
+//                 label="Company website"
+//                 id="outlined-size-small"
+//                 name="Company website"
+//                 // value={formData.Business_Email}
+//                 // onChange={handleInputChange}
+//                 // error={!!errors.Business_Email}
+//                 // helperText={errors.Business_Email}
+//                 size="small"
+//                 className="w-[92%]"
+//               />
 //             </div>
 //           </div>
 //         );
@@ -1445,7 +1583,7 @@
 //           <div className="my-2 w-full flex flex-col justify-center items-center ">
 //             <div className="flex flex-row w-full   my-3 justify-between">
 //               <div className="w-[45%]">
-//                 <TextField
+//               <TextField
 //                   label="DEA"
 //                   id="outlined-size-small"
 //                   name="DEA"
@@ -1453,13 +1591,15 @@
 //                   onChange={handleInputChange}
 //                   error={!!errors.DEA}
 //                   size="small"
-//                   inputProps={{ tabIndex: "1" }}
+//                   inputProps={{maxLength:20}}
+//                   helperText={errors.DEA}
 //                   className="w-full"
+//                   onKeyPress={handleKeyPress} 
 //                 />
 //               </div>
 
 //               <div className="w-[45%]">
-//                 <TextField
+//               <TextField
 //                   label="Pharmacy License"
 //                   id="outlined-size-small"
 //                   name="Pharmacy_License"
@@ -1467,16 +1607,18 @@
 //                   onChange={handleInputChange}
 //                   error={!!errors.Pharmacy_License}
 //                   size="small"
-//                   inputProps={{ tabIndex: "4" }}
+//                   inputProps={{ maxLength:20 }}
 //                   tabIndex={4}
 //                   className="w-full"
+//                   onKeyPress={handleKeyPress} 
+//                   helperText={errors.Pharmacy_License}
 //                 />
 //               </div>
 //             </div>
 //             <div className="flex flex-row w-full justify-between ">
 //               <div className="w-[45%] flex flex-col">
 //                 <span className="text-xs">DEA Expiration Date</span>
-//                 <TextField
+//                 {/* <TextField
 //                   label=""
 //                   type="date"
 //                   name="DEA_Expiration_Date"
@@ -1493,12 +1635,33 @@
 //                       ? errors.DEA_Expiration_Date
 //                       : ""
 //                   }
-//                 />
+//                 /> */}
+//                  <TextField
+//       label=""
+//       type="date"
+//       name="DEA_Expiration_Date"
+//       id="outlined-size-small"
+//       value={formData.DEA_Expiration_Date}
+//       error={!!errors.DEA_Expiration_Date}
+//       onChange={handleInputChange}
+//       size="small"
+//       inputProps={{ tabIndex: "5", min: today }} // Set min to today's date
+//       tabIndex={5}
+//                   className="w-full"
+//                   onKeyDown={(e) => {
+//                     e.preventDefault();
+//                   }}
+//       helperText={
+//         formData.DEA_Expiration_Date != null
+//           ? errors.DEA_Expiration_Date
+//           : ""
+//       }
+//     />
 //               </div>
 
 //               <div className="w-[45%] flex flex-col">
 //                 <span className="text-xs">Pharmacy Expiration Date</span>
-//                 <TextField
+//                 {/* <TextField
 //                   label=""
 //                   type="date"
 //                   name="Pharmacy_Expiration_Date"
@@ -1515,7 +1678,28 @@
 //                       ? errors.Pharmacy_Expiration_Date
 //                       : ""
 //                   }
-//                 />
+//                 /> */}
+//                  <TextField
+//       label=""
+//       type="date"
+//       name="Pharmacy_Expiration_Date"
+//                   id="outlined-size-small"
+//                   onKeyDown={(e) => {
+//                     e.preventDefault();
+//                   }}
+//       value={formData.Pharmacy_Expiration_Date}
+//       error={!!errors.Pharmacy_Expiration_Date}
+//       onChange={handleInputChange}
+//       size="small"
+//       inputProps={{ tabIndex: "5", min: today }} // Set min to today's date
+//       tabIndex={5}
+//       className="w-full"
+//       helperText={
+//         formData.Pharmacy_Expiration_Date != null
+//           ? errors.Pharmacy_Expiration_Date
+//           : ""
+//       }
+//     />
 //               </div>
 //             </div>
 
@@ -1569,7 +1753,7 @@
 
 //             <div className="flex flex-row w-full  my-3 justify-between">
 //               <div className="w-[45%]">
-//                 <TextField
+//               <TextField
 //                   label="NPI"
 //                   id="outlined-size-small"
 //                   name="NPI"
@@ -1577,14 +1761,16 @@
 //                   onChange={handleInputChange}
 //                   error={!!errors.NPI}
 //                   size="small"
-//                   inputProps={{ tabIndex: "7" }}
+//                   inputProps={{ maxLength:20 }}
 //                   tabIndex={7}
 //                   className="w-full"
+//                   onKeyPress={handleKeyPress} 
+//                   helperText={errors.NPI}
 //                 />
 //               </div>
 
 //               <div className="w-[45%]">
-//                 <TextField
+//               <TextField
 //                   label="NCPDP"
 //                   id="outlined-size-small"
 //                   name="NCPDP"
@@ -1592,9 +1778,11 @@
 //                   onChange={handleInputChange}
 //                   error={!!errors.NCPDP}
 //                   size="small"
-//                   inputProps={{ tabIndex: "8" }}
+//                   inputProps={{ maxLength:20 }}
 //                   tabIndex={8}
 //                   className="w-full"
+//                   onKeyPress={handleKeyPress} 
+//                   helperText={errors.NCPDP}
 
 //                   // style={{ width: "101%" }}
 //                 />
@@ -1603,17 +1791,21 @@
 
 //             <div className="flex w-full flex-row my-2 justify-start ">
 //               <div className="w-[45%]">
-//                 <TextField
+//               <TextField
 //                   label="Federal Tax ID"
 //                   id="outlined-size-small"
 //                   name="Federal_Tax_ID"
 //                   value={formData.Federal_Tax_ID}
-//                   onChange={handleInputChange}
+//                   // onChange={handleInputChange}
+//                   onChange={handleFederalTaxIDChange}
+
 //                   error={!!errors.Federal_Tax_ID}
 //                   size="small"
-//                   inputProps={{ tabIndex: "9" }}
+//                   inputProps={{ maxLength:20 }}
 //                   tabIndex={9}
 //                   className="w-full"
+//                   onKeyPress={handleKeyPress} 
+//                   helperText={errors.Federal_Tax_ID}
 //                 />
 // {/* 
 //                 <InputMask
@@ -1789,7 +1981,6 @@
 // };
 
 // export default Signup;
-
 
 
 import React, { useEffect, useState } from "react";
@@ -2108,31 +2299,76 @@ const Signup = () => {
       ...prevErrors,
       [name]: null,
     }));
-    if (!files) {
-      setFormData({
-        ...formData,
-        [name]: type === "checkbox" ? checked : value,
-      });
-    } else {
-      const file = files[0];
-      const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
-      if (name === "Pharmacy_License_Copy") {
-        setfile2(null),
-          setFormData((prev) => ({
-            ...prev,
-            [name]: "",
-          }));
-      }
-      if (name === "DEA_License_Copy") {
-        setfile1(null),
-          setFormData((prev) => ({
-            ...prev,
-            [name]: "",
-          }));
-      }
+    // if (!files) {
+    //   setFormData({
+    //     ...formData,
+    //     [name]: type === "checkbox" ? checked : value,
+    //   });
+    // } else {
+    //   const file = files[0];
+    //   const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+    //   if (name === "Pharmacy_License_Copy") {
+    //     setfile2(null),
+    //       setFormData((prev) => ({
+    //         ...prev,
+    //         [name]: "",
+    //       }));
+    //   }
+    //   if (name === "DEA_License_Copy") {
+    //     setfile1(null),
+    //       setFormData((prev) => ({
+    //         ...prev,
+    //         [name]: "",
+    //       }));
+    //   }
 
-      await uploadFile(file, name);
+    //   await uploadFile(file, name);
+    // }
+
+    // File validation logic
+  if (files) {
+    const file = files[0]; // Assuming only one file is uploaded
+    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+    
+    if (!allowedTypes.includes(file.type)) {
+      // Set error for incorrect file type
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: "Invalid file format. Only jpg, jpeg, png files are allowed.",
+      }));
+      return; // Stop further processing
+    } else {
+      // Clear the error if the file type is correct
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: "",
+      }));
     }
+
+    // Proceed with setting the file in state if valid
+    if (name === "DEA_License_Copy") {
+      setfile1(file.name); // Display file name
+      setFormData((prev) => ({
+        ...prev,
+        [name]: file,
+      }));
+    } else if (name === "Pharmacy_License_Copy") {
+      setfile2(file.name);
+      setFormData((prev) => ({
+        ...prev,
+        [name]: file,
+      }));
+    }
+
+    // Handle the file upload
+    await uploadFile(file, name);
+  } else {
+    // Handle regular input changes
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  }
 
     if (name === 'DEA_Expiration_Date') {
       const today = getTodayDate();
@@ -2368,22 +2604,22 @@ const Signup = () => {
       )
         newErrors.Business_Email = " Business Email is required";
 
-      // if (!formData.zip) newErrors.zip = "Zip is required";
+      if (!formData.zip) newErrors.zip = "Zip is required";
       if (!formData.Address1) newErrors.Address1 = "Address is required";
       if (!formData.city) newErrors.city = "City is required";
       if (!formData.State) newErrors.State = "State is required";
     } else if (step === 3) {
       if (
         !formData.DEA &&
-        userType != "General Merchandise Seller" &&
-        userType != "Pharmacy Distributor" &&
+        // userType != "General Merchandise Seller" &&
+        // userType != "Pharmacy Distributor" &&
         userType != "Retail Customer"
       )
         newErrors.DEA = "DEA is required";
 
       if (
-        userType != "General Merchandise Seller" &&
-        userType != "Pharmacy Distributor" &&
+        // userType != "General Merchandise Seller" &&
+        // userType != "Pharmacy Distributor" &&
         userType != "Retail Customer"
       ) {
         if (!formData.DEA_Expiration_Date) {
@@ -2395,15 +2631,15 @@ const Signup = () => {
 
       if (
         !formData.DEA_License_Copy &&
-        userType != "General Merchandise Seller" &&
-        userType != "Pharmacy Distributor" &&
+        // userType != "General Merchandise Seller" &&
+        // userType != "Pharmacy Distributor" &&
         userType != "Retail Customer"
       )
         newErrors.DEA_License_Copy = "DEA License Copy is required";
 
       if (
-        userType != "General Merchandise Seller" &&
-        userType != "Pharmacy Distributor" &&
+        // userType != "General Merchandise Seller" &&
+        // userType != "Pharmacy Distributor" &&
         userType != "Retail Customer"
       ) {
         if (!formData.Pharmacy_Expiration_Date) {
@@ -2416,36 +2652,36 @@ const Signup = () => {
 
       if (
         !formData.Pharmacy_License_Copy &&
-        userType != "General Merchandise Seller" &&
-        userType != "Pharmacy Distributor" &&
+        // userType != "General Merchandise Seller" &&
+        // userType != "Pharmacy Distributor" &&
         userType != "Retail Customer"
       )
         newErrors.Pharmacy_License_Copy = "Pharmacy License Copy is required";
 
       if (
         !formData.Pharmacy_License &&
-        userType != "General Merchandise Seller" &&
-        userType != "Pharmacy Distributor" &&
+        // userType != "General Merchandise Seller" &&
+        // userType != "Pharmacy Distributor" &&
         userType != "Retail Customer"
       )
         newErrors.Pharmacy_License = "Pharmacy License is required";
       if (
         !formData.NCPDP &&
-        userType != "General Merchandise Seller" &&
-        userType != "Pharmacy Distributor" &&
+        // userType != "General Merchandise Seller" &&
+        // userType != "Pharmacy Distributor" &&
         userType != "Retail Customer"
       )
         newErrors.NCPDP = "NCPDP is required";
       if (
         !formData.Federal_Tax_ID &&
-        userType != "General Merchandise Seller" &&
+        // userType != "General Merchandise Seller" &&
         userType != "Retail Customer"
       )
         newErrors.Federal_Tax_ID = "Federal is required";
       if (
         !formData.NPI &&
-        userType != "General Merchandise Seller" &&
-        userType != "Pharmacy Distributor" &&
+        // userType != "General Merchandise Seller" &&
+        // userType != "Pharmacy Distributor" &&
         userType != "Retail Customer"
       )
         newErrors.NPI = "NPI is required";
@@ -3287,8 +3523,11 @@ const Signup = () => {
                 }}
                 // error={!!errors.zip}
                 size="small"
+                error={!!errors.zip}
+
                 className="w-[92%]"
                 inputProps={{maxLength:13}}
+                helperText={errors.zip}
               />
             </div>
 
@@ -3298,7 +3537,7 @@ const Signup = () => {
               className={`${userType === "Retail Customer" ? "hidden" : ""}`}
             >
               <div>
-              <TextField
+              {/* <TextField
                   label="Business Phone"
                   id="outlined-size-small"
                   name="BusinessPhone"
@@ -3308,13 +3547,29 @@ const Signup = () => {
                   placeholder="Enter your business phone"
                   size="small"
                   className="w-[92%]"
-                  helperText={
-                    errors?.BusinessPhone !== null &&
-                    formData.BusinessPhone != 0
-                      ? errors.BusinessPhone
-                      : ""
-                  }
-                />
+                  helperText={ 
+                   "" && formData.BusinessPhone !== "" 
+                      ?""
+                      : "Bussiness phone is required" // Fallback to helper text
+                  }
+                /> */}
+
+<TextField
+    label="Business Phone"
+    id="outlined-size-small"
+    name="BusinessPhone"
+    value={formatPhoneNumber(formData.BusinessPhone)}
+    onChange={handleInputChange}
+    error={!!errors.BusinessPhone}
+    placeholder="Enter your business phone"
+    size="small"
+    className="w-[92%]"
+    helperText={
+      errors.BusinessPhone && formData.BusinessPhone === "" 
+        ? "Business phone is required" // Show helper text only if validation fails
+        : ""
+    }
+  />
               </div>
             </div>
 
@@ -3371,297 +3626,443 @@ const Signup = () => {
         );
       case 3:
         return (
-          <div className="my-2 w-full flex flex-col justify-center items-center ">
-            <div className="flex flex-row w-full   my-3 justify-between">
-              <div className="w-[45%]">
-              <TextField
-                  label="DEA"
-                  id="outlined-size-small"
-                  name="DEA"
-                  value={formData.DEA}
-                  onChange={handleInputChange}
-                  error={!!errors.DEA}
-                  size="small"
-                  inputProps={{maxLength:20}}
-                  helperText={errors.DEA}
-                  className="w-full"
-                  onKeyPress={handleKeyPress} 
-                />
-              </div>
+    //       <div className="my-2 w-full flex flex-col justify-center items-center ">
+    //         <div className="flex flex-row w-full   my-3 justify-between">
+    //           <div className="w-[45%]">
+    //           <TextField
+    //               label="DEA"
+    //               id="outlined-size-small"
+    //               name="DEA"
+    //               value={formData.DEA}
+    //               onChange={handleInputChange}
+    //               error={!!errors.DEA}
+    //               size="small"
+    //               inputProps={{maxLength:20}}
+    //               helperText={errors.DEA}
+    //               className="w-full"
+    //               onKeyPress={handleKeyPress} 
+    //             />
+    //           </div>
 
-              <div className="w-[45%]">
-              <TextField
-                  label="Pharmacy License"
-                  id="outlined-size-small"
-                  name="Pharmacy_License"
-                  value={formData.Pharmacy_License}
-                  onChange={handleInputChange}
-                  error={!!errors.Pharmacy_License}
-                  size="small"
-                  inputProps={{ maxLength:20 }}
-                  tabIndex={4}
-                  className="w-full"
-                  onKeyPress={handleKeyPress} 
-                  helperText={errors.Pharmacy_License}
-                />
-              </div>
-            </div>
-            <div className="flex flex-row w-full justify-between ">
-              <div className="w-[45%] flex flex-col">
-                <span className="text-xs">DEA Expiration Date</span>
-                {/* <TextField
-                  label=""
-                  type="date"
-                  name="DEA_Expiration_Date"
-                  value={formData.DEA_Expiration_Date}
-                  onChange={handleInputChange}
-                  id="outlined-size-small"
-                  error={!!errors.DEA_Expiration_Date}
-                  size="small"
-                  inputProps={{ tabIndex: "2" }}
-                  tabIndex={2}
-                  className="w-full"
-                  helperText={
-                    formData.DEA_Expiration_Date != null
-                      ? errors.DEA_Expiration_Date
-                      : ""
-                  }
-                /> */}
-                 <TextField
-      label=""
-      type="date"
-      name="DEA_Expiration_Date"
-      id="outlined-size-small"
-      value={formData.DEA_Expiration_Date}
-      error={!!errors.DEA_Expiration_Date}
-      onChange={handleInputChange}
-      size="small"
-      inputProps={{ tabIndex: "5", min: today }} // Set min to today's date
-      tabIndex={5}
-                  className="w-full"
-                  onKeyDown={(e) => {
-                    e.preventDefault();
-                  }}
-      helperText={
-        formData.DEA_Expiration_Date != null
-          ? errors.DEA_Expiration_Date
-          : ""
-      }
-    />
-              </div>
+    //           <div className="w-[45%]">
+    //           <TextField
+    //               label="Pharmacy License"
+    //               id="outlined-size-small"
+    //               name="Pharmacy_License"
+    //               value={formData.Pharmacy_License}
+    //               onChange={handleInputChange}
+    //               error={!!errors.Pharmacy_License}
+    //               size="small"
+    //               inputProps={{ maxLength:20 }}
+    //               tabIndex={4}
+    //               className="w-full"
+    //               onKeyPress={handleKeyPress} 
+    //               helperText={errors.Pharmacy_License}
+    //             />
+    //           </div>
+    //         </div>
+    //         <div className="flex flex-row w-full justify-between ">
+    //           <div className="w-[45%] flex flex-col">
+    //             <span className="text-xs">DEA Expiration Date</span>
+               
+    //              <TextField
+    //   label=""
+    //   type="date"
+    //   name="DEA_Expiration_Date"
+    //   id="outlined-size-small"
+    //   value={formData.DEA_Expiration_Date}
+    //   error={!!errors.DEA_Expiration_Date}
+    //   onChange={handleInputChange}
+    //   size="small"
+    //   inputProps={{ tabIndex: "5", min: today }} // Set min to today's date
+    //   tabIndex={5}
+    //               className="w-full"
+    //               onKeyDown={(e) => {
+    //                 e.preventDefault();
+    //               }}
+    //   helperText={
+    //     formData.DEA_Expiration_Date != null
+    //       ? errors.DEA_Expiration_Date
+    //       : ""
+    //   }
+    // />
+    //           </div>
 
-              <div className="w-[45%] flex flex-col">
-                <span className="text-xs">Pharmacy Expiration Date</span>
-                {/* <TextField
-                  label=""
-                  type="date"
-                  name="Pharmacy_Expiration_Date"
-                  id="outlined-size-small"
-                  value={formData.Pharmacy_Expiration_Date}
-                  error={!!errors.Pharmacy_Expiration_Date}
-                  onChange={handleInputChange}
-                  size="small"
-                  inputProps={{ tabIndex: "5" }}
-                  tabIndex={5}
-                  className="w-full"
-                  helperText={
-                    formData.Pharmacy_Expiration_Date != null
-                      ? errors.Pharmacy_Expiration_Date
-                      : ""
-                  }
-                /> */}
-                 <TextField
-      label=""
-      type="date"
-      name="Pharmacy_Expiration_Date"
-                  id="outlined-size-small"
-                  onKeyDown={(e) => {
-                    e.preventDefault();
-                  }}
-      value={formData.Pharmacy_Expiration_Date}
-      error={!!errors.Pharmacy_Expiration_Date}
-      onChange={handleInputChange}
-      size="small"
-      inputProps={{ tabIndex: "5", min: today }} // Set min to today's date
-      tabIndex={5}
-      className="w-full"
-      helperText={
-        formData.Pharmacy_Expiration_Date != null
-          ? errors.Pharmacy_Expiration_Date
-          : ""
-      }
-    />
-              </div>
-            </div>
+    //           <div className="w-[45%] flex flex-col">
+    //             <span className="text-xs">Pharmacy Expiration Date</span>
+                
+    //              <TextField
+    //   label=""
+    //   type="date"
+    //   name="Pharmacy_Expiration_Date"
+    //               id="outlined-size-small"
+    //               onKeyDown={(e) => {
+    //                 e.preventDefault();
+    //               }}
+    //   value={formData.Pharmacy_Expiration_Date}
+    //   error={!!errors.Pharmacy_Expiration_Date}
+    //   onChange={handleInputChange}
+    //   size="small"
+    //   inputProps={{ tabIndex: "5", min: today }} // Set min to today's date
+    //   tabIndex={5}
+    //   className="w-full"
+    //   helperText={
+    //     formData.Pharmacy_Expiration_Date != null
+    //       ? errors.Pharmacy_Expiration_Date
+    //       : ""
+    //   }
+    // />
+    //           </div>
+    //         </div>
 
-            <div className="flex flex-row w-full justify-between ">
-              <div className=" w-[45%]">
-                <span className="text-xs">DEA License Copy(jpg,png,jpeg) </span>
-                <TextField
-                  label=""
-                  type="file"
-                  onChange={handleInputChange}
-                  name="DEA_License_Copy"
-                  id="outlined-size-small"
-                  error={!!errors.DEA_License_Copy}
-                  size="small"
-                  inputProps={{ tabIndex: "3" }}
-                  tabIndex={3}
-                  className="w-full"
-                  helperText={errors?.DEA_License_Copy}
-                />
-                {file1 && (
-                  <div className={`${file1.length > 0 ? "" : "hidden"}`}>
-                    {file1}
-                  </div>
-                )}
-              </div>
+    //         <div className="flex flex-row w-full justify-between ">
+    //           <div className=" w-[45%]">
+    //             <span className="text-xs">DEA License Copy(jpg,png,jpeg) </span>
+    //             <TextField
+    //               label=""
+    //               type="file"
+    //               onChange={handleInputChange}
+    //               name="DEA_License_Copy"
+    //               id="outlined-size-small"
+    //               error={!!errors.DEA_License_Copy}
+    //               size="small"
+    //               inputProps={{ tabIndex: "3" }}
+    //               tabIndex={3}
+    //               className="w-full"
+    //               helperText={errors?.DEA_License_Copy}
+    //             />
+    //             {file1 && (
+    //               <div className={`${file1.length > 0 ? "" : "hidden"}`}>
+    //                 {file1}
+    //               </div>
+    //             )}
+    //           </div>
 
-              <div className="w-[45%]">
-                <span className="text-xs">
-                  Pharmacy License Copy(jpeg,jpg,png){" "}
-                </span>
-                <TextField
-                  label=""
-                  type="file"
-                  onChange={handleInputChange}
-                  name="Pharmacy_License_Copy"
-                  id="outlined-size-small"
-                  error={!!errors.Pharmacy_License_Copy}
-                  size="small"
-                  inputProps={{ tabIndex: "6" }}
-                  tabIndex={6}
-                  className="w-full"
-                  helperText={errors?.Pharmacy_License_Copy}
-                />
-                {file2 && (
-                  <div className={`${file2.length > 0 ? "" : "hidden"}`}>
-                    {file2}
-                  </div>
-                )}
-              </div>
-            </div>
+    //           <div className="w-[45%]">
+    //             <span className="text-xs">
+    //               Pharmacy License Copy(jpeg,jpg,png){" "}
+    //             </span>
+    //             <TextField
+    //               label=""
+    //               type="file"
+    //               onChange={handleInputChange}
+    //               name="Pharmacy_License_Copy"
+    //               id="outlined-size-small"
+    //               error={!!errors.Pharmacy_License_Copy}
+    //               size="small"
+    //               inputProps={{ tabIndex: "6" }}
+    //               tabIndex={6}
+    //               className="w-full"
+    //               helperText={errors?.Pharmacy_License_Copy}
+    //             />
+    //             {file2 && (
+    //               <div className={`${file2.length > 0 ? "" : "hidden"}`}>
+    //                 {file2}
+    //               </div>
+    //             )}
+    //           </div>
+    //         </div>
 
-            <div className="flex flex-row w-full  my-3 justify-between">
-              <div className="w-[45%]">
-              <TextField
-                  label="NPI"
-                  id="outlined-size-small"
-                  name="NPI"
-                  value={formData.NPI}
-                  onChange={handleInputChange}
-                  error={!!errors.NPI}
-                  size="small"
-                  inputProps={{ maxLength:20 }}
-                  tabIndex={7}
-                  className="w-full"
-                  onKeyPress={handleKeyPress} 
-                  helperText={errors.NPI}
-                />
-              </div>
+    //         <div className="flex flex-row w-full  my-3 justify-between">
+    //           <div className="w-[45%]">
+    //           <TextField
+    //               label="NPI"
+    //               id="outlined-size-small"
+    //               name="NPI"
+    //               value={formData.NPI}
+    //               onChange={handleInputChange}
+    //               error={!!errors.NPI}
+    //               size="small"
+    //               inputProps={{ maxLength:20 }}
+    //               tabIndex={7}
+    //               className="w-full"
+    //               onKeyPress={handleKeyPress} 
+    //               helperText={errors.NPI}
+    //             />
+    //           </div>
 
-              <div className="w-[45%]">
-              <TextField
-                  label="NCPDP"
-                  id="outlined-size-small"
-                  name="NCPDP"
-                  value={formData.NCPDP}
-                  onChange={handleInputChange}
-                  error={!!errors.NCPDP}
-                  size="small"
-                  inputProps={{ maxLength:20 }}
-                  tabIndex={8}
-                  className="w-full"
-                  onKeyPress={handleKeyPress} 
-                  helperText={errors.NCPDP}
+    //           <div className="w-[45%]">
+    //           <TextField
+    //               label="NCPDP"
+    //               id="outlined-size-small"
+    //               name="NCPDP"
+    //               value={formData.NCPDP}
+    //               onChange={handleInputChange}
+    //               error={!!errors.NCPDP}
+    //               size="small"
+    //               inputProps={{ maxLength:20 }}
+    //               tabIndex={8}
+    //               className="w-full"
+    //               onKeyPress={handleKeyPress} 
+    //               helperText={errors.NCPDP}
 
-                  // style={{ width: "101%" }}
-                />
-              </div>
-            </div>
+    //               // style={{ width: "101%" }}
+    //             />
+    //           </div>
+    //         </div>
 
-            <div className="flex w-full flex-row my-2 justify-start ">
-              <div className="w-[45%]">
-              <TextField
-                  label="Federal Tax ID"
-                  id="outlined-size-small"
-                  name="Federal_Tax_ID"
-                  value={formData.Federal_Tax_ID}
-                  // onChange={handleInputChange}
-                  onChange={handleFederalTaxIDChange}
+    //         <div className="flex w-full flex-row my-2 justify-start ">
+    //           <div className="w-[45%]">
+    //           <TextField
+    //               label="Federal Tax ID"
+    //               id="outlined-size-small"
+    //               name="Federal_Tax_ID"
+    //               value={formData.Federal_Tax_ID}
+    //               // onChange={handleInputChange}
+    //               onChange={handleFederalTaxIDChange}
 
-                  error={!!errors.Federal_Tax_ID}
-                  size="small"
-                  inputProps={{ maxLength:20 }}
-                  tabIndex={9}
-                  className="w-full"
-                  onKeyPress={handleKeyPress} 
-                  helperText={errors.Federal_Tax_ID}
-                />
-{/* 
-                <InputMask
-                  mask="99-9999999"
-                  label="Federal Tax ID"
-                  id="outlined-size-small"
-                  name="taxId"
-                  value={formData.taxId}
-                  onChange={handleInputChanges}
-                  error={!!errorss.taxId}
-                  size="small"
-                  className="w-[92%]"
-                  helperText={errorss.taxId}
-                  inputProps={{ maxLength: 10 }} // Restrict input to 10 characters
-                /> */}
-              </div>
-            </div>
-            <div className=" w-full">
-              <div>
-                <input
-                  type="checkbox"
-                  className=" leading-tight "
-                  inputProps={{ tabIndex: "10" }}
-                  tabIndex={10}
-                />
-                <label className="text-gray-700  ">
-                  {" "}
-                  Signup for News letters
-                </label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  className=" leading-tight "
-                  onClick={handleVisibleClick}
-                  inputProps={{ tabIndex: "11" }}
-                  tabIndex={11}
-                />
-                <label className="text-gray-700 ml-1 ">
-                  Please Accepts for PharmEtrade{" "}
-                  <Link
-                    onClick={() => setActiveStep(5)}
-                    className="text-red-500"
-                  >
-                    Terms& Conditions{" "}
-                  </Link>
-                </label>
-              </div>
-              {/* {Visible && (
-                <div>
-                  <div className="flex justify-center items-center ">
-                    {/* <h5 className="text-[18px] ml-1">Enter OTP</h5> 
-                    <TextField
-                      id="standard-basic"
-                      label="Enter Captcha"
-                      variant="standard"
-                      tabIndex={12}
-                    />
+    //               error={!!errors.Federal_Tax_ID}
+    //               size="small"
+    //               inputProps={{ maxLength:20 }}
+    //               tabIndex={9}
+    //               className="w-full"
+    //               onKeyPress={handleKeyPress} 
+    //               helperText={errors.Federal_Tax_ID}
+    //             />
 
-                    {/* <OTPInput length={6}  /> 
-                  </div>
-                </div>
-              )} */}
-            </div>
-          </div>
+    //           </div>
+    //         </div>
+    //         <div className=" w-full">
+    //           <div>
+    //             <input
+    //               type="checkbox"
+    //               className=" leading-tight "
+    //               inputProps={{ tabIndex: "10" }}
+    //               tabIndex={10}
+    //             />
+    //             <label className="text-gray-700  ">
+    //               {" "}
+    //               Signup for News letters
+    //             </label>
+    //           </div>
+    //           <div>
+    //             <input
+    //               type="checkbox"
+    //               className=" leading-tight "
+    //               onClick={handleVisibleClick}
+    //               inputProps={{ tabIndex: "11" }}
+    //               tabIndex={11}
+    //             />
+    //             <label className="text-gray-700 ml-1 ">
+    //               Please Accepts for PharmEtrade{" "}
+    //               <Link
+    //                 onClick={() => setActiveStep(5)}
+    //                 className="text-red-500"
+    //               >
+    //                 Terms& Conditions{" "}
+    //               </Link>
+    //             </label>
+    //           </div>
+              
+    //         </div>
+    //       </div>
+    <div className=" w-full flex flex-col justify-center items-center">
+    <div className="flex flex-row w-full  justify-between">
+      <div className="w-[45%]">
+        <TextField
+          label="DEA"
+          id="outlined-size-small"
+          name="DEA"
+          value={formData.DEA}
+          onChange={handleInputChange}
+          error={!!errors.DEA}
+          size="small"
+          inputProps={{ maxLength: 20 }}
+          helperText={errors.DEA}
+          className="w-full"
+          onKeyPress={handleKeyPress}
+          FormHelperTextProps={{
+            sx: { visibility: errors.DEA ? "visible" : "hidden" },
+          }}
+        />
+      </div>
+
+      <div className="w-[45%]">
+        <TextField
+          label="Pharmacy License"
+          id="outlined-size-small"
+          name="Pharmacy_License"
+          value={formData.Pharmacy_License}
+          onChange={handleInputChange}
+          error={!!errors.Pharmacy_License}
+          size="small"
+          inputProps={{ maxLength: 20 }}
+          className="w-full"
+          onKeyPress={handleKeyPress}
+          helperText={errors.Pharmacy_License}
+          FormHelperTextProps={{
+            sx: { visibility: errors.Pharmacy_License ? "visible" : "hidden" },
+          }}
+        />
+      </div>
+    </div>
+
+    <div className="flex flex-row w-full  justify-between">
+      <div className="w-[45%] flex flex-col">
+        <span className="text-xs">DEA Expiration Date</span>
+        <TextField
+          label=""
+          type="date"
+          name="DEA_Expiration_Date"
+          id="outlined-size-small"
+          value={formData.DEA_Expiration_Date}
+          error={!!errors.DEA_Expiration_Date}
+          onChange={handleInputChange}
+          size="small"
+          inputProps={{ min: today }}
+          className="w-full"
+          onKeyDown={(e) => {
+            e.preventDefault();
+          }}
+          helperText={errors.DEA_Expiration_Date}
+          FormHelperTextProps={{
+            sx: { visibility: errors.DEA_Expiration_Date ? "visible" : "hidden" },
+          }}
+        />
+      </div>
+
+      <div className="w-[45%] flex flex-col">
+        <span className="text-xs">Pharmacy Expiration Date</span>
+        <TextField
+          label=""
+          type="date"
+          name="Pharmacy_Expiration_Date"
+          id="outlined-size-small"
+          value={formData.Pharmacy_Expiration_Date}
+          error={!!errors.Pharmacy_Expiration_Date}
+          onChange={handleInputChange}
+          size="small"
+          inputProps={{ min: today }}
+          className="w-full"
+          onKeyDown={(e) => {
+            e.preventDefault();
+          }}
+          helperText={errors.Pharmacy_Expiration_Date}
+          FormHelperTextProps={{
+            sx: { visibility: errors.Pharmacy_Expiration_Date ? "visible" : "hidden" },
+          }}
+        />
+      </div>
+    </div>
+
+    <div className="flex flex-row w-full -mb-2 justify-between">
+      <div className="w-[45%]">
+        <span className="text-xs">DEA License Copy (jpg, png, jpeg)</span>
+        <TextField
+          label=""
+          type="file"
+          onChange={handleInputChange}
+          name="DEA_License_Copy"
+          id="outlined-size-small"
+          error={!!errors.DEA_License_Copy}
+          size="small"
+          className="w-full"
+          helperText={errors.DEA_License_Copy}
+          FormHelperTextProps={{
+            sx: { visibility: errors.DEA_License_Copy ? "visible" : "hidden" },
+          }}
+        />
+        {file1 && <div>{file1}</div>}
+      </div>
+
+      <div className="w-[45%]">
+        <span className="text-xs">Pharmacy License Copy (jpeg, jpg, png)</span>
+        <TextField
+          label=""
+          type="file"
+          onChange={handleInputChange}
+          name="Pharmacy_License_Copy"
+          id="outlined-size-small"
+          error={!!errors.Pharmacy_License_Copy}
+          size="small"
+          className="w-full"
+          helperText={errors.Pharmacy_License_Copy}
+          FormHelperTextProps={{
+            sx: { visibility: errors.Pharmacy_License_Copy ? "visible" : "hidden" },
+          }}
+        />
+        {file2 && <div>{file2}</div>}
+      </div>
+    </div>
+
+    <div className="flex flex-row w-full my-3 justify-between">
+      <div className="w-[45%]">
+        <TextField
+          label="NPI"
+          id="outlined-size-small"
+          name="NPI"
+          value={formData.NPI}
+          onChange={handleInputChange}
+          error={!!errors.NPI}
+          size="small"
+          inputProps={{ maxLength: 20 }}
+          className="w-full"
+          onKeyPress={handleKeyPress}
+          helperText={errors.NPI}
+          FormHelperTextProps={{
+            sx: { visibility: errors.NPI ? "visible" : "hidden" },
+          }}
+        />
+      </div>
+
+      <div className="w-[45%]">
+        <TextField
+          label="NCPDP"
+          id="outlined-size-small"
+          name="NCPDP"
+          value={formData.NCPDP}
+          onChange={handleInputChange}
+          error={!!errors.NCPDP}
+          size="small"
+          inputProps={{ maxLength: 20 }}
+          className="w-full"
+          onKeyPress={handleKeyPress}
+          helperText={errors.NCPDP}
+          FormHelperTextProps={{
+            sx: { visibility: errors.NCPDP ? "visible" : "hidden" },
+          }}
+        />
+      </div>
+    </div>
+
+    <div className="flex w-full flex-row -mt-1 justify-start">
+      <div className="w-[45%]">
+        <TextField
+          label="Federal Tax ID"
+          id="outlined-size-small"
+          name="Federal_Tax_ID"
+          value={formData.Federal_Tax_ID}
+          onChange={handleInputChange}
+          error={!!errors.Federal_Tax_ID}
+          size="small"
+          inputProps={{ maxLength: 20 }}
+          className="w-full"
+          onKeyPress={handleKeyPress}
+          helperText={errors.Federal_Tax_ID}
+          FormHelperTextProps={{
+            sx: { visibility: errors.Federal_Tax_ID ? "visible" : "hidden" },
+            
+          }}
+        />
+      </div>
+    </div>
+
+    <div className="w-full">
+      <div>
+        <input type="checkbox" className="leading-tight" tabIndex={10} />
+        <label className="text-gray-700"> Signup for News letters</label>
+      </div>
+      <div className="-mb-2">
+        <input type="checkbox" className="leading-tight" onClick={() => {}} tabIndex={11} />
+        <label className="text-gray-700 ml-1">
+          Please Accepts for PharmEtrade{" "}
+          <Link onClick={() => {}} className="text-red-500">
+            Terms & Conditions
+          </Link>
+        </label>
+      </div>
+    </div>
+  </div>
         );
       case 4:
         return (
@@ -3686,7 +4087,7 @@ const Signup = () => {
 
   return (
     <div className="relative">
-      <div className=" h-screen w-screen">
+      <div className=" h-full w-screen">
         <img
           src={background_image}
           alt="Background"
@@ -3708,7 +4109,7 @@ const Signup = () => {
             />
           </Link>
           <div className="h-[80%]  flex justify-center items-center">
-            <div className="bg-white w-[600px] px-12 py-6 rounded-lg shadow-lg">
+            <div className="bg-white w-[600px] px-12 py-6 rounded-lg shadow-lg mt-10">
               <span
                 className={`text-blue-900 ${
                   activeStep == 4 ? "hidden" : ""
