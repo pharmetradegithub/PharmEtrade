@@ -30,17 +30,6 @@ import { IoLogoInstagram } from "react-icons/io";
 import { FiShoppingCart } from "react-icons/fi";
 import myaccount from "../../../assets/My Account.png";
 import { TbTruckReturn } from "react-icons/tb";
-// import Baby from "../../All Category/Baby";
-// import Beauty from "../../All Category/Beauty";
-// import Grocery from "../../All Category/Grocery";
-// import HealthTopics from "../../All Category/HealthTopics";
-// import Herbs from "../../All Category/Herbs";
-// import Home from "../../All Category/Home";
-// import Medicines from "../../All Category/Medicines";
-// import PersonalCare from "../../All Category/PersonalCare";
-// import Pets from "../../All Category/Pets";
-// import SportsNutrition from "../../All Category/SportsNutrition";
-// import Suppliments from "../../All Category/Suppliments";
 import WhyPharma from "../NavLinks/WhyPharma";
 import search from "../../../assets/search-icon.png";
 import dropdown from "../../../assets/Down-arrow .png";
@@ -73,7 +62,6 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
       setSelectedItem(category);
     }
   }, [location.search]);
-  // const [popUps, setPopUps] = useState(<Baby />);
 
   const dropdownRef = useRef(null);
   const handleClickOutside = (event) => {
@@ -96,9 +84,6 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
     setDropdownOpen(!isDropdownOpen);
   };
 
-  // const handleItemClick = (name) => {
-  //   setPopUps(name);
-  // };
   const handleItemClick = (name) => {
     if (activePopUp === name) {
       setActivePopUp(null); // Close the popup if it's already open
@@ -249,7 +234,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   }
 
   function handleuser() {
-    navigate("/layout/layoutprofile");
+    navigate("/layout/layoutbuy");
   }
   function handleorder() {
     navigate("/orderhistory");
@@ -327,20 +312,26 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   //   }
   // };
 
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault();  // Prevent the default behavior
+        handleSearchAPI();           // Call submit function when Enter is pressed
+    }
+};
+
   const [SearchInput, setSearchInput] = useState("");
   console.log(SearchInput, "search")
   const handleSearch = async (e) => {
     setSearchInput(e.target.value)
-    let Criteria = {
-      productName: SearchInput
-    };
-
-    console.log("g--->", Criteria)
-
-    await fetchCriteriaProductsApi(Criteria);
-    navigate(`/allProducts/CategoryProducts`);
-
   };
+  const handleSearchAPI = async ()=>{
+    let Criteria = {
+      productName : SearchInput
+    };
+    await fetchCriteriaProductsApi(Criteria);
+    navigate(`/allProducts?Search=${SearchInput}`);
+  }
 
 
   return (
@@ -563,7 +554,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
             </div>
           )}
 
-          <div className="flex bg-white rounded-md items-center w-[40%] lg:gap-10">
+          <div className="flex bg-whit rounded-md items-center w-[50%] lg:gap-10">
             <div
               ref={dropdownRef}
               className={`w-full relative flex items-center ${
@@ -574,7 +565,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
             >
               {/* <Link to="/allProducts/CategoryProducts"> */}
               <button
-                className={`h-12 pl-2 mr-[1px] font-semibold text-left gap-1 text-[14px] flex items-center text-gray-600 bg-gray-100 border-gray-300 rounded-l-md border ${
+                className={`h-12 pl-2 mr-[1px] w-auto font-semibold text-left gap-1 text-[14px] flex items-center text-gray-600 bg-gray-100 border-gray-300 rounded-l-md border ${
                   isButtonFocused ? "ring-2 ring-blue-500" : ""
                 } button-focus`}
                 onClick={handleDropdownToggle}
@@ -593,7 +584,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                   className="absolute z-10"
                   style={{ top: "30px", left: "0px" }}
                 >
-                  <div className="bg-white px-4 py-3 rounded shadow-lg w-64">
+                  <div className="bg-white  w-64">
                     {components.map((items, index) => (
                       <ul onClick={() => handleCriteria(items)} key={index}>
                         <li className="">
@@ -612,17 +603,18 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 </div>
               )}
 
-              <div className="flex w-full h-12 border container-focus">
+              <div className="flex w-[80%] h-12 border container-focus">
                 <input
                   type="text"
                   placeholder="Search for products..."
                   value={SearchInput}
                   className="flex-grow p-4 border-none focus:outline-none container-focus"
                   onChange={handleSearch}
+                  onKeyDown={handleKeyDown}
                 />
-                <a className="w-[40px] flex items-center justify-center p-2 bg-blue-900 text-white border-blue-500 rounded-r-md focus:outline-none container-focus">
+                <button onClick={()=>handleSearchAPI()} className="w-[40px] flex items-center justify-center p-2 bg-blue-900 text-white border-blue-500 rounded-r-md focus:outline-none container-focus">
                   <img src={search} />
-                </a>
+                </button>
               </div>
             </div>
           </div>

@@ -71,8 +71,8 @@ import AdminDasboard from "./Components/Admin/Dashboard/AdminDasboard";
 import Faqs from "./Components/Faqs";
 import LayoutPanel from "./Components/LayoutPage/LayoutStatic/LayoutPanel";
 import LayoutDashboard from "./Components/LayoutPage/LayoutDashboard/LayoutDashboard";
-import LayoutSellerDashboard from "./Components/LayoutPage/LayoutDashboard/LayoutSellerDashboard"
-import LayoutCustomerDashboard from "./Components/LayoutPage/LayoutDashboard/LayoutCustomerDashboard"
+import LayoutSellerDashboard from "./Components/LayoutPage/LayoutDashboard/LayoutSellerDashboard";
+import LayoutCustomerDashboard from "./Components/LayoutPage/LayoutDashboard/LayoutCustomerDashboard";
 import LayoutBuy from "./Components/LayoutPage/LayoutBuy/LayoutBuyProducts";
 import LayoutBid from "./Components/LayoutPage/LayoutBid/LayoutBid";
 import LayoutJoin from "./Components/LayoutPage/LayoutJoin/LayoutJoin";
@@ -109,7 +109,12 @@ import { getCartItemsApi } from "./Api/CartApi";
 import { fetchWishlistItemsApi } from "./Api/WishList";
 import { LoadingApi, TopMarginApi } from "./Api/HomeStaticApi";
 import { fetchAllBannersApi } from "./Api/BannerApi";
-import { fetchAllProductsApi, fetchOtcProductsApi, fetchRecentSoldProductsApi, fetchRxProductsApi } from "./Api/ProductApi";
+import {
+  fetchAllProductsApi,
+  fetchOtcProductsApi,
+  fetchRecentSoldProductsApi,
+  fetchRxProductsApi,
+} from "./Api/ProductApi";
 import ProductsPanel from "./Components/HomeProducts/Layout/ProductsPanel";
 import AllProducts from "./Components/HomeProducts/Components/AllProducts";
 import OtcProducts from "./Components/HomeProducts/Components/OtcProducts";
@@ -119,11 +124,10 @@ import LayoutOtcProducts from "./Components/LayoutPage/LayoutNavComponents/Layou
 import Gethelphere from "./Components/Gethelphere";
 import CategoryProducts from "./Components/HomeProducts/Components/CategoryProducts";
 import LayoutCategory from "./Components/LayoutPage/LayoutCategory/LayoutCategory";
-import LayoutProfile from './Components/LayoutPage/LayoutProfile/LayoutProfile'
+import LayoutProfile from "./Components/LayoutPage/LayoutProfile/LayoutProfile";
 // import AdminBanners from './Components/Admin/Banners/AdminBanners'
-import AdminBanners from './Components/Admin/Banners/AdminBanners'
+import AdminBanners from "./Components/Admin/Banners/AdminBanners";
 import Login from "./Components/Login";
-
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
@@ -133,9 +137,9 @@ function App() {
   const loading = useSelector((state) => state.home.loading);
   const userId = localStorage.getItem("userId");
 
-  const topMargin = useSelector((state)=>state.home.TopMargin);
+  const topMargin = useSelector((state) => state.home.TopMargin);
   const topDivRef = useRef(null);
- 
+
   useEffect(() => {
     const LoadAll = async (userId) => {
       LoadingApi(true);
@@ -150,7 +154,7 @@ function App() {
       await fetchOtcProductsApi();
       await fetchRxProductsApi();
       await fetchAllProductsApi();
-      TopMarginApi(topDivRef?.current?.offsetHeight)
+      TopMarginApi(topDivRef?.current?.offsetHeight);
       LoadingApi(false);
     };
 
@@ -165,8 +169,7 @@ function App() {
   const [quantities, setQuantities] = useState([]);
   const [productsList, setProductsList] = useState([]);
   // Ref for the top fixed div
-  
-  console.log("top margin",topMargin)
+
   const [cartItems, setCartItems] = useState([]);
   useEffect(() => {
     console.log(cartItems);
@@ -175,7 +178,6 @@ function App() {
   function addCart(prolist) {
     setCartItems([...cartItems, prolist]);
   }
-  console.log(cartItems);
 
   function wishList(prolist) {
     setWishItems([...wishItems, prolist]);
@@ -236,7 +238,24 @@ function App() {
               topDivRef={topDivRef}
               cartItems={cartItems}
             />
-          }>
+          }
+        >
+          <Route
+            path="/allProducts"
+            element={
+              <ProductsPanel
+              />
+            }
+          >
+            <Route path="" element={<AllProducts />} />
+            <Route path="/allProducts/OtcProducts" element={<OtcProducts />} />
+            <Route path="/allProducts/RxProducts" element={<RxProducts />} />
+            <Route
+              path="/allProducts/CategoryProducts"
+              element={<CategoryProducts />}
+            />
+          </Route>
+          
           <Route
             path="/cart"
             element={<Cart cartItems={cartItems} setCartItems={setCartItems} />}
@@ -285,12 +304,23 @@ function App() {
 
         <Route path="/gethelphere" element={<Gethelphere />} />
 
-
-        <Route path="/allProducts" element={<ProductsPanel topDivRef={topDivRef} cartItems={cartItems}  topMargin={topMargin}  />}>
+        <Route
+          path="/allProducts"
+          element={
+            <ProductsPanel
+              topDivRef={topDivRef}
+              cartItems={cartItems}
+              topMargin={topMargin}
+            />
+          }
+        >
           <Route path="" element={<AllProducts />} />
           <Route path="/allProducts/OtcProducts" element={<OtcProducts />} />
           <Route path="/allProducts/RxProducts" element={<RxProducts />} />
-          <Route path="/allProducts/CategoryProducts" element={<CategoryProducts />} />
+          <Route
+            path="/allProducts/CategoryProducts"
+            element={<CategoryProducts />}
+          />
         </Route>
 
         <Route path="/seller" element={<SellerPanel />}>
@@ -319,18 +349,20 @@ function App() {
           <Route path="manage-shipping" element={<ManageShipping />} />
         </Route>
 
-
-       
-
         <Route path="/layout" element={<LayoutPanel cartItems={cartItems} />}>
           <Route
             path="/layout"
             element={<LayoutDashboard addCart={addCart} wishList={wishList} />}
-
           />
-          <Route path="/layout/layoutprofile" element={<LayoutProfile/>}/>
-          <Route path="/layout/layoutsellerdashboard" element={<LayoutSellerDashboard />} />
-          <Route path="/layout/layoutcustomerdashboard" element={<LayoutCustomerDashboard />} />
+          <Route path="/layout/layoutprofile" element={<LayoutProfile />} />
+          <Route
+            path="/layout/layoutsellerdashboard"
+            element={<LayoutSellerDashboard />}
+          />
+          <Route
+            path="/layout/layoutcustomerdashboard"
+            element={<LayoutCustomerDashboard />}
+          />
 
           <Route path="/layoutsell" element={<LayoutSell />} />
           <Route path="/layout/addproduct" element={<LayoutaddProduct />} />
@@ -405,13 +437,22 @@ function App() {
           <Route path="/layout/layoutorderlist" element={<LayoutOrderlist />} />
           {/* <Route path='/layout/layoutreturn' element={<LayoutReturn />} /> */}
           <Route path="/layoutsidebar" element={<LayoutSidebar />} />
-          <Route path="/layout/layoutOtcProducts" element={<LayoutOtcProducts />} />
-          <Route path="/layout/layoutCategoryProducts" element={<LayoutCategory />} />
+          <Route
+            path="/layout/layoutOtcProducts"
+            element={<LayoutOtcProducts />}
+          />
+          <Route
+            path="/layout/layoutCategoryProducts"
+            element={<LayoutCategory />}
+          />
         </Route>
 
         <Route path="/pharmEtradeadmin" element={<AdminPanel />}>
           <Route path="" element={<AdminDasboard />} />
-          <Route path="/pharmEtradeadmin/AdminBanners" element={<AdminBanners />} />
+          <Route
+            path="/pharmEtradeadmin/AdminBanners"
+            element={<AdminBanners />}
+          />
         </Route>
 
         <Route element={<AccountPanel topMargin={topMargin} />}>

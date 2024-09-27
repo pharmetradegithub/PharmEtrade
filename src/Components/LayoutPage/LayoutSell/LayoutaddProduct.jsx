@@ -4,7 +4,7 @@ import filter from "../../../assets/Icons/filter_icon.png";
 import deleteicon from "../../../assets/trash.png";
 import { useStates } from "react-us-states";
 import { Box, Radio, Tooltip } from "@mui/material";
-import { fetchNdcUpcListApi } from "../../../Api/MasterDataApi";
+
 import Notification from "../../../Components/Notification";
 import related from "../../../assets/Related.png";
 import upSell from "../../../assets/upSell.png";
@@ -21,12 +21,13 @@ import {
   fetchProductByIdApi,
   uploadImageApi,
 } from "../../../Api/ProductApi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LayoutRelatedProducts from "./LayoutRelatedProducts";
 import {
   ProductInfoValidation,
   ProductPriceValidation,
 } from "../../../Validations/AddProduct";
+import { fetchCategorySpecificationsGetAll, fetchNdcUpcListApi, fetchProductCategoriesGetAll } from "../../../Api/MasterDataApi";
 
 function LayoutaddProduct() {
   const user = useSelector((state) => state.user.user);
@@ -74,6 +75,18 @@ function LayoutaddProduct() {
     setStates(useStates); // Adjust based on actual structure
   }, []);
 
+  const categorySpecificationGetAll = useSelector((state) => state.master.setCategorySpecificationsGetAll)
+  console.log("category-->", categorySpecificationGetAll)
+
+const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchCategorySpecificationsGetAll())
+  }, [])
+
+  useEffect(() => {
+    dispatch(fetchProductCategoriesGetAll())
+  }, [])
+
   const [activeTab, setActiveTab] = useState(0);
   const [images, setImages] = useState([]);
   const [error, setError] = useState("");
@@ -106,6 +119,7 @@ function LayoutaddProduct() {
     taxable: false,
     productDetails: "",
     aboutProduct: "",
+    sku:"",
     discount: 0,
     form: "",
     Height: 0,
@@ -168,6 +182,7 @@ function LayoutaddProduct() {
       ndcUpc: product.ndCorUPC,
       brandName: product.brandName,
       price: product.unitPrice,
+      sku:product.sku,
       amountInStock: product.amountInStock,
       taxable: product.taxable,
       productDetails: product.productDescription,
@@ -1042,9 +1057,12 @@ function LayoutaddProduct() {
                       name="categorySpecification"
                     >
                       <option value="">Select a category</option>
-                      <option value="1"> Prescription Drug</option>
+                      {/* <option value="1"> Prescription Drug</option>
                       <option value="2">OTC Product</option>
-                      <option value="3">General Merchandise</option>
+                      <option value="3">General Merchandise</option> */}
+                       {categorySpecificationGetAll.map((item) => {
+                        return <option value={item.categorySpecificationId}>{item.specificationName}</option>
+                      })}
                     </select>
                     {formErrors.categorySpecification && (
                       <span className="text-red-500 text-sm">
@@ -2413,7 +2431,7 @@ function LayoutaddProduct() {
           {tabs.map((tab, index) => (
             <li key={index} className="mr-2 gap-4">
               <button
-                disabled={showTab.includes(index)} // Corrected to 'disabled'
+                // disabled={showTab.includes(index)} // Corrected to 'disabled'
                 className={`w-full flex justify-center items-center px-2 p-3 py-1 mt-7 shadow-md ${activeTab === index
                     ? "text-white bg-blue-900 rounded-t-xl font-semibold"
                     : "text-blue-900 shadow-none rounded-t-xl bg-white"

@@ -1,6 +1,6 @@
 
 import React, { useState ,useEffect} from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 // import addcart from "../assets/addcart.png";
 // import fav from "../assets/fav.png";
 // import other from "../assets/other.png";
@@ -23,12 +23,33 @@ import filledHeart from "../../../assets/wishlist2_icon.png";
 import other from "../../../assets/CompareNav2.png";
 import { useSelector } from "react-redux";
 import { addCartApi } from "../../../Api/CartApi";
+import Notification from "../../../Components/Notification"; // Import Notification component
+
 import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
 import bottontotop from '../../../Components/ScrollToTop'
 function AllProducts({ Title, topMargin, addCart, wishList }) {
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const searchInput = queryParams.get('Search');
+  
+
   const { pop, setPop } = useNavbarContext();
   const navigate = useNavigate();
   const products = useSelector((state) => state.product.Products);
+  const productCriteria = useSelector((state) => state.product.productsByCriteria)
+  const [ProductList,setProductsList] = useState([]);
+  useEffect(() => {
+    if(searchInput)
+    {
+      setProductsList(productCriteria)
+    }
+    else
+    {
+      setProductsList(products)
+    }
+  }, [searchInput,products,productCriteria])
+  
   const Heading = useSelector((state)=>state.product.Heading);
   const user = useSelector((state)=>state.user.user);
   const wishlist = useSelector((state)=>state.wishlist.wishlist);
@@ -60,7 +81,10 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
   const [favoriteItems, setFavoriteItems] = useState({});
   // const [rating, setRating] = useState(0);
   // const totalStars = 5;
-
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "one",
+  });
   const handleClose = (event) => {
     event.stopPropagation();
     console.log("Clicked to close Items");
@@ -78,8 +102,18 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
       quantity: 1,
       isActive: 1,
     };
+    // try {
+    //   await addCartApi(cartData);
+    // } catch (error) {
+    //   console.error("Error adding product to cart:", error);
+    // }
     try {
       await addCartApi(cartData);
+      setNotification({
+        show: true,
+        message: "Item Added To Cart Successfully!",
+      });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     } catch (error) {
       console.error("Error adding product to cart:", error);
     }
@@ -170,37 +204,23 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
 
   return (
     <div className="w-full mt-4 h-full overflow-y-scroll">
+       
+      {notification.show && (
+        <Notification show={notification.show} message={notification.message} />
+      )}
       <div className=" flex justify-between bg-blue-900 p-1 rounded-lg">
-        <div className="text-xl pl-2 flex items-center text-white">All Products
+        <div className="text-xl pl-2 flex items-center text-white">
+          {searchInput !=null? (
+            `Search on ${searchInput}` 
+          ):("All Products")}
           {/* {{Heading} ? Heading : "All Products"} */}
         </div>
 
-        {/* <Search>
-          <SearchIconWrapper>
-            <img src={search} className="w-4" />
-            {/* <SearchIcon /> 
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder="Search…"
-            inputProps={{ "aria-label": "search" }}
-          />
-        </Search> */}
-        {/* <div className="relative flex">
-          <input
-            type="text"
-            placeholder="Search Product"
-            
-            // value={term}
-            // onChange={(e) => setTerm(e.target.value)}
-            className=" rounded-xl h-8 w-64 text-left px-2  bg-transparent gap-2 border-transparent my-1"
-          />
-          {/* <CiSearch className="absolute left-0 top-2 text-gray-400 mr-5" /> 
-        </div> */}
       </div>
 
       <div className="w-[95%]">
         <div className="grid grid-cols-4 grid-rows-2 gap-4 mt-8">
-          {products?.map((item, index) => (
+          {ProductList?.map((item, index) => (
             <div
               key={item.productID}
               className="w-full max-w-md border p-2  shadow-md"

@@ -15,6 +15,8 @@ import { Tooltip } from "@mui/material";
 import next from '../../../../assets/Next_icon.png'
 import previous from '../../../../assets/Previous_icon.png'
 import { fetchDeactiveProduct, fetchDeleteProduct } from "../../../../Api/ProductApi";
+import Notification from "../../../Notification";
+
 const LayoutPostingProducts = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
@@ -28,6 +30,10 @@ const LayoutPostingProducts = () => {
   const [deactive, setdeactive] = useState(null);
 
   const [deleteProduct, setDeleteProduct] = useState(null);
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+  });
 
   const [showPopup, setShowPopup] = useState({
     editProduct: false,
@@ -107,6 +113,9 @@ const LayoutPostingProducts = () => {
     try{
       dispatch(fetchDeactiveProduct(deactive))
       setOpenPop(false)
+      setNotification({ show: true, message: "Product Deactivate Successfully!" });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+
     } catch (error) {
       console.log(error)
     }
@@ -131,6 +140,9 @@ const LayoutPostingProducts = () => {
     try {
       dispatch(fetchDeleteProduct(deleteProduct))
       setDeletePop(false)
+      setNotification({ show: true, message: "Product Delete Successfully!" });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      
     } catch (error) {
       console.log(error)
     }
@@ -143,6 +155,7 @@ const LayoutPostingProducts = () => {
 
   return (
     <div className="relative  bg-gray-100 w-full h-full flex justify-center overflow-scroll items-center">
+      {notification.show && <Notification show={notification.show} message={notification.message} />}
       {openPop && (
         <div
           className="fixed top-0 left-25 w-4/5 h-full flex justify-center items-center bg-slate-900 bg-opacity-20"
