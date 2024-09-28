@@ -595,6 +595,7 @@ const Payment = () => {
                       value={cardNumber}
                       onChange={(e) => setCardNumber(e.target.value)}
                       className="flex-1 h-8 border border-black px-2"
+                      inputProps={{ maxLength: 16 }}
                     />
                   </div>
                   <div className="flex mb-3">
@@ -654,6 +655,7 @@ const Payment = () => {
                           }}
                           className="w-32 h-8 border border-black"
                           placeholder="CVV"
+                          inputProps={{ maxLength: 4 }}
                         />
                         <label>CVV</label>
                       </div>

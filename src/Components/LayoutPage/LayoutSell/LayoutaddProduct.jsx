@@ -562,16 +562,16 @@ const dispatch = useDispatch()
     const defaultImageUrl =
       "https://pharmaetrade.s3.us-east-1.amazonaws.com/PharmaEtrade/Products/510b1b0a-596d-11ef-8a1f-0affd374995f/30d4c3d5-6f52-11ef-8a1f-0affd374995f/NO_IMG.jpg";
 
-    // const mainImageUrl =
-    //   formData.mainImageUrl == null
-    //     ? defaultImageUrl
-    //     : typeof formData.mainImageUrl === "string"
-    //       ? formData.mainImageUrl
-    //       : await uploadImageApi(
-    //         user.customerId,
-    //         productId,
-    //         formData.mainImageUrl
-    //       );
+    const mainImageUrl =
+      formData.mainImageUrl == null
+        ? defaultImageUrl
+        : typeof formData.mainImageUrl === "string"
+          ? formData.mainImageUrl
+          : await uploadImageApi(
+            user.customerId,
+            productId,
+            formData.mainImageUrl
+          );
 
     const imageUrl =
       formData.imageUrl == null
@@ -721,7 +721,7 @@ const dispatch = useDispatch()
         setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1)); // Enable Tab 2
         setNotification({
           show: true,
-          message: "Product Info Added Successfully!",
+          message: `Product Info ${queryProductId!=null? "Edited" : "Added"} Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -736,7 +736,7 @@ const dispatch = useDispatch()
         ); // Enable Tabs 2 and 3
         setNotification({
           show: true,
-          message: "Price Details Added Successfully!",
+          message: `Price Details ${queryProductId!=null? "Edited" : "Added"} Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -746,7 +746,7 @@ const dispatch = useDispatch()
         setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 3)); // Enable Tab 3
         setNotification({
           show: true,
-          message: "Related Products Added Successfully!",
+          message: `Related Products ${queryProductId!=null? "Edited" : "Added"} Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -764,7 +764,7 @@ const dispatch = useDispatch()
         console.log("Product Data", response);
         setNotification({
           show: true,
-          message: "Product Added Successfully!",
+          message: `Product ${queryProductId!=null? "Edited" : "Added"} Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });

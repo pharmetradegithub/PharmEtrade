@@ -26,8 +26,8 @@ import Bin from "../../../assets/trash.png";
 
 const LayoutRelatedProducts = () => {
   const [formData, setFormData] = useState({
-    categorySpecification: "",
-    productCategory: "",
+    categorySpecification: 0,
+    productCategory: 0,
     manufacturer: "",
     brandName: "",
     expirationDate: "",
