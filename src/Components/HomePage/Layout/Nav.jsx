@@ -1,5 +1,3 @@
-
-
 import React from "react";
 
 import Logo from "../../../assets/logo2.png";
@@ -43,13 +41,13 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   let navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
   const cart = useSelector((state) => state.cart.cart);
-  const components = useSelector((state) => state.master.productCategoryGetAll)
-  console.log("categoeryyy-->", components)
+  const components = useSelector((state) => state.master.productCategoryGetAll);
+  console.log("categoeryyy-->", components);
 
   const [selectedIndex, setSelectedIndex] = useState();
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-  
+
   const [activePopUp, setActivePopUp] = useState(null);
   const [selectedItem, setSelectedItem] = useState("All");
   const location = useLocation();
@@ -57,9 +55,14 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const category = searchParams.get("CategoryName");
+    if (category && components.length > 0) {
+      const component = components.find(
+        (comp) => comp.productCategoryId === category
+      );
 
-    if (category) {
-      setSelectedItem(category);
+      if (component) {
+        setSelectedItem(component.categoryName); // Set the name if found
+      }
     }
   }, [location.search]);
 
@@ -69,7 +72,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
       setDropdownOpen(false);
     }
   };
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -77,8 +80,8 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
     };
   }, []);
   useEffect(() => {
-    dispatch(fetchProductCategoriesGetAll())
-  },[])
+    dispatch(fetchProductCategoriesGetAll());
+  }, []);
   const handleDropdownToggle = (e) => {
     e.preventDefault();
     setDropdownOpen(!isDropdownOpen);
@@ -124,7 +127,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   //       // "You have login as buyer contact us help@pharmetrade.com"
   //       <>
   //       You have login as buyer contact us {" "}
-      
+
   //       <a href="  " className="text-blue-900 underline ">help@pharmetrade.com</a></>
   //     );
   //   } else {
@@ -132,11 +135,10 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   //   }
   // };
 
-  const handleItemclick = (item )=>{
-    navigate(item.path)
-  }
+  const handleItemclick = (item) => {
+    navigate(item.path);
+  };
 
- 
   // Clear error message after 3 seconds
   // if (errorMessage) {
   //   setTimeout(() => setErrorMessage(""), 10000);
@@ -155,7 +157,6 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
     },
     { label: "BID", icon: bid, path: user ? "/bid" : "login" },
     { label: "JOIN", icon: join, path: "/signup" },
-
   ];
 
   const downSocialItems = [
@@ -165,7 +166,6 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
     // { icon: twitter, path: "#" },
   ];
 
- 
   // const components = [
   //   { id: 1, name: "Prescription Medications" },
   //   { id: 2, name: "Baby & Child Care Products" },
@@ -179,18 +179,36 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   //   { id: 11, name: "Personal Care Products" },
   // ];
 
- 
-  const handleCriteria =async (obj) => {
+  const handleCriteria = async (obj) => {
     let Criteria = {
-      productCategoryId: obj.productCategoryId
+      productCategoryId: obj.productCategoryId,
     };
 
-    console.log("cr--->", obj)
+    console.log("cr--->", obj);
 
     await fetchCriteriaProductsApi(Criteria);
-    navigate(`/allProducts/CategoryProducts?CategoryName=${obj.categoryName}`);
-
+    navigate(
+      `/allProducts/CategoryProducts?CategoryName=${obj.productCategoryId}`
+    );
   };
+  useEffect(() => {
+    if (location.pathname.includes("allProducts")) {
+      const searchParams = new URLSearchParams(location.search);
+      const category = searchParams.get("CategoryName");
+      if (category && components.length > 0) {
+        const component = components.find(
+          (comp) => comp.productCategoryId === category
+        );
+
+        if (component) {
+          setSelectedItem(component.categoryName); 
+        }
+      }
+    } else {
+      setSearchInput("");
+      setSelectedItem("All");
+    }
+  }, [location]);
 
   const handleSelect = (index) => {
     setSelectedIndex(index);
@@ -264,7 +282,6 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
     }
   };
 
-
   // const productCriteria = useSelector((state) => state.product.productsByCriteria)
   // const [term, setTerm] = useState(""); // Search term
   // const [filteredProducts, setFilteredProducts] = useState(productCriteria); // Products filtered by API
@@ -312,27 +329,25 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   //   }
   // };
 
-
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-        event.preventDefault();  // Prevent the default behavior
-        handleSearchAPI();           // Call submit function when Enter is pressed
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent the default behavior
+      handleSearchAPI(); // Call submit function when Enter is pressed
     }
-};
+  };
 
   const [SearchInput, setSearchInput] = useState("");
-  console.log(SearchInput, "search")
+  console.log(SearchInput, "search");
   const handleSearch = async (e) => {
-    setSearchInput(e.target.value)
+    setSearchInput(e.target.value);
   };
-  const handleSearchAPI = async ()=>{
+  const handleSearchAPI = async () => {
     let Criteria = {
-      productName : SearchInput
+      productName: SearchInput,
     };
     await fetchCriteriaProductsApi(Criteria);
     navigate(`/allProducts?Search=${SearchInput}`);
-  }
-
+  };
 
   return (
     <div
@@ -340,170 +355,168 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
       className=" fixed w-screen pt-1   z-10 bg-white text-grey-500"
     >
       <div className=" flex flex-col w-full justify-between ">
-       
-         <ul className="text-3xl w-full">
-      <div className="flex flex-row h-[60px] justify-between gap-4 md:gap-12 lg:gap-10 items-center text-xl bg-white text-gray-500">
-        <div>
-          <img
-            src={Logo}
-            onClick={() => navigate("/")}
-            className="w-12 md:w-16 lg:w-32 xl:w-60 h-12 ml-2 md:ml-2 lg:ml-12 hover:cursor-pointer lg:overflow-x-hidden xl-0"
-            alt="Logo"
-          />
-        </div>
-        <div className="h-full md:flex md:flex-row md:gap-4 lg:gap-4 xl:flex xl:flex-row xl:justify-between xl:gap-6 px-4 items-center">
-          <div className="flex gap-3 justify-around h-full items-center">
-            {MenuItems.map((item, index) => (
-              <li
-                className={`text-blue-900 hover:bg-slate-200 rounded-md flex justify-center p-1 px-1 items-center w-fit cursor-pointer font-medium text-[17px] ${
-                  selectedIndex === index
-                    ? "bg-slate-200 hover:text-blue-900 text-blue-900 border-0 font-semibold"
-                    : "border-transparent border-2"
-                }`}
-                key={index} // Use index as the key if item doesn't have a unique id
-                onClick={() => handleSelect(index)}
-              >
-                {item}
-              </li>
-            ))}
-          </div>
+        <ul className="text-3xl w-full">
+          <div className="flex flex-row h-[60px] justify-between gap-4 md:gap-12 lg:gap-10 items-center text-xl bg-white text-gray-500">
+            <div>
+              <img
+                src={Logo}
+                onClick={() => navigate("/")}
+                className="w-12 md:w-16 lg:w-32 xl:w-60 h-12 ml-2 md:ml-2 lg:ml-12 hover:cursor-pointer lg:overflow-x-hidden xl-0"
+                alt="Logo"
+              />
+            </div>
+            <div className="h-full md:flex md:flex-row md:gap-4 lg:gap-4 xl:flex xl:flex-row xl:justify-between xl:gap-6 px-4 items-center">
+              <div className="flex gap-3 justify-around h-full items-center">
+                {MenuItems.map((item, index) => (
+                  <li
+                    className={`text-blue-900 hover:bg-slate-200 rounded-md flex justify-center p-1 px-1 items-center w-fit cursor-pointer font-medium text-[17px] ${
+                      selectedIndex === index
+                        ? "bg-slate-200 hover:text-blue-900 text-blue-900 border-0 font-semibold"
+                        : "border-transparent border-2"
+                    }`}
+                    key={index} // Use index as the key if item doesn't have a unique id
+                    onClick={() => handleSelect(index)}
+                  >
+                    {item}
+                  </li>
+                ))}
+              </div>
 
-          <div className="flex flex-row gap-4 text-md items-center font-thin">
-            <div
-              className="relative"
-              onMouseEnter={() => setIsPopupVisible(true)}
-              onMouseLeave={() => setIsPopupVisible(false)}
-            >
-              <div className="flex  items-center cursor-pointer" onClick={handleredirect}>
-                <img
-                  src={add}
-                  className="w-4 md:w-6 lg:w-8 h-8"
-                  alt="clickable"
-                  onClick={handleredirect}
-                />
-                <div className="text-blue-900 hover:cursor-pointer ">
-                  {user ? (
-                    <>
-                      <div className="text-base font-medium ">
-                         {user.firstName}{" "}
-                         {user.lastName}
+              <div className="flex flex-row gap-4 text-md items-center font-thin">
+                <div
+                  className="relative"
+                  onMouseEnter={() => setIsPopupVisible(true)}
+                  onMouseLeave={() => setIsPopupVisible(false)}
+                >
+                  <div
+                    className="flex  items-center cursor-pointer"
+                    onClick={handleredirect}
+                  >
+                    <img
+                      src={add}
+                      className="w-4 md:w-6 lg:w-8 h-8"
+                      alt="clickable"
+                      onClick={handleredirect}
+                    />
+                    <div className="text-blue-900 hover:cursor-pointer ">
+                      {user ? (
+                        <>
+                          <div className="text-base font-medium ">
+                            {user.firstName} {user.lastName}
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="text-base font-medium ">Sign in</div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  {isPopupVisible && (
+                    <div
+                      className="fixed flex z-10 -ml-5"
+                      // "absolute top-full  right-0 mt-2 w-64 bg-white p-2 rounded shadow-lg z-10"
+                    >
+                      <div
+                        className="bg-white p-4 rounded shadow-lg w-60"
+                        // "w-full flex flex-col"
+                      >
+                        <div className="w-full flex ">
+                          {user ? (
+                            <li
+                              className="cursor-pointer "
+                              onClick={handleLogout}
+                            >
+                              <Link
+                                to="/login"
+                                className="bg-blue-900 text-white rounded  w-32 py-1 block text-center"
+                              >
+                                Logout
+                              </Link>
+                            </li>
+                          ) : (
+                            <a
+                              className="bg-blue-900 text-white py-1 hover:cursor-pointer px-2 rounded block text-center "
+                              onClick={handleRedirect}
+                            >
+                              Sign In
+                            </a>
+                          )}
+                        </div>
+                        <p
+                          className="text-base hover:cursor-pointer mb-2  text-left"
+                          onClick={handlesignup}
+                        >
+                          New User?{" "}
+                          <span className="text-blue-900 hover:text-red-500 hover:underline">
+                            Sign Up
+                          </span>
+                        </p>
+                        {user && (
+                          <>
+                            <h2
+                              className="text-lg font-semibold cursor-pointer"
+                              onClick={handleuser}
+                            >
+                              Your Account
+                            </h2>
+                            <ul className="text-left">
+                              <li className="mb-1">
+                                <a
+                                  href="#"
+                                  className="text-lg text-blue-900"
+                                  onClick={handleorder}
+                                >
+                                  Order List
+                                </a>
+                              </li>
+                              <li className="">
+                                <a
+                                  href="#"
+                                  className="text-blue-900"
+                                  onClick={handleclick}
+                                >
+                                  Wishlist
+                                </a>
+                              </li>
+                            </ul>
+                          </>
+                        )}
                       </div>
-                      
-                    </>
-                  ) : (
-                    <>
-                      <div className="text-base font-medium ">
-                        Sign in
-                      </div>
-                    </>
+                    </div>
                   )}
                 </div>
-              </div>
-              {isPopupVisible && (
-                <div className="fixed flex z-10 -ml-5"
-                // "absolute top-full  right-0 mt-2 w-64 bg-white p-2 rounded shadow-lg z-10"
-                >
-                  <div className="bg-white p-4 rounded shadow-lg w-60"
-                  // "w-full flex flex-col"
-                  >
-                    <div className="w-full flex "> 
-                    {user ? (
-                      <li
-                        className="cursor-pointer "
-                        onClick={handleLogout}
-                      >
-                        <Link
-                          to="/login"
-                          className="bg-blue-900 text-white rounded  w-32 py-1 block text-center"
-                        >
-                          Logout
-                        </Link>
-                      </li>
-                    ) : (
-                      <a
-                        className="bg-blue-900 text-white py-1 hover:cursor-pointer px-2 rounded block text-center "
-                        onClick={handleRedirect}
-                      >
-                        Sign In
-                      </a>
-                    )}
-                    </div>
-                    <p
-                      className="text-base hover:cursor-pointer mb-2  text-left"
-                      onClick={handlesignup}
-                    >
-                      New User?{" "}
-                      <span className="text-blue-900 hover:text-red-500 hover:underline">
-                        Sign Up
-                      </span>
-                    </p>
-                    {user && (
-                      <>
-                        <h2
-                          className="text-lg font-semibold cursor-pointer"
-                          onClick={handleuser}
-                        >
-                          Your Account
-                        </h2>
-                        <ul className="text-left">
-                          <li className="mb-1">
-                            <a
-                              href="#"
-                              className="text-lg text-blue-900"
-                              onClick={handleorder}
-                            >
-                              Order List
-                            </a>
-                          </li>
-                          <li className="">
-                            <a
-                              href="#"
-                              className="text-blue-900"
-                              onClick={handleclick}
-                            >
-                              Wishlist
-                            </a>
-                          </li>
-                        </ul>
-                      </>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
 
-            <li className=" cursor-pointer" onClick={handleCart}>
+                <li className=" cursor-pointer" onClick={handleCart}>
                   <a>
-                    <Tooltip title='Cart' placement='top'>
-                <img
-                  src={cartNav}
-                  className="w-1 md:w-3 lg:w-5 xl:w-7 pt-2 h-3 md:h-5 lg:h-7 xl:h-9 text-blue-900 hover:text-gray-400 hover:scale-110 duration-500"
-                  alt="Cart"
+                    <Tooltip title="Cart" placement="top">
+                      <img
+                        src={cartNav}
+                        className="w-1 md:w-3 lg:w-5 xl:w-7 pt-2 h-3 md:h-5 lg:h-7 xl:h-9 text-blue-900 hover:text-gray-400 hover:scale-110 duration-500"
+                        alt="Cart"
                       />
                     </Tooltip>
-              </a>
-              <div
-                className="absolute text-white rounded-full px-1 text-xs border bg-blue-900 top-5 right-16 font-medium"
-              >
-                {cart.length}
+                  </a>
+                  <div className="absolute text-white rounded-full px-1 text-xs border bg-blue-900 top-5 right-16 font-medium">
+                    {cart.length}
+                  </div>
+                </li>
+                <li>
+                  <a>
+                    <Tooltip title="Wishlist" placement="top">
+                      <img
+                        src={like}
+                        onClick={handleclick}
+                        className="w-1 md:w-3 lg:w-5 xl:w-7 pt-2 h-2 md:h-4 lg:h-6 xl:h-8 cursor-pointer hover:scale-110 transition duration-300"
+                        alt="Like"
+                      />
+                    </Tooltip>
+                  </a>
+                </li>
               </div>
-            </li>
-            <li>
-                  <a>
-                    <Tooltip title='Wishlist' placement='top'>
-                <img
-                  src={like}
-                  onClick={handleclick}
-                  className="w-1 md:w-3 lg:w-5 xl:w-7 pt-2 h-2 md:h-4 lg:h-6 xl:h-8 cursor-pointer hover:scale-110 transition duration-300"
-                  alt="Like"
-                      />
-                    </Tooltip>
-              </a>
-            </li>
+            </div>
           </div>
-        </div>
-      </div>
-    </ul>
+        </ul>
         {/* down div elemenet  */}
         <div
           className="flex justify-evenly bg-gray-200 w-full h-fit flex-row  md:w-screen  
@@ -516,11 +529,9 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 onClick={() => handleItemclick(item)}
                 className={`flex gap-1 items-center justify-center cursor-pointer font-semibold hover:text-black
                    ${
-                    //  item.label === "SELL" &&
-                  Form_Data?.userType === "Retail Customer"
-                    ? "hidden"
-                    : ""
-                }`}
+                     //  item.label === "SELL" &&
+                     Form_Data?.userType === "Retail Customer" ? "hidden" : ""
+                   }`}
               >
                 <img
                   src={item.icon}
@@ -595,7 +606,6 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                           >
                             {items.categoryName}
                           </a>
-                          
                         </li>
                       </ul>
                     ))}
@@ -612,7 +622,10 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                   onChange={handleSearch}
                   onKeyDown={handleKeyDown}
                 />
-                <button onClick={()=>handleSearchAPI()} className="w-[40px] flex items-center justify-center p-2 bg-blue-900 text-white border-blue-500 rounded-r-md focus:outline-none container-focus">
+                <button
+                  onClick={() => handleSearchAPI()}
+                  className="w-[40px] flex items-center justify-center p-2 bg-blue-900 text-white border-blue-500 rounded-r-md focus:outline-none container-focus"
+                >
                   <img src={search} />
                 </button>
               </div>

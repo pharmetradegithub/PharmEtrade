@@ -30,6 +30,25 @@ import Notification from "../../Notification";
 
 
 function CategoryProducts({ Title, topMargin, addCart, wishList }) {
+
+  const queryParams = new URLSearchParams(location.search);
+  const CategoryId = queryParams.get('CategoryName');
+
+  useEffect(() => {
+    const fetchCategoryProducts = async ()=>
+    {
+      let Criteria = {
+        productCategoryId: CategoryId
+      };
+    
+      await fetchCriteriaProductsApi(Criteria);
+    }
+    if(CategoryId)
+    {
+      fetchCategoryProducts();
+    }
+  }, [CategoryId])
+  
   const { pop, setPop } = useNavbarContext();
   const [notification, setNotification] = useState({
     show: false,

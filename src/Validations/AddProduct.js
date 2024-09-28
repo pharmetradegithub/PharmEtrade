@@ -54,6 +54,10 @@ export const ProductPriceValidation = (formData) => {
         }
     }
 
+    if (formData.amountInStock === null || formData.amountInStock === undefined || formData.amountInStock <= 0) {
+        errors.amountInStock = "Amount In Stock is required.";
+    }
+
     return errors;
 };
 

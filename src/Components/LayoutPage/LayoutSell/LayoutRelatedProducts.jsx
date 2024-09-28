@@ -1171,7 +1171,7 @@ const LayoutRelatedProducts = () => {
                 <td className="text-sm p-2">
                   {product.productCategory.categoryName}
                 </td>
-                <td className="text-sm p-2">{product.salePrice?.toFixed(2)}</td>
+                <td className="text-sm p-2 text-left"> ${product.salePrice?.toFixed(2)}</td>
                 <td className="px-4 py-2 cursor-pointer">
                   <Tooltip title="Delete" placement="top">
                     <img
