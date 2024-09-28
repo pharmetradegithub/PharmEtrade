@@ -498,7 +498,7 @@ const LayoutRelatedProducts = () => {
                 <th className=" p-2  text-left text-sm w-32">Category</th>
                 <th className=" p-2  text-left text-sm w-32">Status</th>
                 <th className=" p-2  text-left text-sm bw-44">Type</th>
-                <th className=" p-2  text-left text-sm  w-44">Price</th>
+                <th className=" p-2 text-right text-sm  w-44">Price</th>
                 <th className=" p-2   text-sm w-48">Action</th>
               </tr>
             </thead>
@@ -533,9 +533,9 @@ const LayoutRelatedProducts = () => {
                     <td className="text-sm p-2">
                       {product?.productCategory?.categoryName || "No category"}
                     </td>
-                    <td className="text-sm p-2">
+                    <td className="text-sm p-2 text-right">
                       {product?.salePrice
-                        ? product.salePrice.toFixed(2)
+                        ? `$${product.salePrice.toFixed(2)}`
                         : "No price"}
                     </td>
                     <td className="px-4 py-2 cursor-pointer flex items-center space-x-2">
@@ -813,7 +813,7 @@ const LayoutRelatedProducts = () => {
                     {product.productCategory.categoryName}
                   </td>
                   <td className="text-sm p-2">
-                    {product.salePrice?.toFixed(2)}
+                    ${product.salePrice?.toFixed(2)}
                   </td>
                   <td className="px-4 py-2 cursor-pointer">
                     <Tooltip title="Delete" placement="top">
@@ -994,7 +994,7 @@ const LayoutRelatedProducts = () => {
                     {product.productCategory.categoryName}
                   </td>
                   <td className="text-sm p-2">
-                    {product.salePrice?.toFixed(2)}
+                    ${product.salePrice?.toFixed(2)}
                   </td>
                   <td className="px-4 py-2 cursor-pointer">
                     <Tooltip title="Delete" placement="top">
