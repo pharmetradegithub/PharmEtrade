@@ -1,5 +1,5 @@
 import axios from "axios";
-import store, { addOrder, setGetOrder, setGetOrderBySellerId, setOrdersPlace } from "../Store/Store";
+import store, { addOrder, setGetOrder, setGetOrderBySellerId, setOrdersPayment, setOrdersPlace } from "../Store/Store";
 
 axios.defaults.baseURL = 'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/';
 
@@ -88,6 +88,25 @@ export const fetchOrderPlace = (payLoad) => {
       }
     } catch (error) {
       console.error('Error OrdersPlace:', error);
+    }
+  }
+}
+
+export const fetchOrderPayment = (payLoad) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post('/api/Orders/AddPayment', payLoad);
+      if (response.status === 200) {
+        const orderPayment = response.data.result;
+        console.log('Dispatching payment action:', orderPayment);
+
+        // Dispatching the action to add the order to the state
+        dispatch(setOrdersPayment(orderPayment));
+      } else {
+        console.error('Failed to payment:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error payment:', error);
     }
   }
 }

@@ -269,7 +269,8 @@ import previous from '../../../assets/Previous_icon.png'
 function LayoutOrderList() {
   const [searchQuery, setSearchQuery] = useState("");
   const [orders, setOrders] = useState([]);
-  const localData = localStorage.getItem("userId")
+  // const localData = localStorage.getItem("userId")
+  const user = useSelector((state) => state.user.user)
   // const customerId = localData?.userId;
   // const orderList = useSelector((state) => state.order.orders)
   const getOrder = useSelector((state) => state.order.getOrder)
@@ -298,8 +299,8 @@ function LayoutOrderList() {
 
 
   useEffect(() => {
-    dispatch(fetchGetOrder(localData))
-  }, [])
+    dispatch(fetchGetOrder(user?.customerId))
+  }, [user])
 
   // useEffect(() => {
   //   if (orderList.length > 0) {

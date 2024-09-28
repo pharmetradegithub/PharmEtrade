@@ -92,7 +92,8 @@ const initialOrderState = {
   orders: [],
   OrderBySellerId: [],
   getOrder: [],
-  ordersPlace: []
+  ordersPlace: [],
+  ordersPayment: []
 }
 
 const orderSlice = createSlice({
@@ -114,6 +115,9 @@ const orderSlice = createSlice({
     },
     setOrdersPlace(state, action) {
       state.ordersPlace = action.payload
+    },
+    setOrdersPayment(state, action) {
+      state.ordersPayment = action.payload
     }
   },
 });
@@ -280,6 +284,7 @@ export const { setDeleteProduct } = productsSlice.actions
 export const { setProductCategoryGetAll } = mastersSlice.actions
 export const { setCategorySpecificationsGetAll } = mastersSlice.actions
 export const { setOrdersPlace } = orderSlice.actions
+export const { setOrdersPayment } = orderSlice.actions
 
 
 
