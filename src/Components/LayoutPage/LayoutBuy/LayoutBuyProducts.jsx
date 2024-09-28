@@ -235,20 +235,13 @@ function LayoutBuy({
         <h1 className="text-2xl font-semibold text-blue-900">Buy Products</h1>
         <div className="flex">
           <div className="flex gap-1">
-            <select className="bg-white h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center">
-              <option>Discounted Price Low to High</option>
-              <option>Discounted Price High to Low</option>
-              <option>Posted date : Old to Latest</option>
-              <option>Show Prescription Products First</option>
-              <option>Show OTC Products First</option>
-              <option>Discount Percentage Low to High</option>
-              <option>Discounted Percentage High to Low</option>
-              <option>Expiry date : Short to Long</option>
-              <option>Expiry date : Long to Short</option>
-              <option>Name : Ascending (A-Z)</option>
-              <option>Name : Decending (Z-A)</option>
-              <option>Strength Low to High</option>
-              <option>Strength High to Low</option>
+          <select className="bg-white  w-auto h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center">
+              <option> Filter Products</option>
+             
+              <option>Product  Ascending (A-Z)</option>
+              <option>Product  Decending (Z-A)</option>
+              <option>Price Low to High</option>
+              <option>Price High to Low</option>
             </select>
           </div>
           <div>

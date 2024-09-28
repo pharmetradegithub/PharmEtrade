@@ -1,3 +1,6 @@
+
+
+
 import React, { useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import addcart from "../../../assets/cartw_icon.png";
@@ -6,11 +9,17 @@ import filledHeart from "../../../assets/wishlist2_icon.png";
 import other from "../../../assets/CompareNav2.png";
 import { addCartApi } from "../../../Api/CartApi";
 import { useSelector } from "react-redux";
+import Notification from "../../../Components/Notification"; // Import Notification component
+
 import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
 import { fetchCriteriaProductsApi } from "../../../Api/ProductApi";
 
 const ProductSection = ({ products, heading, path, addCart, wishList }) => {
   const [rating, setRating] = useState(0);
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "one",
+  });
   const user = useSelector((state)=>state.user.user);
   // const wishlist = useSelector((state)=>state.wishlist.wishlist);
   // const [wishlistProductIDs, setWishlistProductIDs] = useState([]);
@@ -55,9 +64,19 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
       quantity: 1,
       isActive: 1,
     };
+    // try {
+    //   await addCartApi(cartData);
+
+    // } catch (error) {
+    //   console.error("Error adding product to cart:", error);
+    // }
     try {
       await addCartApi(cartData);
-
+      setNotification({
+        show: true,
+        message: "Item Added To Cart Successfully!",
+      });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     } catch (error) {
       console.error("Error adding product to cart:", error);
     }
@@ -114,6 +133,9 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
    }
   return (
     <div className="bg-white w-full p-4">
+       {notification.show && (
+        <Notification show={notification.show} message={notification.message} />
+      )}
       <h1 className="text-2xl font-bold text-text-blue">{heading}</h1>
       {products.length > 0 ? (
            <div className="grid grid-cols-3 grid-rows-1 gap-0  p-2">
@@ -203,4 +225,30 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
 };
 
 export default ProductSection;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

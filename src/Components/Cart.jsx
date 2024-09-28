@@ -251,8 +251,9 @@ import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import searchimg from "../assets/search1.png";
 import deleteicon from "../assets/trash.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addCartApi, removeItemFromCartApi } from "../Api/CartApi";
+import { fetchOrderPlace } from "../Api/OrderApi";
 
 function Cart() {
   const user = useSelector((state) => state.user.user);
@@ -319,7 +320,28 @@ function Cart() {
     0
   );
 
+  const dispatch = useDispatch()
   const handleProceed = () => {
+    const currentDate = new Date();
+    const payload = {
+      orderId: "",
+      customerId: user.customerId,
+      totalAmount: total?.toFixed(2),
+      orderDate: currentDate.toISOString(),
+      shippingMethodId: 1,
+      orderStatusId: 1,
+      trackingNumber: "",
+      products: cartItems.map((items) => {
+        return {
+          productId: items.product.productID,
+          quantity: items.quantity,
+          pricePerProduct: items.product.salePrice,
+          sellerId: user.customerId,
+          imageUrl: items.product.imageUrl
+        };
+      })
+    };
+    dispatch(fetchOrderPlace(payload))
     navigate(`/checkout?total=${total?.toFixed(2)}`);
   };
 
@@ -327,50 +349,50 @@ function Cart() {
     navigate("/detailspage/0");
   };
 
-  const Search = styled("div")(({ theme }) => ({
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(1),
-      width: "auto",
-    },
-  }));
+  // const Search = styled("div")(({ theme }) => ({
+  //   position: "relative",
+  //   borderRadius: theme.shape.borderRadius,
+  //   backgroundColor: alpha(theme.palette.common.white, 0.15),
+  //   "&:hover": {
+  //     backgroundColor: alpha(theme.palette.common.white, 0.25),
+  //   },
+  //   marginLeft: 0,
+  //   width: "100%",
+  //   [theme.breakpoints.up("sm")]: {
+  //     marginLeft: theme.spacing(1),
+  //     width: "auto",
+  //   },
+  // }));
 
-  const SearchIconWrapper = styled("div")(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "black",
-    zIndex: "1",
-  }));
+  // const SearchIconWrapper = styled("div")(({ theme }) => ({
+  //   padding: theme.spacing(0, 2),
+  //   height: "100%",
+  //   position: "absolute",
+  //   pointerEvents: "none",
+  //   display: "flex",
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   color: "black",
+  //   zIndex: "1",
+  // }));
 
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    border: "1px solid gray",
-    borderRadius: "5px",
-    color: "black",
-    width: "100%",
-    "& .MuiInputBase-input": {
-      padding: theme.spacing(1, 1, 1, 0),
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create("width"),
-      [theme.breakpoints.up("sm")]: {
-        width: "12ch",
-        "&:focus": {
-          width: "20ch",
-        },
-      },
-    },
-  }));
+  // const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  //   border: "1px solid gray",
+  //   borderRadius: "5px",
+  //   color: "black",
+  //   width: "100%",
+  //   "& .MuiInputBase-input": {
+  //     padding: theme.spacing(1, 1, 1, 0),
+  //     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+  //     transition: theme.transitions.create("width"),
+  //     [theme.breakpoints.up("sm")]: {
+  //       width: "12ch",
+  //       "&:focus": {
+  //         width: "20ch",
+  //       },
+  //     },
+  //   },
+  // }));
 
   return (
     <div className="flex flex-col justify-center font-sans bg-gray-200 p-8">
@@ -379,8 +401,8 @@ function Cart() {
       </p>
       <div className="w-full bg-white rounded-lg shadow-lg p-5">
         <div className="flex justify-between">
-          <h2 className="text-xl md:text-2xl -mb-2 font-semibold">Cart</h2>
-          <div className="flex bg-white mb-4">
+          <h2 className="text-xl md:text-2xl m-5 font-semibold">Cart</h2>
+          {/* <div className="flex bg-white mb-4">
             <Search>
               <SearchIconWrapper>
                 <img
@@ -394,7 +416,7 @@ function Cart() {
                 inputProps={{ "aria-label": "search" }}
               />
             </Search>
-          </div>
+          </div> */}
         </div>
         {cartItems.length > 0 ? (
           <div className="flex flex-col lg:flex-row gap-2">
@@ -499,9 +521,9 @@ function Cart() {
                   <button className="px-6 py-2 font-bold text-white text-lg bg-blue-900 rounded-full">
                     Apply Coupon
                   </button>
-                  <button className="px-6 py-2 font-bold text-white text-lg bg-blue-900 rounded-full">
+                  {/* <button className="px-6 py-2 font-bold text-white text-lg bg-blue-900 rounded-full">
                     Update Cart
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>

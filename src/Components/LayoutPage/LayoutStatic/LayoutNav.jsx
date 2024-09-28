@@ -297,7 +297,7 @@ const LayoutNav = ({ Form_Data, }) => {
             </div>
 
 
-            <div className="flex w-[60%] h-10 border container-focus">
+            <div className="flex w-full h-10 border container-focus">
               <input
                 type="text"
                 name="SearchInput"

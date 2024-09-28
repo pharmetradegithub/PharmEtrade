@@ -263,6 +263,17 @@ function LayoutCategory({
 
       <div className="flex justify-between">
         <h1 className="text-2xl font-semibold text-blue-900">{productCriteria[0]?.productCategory?.categoryName}</h1>
+     
+        <div className="flex gap-1">
+            <select className="bg-white h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center">
+              <option>Filter Products</option>
+             
+              <option>Product  Ascending (A-Z)</option>
+              <option>Product  Decending (Z-A)</option>
+              <option>Price Low to High</option>
+              <option>Price High to Low</option>
+            </select>
+          </div>
       </div>
 
 

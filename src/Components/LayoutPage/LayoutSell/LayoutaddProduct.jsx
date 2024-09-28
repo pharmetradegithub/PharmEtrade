@@ -2413,7 +2413,7 @@ const dispatch = useDispatch()
           {tabs.map((tab, index) => (
             <li key={index} className="mr-2 gap-4">
               <button
-                // disabled={showTab.includes(index)} // Corrected to 'disabled'
+                disabled={showTab.includes(index)} // Corrected to 'disabled'
                 className={`w-full flex justify-center items-center px-2 p-3 py-1 mt-7 shadow-md ${activeTab === index
                     ? "text-white bg-blue-900 rounded-t-xl font-semibold"
                     : "text-blue-900 shadow-none rounded-t-xl bg-white"

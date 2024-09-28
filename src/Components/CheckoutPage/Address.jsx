@@ -23,7 +23,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Notification from "../Notification";
 import { useStates } from "react-us-states";
-
+import { fetchGetOrder } from "../../Api/OrderApi";
 // import { setAddress } from "../../Store/Store";
 function Address({ topMargin, totalAmount }) {
   // const fetchData = useSelector((state) => state.product.Products);
@@ -97,6 +97,13 @@ function Address({ topMargin, totalAmount }) {
     }
     return formattedPhoneNumber;
   }
+
+  const user = useSelector((state) => state.user.user)
+  console.log("user-->address", user)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchGetOrder(user?.customerId))
+  }, [user])
 
   useEffect(() => {
     if (shortPopup) {
@@ -1090,11 +1097,11 @@ function Address({ topMargin, totalAmount }) {
                   </div>
                   <div className=" w-[30%] mx-16 flex flex-col pt-2 items-center">
                     <div className="border fixed shadow-md rounded-md p-7 py-5">
-                      <div className="flex items-center justify-center">
+                      {/* <div className="flex items-center justify-center">
                         <button className="border rounded-full text-sm flex justify-center items-center px-4 py-2 bg-blue-900 text-white">
                           Use this payment method
                         </button>
-                      </div>
+                      </div> */}
                       <div className="text-base flex items-center justify-center flex-col my-1 border-b">
                         <p>Choose a payment method to continue</p>
                         <p>checking out. You will still have a chance to</p>
