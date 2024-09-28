@@ -2028,6 +2028,7 @@ function getSteps() {
 const Signup = () => {
   const [userType, setUserType] = useState("");
   const [accountType, setAccountType] = useState("");
+  const [showErrors, setShowErrors] = useState(false);
 
   const [captcha, setCaptcha] = useState(generateCaptcha());
   // const [userInput, setUserInput] = useState("");
@@ -2055,7 +2056,24 @@ const Signup = () => {
   // const handleClickShowPassword = () => setShowPassword((show) => !show);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [newsletterChecked, setNewsletterChecked] = useState(false);
+  const [termsChecked, setTermsChecked] = useState(false);
 
+
+  const validateCheckboxes = () => {
+    // Set showErrors to true if either checkbox is not checked
+    setShowErrors(true);
+  };
+
+  const handleNewsletterChange = (e) => {
+    setNewsletterChecked(e.target.checked);
+    setShowErrors(true); // Immediately validate on change
+  };
+
+  const handleTermsChange = (e) => {
+    setTermsChecked(e.target.checked);
+    setShowErrors(true); // Immediately validate on change
+  };
 
   // Federal Tax Id
   const formatFederalTaxID = (value) => {
@@ -2142,6 +2160,39 @@ const Signup = () => {
   const handlebuyerclick = () => {
     setBuyerVisible(true);
   };
+
+
+
+   // Validate the newsletter checkbox on change
+   useEffect(() => {
+    if (!newsletterChecked) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        newsletter: "Please sign up for newsletters.",
+      }));
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        newsletter: "",
+      }));
+    }
+  }, [newsletterChecked]);
+
+  useEffect(() => {
+    if (!termsChecked) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        terms: "You must accept the Terms & Conditions.",
+      }));
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        terms: "",
+      }));
+    }
+  }, [termsChecked]);
+
+
 
   const [activeStep, setActiveStep] = useState(0);
   const [skippedSteps, setSkippedSteps] = useState([]);
@@ -2477,12 +2528,12 @@ const Signup = () => {
       const passwordRegex =
         /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
         if (!formData.First_Name)
-          newErrors.First_Name = "First name is required.";
+          newErrors.First_Name = "First Name is required.";
         if (!formData.Last_Name)
-          newErrors.Last_Name = "Last name is required."
+          newErrors.Last_Name = "Last Name is required."
 
       if (!formData.Email_id.match(regexp))
-        newErrors.Email_id = "Email id is required";
+        newErrors.Email_id = "Email Id is required";
 
       if (!formData.Phone_number.match(regphn)) {
         console.log(formData.Phone_number.length, "hmmmm");
@@ -2515,7 +2566,7 @@ const Signup = () => {
           if (responsePhone.ok) {
             const data = await responsePhone.json(); // Convert response to JSON
             if (data?.result != null) {
-              newErrors.Phone_number = "Phone number already Exists";
+              newErrors.Phone_number = "Phone Number already Exists";
             }
           } else {
             console.error("Server error:", response.statusText);
@@ -2569,9 +2620,9 @@ const Signup = () => {
         userType != "General Merchandise Seller" &&
         userType != "Retail Customer"
       )
-        newErrors.shopName = "Shop name is required.";
+        newErrors.shopName = "Shop Name is required.";
       if (!formData.legalBusinessName && userType != "Retail Customer")
-        newErrors.legalBusinessName = "Legal business name is required.";
+        newErrors.legalBusinessName = "Legal Business Name is required.";
 
       if (
         !formData.dbaName &&
@@ -2579,7 +2630,7 @@ const Signup = () => {
         userType != "General Merchandise Seller" &&
         userType != "Retail Customer"
       )
-        newErrors.dbaName = "DBA name is required.";
+        newErrors.dbaName = "DBA Name is required.";
 
       // if (!formData.BusinessPhone && userType != "Retail Customer")
       //   newErrors.BusinessPhone = "businessphone is required";
@@ -3033,13 +3084,20 @@ const Signup = () => {
                   // disabled={!formData.password}
                   error={!!errors.confirmPassword}
                   size="small"
-                  helperText={
-                    !formData.confirmPassword
-                      ? ""
-                      : errors.confirmPassword
-                      ? errors.confirmPassword
-                      : ""
-                  }
+                  // helperText={
+                  //   !formData.confirmPassword
+                  //     ? ""
+                  //     : errors.confirmPassword
+                  //     ? errors.confirmPassword
+                  //     : ""
+                  // }
+                   helperText={
+    formData.confirmPassword
+      ? errors.confirmPassword // Show error message if validation fails
+        ? errors.confirmPassword
+        : ""
+      : ""
+  }
                   className="w-full"
                   InputProps={{
                     endAdornment: (
@@ -3563,6 +3621,7 @@ const Signup = () => {
     error={!!errors.BusinessPhone}
     placeholder="Enter your business phone"
     size="small"
+    inputProps={{maxLength:12}}
     className="w-[92%]"
     helperText={
       errors.BusinessPhone && formData.BusinessPhone === "" 
@@ -4027,7 +4086,23 @@ const Signup = () => {
 
     <div className="flex w-full flex-row -mt-1 justify-start">
       <div className="w-[45%]">
-        <TextField
+      <TextField
+                  label="Federal Tax ID"
+                  id="outlined-size-small"
+                  name="Federal_Tax_ID"
+                  value={formData.Federal_Tax_ID}
+                  // onChange={handleInputChange}
+                  onChange={handleFederalTaxIDChange}
+
+                  error={!!errors.Federal_Tax_ID}
+                  size="small"
+                  inputProps={{ maxLength:20 }}
+                  tabIndex={9}
+                  className="w-full"
+                  onKeyPress={handleKeyPress} 
+                  helperText={errors.Federal_Tax_ID}
+                />
+        {/* <TextField
           label="Federal Tax ID"
           id="outlined-size-small"
           name="Federal_Tax_ID"
@@ -4043,11 +4118,11 @@ const Signup = () => {
             sx: { visibility: errors.Federal_Tax_ID ? "visible" : "hidden" },
             
           }}
-        />
+        /> */}
       </div>
     </div>
 
-    <div className="w-full">
+    {/* <div className="w-full">
       <div>
         <input type="checkbox" className="leading-tight" tabIndex={10} />
         <label className="text-gray-700"> Signup for News letters</label>
@@ -4061,7 +4136,80 @@ const Signup = () => {
           </Link>
         </label>
       </div>
+    </div> */}
+
+{/* <div className="w-full">
+      <div>
+        <input
+          type="checkbox"
+          className="leading-tight"
+          tabIndex={10}
+          checked={newsletterChecked}
+          onChange={() => setNewsletterChecked(!newsletterChecked)}
+        />
+        <label className="text-gray-700"> Signup for Newsletters</label>
+        {errors.newsletter && <p className="text-red-500">{errors.newsletter}</p>}
+      </div>
+
+      <div className="-mb-2">
+        <input
+          type="checkbox"
+          className="leading-tight"
+          tabIndex={11}
+          checked={termsChecked}
+          onChange={() => setTermsChecked(!termsChecked)}
+        />
+        <label className="text-gray-700 ml-1">
+          Please accept PharmEtrade{" "}
+          <Link onClick={() => {}} className="text-red-500">
+            Terms & Conditions
+          </Link>
+        </label>
+        {errors.terms && <p className="text-red-500">{errors.terms}</p>}
+      </div>
+    </div> */}
+
+<div className="w-full">
+      <div>
+        <input
+          type="checkbox"
+          className="leading-tight"
+          tabIndex={10}
+          checked={newsletterChecked}
+          onChange={handleNewsletterChange}
+          onBlur={validateCheckboxes}
+        />
+        <label className="text-gray-700"> Signup for Newsletters</label>
+        {showErrors && !newsletterChecked && (
+          <p className="text-red-500">Please sign up for newsletters.</p>
+        )}
+      </div>
+
+      <div className="-mb-2">
+        <input
+          type="checkbox"
+          className="leading-tight"
+          tabIndex={11}
+          checked={termsChecked}
+          onChange={handleTermsChange}
+          onBlur={validateCheckboxes}
+        />
+        <label className="text-gray-700 ml-1">
+          Please accept PharmEtrade{" "}
+          <Link onClick={() => {}} className="text-red-500">
+            Terms & Conditions
+          </Link>
+        </label>
+        {showErrors && !termsChecked && (
+          <p className="text-red-500">
+            You must accept the Terms & Conditions.
+          </p>
+        )}
+      </div>
     </div>
+
+
+    
   </div>
         );
       case 4:
@@ -4173,3 +4321,24 @@ const activeCircleStyle = {
 };
 
 export default Signup;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

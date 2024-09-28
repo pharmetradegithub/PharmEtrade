@@ -804,11 +804,11 @@ const Payment = () => {
             <span className="ml-2">Cash on Delivery</span>
           </div>
         </div>
-        <div className=" mt-2 items-center flex ">
+        {/* <div className=" mt-2 items-center flex ">
           <button className="w-60 border rounded-full bg-blue-900 text-basep-1 text-white">
             Use this payment method
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

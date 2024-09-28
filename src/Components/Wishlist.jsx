@@ -22,6 +22,8 @@ import { useSelector } from "react-redux";
 import { removeFromWishlistApi } from "../Api/WishList";
 import { addCartApi } from "../Api/CartApi";
 import { Tooltip } from "@mui/material";
+import Notification from '../Components/Notification' // Import Notification component
+
 // import { Tooltip } from "chart.js";
 function Wishlist({ topMargin, addCart }) {
   const wishItems = useSelector((state) => state.wishlist.wishlist || []); // Fallback to empty array if null
@@ -39,7 +41,10 @@ function Wishlist({ topMargin, addCart }) {
   const [isShowPopup, setIsShowPopup] = useState(false);
   const [rating, setRating] = useState(0);
   const totalStars = 5;
-
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "one",
+  });
   const handleremove = async(wishListId) => {
     try {
       await removeFromWishlistApi(wishListId);
@@ -59,9 +64,19 @@ function Wishlist({ topMargin, addCart }) {
       quantity: 1,
       isActive: 1,
     };
+    // try {
+    //   await addCartApi(cartData);
+
+    // } catch (error) {
+    //   console.error("Error adding product to cart:", error);
+    // }
     try {
       await addCartApi(cartData);
-
+      setNotification({
+        show: true,
+        message: "Item Added To Cart Successfully!",
+      });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     } catch (error) {
       console.error("Error adding product to cart:", error);
     }
@@ -134,23 +149,25 @@ function Wishlist({ topMargin, addCart }) {
   console.log("wishListonly-->", wishItems)
   return (
     <div className="bg-gray-200 p-8 " style={{ marginTop: `${topMargin}px `}}>
+      {notification.show && (
+        <Notification show={notification.show} message={notification.message} />
+      )}
       <h1 className="text-2xl mb-2 text-blue-900 font-semibold">PharmEtrade {">"} Wishlist</h1>
       <div className="w-full h-full bg-white rounded-lg shadow-lg p-4">
         <div className="flex justify-between">
           <h1 className="text-2xl m-5 font-semibold">Wishlist</h1>
-          <div className='flex bg-white  m-5'>
+          {/* <div className='flex bg-white  m-5'>
             
              <Search className="">
           <SearchIconWrapper>
             <img src={searchimg} className="w-6 absolute " />
-            {/* <SearchIcon /> */}
           </SearchIconWrapper>
           <StyledInputBase
             placeholder="Search..."
             inputProps={{ "aria-label": "search" }}
           />
         </Search>
-          </div>
+          </div> */}
         </div>
 
         {wishItems.length > 0 ? (

@@ -1,3 +1,6 @@
+
+
+
 import React, { useState } from 'react'
 import { useSelector } from "react-redux";
 import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
@@ -11,6 +14,7 @@ import next from "../../../assets/Next_icon.png";
 import addcart from "../../../assets/cartw_icon.png";
 import { useNavbarContext } from "../../NavbarContext";
 import { addCartApi } from "../../../Api/CartApi";
+import Notification from "../../../Components/Notification"; // Import Notification component
 
 
 
@@ -21,6 +25,10 @@ const OtcProducts = () => {
   const images = Array(115).fill(nature);
   const [rating, setRating] = useState(0);
   const totalStars = 5;
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "one",
+  });
   const { pop, setPop } = useNavbarContext();
 
 
@@ -71,8 +79,18 @@ const OtcProducts = () => {
       quantity: 1,
       isActive: 1,
     };
+    // try {
+    //   await addCartApi(cartData);
+    // } catch (error) {
+    //   console.error("Error adding product to cart:", error);
+    // }
     try {
       await addCartApi(cartData);
+      setNotification({
+        show: true,
+        message: "Item Added To Cart Successfully!",
+      });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     } catch (error) {
       console.error("Error adding product to cart:", error);
     }
@@ -96,6 +114,9 @@ const OtcProducts = () => {
   return (
     <div>
       <div className="w-full mt-2">
+      {notification.show && (
+        <Notification show={notification.show} message={notification.message} />
+      )}
         <div className='text-xl bg-blue-900 flex items-center p-2 rounded-lg text-white'>
           <div>OTC PRODUCTS</div>
         </div>
@@ -132,7 +153,7 @@ const OtcProducts = () => {
                 <h2 className="text-fonts h-12">{item.productName}</h2>
                 <h1 className="text-fonts font-semibold">${item?.unitPrice?.toFixed(2)}</h1>
               </div>
-              <div>
+              {/* <div>
                 {Array.from({ length: totalStars }, (v, i) => (
                   <Star
                     key={i}
@@ -140,13 +161,20 @@ const OtcProducts = () => {
                     onClick={() => setRating(i + 1)}
                   />
                 ))}
-              </div>
+              </div> */}
+                                <div className="flex items-center">
+                    <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                  </div>
               <div className="flex flex-row items-center justify-between w-full px-1">
                 <div className="text-foot text-xs">UPN Member Price:</div>
                 <div className="text-base font-semibold">${item.salePrice?.toFixed(2)}</div>
               </div>
               <div
-                className="flex bg-blue-900 p-1 rounded-md justify-center"
+                className="flex bg-blue-900 p-1 cursor-pointer rounded-md justify-center"
                 onClick={() => handleCart(item.productID)}
               >
                 <img src={addcart} alt="Add to cart" className="h-8 p-[6px]" />
@@ -182,3 +210,19 @@ const OtcProducts = () => {
 }
 
 export default OtcProducts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

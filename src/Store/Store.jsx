@@ -91,7 +91,8 @@ const userSlice = createSlice({
 const initialOrderState = {
   orders: [],
   OrderBySellerId: [],
-  getOrder: []
+  getOrder: [],
+  ordersPlace: []
 }
 
 const orderSlice = createSlice({
@@ -110,6 +111,9 @@ const orderSlice = createSlice({
     },
     setGetOrder(state, action) {
       state.getOrder = action.payload;
+    },
+    setOrdersPlace(state, action) {
+      state.ordersPlace = action.payload
     }
   },
 });
@@ -275,7 +279,7 @@ export const { setDeactiveProduct } = productsSlice.actions
 export const { setDeleteProduct } = productsSlice.actions
 export const { setProductCategoryGetAll } = mastersSlice.actions
 export const { setCategorySpecificationsGetAll } = mastersSlice.actions
-
+export const { setOrdersPlace } = orderSlice.actions
 
 
 
