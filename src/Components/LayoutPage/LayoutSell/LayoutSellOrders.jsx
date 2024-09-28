@@ -214,7 +214,7 @@ function LayoutSellOrders() {
 
   useEffect(() => {
     dispatch(fetchGetOrderBySellerId(user?.customerId))
-  }, [])
+  }, [user])
 
   return (
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
