@@ -220,6 +220,12 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
 
       <div className="w-[95%]">
         <div className="grid grid-cols-4 grid-rows-2 gap-4 mt-8">
+        {ProductList.length==0 && 
+          
+          <div>
+            No products are available
+          </div>
+        }
           {ProductList?.map((item, index) => (
             <div
               key={item.productID}

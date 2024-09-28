@@ -151,6 +151,7 @@ const dispatch = useDispatch()
     thumbnail5: null,
     thumbnail6: null,
     videoUrl: null,
+    isfullpack : null,
   });
   const [productFetched, setproductFetched] = useState();
   const [Heading, setHeading] = useState("ADD PRODUCT");
@@ -251,11 +252,7 @@ const dispatch = useDispatch()
         setproductFetched(response);
         console.log(response, "APi,response");
       } else {
-        const response = await fetchProductByIdApi(productId);
-        setHeading("ADD PRODUCT");
-        setproductFetched(response);
-        console.log("heyyyyy", response);
-        if (response != null) AssignFormData(response);
+        
       }
     };
     console.log("heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
@@ -438,7 +435,7 @@ const dispatch = useDispatch()
       if (name === "option") {
         setFormData({
           ...formData,
-          packQuantity: value,
+          ["isfullpack"]: Number(value),
         });
       } else if (name === "product") {
         setFormData({
@@ -565,16 +562,16 @@ const dispatch = useDispatch()
     const defaultImageUrl =
       "https://pharmaetrade.s3.us-east-1.amazonaws.com/PharmaEtrade/Products/510b1b0a-596d-11ef-8a1f-0affd374995f/30d4c3d5-6f52-11ef-8a1f-0affd374995f/NO_IMG.jpg";
 
-    const mainImageUrl =
-      formData.mainImageUrl == null
-        ? defaultImageUrl
-        : typeof formData.mainImageUrl === "string"
-          ? formData.mainImageUrl
-          : await uploadImageApi(
-            user.customerId,
-            productId,
-            formData.mainImageUrl
-          );
+    // const mainImageUrl =
+    //   formData.mainImageUrl == null
+    //     ? defaultImageUrl
+    //     : typeof formData.mainImageUrl === "string"
+    //       ? formData.mainImageUrl
+    //       : await uploadImageApi(
+    //         user.customerId,
+    //         productId,
+    //         formData.mainImageUrl
+    //       );
 
     const imageUrl =
       formData.imageUrl == null
@@ -648,6 +645,7 @@ const dispatch = useDispatch()
       height: formData.Height,
       width: formData.Width,
       length: formData.Length,
+      isFullPack: formData.isfullpack==1? true:false,
       sku:formData.sku,
       weight: formData.Weight,
       manufacturer: formData.manufacturer,
@@ -676,8 +674,8 @@ const dispatch = useDispatch()
       productPriceId: productPriceId == null ? "string" : productPriceId,
       productId: queryProductId != null ? queryProductId : productId,
       unitPrice: formData.price,
-      upnMemberPrice: formData.upnMemberPrice,
-      discount: formData.discount,
+      upnMemberPrice: formData.upnMemberPrice ,
+      discount: formData.discount ==null || formData.discount=="" ? 0 : formData.discount,
       salePrice: formData.salePrice,
       salePriceValidFrom: formData.salePriceForm,
       salePriceValidTo: formData.salePriceTo,
@@ -687,6 +685,8 @@ const dispatch = useDispatch()
       shippingCost: 20,
       amountInStock: formData.amountInStock,
     };
+    if(formData.discount==null || formData.discount=="")
+      setFormData({...formData,["discount"]:0});
     // const tab4 = {
     //   productGalleryId: "0",
     //   productId: productId,
@@ -713,154 +713,6 @@ const dispatch = useDispatch()
       thumbnail6: thumbnail6,
       videoUrl: videoUrl,
     };
-
-    // try {
-    //   if (activeTab == 0) {
-    //     if (queryProductId) {
-    //       const response = await EditProductInfoApi(tab1, user.customerId);
-    //       console.log("Product Data", response);
-    //       setSubmitted([...Submitted, 0]);
-    //       setFormErrors({});
-    //       setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1));
-    //       setNotification({
-    //         show: true,
-    //         message: "Product Info Edited Successfully!",
-    //       });
-    //       setTimeout(() => {
-    //         setNotification({ show: false, message: "" });
-    //         setActiveTab(1); // Move to the next tab
-    //       }, 3000);
-    //     } else {
-    //       const response = await AddProductInfoApi(tab1, user.customerId);
-    //       localStorage.setItem("productId", response);
-    //       setSubmitted([...Submitted, 0]);
-    //       setFormErrors({});
-    //       setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1));
-    //       setNotification({
-    //         show: true,
-    //         message: "Product Info Added Successfully!",
-    //       });
-    //       setTimeout(() => {
-    //         setNotification({ show: false, message: "" });
-    //         setActiveTab(1); // Move to the next tab
-    //       }, 3000);
-    //     }
-    //   } else if (activeTab == 1) {
-    //     if (queryProductId) {
-    //       const response = await EditProductPriceApi(tab2, user.customerId);
-    //       setSubmitted([...Submitted, 1]);
-    //       setFormErrors({});
-    //       setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 2));
-    //       setNotification({
-    //         show: true,
-    //         message: "Price Details Edited Successfully!",
-    //       });
-    //       setTimeout(() => {
-    //         setNotification({ show: false, message: "" });
-    //         setActiveTab(2); // Move to the next tab
-    //       }, 3000);
-    //     } else {
-    //       const response = await AddProductPriceApi(tab2, user.customerId);
-    //       console.log("Product Data", response);
-    //       setSubmitted([...Submitted, 1]);
-    //       setFormErrors({});
-    //       setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 2));
-    //       setNotification({
-    //         show: true,
-    //         message: "Price Details Added Successfully!",
-    //       });
-    //       setTimeout(() => {
-    //         setNotification({ show: false, message: "" });
-    //         setActiveTab(2); // Move to the next tab
-    //       }, 3000);
-    //     }
-    //   } else if (activeTab == 2) {
-    //     setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 3));
-    //     setNotification({
-    //       show: true,
-    //       message: "Related Products Added Successfully!",
-    //     });
-    //     setTimeout(() => {
-    //       setNotification({ show: false, message: "" });
-    //       setActiveTab(3); // Move to the next tab
-    //     }, 3000);
-    //   } else if (activeTab == 3) {
-    //     if (queryProductId) {
-    //       console.log(tab4);
-    //       const response = await EditProductGallery(tab4, user.customerId);
-    //       console.log("Product Data", response);
-    //       setSubmitted([...Submitted, 3]);
-
-    //       setNotification({
-    //         show: true,
-    //         message: "Product Edited Successfully!",
-    //       });
-    //       setTimeout(() => {
-    //         setNotification({ show: false, message: "" });
-    //         // Reset form or navigate elsewhere if needed
-    //       }, 3000);
-    //     } else {
-    //       console.log(tab4);
-
-    //       const response = await AddProductGallery(tab4, user.customerId);
-    //       console.log("Product Data", response);
-    //       setSubmitted([]);
-
-    //       setNotification({
-    //         show: true,
-    //         message: "Product Added Successfully!",
-    //       });
-    //       setTimeout(() => {
-    //         setNotification({ show: false, message: "" });
-    //         setFormData({
-    //           // Reset form data fields
-    //           categorySpecification: "",
-    //           productType: "",
-    //           productCategory: "",
-    //           productName: "",
-    //           ndcUpc: "",
-    //           brandName: "",
-    //           size: "",
-    //           form: "",
-    //           Weight: "",
-    //           Height: "",
-    //           Length: "",
-    //           unitOfMeasurement: "",
-    //           price: "",
-    //           amountInStock: "",
-    //           taxable: "",
-    //           productDetails: "",
-    //           aboutProduct: "",
-    //           states: [],
-    //           upnMemberPrice: "",
-    //           salePrice: "",
-    //           salePriceForm: "",
-    //           salePriceTo: "",
-    //           manufacturer: "",
-    //           strength: "",
-    //           lotNumber: "",
-    //           expirationDate: "",
-    //           packQuantity: "",
-    //           packType: "",
-    //           packCondition: {
-    //             tornLabel: null,
-    //             otherCondition: "",
-    //           },
-    //           imageUrl: null,
-    //           productSizeId: 0,
-    //           thumbnail1: null,
-    //           thumbnail2: null,
-    //           thumbnail3: null,
-    //           thumbnail4: null,
-    //           thumbnail5: null,
-    //           thumbnail6: null,
-    //         });
-    //         setThumnails([]);
-    //         // Optionally reset or move to another step
-    //       }, 3000);
-    //     }
-    //   }
-    // }
     try {
       if (activeTab == 0) {
         const response = await AddProductInfoApi(tab1, user.customerId);
@@ -1303,8 +1155,8 @@ const dispatch = useDispatch()
                           type="radio"
                           id="full"
                           name="option"
-                          value="full"
-                          checked={formData.packQuantity == "full"}
+                          value={1}
+                          checked={formData.isfullpack!=null && formData.isfullpack==1}
                           onChange={handleInputChange}
                           className="mx-1"
                         />{" "}
@@ -1320,8 +1172,8 @@ const dispatch = useDispatch()
                           type="radio"
                           id="partial"
                           name="option"
-                          value="partial"
-                          checked={formData.packQuantity === "partial"}
+                          value={0}
+                          checked={formData.isfullpack!=null && formData.isfullpack==0}
                           onChange={handleInputChange}
                           className="ml-2 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                         />
@@ -1643,6 +1495,12 @@ const dispatch = useDispatch()
                       onChange={handleInputChange}
                       value={formData.discount === "" ? "" : formData.discount}
                     />
+                      {/* {formErrors.discount && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.discount}
+                      </span>
+                    )} */}
+
                   </div>
 
                   <div className="flex flex-col">
@@ -1801,8 +1659,8 @@ const dispatch = useDispatch()
                 </div>
 
                 <div className="flex items-center gap-8 ">
-                  <div className="font-semibold flex flex-col">
-                    <label>Amount in Stock:</label>
+                  <div className=" flex flex-col">
+                    <label className="font-semibold">Amount in Stock:</label>
                     <input
                       name="amountInStock"
                       type="phone"
@@ -1814,6 +1672,11 @@ const dispatch = useDispatch()
                           : formData.amountInStock
                       }
                     />
+                      {formErrors.amountInStock && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.amountInStock}
+                      </span>
+                    )}
                   </div>
                   <div className="flex flex-col">
                     <label className="font-semibold">

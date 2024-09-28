@@ -1,5 +1,5 @@
 import axios from "axios"
-import {setSellerDashboardId } from '../Store/Store'
+import {setCustomerDashboardId, setSellerDashboardId } from '../Store/Store'
 axios.defaults.baseURL = 'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/';
 
 export const fetchSellerDashboard = (customerId) => {
@@ -29,7 +29,7 @@ export const fetchCustomerDashboard = (customerId) => {
       console.log('API Response:', response);
       if (response.status === 200) {
         const customerData = response.data;
-        dispatch(setCustomerDashboard(customerData))
+        dispatch(setCustomerDashboardId(customerData))
       } else {
         console.log('Failed to fetch dashboard:', response.message);
       }

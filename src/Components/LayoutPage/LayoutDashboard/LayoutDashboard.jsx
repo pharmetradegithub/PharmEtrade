@@ -12,11 +12,11 @@ function LayoutDashboard() {
     console.log('Customer ID:', user?.customerId);
     if (user?.customerTypeId === 1 || user?.customerTypeId === 2 || user?.customerTypeId === 3) {
       console.log("sellerDashBoardApi-->")
-      dispatch(fetchSellerDashboard(user.customerId));
+      dispatch(fetchSellerDashboard(user?.customerId));
       navigate('/layout/layoutsellerdashboard')
     } else {
       console.log("fetchAllProductsAll")
-      dispatch(fetchCustomerDashboard(user.customerId))
+      dispatch(fetchCustomerDashboard(user?.customerId))
       navigate('/layout/layoutcustomerdashboard')
     }
   }, [user]);
