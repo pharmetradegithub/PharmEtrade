@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
@@ -14,9 +15,15 @@ import Expicon from "../../../assets/Expicon.png";
 import search from "../../../assets/search1.png";
 import nature from "../../../assets/img1.png";
 import { useSelector } from "react-redux";
+import twitter from '../../../assets/twitter_icon.png'
+import Facebook from '../../../assets/facebook1.png'
+import Pintrist from '../../../assets/pinterest.png'
+import email from '../../../assets/envelope.png'
+import wrong from '../../../assets/wrong.png'
 import { addCartApi } from "../../../Api/CartApi";
 import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
-
+import share from '../../../assets/share.png'
+import { Tooltip } from "@mui/material";
 function LayoutBuy({
   topMargin,
   addCart,
@@ -161,6 +168,11 @@ function LayoutBuy({
     // }
   };
 
+  const [isShowPopup, setIsShowPopup] = useState(false);
+
+  const handleSharePopupToggle = () => setIsShowPopup(!isShowPopup);
+
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
@@ -235,26 +247,16 @@ function LayoutBuy({
         <h1 className="text-2xl font-semibold text-blue-900">Buy Products</h1>
         <div className="flex">
           <div className="flex gap-1">
-          <select className="bg-white  w-auto h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center">
+            <select className="bg-white  w-auto h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center">
               <option> Filter Products</option>
-             
+
               <option>Product  Ascending (A-Z)</option>
               <option>Product  Decending (Z-A)</option>
               <option>Price Low to High</option>
               <option>Price High to Low</option>
             </select>
           </div>
-          <div>
-            {/* <Search>
-              <SearchIconWrapper>
-                <img src={search} className="w-6" />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ "aria-label": "search" }}
-              />
-            </Search> */}
-          </div>
+         
         </div>
       </div>
 
@@ -370,6 +372,7 @@ function LayoutBuy({
                     {/* Wishlist */}
                     <div className="flex flex-col items-center justify-between">
                       <div className="mt-2">
+                      <Tooltip title="Wishlist" placement="top">
                         <img
                           src={
                             wishlistProductIDs.includes(product.productID)
@@ -380,7 +383,41 @@ function LayoutBuy({
                           onClick={() => handleClick(product.productID)}
                           alt="Wishlist Icon"
                         />
+                         </Tooltip>
                       </div>
+                      <div className="relative inline-block">
+                      <Tooltip title="Share" placement="top">
+
+                        <img src={share} className="w-6 mx-3 " onClick={handleSharePopupToggle} />
+                      </Tooltip>
+                      </div>
+                      {isShowPopup && (
+                      <div className="flex  mt-2  flex-col justify-center items-center h-full top-0 left-96 absolute inset-0 bg-transparent z-auto">
+                        <div className="border w-[15%] rounded-lg bg-gray-100 ml-96 ">
+                          <div className="flex border-b justify-between p-2 ml-2">
+                            <div className="flex items-center">
+                            <img src={email} className="text-blue-400 w-6"/>
+                            <p className="ml-3">Email</p>
+                            </div>
+                            <img src={wrong} onClick={handleSharePopupToggle} className="w-3 h-3" />
+                          </div>
+                          <div className="flex border-b p-2 ml-2">
+                          <img src={Pintrist} className="text-blue-400 w-6"/>
+
+                            <p className="ml-3">Pinterest</p>
+                          </div>
+                          <div className="flex border-b p-2 ml-2">
+                            <img src={Facebook} className="text-blue-400 w-6"/>
+                            {/* <FaFacebook  /> */}
+                            <p className="ml-3">Facebook</p>
+                          </div>
+                          <div className="flex border-b p-2">
+                          <img src={twitter} className="text-blue-400 w-6"/>
+                            <p className="ml-3">Twitter</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
 
                       {/* Add to Cart */}
                       {/* {cart.some(
@@ -401,6 +438,8 @@ function LayoutBuy({
                         </div>
                         <p className="font-semibold">{"Add to Cart"}</p>
                       </div>
+
+                    
                       {/* ) : ( */}
                       {/* <div className="flex text-white cursor-pointer h-[40px] px-2 rounded-lg bg-sky-600 mx-3 justify-center items-center">
                           <div className="mr-1">

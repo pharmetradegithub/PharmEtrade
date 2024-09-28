@@ -108,8 +108,21 @@ const LayoutOtcProducts = () => {
   };
   return (
     <>
-      <div className="w-[95%]  overflow-y-scroll">
-        <div className="flex flex-col justify-between">
+      <div className="w-[95%]  ml-4 mt-4 overflow-y-scroll">
+        <div className="flex justify-between">
+        <h1 className="text-2xl font-semibold text-blue-900">OTC Products</h1>
+        <div className="flex gap-1">
+            <select className="bg-white  w-auto h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center">
+              <option> Filter Products</option>
+
+              <option>Product  Ascending (A-Z)</option>
+              <option>Product  Decending (Z-A)</option>
+              <option>Price Low to High</option>
+              <option>Price High to Low</option>
+            </select>
+          </div>
+          </div>
+        <div className="flex flex-col justify-between mt-5">
           {OTCProducts.length > 0 ? (
             OTCProducts.map((product, index) => (
               <div
@@ -149,7 +162,14 @@ const LayoutOtcProducts = () => {
                       <img src={Expicon} className="w-6 h-6" />
                       <div className="flex flex-col">
                         <p>Exp.Date :</p>
-                        <p className="font-semibold">{product.expiryDate}</p>
+                        <p className="font-semibold">
+                          {/* {product.expiryDate} */}
+                          {new Date(product.expiryDate).toLocaleDateString('en-US', {
+    month: '2-digit',
+    day: '2-digit',
+    year: 'numeric'
+  }).replace(/\//g, '-')}
+                          </p>
                       </div>
                     </div>
                   </div>

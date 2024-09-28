@@ -12,7 +12,12 @@ import addcart from "../assets/cartw_icon.png";
 import fav from "../assets/fav.png";
 import other from "../assets/other.png";
 // import PRight from "./PRight";
-
+import share from '../assets/share.png'
+import wrong from '../assets/wrong.png'
+import Facebook from '../assets/facebook1.png'
+import Pintrist from '../assets/pinterest.png'
+import email from '../assets/envelope.png'
+import twitter from '../assets/twitter.png'
 import { FaRegHeart } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
 import { CiDiscount1 } from "react-icons/ci";
@@ -52,6 +57,7 @@ import {
 import { addCartApi } from "../Api/CartApi";
 import { addToWishlistApi, removeFromWishlistApi } from "../Api/WishList";
 import { fetchGetOrder, fetchOrderApi } from "../Api/OrderApi";
+import { Tooltip } from "@mui/material";
 // import { orderApi, orderGetApi } from "../Api/CustomerOrderList";
 // import { customerOrderApi, customerOrderGetApi } from "../Api/CustomerOrderList";
 
@@ -248,6 +254,9 @@ function Items({
     state: "",
     postalCode: "",
   });
+  const [isShowPopup, setIsShowPopup] = useState(false);
+  const handleSharePopupToggle = () => setIsShowPopup(!isShowPopup);
+
 
   const [isWishlisted, setIsWishlisted] = useState(false);
 
@@ -415,7 +424,33 @@ function Items({
                 />
               </div>
             </div>
-            <div className="bg-gray-200 border rounded-lg w-68 h-[400px] flex justify-center items-center">
+
+            <div className="relative bg-gray-200 border flex-col rounded-lg w-68 h-[400px] flex justify-center items-center">
+  {/* Share Icon positioned in the top-right corner */}
+  <div className="absolute top-2 right-2">
+    <Tooltip placement="top" title="Share">
+    <img src={share} className="w-5 h-5" alt="Share Icon" onClick={handleSharePopupToggle} />
+    </Tooltip>
+  </div>
+  
+  {/* Conditional rendering for video or image */}
+  {img === videoSample ? (
+    <video className="object-contain w-96 h-72" controls>
+      <source
+        src={prod?.productGallery.videoUrl}
+        type="video/mp4"
+        className=""
+      />
+    </video>
+  ) : (
+    <img src={img} className="object-contain w-96 h-72" alt="Product" />
+  )}
+</div>
+
+            {/* <div className="bg-gray-200 border flex-col rounded-lg w-68 h-[400px] flex justify-center items-center">
+            <div className="-mt-4">
+            <img src={share} className="w-4 h-5 "/>
+            </div>
               {img === videoSample ? (
                 <video className="object-contain w-96 h-72 " controls>
                   <source
@@ -430,10 +465,42 @@ function Items({
                   className="object-contain w-96 h-72"
                   alt="Product"
                 />
+               
+
               )}
-            </div>
+              
+            </div> */}
           </div>
         </div>
+
+        {isShowPopup && (
+                      <div className="flex flex-col justify-center items-center top-0 right-0 h-full absolute inset-0 bg-transparent z-auto">
+                        <div className="border w-[13%] rounded-lg bg-gray-100 -ml-40">
+                          <div className="flex border-b justify-between p-2">
+                            <div className="flex items-center">
+                            <img src={email} className="text-blue-400 w-6"/>
+                            <p className="ml-3">Email</p>
+                            </div>
+                            <img src={wrong} onClick={handleSharePopupToggle} className="w-3 h-3" />
+                          </div>
+                          <div className="flex border-b p-2">
+                          <img src={Pintrist} className="text-blue-400 w-6"/>
+
+                            {/* <FaPinterest className="text-red-500 text-2xl" /> */}
+                            <p className="ml-3">Pinterest</p>
+                          </div>
+                          <div className="flex border-b p-2">
+                            <img src={Facebook} className="text-blue-400 w-6"/>
+                            {/* <FaFacebook  /> */}
+                            <p className="ml-3">Facebook</p>
+                          </div>
+                          <div className="flex border-b p-2">
+                          <img src={twitter} className="text-blue-400 w-6"/>
+                            <p className="ml-3">Twitter</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
 
         <div className="w-[60%] overflow-scroll justify-between h-[500px] flex border-none">
           <div className="w-[50%] ">
@@ -596,12 +663,14 @@ function Items({
 
                   </p>
                   {/* <img src={ ?Wishlist :filledheart} className="w-5 h-5 flex   "/> */}
+                <Tooltip placement="top" title="wishlist">
                   <img
                     src={isWishlisted ? filledheart : Wishlist}
                     className="w-5 h-5 flex cursor-pointer"
                     onClick={handleWishlistClick}
                     alt="Wishlist Icon"
                   />
+                  </Tooltip>
                 </div>
                 <div className="flex justify-between">
                   <div className="flex">
@@ -613,7 +682,10 @@ function Items({
                     </p>
                   </div>
                   <div>
-                    <img src={compare} className="w-5 h-5" />
+                  <Tooltip placement="top" title="Compare">
+
+                    <img src={compare} className="w-5 h-5 cursor-pointer" />
+                    </Tooltip>
                   </div>
                 </div>
               </div>
@@ -808,3 +880,56 @@ function Items({
 }
 
 export default Items;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
