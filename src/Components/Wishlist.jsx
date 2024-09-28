@@ -1,3 +1,5 @@
+
+
 import React, { useContext, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
@@ -202,9 +204,12 @@ function Wishlist({ topMargin, addCart }) {
 
                     <img src={share} className="w-6 mx-3 " onClick={handleSharePopupToggle}/>
                      </Tooltip>
+                     <Tooltip placement="top" title="Delete">
+                      <img src={deleteicon} onClick={() => handleremove(item.wishListId)} className=" w-5 " />
+                    </Tooltip>
                     {/* <RiShare2Fill className="border rounded-md text-2xl w-8 hover:bg-sky-200"  /> */}
                     {isShowPopup && (
-                      <div className="flex flex-col justify-center items-center h-full absolute inset-0 bg-transparent z-auto">
+                      <div className="flex flex-col justify-center items-center top-0 -right-32 h-full absolute inset-0 bg-transparent z-auto">
                         <div className="border w-[13%] rounded-lg bg-gray-100">
                           <div className="flex border-b justify-between p-2">
                             <div className="flex items-center">
@@ -231,11 +236,10 @@ function Wishlist({ topMargin, addCart }) {
                         </div>
                       </div>
                     )}
-                    <Tooltip placement="top" title="Delete">
-                      <img src={deleteicon} onClick={() => handleremove(item.wishListId)} className=" w-5 " />
-                    </Tooltip>
+                   
                     {/* <MdDeleteOutline className="border rounded-md text-2xl hover:bg-sky-200" /> */}
                   </div>
+                 
                   <p onClick={handlePopupToggle} className="hover:text-red-400 cursor-pointer hover:underline font-semibold text-blue-900">Add comment, quantity & priority</p>
                   {showPopup && (
                     <div className="flex flex-col justify-center items-center h-full absolute inset-0 bg-transparent z-auto">
@@ -313,3 +317,8 @@ function Wishlist({ topMargin, addCart }) {
 }
 
 export default Wishlist;
+
+
+
+
+

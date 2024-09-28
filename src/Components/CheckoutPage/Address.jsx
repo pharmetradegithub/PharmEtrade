@@ -991,12 +991,24 @@ function Address({ topMargin, totalAmount }) {
                         </div>
 
                         {/* Hide this button after it's clicked */}
-                        <button
+                        {/* <button
                           className="border rounded-full h-8 text-sm w-32 bg-blue-900 text-white mt-6"
                           onClick={handleUseAddress}
                         >
                           Use this address
-                        </button>
+                        </button> */}
+                        <button
+  className="border rounded-full h-8 text-sm w-32 bg-blue-900 text-white mt-6"
+  onClick={() => {
+    if (selectedAddressId) {
+      handleUseAddress();  // Proceed with navigation
+    } else {
+      alert('Please select an address before continuing.');  // Or display error message
+    }
+  }}
+>
+  Use this address
+</button>
                       </div>
                     </div>
                     {/* </div> */}
