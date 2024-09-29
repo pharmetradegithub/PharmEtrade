@@ -78,7 +78,7 @@ function LayoutaddProduct() {
   const categorySpecificationGetAll = useSelector((state) => state.master.setCategorySpecificationsGetAll)
   console.log("category-->", categorySpecificationGetAll)
 
-const dispatch = useDispatch()
+  const dispatch = useDispatch()
   useEffect(() => {
     dispatch(fetchCategorySpecificationsGetAll())
   }, [])
@@ -119,7 +119,7 @@ const dispatch = useDispatch()
     taxable: false,
     productDetails: "",
     aboutProduct: "",
-    sku:"",
+    sku: "",
     discount: 0,
     form: "",
     Height: 0,
@@ -151,7 +151,7 @@ const dispatch = useDispatch()
     thumbnail5: null,
     thumbnail6: null,
     videoUrl: null,
-    isfullpack : null,
+    isfullpack: null,
   });
   const [productFetched, setproductFetched] = useState();
   const [Heading, setHeading] = useState("ADD PRODUCT");
@@ -183,7 +183,7 @@ const dispatch = useDispatch()
       ndcUpc: product.ndCorUPC,
       brandName: product.brandName,
       price: product.unitPrice,
-      sku:product.sku,
+      sku: product.sku,
       amountInStock: product.amountInStock,
       taxable: product.taxable,
       productDetails: product.productDescription,
@@ -252,7 +252,7 @@ const dispatch = useDispatch()
         setproductFetched(response);
         console.log(response, "APi,response");
       } else {
-        
+
       }
     };
     console.log("heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
@@ -645,8 +645,8 @@ const dispatch = useDispatch()
       height: formData.Height,
       width: formData.Width,
       length: formData.Length,
-      isFullPack: formData.isfullpack==1? true:false,
-      sku:formData.sku,
+      isFullPack: formData.isfullpack == 1 ? true : false,
+      sku: formData.sku,
       weight: formData.Weight,
       manufacturer: formData.manufacturer,
       strength: formData.strength,
@@ -674,8 +674,8 @@ const dispatch = useDispatch()
       productPriceId: productPriceId == null ? "string" : productPriceId,
       productId: queryProductId != null ? queryProductId : productId,
       unitPrice: formData.price,
-      upnMemberPrice: formData.upnMemberPrice ,
-      discount: formData.discount ==null || formData.discount=="" ? 0 : formData.discount,
+      upnMemberPrice: formData.upnMemberPrice,
+      discount: formData.discount == null || formData.discount == "" ? 0 : formData.discount,
       salePrice: formData.salePrice,
       salePriceValidFrom: formData.salePriceForm,
       salePriceValidTo: formData.salePriceTo,
@@ -685,8 +685,8 @@ const dispatch = useDispatch()
       shippingCost: 20,
       amountInStock: formData.amountInStock,
     };
-    if(formData.discount==null || formData.discount=="")
-      setFormData({...formData,["discount"]:0});
+    if (formData.discount == null || formData.discount == "")
+      setFormData({ ...formData, ["discount"]: 0 });
     // const tab4 = {
     //   productGalleryId: "0",
     //   productId: productId,
@@ -721,7 +721,7 @@ const dispatch = useDispatch()
         setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1)); // Enable Tab 2
         setNotification({
           show: true,
-          message: `Product Info ${queryProductId!=null? "Edited" : "Added"} Successfully!`,
+          message: `Product Info ${queryProductId != null ? "Edited" : "Added"} Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -736,7 +736,7 @@ const dispatch = useDispatch()
         ); // Enable Tabs 2 and 3
         setNotification({
           show: true,
-          message: `Price Details ${queryProductId!=null? "Edited" : "Added"} Successfully!`,
+          message: `Price Details ${queryProductId != null ? "Edited" : "Added"} Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -746,7 +746,7 @@ const dispatch = useDispatch()
         setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 3)); // Enable Tab 3
         setNotification({
           show: true,
-          message: `Related Products ${queryProductId!=null? "Edited" : "Added"} Successfully!`,
+          message: `Related Products ${queryProductId != null ? "Edited" : "Added"} Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -764,7 +764,7 @@ const dispatch = useDispatch()
         console.log("Product Data", response);
         setNotification({
           show: true,
-          message: `Product ${queryProductId!=null? "Edited" : "Added"} Successfully!`,
+          message: `Product ${queryProductId != null ? "Edited" : "Added"} Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -782,7 +782,7 @@ const dispatch = useDispatch()
               ndcUpc: "",
               brandName: "",
               size: "",
-              sku:"",
+              sku: "",
               unitOfMeasurement: "",
               mainImageUrl: null,
               price: 0,
@@ -914,7 +914,7 @@ const dispatch = useDispatch()
                       {/* <option value="1"> Prescription Drug</option>
                       <option value="2">OTC Product</option>
                       <option value="3">General Merchandise</option> */}
-                       {categorySpecificationGetAll.map((item) => {
+                      {categorySpecificationGetAll.map((item) => {
                         return <option value={item.categorySpecificationId}>{item.specificationName}</option>
                       })}
                     </select>
@@ -938,8 +938,8 @@ const dispatch = useDispatch()
                     >
                       <option value="">Select a product category</option>
                       {components.map((items) => {
-                        return(
-                          <option value={items.productCategoryId }>{items.categoryName}</option>
+                        return (
+                          <option value={items.productCategoryId}>{items.categoryName}</option>
                         )
                       })}
                       {/* <option value="1">Prescription Medications</option>
@@ -1074,7 +1074,7 @@ const dispatch = useDispatch()
                         />
                       </div>
 
-                      
+
                       <div className="flex flex-col">
                         <label className="text-sm font-semibold">
                           Expiration Date:
@@ -1108,8 +1108,8 @@ const dispatch = useDispatch()
                           name="sku"
                           type="text"
                           className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                        onChange={handleInputChange}
-                        value={formData.sku}
+                          onChange={handleInputChange}
+                          value={formData.sku}
                         />
                       </div>
                     </div>
@@ -1156,7 +1156,7 @@ const dispatch = useDispatch()
                           id="full"
                           name="option"
                           value={1}
-                          checked={formData.isfullpack!=null && formData.isfullpack==1}
+                          checked={formData.isfullpack != null && formData.isfullpack == 1}
                           onChange={handleInputChange}
                           className="mx-1"
                         />{" "}
@@ -1173,7 +1173,7 @@ const dispatch = useDispatch()
                           id="partial"
                           name="option"
                           value={0}
-                          checked={formData.isfullpack!=null && formData.isfullpack==0}
+                          checked={formData.isfullpack != null && formData.isfullpack == 0}
                           onChange={handleInputChange}
                           className="ml-2 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                         />
@@ -1487,7 +1487,7 @@ const dispatch = useDispatch()
                   </div>
 
                   <div className="flex flex-col">
-                    <label className="text-sm font-semibold">Discount ($):</label>
+                    <label className="text-sm font-semibold">Discount (%):</label>
                     <input
                       name="discount"
                       type="phone"
@@ -1495,7 +1495,7 @@ const dispatch = useDispatch()
                       onChange={handleInputChange}
                       value={formData.discount === "" ? "" : formData.discount}
                     />
-                      {/* {formErrors.discount && (
+                    {/* {formErrors.discount && (
                       <span className="text-red-500 text-sm">
                         {formErrors.discount}
                       </span>
@@ -1672,7 +1672,7 @@ const dispatch = useDispatch()
                           : formData.amountInStock
                       }
                     />
-                      {formErrors.amountInStock && (
+                    {formErrors.amountInStock && (
                       <span className="text-red-500 text-sm">
                         {formErrors.amountInStock}
                       </span>
@@ -2278,8 +2278,8 @@ const dispatch = useDispatch()
               <button
                 disabled={showTab.includes(index)} // Corrected to 'disabled'
                 className={`w-full flex justify-center items-center px-2 p-3 py-1 mt-7 shadow-md ${activeTab === index
-                    ? "text-white bg-blue-900 rounded-t-xl font-semibold"
-                    : "text-blue-900 shadow-none rounded-t-xl bg-white"
+                  ? "text-white bg-blue-900 rounded-t-xl font-semibold"
+                  : "text-blue-900 shadow-none rounded-t-xl bg-white"
                   } ${showTab.includes(index) ? "opacity-50 cursor-not-allowed" : ""
                   }`} // Style changes for disabled state
                 onClick={() => setActiveTab(index)}

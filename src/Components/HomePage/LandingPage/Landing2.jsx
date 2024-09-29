@@ -27,7 +27,7 @@ function Landing2({ wishList, addCart }) {
   const handleClick = (index) => {
     switch (index) {
       case 0:
-        isLoggedIn ? navigate("/allProducts") : navigate("/login");
+        isLoggedIn ? navigate("/layout/layoutbuy") : navigate("/login");
         break;
 
       case 1:

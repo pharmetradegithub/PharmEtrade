@@ -430,6 +430,9 @@
 import React, { useEffect, useState } from 'react';
 import LayoutDashboardgrid from './LayoutDashboardGrid'
 import { useDispatch, useSelector } from 'react-redux';
+import LayoutSellerTotalProducts from './LayoutSellerTotalProducts';
+import LayoutSellerProductOrderd from './LayoutSellerProductOrderd';
+import LayoutSellerCustomerOrders from './LayoutSellerCustomerOrders';
 // import { fetchSellerDashboard } from '../../../Api/DashBoardApi';
 import { fetchAllProductsApi } from '../../../Api/ProductApi';
 import { fetchSellerDashboard } from '../../../Api/Dashboard';
@@ -473,6 +476,12 @@ const LayoutSellerDashboard = () => {
   };
 
   
+  const [visibleGrid, setVisibleGrid] = useState(null); // To track which grid is visible
+
+  
+  const toggleGrid = (grid) => {
+    setVisibleGrid((prev) => (prev === grid ? null : grid)); // Toggle the grid visibility
+  };
   // grid data
   const product = [
     {
@@ -561,11 +570,11 @@ const LayoutSellerDashboard = () => {
 
   const details = [
     {
-      totalOrder: sellerDashboard?.totalOrders, label: "totalProducts", percentage: sellerDashboard?.totalProducts, color: "red" }, // Red
+      totalOrder: sellerDashboard?.totalOrders, label: "TotalProducts", percentage: sellerDashboard?.totalProducts, color: "red",grid:"totalProducts" }, // Red
     {
-      label: "productsOrdered", percentage: sellerDashboard?.productsOrdered, color: "orange" }, // Yellow
+      label: "ProductsOrdered", percentage: sellerDashboard?.productsOrdered, color: "orange",grid:"productsOrdered" }, // Yellow
     {
-      label: "customersOrdered", percentage: sellerDashboard?.customersOrdered, color: "green" }, // Green
+      label: "CustomersOrdered", percentage: sellerDashboard?.customersOrdered, color: "green",grid:"customersOrdered" }, // Green
 
   ];
 
@@ -660,12 +669,13 @@ const LayoutSellerDashboard = () => {
                   {/* <h1 className='text-3xl  items-center text-center  justify-start flex'>{detail.totalOrder}</h1> */}
                   <div
                     key={index}
-                    className="bg-white w-48 rounded-lg shadow-xl   h-28 p-4 flex flex-col justify-between"
+                    className="bg-white w-48 rounded-lg shadow-xl cursor-pointer  h-28 p-4 flex flex-col justify-between"
+                    onClick={() => toggleGrid(detail.grid)}
                     style={{ borderBottom: `4px solid ${detail.color}` }} // Set bottom border color
                   >
 
                     <div className="flex justify-between items-center">
-                      <h1>{detail.label}</h1>
+                      <h1 className='hover:text-red-600 hover:underline'>{detail.label}</h1>
 
                     </div>
                     <div className="flex justify-between">
@@ -845,6 +855,21 @@ const LayoutSellerDashboard = () => {
           {isGridOpen && (
             <LayoutDashboardgrid data={products} onClose={closeGrid} />
           )}
+        </div>
+
+
+
+
+
+
+        <div>
+          {visibleGrid === "customersOrdered" && <LayoutSellerCustomerOrders />}
+        </div>
+        <div>
+          {visibleGrid === "productsOrdered" && <LayoutSellerProductOrderd />}
+        </div>
+        <div>
+          {visibleGrid === "totalProducts" && <LayoutSellerTotalProducts />}
         </div>
       </div>
 
