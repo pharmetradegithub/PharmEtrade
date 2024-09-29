@@ -1311,6 +1311,9 @@ const Payment = () => {
   const getOrder = useSelector((state) => state.order.getOrder)
   console.log("getorderPayment-->", getOrder)
   const [orderGet, setorderGet] = useState(getOrder)
+  const ordered = useSelector((state) => state.order.orderPlace)
+  console.log("ordered-->", ordered)
+  
   const handleemiopen = () => {
     SetIsEmiPopup(true)
   }
@@ -1355,7 +1358,7 @@ const Payment = () => {
     console.log("payload-->", orderGet)
     const payload = {
       paymentInfoId: "",
-      orderId: orderGet[0]?.orderId,
+      orderId: ordered?.orderId,
       paymentMethodId: 1,
       cardNumber: cardNumber,
       cardType: "",

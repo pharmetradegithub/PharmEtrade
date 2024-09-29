@@ -438,12 +438,12 @@ function LayoutOrderList() {
         <button className="  border-b hover:border-red-500 hover:text-blue-900 text-black w-60   h-9 text-xl">
           {" "}
           {""}
-          <Link to="/layout"> Buy Again</Link>
+          <Link to=""> Received Orders</Link>
         </button>
         <button className="  border-b hover:border-red-500 hover:text-blue-900 text-black w-60   h-9 text-xl">
           {" "}
           {""}
-          <Link to="/products"> Not Yet Shipped</Link>
+          <Link to="/products"> Upcoming Orders</Link>
         </button>
 
         <button className="  border-b hover:border-red-500 hover:text-red-500 text-black w-60 h-9 text-xl">
@@ -517,11 +517,11 @@ function LayoutOrderList() {
                       <button className="border rounded-lg p-2 bg-blue-900 text-white w-48 shadow-md">
                         <Link to="/allProducts"> Buy it again</Link>
                       </button>
-                      <button className="border rounded-lg p-2 mx-3 shadow-md w-48">
+                      {/* <button className="border rounded-lg p-2 mx-3 shadow-md w-48">
                         <Link to={`/detailspage/${order.productId}`}>
                           View your item
                         </Link>
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </div>

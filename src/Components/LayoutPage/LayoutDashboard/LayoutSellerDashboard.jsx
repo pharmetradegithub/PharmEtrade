@@ -42,7 +42,7 @@
 //     setIsGridVisible(true);
 //   };
 
-  
+
 //   // grid data
 //   const products = [
 //     {
@@ -435,7 +435,7 @@ import LayoutSellerProductOrderd from './LayoutSellerProductOrderd';
 import LayoutSellerCustomerOrders from './LayoutSellerCustomerOrders';
 // import { fetchSellerDashboard } from '../../../Api/DashBoardApi';
 import { fetchAllProductsApi } from '../../../Api/ProductApi';
-import { fetchSellerDashboard } from '../../../Api/Dashboard';
+import { fetchSellerDashboard, fetchTotalProductDashboard } from '../../../Api/Dashboard';
 const LayoutSellerDashboard = () => {
   const user = useSelector((state) => state.user.user);
   console.log("layoutDash-->", user)
@@ -475,10 +475,10 @@ const LayoutSellerDashboard = () => {
     setIsGridVisible(true);
   };
 
-  
+
   const [visibleGrid, setVisibleGrid] = useState(null); // To track which grid is visible
 
-  
+
   const toggleGrid = (grid) => {
     setVisibleGrid((prev) => (prev === grid ? null : grid)); // Toggle the grid visibility
   };
@@ -570,11 +570,14 @@ const LayoutSellerDashboard = () => {
 
   const details = [
     {
-      totalOrder: sellerDashboard?.totalOrders, label: "TotalProducts", percentage: sellerDashboard?.totalProducts, color: "red",grid:"totalProducts" }, // Red
+      totalOrder: sellerDashboard?.totalOrders, label: "TotalProducts", percentage: sellerDashboard?.totalProducts, color: "red", grid: "totalProducts"
+    }, // Red
     {
-      label: "ProductsOrdered", percentage: sellerDashboard?.productsOrdered, color: "orange",grid:"productsOrdered" }, // Yellow
+      label: "ProductsOrdered", percentage: sellerDashboard?.productsOrdered, color: "orange", grid: "productsOrdered"
+    }, // Yellow
     {
-      label: "CustomersOrdered", percentage: sellerDashboard?.customersOrdered, color: "green",grid:"customersOrdered" }, // Green
+      label: "CustomersOrdered", percentage: sellerDashboard?.customersOrdered, color: "green", grid: "customersOrdered"
+    }, // Green
 
   ];
 
@@ -647,6 +650,10 @@ const LayoutSellerDashboard = () => {
   };
 
 
+  const handleTotalProduct = () => {
+    dispatch(fetchTotalProductDashboard(user?.customerId))
+  }
+
 
   return (
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
@@ -674,7 +681,7 @@ const LayoutSellerDashboard = () => {
                     style={{ borderBottom: `4px solid ${detail.color}` }} // Set bottom border color
                   >
 
-                    <div className="flex justify-between items-center">
+                    <div className="flex justify-between items-center" onClick={handleTotalProduct}>
                       <h1 className='hover:text-red-600 hover:underline'>{detail.label}</h1>
 
                     </div>
@@ -721,7 +728,7 @@ const LayoutSellerDashboard = () => {
             {/* <h1 className='text-xl font-semibold'> Product(s)</h1> */}
             <div className='flex flex-col items-center justify-center ml-4'>
               <h1 className='text-xl font-semibold'>Product(s)</h1>
-              <p className='text-3xl '>{ sellerDashboard?.productsOrdered}</p>
+              <p className='text-3xl '>{sellerDashboard?.productsOrdered}</p>
             </div>
             {/* <p>Top Selling Products</p> */}
 
@@ -802,53 +809,6 @@ const LayoutSellerDashboard = () => {
             </div>
 
           </div>
-        </div>
-
-        {/* lifetime sales */}
-        <div className='flex flex-col  mt-8 gap-2'>
-
-          <h1 className='text-2xl font-semibold text-blue-900'>Earnings</h1>
-          <div className='flex gap-2'>
-            <div className='flex border bg-white gap-1 w-60 p-3 justify-center items-center rounded-lg shadow-lg '>
-              <h1 className='text-xl'> Lifetime Sales  {" "}</h1>
-              <span className='text-xl text-orange-500 ml-1'> $37.84</span>
-            </div>
-            {/* Totalpayout */}
-            <div>
-              <div className='flex  gap-1  p-3  justify-between  rounded-lg shadow-lg w-72'>
-                <div className='flex '>
-                  <h1 className='text-xl'>Total Payout    {"  "}</h1>
-                  <span className='text-xl text-orange-500 ml-1'> $0.00</span>
-                </div>
-                <div>
-                  <select value={selectedOption} onChange={handleOptionChange} className='border  rounded'>
-                    <option value="Yearly">Yearly</option>
-                    <option value="Monthly">Monthly</option>
-                    <option value="Weekly">Weekly</option>
-                    <option value="Daily">Daily</option>
-                  </select>
-                </div>
-
-                {/* Display corresponding image below based on the dropdown selection */}
-
-              </div>
-            </div>
-
-            {/* Activity */}
-            <div className='flex  gap-1  p-3  justify-between  rounded-lg shadow-lg w-60'>
-              <h1 className='text-xl'>Acitivities</h1>
-              <p className='bg-white text-sm h-6 items-center rounded-md justify-center flex p-1'>View All</p>
-            </div>
-          </div>
-        </div>
-
-        <div className='mt-5'>
-          {selectedOption && (
-            <div className='flex flex-col '>
-              {/* <h1 className='text-xl mb-3'>{selectedOption} Report</h1> */}
-              <img src={imageMap[selectedOption]} alt={`${selectedOption} Report`} className='w-[78%] h-56 rounded-lg shadow-lg' />
-            </div>
-          )}
         </div>
 
         <div className='mt-8'>
