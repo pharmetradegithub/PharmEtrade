@@ -160,7 +160,7 @@ const LayoutOtcProducts = () => {
                     </p>
                     <div className="flex w-full mt-1 gap-1">
                       <img src={Expicon} className="w-6 h-6" />
-                      <div className="flex flex-col">
+                      <div className="flex ">
                         <p>Exp.Date :</p>
                         <p className="font-semibold">
                           {/* {product.expiryDate} */}

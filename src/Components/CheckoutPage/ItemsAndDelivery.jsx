@@ -160,7 +160,7 @@ console.log(date)
                   {itemsdetail.Strength}
                 </p>
                 <p className="text-red-600 font-semibold">
-                  ${itemsdetail.totalAmount}
+                  ${itemsdetail.totalAmount.toFixed(2)}
                 </p>
                 <input
                   type="number"

@@ -156,7 +156,7 @@ function LayoutWishlist({ addCart }) {
       className="bg-gray-200  p-8 overflow-scroll"
     // style={{ marginTop: `${topMargin}px `}}
     >
-       {notification.show && (
+      {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
       <h1 className="text-2xl mb-2 text-blue-900 font-semibold">
@@ -219,45 +219,56 @@ function LayoutWishlist({ addCart }) {
                     <img src={cart} className="w-5 h-5 mx-1" />
                     ADD
                   </button>
-                  <div className="flex items-center justify-between my-4 cursor-pointer">
-                    <Tooltip title="Share" placement="top">
+                  <div className="flex  items-center justify-between my-4 cursor-pointer">
+                    <div className="relative">
+                      <Tooltip title="Share" placement="top">
 
-                      <img
-                        src={share}
-                        className="w-6 mx-3 "
-                        onClick={handleSharePopupToggle}
+                        <img
+                          src={share}
+                          className="w-6 mx-3 "
+                          onClick={handleSharePopupToggle}
 
-                      />
-                    </Tooltip>
+                        />
+                      </Tooltip>
+                    </div>
                     {/* <RiShare2Fill className="border rounded-md text-2xl w-8 hover:bg-sky-200"  /> */}
                     {isShowPopup && (
-                      <div className="flex flex-col justify-start  h-full absolute inset-0 bg-transparent z-auto">
-                        <div className="border w-[13%] rounded-lg bg-gray-100">
+                      <div className="flex flex-col justify-center items-center top-0  left-10 h-full absolute inset-0 bg-transparent z-auto">
+                        <div className="border w-[13%] rounded-lg bg-gray-100 ml-96">
                           <div className="flex border-b justify-between p-2">
                             <div className="flex items-center">
-                              <img src={email} className="text-blue-400 w-6" />
-                              <p className="ml-3">Email</p>
-                            </div>
-                            <img
-                              src={wrong}
-                              onClick={handleSharePopupToggle}
-                              className="w-3 h-3"
-                            />
-                          </div>
-                          <div className="flex border-b p-2">
-                            <img src={Pintrist} className="text-blue-400 w-6" />
+                              <a href="mailto:example@example.com" className="flex items-center">
 
-                            {/* <FaPinterest className="text-red-500 text-2xl" /> */}
-                            <p className="ml-3">Pinterest</p>
+                                <img src={email} className="text-blue-400 w-6" />
+                                <p className="ml-3">Email</p>
+                              </a>
+                            </div>
+                            <img src={wrong} onClick={handleSharePopupToggle} className="w-3 h-3" />
+                          </div>
+
+                          <div className="flex border-b p-2">
+                            <a href="https://www.pinterest.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
+
+                              <img src={Pintrist} className="text-blue-400 w-6" />
+
+                              {/* <FaPinterest className="text-red-500 text-2xl" /> */}
+                              <p className="ml-3">Pinterest</p>
+                            </a>
                           </div>
                           <div className="flex border-b p-2">
-                            <img src={Facebook} className="text-blue-400 w-6" />
-                            {/* <FaFacebook  /> */}
-                            <p className="ml-3">Facebook</p>
+                            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
+
+                              <img src={Facebook} className="text-blue-400 w-6" />
+                              {/* <FaFacebook  /> */}
+                              <p className="ml-3">Facebook</p>
+                            </a>
                           </div>
                           <div className="flex border-b p-2">
-                            <img src={twitter} className="text-blue-400 w-6" />
-                            <p className="ml-3">Twitter</p>
+                            <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
+
+                              <img src={twitter} className="text-blue-400 w-6" />
+                              <p className="ml-3">Twitter</p>
+                            </a>
                           </div>
                         </div>
                       </div>
