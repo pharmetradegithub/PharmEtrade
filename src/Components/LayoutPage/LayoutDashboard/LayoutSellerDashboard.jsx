@@ -445,8 +445,8 @@ const LayoutSellerDashboard = () => {
   console.log("sellerdash-->", sellerDashboard)
 
   // Handle Latest button click to show percentage or close the grid
+  const products = useSelector((state) => state.product.Products);
   const handleClick = () => {
-    const products = useSelector((state) => state.product.Products);
     console.log("dashboardLayout-->", products)
     if (isGridOpen) {
       // If grid is open, close it
@@ -474,7 +474,7 @@ const LayoutSellerDashboard = () => {
 
   
   // grid data
-  const products = [
+  const product = [
     {
       id: "000",
       thumbnail: "D061D23",

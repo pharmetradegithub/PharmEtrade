@@ -256,7 +256,7 @@ function LayoutBuy({
               <option>Price High to Low</option>
             </select>
           </div>
-         
+
         </div>
       </div>
 
@@ -301,7 +301,7 @@ function LayoutBuy({
                         </p>
                         <div className="flex w-full mt-1 gap-1">
                           <img src={Expicon} className="w-6 h-6" />
-                          <div className="flex flex-col">
+                          <div className="flex">
                             <p>Exp.Date :</p>
                             <p className="font-semibold">
                               {/* {product.expiryDate} */}
@@ -372,52 +372,60 @@ function LayoutBuy({
                     {/* Wishlist */}
                     <div className="flex flex-col items-center justify-between">
                       <div className="mt-2">
-                      <Tooltip title="Wishlist" placement="top">
-                        <img
-                          src={
-                            wishlistProductIDs.includes(product.productID)
-                              ? filledHeart
-                              : emptyHeart
-                          }
-                          className="w-6 h-6 cursor-pointer"
-                          onClick={() => handleClick(product.productID)}
-                          alt="Wishlist Icon"
-                        />
-                         </Tooltip>
+                        <Tooltip title="Wishlist" placement="top">
+                          <img
+                            src={
+                              wishlistProductIDs.includes(product.productID)
+                                ? filledHeart
+                                : emptyHeart
+                            }
+                            className="w-6 h-6 cursor-pointer"
+                            onClick={() => handleClick(product.productID)}
+                            alt="Wishlist Icon"
+                          />
+                        </Tooltip>
                       </div>
                       <div className="relative inline-block">
-                      <Tooltip title="Share" placement="top">
+                        <Tooltip title="Share" placement="top">
 
-                        <img src={share} className="w-6 mx-3 " onClick={handleSharePopupToggle} />
-                      </Tooltip>
+                          <img src={share} className="w-6 mx-3 " onClick={handleSharePopupToggle} />
+                        </Tooltip>
                       </div>
                       {isShowPopup && (
-                      <div className="flex  mt-2  flex-col justify-center items-center h-full top-0 left-96 absolute inset-0 bg-transparent z-auto">
-                        <div className="border w-[15%] rounded-lg bg-gray-100 ml-96 ">
-                          <div className="flex border-b justify-between p-2 ml-2">
-                            <div className="flex items-center">
-                            <img src={email} className="text-blue-400 w-6"/>
-                            <p className="ml-3">Email</p>
+                        <div className="flex  mt-2  flex-col justify-center items-center h-full top-0 left-96 absolute inset-0 bg-transparent z-auto">
+                          <div className="border w-[15%] rounded-lg bg-gray-100 ml-96 ">
+                            <div className="flex border-b justify-between p-2 ml-2">
+                              <div className="flex items-center">
+                                <a href="mailto:example@example.com" className="flex items-center">
+                                  <img src={email} className="text-blue-400 w-6" />
+                                  <p className="ml-3">Email</p>
+                                </a>
+                              </div>
+                              <img src={wrong} onClick={handleSharePopupToggle} className="w-3 h-3" />
                             </div>
-                            <img src={wrong} onClick={handleSharePopupToggle} className="w-3 h-3" />
-                          </div>
-                          <div className="flex border-b p-2 ml-2">
-                          <img src={Pintrist} className="text-blue-400 w-6"/>
+                            <div className="flex border-b p-2 ml-2">
+                              <a href="https://www.pinterest.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
+                                <img src={Pintrist} className="text-blue-400 w-6" />
 
-                            <p className="ml-3">Pinterest</p>
-                          </div>
-                          <div className="flex border-b p-2 ml-2">
-                            <img src={Facebook} className="text-blue-400 w-6"/>
-                            {/* <FaFacebook  /> */}
-                            <p className="ml-3">Facebook</p>
-                          </div>
-                          <div className="flex border-b p-2">
-                          <img src={twitter} className="text-blue-400 w-6"/>
-                            <p className="ml-3">Twitter</p>
+                                <p className="ml-3">Pinterest</p>
+                              </a>
+                            </div>
+                            <div className="flex border-b p-2 ml-2">
+                              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
+                                <img src={Facebook} className="text-blue-400 w-6" />
+                                {/* <FaFacebook  /> */}
+                                <p className="ml-3">Facebook</p>
+                              </a>
+                            </div>
+                            <div className="flex border-b p-2">
+                              <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
+                                <img src={twitter} className="text-blue-400 w-6" />
+                                <p className="ml-3">Twitter</p>
+                              </a>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )}
+                      )}
 
                       {/* Add to Cart */}
                       {/* {cart.some(
@@ -439,7 +447,7 @@ function LayoutBuy({
                         <p className="font-semibold">{"Add to Cart"}</p>
                       </div>
 
-                    
+
                       {/* ) : ( */}
                       {/* <div className="flex text-white cursor-pointer h-[40px] px-2 rounded-lg bg-sky-600 mx-3 justify-center items-center">
                           <div className="mr-1">

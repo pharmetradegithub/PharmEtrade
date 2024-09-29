@@ -474,32 +474,71 @@ function Items({
         </div>
 
         {isShowPopup && (
-                      <div className="flex flex-col justify-center items-center top-0 right-0 h-full absolute inset-0 bg-transparent z-auto">
-                        <div className="border w-[13%] rounded-lg bg-gray-100 -ml-40">
-                          <div className="flex border-b justify-between p-2">
-                            <div className="flex items-center">
-                            <img src={email} className="text-blue-400 w-6"/>
-                            <p className="ml-3">Email</p>
-                            </div>
-                            <img src={wrong} onClick={handleSharePopupToggle} className="w-3 h-3" />
-                          </div>
-                          <div className="flex border-b p-2">
-                          <img src={Pintrist} className="text-blue-400 w-6"/>
+                      // <div className="flex flex-col justify-center items-center top-0 right-0 h-full absolute inset-0 bg-transparent z-auto">
+                      //   <div className="border w-[13%] rounded-lg bg-gray-100 -ml-40">
+                      //     <div className="flex border-b justify-between p-2">
+                      //       <div className="flex items-center">
+                      //       <img src={email} className="text-blue-400 w-6"/>
+                      //       <p className="ml-3">Email</p>
+                      //       </div>
+                      //       <img src={wrong} onClick={handleSharePopupToggle} className="w-3 h-3" />
+                      //     </div>
+                      //     <div className="flex border-b p-2">
+                      //     <img src={Pintrist} className="text-blue-400 w-6"/>
 
-                            {/* <FaPinterest className="text-red-500 text-2xl" /> */}
-                            <p className="ml-3">Pinterest</p>
-                          </div>
-                          <div className="flex border-b p-2">
-                            <img src={Facebook} className="text-blue-400 w-6"/>
-                            {/* <FaFacebook  /> */}
-                            <p className="ml-3">Facebook</p>
-                          </div>
-                          <div className="flex border-b p-2">
-                          <img src={twitter} className="text-blue-400 w-6"/>
-                            <p className="ml-3">Twitter</p>
-                          </div>
-                        </div>
-                      </div>
+                      //       {/* <FaPinterest className="text-red-500 text-2xl" /> */}
+                      //       <p className="ml-3">Pinterest</p>
+                      //     </div>
+                      //     <div className="flex border-b p-2">
+                      //       <img src={Facebook} className="text-blue-400 w-6"/>
+                      //       {/* <FaFacebook  /> */}
+                      //       <p className="ml-3">Facebook</p>
+                      //     </div>
+                      //     <div className="flex border-b p-2">
+                      //     <img src={twitter} className="text-blue-400 w-6"/>
+                      //       <p className="ml-3">Twitter</p>
+                      //     </div>
+                      //   </div>
+          // </div>
+          
+          <div className="flex flex-col justify-center items-center top-0 right-0 h-full absolute inset-0 bg-transparent z-auto">
+            <div className="border w-[13%] rounded-lg bg-gray-100 -ml-40">
+              <div className="flex border-b justify-between p-2">
+                <div className="flex items-center">
+                  <a href="mailto:example@example.com" className="flex items-center">
+
+                    <img src={email} className="text-blue-400 w-6" />
+                    <p className="ml-3">Email</p>
+                  </a>
+                </div>
+                <img src={wrong} onClick={handleSharePopupToggle} className="w-3 h-3" />
+              </div>
+              <div className="flex border-b p-2">
+                <a href="https://www.pinterest.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
+
+                  <img src={Pintrist} className="text-blue-400 w-6" />
+
+                  {/* <FaPinterest className="text-red-500 text-2xl" /> */}
+                  <p className="ml-3">Pinterest</p>
+                </a>
+              </div>
+              <div className="flex border-b p-2">
+                <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
+
+                  <img src={Facebook} className="text-blue-400 w-6" />
+                  {/* <FaFacebook  /> */}
+                  <p className="ml-3">Facebook</p>
+                </a>
+              </div>
+              <div className="flex border-b p-2">
+                <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
+
+                  <img src={twitter} className="text-blue-400 w-6" />
+                  <p className="ml-3">Twitter</p>
+                </a>
+              </div>
+            </div>
+          </div>
                     )}
 
         <div className="w-[60%] overflow-scroll justify-between h-[500px] flex border-none">

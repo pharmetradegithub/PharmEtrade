@@ -30,7 +30,7 @@ import Notification from '../Components/Notification' // Import Notification com
 function Wishlist({ topMargin, addCart }) {
   const wishItems = useSelector((state) => state.wishlist.wishlist || []); // Fallback to empty array if null
   //const wishItems = useSelector((state)=>state.wishlist.wishlist);
-  const user = useSelector((state)=>state.user.user);
+  const user = useSelector((state) => state.user.user);
   const [searchQuery, setSearchQuery] = useState('');
   const [quantities, setQuantities] = useState(
     Array.isArray(wishItems) ? wishItems.map(() => 1) : [] // Ensure wishItems is an array
@@ -47,21 +47,20 @@ function Wishlist({ topMargin, addCart }) {
     show: false,
     message: "one",
   });
-  const handleremove = async(wishListId) => {
+  const handleremove = async (wishListId) => {
     try {
       await removeFromWishlistApi(wishListId);
     } catch (error) {
       throw error;
     }
   }
-  const handleCart = async(productID) => {
-    if(user==null)
-    {
+  const handleCart = async (productID) => {
+    if (user == null) {
       console.log("login to add");
       return;
     }
     const cartData = {
-      customerId: user.customerId, 
+      customerId: user.customerId,
       productId: productID,
       quantity: 1,
       isActive: 1,
@@ -83,10 +82,10 @@ function Wishlist({ topMargin, addCart }) {
       console.error("Error adding product to cart:", error);
     }
   };
-  
+
 
   const Star = ({ filled, onClick }) => (
-    <span onClick={onClick} style={{ cursor: 'pointer', fontSize: '25px',color:'orange', marginLeft:"8px" }}>
+    <span onClick={onClick} style={{ cursor: 'pointer', fontSize: '25px', color: 'orange', marginLeft: "8px" }}>
       {filled ? '★' : '☆'}
     </span>
   );
@@ -122,16 +121,16 @@ function Wishlist({ topMargin, addCart }) {
     alignItems: "center",
     justifyContent: "center",
     // backgroundColor:'red',
-    color:'black',
-  zIndex:"1"
-   
+    color: 'black',
+    zIndex: "1"
+
   }));
 
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
     // backgroundColor:'beige',
-    border:'1px solid gray',
+    border: '1px solid gray',
     // boxShadow:'1px 1px',
-    borderRadius:'5px',
+    borderRadius: '5px',
     color: "black",
     width: "100%",
     "& .MuiInputBase-input": {
@@ -150,7 +149,7 @@ function Wishlist({ topMargin, addCart }) {
 
   console.log("wishListonly-->", wishItems)
   return (
-    <div className="bg-gray-200 p-8 " style={{ marginTop: `${topMargin}px `}}>
+    <div className="bg-gray-200 p-8 " style={{ marginTop: `${topMargin}px ` }}>
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
@@ -177,13 +176,13 @@ function Wishlist({ topMargin, addCart }) {
             {wishItems.map((item, index) => (
               <div key={index} className="border rounded-lg flex justify-evenly h-56 p-4 max-w-6xl bg-white shadow-md">
                 <Link to={`/detailspage/${item.product.productID}`}>
-                <img className="h-48 w-40 rounded-lg cursor-pointer" src={item.product.
+                  <img className="h-48 w-40 rounded-lg cursor-pointer" src={item.product.
                     imageUrl} alt={item.product.productName} />
                 </Link>
                 <div className="flex flex-col font-medium">
                   <Link to={`/detailspage/${item.product.productID}`} className="hover:text-red-600">
                     {/* <h3 className="text-xl font-semibold">Vitamin C(1000IU) Cap X Syrup 1000mg Nature Made</h3> */}
-                    <h3 className="text-xl font-semibold">{ item.product.productName}</h3>
+                    <h3 className="text-xl font-semibold">{item.product.productName}</h3>
                     {/* <p className="text-xl">Cough Syrup 1000mg</p> */}
                     <p className="text-xl">${item.product.salePrice?.toFixed(2)}</p>
                   </Link>
@@ -196,50 +195,65 @@ function Wishlist({ topMargin, addCart }) {
                 </div>
                 <div className="flex flex-col items-center justify-center">
                   <button className="text-lg font-semibold text-white bg-blue-900 w-36 h-9  justify-center flex items-center  rounded-full" onClick={() => handleCart(item.product.productID)}>
-                   <img src={cart} className="w-5 h-5 mx-1"/>
+                    <img src={cart} className="w-5 h-5 mx-1" />
                     ADD
                   </button>
                   <div className="flex items-center cursor-pointer justify-between my-4">
-                     <Tooltip title = "Share" placement="top">
+                    <div className="relative">
+                      <Tooltip title="Share" placement="top">
 
-                    <img src={share} className="w-6 mx-3 " onClick={handleSharePopupToggle}/>
-                     </Tooltip>
-                     <Tooltip placement="top" title="Delete">
+                        <img src={share} className="w-6 mx-3 " onClick={handleSharePopupToggle} />
+                      </Tooltip>
+                    </div>
+                    <Tooltip placement="top" title="Delete">
                       <img src={deleteicon} onClick={() => handleremove(item.wishListId)} className=" w-5 " />
                     </Tooltip>
                     {/* <RiShare2Fill className="border rounded-md text-2xl w-8 hover:bg-sky-200"  /> */}
                     {isShowPopup && (
-                      <div className="flex flex-col justify-center items-center top-0 -right-32 h-full absolute inset-0 bg-transparent z-auto">
-                        <div className="border w-[13%] rounded-lg bg-gray-100">
+                      <div className="flex flex-col justify-center items-center top-0  left-10 h-full absolute inset-0 bg-transparent z-auto">
+                        <div className="border w-[13%] rounded-lg bg-gray-100 ml-32">
                           <div className="flex border-b justify-between p-2">
                             <div className="flex items-center">
-                            <img src={email} className="text-blue-400 w-6"/>
-                            <p className="ml-3">Email</p>
+                              <a href="mailto:example@example.com" className="flex items-center">
+
+                                <img src={email} className="text-blue-400 w-6" />
+                                <p className="ml-3">Email</p>
+                              </a>
                             </div>
                             <img src={wrong} onClick={handleSharePopupToggle} className="w-3 h-3" />
                           </div>
-                          <div className="flex border-b p-2">
-                          <img src={Pintrist} className="text-blue-400 w-6"/>
 
-                            {/* <FaPinterest className="text-red-500 text-2xl" /> */}
-                            <p className="ml-3">Pinterest</p>
+                          <div className="flex border-b p-2">
+                            <a href="https://www.pinterest.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
+
+                              <img src={Pintrist} className="text-blue-400 w-6" />
+
+                              {/* <FaPinterest className="text-red-500 text-2xl" /> */}
+                              <p className="ml-3">Pinterest</p>
+                            </a>
                           </div>
                           <div className="flex border-b p-2">
-                            <img src={Facebook} className="text-blue-400 w-6"/>
-                            {/* <FaFacebook  /> */}
-                            <p className="ml-3">Facebook</p>
+                            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
+
+                              <img src={Facebook} className="text-blue-400 w-6" />
+                              {/* <FaFacebook  /> */}
+                              <p className="ml-3">Facebook</p>
+                            </a>
                           </div>
                           <div className="flex border-b p-2">
-                          <img src={twitter} className="text-blue-400 w-6"/>
-                            <p className="ml-3">Twitter</p>
+                            <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
+
+                              <img src={twitter} className="text-blue-400 w-6" />
+                              <p className="ml-3">Twitter</p>
+                            </a>
                           </div>
                         </div>
                       </div>
                     )}
-                   
+
                     {/* <MdDeleteOutline className="border rounded-md text-2xl hover:bg-sky-200" /> */}
                   </div>
-                 
+
                   <p onClick={handlePopupToggle} className="hover:text-red-400 cursor-pointer hover:underline font-semibold text-blue-900">Add comment, quantity & priority</p>
                   {showPopup && (
                     <div className="flex flex-col justify-center items-center h-full absolute inset-0 bg-transparent z-auto">
