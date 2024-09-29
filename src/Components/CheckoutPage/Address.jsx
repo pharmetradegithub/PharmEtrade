@@ -1769,8 +1769,8 @@ function Address({ topMargin, totalAmount }) {
   return (
     <div className="w-full flex justify-center">
       <div className="bg-white  Largest:w-[1550px]  Laptop:w-full  w-full h-fit text-lg text-black px-12 py-2 relative">
-        <div className=" w-[85%] flex items-center shadow-transparent justify-between">
-          <div>
+        <div className=" w-[85%] flex   items-center shadow-transparent ">
+          <div className="w-[50%]">
             <img
               src={logo}
               className="w-48 h-16 cursor-pointer"
@@ -1782,7 +1782,7 @@ function Address({ topMargin, totalAmount }) {
               message={notification.message}
             />
             {showpagepopup && (
-              <div className="z-50 flex items-center justify-center bg-opacity-50">
+              <div className="z-50 -ml-20 flex items-center justify-center bg-opacity-50">
                 <div className="bg-gray-100 p-2 rounded-lg shadow-lg">
                   <div className="flex justify-center gap-4">
                     <button
@@ -1802,10 +1802,10 @@ function Address({ topMargin, totalAmount }) {
               </div>
             )}
           </div>
-          <h1 className="text-3xl flex justify-center items-center text-black ">
+          <h1 className="text-3xl flex  text-center text-black ">
             Checkout
           </h1>
-          <FaLock />
+          {/* <FaLock /> */}
         </div>
         <div className="bg-white p-4 w-full h-full border-t">
           <div className="flex flex-col">
