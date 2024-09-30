@@ -436,6 +436,7 @@ import LayoutSellerCustomerOrders from './LayoutSellerCustomerOrders';
 // import { fetchSellerDashboard } from '../../../Api/DashBoardApi';
 import { fetchAllProductsApi } from '../../../Api/ProductApi';
 import { fetchCustomerOrered, fetchSellerDashboard, fetchTotalProductDashboard } from '../../../Api/Dashboard';
+import { fetchSellerGetAll } from '../../../Api/OrderApi';
 const LayoutSellerDashboard = () => {
   const user = useSelector((state) => state.user.user);
   console.log("layoutDash-->", user)
@@ -605,7 +606,8 @@ const LayoutSellerDashboard = () => {
     console.log(user, "uerr--->")
     dispatch(fetchTotalProductDashboard(user?.customerId))
     dispatch(fetchCustomerOrered(user?.customerId))
-  }, [])
+    dispatch(fetchSellerGetAll(user?.customerId))
+  }, [user?.customerId])
 
   // Images for each option (you can replace these with actual image URLs or paths)
   const imageMap = {

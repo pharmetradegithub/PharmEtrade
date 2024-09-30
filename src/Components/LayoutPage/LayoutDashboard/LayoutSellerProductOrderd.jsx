@@ -1,7 +1,9 @@
 import React from 'react'
 import view from '../../../assets/Icons/eye_view.png'
 import { Tooltip } from '@mui/material';
+import { useSelector } from 'react-redux';
 const LayoutSellerProductOrderd = () => {
+    const orderProduct = useSelector((state) => state.dashboard.getSellerGetAll)
 
     const products = [
         {
@@ -67,31 +69,35 @@ const LayoutSellerProductOrderd = () => {
                         <th className="px-4 py-2 text-left">Total</th>
                         <th className="px-4 py-2 text-left">Status</th>
                         <th className="px-4 py-2 text-left">Action</th>
-
                     </tr>
                 </thead>
                 <tbody className='overflow-y-scroll'>
-                    {products.map((product, index) => (
-
-                        <tr key={index} className="border-b  ">
-                            <td className="px-4 py-2">{product.id}</td>
-                            <td className="px-4 py-2">{product.Purchasedon}</td>
-                            <td className="px-4 py-2">{product.name}</td>
-                            <td className="px-4 py-2">{product.CustomerName}</td>
-                            <td className="px-4 py-2">${product.Total}</td>
-                            <td className="px-4 py-2">{product.status}</td>
-                            <td className='text-center flex  justify-center cursor-pointer'>
-                            <Tooltip placement='top' title="view">
-                            <img src={view} className='w-6 h-6 mt-2 -ml-3'/>
-                            </Tooltip>
-                            </td>             
-                                       </tr>
-
-                    ))}
-
-
+                    {orderProduct && orderProduct.length > 0 ? (
+                        orderProduct.map((product, index) => (
+                            <tr key={index} className="border-b">
+                                <td className="px-4 py-2">{product.id}</td>
+                                <td className="px-4 py-2">{product.Purchasedon}</td>
+                                <td className="px-4 py-2">{product.name}</td>
+                                <td className="px-4 py-2">{product.CustomerName}</td>
+                                <td className="px-4 py-2">${product.Total}</td>
+                                <td className="px-4 py-2">{product.status}</td>
+                                <td className='text-center flex justify-center cursor-pointer'>
+                                    <Tooltip placement='top' title="view">
+                                        <img src={view} className='w-6 h-6 mt-2 -ml-3' />
+                                    </Tooltip>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="7" className="text-center text-gray-500 py-4">
+                                No orders available
+                            </td>
+                        </tr>
+                    )}
                 </tbody>
             </table>
+
         </div>
     )
 }
