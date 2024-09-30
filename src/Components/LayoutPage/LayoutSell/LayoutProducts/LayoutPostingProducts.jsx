@@ -31,6 +31,8 @@ const LayoutPostingProducts = () => {
   const dispatch = useDispatch();
   const [error, setError] = useState(null);
   const [deactive, setdeactive] = useState(null);
+  const sellerDashboard = useSelector((state) => state.dashboard.getSellerId)
+  console.log("sellerdash-->", sellerDashboard)
 
   const [deleteProduct, setDeleteProduct] = useState(null);
   const [notification, setNotification] = useState({
@@ -44,12 +46,37 @@ const LayoutPostingProducts = () => {
   const user = useSelector((state) => state.user.user);
   console.log("userId-->", user);
   const [editProduct, seteditProduct] = useState(null);
-  const stats = [
-    { label: "Total Product", value: 150, percentage: 75 },
-    { label: "Total Approved Product", value: 120, percentage: 60 },
-    { label: "Total Enabled Product", value: 90, percentage: -11 },
-    { label: "Price", value: "$2000", percentage: 50 },
-  ];
+  // const stats = [
+  //   { label: "Total Product", value: sellerDashboard?.totalProducts, percentage: 75 },
+  //   {
+  //     label: "Total Approved Product", value: sellerDashboard?.activeProducts, percentage: 60 },
+  //   // { label: "Total Enabled Product", value: 90, percentage: -11 },
+  //   { label: "Price", value: sellerDashboard?.totalSaleValue, percentage: 50 },
+  // ];
+  const calculatePercentage = (part, total) => {
+  if (!part || !total || total === 0 || isNaN(part) || isNaN(total)) {
+    return 0; // Return 0 if values are invalid or total is 0
+  }
+  return (part / total) * 100;
+};
+
+const stats = [
+  {
+    label: "Total Product",
+    value: sellerDashboard?.totalProducts || 0, // Fallback to 0 if undefined or null
+    percentage: 100, // Since it's the total, it represents 100%
+  },
+  {
+    label: "Total Approved Product",
+    value: sellerDashboard?.activeProducts || 0,
+    percentage: calculatePercentage(sellerDashboard?.activeProducts, sellerDashboard?.totalProducts), // Calculating the percentage
+  },
+  {
+    label: "Price",
+    value: sellerDashboard?.totalSaleValue || 0,
+    percentage: calculatePercentage(sellerDashboard?.totalSaleValue, sellerDashboard?.totalProducts), // Assuming you're calculating the price per product
+  },
+];
 
   const queryParam = location.pathname;
   const parts = queryParam.split('/');

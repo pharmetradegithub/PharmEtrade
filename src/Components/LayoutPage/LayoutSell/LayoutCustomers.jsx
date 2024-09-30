@@ -183,10 +183,46 @@ function LayoutCustomers() {
     },
   ];
 
+  const sellerDashboard = useSelector((state) => state.dashboard.getSellerId)
+  console.log("sellerdash-->", sellerDashboard)
+  // const stats = [
+  //   {
+  //     label: "Total Customers", value: sellerDashboard?.customersOrdered, percentage: 20 },
+  //   {
+  //     label: "Total Orders", value: sellerDashboard?.totalOrders, percentage: 25 },
+  //   {
+  //     label: "Grand Total", value: sellerDashboard?.totalSaleValue, percentage: -11 },
+  // ];
+  const calculatePercentageChange = (currentValue, previousValue) => {
+    // Check if either value is null, undefined, or non-numeric
+    if (!currentValue || !previousValue || isNaN(currentValue) || isNaN(previousValue)) {
+      return 0; // Return 0 if any value is not valid
+    }
+
+    // If previous value is 0, return 100% increase or 0 if current value is also 0
+    if (previousValue === 0) {
+      return currentValue === 0 ? 0 : 100;
+    }
+
+    return ((currentValue - previousValue) / previousValue) * 100;
+  };
+
   const stats = [
-    { label: "Total Customers", value: "2,420", percentage: 20 },
-    { label: "Total Orders", value: "3,843", percentage: 25 },
-    { label: "Grand Total", value: "1,700", percentage: -11 },
+    {
+      label: "Total Customers",
+      value: sellerDashboard?.customersOrdered || 0, // Fallback to 0 if undefined or null
+      percentage: calculatePercentageChange(sellerDashboard?.customersOrdered, sellerDashboard?.previousCustomersOrdered),
+    },
+    {
+      label: "Total Orders",
+      value: sellerDashboard?.totalOrders || 0,
+      percentage: calculatePercentageChange(sellerDashboard?.totalOrders, sellerDashboard?.previousTotalOrders),
+    },
+    {
+      label: "Grand Total",
+      value: sellerDashboard?.totalSaleValue || 0,
+      percentage: calculatePercentageChange(sellerDashboard?.totalSaleValue, sellerDashboard?.previousTotalSaleValue),
+    },
   ];
 
   const filteredCustomers = customers.filter(
