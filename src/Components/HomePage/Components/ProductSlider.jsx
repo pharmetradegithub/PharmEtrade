@@ -49,13 +49,13 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
   };
   
 
-
+const navigate = useNavigate();
   const handleCart = async(index) => {
     if(user==null)
-    {
-      console.log("login to add");
-      return;
-    }
+      {
+        navigate('/login')
+        return;
+      }
     const cartData = {
       customerId: user.customerId, 
       productId: data[index].productID,
@@ -70,19 +70,12 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
     }
   };
 
-  const handleQuantityChange = (index, delta) => {
-    setCartQuantities((prev) => {
-      const newQuantity = (prev[index] || 0) + delta;
-      if (newQuantity <= 0) {
-        const updatedQuantities = { ...prev };
-        delete updatedQuantities[index];
-        return updatedQuantities;
-      }
-      return { ...prev, [index]: newQuantity };
-    });
-  };
-
   const handleClick = async (productID) => {
+    if(user==null)
+      {
+        navigate('/login')
+        return;
+      }
     if (wishlistProductIDs.includes(productID)) {
       setwishlistProductIDs(
         wishlistProductIDs.filter((id) => id !== productID)

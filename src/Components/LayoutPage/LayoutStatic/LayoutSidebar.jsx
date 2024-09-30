@@ -5,6 +5,7 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import logo from "../../../assets/Icons/Logo_white.png";
 import profile from "../../../assets/ProfileSetting.png";
 import { useSelector } from "react-redux";
+import { logoutUserApi } from "../../../Api/UserApi";
 
 function LayoutSidebar() {
   const navigate = useNavigate();
@@ -81,12 +82,10 @@ function LayoutSidebar() {
 
     return navItems;
   };
-
-  function handleLogout() {
-    localStorage.removeItem("login"); // Remove login data
-    localStorage.removeItem("firstname"); // Remove first name or other user data
-    navigate("/"); // Redirect to the login page
-  }
+  const handleLogout = () => {
+    logoutUserApi();
+    navigate('/')
+  };
 
   return (
     <div

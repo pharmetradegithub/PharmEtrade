@@ -686,7 +686,7 @@ const LayoutSellerDashboard = () => {
 
                     </div>
                     <div className="flex justify-between">
-                      <p className='items-center flex justify-center text-3xl mt-4 font-semibold'>{detail.percentage}%</p>
+                      <p className='items-center flex justify-center text-3xl mt-4 font-semibold'>{detail.percentage}</p>
                       <CircleProgress percentage={detail.percentage} color={detail.color} />
                     </div>
                   </div>

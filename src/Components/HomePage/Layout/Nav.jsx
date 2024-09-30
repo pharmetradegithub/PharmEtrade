@@ -86,6 +86,8 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
     e.preventDefault();
     setDropdownOpen(!isDropdownOpen);
   };
+  const searchParams = new URLSearchParams(location.search);
+  const categoryId = searchParams.get("CategoryName");
 
   const handleItemClick = (name) => {
     if (activePopUp === name) {
@@ -201,7 +203,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
         );
 
         if (component) {
-          setSelectedItem(component.categoryName); 
+          setSelectedItem(component.categoryName);
         }
       }
     } else {
@@ -590,12 +592,46 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
               </button>
               {/* </Link> */}
 
-              {isDropdownOpen && (
+              {/* {isDropdownOpen && (
                 <div
                   className="absolute z-10"
                   style={{ top: "30px", left: "0px" }}
                 >
                   <div className="bg-white  w-64">
+                    {components.map((items, index) => (
+                      <ul onClick={() => handleCriteria(items)} key={index}>
+                        <li className="">
+                          <a
+                            className="hover:text-black cursor-pointer text-sm font-medium text-blue-900"
+                            onClick={() => handleItemClick(items.categoryName)}
+                            onMouseLeave={handleCatMouseLeave}
+                          >
+                            {items.categoryName}
+                          </a>
+                        </li>
+                      </ul>
+                    ))}
+                  </div>
+                </div>
+              )} */}
+
+              {isDropdownOpen && (
+                <div
+                  className="absolute z-10"
+                  style={{ top: "30px", left: "0px" }}
+                >
+                  <div className="bg-white w-64">
+                    <ul onClick={() => handleCriteria({ categoryName: "All" })}>
+                      <li className="">
+                        <a
+                          className="hover:text-black cursor-pointer text-sm font-medium text-blue-900"
+                          onClick={() => handleItemClick("All")}
+                          onMouseLeave={handleCatMouseLeave}
+                        >
+                          All
+                        </a>
+                      </li>
+                    </ul>
                     {components.map((items, index) => (
                       <ul onClick={() => handleCriteria(items)} key={index}>
                         <li className="">

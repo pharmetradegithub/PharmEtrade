@@ -217,7 +217,7 @@ const OfferSlider = ({ images, Title }) => {
             
               <div>
                 {" "}
-                <Link to="/offers">
+                <Link to="/allProducts/offers">
                   <img
                     src={element.image}
                     className="w-[300px] cursor-pointer Laptop:w-[320px] shadow-sm shadow-slate-100 Laptop:h-[200px] h-[180px] rounded-sm"
@@ -228,7 +228,7 @@ const OfferSlider = ({ images, Title }) => {
               </div>
 
               <div className="w-full mt-8 text-black flex font-semibold justify-end" onClick={()=>handleSeeOffers(element?.categorySpecificationId)}>
-                <Link to="/offers" className="hover:text-red-500">
+                <Link to="/allProducts/offers" className="hover:text-red-500">
                   See all offers
                 </Link>
               </div>

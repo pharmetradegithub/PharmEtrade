@@ -1,89 +1,46 @@
 import React from 'react'
-
+import view from '../../../assets/Icons/eye_view.png'
+import { Tooltip } from '@mui/material';
 const LayoutSellerCustomerOrders = () => {
 
     const products = [
         {
             id: "000",
-            thumbnail: "D061D23",
+            thumbnail: "08-30-2026",
             name: "Generic Medicine",
-            attributeSet: "350",
-            productStatus: "",
-            status: "",
+            Total: "350.00",
+            CustomerName: "Ram Manda",
+            status: "Pending",
             type: "View Order",
         },
         {
             id: "001",
-            thumbnail: "D061D23",
+            thumbnail: "08-30-2026",
             name: "Another Medicine",
-            attributeSet: "250",
-            productStatus: "",
-            status: "",
+            Total: "250.00",
+            CustomerName: "Ram Manda",
+            status: "Orderd",
             type: "View Order",
         },
         {
             id: "000",
-            thumbnail: "D061D23",
+            thumbnail: "08-30-2026",
             name: "Generic Medicine",
-            attributeSet: "350",
-            productStatus: "",
-            status: "",
+            Total: "350.00",
+            CustomerName: "Ram Manda",
+            status: "Orderd",
             type: "View Order",
         },
         {
             id: "000",
-            thumbnail: "D061D23",
+            thumbnail: "08-30-2026",
             name: "Generic Medicine",
-            attributeSet: "350",
-            productStatus: "",
-            status: "",
+            Total: "350.00",
+            CustomerName: "Ram Manda",
+            status: "Orderd",
             type: "View Order",
         },
-        {
-            id: "000",
-            thumbnail: "D061D23",
-            name: "Generic Medicine",
-            attributeSet: "350",
-            productStatus: "",
-            status: "",
-            type: "View Order",
-        },
-        {
-            id: "000",
-            thumbnail: "D061D23",
-            name: "Generic Medicine",
-            attributeSet: "350",
-            productStatus: "",
-            status: "",
-            type: "View Order",
-        },
-        {
-            id: "000",
-            thumbnail: "D061D23",
-            name: "Generic Medicine",
-            attributeSet: "350",
-            productStatus: "",
-            status: "",
-            type: "View Order",
-        },
-        {
-            id: "000",
-            thumbnail: "D061D23",
-            name: "Generic Medicine",
-            attributeSet: "350",
-            productStatus: "",
-            status: "",
-            type: "View Order",
-        },
-        {
-            id: "001",
-            thumbnail: "D061D23",
-            name: "Another Medicine",
-            attributeSet: "250",
-            productStatus: "",
-            status: "",
-            type: "View Order",
-        },
+        
     ];
     return (
         <div>
@@ -94,11 +51,11 @@ const LayoutSellerCustomerOrders = () => {
                     <tr className="border-b-2">
                         <th className="px-4 py-2 text-left">Order ID</th>
                         <th className="px-4 py-2 text-left">Purchased On</th>
-                        <th className="px-4 py-2 text-left">Products</th>
+                        <th className="px-4 py-2 text-left">Products Name</th>
                         <th className="px-4 py-2 text-left">Total</th>
                         <th className="px-4 py-2 text-left">Customer</th>
                         <th className="px-4 py-2 text-left">Status</th>
-                        <th className="px-4 py-2 text-left">View</th>
+                        <th className="px-4 py-2 text-left">Action</th>
 
                     </tr>
                 </thead>
@@ -109,10 +66,15 @@ const LayoutSellerCustomerOrders = () => {
                             <td className="px-4 py-2">{product.id}</td>
                             <td className="px-4 py-2">{product.thumbnail}</td>
                             <td className="px-4 py-2">{product.name}</td>
-                            <td className="px-4 py-2">{product.attributeSet}</td>
-                            <td className="px-4 py-2">{product.productStatus}</td>
+                            <td className="px-4 py-2">${product.Total}</td>
+                            <td className="px-4 py-2">{product.CustomerName}</td>
                             <td className="px-4 py-2">{product.status}</td>
-                            <td className="px-4 py-2">{product.type}</td>
+                            {/* <td className="px-4 py-2">{product.type}</td> */}
+                            <td className='text-center flex  justify-center cursor-pointer'>
+                            <Tooltip placement='top' title="view">
+                            <img src={view} className='w-6 h-6 mt-2 -ml-3'/>
+                            </Tooltip>
+                            </td>
                         </tr>
 
                     ))}

@@ -24,9 +24,6 @@ export const ProductInfoValidation = (formData) => {
         errors.productCategory = "Product Category is required.";
     }
 
-    // if (!formData.expirationDate) {
-    //     errors.expirationDate = "Expiration date is required.";
-    // }
 
     // States validation
     if (!formData.states || formData.states.length === 0) {

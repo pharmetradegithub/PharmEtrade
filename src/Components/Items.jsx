@@ -17,7 +17,7 @@ import wrong from '../assets/wrong.png'
 import Facebook from '../assets/facebook1.png'
 import Pintrist from '../assets/pinterest.png'
 import email from '../assets/envelope.png'
-import twitter from '../assets/twitter.png'
+import Whatsapp from '../assets/Icons/Whatsapp.png'
 import { FaRegHeart } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
 import { CiDiscount1 } from "react-icons/ci";
@@ -531,10 +531,10 @@ function Items({
                 </a>
               </div>
               <div className="flex border-b p-2">
-                <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
+              <a href="https://wa.me/1234567890?text=Hello" target="_blank" rel="noopener noreferrer" className="flex items-center">
 
-                  <img src={twitter} className="text-blue-400 w-6" />
-                  <p className="ml-3">Twitter</p>
+                  <img src={Whatsapp} className="text-blue-400 w-6" />
+                  <p className="ml-3">Whatsapp</p>
                 </a>
               </div>
             </div>
@@ -919,56 +919,6 @@ function Items({
 }
 
 export default Items;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
