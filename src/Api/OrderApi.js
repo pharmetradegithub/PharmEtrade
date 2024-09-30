@@ -155,8 +155,7 @@ export const fetchOrderApi = (payLoad) => {
 export const fetchGetOrderBySellerId = (customerId) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`/api/Orders/GetOrdersBySellerId?vendorId=${customerId}`);
-      if (response.status === 200) {
+      const response = await axios.get(`/api/Orders/Buyer/GetAll?customerId=${customerId}`);      if (response.status === 200) {
         const OrderBySellerId = response.data.result;
         console.log('Dispatching setSpecialOffer action:', OrderBySellerId); // Log before dispatch
         dispatch(setGetOrderBySellerId(OrderBySellerId)); // Dispatch action
@@ -172,8 +171,7 @@ export const fetchGetOrderBySellerId = (customerId) => {
 export const fetchGetOrder = (customerId) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`/api/Orders/Get?customerId=${customerId}`);
-      if (response.status === 200) {
+      const response = await axios.get(`/api/Orders/Buyer/GetAll?customerId=${customerId}`);      if (response.status === 200) {
         const getOrder = response.data.result;
         console.log('Dispatching get order action:', getOrder); // Log before dispatch
         dispatch(setGetOrder(getOrder)); // Dispatch action

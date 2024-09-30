@@ -1,15 +1,4 @@
-// import React from 'react'
-// import CategoryProducts from "../../HomeProducts/Components/CategoryProducts"
 
-// const LayoutCategory = () => {
-//   return (
-//     <div>
-//       <CategoryProducts/>
-//     </div>
-//   )
-// }
-
-// export default LayoutCategory
 
 
 import React, { useContext, useEffect, useState } from "react";
@@ -18,6 +7,13 @@ import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import { useNavbarContext } from "../../NavbarContext";
 import Notification from "../../../Components/Notification"; // Import Notification component
+import Facebook from "../../../assets/facebook1.png";
+import Pintrist from "../../../assets/pinterest.png";
+import email from "../../../assets/envelope.png";
+import Whatsapp from "../../../assets/Icons/Whatsapp.png";
+import wrong from "../../../assets/wrong.png";
+import { Tooltip } from "@mui/material";
+import share from "../../../assets/share.png";
 
 import other from "../../../assets/compare1_Icon.png";
 import addcart from "../../../assets/cartw_icon.png";
@@ -64,7 +60,11 @@ function LayoutCategory({
     }
   }, [wishlist]);
 
+  const [isShowPopup, setIsShowPopup] = useState(false);
 
+  
+  const handlePopupToggle = () => setShowPopup(!showPopup);
+  const handleSharePopupToggle = () => setIsShowPopup(!isShowPopup);
 
   const products = useSelector((state) => state.product.Products);
     const [productList, setproductList] = useState(products);
@@ -436,6 +436,19 @@ function LayoutCategory({
                         />
                       </div>
 
+
+                      <div className="relative">
+                      <Tooltip title="Share" placement="top">
+
+                        <img
+                          src={share}
+                          className="w-6 mx-3 "
+                          onClick={handleSharePopupToggle}
+
+                        />
+                      </Tooltip>
+                    </div>
+
                       {/* Add to Cart */}
                       {/* {cart.some(
                         (item) => item.product.productID == product.productID
@@ -474,6 +487,50 @@ function LayoutCategory({
                 <p>No products available</p>
               )}
             </div>
+
+
+
+            {isShowPopup && (
+                      <div className="flex flex-col justify-center items-center top-0  left-10 h-full absolute inset-0 bg-transparent z-auto">
+                        <div className="border w-[13%] rounded-lg bg-gray-100 ml-96">
+                          <div className="flex border-b justify-between p-2">
+                            <div className="flex items-center">
+                              <a href="mailto:example@example.com" className="flex items-center">
+
+                                <img src={email} className="text-blue-400 w-6" />
+                                <p className="ml-3">Email</p>
+                              </a>
+                            </div>
+                            <img src={wrong} onClick={handleSharePopupToggle} className="w-3 h-3" />
+                          </div>
+
+                          <div className="flex border-b p-2">
+                            <a href="https://www.pinterest.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
+
+                              <img src={Pintrist} className="text-blue-400 w-6" />
+
+                              {/* <FaPinterest className="text-red-500 text-2xl" /> */}
+                              <p className="ml-3">Pinterest</p>
+                            </a>
+                          </div>
+                          <div className="flex border-b p-2">
+                            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
+
+                              <img src={Facebook} className="text-blue-400 w-6" />
+                              {/* <FaFacebook  /> */}
+                              <p className="ml-3">Facebook</p>
+                            </a>
+                          </div>
+                          <div className="flex border-b p-2">
+                          <a href="https://wa.me/1234567890?text=Hello" target="_blank" rel="noopener noreferrer" className="flex items-center">
+
+                              <img src={Whatsapp} className="text-blue-400 w-6" />
+                              <p className="ml-3">Whatsapp</p>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    )}
 
             {/* <div className="flex justify-center mt-4">
               <button

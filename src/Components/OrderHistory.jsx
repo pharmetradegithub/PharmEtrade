@@ -69,18 +69,18 @@ function OrderHistory({ topMargin }) {
         <button className="  border-b hover:border-red-500 hover:text-blue-900 text-black w-60   h-9 text-xl">
           {" "}
           {""}
-          <Link to="/allProducts"> Buy Again</Link>
+          <Link to="/layout/layoutbuyerreceivedgrid"> Received Orders</Link>
         </button>
         <button className="  border-b hover:border-red-500 hover:text-blue-900 text-black w-60   h-9 text-xl">
           {" "}
           {""}
-          <Link to="/allProducts"> Not Yet Shipped</Link>
+          <Link to="/layout/layoutbuyerupcominggrid"> Upcoming Orders</Link>
         </button>
 
         <button className="  border-b hover:border-red-500 hover:text-red-500 text-black w-60 h-9 text-xl">
           {" "}
           {""}
-          <Link to="/cancelledpage"> Cancelled Orders</Link>
+          <Link to="/layout/layoutbuyercancelledgrid"> Cancelled Orders</Link>
         </button>
       </div>
       {/* limks end */}

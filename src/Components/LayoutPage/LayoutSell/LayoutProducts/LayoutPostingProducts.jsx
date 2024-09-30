@@ -51,26 +51,36 @@ const LayoutPostingProducts = () => {
     { label: "Price", value: "$2000", percentage: 50 },
   ];
 
+  const queryParam = location.pathname;
+  const parts = queryParam.split('/');
+  const listed = parts[2];
+
   useEffect(() => {
-    fetch(
-      // "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Product/GetAll"
-      `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Product/GetBySeller?sellerId=${user?.customerId}`
-    )
-      .then((response) => {
+    const fetchProducts = async () => {
+      setLoading(true); // Set loading state before the request
+
+      try {
+        const response = await fetch(
+          `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Product/GetBySeller?sellerId=${user?.customerId}`
+        );
+
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error('Network response was not ok');
         }
-        return response.json();
-      })
-      .then((data) => {
+
+        const data = await response.json();
         setProducts(data.result);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError(error);
-        setLoading(false);
-      });
-  }, [deleteProduct, deactive]);
+      } catch (error) {
+        setError(error); // Handle and store error
+      } finally {
+        setLoading(false); // Ensure loading is stopped
+      }
+    };
+
+    if (listed && user?.customerId) {
+      fetchProducts();
+    }
+  }, [listed, user?.customerId]);
 
   const handleAddNewProductClick = () => {
     navigate("layout/addproduct");
