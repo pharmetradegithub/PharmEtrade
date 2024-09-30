@@ -29,7 +29,7 @@
 //         console.error("Error fetching orders:", error);
 //       }
 //     };
-    
+
 //     fetchOrders();
 //   }, []);
 //   console.log("order---->",orderList)
@@ -292,7 +292,7 @@ function LayoutOrderList() {
   //       console.error("Error fetching orders:", error);
   //     }
   //   };
-    
+
   //   fetchOrders();
   // }, []);
   // console.log("order---->",orderList)
@@ -397,15 +397,15 @@ function LayoutOrderList() {
   return (
     <div
       className="w-full h-full overflow-y-scroll "
-      // style={{marginTop: `${topMargin}px`,}}
+    // style={{marginTop: `${topMargin}px`,}}
     >
 
       <div className="mx-10">
-      <div className="flex justify-between items-center ">
-        <h2 className="text-3xl font-semibold"> Your Orders</h2>
+        <div className="flex justify-between items-center ">
+          <h2 className="text-3xl font-semibold"> Your Orders</h2>
 
-        <div className="flex   text-end justify-end items-center">
-          {/* <div className="flex  m-5 ">
+          <div className="flex   text-end justify-end items-center">
+            {/* <div className="flex  m-5 ">
             <input
               type="text"
               placeholder="search product"
@@ -414,152 +414,159 @@ function LayoutOrderList() {
               className="text-left relative h-12 w-64 bg-white border rounded-xl    p-2 "
             />
           </div> */}
-          <div className="flex m-5">
-            <Search className="">
-              <SearchIconWrapper>
-                <img src={searchimg} className="w-6 absolute " />
-                {/* <SearchIcon /> */}
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search..."
-                inputProps={{ "aria-label": "search" }}
-              />
-            </Search>
+            <div className="flex m-5">
+              <Search className="">
+                <SearchIconWrapper>
+                  <img src={searchimg} className="w-6 absolute " />
+                  {/* <SearchIcon /> */}
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search..."
+                  inputProps={{ "aria-label": "search" }}
+                />
+              </Search>
+            </div>
+            <button className="border rounded-full w-52 text-xl p-2 bg-blue-900 text-white">
+              Search order
+            </button>
           </div>
-          <button className="border rounded-full w-52 text-xl p-2 bg-blue-900 text-white">
-            Search order
+        </div>
+        {/* links start */}
+        <div className="flex   ">
+          <button className=" border-b border-red-500  hover:text-blue-900 text-black w-60   h-9  text-xl">
+            Orders
+          </button>
+
+          <button className="  border-b hover:border-red-500 hover:text-blue-900 text-black w-60   h-9 text-xl">
+            {" "}
+            {""}
+            <Link to="/layout/layoutbuyerreceivedgrid"> Received Orders</Link>
+          </button>
+          <button className="  border-b hover:border-red-500 hover:text-blue-900 text-black w-60   h-9 text-xl">
+            {" "}
+            {""}
+            <Link to="/layout/layoutbuyerupcominggrid"> Upcoming Orders</Link>
+          </button>
+
+          <button className="  border-b hover:border-red-500 hover:text-red-500 text-black w-60 h-9 text-xl">
+            {" "}
+            {""}
+            <Link to="/layout/layoutbuyercancelledgrid"> Cancelled Orders</Link>
           </button>
         </div>
-      </div>
-      {/* links start */}
-      <div className="flex   ">
-        <button className=" border-b border-red-500  hover:text-blue-900 text-black w-60   h-9  text-xl">
-          Orders
-        </button>
+        {/* limks end */}
+        <div className="flex my-4">
+          <h1>Orders Placed In</h1>
+          <YearDropdown className="border rounded-lg" />
+        </div>
+        {/* section start */}
 
-        <button className="  border-b hover:border-red-500 hover:text-blue-900 text-black w-60   h-9 text-xl">
-          {" "}
-          {""}
-          <Link to="/layout/layoutbuyerreceivedgrid"> Received Orders</Link>
-        </button>
-        <button className="  border-b hover:border-red-500 hover:text-blue-900 text-black w-60   h-9 text-xl">
-          {" "}
-          {""}
-          <Link to="/layout/layoutbuyerupcominggrid"> Upcoming Orders</Link>
-        </button>
-
-        <button className="  border-b hover:border-red-500 hover:text-red-500 text-black w-60 h-9 text-xl">
-          {" "}
-          {""}
-          <Link to="/layout/layoutbuyercancelledgrid"> Cancelled Orders</Link>
-        </button>
-      </div>
-      {/* limks end */}
-      <div className="flex my-4">
-        <h1>Orders Placed In</h1>
-        <YearDropdown className="border rounded-lg" />
-      </div>
-      {/* section start */}
-
-      {Array.isArray(getOrder) && getOrder.length > 0 ? (
-        currentItems.map((order) => (
-          <div key={order.orderId} className="border my-6 rounded-lg shadow-md">
-            <div className="flex justify-between border-b pb-2 pt-2 pr-3 pl-3 bg-slate-200">
-              <div>
-                <h1>Order Placed</h1>
-                <p>{new Date(order.orderDate).toLocaleDateString()}</p>
-              </div>
-              <div>
-                <h1>Total</h1>
-                <p>${order.totalAmount.toFixed(2)}</p>
-              </div>
-              <div>
-                <h1>Ship To</h1>
-                <p className="text-blue-900">{order.customerName}</p>
-              </div>
-              <div>
-                <h1>Order ID</h1>
-                <p className="text-blue-900">
-                  <Link to="/"> View Order Details | Invoice</Link>
-                </p>
-              </div>
-            </div>
-            <div className="">
-              <div className="flex justify-between pt-3 pr-3 pl-3">
-                <div className="">
-                  <h1 className="text-xl font-semibold">Delivery Date</h1>
-                  <p>Package was handed to resident</p>
+        {Array.isArray(getOrder) && getOrder.length > 0 ? (
+          currentItems.map((order) => (
+            <div key={order.orderId} className="border my-6 rounded-lg shadow-md">
+              <div className="flex justify-between border-b pb-2 pt-2 pr-3 pl-3 bg-slate-200">
+                <div>
+                  <h1>Order Placed</h1>
+                  <p>{new Date(order.orderDate).toLocaleDateString()}</p>
                 </div>
-                <div className="flex flex-col">
-                  <button className="border rounded-lg p-2 w-60 shadow-md">
-                    Leave Seller Feedback
-                  </button>
-                  <button className="border rounded-lg p-2 my-2 shadow-md">
-                    Write a product review
-                  </button>
+                <div>
+                  <h1>Total</h1>
+                  <p>${order.totalAmount.toFixed(2)}</p>
+                </div>
+                <div>
+                  <h1>Ship To</h1>
+                  <p className="text-blue-900">{order.customerName}</p>
+                </div>
+                <div>
+                  <h1>Order ID</h1>
+                  <p className="text-blue-900">
+                    <Link to="/"> View Order Details | Invoice</Link>
+                  </p>
                 </div>
               </div>
-
-              <div className="flex border-b">
-                <div className="flex m-0">
-                  <img
-                    src={order.imageUrl}
-                    className="w-24 h-40 m-0 p-2"
-                    alt="product"
-                  />
+              <div className="">
+                <div className="flex justify-between pt-3 pr-3 pl-3">
+                  <div className="">
+                    <h1 className="text-xl font-semibold">Delivery Date</h1>
+                    <p>Package was handed to resident</p>
+                  </div>
                   <div className="flex flex-col">
-                    <p className="max-w-2xl text-sky-900 flex flex-wrap">
-                      {order.productDescription}
-                    </p>
-                    <p className="my-2 text-sm">
-                      Return Window closed on{" "}
-                      {new Date(order.orderDate).toLocaleDateString()}
-                    </p>
-                    <div className="flex my-2">
-                      <button className="border rounded-lg p-2 bg-blue-900 text-white w-48 shadow-md">
-                        <Link to="/allProducts"> Buy it again</Link>
-                      </button>
-                      {/* <button className="border rounded-lg p-2 mx-3 shadow-md w-48">
+                    <button className="border rounded-lg p-2 w-60 shadow-md">
+                      Leave Seller Feedback
+                    </button>
+                    <button className="border rounded-lg p-2 my-2 shadow-md">
+                      Write a product review
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex border-b">
+                  <div className="flex m-0">
+                    <img
+                      src={order.imageUrl}
+                      className="w-28 h-40 m-0 p-2"
+                      alt="product"
+                    />
+                    <div className="flex flex-col justify-between">
+                      <div>
+                      <p className="max-w-2xl text-sky-900 flex flex-wrap">
+                        {order.productDescription}
+                      </p>
+                      <p className="my-2 text-sm">
+                        Return Window closed on{" "}
+                        {/* {new Date(order.orderDate).toLocaleDateString()} */}
+                        {new Date(order.orderDate).toLocaleDateString('en-US', {
+                          month: '2-digit',
+                          day: '2-digit',
+                          year: 'numeric'
+                        }).replace(/\//g, '-')}
+                      </p>
+                      </div>
+                      <div className="flex my-2">
+                        <button className="border rounded-lg p-2 bg-blue-900 text-white w-48 shadow-md">
+                          <Link to="/allProducts"> Buy it again</Link>
+                        </button>
+                        {/* <button className="border rounded-lg p-2 mx-3 shadow-md w-48">
                         <Link to={`/detailspage/${order.productId}`}>
                           View your item
                         </Link>
                       </button> */}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="p-2">
-                <button className="text-blue-900">Archive order</button>
+                <div className="p-2">
+                  <button className="text-blue-900">Archive order</button>
+                </div>
               </div>
             </div>
+          ))
+        ) : (
+          <div className="text-center my-4">
+            <p>No orders available</p>
           </div>
-        ))
-      ) : (
-        <div className="text-center my-4">
-          <p>No orders available</p>
+        )}
+        <div className="flex justify-end my-2">
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+            className="mx-2 px-4 border p-2 text-white rounded-lg"
+          >
+            <img src={previous} className="w-2" alt="Previous Page" />
+          </button>
+          <span className="mx-2 px-4 flex items-center bg-white text-black rounded-lg">
+            {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className="mx-2 px-4 border p-2 text-white rounded-lg"
+          >
+            <img src={next} className="w-2" alt="Next Page" />
+          </button>
         </div>
-      )}
-      <div className="flex justify-end my-2">
-        <button
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-          className="mx-2 px-4 border p-2 text-white rounded-lg"
-        >
-          <img src={previous} className="w-2" alt="Previous Page" />
-        </button>
-        <span className="mx-2 px-4 flex items-center bg-white text-black rounded-lg">
-          {currentPage} of {totalPages}
-        </span>
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-          className="mx-2 px-4 border p-2 text-white rounded-lg"
-        >
-          <img src={next} className="w-2" alt="Next Page" />
-        </button>
+        {/* section end */}
       </div>
-      {/* section end */}
-    </div>
     </div>
 
   );

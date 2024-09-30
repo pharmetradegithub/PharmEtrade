@@ -398,7 +398,7 @@ function AdminSidebar() {
       style={{ backgroundColor: "rgba(14, 81, 140, 1)" }}
     >
       <div className="w-full flex flex-col justify-center items-center my-5">
-        <Link to="/app">
+        <Link to="">
           <img src={logo} className="w-44 mb-2" alt="Logo" />
         </Link>
         <div className="flex w-40 h-28 justify-center items-center border rounded-md bg-white">

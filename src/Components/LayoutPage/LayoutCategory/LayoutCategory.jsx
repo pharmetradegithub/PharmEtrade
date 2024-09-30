@@ -1,6 +1,4 @@
 
-
-
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
@@ -14,7 +12,6 @@ import Whatsapp from "../../../assets/Icons/Whatsapp.png";
 import wrong from "../../../assets/wrong.png";
 import { Tooltip } from "@mui/material";
 import share from "../../../assets/share.png";
-
 import other from "../../../assets/compare1_Icon.png";
 import addcart from "../../../assets/cartw_icon.png";
 import emptyHeart from "../../../assets/Wishlist1_icon.png";
@@ -60,25 +57,21 @@ function LayoutCategory({
     }
   }, [wishlist]);
 
-  const [isShowPopup, setIsShowPopup] = useState(false);
 
-  
-  const handlePopupToggle = () => setShowPopup(!showPopup);
-  const handleSharePopupToggle = () => setIsShowPopup(!isShowPopup);
 
   const products = useSelector((state) => state.product.Products);
-    const [productList, setproductList] = useState(products);
+    const [productList, setproductList] = useState(productCriteria);
   //   console.log("layoutproduct-->",productList)
   useEffect(() => {
     if (products) {
       
-      const updatedProducts = products.map((product) => ({
+      const updatedProducts = productCriteria.map((product) => ({
         ...product,
         CartQuantity: 1, // Set initial quantity to 1 for all products
       }));
       setproductList(updatedProducts);
     }
-  }, [products]);
+  }, [productCriteria]);
 
 
   const handleQuantityChange = (index, newQuantity) => {
@@ -202,6 +195,9 @@ function LayoutCategory({
     navigate(`/detailspage/${productID}`);
   };
 
+  const [isShowPopup, setIsShowPopup] = useState(false);
+
+  const handleSharePopupToggle = () => setIsShowPopup(!isShowPopup);
 
 
   //   const [filteredProducts, setFilteredProducts] = useState(productCriteria); // Products filtered by API
@@ -283,7 +279,7 @@ function LayoutCategory({
           <div className="flex flex-col">
             <div className="flex flex-col justify-between">
               {productList.length > 0 ? (
-                productCriteria.map((product, index) => (
+                productList.map((product, index) => (
                   <div
                     key={index}
                     className="flex p-4 border w-full justify-around shadow-lg rounded-md mb-4"
@@ -435,8 +431,6 @@ function LayoutCategory({
                           alt="Wishlist Icon"
                         />
                       </div>
-
-
                       <div className="relative">
                       <Tooltip title="Share" placement="top">
 
@@ -480,17 +474,9 @@ function LayoutCategory({
                           <p className="font-semibold">{"Added Cart"}</p>
                         </div> */}
                       {/* )} */}
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p>No products available</p>
-              )}
-            </div>
 
 
-
-            {isShowPopup && (
+                      {isShowPopup && (
                       <div className="flex flex-col justify-center items-center top-0  left-10 h-full absolute inset-0 bg-transparent z-auto">
                         <div className="border w-[13%] rounded-lg bg-gray-100 ml-96">
                           <div className="flex border-b justify-between p-2">
@@ -531,6 +517,13 @@ function LayoutCategory({
                         </div>
                       </div>
                     )}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p>No products available</p>
+              )}
+            </div>
 
             {/* <div className="flex justify-center mt-4">
               <button

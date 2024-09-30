@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import LayoutBuyerReceiversgrid from './LayoutBuyerReceiversgrid';
 import LayoutBuyerUpcomingGrid from './LayoutBuyerUpcomingGrid';
 import LayoutBuyerCancelledgrid from './LayoutBuyerCancelledgrid';
-
+import LayoutBuyerOrders from './LayoutBuyerOrders'
 const LayoutDashboard = () => {
   const [visibleGrid, setVisibleGrid] = useState(null); // To track which grid is visible
 
@@ -11,7 +11,7 @@ const LayoutDashboard = () => {
   };
 
   const orders = [
-    { label: "Orders", quantity: 60, color: 'green', grid: null }, // Static color for orders
+    { label: "Orders", quantity: 60, color: 'green', grid: "orders" }, // Static color for orders
     { label: "Received", quantity: 20, color: 'blue', grid: "received" },
     { label: "Upcoming", quantity: 30, color: 'orange', grid: "upcoming" },
     { label: "Cancelled", quantity: 10, color: 'red', grid: "cancelled" },
@@ -100,6 +100,9 @@ const LayoutDashboard = () => {
         </div>
 
         {/* Conditionally render the grids based on which one is selected */}
+        <div>
+          {visibleGrid === "orders" && <LayoutBuyerOrders />}
+        </div>
         <div>
           {visibleGrid === "received" && <LayoutBuyerReceiversgrid />}
         </div>
