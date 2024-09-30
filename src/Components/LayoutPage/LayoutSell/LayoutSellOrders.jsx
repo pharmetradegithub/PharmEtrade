@@ -528,7 +528,7 @@ import { IoIosArrowRoundDown } from "react-icons/io";
 import { CiSearch, CiMenuKebab } from "react-icons/ci";
 import filter from "../../../assets/Filter_icon.png";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGetOrderBySellerId } from "../../../Api/OrderApi";
+import { fetchGetOrderBySellerId, fetchOrderInvoice } from "../../../Api/OrderApi";
 import { FaFileInvoice } from "react-icons/fa";
 import { Tooltip } from "@mui/material";
 import Invoice from '../../../assets/Icons/Invoice.png'
@@ -540,6 +540,8 @@ function LayoutSellOrders() {
   const [searchQuery, setSearchQuery] = useState("");
   const SellerOrder = useSelector((state) => state.order.OrderBySellerId)
   console.log("sellerOrder---->", SellerOrder)
+  const ordered = useSelector((state) => state.order)
+  console.log("orderedlist-->", ordered)
   const localData = localStorage.getItem("userId")
   const products = [
     {
@@ -610,6 +612,10 @@ function LayoutSellOrders() {
     }
   }, [user, orderSellerId, dispatch]);
 
+  const handleClickInvoice = async () => {
+    console.log("ordersdf", ordered?.orderId)
+    await dispatch(fetchOrderInvoice(ordered?.orderId))
+  }
 
   return (
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
@@ -730,7 +736,7 @@ function LayoutSellOrders() {
                     <td className="px-4 py-2">{product?.status}</td>
                     <td className="px-4 py-2 cursor-pointer">
                     <Tooltip title="Invoice" placement="top">
-                      <img src={Invoice} className="w-5 h-5"/>
+                      <img src={Invoice} className="w-5 h-5" onClick={handleClickInvoice}/>
                       {/* <FaFileInvoice className="w-5 h-5"/> */}
                       </Tooltip>
                     </td>

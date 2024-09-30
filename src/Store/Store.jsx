@@ -405,7 +405,8 @@ const initialOrderState = {
   OrderBySellerId: [],
   getOrder: [],
   ordersPayment: [],
-  orderPlace: []
+  orderPlace: [],
+  orderInvoice: []
 }
 
 const orderSlice = createSlice({
@@ -430,6 +431,9 @@ const orderSlice = createSlice({
     },
     setOrderPlace(state, action) {
       state.orderPlace = action.payload                                                           
+    },
+    setOrderInvoice(state, action) {
+      state.orderInvoice = action.payload
     }
   },                                                                          
 });
@@ -619,7 +623,7 @@ export const { setTotalProductDashboard } = dashboardSlice.actions
 export const { setSellCustomer } = dashboardSlice.actions
 export const { setPaymentHistory } = dashboardSlice.actions
 export const { setCustomerOrder } = dashboardSlice.actions
-
+export const { setOrderInvoice }  = orderSlice.actions
 
 
 const store = configureStore({
