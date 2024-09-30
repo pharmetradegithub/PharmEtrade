@@ -112,7 +112,7 @@
 // }
 
 import axios from "axios";
-import { addOrder, setGetOrder, setGetOrderBySellerId, setOrderInvoice, setOrderPlace, setOrdersPayment } from "../Store/Store";
+import { addOrder, setGetOrder, setGetOrderBySellerId, setOrderInvoice, setOrderPlace, setOrdersPayment, setSellerGetAll } from "../Store/Store";
 
 axios.defaults.baseURL = 'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/';
 
@@ -251,6 +251,24 @@ export const fetchOrderPayment = (payLoad) => {
     }
   }
 }
+
+export const fetchSellerGetAll = (customerId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/api/Orders/Seller/GetAll?vendorId=${customerId}`);
+      if (response.status === 200) {
+        const getOrder = response.data.result;
+        console.log('Dispatching get order action:', getOrder); // Log before dispatch
+        dispatch(setSellerGetAll(getOrder)); // Dispatch action
+      } else {
+        console.error('Failed to get order action:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error get order action:', error);
+    }
+  };
+};
+
 
 export const fetchOrderInvoice = (orderId) => {
   return async (dispatch) => {

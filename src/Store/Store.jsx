@@ -444,7 +444,8 @@ const initialDashboardState = {
   getTotalProductDashboard: [],
   sellCustomer: [],
   getPaymentHistory: [],
-  getCustomerOrder: []
+  getCustomerOrder: [],
+  getSellerGetAll: []
 }
 
 const dashboardSlice = createSlice({
@@ -472,7 +473,11 @@ const dashboardSlice = createSlice({
     },
     setPaymentHistory(state, action) {
       state.getPaymentHistory = action.payload
-    }
+    },
+    setSellerGetAll(state, action) {
+      console.log('Action total payload:', action.payload); // Check payload here
+      state.getSellerGetAll = action.payload;
+    },
   }
 })
 
@@ -623,7 +628,8 @@ export const { setTotalProductDashboard } = dashboardSlice.actions
 export const { setSellCustomer } = dashboardSlice.actions
 export const { setPaymentHistory } = dashboardSlice.actions
 export const { setCustomerOrder } = dashboardSlice.actions
-export const { setOrderInvoice }  = orderSlice.actions
+export const { setOrderInvoice } = orderSlice.actions
+export const { setSellerGetAll } = dashboardSlice.actions
 
 
 const store = configureStore({

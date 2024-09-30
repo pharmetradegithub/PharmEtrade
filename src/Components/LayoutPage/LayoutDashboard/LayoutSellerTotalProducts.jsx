@@ -1,7 +1,9 @@
 import React from 'react'
 import view from '../../../assets/Icons/eye_view.png'
 import { Tooltip } from '@mui/material';
+import { useSelector } from 'react-redux';
 const LayoutSellerTotalProducts = () => {
+    const totalProduct = useSelector((state) => state.dashboard.getTotalProductDashboard)
     const products = [
       
         {
@@ -62,33 +64,37 @@ const LayoutSellerTotalProducts = () => {
                         <th className="px-4 py-2 text-left">Product Joining</th>
                         <th className="px-4 py-2 text-left">Product Expiration</th>
                         <th className="px-4 py-2 text-left">Product Action</th>
-
                         <th className="px-4 py-2 text-left">Total</th>
                         <th className="px-4 py-2 text-left">Action</th>
-
                     </tr>
                 </thead>
                 <tbody className='overflow-y-scroll'>
-                    {products.map((product, index) => (
-                        
-                        <tr key={index} className="border-b  ">
-                            <td className="px-4 py-2">{product.id}</td>
-                            <td className="px-4 py-2">{product.name}</td>
-                            <td className="px-4 py-2">{product.Joining}</td>
-                            <td className="px-4 py-2">{product.Expiration}</td>
-                            <td className="px-4 py-2">{product.productStatus}</td>
-                            <td className="px-4 py-2">${product.Total}</td>
-                            <td className='text-center flex  justify-center cursor-pointer'>
-                            <Tooltip placement='top' title="view">
-                            <img src={view} className='w-6 h-6 mt-2 -ml-3'/>
-                            </Tooltip>
-                            </td>                        </tr>
-
-                    ))}
-
-
+                    {totalProduct && totalProduct.length > 0 ? (
+                        totalProduct.map((product, index) => (
+                            <tr key={index} className="border-b">
+                                <td className="px-4 py-2">{product.id}</td>
+                                <td className="px-4 py-2">{product.name}</td>
+                                <td className="px-4 py-2">{product.Joining}</td>
+                                <td className="px-4 py-2">{product.Expiration}</td>
+                                <td className="px-4 py-2">{product.productStatus}</td>
+                                <td className="px-4 py-2">${product.Total}</td>
+                                <td className='text-center flex justify-center cursor-pointer'>
+                                    <Tooltip placement='top' title="view">
+                                        <img src={view} className='w-6 h-6 mt-2 -ml-3' />
+                                    </Tooltip>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="7" className="text-center text-gray-500 py-4">
+                                No product available
+                            </td>
+                        </tr>
+                    )}
                 </tbody>
             </table>
+
         </div>
     )
 }
