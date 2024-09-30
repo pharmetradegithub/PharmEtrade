@@ -51,13 +51,12 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
   //     setWishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
   //   }
   // }, [wishlist]);
-
   const handleCart = async(productID) => {
     if(user==null)
     {
-      console.log("login to add");
+      navigate('/login')
       return;
-    }
+    } 
     const cartData = {
       customerId: user.customerId, 
       productId: productID,
@@ -82,6 +81,11 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
     }
   };
   const handleClick = async (productID) => {
+    if(user==null)
+      {
+        navigate('/login')
+        return;
+      }
     if (wishlistProductIDs.includes(productID)) {
       setwishlistProductIDs(
         wishlistProductIDs.filter((id) => id !== productID)

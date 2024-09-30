@@ -221,19 +221,23 @@ function Footers({ topMargin}) {
                   </Link>
                 </li>
                 <li>
-                  <a href="#" className="underline">
-                    Privacy Policy
+                <Link to="/wishlist" className="underline">
+                    Wish list
+                  </Link>
+                  
+                </li>
+                <li>
+
+                <a href="#" className="underline">
+                    Compare list
                   </a>
+                 
                 </li>
                 <li>
-                  <Link to="/termsandconditions" className="underline">
-                    Terms & Conditions
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/faqs" className="underline">
-                    FAQ
-                  </Link>
+                <a href="#" className="underline">
+                    Blog
+                  </a>
+                  
                 </li>
               </ul>
             </div>
@@ -241,19 +245,22 @@ function Footers({ topMargin}) {
               <p className="text-md mb-4 font-semibold">Support & Service</p>
               <ul className="list-disc list-inside">
                 <li>
-                  <Link to="/wishlist" className="underline">
-                    Wish list
+                <a href="#" className="underline">
+                    Privacy Policy
+                  </a>
+                  
+                </li>
+                <li>
+                <Link to="/termsandconditions" className="underline">
+                    Terms & Conditions
                   </Link>
+                 
                 </li>
                 <li>
-                  <a href="#" className="underline">
-                    Compare list
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="underline">
-                    Blog
-                  </a>
+                <Link to="/faqs" className="underline">
+                    FAQ
+                  </Link>
+                 
                 </li>
                 <li>
                   <Link to="/contactus" className="underline">

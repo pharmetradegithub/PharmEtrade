@@ -366,7 +366,7 @@ function AdminSidebar() {
       toggleDropdown: toggleSellerDropdown,
       links: [
 
-        { to: "/admin/seller/order-list", label: "Seller List", icon: orderListIcon },
+        { to: "/pharmEtradeadmin/sellerList", label: "Seller List", icon: orderListIcon },
       ],
     },
     {
@@ -385,7 +385,7 @@ function AdminSidebar() {
       isOpen: isCustomerDropdownOpen,
       toggleDropdown: toggleCustomerDropdown,
       links: [
-        { to: "/admin/customer/customer-list", label: "Customer List", icon: customerListIcon },
+        { to: "/pharmEtradeadmin/customerList", label: "Customer List", icon: customerListIcon },
         { to: "/admin/customer/orders", label: "Customer Orders", icon: ordersIcon },
       ],
     },

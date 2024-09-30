@@ -128,6 +128,10 @@ import LayoutProfile from "./Components/LayoutPage/LayoutProfile/LayoutProfile";
 // import AdminBanners from './Components/Admin/Banners/AdminBanners'
 import AdminBanners from "./Components/Admin/Banners/AdminBanners";
 import Login from "./Components/Login";
+import OffersProducts from "./Components/HomeProducts/Components/OffersProducts";
+import Customer from "./Components/Admin/Customer/CustomerList";
+import CustomerList from "./Components/Admin/Customer/CustomerList";
+import SellerList from "./Components/Admin/Seller/SellerList";
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
@@ -240,22 +244,17 @@ function App() {
             />
           }
         >
-          <Route
-            path="/allProducts"
-            element={
-              <ProductsPanel
-              />
-            }
-          >
+          <Route path="/allProducts" element={<ProductsPanel />}>
             <Route path="" element={<AllProducts />} />
             <Route path="/allProducts/OtcProducts" element={<OtcProducts />} />
+            <Route path="offers" element={<OffersProducts />} />
+
             <Route path="/allProducts/RxProducts" element={<RxProducts />} />
             <Route
               path="/allProducts/CategoryProducts"
               element={<CategoryProducts />}
             />
           </Route>
-          
           <Route
             path="/cart"
             element={<Cart cartItems={cartItems} setCartItems={setCartItems} />}
@@ -286,10 +285,10 @@ function App() {
           <Route path="/aboutus" element={<AboutUs />} />{" "}
           {/* <Route path="/contactus" element={<Contactus />} /> */}
           <Route path="/requestdemo" element={<RequestDemo />} />
-          <Route
+          {/* <Route
             path="/offers"
             element={<Offers addCart={addCart} wishList={wishList} />}
-          />
+          /> */}
           <Route path="/faqs" element={<Faqs />} />
           <Route
             path="/wishlist"
@@ -304,7 +303,7 @@ function App() {
 
         <Route path="/gethelphere" element={<Gethelphere />} />
 
-        <Route
+        {/* <Route
           path="/allProducts"
           element={
             <ProductsPanel
@@ -317,11 +316,12 @@ function App() {
           <Route path="" element={<AllProducts />} />
           <Route path="/allProducts/OtcProducts" element={<OtcProducts />} />
           <Route path="/allProducts/RxProducts" element={<RxProducts />} />
+          <Route path="offers" element={<OffersProducts />} />
           <Route
             path="/allProducts/CategoryProducts"
             element={<CategoryProducts />}
           />
-        </Route>
+        </Route> */}
 
         <Route path="/seller" element={<SellerPanel />}>
           <Route path="" element={<Dashboard />} />
@@ -453,6 +453,8 @@ function App() {
             path="/pharmEtradeadmin/AdminBanners"
             element={<AdminBanners />}
           />
+          <Route path="/pharmEtradeadmin/customerList" element={<CustomerList/>} />
+          <Route path="/pharmEtradeadmin/sellerList" element={<SellerList/>} />
         </Route>
 
         <Route element={<AccountPanel topMargin={topMargin} />}>

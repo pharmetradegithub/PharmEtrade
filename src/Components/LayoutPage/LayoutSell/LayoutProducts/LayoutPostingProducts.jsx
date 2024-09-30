@@ -1,31 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
-import wrong from '../../../../assets/wrong.png'
+import wrong from "../../../../assets/wrong.png";
 import { FaPlus } from "react-icons/fa6";
 // import ProductFields from "../Components/ProductFields";
 // import EditFields from "../Components/EditFields";
 import filter from "../../../../assets/Filter_icon.png";
-import edit from "../../../../assets/Edit.png"
-import Bin from "../../../../assets/Bin.png"
-import Deactivate from "../../../../assets/Deactivate.png"
+import edit from "../../../../assets/Edit.png";
+import Bin from "../../../../assets/Bin.png";
+import Deactivate from "../../../../assets/Deactivate.png";
 import Loading from "../../../Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { Tooltip } from "@mui/material";
-import next from '../../../../assets/Next_icon.png'
-import previous from '../../../../assets/Previous_icon.png'
-import { fetchDeactiveProduct, fetchDeleteProduct } from "../../../../Api/ProductApi";
+import next from "../../../../assets/Next_icon.png";
+import previous from "../../../../assets/Previous_icon.png";
+import {
+  fetchDeactiveProduct,
+  fetchDeleteProduct,
+} from "../../../../Api/ProductApi";
 import Notification from "../../../Notification";
 
 const LayoutPostingProducts = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const deactives = useSelector((state) => state.product.deactiveProduct)
-  console.log("listing-->", deactives)
-  const deletes = useSelector((state) => state.product.deleteProduct)
-  console.log("delete-->", deletes)
-  const dispatch = useDispatch()
+  const deactives = useSelector((state) => state.product.deactiveProduct);
+  console.log("listing-->", deactives);
+  const deletes = useSelector((state) => state.product.deleteProduct);
+  console.log("delete-->", deletes);
+  const dispatch = useDispatch();
   const [error, setError] = useState(null);
   const [deactive, setdeactive] = useState(null);
 
@@ -39,7 +42,7 @@ const LayoutPostingProducts = () => {
     editProduct: false,
   });
   const user = useSelector((state) => state.user.user);
-  console.log("userId-->", user)
+  console.log("userId-->", user);
   const [editProduct, seteditProduct] = useState(null);
   const stats = [
     { label: "Total Product", value: 150, percentage: 75 },
@@ -80,12 +83,12 @@ const LayoutPostingProducts = () => {
   const handleClosePopup = () => {
     setShowPopup({ addProduct: false, editProduct: false });
   };
-  console.log("ghjkghfgvbg", products)
+  console.log("ghjkghfgvbg", products);
 
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
-  const [openPop, setOpenPop] = useState(false)
-  const [deletePop, setDeletePop] = useState(false)
+  const [openPop, setOpenPop] = useState(false);
+  const [deletePop, setDeletePop] = useState(false);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
@@ -99,63 +102,59 @@ const LayoutPostingProducts = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
 
-  
-  
   const deactivatePopUp = (productID) => {
-    setOpenPop(true)
-    setdeactive(productID)
-  }
+    setOpenPop(true);
+    setdeactive(productID);
+  };
   const cancelButton = () => {
-    setOpenPop(false)
-  }
-  
+    setOpenPop(false);
+  };
+
   const successButton = () => {
-    try{
-      dispatch(fetchDeactiveProduct(deactive))
-      setOpenPop(false)
-      setNotification({ show: true, message: "Product Deactivate Successfully!" });
+    try {
+      dispatch(fetchDeactiveProduct(deactive));
+      setOpenPop(false);
+      setNotification({
+        show: true,
+        message: "Product Deactivate Successfully!",
+      });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
-
-  
   const closeButton = () => {
-    setOpenPop(false)
-  }
-  const DeleteProduct = (productID) => { 
-    setDeletePop(true)
-    setDeleteProduct(productID)
-  }
-
+    setOpenPop(false);
+  };
+  const DeleteProduct = (productID) => {
+    setDeletePop(true);
+    setDeleteProduct(productID);
+  };
 
   const cancelDeleteButton = () => {
-    setDeletePop(false)
-  }
+    setDeletePop(false);
+  };
 
   const successDeleteButton = () => {
     try {
-      dispatch(fetchDeleteProduct(deleteProduct))
-      setDeletePop(false)
+      dispatch(fetchDeleteProduct(deleteProduct));
+      setDeletePop(false);
       setNotification({ show: true, message: "Product Delete Successfully!" });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-      
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   const closeDeleteButton = () => {
-    setDeletePop(false)
-  }
-
-
+    setDeletePop(false);
+  };
 
   return (
     <div className="relative  bg-gray-100 w-full h-full flex justify-center overflow-scroll items-center">
-      {notification.show && <Notification show={notification.show} message={notification.message} />}
+      {notification.show && (
+        <Notification show={notification.show} message={notification.message} />
+      )}
       {openPop && (
         <div
           className="fixed top-0 left-25 w-4/5 h-full flex justify-center items-center bg-slate-900 bg-opacity-20"
@@ -164,19 +163,24 @@ const LayoutPostingProducts = () => {
         >
           <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
             <div className="flex justify-end  ">
-              <button
-                className="w-5 p-1 -mt-8 mx-2"
-                onClick={closeButton}
-              >
+              <button className="w-5 p-1 -mt-8 mx-2" onClick={closeButton}>
                 <img src={wrong} className="w-6 h-4" />
               </button>
             </div>
-            <h1 className="text-black text-center mt-2">Are you sure you want to deactivate this product ?</h1>
+            <h1 className="text-black text-center mt-2">
+              Are you sure you want to deactivate this product ?
+            </h1>
             <div className="flex justify-around mt-6">
-              <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={cancelButton}>
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                onClick={cancelButton}
+              >
                 No
               </button>
-              <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={successButton}>
+              <button
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                onClick={successButton}
+              >
                 Yes
               </button>
             </div>
@@ -198,12 +202,20 @@ const LayoutPostingProducts = () => {
                 <img src={wrong} className="w-6 h-4" />
               </button>
             </div>
-            <h1 className="text-black text-center mt-2">Are you sure you want to delete this product ?</h1>
+            <h1 className="text-black text-center mt-2">
+              Are you sure you want to delete this product ?
+            </h1>
             <div className="flex justify-around mt-6">
-              <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={cancelDeleteButton}>
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                onClick={cancelDeleteButton}
+              >
                 No
               </button>
-              <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={successDeleteButton}>
+              <button
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                onClick={successDeleteButton}
+              >
                 Yes
               </button>
             </div>
@@ -250,8 +262,9 @@ const LayoutPostingProducts = () => {
                 <div className="flex justify-between mt-2 items-center">
                   <div className="text-2xl font-semibold">{stat.value}</div>
                   <div
-                    className={`text-sm p-1 rounded-lg ${stat.percentage > 0 ? "bg-green-400" : "bg-red-400"
-                      }`}
+                    className={`text-sm p-1 rounded-lg ${
+                      stat.percentage > 0 ? "bg-green-400" : "bg-red-400"
+                    }`}
                   >
                     {stat.percentage > 0 ? "↑" : "↓"}{" "}
                     {Math.abs(stat.percentage)}%
@@ -273,15 +286,17 @@ const LayoutPostingProducts = () => {
           </div>
 
           <div className="text-[15px] mt-4">
-            {loading && <div><Loading /></div>}
+            {loading && (
+              <div>
+                <Loading />
+              </div>
+            )}
             {error && <div>Error: {error.message}</div>}
             {!loading && !error && (
               <table className="w-full">
                 <thead className="bg-blue-900 text-white">
                   <tr className="border-b-2">
-                    <th className="px-4 py-2 text-left">
-                      Thumbnail
-                    </th>
+                    <th className="px-4 py-2 text-left">Thumbnail</th>
                     <th className=" px-4 py-2 text-left">Product Name</th>
                     <th className="px-4 py-2 text-left">Manufacturer</th>
                     <th className="px-4 py-2 text-left">Brand Name</th>
@@ -291,55 +306,59 @@ const LayoutPostingProducts = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {currentItems.map((product) => (
-                    <tr key={product.id} className="border-b">
-                      <td className="px-4 py-2">
-                        <img
-
-                          src={product?.productGallery?.imageUrl} className="w-14 object-cover"
-                        />
-                      </td>
-                      <td className="px-4 py-2 ">{product.productName}</td>
-                      <td className="px-4 py-2">{product.manufacturer}</td>
-                      <td className="px-4 py-2">{product.brandName}</td>
-                      {/* <td className="px-4 py-2">{product.packCondition}</td> */}
-
-
-                      <td className="px-4 py-2 cursor-pointer flex items-center space-x-2">
-                        <Tooltip title="Edit" placement="top">
-                          <img
-                            src={edit}
-                            alt="Edit"
-                            className="cursor-pointer w-7 h-7"
-                            onClick={() => handleEditProduct(product)}
-                          />
-                        </Tooltip>
-                        <Tooltip placement="top" title="Delete">
-                          <img
-                            src={Bin}
-                            alt="Delete"
-                            className="cursor-pointer w-4 h-4"
-                            onClick={() => DeleteProduct(product.productID)}
-                          />
-                        </Tooltip>
-                        <Tooltip title="Deactivate" placement="top">
-                          <img
-                            src={Deactivate}
-                            alt="Deactivate"
-                            className="cursor-pointer w-4 h-4"
-                            onClick={() => deactivatePopUp(product.productID)}
-                          // onClick={() => handleDeactivateProduct(product)}
-                          />
-                        </Tooltip>
+                  {currentItems.length === 0 ? (
+                    <tr>
+                      <td colSpan="5" className="text-center py-4">
+                        No products available
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    currentItems.map((product) => (
+                      <tr key={product.id} className="border-b">
+                        <td className="px-4 py-2">
+                          <img
+                            src={product?.productGallery?.imageUrl}
+                            className="w-14 object-cover"
+                          />
+                        </td>
+                        <td className="px-4 py-2">{product.productName}</td>
+                        <td className="px-4 py-2">{product.manufacturer}</td>
+                        <td className="px-4 py-2">{product.brandName}</td>
+
+                        <td className="px-4 py-2 cursor-pointer flex items-center space-x-2">
+                          <Tooltip title="Edit" placement="top">
+                            <img
+                              src={edit}
+                              alt="Edit"
+                              className="cursor-pointer w-7 h-7"
+                              onClick={() => handleEditProduct(product)}
+                            />
+                          </Tooltip>
+                          <Tooltip placement="top" title="Delete">
+                            <img
+                              src={Bin}
+                              alt="Delete"
+                              className="cursor-pointer w-4 h-4"
+                              onClick={() => DeleteProduct(product.productID)}
+                            />
+                          </Tooltip>
+                          <Tooltip title="Deactivate" placement="top">
+                            <img
+                              src={Deactivate}
+                              alt="Deactivate"
+                              className="cursor-pointer w-4 h-4"
+                              onClick={() => deactivatePopUp(product.productID)}
+                            />
+                          </Tooltip>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             )}
           </div>
         </div>
-
 
         <div className="flex justify-end my-2">
           <button

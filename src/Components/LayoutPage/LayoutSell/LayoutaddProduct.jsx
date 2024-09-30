@@ -206,7 +206,7 @@ function LayoutaddProduct() {
         tornLabel: true,
         otherCondition: "",
       },
-      imageUrl: product.mainImageUrl,
+      imageUrl: product?.productGallery?.imageUrl,
       productSizeId: 0,
       thumbnail1:
         product.productGallery.thumbnail1 === ""
@@ -234,6 +234,60 @@ function LayoutaddProduct() {
           : product.productGallery.thumbnail6,
     });
   };
+  const searchParams = new URLSearchParams(location.search);
+  const queryProductId = searchParams.get("productId");
+  const ResetFormDate = ()=>{
+    setFormData({
+      // Reset form data fields
+      categorySpecification: 0,
+      productType: "",
+      productCategory: "",
+      productName: "",
+      ndcUpc: "",
+      brandName: "",
+      size: "",
+      sku: "",
+      unitOfMeasurement: "",
+      mainImageUrl: null,
+      price: 0,
+      amountInStock: 0,
+      taxable: false,
+      productDetails: "",
+      aboutProduct: "",
+      discount: 0,
+      form: "",
+      Height: 0,
+      Weight: 0,
+      Length: 0,
+      Width: 0,
+      states: [],
+      shippingCostApplicable: false,
+      upnMemberPrice: 0,
+      salePrice: 0,
+      salePriceForm: null,
+      salePriceTo: null,
+      manufacturer: "",
+      strength: "",
+      lotNumber: "",
+      expirationDate: null,
+      packQuantity: 0,
+      packType: "",
+      packCondition: {
+        tornLabel: null,
+        otherCondition: "",
+      },
+      imageUrl: null,
+      productSizeId: 0,
+      thumbnail1: null,
+      thumbnail2: null,
+      thumbnail3: null,
+      thumbnail4: null,
+      thumbnail5: null,
+      thumbnail6: null,
+      videoUrl: null,
+    });
+    setThumnails([]);
+  }
   useEffect(() => {
     const productId = localStorage.getItem("productId");
     const searchParams = new URLSearchParams(location.search);
@@ -252,12 +306,16 @@ function LayoutaddProduct() {
         setproductFetched(response);
         console.log(response, "APi,response");
       } else {
-
+        localStorage.removeItem('productId');
+        localStorage.removeItem('productPriceId');
+        localStorage.removeItem('productGalleryId');
+        setHeading("ADD PRODUCT");
+        ResetFormDate();
       }
     };
     console.log("heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
     fetchProduct();
-  }, []);
+  }, [queryProductId]);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const handleClick = () => {
@@ -504,26 +562,7 @@ function LayoutaddProduct() {
     setSelectedValue(e.target.value);
   };
 
-  // const [minDate, setMinDate] = useState("");
-  // const [maxDate, setMaxDate] = useState("");
 
-  // useEffect(() => {
-  //   const currentDate = new Date();
-
-  //   // Get date 15 days from today
-  //   const minAllowedDate = new Date(currentDate);
-  //   minAllowedDate.setDate(currentDate.getDate() + 15);
-  //   const minFormatted = minAllowedDate.toISOString().split("T")[0];
-
-  //   // Get date 20 days from today (5 days after the min date)
-  //   const maxAllowedDate = new Date(currentDate);
-  //   maxAllowedDate.setDate(currentDate.getDate() + 20);
-  //   const maxFormatted = maxAllowedDate.toISOString().split("T")[0];
-
-  //   // Set min and max dates for the date input
-  //   setMinDate(minFormatted);
-  //   setMaxDate(maxFormatted);
-  // }, []);
 
   const handleRemoveImage = () => {
     setSelectedImage(null);
@@ -773,56 +812,7 @@ function LayoutaddProduct() {
           // Disable 2nd and 3rd tabs
           setShowTab([1, 2, 3]);
           if (queryProductId == null) {
-            setFormData({
-              // Reset form data fields
-              categorySpecification: 0,
-              productType: "",
-              productCategory: "",
-              productName: "",
-              ndcUpc: "",
-              brandName: "",
-              size: "",
-              sku: "",
-              unitOfMeasurement: "",
-              mainImageUrl: null,
-              price: 0,
-              amountInStock: 0,
-              taxable: false,
-              productDetails: "",
-              aboutProduct: "",
-              discount: 0,
-              form: "",
-              Height: 0,
-              Weight: 0,
-              Length: 0,
-              Width: 0,
-              states: [],
-              shippingCostApplicable: false,
-              upnMemberPrice: 0,
-              salePrice: 0,
-              salePriceForm: null,
-              salePriceTo: null,
-              manufacturer: "",
-              strength: "",
-              lotNumber: "",
-              expirationDate: null,
-              packQuantity: 0,
-              packType: "",
-              packCondition: {
-                tornLabel: null,
-                otherCondition: "",
-              },
-              imageUrl: null,
-              productSizeId: 0,
-              thumbnail1: null,
-              thumbnail2: null,
-              thumbnail3: null,
-              thumbnail4: null,
-              thumbnail5: null,
-              thumbnail6: null,
-              videoUrl: null,
-            });
-            setThumnails([]);
+            ResetFormDate();
           }
 
           // Optionally reset or move to another step
@@ -2276,11 +2266,11 @@ function LayoutaddProduct() {
           {tabs.map((tab, index) => (
             <li key={index} className="mr-2 gap-4">
               <button
-                disabled={showTab.includes(index)} // Corrected to 'disabled'
+                disabled={queryProductId!=null? false: showTab.includes(index)} // Corrected to 'disabled'
                 className={`w-full flex justify-center items-center px-2 p-3 py-1 mt-7 shadow-md ${activeTab === index
                   ? "text-white bg-blue-900 rounded-t-xl font-semibold"
                   : "text-blue-900 shadow-none rounded-t-xl bg-white"
-                  } ${showTab.includes(index) ? "opacity-50 cursor-not-allowed" : ""
+                  } ${(showTab.includes(index) && queryProductId==null) ? "opacity-50 cursor-not-allowed" : ""
                   }`} // Style changes for disabled state
                 onClick={() => setActiveTab(index)}
               >
