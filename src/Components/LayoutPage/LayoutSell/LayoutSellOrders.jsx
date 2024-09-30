@@ -529,6 +529,9 @@ import { CiSearch, CiMenuKebab } from "react-icons/ci";
 import filter from "../../../assets/Filter_icon.png";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGetOrderBySellerId } from "../../../Api/OrderApi";
+import { FaFileInvoice } from "react-icons/fa";
+import { Tooltip } from "@mui/material";
+import Invoice from '../../../assets/Icons/Invoice.png'
 
 
 function LayoutSellOrders() {
@@ -588,9 +591,25 @@ function LayoutSellOrders() {
   //     product?.productId.toLowerCase().includes(searchQuery.toLowerCase())
   // );
 
+  const pathname = location.pathname; // e.g., /layout/sellorders/123
+  console.log("pathname-->", pathname)
+  const parts = pathname.split('/'); // ['layout', 'sellorders', '123']
+  console.log("parts--->", parts)
+  const orderSellerId = parts[2]; // Assuming '123' is the seller ID
+  console.log("orderSeller-->", orderSellerId)
+
   useEffect(() => {
-    dispatch(fetchGetOrderBySellerId(user?.customerId))
-  }, [user])
+    const fetchGetOrder = async () => {
+      if (user?.customerId) {
+        await dispatch(fetchGetOrderBySellerId(user.customerId));
+      }
+    };
+
+    if (orderSellerId) {
+      fetchGetOrder();
+    }
+  }, [user, orderSellerId, dispatch]);
+
 
   return (
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
@@ -673,7 +692,7 @@ function LayoutSellOrders() {
                 <th className="px-4 py-2 text-left">Total</th>
                 <th className="px-4 py-2 text-left">Customer</th>
                 <th className="px-4 py-2 text-left">Status</th>
-                <th className="px-4 py-2 text-left">View</th>
+                <th className="px-4 py-2 text-left">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -709,7 +728,12 @@ function LayoutSellOrders() {
                     <td className="px-4 py-2">{product?.totalAmount}</td>
                     <td className="px-4 py-2">{product?.customerName}</td>
                     <td className="px-4 py-2">{product?.status}</td>
-                    <td className="px-4 py-2">view order</td>
+                    <td className="px-4 py-2 cursor-pointer">
+                    <Tooltip title="Invoice" placement="top">
+                      <img src={Invoice} className="w-5 h-5"/>
+                      {/* <FaFileInvoice className="w-5 h-5"/> */}
+                      </Tooltip>
+                    </td>
                   </tr>
                 ))
               ) : (

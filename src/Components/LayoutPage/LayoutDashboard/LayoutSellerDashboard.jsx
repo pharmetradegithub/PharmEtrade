@@ -435,7 +435,7 @@ import LayoutSellerProductOrderd from './LayoutSellerProductOrderd';
 import LayoutSellerCustomerOrders from './LayoutSellerCustomerOrders';
 // import { fetchSellerDashboard } from '../../../Api/DashBoardApi';
 import { fetchAllProductsApi } from '../../../Api/ProductApi';
-import { fetchSellerDashboard, fetchTotalProductDashboard } from '../../../Api/Dashboard';
+import { fetchCustomerOrered, fetchSellerDashboard, fetchTotalProductDashboard } from '../../../Api/Dashboard';
 const LayoutSellerDashboard = () => {
   const user = useSelector((state) => state.user.user);
   console.log("layoutDash-->", user)
@@ -475,6 +475,10 @@ const LayoutSellerDashboard = () => {
     setIsGridVisible(true);
   };
 
+  const totalProduct = useSelector((state) => state.dashboard.getTotalProductDashboard)
+  console.log("totaldash-->", totalProduct)
+  const customerOrdered = useSelector((state) => state.dashboard.getCustomerOrder)
+  console.log("getCustomerOrder-->", customerOrdered)
 
   const [visibleGrid, setVisibleGrid] = useState(null); // To track which grid is visible
 
@@ -595,6 +599,13 @@ const LayoutSellerDashboard = () => {
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
   };
+
+
+  useEffect(() => {
+    console.log(user, "uerr--->")
+    dispatch(fetchTotalProductDashboard(user?.customerId))
+    dispatch(fetchCustomerOrered(user?.customerId))
+  }, [])
 
   // Images for each option (you can replace these with actual image URLs or paths)
   const imageMap = {

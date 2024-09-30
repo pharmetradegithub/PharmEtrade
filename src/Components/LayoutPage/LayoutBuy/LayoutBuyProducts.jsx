@@ -334,38 +334,39 @@ function LayoutBuy({
                         <p className="font-semibold">${product.unitPrice?.toFixed(2)}</p>
                       </div>
                     </div>
-
+                   
+                    
                     <div className="flex flex-col mx-3">
                       <p className="font-semibold">Quantity</p>
-                      <div className="mt-2 flex">
-                        <input
-                          type="number"
+
+                      <div className="mt-2 flex items-center">
+                        <button
+                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                          onClick={() => handleQuantityChange(index, product.CartQuantity - 1)}
                           disabled={
-                            cart.some(
-                              (item) =>
-                                item.product.productID == product.productID
-                            ) === 1
+                            product.CartQuantity <= 1 ||
+                            cart.some((item) => item.product.productID === product.productID) === 1
                           }
-                          value={product.CartQuantity
-                            // cart.some(
-                            //     (item) =>
-                            //         item.product.productID === product.productID
-                            //   )
-                            //     ? cart.find(
-                            //         (item) =>
-                            //             item.product.productID === product.productID
-                            //       ).quantity
-                            //       : product.CartQuantity
-                          }
-                          onChange={(e) =>
-                            handleQuantityChange(
-                              index,
-                              parseInt(e.target.value)
-                            )
-                          }
-                          className="w-16 border rounded-md text-center"
-                          min="1"
+                        >
+                          -
+                        </button>
+
+                        <input
+                          type="text"
+                          value={product.CartQuantity}
+                          disabled={true}
+                          className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
                         />
+
+                        <button
+                          className="px-2 py-1 border rounded-md  bg-gray-200 text-gray-700 font-bold"
+                          onClick={() => handleQuantityChange(index, product.CartQuantity + 1)}
+                          disabled={
+                            cart.some((item) => item.product.productID === product.productID) === 1
+                          }
+                        >
+                          +
+                        </button>
                       </div>
                     </div>
 

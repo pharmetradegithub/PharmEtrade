@@ -439,7 +439,8 @@ const initialDashboardState = {
   getCustomerId: [],
   getTotalProductDashboard: [],
   sellCustomer: [],
-  getPaymentHistory:[]
+  getPaymentHistory: [],
+  getCustomerOrder: []
 }
 
 const dashboardSlice = createSlice({
@@ -454,9 +455,13 @@ const dashboardSlice = createSlice({
       console.log('Action payload:', action.payload); // Check payload here
       state.getCustomerId = action.payload;
     },
-    setTotalProductDashboardId(state, action) {
-      console.log('Action payload:', action.payload); // Check payload here
+    setTotalProductDashboard(state, action) {
+      console.log('Action total payload:', action.payload); // Check payload here
       state.getTotalProductDashboard = action.payload;
+    },
+    setCustomerOrder(state, action) {
+      console.log('Action total payload:', action.payload); // Check payload here
+      state.getCustomerOrder = action.payload;
     },
     setSellCustomer(state, action) {
       state.sellCustomer = action.payload
@@ -613,6 +618,8 @@ export const { setOrdersPayment } = orderSlice.actions
 export const { setTotalProductDashboard } = dashboardSlice.actions
 export const { setSellCustomer } = dashboardSlice.actions
 export const { setPaymentHistory } = dashboardSlice.actions
+export const { setCustomerOrder } = dashboardSlice.actions
+
 
 
 const store = configureStore({

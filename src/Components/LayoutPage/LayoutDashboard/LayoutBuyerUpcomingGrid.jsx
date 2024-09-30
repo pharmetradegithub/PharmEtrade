@@ -150,8 +150,8 @@ const LayoutBuyerUpcomingGrid = () => {
         navigate("/detailspage/:id")
     }
     return (
-        <div className='w-[95%] h-[80vh] mt-4 overflow-y-auto'>
-            <div className='flex flex-col'>
+        <div className='w-full h-[80vh] mt-4 overflow-y-auto'>
+            <div className='flex flex-col mx-5'>
                 <h1 className='text-xl text-blue-900 font-semibold'>Upcoming Deliveries</h1>
                 {/* search start */}
                 <div className="relative flex my-4">

@@ -396,9 +396,11 @@ function LayoutOrderList() {
 
   return (
     <div
-      className="max-w-5xl overflow-scroll  m-auto"
+      className="w-full h-full overflow-y-scroll "
       // style={{marginTop: `${topMargin}px`,}}
     >
+
+      <div className="mx-10">
       <div className="flex justify-between items-center ">
         <h2 className="text-3xl font-semibold"> Your Orders</h2>
 
@@ -438,18 +440,18 @@ function LayoutOrderList() {
         <button className="  border-b hover:border-red-500 hover:text-blue-900 text-black w-60   h-9 text-xl">
           {" "}
           {""}
-          <Link to=""> Received Orders</Link>
+          <Link to="/layout/layoutbuyerreceivedgrid"> Received Orders</Link>
         </button>
         <button className="  border-b hover:border-red-500 hover:text-blue-900 text-black w-60   h-9 text-xl">
           {" "}
           {""}
-          <Link to="/products"> Upcoming Orders</Link>
+          <Link to="/layout/layoutbuyerupcominggrid"> Upcoming Orders</Link>
         </button>
 
         <button className="  border-b hover:border-red-500 hover:text-red-500 text-black w-60 h-9 text-xl">
           {" "}
           {""}
-          <Link to="/cancelledpage"> Cancelled Orders</Link>
+          <Link to="/layout/layoutbuyercancelledgrid"> Cancelled Orders</Link>
         </button>
       </div>
       {/* limks end */}
@@ -558,8 +560,8 @@ function LayoutOrderList() {
       </div>
       {/* section end */}
     </div>
+    </div>
 
-    // </div>
   );
 }
 

@@ -70,7 +70,7 @@ const LayoutSellerTotalProducts = () => {
                 </thead>
                 <tbody className='overflow-y-scroll'>
                     {products.map((product, index) => (
-
+                        
                         <tr key={index} className="border-b  ">
                             <td className="px-4 py-2">{product.id}</td>
                             <td className="px-4 py-2">{product.name}</td>

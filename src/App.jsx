@@ -132,6 +132,9 @@ import OffersProducts from "./Components/HomeProducts/Components/OffersProducts"
 import Customer from "./Components/Admin/Customer/CustomerList";
 import CustomerList from "./Components/Admin/Customer/CustomerList";
 import SellerList from "./Components/Admin/Seller/SellerList";
+import LayoutBuyerUpcomingGrid from "./Components/LayoutPage/LayoutDashboard/LayoutBuyerUpcomingGrid";
+import LayoutBuyerReceiversgrid from "./Components/LayoutPage/LayoutDashboard/LayoutBuyerReceiversgrid";
+import LayoutBuyerCancelledgrid from "./Components/LayoutPage/LayoutDashboard/LayoutBuyerCancelledgrid";
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
@@ -364,6 +367,9 @@ function App() {
             element={<LayoutCustomerDashboard />}
           />
 
+          <Route path="/layout/layoutbuyerupcominggrid" element={<LayoutBuyerUpcomingGrid/>}/>
+          <Route path="/layout/layoutbuyerreceivedgrid" element={<LayoutBuyerReceiversgrid/>}/>
+          <Route path="/layout/layoutbuyercancelledgrid" element={<LayoutBuyerCancelledgrid/>}/>
           <Route path="/layoutsell" element={<LayoutSell />} />
           <Route path="/layout/addproduct" element={<LayoutaddProduct />} />
           <Route
