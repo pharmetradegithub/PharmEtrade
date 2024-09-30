@@ -1177,7 +1177,7 @@ function LayoutaddProduct() {
                     </div>
 
                     <input
-                      type="number"
+                      type="phone"
                       name="packQuantity"
                       value={formData.packQuantity || ""}
                       onChange={handleInputChange}
