@@ -697,10 +697,9 @@ function Items({
             <div className="border rounded-lg shadow-lg  pb-4 w-full h-full">
               <div className="p-4">
                 <div className="flex justify-between">
-                  <p className="text-black text-[22px]">
-                  ${prod?.salePrice?.toFixed(2)}
-
-                  </p>
+                <p className="text-black text-[22px]">
+  ${prod?.salePrice > 0 ? prod?.salePrice.toFixed(2) : prod?.unitPrice?.toFixed(2)}
+</p>
                   {/* <img src={ ?Wishlist :filledheart} className="w-5 h-5 flex   "/> */}
                 <Tooltip placement="top" title="wishlist">
                   <img

@@ -1,22 +1,3 @@
-// import React from 'react'
-
-// function Login() {
-//   return (
-//     <div className='flex flex-row items-center justify-center my-20'>
-//         <div className='box-border h-fit w-fit p-4 border-4 '>
-//       <form>
-//         <div className='flex flex-col gap-2 items-center'>
-//             <input type='text' placeholder='enter username' className='w-80 pl-4 pr-12 py-2 rounded-full bg-blue-100 focus:outline-none'/>
-//             <input type='text' placeholder='enter password' className='w-80 pl-4 pr-12 py-2 rounded-full bg-blue-100 focus:outline-none'/>
-//             <button className='bg-blue-400 w-fit p-3 rounded-md '>Login</button>
-//         </div>
-//       </form>
-//     </div>
-//     </div>
-//   )
-// }
-
-// export default Login
 import React, { useState, useEffect } from "react";
 import background_image from "../assets/homepharma.png";
 import logo from "../assets/logo2.png";
@@ -28,6 +9,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { InputAdornment, IconButton } from "@mui/material";
 import {
   getUserByCustomerIdApi,
+  loginAdminUserApi,
   loginUserApi,
   logoutUserApi,
 } from "../Api/UserApi";
@@ -92,7 +74,7 @@ const Login = () => {
 
     if (validate()) {
       try {
-        const userId = await loginUserApi(formData.email, formData.password);
+        const userId = await loginAdminUserApi(formData.email, formData.password);
 
         if (userId) {
           // Login successful, navigate to the homepage
