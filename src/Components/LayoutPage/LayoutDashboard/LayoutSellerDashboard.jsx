@@ -575,13 +575,13 @@ const LayoutSellerDashboard = () => {
 
   const details = [
     {
-      totalOrder: sellerDashboard?.totalOrders, label: "TotalProducts", percentage: sellerDashboard?.totalProducts, color: "red", grid: "totalProducts"
+      totalOrder: sellerDashboard?.totalOrders, label: "Total Products", percentage: sellerDashboard?.totalProducts, color: "red", grid: "totalProducts"
     }, // Red
     {
-      label: "ProductsOrdered", percentage: sellerDashboard?.productsOrdered, color: "orange", grid: "productsOrdered"
+      label: "Products Ordered", percentage: sellerDashboard?.productsOrdered, color: "orange", grid: "productsOrdered"
     }, // Yellow
     {
-      label: "CustomersOrdered", percentage: sellerDashboard?.customersOrdered, color: "green", grid: "customersOrdered"
+      label: "Customers Ordered", percentage: sellerDashboard?.customersOrdered, color: "green", grid: "customersOrdered"
     }, // Green
 
   ];

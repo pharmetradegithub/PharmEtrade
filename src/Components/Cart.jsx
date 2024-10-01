@@ -339,7 +339,15 @@ import deleteicon from "../assets/trash.png";
 import { useDispatch, useSelector } from "react-redux";
 import { addCartApi, removeItemFromCartApi } from "../Api/CartApi";
 import { fetchOrderPlace } from "../Api/OrderApi";
-import { Tooltip } from "@mui/material";
+
+import {
+  Tooltip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+} from "@mui/material";import wrong from "../assets/Icons/wrongred.png"
 
 function Cart() {
   const user = useSelector((state) => state.user.user);
@@ -347,16 +355,38 @@ function Cart() {
   const [cartItems, setcartItems] = useState(cartList);
   // const { cartItems, setCartItems } = useContext(AppContext);
   const [quantities, setQuantities] = useState([]);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (cartList) setcartItems(cartList);
   }, [cartList]);
 
-  const handleremove = async (index) => {
+  const handleDeleteClick = (index) => {
+    setSelectedItemIndex(index);
+    setOpenDialog(true);
+  };
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+    setSelectedItemIndex(null);
+  };
+
+  // const handleremove = async (index) => {
+  //   try {
+  //     const cartId = cartItems[index].cartId;
+  //     await removeItemFromCartApi(cartId);
+  //   } catch (error) {
+  //     console.error("There was a problem with the fetch operation:", error);
+  //   }
+  // };
+
+  const handleremove = async () => {
     try {
-      const cartId = cartItems[index].cartId;
+      const cartId = cartItems[selectedItemIndex].cartId;
       await removeItemFromCartApi(cartId);
+      handleDialogClose(); // Close dialog after deleting
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
@@ -400,11 +430,21 @@ function Cart() {
   const calculateSubtotal = (price, quantity) => price * quantity;
 
   // Calculate total dynamically based on updated quantities
-  const total = cartItems.reduce(
-    (acc, item, index) =>
-      acc + calculateSubtotal(item.product.salePrice, item.quantity),
-    0
-  );
+  // const total = cartItems.reduce(
+  //   (acc, item, index) =>
+  //     acc + calculateSubtotal(item.product.salePrice, item.quantity),
+  //   0
+  // );
+
+
+  const total = cartItems.reduce((acc, item) => {
+    const price = item.product?.salePrice > 0 
+      ? item.product.salePrice.toFixed(2) 
+      : item.product.unitPrice?.toFixed(2);
+  
+    return acc + calculateSubtotal(price, item.quantity);
+  }, 0);
+  
 
   const dispatch = useDispatch()
   const handleProceed = () => {
@@ -423,9 +463,9 @@ function Cart() {
           quantity: items.quantity,
           pricePerProduct: items.product.salePrice,
           sellerId: user.customerId,
-          imageUrl: items.product.imageUrl
+          imageUrl: items.product.imageUrl,
         };
-      })
+      }),
     };
     dispatch(fetchOrderPlace(payload))
     navigate(`/checkout?total=${total?.toFixed(2)}`);
@@ -546,7 +586,8 @@ function Cart() {
                         {item.product.productName}
                       </td>
                       <td className=" md:px-4 py-3 text-left ">
-                        ${item.product.salePrice?.toFixed(2)}
+                        {/* ${item.product.unitPrice?.toFixed(2)} */}
+                        ${item.product?.salePrice > 0 ? item.product.salePrice.toFixed(2) : item.product.unitPrice?.toFixed(2)}
                       </td>
                       <td className="px-2 flex gap-2 md:px-4 py-3 ">
                         <input
@@ -558,26 +599,14 @@ function Cart() {
                           className="text-xl border rounded-lg p-1 w-16"
                           min="1"
                         />
-                        {/* {item.updateQuantity != item.quantity && (
-                          <button onClick={()=>handleCart(item.product.productID,item.updateQuantity-item.quantity)} className="text-white px-2 bg-blue-900">
-                            Update
-                          </button>
-                        )} */}
+                       
                       </td>
-                      {/* <td className="px-2 md:px-4 py-3 whitespace-nowrap">
-                        <strong>
-                          $
-                          {calculateSubtotal(
-                            item.product.salePrice,
-                            item.quantity
-                          )}
-                        </strong>
-                      </td> */}
+                      
                       <td className="px-2 md:px-4 text-left py-3 ">
                         <strong>
                           $
                           {calculateSubtotal(
-                            item.product.salePrice,
+                            item.product?.salePrice > 0 ? item.product.salePrice.toFixed(2) : item.product.unitPrice?.toFixed(2),
                             item.quantity
                           )?.toFixed(2)}
                         </strong>
@@ -585,7 +614,8 @@ function Cart() {
                       <td className="px-2 md:px-4 py-8 whitespace-nowrap flex items-center justify-center">
                         <button
                           className="text-red-600 w-4 h-3"
-                          onClick={() => handleremove(index)}
+                          // onClick={() => handleremove(index)}
+                          onClick={() => handleDeleteClick(index)}
                         >
                           <Tooltip placement="top" title="Delete">
                           <img
@@ -649,15 +679,54 @@ function Cart() {
             <h2 className="text-xl font-semibold text-gray-700">
               Your cart is currently empty.
             </h2>
-            <Link
+            {/* <Link
               to="/allProducts"
               className="mt-5 px-8 py-2 font-semibold text-white text-lg bg-blue-900 rounded-full"
             >
               RETURN TO SHOP
-            </Link>
+            </Link> */}
+             <img src={searchimg} className="w-24 h-24 mt-4" alt="empty-cart" />
+            <button className="bg-blue-900 text-white px-4 py-2 mt-6 rounded-lg">
+              <Link to="/allProducts">Continue Shopping</Link>
+            </button>
           </div>
         )}
       </div>
+       {/* Confirmation Dialog */}
+       <Dialog open={openDialog} onClose={handleDialogClose}>
+<div className="flex justify-end p-2">
+        <img src={wrong} className="w-5 h-5 flex justify-end"/>
+        </div>
+        <DialogContent>
+          Are you sure you want to delete this item from your cart?
+        </DialogContent>
+        <div >
+        <DialogActions sx={{
+          display:'flex',justifyContent:'space-around'
+        }}>
+          <Button
+            onClick={handleDialogClose}
+            sx={{
+              color: "white",
+              backgroundColor: "red",
+              "&:hover": { backgroundColor: "#cc0000" },
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleremove}
+            sx={{
+              color: "white",
+              backgroundColor: "green",
+              "&:hover": { backgroundColor: "#006400" },
+            }}
+          >
+            Delete
+          </Button>
+        </DialogActions>
+        </div> 
+      </Dialog>
     </div>
   );
 }

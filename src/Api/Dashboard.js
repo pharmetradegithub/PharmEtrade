@@ -82,8 +82,8 @@ export const fetchSellCustomer = (customerId) => {
   return async (dispatch) => {
     try {
       // console.log('Fetching data for customer dashboard');
-      const response = await axios.get(`/api/Dashboard/GetBuyerDashboard?buyerId=${customerId}`)
-      // console.log('API Response:', response);
+      const response = await axios.get(`/api/Orders/Seller/Customers?vendorId=${customerId}`)
+      console.log('API sell customer Response:', response);
       if (response.status === 200) {
         const customerData = response.data;
         dispatch(setSellCustomer(customerData))

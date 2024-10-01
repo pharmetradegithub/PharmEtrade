@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
@@ -41,30 +40,33 @@ function LayoutCategory({
   const user = useSelector((state) => state.user.user);
   const cart = useSelector((state) => state.cart.cart);
   const wishlist = useSelector((state) => state.wishlist.wishlist);
-  const productCriteria = useSelector((state) => state.product.productsByCriteria)
+  const productCriteria = useSelector(
+    (state) => state.product.productsByCriteria
+  );
 
-  console.log("cart--->", cart)
+  console.log("cart--->", cart);
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
   //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
-    const wishlistItem = wishlist.find((item) => item.product.productID === productID);
+    const wishlistItem = wishlist.find(
+      (item) => item.product.productID === productID
+    );
     return wishlistItem ? wishlistItem.wishListId : null;
   };
 
   useEffect(() => {
     if (Array.isArray(wishlist)) {
-      setwishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
+      setwishlistProductIDs(
+        wishlist.map((wishItem) => wishItem.product.productID)
+      );
     }
   }, [wishlist]);
 
-
-
   const products = useSelector((state) => state.product.Products);
-    const [productList, setproductList] = useState(productCriteria);
+  const [productList, setproductList] = useState(productCriteria);
   //   console.log("layoutproduct-->",productList)
   useEffect(() => {
     if (products) {
-      
       const updatedProducts = productCriteria.map((product) => ({
         ...product,
         CartQuantity: 1, // Set initial quantity to 1 for all products
@@ -73,22 +75,20 @@ function LayoutCategory({
     }
   }, [productCriteria]);
 
-
   const handleQuantityChange = (index, newQuantity) => {
     // if (newQuantity) {
     const quantity = Math.max(1, newQuantity);
     setproductList((prev) => {
       const updatedList = [...prev];
-    
-        updatedList[index] = {
-          ...updatedList[index],
-          CartQuantity: quantity,
-        };
+
+      updatedList[index] = {
+        ...updatedList[index],
+        CartQuantity: quantity,
+      };
       return updatedList;
     });
     // }
   };
-
 
   const handleCart = async (productID, Quantity) => {
     const cartData = {
@@ -100,11 +100,13 @@ function LayoutCategory({
 
     try {
       await addCartApi(cartData);
-      setNotification({ show: true, message: "Item Added To Cart Successfully!" });
+      setNotification({
+        show: true,
+        message: "Item Added To Cart Successfully!",
+      });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     } catch (error) {
       console.error("Error adding product to cart:", error);
-
     }
   };
   const handleClick = async (productID) => {
@@ -124,9 +126,6 @@ function LayoutCategory({
       await addToWishlistApi(wishListData);
     }
   };
-
-
-
 
   //   const indexOfLastItem = currentPage * itemsPerPage;
   //   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -199,7 +198,6 @@ function LayoutCategory({
 
   const handleSharePopupToggle = () => setIsShowPopup(!isShowPopup);
 
-
   //   const [filteredProducts, setFilteredProducts] = useState(productCriteria); // Products filtered by API
   // const [loading, setLoading] = useState(false); // Loader during API call
   // const [term, setTerm] = useState(""); // Search term
@@ -209,7 +207,6 @@ function LayoutCategory({
   //   console.log("productCriteria updated:", productCriteria); // Check if productCriteria changes
   //   setFilteredProducts(productCriteria); // Reset to initial products
   // }, [productCriteria]);
-
 
   // useEffect(() => {
   //   console.log("useEffect: term changed to", term); // Check if term is updated correctly
@@ -250,29 +247,28 @@ function LayoutCategory({
   //   }
   // };
 
-
-
-
   return (
     <div className="w-[95%] mt-4 ml-4 h-full overflow-y-scroll">
-      {notification.show && <Notification show={notification.show} message={notification.message} />}
+      {notification.show && (
+        <Notification show={notification.show} message={notification.message} />
+      )}
 
       <div className="flex justify-between">
-        <h1 className="text-2xl font-semibold text-blue-900">{productCriteria[0]?.productCategory?.categoryName}</h1>
-     
+        <h1 className="text-2xl font-semibold text-blue-900">
+          {productCriteria[0]?.productCategory?.categoryName}
+        </h1>
+
         <div className="flex gap-1">
-            <select className="bg-white h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center">
-              <option>Filter Products</option>
-             
-              <option>Product  Ascending (A-Z)</option>
-              <option>Product  Decending (Z-A)</option>
-              <option>Price Low to High</option>
-              <option>Price High to Low</option>
-            </select>
-          </div>
+          <select className="bg-white h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center">
+            <option>Filter Products</option>
+
+            <option>Product Ascending (A-Z)</option>
+            <option>Product Decending (Z-A)</option>
+            <option>Price Low to High</option>
+            <option>Price High to Low</option>
+          </select>
+        </div>
       </div>
-
-
 
       <div className="w-full mt-5">
         <div>
@@ -296,7 +292,7 @@ function LayoutCategory({
                       />
                     </div>
 
-                    <div className="flex flex-col mx-3">
+                    <div className="flex flex-col w-[200px] mx-3">
                       <p className="font-semibold">Item Details</p>
                       <div className="mt-2">
                         <p className="font-semibold">{product.productName}</p>
@@ -320,19 +316,20 @@ function LayoutCategory({
                             <p>Exp.Date :</p>
                             <p className="font-semibold">
                               {/* {product.expiryDate} */}
-                              {new Date(product.expiryDate).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: '2-digit',
-                                day: '2-digit',
-                              }).replace(/\//g, '-')} 
-                              
+                              {new Date(product.expiryDate)
+                                .toLocaleDateString("en-US", {
+                                  year: "numeric",
+                                  month: "2-digit",
+                                  day: "2-digit",
+                                })
+                                .replace(/\//g, "-")}
                             </p>
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="flex flex-col mx-3">
+                    {/* <div className="flex flex-col mx-3">
                       <p className="font-semibold">Package Details</p>
                       <div className="mt-2">
                         <p className="text-red-500 font-semibold">
@@ -342,17 +339,82 @@ function LayoutCategory({
                           {product.packCondition}
                         </p>
                       </div>
+                    </div> */}
+
+                    <div className="flex flex-col mx-3 justify-between">
+                      <div className="">
+                        <h2 className="font-semibold">Package Details</h2>
+                        <p className="text-base mt-1">
+                          {product.packCondition}
+                        </p>
+                      </div>
+                      <div>
+                        {product.amountInStock === 0 ? (
+                          <p className="text-red-500 font-semibold">
+                            Out Of Stock
+                          </p>
+                        ) : null}
+                      </div>
                     </div>
 
                     <div className="flex flex-col mx-3">
                       <p className="font-semibold">Unit Price</p>
                       <div className="mt-2">
-                        <p className="font-semibold">${product.unitPrice?.toFixed(2)}</p>
+                        <p className="font-semibold">
+                          ${product.unitPrice?.toFixed(2)}
+                        </p>
                       </div>
                     </div>
 
                     <div className="flex flex-col mx-3">
                       <p className="font-semibold">Quantity</p>
+
+                      <div className="mt-2 flex items-center">
+                        <button
+                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                          onClick={() =>
+                            handleQuantityChange(
+                              index,
+                              product.CartQuantity - 1
+                            )
+                          }
+                          disabled={
+                            product.CartQuantity <= 1 ||
+                            cart.some(
+                              (item) =>
+                                item.product.productID === product.productID
+                            ) === 1
+                          }
+                        >
+                          -
+                        </button>
+
+                        <input
+                          type="text"
+                          value={product.CartQuantity}
+                          disabled={true}
+                          className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
+                        />
+
+                        <button
+                          className="px-2 py-1 border rounded-md  bg-gray-200 text-gray-700 font-bold"
+                          onClick={() =>
+                            handleQuantityChange(
+                              index,
+                              product.CartQuantity + 1
+                            )
+                          }
+                          disabled={
+                            cart.some(
+                              (item) =>
+                                item.product.productID === product.productID
+                            ) === 1
+                          }
+                        >
+                          +
+                        </button>
+                      </div>
+
                       {/* <div className="mt-2 flex">
                         <input
                           type="number"
@@ -362,17 +424,7 @@ function LayoutCategory({
                                 item.product.productID == product.productID
                             ) === 1
                           }
-                          value={product.CartQuantity
-                            // cart.some(
-                            //     (item) =>
-                            //         item.product.productID === product.productID
-                            //   )
-                            //     ? cart.find(
-                            //         (item) =>
-                            //             item.product.productID === product.productID
-                            //       ).quantity
-                            //       : product.CartQuantity
-                              }
+                          value={product.CartQuantity}
                           onChange={(e) =>
                             handleQuantityChange(
                               index,
@@ -383,39 +435,7 @@ function LayoutCategory({
                           min="1"
                         />
                       </div> */}
-
-                      <div className="mt-2 flex">
-                        <input
-                          type="number"
-                          disabled={
-                            cart.some(
-                              (item) =>
-                                item.product.productID == product.productID
-                            ) === 1
-                          }
-                          value={product.CartQuantity
-                            // cart.some(
-                            //     (item) =>
-                            //         item.product.productID === product.productID
-                            //   )
-                            //     ? cart.find(
-                            //         (item) =>
-                            //             item.product.productID === product.productID
-                            //       ).quantity
-                            //       : product.CartQuantity
-                          }
-                          onChange={(e) =>
-                            handleQuantityChange(
-                              index,
-                              parseInt(e.target.value)
-                            )
-                          }
-                          className="w-16 border rounded-md text-center"
-                          min="1"
-                        />
-                      </div>
                     </div>
-
 
                     {/* Wishlist */}
                     <div className="flex flex-col items-center justify-between">
@@ -432,22 +452,20 @@ function LayoutCategory({
                         />
                       </div>
                       <div className="relative">
-                      <Tooltip title="Share" placement="top">
-
-                        <img
-                          src={share}
-                          className="w-6 mx-3 "
-                          onClick={handleSharePopupToggle}
-
-                        />
-                      </Tooltip>
-                    </div>
+                        <Tooltip title="Share" placement="top">
+                          <img
+                            src={share}
+                            className="w-6 mx-3 "
+                            onClick={handleSharePopupToggle}
+                          />
+                        </Tooltip>
+                      </div>
 
                       {/* Add to Cart */}
                       {/* {cart.some(
                         (item) => item.product.productID == product.productID
                       ) == 0 ? ( */}
-                      <div
+                      {/* <div
                         onClick={() =>
                           handleCart(product.productID, product.CartQuantity)
                         }
@@ -461,6 +479,39 @@ function LayoutCategory({
                           />
                         </div>
                         <p className="font-semibold">{"Add to Cart"}</p>
+                      </div> */}
+
+                      <div
+                        onClick={() => {
+                          if (product.amountInStock !== 0) {
+                            handleCart(product.productID, product.CartQuantity);
+                          }
+                        }}
+                        className={`flex text-white h-[40px] px-2 rounded-lg mx-3 justify-center items-center
+                                  ${
+                                    product.amountInStock === 0
+                                      ? "bg-gray-400 cursor-not-allowed"
+                                      : "bg-blue-900 cursor-pointer"
+                                  }`}
+                      >
+                        <div className="mr-1">
+                          <img
+                            src={addcart}
+                            className={`w-6 h-6 ${
+                              product.amountInStock === 0
+                                ? "opacity-50"
+                                : "cursor-pointer"
+                            }`}
+                            alt="Add to Cart Icon"
+                          />
+                        </div>
+                        <p
+                          className={`font-semibold ${
+                            product.amountInStock === 0 ? "opacity-50" : ""
+                          }`}
+                        >
+                          {"Add to Cart"}
+                        </p>
                       </div>
                       {/* ) : ( */}
                       {/* <div className="flex text-white cursor-pointer h-[40px] px-2 rounded-lg bg-sky-600 mx-3 justify-center items-center">
@@ -475,48 +526,77 @@ function LayoutCategory({
                         </div> */}
                       {/* )} */}
 
-
                       {isShowPopup && (
-                      <div className="flex flex-col justify-center items-center top-0  left-10 h-full absolute inset-0 bg-transparent z-auto">
-                        <div className="border w-[13%] rounded-lg bg-gray-100 ml-96">
-                          <div className="flex border-b justify-between p-2">
-                            <div className="flex items-center">
-                              <a href="mailto:example@example.com" className="flex items-center">
+                        <div className="flex flex-col justify-center items-center top-0  left-10 h-full absolute inset-0 bg-transparent z-auto">
+                          <div className="border w-[13%] rounded-lg bg-gray-100 ml-96">
+                            <div className="flex border-b justify-between p-2">
+                              <div className="flex items-center">
+                                <a
+                                  href="mailto:example@example.com"
+                                  className="flex items-center"
+                                >
+                                  <img
+                                    src={email}
+                                    className="text-blue-400 w-6"
+                                  />
+                                  <p className="ml-3">Email</p>
+                                </a>
+                              </div>
+                              <img
+                                src={wrong}
+                                onClick={handleSharePopupToggle}
+                                className="w-3 h-3"
+                              />
+                            </div>
 
-                                <img src={email} className="text-blue-400 w-6" />
-                                <p className="ml-3">Email</p>
+                            <div className="flex border-b p-2">
+                              <a
+                                href="https://www.pinterest.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center"
+                              >
+                                <img
+                                  src={Pintrist}
+                                  className="text-blue-400 w-6"
+                                />
+
+                                {/* <FaPinterest className="text-red-500 text-2xl" /> */}
+                                <p className="ml-3">Pinterest</p>
                               </a>
                             </div>
-                            <img src={wrong} onClick={handleSharePopupToggle} className="w-3 h-3" />
-                          </div>
-
-                          <div className="flex border-b p-2">
-                            <a href="https://www.pinterest.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
-
-                              <img src={Pintrist} className="text-blue-400 w-6" />
-
-                              {/* <FaPinterest className="text-red-500 text-2xl" /> */}
-                              <p className="ml-3">Pinterest</p>
-                            </a>
-                          </div>
-                          <div className="flex border-b p-2">
-                            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
-
-                              <img src={Facebook} className="text-blue-400 w-6" />
-                              {/* <FaFacebook  /> */}
-                              <p className="ml-3">Facebook</p>
-                            </a>
-                          </div>
-                          <div className="flex border-b p-2">
-                          <a href="https://wa.me/1234567890?text=Hello" target="_blank" rel="noopener noreferrer" className="flex items-center">
-
-                              <img src={Whatsapp} className="text-blue-400 w-6" />
-                              <p className="ml-3">Whatsapp</p>
-                            </a>
+                            <div className="flex border-b p-2">
+                              <a
+                                href="https://www.facebook.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center"
+                              >
+                                <img
+                                  src={Facebook}
+                                  className="text-blue-400 w-6"
+                                />
+                                {/* <FaFacebook  /> */}
+                                <p className="ml-3">Facebook</p>
+                              </a>
+                            </div>
+                            <div className="flex border-b p-2">
+                              <a
+                                href="https://wa.me/1234567890?text=Hello"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center"
+                              >
+                                <img
+                                  src={Whatsapp}
+                                  className="text-blue-400 w-6"
+                                />
+                                <p className="ml-3">Whatsapp</p>
+                              </a>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )}
+                      )}
                     </div>
                   </div>
                 ))
@@ -549,4 +629,3 @@ function LayoutCategory({
 }
 
 export default LayoutCategory;
-

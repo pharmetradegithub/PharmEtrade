@@ -6,7 +6,7 @@ import { RiShare2Fill } from "react-icons/ri";
 // import { MdDeleteOutline } from "react-icons/md";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { FaPinterest, FaFacebook } from "react-icons/fa";
-import wrong from "../../../assets/wrong.png";
+import wrong from "../../../assets/Icons/wrongred.png";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import searchimg from "../../../assets/search1.png";
@@ -17,7 +17,7 @@ import email from "../../../assets/envelope.png";
 import Whatsapp from "../../../assets/Icons/Whatsapp.png";
 import cart from '../../../assets/cartw_icon.png'
 import share from "../../../assets/share.png";
-import cross from "../../../assets/letter-x[1].png";
+import cross from "../../../assets/Icons/wrongred.png";
 import { useSelector } from "react-redux";
 import Notification from "../../../Components/Notification"; // Import Notification component
 

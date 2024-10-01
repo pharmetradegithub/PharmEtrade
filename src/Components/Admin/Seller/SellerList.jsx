@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { GetCustomers } from '../../../Api/AdminApi';
 
-const customers = [
-  {
-    id: 1,
-    profileImage: "https://berrydashboard.io/assets/avatar-1-Dja0YEDP.png",
-    name: "Neil Sims",
-    email: "neil.sims@flowbite.com",
-    country: "Silver",
-    status: "Online",
-    phone: "$2999",
-    amount: "3.0 lb",
-  },
-  // Add more customer data here
-];
+
 
 const SellerList = () => {
+  const [customers,setcustomers]=useState([]);
+  useEffect(() => {
+    const fetchcustomers =async ()=>{
+      const res  = await GetCustomers();
+      const filteredCustomers = res.filter(customer => 
+        [1, 2, 3].includes(customer.customerTypeId)
+      );
+      setcustomers(filteredCustomers);    
+    }
+      fetchcustomers();
+  }, [])
+  
   return (
     <div className="bg-gray-100 w-full h-full flex items-center justify-center">
       <div className="w-[95%] h-full mt-8">
@@ -33,7 +34,7 @@ const SellerList = () => {
               </tr>
             </thead>
             <tbody>
-              {customers.map((customer, index) => (
+              {customers?.map((customer, index) => (
                 <tr
                   key={index}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
