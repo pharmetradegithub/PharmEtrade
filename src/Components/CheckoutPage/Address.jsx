@@ -441,15 +441,240 @@ function Address({ topMargin, totalAmount }) {
     }
   };
 
+  // const handleSubmitForm = async (e) => {
+  //   e.preventDefault();
+
+
+  //   const payLaodNewForm = {
+  //     addressId: "0",
+  //     customerId: userId,
+  //     firstName: newAddressForm.First_Name,
+  //     middleName: null,
+  //     lastName: null,
+  //     phoneNumber: newAddressForm.Phone_Number,
+  //     pincode: newAddressForm.Pin_Code,
+  //     address1: newAddressForm.Address,
+  //     address2: null,
+  //     landmark: "",
+  //     city: newAddressForm.Town_City,
+  //     state: newAddressForm.States,
+  //     country: null,
+  //     isDefault: true,
+  //     addressTypeId: 1,
+  //     deliveryInstructions: null,
+  //   };
+
+  //   try {
+  //     const response = await fetch(
+  //       "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/Add",
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           // 'Authorization': `Bearer ${localStorage.getItem('token')}`
+  //         },
+  //         body: JSON.stringify(payLaodNewForm),
+  //       }
+  //     );
+
+  //     if (!response.ok) {
+  //       throw new Error("Failed to add address");
+  //     }
+
+  //     const responseData = await response.json();
+  //     if (responseData.result && responseData.result.length > 0) {
+  //       const newAddress = responseData.result[0];
+  //       if (newAddress && newAddress.addressId) {
+  //         setNewAddressData(newAddress); // Save the new address object to state
+  //         fetchCustomerById();
+  //         setShowPopUp(false);
+  //         setNotification({
+  //           show: true,
+  //           message: "Add new address Successfully!",
+  //         });
+  //         setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //       } else {
+  //         console.warn("Address data is missing addressId:", newAddress);
+  //         setShowPopUp(false);
+  //       }
+  //     } else {
+  //       console.warn("No address data found in response");
+  //       setShowPopUp(false);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error adding address:", error);
+  //     setShowPopUp(false);
+  //   }
+  // };
+
+  // useEffect(() => {
+ 
+  //   const handleSubmitForm = async (e) => {
+  //     e.preventDefault();
+    
+  //     // Validation logic
+  //     const errors = {};
+    
+  //     if (!newAddressForm.First_Name) {
+  //       errors.First_Name = "First Name is required";
+  //     }
+  //     if (!newAddressForm.Last_Name) {
+  //       errors.Last_Name = "Last Name is required";
+  //     }
+
+  //     if (!newAddressForm.Phone_Number) {
+  //       errors.Phone_Number = "Phone Number is required";
+  //     } else if (newAddressForm.Phone_Number.length !== 10 || isNaN(newAddressForm.Phone_Number)) {
+  //       errors.Phone_Number = "Phone Number must be 10 digits";
+  //     }
+  //     // if (!newAddressForm.Phone_Number || newAddressForm.Phone_Number.length < 10) {
+  //     //   errors.Phone_Number = "Phone number is required and must be 10 digits";
+  //     // }
+  //     if (!newAddressForm.Address) {
+  //       errors.Address = "Address is required";
+  //     }
+  //     if (!newAddressForm.Town_City) {
+  //       errors.Town_City = "City is required";
+  //     }
+  //      // State Validation
+  // if (!newAddressForm.States) {
+  //   errors.States = "State is required";
+  // }
+  //     // if (!newAddressForm.States) {
+  //     //   errors.States = "State is required";
+  //     // }
+  //     if (!newAddressForm.Pin_Code) {
+  //       errors.Pin_Code = "Zip/Pin Code is required";
+  //     } else if (isNaN(newAddressForm.Pin_Code) || newAddressForm.Pin_Code.length !== 6) {
+  //       errors.Pin_Code = "Zip/Pin Code must be 6 digits";
+  //     }
+    
+  //     setFormErrors(errors); // Update the state with validation errors
+    
+  //     // If there are errors, stop form submission
+  //     if (Object.keys(errors).length > 0) {
+  //       return;
+  //     }
+    
+  //     const payLaodNewForm = {
+  //       addressId: "0",
+  //       customerId: userId,
+  //       firstName: newAddressForm.First_Name,
+  //       middleName: null,
+  //       lastName: newAddressForm.Last_Name,
+  //       phoneNumber: newAddressForm.Phone_Number,
+  //       pincode: newAddressForm.Pin_Code,
+  //       address1: newAddressForm.Address,
+  //       address2: null,
+  //       landmark: "",
+  //       city: newAddressForm.Town_City,
+  //       state: newAddressForm.States,
+  //       country: null,
+  //       isDefault: true,
+  //       addressTypeId: 1,
+  //       deliveryInstructions: null,
+  //     };
+    
+  //     try {
+  //       const response = await fetch(
+  //         "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/Add",
+  //         {
+  //           method: "POST",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //           body: JSON.stringify(payLaodNewForm),
+  //         }
+  //       );
+    
+  //       if (!response.ok) {
+  //         throw new Error("Failed to add address");
+  //       }
+    
+  //       const responseData = await response.json();
+  //       if (responseData.result && responseData.result.length > 0) {
+  //         const newAddress = responseData.result[0];
+  //         if (newAddress && newAddress.addressId) {
+  //           setNewAddressData(newAddress); // Save the new address object to state
+  //           fetchCustomerById();
+  //           setShowPopUp(false);
+  //           setNotification({
+  //             show: true,
+  //             message: "Add new address Successfully!",
+  //           });
+  //           setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //         } else {
+  //           console.warn("Address data is missing addressId:", newAddress);
+  //           setShowPopUp(false);
+  //         }
+  //       } else {
+  //         console.warn("No address data found in response");
+  //         setShowPopUp(false);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error adding address:", error);
+  //       setShowPopUp(false);
+  //     }
+  //   };
+
   const handleSubmitForm = async (e) => {
     e.preventDefault();
-
+  
+    // Validation logic
+    const errors = {};
+  
+    // First Name Validation
+    if (!newAddressForm.First_Name.trim()) {
+      errors.First_Name = "First Name is required";
+    }
+  
+    // Last Name Validation
+    if (!newAddressForm.Last_Name.trim()) {
+      errors.Last_Name = "Last Name is required";
+    }
+  
+    // Phone Number Validation
+    // if (!newAddressForm.Phone_Number) {
+    //   errors.Phone_Number = "Phone Number is required";
+    // } else if (!/^\d{10}$/.test(newAddressForm.Phone_Number)) {
+    //   errors.Phone_Number = "Phone Number must be exactly 10 digits";
+    // }
+  
+    // Address Validation
+    if (!newAddressForm.Address.trim()) {
+      errors.Address = "Address is required";
+    }
+  
+    // City Validation
+    if (!newAddressForm.Town_City.trim()) {
+      errors.Town_City = "City is required";
+    }
+  
+    // State Validation
+    // if (!newAddressForm.States) {
+    //   errors.States = "State is required";
+    // }
+  
+    // Zip Code (Pin Code) Validation
+    if (!newAddressForm.Pin_Code) {
+      errors.Pin_Code = "Zip/Pin Code is required";
+    } else if (!/^\d{5}$/.test(newAddressForm.Pin_Code)) {
+      errors.Pin_Code = "Zip/Pin Code must be exactly 5 digits";
+    }
+  
+    setFormErrors(errors); // Update the state with validation errors
+  
+    // If there are errors, stop form submission
+    if (Object.keys(errors).length > 0) {
+      return;
+    }
+  
     const payLaodNewForm = {
       addressId: "0",
       customerId: userId,
       firstName: newAddressForm.First_Name,
       middleName: null,
-      lastName: null,
+      lastName: newAddressForm.Last_Name,
       phoneNumber: newAddressForm.Phone_Number,
       pincode: newAddressForm.Pin_Code,
       address1: newAddressForm.Address,
@@ -462,7 +687,7 @@ function Address({ topMargin, totalAmount }) {
       addressTypeId: 1,
       deliveryInstructions: null,
     };
-
+  
     try {
       const response = await fetch(
         "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/Add",
@@ -470,16 +695,15 @@ function Address({ topMargin, totalAmount }) {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            // 'Authorization': `Bearer ${localStorage.getItem('token')}`
           },
           body: JSON.stringify(payLaodNewForm),
         }
       );
-
+  
       if (!response.ok) {
         throw new Error("Failed to add address");
       }
-
+  
       const responseData = await response.json();
       if (responseData.result && responseData.result.length > 0) {
         const newAddress = responseData.result[0];
@@ -489,7 +713,7 @@ function Address({ topMargin, totalAmount }) {
           setShowPopUp(false);
           setNotification({
             show: true,
-            message: "Add new address Successfully!",
+            message: "Address added successfully!",
           });
           setTimeout(() => setNotification({ show: false, message: "" }), 3000);
         } else {
@@ -505,9 +729,9 @@ function Address({ topMargin, totalAmount }) {
       setShowPopUp(false);
     }
   };
+  
 
-  // useEffect(() => {
-  const fetchCustomerById = async () => {
+    const fetchCustomerById = async () => {
     // console.log("Fetching address details for ID:", addressId);
 
     try {
@@ -548,9 +772,11 @@ function Address({ topMargin, totalAmount }) {
 
   // })
 
-  const handleUseAddressButtons = () => {
+  const handleUseAddressButtons = (e) => {
+    e.preventDefault();
     setShowPopUp(false);
     setShowPopUp(true);
+    handleSubmitForm(e);
   };
 
   console.log("add----->", getAddress);
@@ -740,10 +966,10 @@ function Address({ topMargin, totalAmount }) {
                     </div> */}
 
 
-                    <div className="border shadow-md rounded-md h-60 w-full overflow-y-auto">
+                    <div className="border shadow-md rounded-md h-56 w-full overflow-y-auto">
                       <div className="p-2 mx-5 ">
-                        <h1 className="border-b-2 text-base  bg-white mb-2">Your Address</h1>
-<div className="h-28 overflow-y-scroll">
+                        <h1 className="border-b-2 text-base  bg-white mt-3">Your Address</h1>
+<div className="overflow-y-scroll h-28">
                         {getAddress.length === 0 ? (
                           <div className="w-full">
                             <p className="mt-6 pt-2 flex justify-center text-xl text-blue-900 font-semibold">
@@ -803,7 +1029,7 @@ function Address({ topMargin, totalAmount }) {
                         )}
 
 </div>
-                        <div className="flex cursor-pointer mt-2">
+                        <div className="flex cursor-pointer">
                           <img src={plus} className="w-5 h-5" />
                           <h1
                             className="hover:text-red-400 hover:underline text-cyan-600 "
@@ -816,7 +1042,7 @@ function Address({ topMargin, totalAmount }) {
                         {/* Conditionally show the "Use this address" button if there are addresses */}
                         {getAddress.length > 0 && (
                           <button
-                            className="border rounded-full h-8 text-sm w-32 bg-blue-900 text-white mt-2"
+                            className="border rounded-full h-8 text-sm w-32 bg-blue-900 text-white "
                             onClick={() => {
                               if (selectedAddressId) {
                                 handleUseAddress(); // Proceed with navigation
