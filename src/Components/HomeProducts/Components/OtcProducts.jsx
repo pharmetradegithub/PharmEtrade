@@ -149,10 +149,27 @@ const OtcProducts = () => {
                 </Link>
               </div>
               {/* </Link> */}
-              <div className="w-full py-1">
+              {/* <div className="w-full py-1">
                 <h2 className="text-fonts h-12">{item.productName}</h2>
                 <h1 className="text-fonts font-semibold">${item?.unitPrice?.toFixed(2)}</h1>
-              </div>
+              </div> */}
+                <div className="w-full py-1">
+                  <h2 className="text-fonts h-12">{item.productName}</h2>
+                  {item.salePrice > 0 ? (
+                    <div className="flex items-center gap-1">
+                      <h1 className="text-fonts font-semibold">
+                        ${item.salePrice?.toFixed(2)}
+                      </h1>
+                      <span className="text-[10px] line-through">
+                        (${item.unitPrice?.toFixed(2)})
+                      </span>
+                    </div>
+                  ) : (
+                    <h1 className="text-fonts font-semibold">
+                      ${item.unitPrice?.toFixed(2)}
+                    </h1>
+                  )}
+                </div>
               {/* <div>
                 {Array.from({ length: totalStars }, (v, i) => (
                   <Star

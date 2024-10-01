@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { GetCustomers } from '../../../Api/AdminApi';
+import edit from "../../../assets/Edit.png";
+import Bin from "../../../assets/Bin.png";
+import Deactivate from "../../../assets/Deactivate.png";
+import { Tooltip } from "@mui/material";
+
 
 
 
@@ -61,14 +66,40 @@ const CustomerList = () => {
                     </div>
                   </td>
                   <td className="px-6 py-4 text-center">{customer.mobile}</td>
-                  <td className="flex justify-center items-center px-6 py-4 space-x-4">
+                  {/* <td className="flex justify-center items-center px-6 py-4 space-x-4">
                     <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                       Edit
                     </a>
                     <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">
                       Remove
                     </a>
-                  </td>
+                  </td> */}
+                   <td className="px-4  cursor-pointer text-center flex justify-center items-center space-x-2">
+                          <Tooltip title="Edit" placement="top">
+                            <img
+                              src={edit}
+                              alt="Edit"
+                              className="cursor-pointer w-7 h-7"
+                              onClick={() => handleEditProduct(product)}
+                            />
+                          </Tooltip>
+                          <Tooltip placement="top" title="Delete">
+                            <img
+                              src={Bin}
+                              alt="Delete"
+                              className="cursor-pointer w-4 h-4"
+                              onClick={() => DeleteProduct(product.productID)}
+                            />
+                          </Tooltip>
+                          <Tooltip title="Deactivate" placement="top">
+                            <img
+                              src={Deactivate}
+                              alt="Deactivate"
+                              className="cursor-pointer w-4 h-4"
+                              onClick={() => deactivatePopUp(product.productID)}
+                            />
+                          </Tooltip>
+                        </td>
                 </tr>
               ))}
             </tbody>

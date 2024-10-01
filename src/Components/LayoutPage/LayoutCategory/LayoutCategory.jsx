@@ -21,6 +21,7 @@ import nature from "../../../assets/img1.png";
 import { useSelector } from "react-redux";
 import { addCartApi } from "../../../Api/CartApi";
 import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
+import Pagination from "../../Pagination";
 
 function LayoutCategory({
   topMargin,
@@ -30,7 +31,8 @@ function LayoutCategory({
   setQuantities,
 }) {
   const navigate = useNavigate();
-  const itemsPerPage = 12;
+ 
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
   const [showMore, setShowMore] = useState({});
   const [notification, setNotification] = useState({
@@ -126,6 +128,23 @@ function LayoutCategory({
       await addToWishlistApi(wishListData);
     }
   };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil((productList?.length || 0) / itemsPerPage);
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(parseInt(event.target.value));
+    setCurrentPage(1); // Reset to page 1 when items per page is changed
+  }
 
   //   const indexOfLastItem = currentPage * itemsPerPage;
   //   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -274,8 +293,8 @@ function LayoutCategory({
         <div>
           <div className="flex flex-col">
             <div className="flex flex-col justify-between">
-              {productList.length > 0 ? (
-                productList.map((product, index) => (
+              {currentItems.length > 0 ? (
+                currentItems.map((product, index) => (
                   <div
                     key={index}
                     className="flex p-4 border w-full justify-around shadow-lg rounded-md mb-4"
@@ -604,6 +623,16 @@ function LayoutCategory({
                 <p>No products available</p>
               )}
             </div>
+
+            <Pagination
+              indexOfFirstItem={indexOfFirstItem}
+              indexOfLastItem={indexOfLastItem}
+              productList={productList}
+              itemsPerPage={itemsPerPage}
+              setItemsPerPage={setItemsPerPage}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
 
             {/* <div className="flex justify-center mt-4">
               <button

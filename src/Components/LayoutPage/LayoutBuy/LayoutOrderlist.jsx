@@ -276,26 +276,7 @@ function LayoutOrderList() {
   const getOrder = useSelector((state) => state.order.getOrder)
   console.log("getOrder--->", getOrder)
   const dispatch = useDispatch()
-  // useEffect(() => {
-  //   const fetchOrders = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Orders/Get?customerId=${localData}`
-  //       );
-  //       const data = await response.json();
-  //       if (data.statusCode === 200) {
-  //         setOrders(data.result);
-  //       } else {
-  //         console.error("Failed to fetch orders:", data.message);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching orders:", error);
-  //     }
-  //   };
-
-  //   fetchOrders();
-  // }, []);
-  // console.log("order---->",orderList)
+  
 
 
   useEffect(() => {
