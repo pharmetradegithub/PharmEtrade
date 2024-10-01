@@ -1,12 +1,10 @@
-
-
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import { useNavbarContext } from "../../NavbarContext";
 import Notification from "../../../Components/Notification"; // Import Notification component
-import next from '../../../assets/Next_icon.png'
+import next from "../../../assets/Next_icon.png";
 import previous from "../../../assets/Previous_icon.png";
 import other from "../../../assets/compare1_Icon.png";
 import addcart from "../../../assets/cartw_icon.png";
@@ -16,14 +14,14 @@ import Expicon from "../../../assets/Expicon.png";
 import search from "../../../assets/search1.png";
 import nature from "../../../assets/img1.png";
 import { useSelector } from "react-redux";
-import twitter from '../../../assets/twitter_icon.png'
-import Facebook from '../../../assets/facebook1.png'
-import Pintrist from '../../../assets/pinterest.png'
-import email from '../../../assets/envelope.png'
-import wrong from '../../../assets/wrong.png'
+import twitter from "../../../assets/twitter_icon.png";
+import Facebook from "../../../assets/facebook1.png";
+import Pintrist from "../../../assets/pinterest.png";
+import email from "../../../assets/envelope.png";
+import wrong from "../../../assets/wrong.png";
 import { addCartApi } from "../../../Api/CartApi";
 import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
-import share from '../../../assets/share.png'
+import share from "../../../assets/share.png";
 import { Tooltip } from "@mui/material";
 function LayoutOtcProducts({
   topMargin,
@@ -44,21 +42,23 @@ function LayoutOtcProducts({
   const cart = useSelector((state) => state.cart.cart);
   const wishlist = useSelector((state) => state.wishlist.wishlist);
 
-  console.log("cart--->", cart)
+  console.log("cart--->", cart);
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
   //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
-    const wishlistItem = wishlist.find((item) => item.product.productID === productID);
+    const wishlistItem = wishlist.find(
+      (item) => item.product.productID === productID
+    );
     return wishlistItem ? wishlistItem.wishListId : null;
   };
 
   useEffect(() => {
     if (Array.isArray(wishlist)) {
-      setwishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
+      setwishlistProductIDs(
+        wishlist.map((wishItem) => wishItem.product.productID)
+      );
     }
   }, [wishlist]);
-
-
 
   // const [wishlistProductIDs, setwishlistProductIDs] = useState(
   //   wishlist.map((wishItem) => wishItem.product.productID)
@@ -71,7 +71,7 @@ function LayoutOtcProducts({
   // };
   const products = useSelector((state) => state.product.otcProducts);
   const [productList, setproductList] = useState(products);
-  console.log("layoutproduct-->", productList)
+  console.log("layoutproduct-->", productList);
   useEffect(() => {
     if (products) {
       const updatedProducts = products.map((product) => ({
@@ -92,11 +92,13 @@ function LayoutOtcProducts({
 
     try {
       await addCartApi(cartData);
-      setNotification({ show: true, message: "Item Added To Cart Successfully!" });
+      setNotification({
+        show: true,
+        message: "Item Added To Cart Successfully!",
+      });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     } catch (error) {
       console.error("Error adding product to cart:", error);
-
     }
   };
   const handleClick = async (productID) => {
@@ -173,7 +175,6 @@ function LayoutOtcProducts({
 
   const handleSharePopupToggle = () => setIsShowPopup(!isShowPopup);
 
-
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
@@ -242,7 +243,9 @@ function LayoutOtcProducts({
   };
   return (
     <div className="w-[95%] mt-4 ml-4 h-full overflow-y-scroll">
-      {notification.show && <Notification show={notification.show} message={notification.message} />}
+      {notification.show && (
+        <Notification show={notification.show} message={notification.message} />
+      )}
 
       <div className="flex justify-between">
         <h1 className="text-2xl font-semibold text-blue-900">OTC Products</h1>
@@ -251,13 +254,12 @@ function LayoutOtcProducts({
             <select className="bg-white  w-auto h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center">
               <option> Filter Products</option>
 
-              <option>Product  Ascending (A-Z)</option>
-              <option>Product  Decending (Z-A)</option>
+              <option>Product Ascending (A-Z)</option>
+              <option>Product Decending (Z-A)</option>
               <option>Price Low to High</option>
               <option>Price High to Low</option>
             </select>
           </div>
-
         </div>
       </div>
 
@@ -282,7 +284,7 @@ function LayoutOtcProducts({
                       />
                     </div>
 
-                    <div className="flex flex-col mx-3">
+                    <div className="flex flex-col w-[250px] mx-3">
                       <p className="font-semibold">Item Details</p>
                       <div className="mt-2">
                         <p className="font-semibold">{product.productName}</p>
@@ -306,18 +308,20 @@ function LayoutOtcProducts({
                             <p>Exp.Date :</p>
                             <p className="font-semibold">
                               {/* {product.expiryDate} */}
-                              {new Date(product.expiryDate).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: '2-digit',
-                                day: '2-digit',
-                              }).replace(/\//g, '-')}
+                              {new Date(product.expiryDate)
+                                .toLocaleDateString("en-US", {
+                                  year: "numeric",
+                                  month: "2-digit",
+                                  day: "2-digit",
+                                })
+                                .replace(/\//g, "-")}
                             </p>
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="flex flex-col mx-3">
+                    {/* <div className="flex flex-col mx-3">
                       <p className="font-semibold">Package Details</p>
                       <div className="mt-2">
                         <p className="text-red-500 font-semibold">
@@ -327,46 +331,80 @@ function LayoutOtcProducts({
                           {product.packCondition}
                         </p>
                       </div>
+                    </div> */}
+
+                    <div className="flex flex-col mx-3 justify-between">
+                      <div className="">
+                        <h2 className="font-semibold">Package Details</h2>
+                        <p className="text-base mt-1">
+                          {product.packCondition}
+                        </p>
+                      </div>
+                      <div>
+                        {product.amountInStock === 0 ? (
+                          <p className="text-red-500 font-semibold">
+                            Out Of Stock
+                          </p>
+                        ) : null}
+                      </div>
                     </div>
 
                     <div className="flex flex-col mx-3">
                       <p className="font-semibold">Unit Price</p>
                       <div className="mt-2">
-                        <p className="font-semibold">${product.unitPrice?.toFixed(2)}</p>
+                        <p className="font-semibold">
+                          ${product.unitPrice?.toFixed(2)}
+                        </p>
                       </div>
                     </div>
 
                     <div className="flex flex-col mx-3">
                       <p className="font-semibold">Quantity</p>
-                      <div className="mt-2 flex">
+
+                      <div className="mt-2 flex items-center">
+                        <button
+                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                          onClick={() =>
+                            handleQuantityChange(
+                              index,
+                              product.CartQuantity - 1
+                            )
+                          }
+                          disabled={
+                            product.CartQuantity <= 1 ||
+                            cart.some(
+                              (item) =>
+                                item.product.productID === product.productID
+                            ) === 1
+                          }
+                        >
+                          -
+                        </button>
+
                         <input
-                          type="number"
+                          type="text"
+                          value={product.CartQuantity}
+                          disabled={true}
+                          className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
+                        />
+
+                        <button
+                          className="px-2 py-1 border rounded-md  bg-gray-200 text-gray-700 font-bold"
+                          onClick={() =>
+                            handleQuantityChange(
+                              index,
+                              product.CartQuantity + 1
+                            )
+                          }
                           disabled={
                             cart.some(
                               (item) =>
-                                item.product.productID == product.productID
+                                item.product.productID === product.productID
                             ) === 1
                           }
-                          value={product.CartQuantity
-                            // cart.some(
-                            //     (item) =>
-                            //         item.product.productID === product.productID
-                            //   )
-                            //     ? cart.find(
-                            //         (item) =>
-                            //             item.product.productID === product.productID
-                            //       ).quantity
-                            //       : product.CartQuantity
-                          }
-                          onChange={(e) =>
-                            handleQuantityChange(
-                              index,
-                              parseInt(e.target.value)
-                            )
-                          }
-                          className="w-16 border rounded-md text-center"
-                          min="1"
-                        />
+                        >
+                          +
+                        </button>
                       </div>
                     </div>
 
@@ -388,8 +426,11 @@ function LayoutOtcProducts({
                       </div>
                       <div className="relative inline-block">
                         <Tooltip title="Share" placement="top">
-
-                          <img src={share} className="w-6 mx-3 " onClick={handleSharePopupToggle} />
+                          <img
+                            src={share}
+                            className="w-6 mx-3 "
+                            onClick={handleSharePopupToggle}
+                          />
                         </Tooltip>
                       </div>
                       {isShowPopup && (
@@ -397,30 +438,64 @@ function LayoutOtcProducts({
                           <div className="border w-[15%] rounded-lg bg-gray-100 ml-96 ">
                             <div className="flex border-b justify-between p-2 ml-2">
                               <div className="flex items-center">
-                                <a href="mailto:example@example.com" className="flex items-center">
-                                  <img src={email} className="text-blue-400 w-6" />
+                                <a
+                                  href="mailto:example@example.com"
+                                  className="flex items-center"
+                                >
+                                  <img
+                                    src={email}
+                                    className="text-blue-400 w-6"
+                                  />
                                   <p className="ml-3">Email</p>
                                 </a>
                               </div>
-                              <img src={wrong} onClick={handleSharePopupToggle} className="w-3 h-3" />
+                              <img
+                                src={wrong}
+                                onClick={handleSharePopupToggle}
+                                className="w-3 h-3"
+                              />
                             </div>
                             <div className="flex border-b p-2 ml-2">
-                              <a href="https://www.pinterest.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
-                                <img src={Pintrist} className="text-blue-400 w-6" />
+                              <a
+                                href="https://www.pinterest.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center"
+                              >
+                                <img
+                                  src={Pintrist}
+                                  className="text-blue-400 w-6"
+                                />
 
                                 <p className="ml-3">Pinterest</p>
                               </a>
                             </div>
                             <div className="flex border-b p-2 ml-2">
-                              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
-                                <img src={Facebook} className="text-blue-400 w-6" />
+                              <a
+                                href="https://www.facebook.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center"
+                              >
+                                <img
+                                  src={Facebook}
+                                  className="text-blue-400 w-6"
+                                />
                                 {/* <FaFacebook  /> */}
                                 <p className="ml-3">Facebook</p>
                               </a>
                             </div>
                             <div className="flex border-b p-2">
-                              <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
-                                <img src={twitter} className="text-blue-400 w-6" />
+                              <a
+                                href="https://www.twitter.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center"
+                              >
+                                <img
+                                  src={twitter}
+                                  className="text-blue-400 w-6"
+                                />
                                 <p className="ml-3">Twitter</p>
                               </a>
                             </div>
@@ -432,7 +507,7 @@ function LayoutOtcProducts({
                       {/* {cart.some(
                         (item) => item.product.productID == product.productID
                       ) == 0 ? ( */}
-                      <div
+                      {/* <div
                         onClick={() =>
                           handleCart(product.productID, product.CartQuantity)
                         }
@@ -446,8 +521,40 @@ function LayoutOtcProducts({
                           />
                         </div>
                         <p className="font-semibold">{"Add to Cart"}</p>
-                      </div>
+                      </div> */}
 
+                      <div
+                        onClick={() => {
+                          if (product.amountInStock !== 0) {
+                            handleCart(product.productID, product.CartQuantity);
+                          }
+                        }}
+                        className={`flex text-white h-[40px] px-2 rounded-lg mx-3 justify-center items-center
+                                  ${
+                                    product.amountInStock === 0
+                                      ? "bg-gray-400 cursor-not-allowed"
+                                      : "bg-blue-900 cursor-pointer"
+                                  }`}
+                      >
+                        <div className="mr-1">
+                          <img
+                            src={addcart}
+                            className={`w-6 h-6 ${
+                              product.amountInStock === 0
+                                ? "opacity-50"
+                                : "cursor-pointer"
+                            }`}
+                            alt="Add to Cart Icon"
+                          />
+                        </div>
+                        <p
+                          className={`font-semibold ${
+                            product.amountInStock === 0 ? "opacity-50" : ""
+                          }`}
+                        >
+                          {"Add to Cart"}
+                        </p>
+                      </div>
 
                       {/* ) : ( */}
                       {/* <div className="flex text-white cursor-pointer h-[40px] px-2 rounded-lg bg-sky-600 mx-3 justify-center items-center">
@@ -496,5 +603,3 @@ function LayoutOtcProducts({
 }
 
 export default LayoutOtcProducts;
-
-

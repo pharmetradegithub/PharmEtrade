@@ -165,7 +165,7 @@ function LayoutaddProduct() {
       product?.productGallery?.thumbnail6,
     ];
     const validThumbnails = thumnailArray.filter(
-      (thumb) => thumb !== "null" && thumb !== null
+      (thumb) => thumb !== "null" && thumb!=="" && thumb !== null
     );
     setThumnails(validThumbnails);
 
@@ -395,6 +395,7 @@ function LayoutaddProduct() {
   const handleClearSelection = () => {
     setSelectedVideos([]);
     setVideoPreviews([]);
+    setFormData({...formData,["videoUrl"]:null})
   };
 
   const tabs = [
@@ -469,8 +470,16 @@ function LayoutaddProduct() {
 
   const handleInputChange = (e) => {
     const { name, value, type, options, id } = e.target;
-
-    if (type === "select-multiple") {
+    console.log(name,value,type,options,id);
+    if(name==="discount")
+    {
+      console.log(name,type)
+      if(name == "discount")
+      {
+        setFormData({...formData,[name]:value===""?"":Number(value),["salePrice"]:Number((formData.price*(100-Number(value)))/100)});
+      }
+    }
+    else if (type === "select-multiple") {
       const selectedOptions = Array.from(options)
         .filter((option) => option.selected)
         .map((option) => option.value);
@@ -484,6 +493,7 @@ function LayoutaddProduct() {
         [name]: Number(value),
       });
     } else if (type === "phone") {
+      
       setFormData({
         ...formData,
         [name]: value === "" ? "" : Number(value),
@@ -2204,8 +2214,7 @@ function LayoutaddProduct() {
                     </button>
                   )}
                 </div>
-              </div>
-
+              </div> 
               <div className="flex flex-col w-[50%] p-4 font-semibold">
                 <div className="flex flex-col">
                   <span>Url :</span>

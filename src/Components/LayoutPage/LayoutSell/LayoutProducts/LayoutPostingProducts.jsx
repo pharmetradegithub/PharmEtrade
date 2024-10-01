@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
-import wrong from "../../../../assets/wrong.png";
+import wrong from "../../../../assets/Icons/wrongred.png";
 import { FaPlus } from "react-icons/fa6";
 // import ProductFields from "../Components/ProductFields";
 // import EditFields from "../Components/EditFields";

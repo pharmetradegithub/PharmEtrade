@@ -72,12 +72,12 @@ const LayoutSellerTotalProducts = () => {
                     {totalProduct && totalProduct.length > 0 ? (
                         totalProduct.map((product, index) => (
                             <tr key={index} className="border-b">
-                                <td className="px-4 py-2">{product.id}</td>
-                                <td className="px-4 py-2">{product.name}</td>
+                                <td className="px-4 py-2">{index + 1}</td>
+                                <td className="px-4 py-2">{product.productName}</td>
                                 <td className="px-4 py-2">{product.Joining}</td>
                                 <td className="px-4 py-2">{product.Expiration}</td>
                                 <td className="px-4 py-2">{product.productStatus}</td>
-                                <td className="px-4 py-2">${product.Total}</td>
+                                <td className="px-4 py-2">${product.totalAmount}</td>
                                 <td className='text-center flex justify-center cursor-pointer'>
                                     <Tooltip placement='top' title="view">
                                         <img src={view} className='w-6 h-6 mt-2 -ml-3' />

@@ -3,18 +3,25 @@ import LayoutBuyerReceiversgrid from './LayoutBuyerReceiversgrid';
 import LayoutBuyerUpcomingGrid from './LayoutBuyerUpcomingGrid';
 import LayoutBuyerCancelledgrid from './LayoutBuyerCancelledgrid';
 import LayoutBuyerOrders from './LayoutBuyerOrders'
+import { useSelector } from 'react-redux';
 const LayoutDashboard = () => {
   const [visibleGrid, setVisibleGrid] = useState(null); // To track which grid is visible
+  const customerList = useSelector((state) => state.dashboard.getCustomerId)
+  console.log("customerList-->", customerList)
 
   const toggleGrid = (grid) => {
     setVisibleGrid((prev) => (prev === grid ? null : grid)); // Toggle the grid visibility
   };
 
   const orders = [
-    { label: "Orders", quantity: 60, color: 'green', grid: "orders" }, // Static color for orders
-    { label: "Received", quantity: 20, color: 'blue', grid: "received" },
-    { label: "Upcoming", quantity: 30, color: 'orange', grid: "upcoming" },
-    { label: "Cancelled", quantity: 10, color: 'red', grid: "cancelled" },
+    {
+      label: "Orders", quantity: customerList.totalOrders, color: 'green', grid: "orders" }, // Static color for orders
+    {
+      label: "Received", quantity: customerList.receivedOrders, color: 'blue', grid: "received" },
+    {
+      label: "Upcoming", quantity: customerList.upcomingOrders, color: 'orange', grid: "upcoming" },
+    {
+      label: "Cancelled", quantity: customerList.cancelledOrders, color: 'red', grid: "cancelled" },
   ];
 
   const CircleProgress = ({ percentage, color }) => {

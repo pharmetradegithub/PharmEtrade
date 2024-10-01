@@ -112,7 +112,7 @@
 // }
 
 import axios from "axios";
-import { addOrder, setGetOrder, setGetOrderBySellerId, setOrderInvoice, setOrderPlace, setOrdersPayment, setSellerGetAll } from "../Store/Store";
+import { addOrder, setGetOrder, setGetOrderBySellerId, setOrderDownloadInvoice, setOrderInvoice, setOrderPlace, setOrdersPayment, setSellerGetAll } from "../Store/Store";
 
 axios.defaults.baseURL = 'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/';
 
@@ -273,11 +273,28 @@ export const fetchSellerGetAll = (customerId) => {
 export const fetchOrderInvoice = (orderId) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`/api/Orders/Invoice?orderId=${orderId}`);
+      const response = await axios.get(`/api/Orders/SendInvoice?orderId=${orderId}`);
       if (response.status === 200) {
         const getOrder = response.data.result;
         console.log('Dispatching get order action:', getOrder); // Log before dispatch
         dispatch(setOrderInvoice(getOrder)); // Dispatch action
+      } else {
+        console.error('Failed to get order action:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error get order action:', error);
+    }
+  };
+};
+
+export const fetchOrderDownloadInvoice = (orderId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/api/Orders/DownloadInvoice?orderId=${orderId}`);
+      if (response.status === 200) {
+        const downloadInvoice = response.data.result;
+        console.log('Dispatching get order action:', downloadInvoice); // Log before dispatch
+        dispatch(setOrderDownloadInvoice(downloadInvoice)); // Dispatch action
       } else {
         console.error('Failed to get order action:', response.data.message);
       }

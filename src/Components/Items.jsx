@@ -12,17 +12,21 @@ import addcart from "../assets/cartw_icon.png";
 import fav from "../assets/fav.png";
 import other from "../assets/other.png";
 // import PRight from "./PRight";
-import share from '../assets/share.png'
-import wrong from '../assets/wrong.png'
-import Facebook from '../assets/facebook1.png'
-import Pintrist from '../assets/pinterest.png'
-import email from '../assets/envelope.png'
-import Whatsapp from '../assets/Icons/Whatsapp.png'
+import share from "../assets/share.png";
+import wrong from "../assets/Icons/wrongred.png";
+import Facebook from "../assets/facebook1.png";
+import Pintrist from "../assets/pinterest.png";
+import Instagram from "../assets/instagram_icon.png"
+import email from "../assets/envelope.png";
+import Whatsapp from "../assets/Icons/Whatsapp.png";
 import { FaRegHeart } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
 import { CiDiscount1 } from "react-icons/ci";
 import { FiShoppingCart } from "react-icons/fi";
-import { TbSquareRoundedCheckFilled } from "react-icons/tb";
+import {
+  TbSquareRoundedCheckFilled,
+  TbSquareRoundedXFilled,
+} from "react-icons/tb";
 import product from "../assets/Icons/Product_icon.png";
 import phone from "../assets/Icons/phone_icon.png";
 import report from "../assets/Icons/report_icon.png";
@@ -257,7 +261,6 @@ function Items({
   const [isShowPopup, setIsShowPopup] = useState(false);
   const handleSharePopupToggle = () => setIsShowPopup(!isShowPopup);
 
-
   const [isWishlisted, setIsWishlisted] = useState(false);
 
   const handleWishlistClick = () => {
@@ -373,7 +376,13 @@ function Items({
   const day = date.getDate();
   const year = date.getFullYear();
 
-  const formattedDate = `${month}-${day}-${year}`;
+  // Pad month and day with leading zeros if they are single digits
+  const formattedMonth = month < 10 ? `0${month}` : month;
+  const formattedDay = day < 10 ? `0${day}` : day;
+
+  const formattedDate =`${formattedMonth}-${formattedDay}-${year}`;
+
+  // const formattedDate = `${month}-${day}-${year}`;
   return (
     <div
       className="Largest:w-[1550px] mt-2  Laptop:w-full  w-full  flex flex-col font-sans overflow-y-scroll"
@@ -426,26 +435,35 @@ function Items({
             </div>
 
             <div className="relative bg-gray-200 border flex-col rounded-lg w-68 h-[400px] flex justify-center items-center">
-  {/* Share Icon positioned in the top-right corner */}
-  <div className="absolute top-2 right-2">
-    <Tooltip placement="top" title="Share">
-    <img src={share} className="w-5 h-5" alt="Share Icon" onClick={handleSharePopupToggle} />
-    </Tooltip>
-  </div>
-  
-  {/* Conditional rendering for video or image */}
-  {img === videoSample ? (
-    <video className="object-contain w-96 h-72" controls>
-      <source
-        src={prod?.productGallery.videoUrl}
-        type="video/mp4"
-        className=""
-      />
-    </video>
-  ) : (
-    <img src={img} className="object-contain w-96 h-72" alt="Product" />
-  )}
-</div>
+              {/* Share Icon positioned in the top-right corner */}
+              <div className="absolute top-2 right-2">
+                <Tooltip placement="top" title="Share">
+                  <img
+                    src={share}
+                    className="w-5 h-5"
+                    alt="Share Icon"
+                    onClick={handleSharePopupToggle}
+                  />
+                </Tooltip>
+              </div>
+
+              {/* Conditional rendering for video or image */}
+              {img === videoSample ? (
+                <video className="object-contain w-96 h-72" controls>
+                  <source
+                    src={prod?.productGallery.videoUrl}
+                    type="video/mp4"
+                    className=""
+                  />
+                </video>
+              ) : (
+                <img
+                  src={img}
+                  className="object-contain w-96 h-72"
+                  alt="Product"
+                />
+              )}
+            </div>
 
             {/* <div className="bg-gray-200 border flex-col rounded-lg w-68 h-[400px] flex justify-center items-center">
             <div className="-mt-4">
@@ -473,33 +491,11 @@ function Items({
           </div>
         </div>
 
-        {isShowPopup && (
-                      // <div className="flex flex-col justify-center items-center top-0 right-0 h-full absolute inset-0 bg-transparent z-auto">
-                      //   <div className="border w-[13%] rounded-lg bg-gray-100 -ml-40">
-                      //     <div className="flex border-b justify-between p-2">
-                      //       <div className="flex items-center">
-                      //       <img src={email} className="text-blue-400 w-6"/>
-                      //       <p className="ml-3">Email</p>
-                      //       </div>
-                      //       <img src={wrong} onClick={handleSharePopupToggle} className="w-3 h-3" />
-                      //     </div>
-                      //     <div className="flex border-b p-2">
-                      //     <img src={Pintrist} className="text-blue-400 w-6"/>
 
-                      //       {/* <FaPinterest className="text-red-500 text-2xl" /> */}
-                      //       <p className="ml-3">Pinterest</p>
-                      //     </div>
-                      //     <div className="flex border-b p-2">
-                      //       <img src={Facebook} className="text-blue-400 w-6"/>
-                      //       {/* <FaFacebook  /> */}
-                      //       <p className="ml-3">Facebook</p>
-                      //     </div>
-                      //     <div className="flex border-b p-2">
-                      //     <img src={twitter} className="text-blue-400 w-6"/>
-                      //       <p className="ml-3">Twitter</p>
-                      //     </div>
-                      //   </div>
-          // </div>
+
+        {isShowPopup && (
+          
+                      
           
           <div className="flex flex-col justify-center items-center top-0 right-0 h-full absolute inset-0 bg-transparent z-auto">
             <div className="border w-[13%] rounded-lg bg-gray-100 -ml-40">
@@ -514,12 +510,12 @@ function Items({
                 <img src={wrong} onClick={handleSharePopupToggle} className="w-3 h-3" />
               </div>
               <div className="flex border-b p-2">
-                <a href="https://www.pinterest.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
+              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
 
-                  <img src={Pintrist} className="text-blue-400 w-6" />
+                  <img src={Instagram} className="text-blue-400 w-6" />
 
                   {/* <FaPinterest className="text-red-500 text-2xl" /> */}
-                  <p className="ml-3">Pinterest</p>
+                  <p className="ml-3">Instagram</p>
                 </a>
               </div>
               <div className="flex border-b p-2">
@@ -564,21 +560,21 @@ function Items({
                 
               </div> */}
               <div className="flex items-center">
-  {prod?.salePrice > 0 ? (
-    <>
-      <span className="text-sky-500 font-semibold text-[18px]">
-        ${prod?.salePrice?.toFixed(2)}
-      </span>
-      <p className="text-xs ml-1 line-through">
-        ${prod?.unitPrice?.toFixed(2)}
-      </p>
-    </>
-  ) : (
-    <span className="text-sky-500 font-semibold text-[18px]">
-      ${prod?.unitPrice?.toFixed(2)}
-    </span>
-  )}
-</div>
+                {prod?.salePrice > 0 ? (
+                  <>
+                    <span className="text-sky-500 font-semibold text-[18px]">
+                      ${prod?.salePrice?.toFixed(2)}
+                    </span>
+                    <p className="text-xs ml-1 line-through">
+                      ${prod?.unitPrice?.toFixed(2)}
+                    </p>
+                  </>
+                ) : (
+                  <span className="text-sky-500 font-semibold text-[18px]">
+                    ${prod?.unitPrice?.toFixed(2)}
+                  </span>
+                )}
+              </div>
 
               <div className="text-[12px]">Inclusive of all taxes</div>
 
@@ -697,17 +693,20 @@ function Items({
             <div className="border rounded-lg shadow-lg  pb-4 w-full h-full">
               <div className="p-4">
                 <div className="flex justify-between">
-                <p className="text-black text-[22px]">
-  ${prod?.salePrice > 0 ? prod?.salePrice.toFixed(2) : prod?.unitPrice?.toFixed(2)}
-</p>
+                  <p className="text-black text-[22px]">
+                    $
+                    {prod?.salePrice > 0
+                      ? prod?.salePrice.toFixed(2)
+                      : prod?.unitPrice?.toFixed(2)}
+                  </p>
                   {/* <img src={ ?Wishlist :filledheart} className="w-5 h-5 flex   "/> */}
-                <Tooltip placement="top" title="wishlist">
-                  <img
-                    src={isWishlisted ? filledheart : Wishlist}
-                    className="w-5 h-5 flex cursor-pointer"
-                    onClick={handleWishlistClick}
-                    alt="Wishlist Icon"
-                  />
+                  <Tooltip placement="top" title="wishlist">
+                    <img
+                      src={isWishlisted ? filledheart : Wishlist}
+                      className="w-5 h-5 flex cursor-pointer"
+                      onClick={handleWishlistClick}
+                      alt="Wishlist Icon"
+                    />
                   </Tooltip>
                 </div>
                 <div className="flex justify-between">
@@ -720,9 +719,8 @@ function Items({
                     </p>
                   </div>
                   <div>
-                  <Tooltip placement="top" title="Compare">
-
-                    <img src={compare} className="w-5 h-5 cursor-pointer" />
+                    <Tooltip placement="top" title="Compare">
+                      <img src={compare} className="w-5 h-5 cursor-pointer" />
                     </Tooltip>
                   </div>
                 </div>
@@ -730,10 +728,23 @@ function Items({
 
               <div className="flex flex-col text-[15px]  w-[320px] px-4 mb-2 ">
                 <div className="flex flex-col  ">
-                  <div className="flex items-center text-[18px] mb-1">
+                  {/* <div className="flex items-center text-[18px] mb-1">
                     <TbSquareRoundedCheckFilled className="text-sky-500  mr-1" />
                     <span>In Stock</span>
-                  </div>
+                  </div> */}
+                  {prod?.amountInStock > 0 ? (
+                    <div className="flex items-center text-[18px] mb-1">
+                      <TbSquareRoundedCheckFilled className="text-sky-500 mr-1" />
+                      <span>In Stock</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center text-[18px] mb-1">
+                      <TbSquareRoundedXFilled className="text-red-500 mr-1" />{" "}
+                      {/* Out of stock icon */}
+                      <span>Out of Stock</span>
+                    </div>
+                  )}
+
                   <div className="flex">
                     <p className="text-sky-500 font-normal">NDC/UPC: </p>
                     <span>{prod?.ndCorUPC}</span>
@@ -804,7 +815,11 @@ function Items({
             <div className="w-full  pt-4 text-[15px] font-sans">
               <div className="p-2 bg-gray-100 rounded-lg mr-4">
                 <p className="font-semibold text-gray-600">SOLD BY</p>
-                <p className="text-red-600"> {prod?.sellerFirstName}{prod?.sellerLastName}</p>
+                <p className="text-red-600">
+                  {" "}
+                  {prod?.sellerFirstName}
+                  {prod?.sellerLastName}
+                </p>
                 <p className="hover:text-red-600">Company Website</p>
                 <div className="flex flex-col">
                   <div className="flex  items-center space-x-2 hover:text-red-500">
@@ -918,6 +933,3 @@ function Items({
 }
 
 export default Items;
-
-
-
