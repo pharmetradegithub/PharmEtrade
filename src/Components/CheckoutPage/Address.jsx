@@ -740,10 +740,10 @@ function Address({ topMargin, totalAmount }) {
                     </div> */}
 
 
-                    <div className="border shadow-md rounded-md h-48 w-full overflow-y-auto">
+                    <div className="border shadow-md rounded-md h-60 w-full overflow-y-auto">
                       <div className="p-2 mx-5 ">
-                        <h1 className="border-b-2 text-base  bg-white mt-3">Your Address</h1>
-
+                        <h1 className="border-b-2 text-base  bg-white mb-2">Your Address</h1>
+<div className="h-28 overflow-y-scroll">
                         {getAddress.length === 0 ? (
                           <div className="w-full">
                             <p className="mt-6 pt-2 flex justify-center text-xl text-blue-900 font-semibold">
@@ -802,7 +802,8 @@ function Address({ topMargin, totalAmount }) {
                           ))
                         )}
 
-                        <div className="flex cursor-pointer mt-5">
+</div>
+                        <div className="flex cursor-pointer mt-2">
                           <img src={plus} className="w-5 h-5" />
                           <h1
                             className="hover:text-red-400 hover:underline text-cyan-600 "
@@ -815,7 +816,7 @@ function Address({ topMargin, totalAmount }) {
                         {/* Conditionally show the "Use this address" button if there are addresses */}
                         {getAddress.length > 0 && (
                           <button
-                            className="border rounded-full h-8 text-sm w-32 bg-blue-900 text-white mt-6"
+                            className="border rounded-full h-8 text-sm w-32 bg-blue-900 text-white mt-2"
                             onClick={() => {
                               if (selectedAddressId) {
                                 handleUseAddress(); // Proceed with navigation
