@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 // import addcart from "../assets/addcart.png";
 // import fav from "../assets/fav.png";
@@ -23,32 +23,27 @@ import other from "../../../assets/CompareNav2.png";
 import { useSelector } from "react-redux";
 import { addCartApi } from "../../../Api/CartApi";
 import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
-import bottontotop from '../../../Components/ScrollToTop'
+import bottontotop from "../../../Components/ScrollToTop";
 import { fetchCriteriaProductsApi } from "../../../Api/ProductApi";
 import Notification from "../../Notification";
 
-
-
 function CategoryProducts({ Title, topMargin, addCart, wishList }) {
-
   const queryParams = new URLSearchParams(location.search);
-  const CategoryId = queryParams.get('CategoryName');
+  const CategoryId = queryParams.get("CategoryName");
 
   useEffect(() => {
-    const fetchCategoryProducts = async ()=>
-    {
+    const fetchCategoryProducts = async () => {
       let Criteria = {
-        productCategoryId: CategoryId
+        productCategoryId: CategoryId,
       };
-    
+
       await fetchCriteriaProductsApi(Criteria);
-    }
-    if(CategoryId)
-    {
+    };
+    if (CategoryId) {
       fetchCategoryProducts();
     }
-  }, [CategoryId])
-  
+  }, [CategoryId]);
+
   const { pop, setPop } = useNavbarContext();
   const [notification, setNotification] = useState({
     show: false,
@@ -56,26 +51,31 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
   });
   const navigate = useNavigate();
   const products = useSelector((state) => state.product.Products);
-  const Heading = useSelector((state)=>state.product.Heading);
-  const user = useSelector((state)=>state.user.user);
+  const Heading = useSelector((state) => state.product.Heading);
+  const user = useSelector((state) => state.user.user);
   const wishlist = useSelector((state) => state.wishlist.wishlist);
-  const productCriteria = useSelector((state) => state.product.productsByCriteria)
-  console.log("procri-->", productCriteria)
+  const productCriteria = useSelector(
+    (state) => state.product.productsByCriteria
+  );
+  console.log("procri-->", productCriteria);
 
   const [wishlistProductIDs, setWishlistProductIDs] = useState([]);
-  const [filterSearch, setFilterSearch] = useState()
+  const [filterSearch, setFilterSearch] = useState();
   //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
-    const wishlistItem = wishlist.find((item) => item.product.productID === productID);
-    return wishlistItem ? wishlistItem.wishListId : null; 
+    const wishlistItem = wishlist.find(
+      (item) => item.product.productID === productID
+    );
+    return wishlistItem ? wishlistItem.wishListId : null;
   };
 
   useEffect(() => {
     if (Array.isArray(wishlist)) {
-      setWishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
+      setWishlistProductIDs(
+        wishlist.map((wishItem) => wishItem.product.productID)
+      );
     }
   }, [wishlist]);
-
 
   const images = Array(115).fill(nature);
   const itemsPerPage = 12;
@@ -103,7 +103,10 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
     };
     try {
       await addCartApi(cartData);
-      setNotification({ show: true, message: "Item Added To Cart Successfully!" });
+      setNotification({
+        show: true,
+        message: "Item Added To Cart Successfully!",
+      });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     } catch (error) {
       console.error("Error adding product to cart:", error);
@@ -111,19 +114,19 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
   };
 
   const handleClick = async (productID) => {
-    if(wishlistProductIDs.includes(productID))
-    {
-      setWishlistProductIDs(wishlistProductIDs.filter(id => id !== productID));
-      await removeFromWishlistApi(getWishlistIdByProductID(productID))
-    }
-    else{
+    if (wishlistProductIDs.includes(productID)) {
+      setWishlistProductIDs(
+        wishlistProductIDs.filter((id) => id !== productID)
+      );
+      await removeFromWishlistApi(getWishlistIdByProductID(productID));
+    } else {
       setWishlistProductIDs([...wishlistProductIDs, productID]);
       const wishListData = {
         wishListId: "0",
         productId: productID,
         customerId: user.customerId,
-        isActive: 1
-      }
+        isActive: 1,
+      };
       await addToWishlistApi(wishListData);
     }
   };
@@ -184,9 +187,6 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
     },
   }));
 
-
-
-
   // const [term, setTerm] = useState(""); // Search term
   // const [filteredProducts, setFilteredProducts] = useState(productCriteria); // Products filtered by API
   const [loading, setLoading] = useState(false); // Loader during API call
@@ -197,26 +197,21 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
   //   setFilteredProducts(productCriteria); // Reset to initial products
   // }, [productCriteria]);
 
-  
-
-
   // useEffect(() => {
   //   console.log("useEffect: term changed to", term); // Check if term is updated correctly
 
   //  // if (term) {
   //     console.log("Searching for products with term:", term);
   //     searchProducts(term, productCriteria);
- 
-  // }, [term]); 
 
-
+  // }, [term]);
 
   // const searchProducts = async (searchTerm, productCriteria) => {
   //   setLoading(true); // Start loading
 
   //   try {
   //     const productCategoryId = productCriteria[0]?.productCategory?.productCategoryId;
-     
+
   //     let productName
   //     if (term) {
   //        productName = {
@@ -245,22 +240,21 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
   // const searchFilter = (e) => {
   //   const searchTerm = e.target.value.toLowerCase();
   //   setTerm(searchTerm);
-  
+
   // };
-
-
 
   return (
     <div className="w-full mt-4 h-full overflow-y-scroll">
-      {notification.show && <Notification show={notification.show} message={notification.message} />}
+      {notification.show && (
+        <Notification show={notification.show} message={notification.message} />
+      )}
       <div className=" flex justify-between bg-blue-900 p-1 rounded-lg">
         <div className="text-xl flex items-center pl-2 text-white">
           {/* {{Heading} ? Heading : "All Products"} */}
           <div>{productCriteria[0]?.productCategory?.categoryName}</div>
         </div>
 
-
-{/* <div className="relative flex">
+        {/* <div className="relative flex">
           <input
             type="text"
             placeholder="Search Product"
@@ -272,13 +266,12 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
         </div> */}
       </div>
 
-    
-       {loading ? (
+      {loading ? (
         <div>Loading...</div> // Display loading indicator while fetching data
       ) : (
         <div className="w-[95%]">
           <div className="grid grid-cols-4 grid-rows-2 gap-4 mt-8">
-              {productCriteria.map((item, index) => (
+            {productCriteria.map((item, index) => (
               <div
                 key={item.productID}
                 className="w-full max-w-md border p-2 shadow-md"
@@ -286,15 +279,19 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                 <div className="flex justify-center bg-slate-200 relative">
                   <img
                     onClick={() => handleClick(item.productID)}
-                    src={wishlistProductIDs.includes(item.productID) ? filledHeart : emptyHeart}
+                    src={
+                      wishlistProductIDs.includes(item.productID)
+                        ? filledHeart
+                        : emptyHeart
+                    }
                     className="h-8 p-[6px] cursor-pointer absolute right-0"
                     alt="Favorite Icon"
                   />
                   <img
-                  src={other}
-                  className="h-5 w-5 right-1 cursor-pointer absolute bottom-1 text-green-700"
-                  alt="Other Icon"
-                />
+                    src={other}
+                    className="h-5 w-5 right-1 cursor-pointer absolute bottom-1 text-green-700"
+                    alt="Other Icon"
+                  />
                   <Link to={`/detailspage/${item.productID}`}>
                     <img
                       src={item.productGallery.imageUrl}
@@ -304,9 +301,27 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                   </Link>
                 </div>
 
-                <div className="w-full py-1">
+                {/* <div className="w-full py-1">
                   <h2 className="text-fonts h-12">{item.productName}</h2>
                   <h1 className="text-fonts font-semibold">${item.unitPrice?.toFixed(2)}</h1>
+                </div> */}
+
+                <div className="w-full py-1">
+                  <h2 className="text-fonts h-12">{item.productName}</h2>
+                  {item.salePrice > 0 ? (
+                    <div className="flex items-center gap-1">
+                      <h1 className="text-fonts font-semibold">
+                        ${item.salePrice?.toFixed(2)}
+                      </h1>
+                      <span className="text-[10px] line-through">
+                        (${item.unitPrice?.toFixed(2)})
+                      </span>
+                    </div>
+                  ) : (
+                    <h1 className="text-fonts font-semibold">
+                      ${item.unitPrice?.toFixed(2)}
+                    </h1>
+                  )}
                 </div>
 
                 <div className="flex items-center">
@@ -319,14 +334,20 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
 
                 <div className="flex flex-row items-center justify-between w-full px-1">
                   <div className="text-foot text-xs">UPN Member Price:</div>
-                  <div className="text-base font-semibold">${item.upnMemberPrice?.toFixed(2)}</div>
+                  <div className="text-base font-semibold">
+                    ${item.upnMemberPrice?.toFixed(2)}
+                  </div>
                 </div>
 
                 <div
                   className="flex bg-blue-900 p-1 cursor-pointer rounded-md justify-center"
                   onClick={() => handleCart(item.productID)}
                 >
-                  <img src={addcart} alt="Add to cart" className="h-8 p-[6px]" />
+                  <img
+                    src={addcart}
+                    alt="Add to cart"
+                    className="h-8 p-[6px]"
+                  />
                   <button className="text-white font-semibold">ADD</button>
                 </div>
 
@@ -336,7 +357,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
           </div>
         </div>
       )}
-       <div className="flex justify-end my-2">
+      <div className="flex justify-end my-2">
         <button
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
@@ -354,7 +375,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
         >
           <img src={next} className="w-2" />
         </button>
-      </div> 
+      </div>
     </div>
   );
 }

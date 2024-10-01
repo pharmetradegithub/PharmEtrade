@@ -1203,25 +1203,7 @@ function LayoutBuy({
               )}
             </div>
 
-            {/* <div className="flex justify-end my-2">
-              <button
-                onClick={handlePreviousPage}
-                disabled={currentPage === 1}
-                className="mx-2 px-4 border p-2 text-white rounded-lg"
-              >
-                <img src={previous} className="w-2" alt="Previous Page" />
-              </button>
-              <span className="mx-2 px-4 flex items-center bg-white text-black rounded-lg">
-                {currentPage} of {totalPages}
-              </span>
-              <button
-                onClick={handleNextPage}
-                disabled={currentPage === totalPages}
-                className="mx-2 px-4 border p-2 text-white rounded-lg"
-              >
-                <img src={next} className="w-2" alt="Next Page" />
-              </button>
-            </div> */}
+           
             <Pagination
               indexOfFirstItem={indexOfFirstItem}
               indexOfLastItem={indexOfLastItem}
