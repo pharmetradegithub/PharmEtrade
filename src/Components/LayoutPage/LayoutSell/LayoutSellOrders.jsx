@@ -8,11 +8,13 @@ import { IoIosArrowRoundDown } from "react-icons/io";
 import { CiSearch, CiMenuKebab } from "react-icons/ci";
 import filter from "../../../assets/Filter_icon.png";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGetOrderBySellerId, fetchOrderInvoice } from "../../../Api/OrderApi";
+import { fetchGetOrderBySellerId, fetchOrderInvoice, fetchOrderView } from "../../../Api/OrderApi";
 import { FaFileInvoice } from "react-icons/fa";
 import { Tooltip } from "@mui/material";
+import eye from '../../../assets/eye.png'
 import Invoice from '../../../assets/Icons/Invoice.png'
 import download from '../../../assets/Icons/download.png'
+import wrong from "../../../assets/Icons/wrongred.png";
 
 function LayoutSellOrders() {
   const dispatch = useDispatch()
@@ -20,8 +22,8 @@ function LayoutSellOrders() {
   const [searchQuery, setSearchQuery] = useState("");
   const SellerOrder = useSelector((state) => state.order.OrderBySellerId)
   console.log("sellerOrder---->", SellerOrder)
-  const ordered = useSelector((state) => state.order)
-  console.log("orderedlist-->", ordered)
+  const ordered = useSelector((state) => state.order.orderView)
+  console.log("orderedview-->", ordered)
   const localData = localStorage.getItem("userId")
   const products = [
     {
@@ -80,6 +82,9 @@ function LayoutSellOrders() {
   const orderSellerId = parts[2]; // Assuming '123' is the seller ID
   console.log("orderSeller-->", orderSellerId)
 
+  const [modal, setModal] = useState(false) 
+  const [orderID,setOrderID] = useState(null)
+
   useEffect(() => {
     const fetchGetOrder = async () => {
       if (user?.customerId) {
@@ -92,13 +97,57 @@ function LayoutSellOrders() {
     }
   }, [user, orderSellerId, dispatch]);
 
-  const handleClickInvoice = async (orderId) => {
+  const handleClickView = async (orderId) => {
+     
+     setModal(true)
+    await dispatch(fetchOrderView(orderId))
+    setOrderID(orderId)
+  }
+
+  const handleClickInvoice = async () => {
     // console.log("ordersdf", ordered?.orderId)
-    await dispatch(fetchOrderInvoice(orderId))
+    await dispatch(fetchOrderInvoice(orderID))
   }
 
   return (
+    
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
+      {modal && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+          onClick={() => setModal(false)}
+        >
+          <div
+            className="bg-white p-6 rounded-lg shadow-lg max-w-4xl w-full h-[85%] flex flex-col"
+            onClick={(e) => e.stopPropagation()} /* Stop click from closing modal */
+          >
+            {/* Close button */}
+            <button
+              className="self-end text-red-500 font-bold py-1 px-2 rounded hover:bg-red-100"
+              onClick={() => setModal(false)}
+            >
+              <img src={wrong} className="w-6 h-4"/>
+            </button>
+
+            {/* Content section */}
+            <div
+              dangerouslySetInnerHTML={{ __html: ordered }}
+              className="mt-4 overflow-y-scroll flex-grow"
+            />
+
+            {/* Buttons at the bottom */}
+            <div className="flex justify-between mt-4 pt-4 border-t border-gray-200">
+              <button className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400 cursor-pointer" onClick={() => setModal(false)}>
+                Cancel
+              </button>
+              <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 cursor-pointer" onClick={handleClickInvoice}>
+                <img src={Invoice} alt="Invoice" className="inline w-6 h-6 mr-2" />
+                Send Invoice
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="w-[95%] h-full mt-4">
         <div className="flex justify-between">
           <h1 className="text-[22px] text-blue-900 font-semibold">List of Orders</h1>
@@ -124,13 +173,13 @@ function LayoutSellOrders() {
                 </div>
                 <div className="flex justify-between mt-2 items-center">
                   <div className="text-2xl font-semibold">{stat.value}</div>
-                  <div
+                  {/* <div
                     className={`text-sm ${
                       stat.percentage > 0 ? "bg-green-400" : "bg-red-400"
                     } p-1 rounded-lg`}
                   >
                     {stat.percentage > 0 ? "↑" : "↓"} {Math.abs(stat.percentage)}%
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -215,10 +264,14 @@ function LayoutSellOrders() {
                     <td className="px-4 py-2">{product?.customerName}</td>
                     <td className="px-4 py-2">{product?.status}</td>
                     <td className="px-4 py-2 cursor-pointer flex gap-1">
-                    <Tooltip title="Invoice" placement="top">
-                      <img src={Invoice} className="w-5 h-5" onClick={() => handleClickInvoice(product?.orderId)}/>
-                      {/* <FaFileInvoice className="w-5 h-5"/> */}
+                      <Tooltip title="ViewInvoice" placement="top">
+                        <img src={eye} className="w-5 h-5" onClick={() => handleClickView(product?.orderId)} />
+                        {/* <FaFileInvoice className="w-5 h-5"/> */}
                       </Tooltip>
+                    {/* <Tooltip title="Invoice" placement="top">
+                      <img src={Invoice} className="w-5 h-5" onClick={() => handleClickInvoice(product?.orderId)}/>
+                      {/* <FaFileInvoice className="w-5 h-5"/> 
+                      </Tooltip> */}
                       <Tooltip title="Download" placement="top">
                         <img src={download} className="w-5 h-5"/>
                       </Tooltip>

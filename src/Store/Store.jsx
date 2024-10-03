@@ -98,7 +98,8 @@ const initialOrderState = {
   ordersPayment: [],
   orderPlace: [],
   orderInvoice: [],
-  orderDownloadInvoice: []
+  orderDownloadInvoice: [],
+  orderView: []
 }
 
 const orderSlice = createSlice({
@@ -129,6 +130,9 @@ const orderSlice = createSlice({
     },
     setOrderDownloadInvoice(state, action) {
       state.orderDownloadInvoice = action.payload
+    },
+    setOrderViewInvoice(state, action) {
+      state.orderView = action.payload
     }
   },                                                                          
 });
@@ -326,6 +330,7 @@ export const { setCustomerOrder } = dashboardSlice.actions
 export const { setOrderInvoice } = orderSlice.actions
 export const { setSellerGetAll } = dashboardSlice.actions
 export const { setOrderDownloadInvoice } = orderSlice.actions
+export const { setOrderViewInvoice } = orderSlice.actions
 
 
 const store = configureStore({

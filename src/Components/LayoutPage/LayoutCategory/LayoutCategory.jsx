@@ -367,12 +367,17 @@ function LayoutCategory({
                           {product.packCondition}
                         </p>
                       </div>
-                      <div>
+                    
+                      <div className="text-sm">
                         {product.amountInStock === 0 ? (
                           <p className="text-red-500 font-semibold">
                             Out Of Stock
                           </p>
-                        ) : null}
+                        ) : (
+                          <p className="text-white p-1 bg-green-600 rounded-lg ">
+                            Stock Available - <span className="font-semibold">{product.amountInStock}</span>
+                          </p>
+                        )}
                       </div>
                     </div>
 

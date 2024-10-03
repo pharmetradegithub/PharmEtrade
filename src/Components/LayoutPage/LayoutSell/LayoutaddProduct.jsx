@@ -1530,9 +1530,13 @@ function LayoutaddProduct() {
                       type="phone"
                       className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       onChange={handleInputChange}
+                      onKeyDown={(e) => {
+                        e.preventDefault();
+                      }}
                       value={
                         formData.salePrice === "" ? "" : formData.salePrice
                       }
+
                     />
                     {formErrors.salePrice && (
                       <span className="text-red-500 text-sm">

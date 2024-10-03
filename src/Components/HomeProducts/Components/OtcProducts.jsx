@@ -15,13 +15,14 @@ import addcart from "../../../assets/cartw_icon.png";
 import { useNavbarContext } from "../../NavbarContext";
 import { addCartApi } from "../../../Api/CartApi";
 import Notification from "../../../Components/Notification"; // Import Notification component
+import Pagination from '../../Pagination';
 
 
 
 
 const OtcProducts = () => {
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
   const images = Array(115).fill(nature);
   const [rating, setRating] = useState(0);
   const totalStars = 5;
@@ -98,10 +99,8 @@ const OtcProducts = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = images.slice(indexOfFirstItem, indexOfLastItem);
-
-
-  const totalPages = Math.ceil(images.length / itemsPerPage);
+  const currentItems = OTCProducts.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil((OTCProducts?.length || 0) / itemsPerPage);
 
   const handleNextPage = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -109,6 +108,10 @@ const OtcProducts = () => {
 
   const handlePreviousPage = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(parseInt(event.target.value));
+    setCurrentPage(1); // Reset to page 1 when items per page is changed
   };
 
   return (
@@ -121,7 +124,7 @@ const OtcProducts = () => {
           <div>OTC PRODUCTS</div>
         </div>
         <div className="grid grid-cols-4 grid-rows-2 gap-4 mt-8">
-          {OTCProducts.map((item, index) => (
+          {currentItems.map((item, index) => (
             <div
               key={item.productID}
               className="w-full max-w-md border p-2  shadow-md"
@@ -179,49 +182,83 @@ const OtcProducts = () => {
                   />
                 ))}
               </div> */}
-                                <div className="flex items-center">
+                                {/* <div className="flex items-center">
                     <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                     <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                     <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                     <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                     <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
-                  </div>
+                  </div> */}
+                   <div className="flex justify-between items-center">
+                <div className="flex items-center">
+                  <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                </div>
+                <div className="text-xs">
+                  {item.amountInStock === 0 ? (
+                    <p className="text-red-500 font-semibold">Out Of Stock</p>
+                  ) : (
+                    <p className="text-green-600 rounded-lg font-semibold ">
+                      In Stock - {item.amountInStock}
+                    </p>
+                  )}
+                </div>
+              </div>
               <div className="flex flex-row items-center justify-between w-full px-1">
                 <div className="text-foot text-xs">UPN Member Price:</div>
                 <div className="text-base font-semibold">${item.salePrice?.toFixed(2)}</div>
               </div>
-              <div
+              {/* <div
                 className="flex bg-blue-900 p-1 cursor-pointer rounded-md justify-center"
                 onClick={() => handleCart(item.productID)}
               >
                 <img src={addcart} alt="Add to cart" className="h-8 p-[6px]" />
                 <button className="text-white font-semibold">ADD</button>
-              </div>
+              </div> */}
+                 <div
+  className={`flex p-1 rounded-md justify-center ${
+    item.amountInStock === 0
+      ? "bg-gray-400 cursor-not-allowed"
+      : "bg-blue-900 cursor-pointer"
+  }`}
+  onClick={() => {
+    if (item.amountInStock > 0) {
+      handleCart(item.productID); // Only call handleCart if item is in stock
+    }
+  }}
+>
+  <img
+    src={addcart}
+    alt="Add to cart"
+    className={`h-8 p-[6px] ${item.amountInStock === 0 ? "opacity-50" : ""}`}
+  />
+  <button
+    className={`text-white font-semibold ${
+      item.amountInStock === 0 ? "opacity-50" : ""
+    }`}
+    disabled={item.amountInStock === 0} // Disable the button when out of stock
+  >
+    ADD
+  </button>
+</div>
             
               {pop && <Items topMargin={topMargin} onClose={handleClose} />}
             </div>
           ))}
         </div>
       </div>
-      <div className="flex justify-end my-2">
-        <button
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-          className="mx-2 px-4 border p-2 text-white rounded-lg"
-        >
-          <img src={previous} className="w-2" />
-        </button>
-        <span className="mx-2 px-4 flex items-center  bg-white text-black rounded-lg">
-          {currentPage} of {totalPages}
-        </span>
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-          className="mx-2 px-4 border p-2 text-white rounded-lg"
-        >
-          <img src={next} className="w-2" />
-        </button>
-      </div>
+      <Pagination
+              indexOfFirstItem={indexOfFirstItem}
+              indexOfLastItem={indexOfLastItem}
+              productList={OTCProducts}
+              itemsPerPage={itemsPerPage}
+              setItemsPerPage={setItemsPerPage}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
     </div>
   )
 }

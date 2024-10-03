@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect } from "react";
 import {
   Link,
@@ -13,7 +12,7 @@ import plus from "../../assets/Icons/plus[1].png";
 import logo from "../../assets/logo2.png";
 import payment from "../../assets/Icons/paymenticons.png";
 import dropdown from "../../assets/Icons/dropDownb.png";
-import { Box, TextField } from "@mui/material";
+import { Box, TextField, Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductByIdApi } from "../../Api/ProductApi";
 import Payment from "./Payment";
@@ -27,6 +26,8 @@ import Notification from "../Notification";
 import { useStates } from "react-us-states";
 import { fetchGetOrder } from "../../Api/OrderApi";
 import Remove from '../../assets/trash.png'
+import Bin from '../../assets/Bin.png'
+import edit from '../../assets/Edit.png'
 
 // import { setAddress } from "../../Store/Store";
 function Address({ topMargin, totalAmount }) {
@@ -508,13 +509,13 @@ function Address({ topMargin, totalAmount }) {
   // };
 
   // useEffect(() => {
- 
+
   //   const handleSubmitForm = async (e) => {
   //     e.preventDefault();
-    
+
   //     // Validation logic
   //     const errors = {};
-    
+
   //     if (!newAddressForm.First_Name) {
   //       errors.First_Name = "First Name is required";
   //     }
@@ -548,14 +549,14 @@ function Address({ topMargin, totalAmount }) {
   //     } else if (isNaN(newAddressForm.Pin_Code) || newAddressForm.Pin_Code.length !== 6) {
   //       errors.Pin_Code = "Zip/Pin Code must be 6 digits";
   //     }
-    
+
   //     setFormErrors(errors); // Update the state with validation errors
-    
+
   //     // If there are errors, stop form submission
   //     if (Object.keys(errors).length > 0) {
   //       return;
   //     }
-    
+
   //     const payLaodNewForm = {
   //       addressId: "0",
   //       customerId: userId,
@@ -574,7 +575,7 @@ function Address({ topMargin, totalAmount }) {
   //       addressTypeId: 1,
   //       deliveryInstructions: null,
   //     };
-    
+
   //     try {
   //       const response = await fetch(
   //         "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/Add",
@@ -586,11 +587,11 @@ function Address({ topMargin, totalAmount }) {
   //           body: JSON.stringify(payLaodNewForm),
   //         }
   //       );
-    
+
   //       if (!response.ok) {
   //         throw new Error("Failed to add address");
   //       }
-    
+
   //       const responseData = await response.json();
   //       if (responseData.result && responseData.result.length > 0) {
   //         const newAddress = responseData.result[0];
@@ -619,56 +620,60 @@ function Address({ topMargin, totalAmount }) {
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
-  
+
     // Validation logic
     const errors = {};
-  
+
     // First Name Validation
     if (!newAddressForm.First_Name.trim()) {
       errors.First_Name = "First Name is required";
     }
-  
+
     // Last Name Validation
     if (!newAddressForm.Last_Name.trim()) {
       errors.Last_Name = "Last Name is required";
     }
-  
+
     // Phone Number Validation
     // if (!newAddressForm.Phone_Number) {
     //   errors.Phone_Number = "Phone Number is required";
     // } else if (!/^\d{10}$/.test(newAddressForm.Phone_Number)) {
     //   errors.Phone_Number = "Phone Number must be exactly 10 digits";
     // }
-  
+
     // Address Validation
     if (!newAddressForm.Address.trim()) {
       errors.Address = "Address is required";
     }
-  
+
     // City Validation
     if (!newAddressForm.Town_City.trim()) {
       errors.Town_City = "City is required";
     }
-  
+     // Check if the "State" field is empty
+  // if (!newAddressForm.States || newAddressForm.States.trim() === "") {
+  //   errors.States = "State is required";
+  // }
+
     // State Validation
     // if (!newAddressForm.States) {
     //   errors.States = "State is required";
     // }
-  
+
     // Zip Code (Pin Code) Validation
     if (!newAddressForm.Pin_Code) {
       errors.Pin_Code = "Zip/Pin Code is required";
     } else if (!/^\d{5}$/.test(newAddressForm.Pin_Code)) {
       errors.Pin_Code = "Zip/Pin Code must be exactly 5 digits";
     }
-  
+
     setFormErrors(errors); // Update the state with validation errors
-  
+
     // If there are errors, stop form submission
     if (Object.keys(errors).length > 0) {
       return;
     }
-  
+
     const payLaodNewForm = {
       addressId: "0",
       customerId: userId,
@@ -687,7 +692,7 @@ function Address({ topMargin, totalAmount }) {
       addressTypeId: 1,
       deliveryInstructions: null,
     };
-  
+
     try {
       const response = await fetch(
         "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/Add",
@@ -699,11 +704,11 @@ function Address({ topMargin, totalAmount }) {
           body: JSON.stringify(payLaodNewForm),
         }
       );
-  
+
       if (!response.ok) {
         throw new Error("Failed to add address");
       }
-  
+
       const responseData = await response.json();
       if (responseData.result && responseData.result.length > 0) {
         const newAddress = responseData.result[0];
@@ -729,9 +734,9 @@ function Address({ topMargin, totalAmount }) {
       setShowPopUp(false);
     }
   };
-  
 
-    const fetchCustomerById = async () => {
+
+  const fetchCustomerById = async () => {
     // console.log("Fetching address details for ID:", addressId);
 
     try {
@@ -969,66 +974,80 @@ function Address({ topMargin, totalAmount }) {
                     <div className="border shadow-md rounded-md h-56 w-full overflow-y-auto">
                       <div className="p-2 mx-5 ">
                         <h1 className="border-b-2 text-base  bg-white mt-3">Your Address</h1>
-<div className="overflow-y-scroll h-28">
-                        {getAddress.length === 0 ? (
-                          <div className="w-full">
-                            <p className="mt-6 pt-2 flex justify-center text-xl text-blue-900 font-semibold">
-                              Please select an address before continuing
-                            </p>
-                          </div>
-                        ) : (
-                          getAddress.map((item) => (
-                            <div
-                              key={item.addressId}
-                              className="border flex-col rounded-md flex my-2 p-2 px-6 bg-pink-50 border-orange-200"
-                            >
-                              <div className="flex flex-col">
-                                <div className="flex text-base w-full">
-                                  <div className="flex items-center w-full">
-                                    <div className="flex flex-wrap">
-                                      <div className="flex">
-                                        <input
-                                          type="radio"
-                                          checked={selectedAddressId === item.addressId}
-                                          onChange={() => handleChangeAddress(item.addressId)}
-                                          className="mr-3"
-                                        />
-                                      </div>
+                        <div className="overflow-y-scroll h-28">
+                          {getAddress.length === 0 ? (
+                            <div className="w-full">
+                              <p className="mt-6 pt-2 flex justify-center text-xl text-blue-900 font-semibold">
+                                Please select an address before continuing
+                              </p>
+                            </div>
+                          ) : (
+                            getAddress.map((item) => (
+                              <div
+                                key={item.addressId}
+                                className="border flex-col rounded-md flex my-2 p-2 px-6 bg-pink-50 border-orange-200"
+                              >
+                                <div className="flex flex-col">
+                                  <div className="flex text-base w-full">
+                                    <div className="flex items-center w-full">
+                                      <div className="flex flex-wrap">
+                                        <div className="flex">
+                                          <input
+                                            type="radio"
+                                            checked={selectedAddressId === item.addressId}
+                                            onChange={() => handleChangeAddress(item.addressId)}
+                                            className="mr-3"
+                                          />
+                                        </div>
 
-                                      <h1 className="font-semibold">
-                                        {item.firstName} {item.lastName || ""},
-                                      </h1>
-                                      {item.address2 && (
-                                        <p className="mr-1">{item.address2},</p>
-                                      )}
-                                      <p className="mr-1">{item.address1},</p>
-                                      <p className="mr-1">{item.city},</p>
-                                      <p className="mr-1">{item.state},</p>
-                                      <p className="mr-1">{item.pincode},</p>
-                                      <p>{item.phoneNumber}</p>
-                                      <p
-                                        className="ml-2 items-center flex justify-center text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
-                                        onClick={() => handleEditAddress(item.addressId, item)}
-                                      >
-                                        Edit Address
-                                      </p>
-                                      <p className="flex items-center justify-center ml-2 text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"  
-                                        onClick={() => handleremoveAddress}>
+                                        <h1 className="font-semibold">
+                                          {item.firstName} {item.lastName || ""},
+                                        </h1>
+                                        {item.address2 && (
+                                          <p className="mr-1">{item.address2},</p>
+                                        )}
+                                        <p className="mr-1">{item.address1},</p>
+                                        <p className="mr-1">{item.city},</p>
+                                        <p className="mr-1">{item.state}</p>
+                                        <p className="mr-1">{item.pincode},</p>
+                                        <p>{item.phoneNumber}</p>
+                                        <p
+                                          className="ml-2 items-center flex justify-center text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
+                                          onClick={() => handleEditAddress(item.addressId, item)}
+                                        >
+                                             <Tooltip title="Edit" placement="top">
+                                          <img
+                                            src={edit}
+                                            alt="Edit"
+                                            className="cursor-pointer w-7 h-7"
+                                            // onClick={() => handleEditProduct(product)}
+                                          />
+                                        </Tooltip>
+                                        </p>
+                                        <p className="flex items-center justify-center ml-2 text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
+                                          onClick={() => handleremoveAddress}>
 
-                                          Delete Address
-                                           
-                                         
+<Tooltip placement="top" title="Delete">
+                                          <img
+                                            src={Bin}
+                                            alt="Delete"
+                                            className="cursor-pointer w-4 h-4"
+                                            // onClick={() => DeleteProduct(product.productID)}
+                                          />
+                                        </Tooltip>
+
+
 
                                         </p>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          ))
-                        )}
+                            ))
+                          )}
 
-</div>
+                        </div>
                         <div className="flex cursor-pointer">
                           <img src={plus} className="w-5 h-5" />
                           <h1
@@ -1103,17 +1122,7 @@ function Address({ topMargin, totalAmount }) {
                           </div>
 
                           <div className="my-4 flex gap-2">
-                            <TextField
-                              label="Phone Number"
-                              name="Phone_Number"
-                              size="small"
-                              className="w-full"
-                              value={formatPhoneNumber(addressForm.Phone_Number)}
-                              onChange={handleInputChange}
-                              error={!!formErrors.Phone_Number}
-                              helperText={formErrors.Phone_Number}
-                              inputProps={{ maxLength: 12 }}
-                            />
+                            
                             <TextField
                               label="Address"
                               id="Address"
@@ -1125,13 +1134,7 @@ function Address({ topMargin, totalAmount }) {
                               error={!!formErrors.Address}
                               helperText={formErrors.Address}
                             />
-
-
-                          </div>
-
-                          <div className="flex my-2 gap-2">
-
-                            <TextField
+                               <TextField
                               label="City"
                               name="Town_City"
                               size="small"
@@ -1141,8 +1144,14 @@ function Address({ topMargin, totalAmount }) {
                               error={!!formErrors.Town_City}
                               helperText={formErrors.Town_City}
                             />
+
+                          </div>
+
+                          <div className="flex my-2 gap-2">
+
+                           
                             <FormControl
-                              className="w-[99%]"
+                              className="w-[50%]"
                               size="small"
                               error={!!formErrors.States}
                             >
@@ -1176,9 +1185,6 @@ function Address({ topMargin, totalAmount }) {
                               {/* {error.State && <span className="text-red-500">{error.State}</span>} */}
                             </FormControl>
 
-
-                          </div>
-                          <div className="flex my-2 gap-2" >
                             <TextField
                               label="Zip "
                               name="Pin_Code"
@@ -1188,6 +1194,33 @@ function Address({ topMargin, totalAmount }) {
                               onChange={handleInputChange}
                               error={!!formErrors.Pin_Code}
                               helperText={formErrors.Pin_Code}
+                              inputProps= {{maxLength:5}}
+                            />
+                          </div>
+                          <div className="flex my-2 gap-2" >
+
+                          <TextField
+                              label="Phone Number"
+                              name="Phone_Number"
+                              size="small"
+                              className="w-full"
+                              value={formatPhoneNumber(addressForm.Phone_Number)}
+                              onChange={handleInputChange}
+                              error={!!formErrors.Phone_Number}
+                              helperText={formErrors.Phone_Number}
+                              inputProps={{ maxLength: 12 }}
+                            />
+
+<TextField
+                              label="Email ID"
+                              name="Email ID"
+                              size="small"
+                              className="w-full"
+                              // value={formatPhoneNumber(addressForm.Phone_Number)}
+                              // onChange={handleInputChange}
+                              // error={!!formErrors.Phone_Number}
+                              // helperText={formErrors.Phone_Number}
+                              // inputProps={{ maxLength: 12 }}
                             />
                           </div>
 
@@ -1264,17 +1297,7 @@ function Address({ topMargin, totalAmount }) {
                             </div>
 
                             <div className="my-4 flex gap-2">
-                              <TextField
-                                label="Phone Number"
-                                name="Phone_Number"
-                                size="small"
-                                className="w-full"
-                                value={formatPhoneNumber(addressForm.Phone_Number)}
-                                onChange={handleInputChange}
-                                error={!!formErrors.Phone_Number}
-                                helperText={formErrors.Phone_Number}
-                                inputProps={{ maxLength: 12 }}
-                              />
+                             
                               <TextField
                                 label="Address"
                                 id="Address"
@@ -1287,11 +1310,7 @@ function Address({ topMargin, totalAmount }) {
                                 helperText={formErrors.Address}
                               />
 
-                            </div>
-
-                            <div className="flex my-2 gap-2">
-
-                              <TextField
+<TextField
                                 label="City"
                                 id="Town_City"
                                 name="Town_City" // Matches state key
@@ -1302,8 +1321,14 @@ function Address({ topMargin, totalAmount }) {
                                 error={!!formErrors.Town_City}
                                 helperText={formErrors.Town_City}
                               />
+
+                            </div>
+
+                            <div className="flex my-2 gap-2">
+
+                              
                               <FormControl
-                                className="w-[99%]"
+                                className="w-[50%]"
                                 size="small"
                                 error={!!formErrors.States}
                               >
@@ -1337,8 +1362,6 @@ function Address({ topMargin, totalAmount }) {
                                 {/* {error.State && <span className="text-red-500">{error.State}</span>} */}
                               </FormControl>
 
-                            </div>
-                            <div className="flex my-2 gap-2">
                               <TextField
                                 label="zip"
                                 id="Pin_Code"
@@ -1349,6 +1372,33 @@ function Address({ topMargin, totalAmount }) {
                                 className="w-[50%]"
                                 error={!!formErrors.Pin_Code}
                                 helperText={formErrors.Pin_Code}
+                                inputProps={{maxLength :5}}
+                              />
+
+                            </div>
+                            <div className="flex my-2 gap-2">
+                            <TextField
+                                label="Phone Number"
+                                name="Phone_Number"
+                                size="small"
+                                className="w-full"
+                                value={formatPhoneNumber(addressForm.Phone_Number)}
+                                onChange={handleInputChange}
+                                error={!!formErrors.Phone_Number}
+                                helperText={formErrors.Phone_Number}
+                                inputProps={{ maxLength: 12 }}
+                              />
+
+<TextField
+                                label="Email ID"
+                                name="Email ID"
+                                size="small"
+                                className="w-full"
+                                // value={formatPhoneNumber(addressForm.Phone_Number)}
+                                // onChange={handleInputChange}
+                                // error={!!formErrors.Phone_Number}
+                                // helperText={formErrors.Phone_Number}
+                                // inputProps={{ maxLength: 12 }}
                               />
                             </div>
 
