@@ -27,7 +27,7 @@ const SellerList = () => {
         <h1 className="text-xl text-blue-900 font-semibold mb-4">Seller List</h1>
         <div className="overflow-y-auto h-full">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <thead className=" text-white text-lg bg-blue-900 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th className="px-6 py-3 text-center">ID</th>
                 <th className="px-6 py-3">User Profile</th>
@@ -42,10 +42,10 @@ const SellerList = () => {
                   key={index}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                 >
-                  <td className="px-6 py-4 text-center">{index+1}</td>
+                  <td className="px-6  text-center">{index+1}</td>
                   <th
                     scope="row"
-                    className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
+                    className="flex items-center px-6  text-gray-900 whitespace-nowrap dark:text-white"
                   >
                     {/* <img
                       className="w-10 h-10 rounded-full"
@@ -53,25 +53,25 @@ const SellerList = () => {
                       alt={`${customer.name} profile`}
                     /> */}
                     <div className="">
-                      <div className="text-base font-semibold">{customer.firstName}{""}{customer.lastName}</div>
+                      <div className="text-base items-center font-semibold">{customer.firstName}{""}{customer.lastName}</div>
                       <div className="font-normal text-gray-500">{customer.email}</div>
                     </div>
                   </th>
                   {/* <td className="px-6 py-4 text-center">{customer.country}</td> */}
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-6  text-center">
                     <div className="flex justify-center items-center">
                       <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
                       {customer.status} Active
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-center">{customer.mobile}</td>
+                  <td className="px-6  text-center">{customer.mobile}</td>
                  
-                      <td className="px-4 py-2 cursor-pointer text-center flex items-center space-x-2">
+                      <td className="px-4  cursor-pointer text-center justify-center  flex items-center space-x-2">
                           <Tooltip title="Edit" placement="top">
                             <img
                               src={edit}
                               alt="Edit"
-                              className="cursor-pointer w-7 h-7"
+                              className="cursor-pointer w-7 h-7 -mb-5"
                               onClick={() => handleEditProduct(product)}
                             />
                           </Tooltip>
@@ -79,15 +79,15 @@ const SellerList = () => {
                             <img
                               src={Bin}
                               alt="Delete"
-                              className="cursor-pointer w-4 h-4"
+                              className="cursor-pointer w-4 h-4 -mb-5"
                               onClick={() => DeleteProduct(product.productID)}
                             />
                           </Tooltip>
                           <Tooltip title="Deactivate" placement="top">
                             <img
                               src={Deactivate}
-                              alt="Deactivate"
-                              className="cursor-pointer w-4 h-4"
+                              alt="Deactivate" 
+                              className="cursor-pointer w-4 h-4 -mb-5"
                               onClick={() => deactivatePopUp(product.productID)}
                             />
                           </Tooltip>

@@ -7,7 +7,7 @@ export const fetchPaymentHistory = (customerId) => {
     try {
       const response = await axios.get(`/api/Orders/Seller/Payments?sellerId=${customerId}`)
       console.log("responsePayHis-->", response)
-    if (response.data.status === 200) {
+    if (response.status === 200) {
       const paymentHistoryData = response.data.result
       console.log("payment dispatch", paymentHistoryData)
       dispatch(setPaymentHistory(paymentHistoryData))

@@ -26,6 +26,7 @@ import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
 import bottontotop from "../../../Components/ScrollToTop";
 import { fetchCriteriaProductsApi } from "../../../Api/ProductApi";
 import Notification from "../../Notification";
+import Pagination from "../../Pagination";
 
 function CategoryProducts({ Title, topMargin, addCart, wishList }) {
   const queryParams = new URLSearchParams(location.search);
@@ -78,7 +79,9 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
   }, [wishlist]);
 
   const images = Array(115).fill(nature);
-  const itemsPerPage = 12;
+  // const itemsPerPage = 12;
+  // const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
   const [favoriteItems, setFavoriteItems] = useState({});
   // const [rating, setRating] = useState(0);
@@ -131,11 +134,25 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
     }
   };
 
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = images.slice(indexOfFirstItem, indexOfLastItem);
+
+  // const totalPages = Math.ceil(images.length / itemsPerPage);
+
+  // const handleNextPage = () => {
+  //   setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  // };
+
+  // const handlePreviousPage = () => {
+  //   setCurrentPage((prev) => Math.max(prev - 1, 1));
+  // };
+
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = images.slice(indexOfFirstItem, indexOfLastItem);
-
-  const totalPages = Math.ceil(images.length / itemsPerPage);
+  const currentItems = productCriteria.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil((productCriteria?.length || 0) / itemsPerPage);
 
   const handleNextPage = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -143,6 +160,10 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
 
   const handlePreviousPage = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(parseInt(event.target.value));
+    setCurrentPage(1); // Reset to page 1 when items per page is changed
   };
 
   const Search = styled("div")(({ theme }) => ({
@@ -271,7 +292,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
       ) : (
         <div className="w-[95%]">
           <div className="grid grid-cols-4 grid-rows-2 gap-4 mt-8">
-            {productCriteria.map((item, index) => (
+            {currentItems.map((item, index) => (
               <div
                 key={item.productID}
                 className="w-full max-w-md border p-2 shadow-md"
@@ -324,6 +345,14 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                   )}
                 </div>
 
+                {/* <div className="flex items-center">
+                  <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                </div> */}
+                 <div className="flex justify-between items-center">
                 <div className="flex items-center">
                   <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                   <span style={{ fontSize: "24px", color: "orange" }}>★</span>
@@ -331,6 +360,16 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                   <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                   <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                 </div>
+                <div className="text-xs">
+                  {item.amountInStock === 0 ? (
+                    <p className="text-red-500 font-semibold">Out Of Stock</p>
+                  ) : (
+                    <p className="text-green-600 rounded-lg font-semibold ">
+                      In Stock - {item.amountInStock}
+                    </p>
+                  )}
+                </div>
+              </div>
 
                 <div className="flex flex-row items-center justify-between w-full px-1">
                   <div className="text-foot text-xs">UPN Member Price:</div>
@@ -339,7 +378,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                   </div>
                 </div>
 
-                <div
+                {/* <div
                   className="flex bg-blue-900 p-1 cursor-pointer rounded-md justify-center"
                   onClick={() => handleCart(item.productID)}
                 >
@@ -349,7 +388,33 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                     className="h-8 p-[6px]"
                   />
                   <button className="text-white font-semibold">ADD</button>
-                </div>
+                </div> */}
+                   <div
+  className={`flex p-1 rounded-md justify-center ${
+    item.amountInStock === 0
+      ? "bg-gray-400 cursor-not-allowed"
+      : "bg-blue-900 cursor-pointer"
+  }`}
+  onClick={() => {
+    if (item.amountInStock > 0) {
+      handleCart(item.productID); // Only call handleCart if item is in stock
+    }
+  }}
+>
+  <img
+    src={addcart}
+    alt="Add to cart"
+    className={`h-8 p-[6px] ${item.amountInStock === 0 ? "opacity-50" : ""}`}
+  />
+  <button
+    className={`text-white font-semibold ${
+      item.amountInStock === 0 ? "opacity-50" : ""
+    }`}
+    disabled={item.amountInStock === 0} // Disable the button when out of stock
+  >
+    ADD
+  </button>
+</div>
 
                 {pop && <Items topMargin={topMargin} onClose={handleClose} />}
               </div>
@@ -357,7 +422,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
           </div>
         </div>
       )}
-      <div className="flex justify-end my-2">
+      {/* <div className="flex justify-end my-2">
         <button
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
@@ -375,7 +440,16 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
         >
           <img src={next} className="w-2" />
         </button>
-      </div>
+      </div> */}
+       <Pagination
+              indexOfFirstItem={indexOfFirstItem}
+              indexOfLastItem={indexOfLastItem}
+              productList={productCriteria}
+              itemsPerPage={itemsPerPage}
+              setItemsPerPage={setItemsPerPage}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
     </div>
   );
 }

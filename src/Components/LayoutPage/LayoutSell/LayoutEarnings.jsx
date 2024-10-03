@@ -62,13 +62,13 @@ const LayoutEarnings = () => {
                 </div>
                 <div className="flex justify-between mt-2 items-center">
                   <div className="text-2xl font-semibold">{stat.value}</div>
-                  <div
+                  {/* <div
                     className={`text-sm p-1 rounded-lg ${
                       stat.percentage > 0 ? "bg-green-400" : "bg-red-400"
                     }`}
                   >
                     {stat.percentage > 0 ? "↑" : "↓"} {Math.abs(stat.percentage)}%
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

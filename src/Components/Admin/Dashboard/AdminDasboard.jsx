@@ -1,442 +1,133 @@
-// import React, { useState } from "react";
-// import trash from "../../../assets/trash.png";
-// import { useDropzone } from "react-dropzone";
-// import { useSelector } from "react-redux";
-// import edit from "../../../assets/Edit.png";
+import React from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
-// const AdminDashboard = () => {
-//   const [banners, setBanners] = useState([]);
-//   const [newBanners, setNewBanners] = useState([]);
-//   const [editingIndex, setEditingIndex] = useState(null);
-//   const [editBanner, setEditBanner] = useState(null);
-//   const [errorMessage, setErrorMessage] = useState(null);
+const AdminDasboard = () => {
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
-//   const MAX_WIDTH = 7680;
-//   const MAX_HEIGHT = 2200;
-
-//   // Handle new banners file input with validation for size
-//   const handleBannerChange = (acceptedFiles) => {
-//     acceptedFiles.forEach((file) => {
-//       const img = new Image();
-//       img.src = URL.createObjectURL(file);
-
-//       img.onload = () => {
-//         if (img.width > MAX_WIDTH || img.height > MAX_HEIGHT) {
-//           setErrorMessage(
-//             `Please upload a banner with dimensions less than or equal to ${MAX_WIDTH}px width and ${MAX_HEIGHT}px height.`
-//           );
-//         } else {
-//           // If valid, clear error and add banner
-//           setErrorMessage(null);
-//           setNewBanners((prevBanners) => [...prevBanners, img.src]);
-//         }
-//       };
-//     });
-//   };
-
-//   // Handle adding new banners
-//   const handleAddBanners = () => {
-//     if (newBanners.length > 0) {
-//       setBanners((prevBanners) => [...prevBanners, ...newBanners]);
-//       setNewBanners([]); // Clear the newBanners after adding
-//     }
-//   };
-
-//   // Handle editing banner
-//   const handleEditBanner = (index) => {
-//     setEditingIndex(index);
-//     setEditBanner(banners[index]);
-//   };
-
-//   const handleSaveEdit = () => {
-//     if (editBanner && editingIndex !== null) {
-//       const updatedBanners = banners.map((banner, index) =>
-//         index === editingIndex ? editBanner : banner
-//       );
-//       setBanners(updatedBanners);
-//       setEditingIndex(null);
-//       setEditBanner(null);
-//     }
-//   };
-
-//   // Handle deleting banner
-//   const handleDeleteBanner = (index) => {
-//     const filteredBanners = banners.filter((_, i) => i !== index);
-//     setBanners(filteredBanners);
-//   };
-
-//   // Handle edited banner input
-//   const handleEditBannerChange = (e) => {
-//     const file = e.target.files[0];
-//     if (file) {
-//       setEditBanner(URL.createObjectURL(file));
-//     }
-//   };
-
-//   // Dropzone setup
-//   const { getRootProps, getInputProps } = useDropzone({
-//     accept: "image/*",
-//     multiple: true, // Enable selecting multiple files
-//     onDrop: (acceptedFiles) => handleBannerChange(acceptedFiles),
-//   });
-
-//   const BannerData = useSelector((state) => state.banner.banner);
-//   console.log("bbbbbb", BannerData);
-
-//   return (
-//     <div className="p-6 bg-gray-100 overflow-y-scroll">
-//       <h1 className="flex items-center text-3xl font-bold mb-6">
-//         Manage Banners{" "}
-//         <p className="text-lg mt-2 ml-3">
-//           (Banner Size Should be in Width: 7680px , Height: 2200px ,
-//           Resolution:300)
-//         </p>
-//       </h1>
-
-//       {/* Error Message */}
-//       {errorMessage && (
-//         <div className="bg-red-500 text-white p-2 mb-4 rounded">
-//           {errorMessage}
-//         </div>
-//       )}
-
-//       {/* Add Banners Section */}
-//       <div className="bg-white p-4 rounded-lg shadow-md mb-6">
-//         <h2 className="text-xl font-semibold mb-4">Add New Banners</h2>
-//         <div
-//           {...getRootProps()}
-//           className="w-96 p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400"
-//         >
-//           <input {...getInputProps()} multiple />
-//           <p className="text-gray-500 text-center">
-//             Click here to select images
-//           </p>
-//         </div>
-//         <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-//           {newBanners.map((banner, index) => (
-//             <div key={index} className="relative">
-//               <img
-//                 src={banner}
-//                 alt={`New Banner ${index + 1}`}
-//                 className="w-full h-40 object-cover"
-//               />
-//             </div>
-//           ))}
-//         </div>
-//         <button
-//           onClick={handleAddBanners}
-//           className="bg-blue-900 text-white px-6 mx-4 py-2 rounded"
-//         >
-//           Save Banners
-//         </button>
-//       </div>
-
-//       {/* Display Banners */}
-//       <div className="bg-white p-4 rounded-lg shadow-md">
-//         <h2 className="text-xl font-semibold mb-4">Existing Banners</h2>
-//         <div className="grid grid-cols-3 gap-4">
-//           <div className="w-full relative  overflow-hidden">
-//             {BannerData.length > 0 ? (
-//               <div>
-//                 {BannerData.map((item, index) => (
-//                   <div key={index} className="">
-//                     <img
-//                       src={item.imageUrl}
-//                       alt={`Carousel Image ${index + 1}`}
-//                     />
-//                     <div className="flex ">
-//                     <button onClick={() => handleEditBanner(index)}>
-//                       <img src={edit} className="w-8 h-8" />
-//                     </button>
-//                     <button
-//                       onClick={() => handleDeleteBanner(index)}
-//                       className="bg-white text-white px-4 py-2 rounded"
-//                     >
-//                       <img src={trash} className="w-5 h-5" />
-//                     </button>
-//                     </div>
-//                   </div>
-//                 ))}
-//               </div>
-//             ) : (
-//               <p className="text-center text-gray-500">No banners available</p>
-//             )}
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Edit Banner Modal */}
-//       {editingIndex !== null && (
-//         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-900 bg-opacity-50">
-//           <div className="bg-white p-6 rounded-lg shadow-md">
-//             <h2 className="text-xl font-semibold mb-4">Edit Banner</h2>
-//             <div className="relative w-full p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400">
-//               <input
-//                 type="file"
-//                 accept="image/*"
-//                 onChange={handleEditBannerChange}
-//                 className="absolute inset-0 opacity-0 cursor-pointer"
-//               />
-//               <p className="text-gray-500 text-center">
-//                 Click here or drag and drop images
-//               </p>
-//             </div>
-//             {editBanner && (
-//               <img
-//                 src={editBanner}
-//                 alt="Edited Banner"
-//                 className="w-32 h-20 object-cover mb-4"
-//               />
-//             )}
-//             <button
-//               onClick={handleSaveEdit}
-//               className="bg-green-500 text-white px-4 py-2 rounded mr-2"
-//             >
-//               Save Changes
-//             </button>
-//             <button
-//               onClick={() => setEditingIndex(null)}
-//               className="bg-gray-500 text-white px-4 py-2 rounded"
-//             >
-//               Cancel
-//             </button>
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default AdminDashboard;
-
-import React, { useState } from "react";
-import trash from "../../../assets/trash.png";
-import { useDropzone } from "react-dropzone";
-import { useSelector } from "react-redux";
-import edit from "../../../assets/Edit.png";
-import { uploadImageApi } from "../../../Api/ProductApi";
-import { addBannerApi, deleteBannerApi, uploadCustomerImageApi } from "../../../Api/BannerApi";
-
-const AdminDashboard = () => {
-  const [banners, setBanners] = useState([]);
-  const [newBanners, setNewBanners] = useState([]);
-  const [editingIndex, setEditingIndex] = useState(null);
-  const [editBanner, setEditBanner] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null);
-
-  const MAX_WIDTH = 7680;
-  const MAX_HEIGHT = 2200;
-
-  // Handle new banners file input with validation for size
-  const handleBannerChange = (acceptedFiles) => {
-    acceptedFiles.forEach((file) => {
-      const img = new Image();
-      img.src = URL.createObjectURL(file);
-
-      img.onload = () => {
-        if (img.width > MAX_WIDTH || img.height > MAX_HEIGHT) {
-          setErrorMessage(
-            `Please upload a banner with dimensions less than or equal to ${MAX_WIDTH}px width and ${MAX_HEIGHT}px height.`
-          );
-        } else {
-          // If valid, clear error and add banner
-          setErrorMessage(null);
-          setNewBanners((prevBanners) => [...prevBanners, file]);
-        }
-      };
-    });
-  };
-
-  // Handle adding new banners
-  const handleAddBanners = async () => {
-    if (newBanners.length > 0) {
-      for (let i = 0; i < newBanners.length; i++) {
-        const formData = new FormData();
-        formData.append('image', newBanners[i]);
-        const imageUrl = await uploadCustomerImageApi(formData);
-
-        const bannerobj = {
-          "bannerId": 0,
-          "imageUrl": imageUrl,
-          "bannerText": "string",
-          "orderSequence": 0,
-          "uploadedOn": "2024-09-26T11:05:27.481Z",
-          "isActive": 1
-        }
-        await addBannerApi(bannerobj);
-      }
-      setBanners((prevBanners) => [...prevBanners, ...newBanners]);
-
-
-      setNewBanners([]);
-    }
-  };
-  console.log(newBanners, "addedbanners");
-
-  // Handle editing banner
-  const handleEditBanner = (index) => {
-    setEditingIndex(index);
-    setEditBanner(banners[index]);
-  };
-
-  const handleSaveEdit = () => {
-    if (editBanner && editingIndex !== null) {
-      const updatedBanners = banners.map((banner, index) =>
-        index === editingIndex ? editBanner : banner
-      );
-      setBanners(updatedBanners);
-      setEditingIndex(null);
-      setEditBanner(null);
+  const details = [
+    {
+      totalOrder: 65,
+      label: "Total No. of Sales",
+      percentage: "$100",
+      color: "red",
+      grid: "totalProducts",
+    },
+    {
+      label: "Total No. of Products",
+      percentage: 45,
+      color: "green",
+      grid: "customersOrdered",
+    },
+    {
+      label: "Total No. of Orders",
+      percentage: 75,
+      color: "purple",
+      grid: "customersOrdered",
+    },
+    {
+      label: "Total No. of Sellers",
+      percentage: 65,
+      color: "orange",
+      grid: "productsOrdered",
+      to: "/pharmEtradeadmin/sellerList",
+    },
+    {
+      label: "Total No. of Customers",
+      percentage: 50,
+      color: "blue",
+      grid: "customersOrdered",
+      to: "/pharmEtradeadmin/customerList",
+    },
+  ];
+  const handleNavigation = (to) => {
+    if (to) {
+      navigate(to); // Navigate to the path when a card is clicked
     }
   };
 
-  // Handle deleting banner
-  const handleDeleteBanner = async (bannerId) => {
-    const filteredBanners = banners.filter((_, i) => i !== index);
-    setBanners(filteredBanners);
-    await deleteBannerApi(bannerId);
+  const CircleProgress = ({ percentage, color }) => {
+    const radius = 20;
+    const strokeWidth = 4;
+    const circumference = 2 * Math.PI * radius;
+    const progress = (percentage / 100) * circumference;
+
+    return (
+      <svg width={50} height={50}>
+        <circle
+          cx="25"
+          cy="25"
+          r={radius}
+          stroke="#e0e0e0"
+          strokeWidth={strokeWidth}
+          fill="none"
+        />
+        <circle
+          cx="25"
+          cy="25"
+          r={radius}
+          stroke={color}
+          strokeWidth={strokeWidth}
+          fill="none"
+          strokeDasharray={circumference}
+          strokeDashoffset={circumference - progress}
+          strokeLinecap="round"
+          transform="rotate(-90 25 25)" // Start progress from the top
+        />
+        {/* Percentage Text */}
+        <text
+          x="50%"
+          y="50%"
+          dominantBaseline="middle"
+          textAnchor="middle"
+          fontSize="10"
+          fill={color}
+          fontWeight="bold"
+        >
+          {percentage}
+        </text>
+      </svg>
+    );
   };
-
-  // Handle edited banner input
-  const handleEditBannerChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setEditBanner(URL.createObjectURL(file));
-    }
-  };
-
-  // Dropzone setup
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/*",
-    multiple: true, // Enable selecting multiple files
-    onDrop: (acceptedFiles) => handleBannerChange(acceptedFiles),
-  });
-
-  const BannerData = useSelector((state) => state.banner.banner);
-  console.log("bbbbbb", BannerData);
-
   return (
-    <div className="p-6 bg-gray-100 overflow-y-scroll">
-      <h1 className="flex items-center text-3xl font-bold mb-6">
-        Manage Banners{" "}
-        <p className="text-lg mt-2 ml-3">
-          (Banner Size Should be in Width: 7680px , Height: 2200px ,
-          Resolution:300)
-        </p>
-      </h1>
-
-      {/* Error Message */}
-      {errorMessage && (
-        <div className="bg-red-500 text-white p-2 mb-4 rounded">
-          {errorMessage}
+    <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
+      <div className="w-[95%] h-full mt-8">
+        <div className="flex justify-between">
+          <h1 className="text-[22px] text-blue-900  font-semibold">
+            Admin Dashboard
+          </h1>
         </div>
-      )}
 
-      {/* Add Banners Section */}
-      <div className="bg-white p-4 rounded-lg shadow-md mb-6">
-        <h2 className="text-xl font-semibold mb-4">Add New Banners</h2>
-        <div
-          {...getRootProps()}
-          className="w-96 p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400"
-        >
-          <input {...getInputProps()} multiple />
-          <p className="text-gray-500 text-center">
-            Click here to select images
-          </p>
-        </div>
-        <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {newBanners.map((banner, index) => (
-            <div key={index} className="relative">
-              <img
-                src={URL.createObjectURL(banner)}
-                alt={`New Banner ${index + 1}`}
-                className="w-full h-40 object-cover"
-              />
-            </div>
-          ))}
-        </div>
-        <button
-          onClick={handleAddBanners}
-          className="bg-blue-900 text-white px-6 mx-4 py-2 rounded"
-        >
-          Save Banners
-        </button>
-      </div>
-
-      {/* Display Banners */}
-      <div className="bg-white p-4 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-4">Existing Banners</h2>
-        <div className="grid grid-cols-3 gap-4">
-          <div className="w-full relative  overflow-hidden">
-            {BannerData.length > 0 ? (
-              <div>
-                {BannerData.map((item, index) => (
-                  <div key={index} className="">
-                    <img
-                      src={item.imageUrl}
-                      alt={`Carousel Image ${index + 1}`}
-                    />
-                    <div className="flex ">
-                      <button onClick={() => handleEditBanner(index)}>
-                        <img src={edit} className="w-8 h-8" />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteBanner(item.bannerId)}
-                        className="bg-white text-white px-4 py-2 rounded"
-                      >
-                        <img src={trash} className="w-5 h-5" />
-                      </button>
-                    </div>
+        <div className="flex justify-normal flex-wrap  gap-6 w-full mt-8 border p-4 rounded-lg shadow-lg">
+          <div className="flex  gap-3  ">
+            {details.map((detail) => (
+              <div className="flex ">
+                <div
+                  className="bg-white w-44 rounded-lg shadow-xl cursor-pointer  h-28 p-2 flex flex-col justify-between"
+                  style={{ borderBottom: `4px solid ${detail.color}` }}
+                  onClick={() => handleNavigation(detail.to)}
+                >
+                  <div className="flex justify-between items-center">
+                    <h1 className="hover:text-red-600 hover:underline ">
+                      {detail.label}
+                    </h1>
                   </div>
-                ))}
+                  <div className="flex justify-between">
+                    <p className="items-center flex justify-center text-3xl mt-4 font-semibold">
+                      {detail.percentage}
+                    </p>
+                    <CircleProgress
+                      percentage={detail.percentage}
+                      color={detail.color}
+                    />
+                  </div>
+                </div>
               </div>
-            ) : (
-              <p className="text-center text-gray-500">No banners available</p>
-            )}
+            ))}
           </div>
         </div>
       </div>
-
-      {/* Edit Banner Modal */}
-      {editingIndex !== null && (
-        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-900 bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Edit Banner</h2>
-            <div className="relative w-full p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleEditBannerChange}
-                className="absolute inset-0 opacity-0 cursor-pointer"
-              />
-              <p className="text-gray-500 text-center">
-                Click here or drag and drop images
-              </p>
-            </div>
-            {editBanner && (
-              <img
-                src={editBanner}
-                alt="Edited Banner"
-                className="w-32 h-20 object-cover mb-4"
-              />
-            )}
-            <button
-              onClick={handleSaveEdit}
-              className="bg-green-500 text-white px-4 py-2 rounded mr-2"
-            >
-              Save Changes
-            </button>
-            <button
-              onClick={() => setEditingIndex(null)}
-              className="bg-gray-500 text-white px-4 py-2 rounded"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
-export default AdminDashboard;
+export default AdminDasboard;

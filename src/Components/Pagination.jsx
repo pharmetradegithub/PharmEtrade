@@ -13,6 +13,14 @@ const Pagination = ({
 }) => {
   const totalPages = Math.ceil((productList?.length || 0) / itemsPerPage);
 
+  const handleGoToFirstPage = () => {
+    setCurrentPage(1);
+  };
+
+  const handleGoToLastPage = () => {
+    setCurrentPage(totalPages);
+  };
+
   const handleNextPage = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
@@ -21,7 +29,6 @@ const Pagination = ({
     setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
 
-  // Handles the change of items per page
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(parseInt(event.target.value));
     setCurrentPage(1); // Reset to page 1 when items per page is changed
@@ -45,6 +52,14 @@ const Pagination = ({
 
       <div className="flex justify-end my-2">
         <button
+          style={{ color: "blue" }}
+          onClick={handleGoToFirstPage}
+          disabled={currentPage === 1}
+          className="mx-2 px-4 border p-2 text-white rounded-lg"
+        >
+          First Page
+        </button>
+        <button
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
           className="mx-2 px-4 border p-2 text-white rounded-lg"
@@ -52,7 +67,7 @@ const Pagination = ({
           <img src={previous} className="w-2" alt="Previous Page" />
         </button>
         <span className="mx-2 px-4 flex items-center bg-white text-black rounded-lg">
-          Showing {indexOfFirstItem + 1}-{indexOfLastItem} of {""}
+          Showing {indexOfFirstItem + 1}-{indexOfLastItem} of{" "}
           {productList.length}
           {/* {currentPage} of {totalPages} */}
         </span>
@@ -62,6 +77,14 @@ const Pagination = ({
           className="mx-2 px-4 border p-2 text-white rounded-lg"
         >
           <img src={next} className="w-2" alt="Next Page" />
+        </button>
+        <button
+          style={{ color: "blue" }}
+          onClick={handleGoToLastPage}
+          disabled={currentPage === totalPages}
+          className="mx-2 px-4 border p-2 text-white rounded-lg"
+        >
+          Last Page
         </button>
       </div>
     </div>
