@@ -17,6 +17,7 @@ const AdminDasboard = () => {
       percentage: 45,
       color: "green",
       grid: "customersOrdered",
+      to: "/pharmEtradeadmin/products",
     },
     {
       label: "Total No. of Orders",

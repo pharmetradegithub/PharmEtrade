@@ -112,6 +112,12 @@ function AdminSidebar() {
         },
       ],
     },
+       
+    {
+      label: "Products",
+      icon: sellerIcon,
+      to: "/pharmEtradeadmin/products", // Direct link to the Dashboard page
+    },
   ];
 
   return (
@@ -220,6 +226,21 @@ function AdminSidebar() {
             </div>
           ))}
         </nav>
+
+        <button
+        className="text-white bg-red-600 p-2 rounded-lg font-semibold"
+        // onClick={handleLogout}
+      >
+        Logout
+      </button>
+      
+      
+      
+      
+      
+      
+      
+   
       </div>
     </div>
   );
