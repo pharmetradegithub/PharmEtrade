@@ -37,12 +37,18 @@ import { Tooltip } from "@mui/material";
 import { fetchProductCategoriesGetAll } from "../../../Api/MasterDataApi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
+let text =[];
+
 function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   let navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
   const cart = useSelector((state) => state.cart.cart);
   const components = useSelector((state) => state.master.productCategoryGetAll);
   console.log("categoeryyy-->", components);
+  const modifiedComponents = [
+    { productCategoryId: 0, categoryName: 'All' },
+    ...components
+  ];
 
   const [selectedIndex, setSelectedIndex] = useState();
 
@@ -89,13 +95,25 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   const searchParams = new URLSearchParams(location.search);
   const categoryId = searchParams.get("CategoryName");
 
+  // const handleItemClick = (name) => {
+  //   if (activePopUp === name) {
+  //     setActivePopUp(null); // Close the popup if it's already open
+  //     setSelectedItem("All"); // Reset to "All" when closed
+  //   } else {
+  //     setActivePopUp(name); // Set the active popup
+  //     setSelectedItem(name); // Update the button label with the selected item
+  //   }
+  //   setDropdownOpen(false); // Close the dropdown after selection
+  // };
+
   const handleItemClick = (name) => {
     if (activePopUp === name) {
       setActivePopUp(null); // Close the popup if it's already open
-      setSelectedItem("All"); // Reset to "All" when closed
     } else {
       setActivePopUp(name); // Set the active popup
-      setSelectedItem(name); // Update the button label with the selected item
+      if (name === "All") {
+        navigate('/allProducts'); // Navigate to '/allProducts' if "All" is clicked
+      }
     }
     setDropdownOpen(false); // Close the dropdown after selection
   };
@@ -284,53 +302,6 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
     }
   };
 
-  // const productCriteria = useSelector((state) => state.product.productsByCriteria)
-  // const [term, setTerm] = useState(""); // Search term
-  // const [filteredProducts, setFilteredProducts] = useState(productCriteria); // Products filtered by API
-  // const [loading, setLoading] = useState(false); // For showing a loader during API call
-
-  // useEffect(() => {
-  //   // Update filtered products when productCriteria changes
-  //   setFilteredProducts(productCriteria);
-  // }, [productCriteria]);
-
-  // useEffect(() => {
-  //   if (term) {
-  //     // Trigger search based on the term entered by the user
-  //     searchProducts(term);
-  //   } else {
-  //     // If search term is cleared, show original products
-  //     setFilteredProducts(productCriteria);
-  //   }
-  // }, [term]);
-
-  // const searchProducts = async (searchTerm) => {
-  //   setLoading(true); // Start loading
-  //   try {
-  //     const productCategoryId = productCriteria[0]?.productCategory?.productCategoryId;
-
-  //     if (!productCategoryId) {
-  //       console.warn('No productCategoryId available');
-  //       setLoading(false);
-  //       return;
-  //     }
-
-  //     const productName = {
-  //       productName: searchTerm,
-  //       productCategoryId: productCategoryId, // Use productCategoryId here
-  //     };
-
-  //     // Make the API call to get filtered products
-  //     const response = await fetchCriteriaProductsApi(productName);
-  //     // Update with the API results
-  //     setFilteredProducts(response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching products:", error);
-  //   } finally {
-  //     setLoading(false); // End loading
-  //   }
-  // };
-
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       event.preventDefault(); // Prevent the default behavior
@@ -349,6 +320,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
     };
     await fetchCriteriaProductsApi(Criteria);
     navigate(`/allProducts?Search=${SearchInput}`);
+    setSearchInput("")
   };
 
   return (
@@ -592,12 +564,12 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
               </button>
               {/* </Link> */}
 
-              {/* {isDropdownOpen && (
+              {isDropdownOpen && (
                 <div
                   className="absolute z-10"
                   style={{ top: "30px", left: "0px" }}
                 >
-                  <div className="bg-white  w-64">
+                  {/* <div className="bg-white  w-64">
                     {components.map((items, index) => (
                       <ul onClick={() => handleCriteria(items)} key={index}>
                         <li className="">
@@ -611,11 +583,26 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                         </li>
                       </ul>
                     ))}
-                  </div>
+                  </div> */}
+                  <div className="bg-white w-64">
+    {modifiedComponents.map((items, index) => (
+      <ul onClick={() => handleCriteria(items)} key={index}>
+        <li>
+          <a
+            className="hover:text-black cursor-pointer text-sm font-medium text-blue-900"
+            onClick={() => handleItemClick(items.categoryName)}
+            onMouseLeave={handleCatMouseLeave}
+          >
+            {items.categoryName}
+          </a>
+        </li>
+      </ul>
+    ))}
+  </div>
                 </div>
-              )} */}
+              )}
 
-              {isDropdownOpen && (
+              {/* {isDropdownOpen && (
                 <div
                   className="absolute z-10"
                   style={{ top: "30px", left: "0px" }}
@@ -647,7 +634,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                     ))}
                   </div>
                 </div>
-              )}
+              )} */}
 
               <div className="flex w-full h-12 border container-focus">
                 <input

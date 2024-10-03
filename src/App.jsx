@@ -135,6 +135,7 @@ import SellerList from "./Components/Admin/Seller/SellerList";
 import LayoutBuyerUpcomingGrid from "./Components/LayoutPage/LayoutDashboard/LayoutBuyerUpcomingGrid";
 import LayoutBuyerReceiversgrid from "./Components/LayoutPage/LayoutDashboard/LayoutBuyerReceiversgrid";
 import LayoutBuyerCancelledgrid from "./Components/LayoutPage/LayoutDashboard/LayoutBuyerCancelledgrid";
+import Products from "./Components/Admin/Products/Products";
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
@@ -461,6 +462,7 @@ function App() {
           />
           <Route path="/pharmEtradeadmin/customerList" element={<CustomerList/>} />
           <Route path="/pharmEtradeadmin/sellerList" element={<SellerList/>} />
+          <Route path= "/pharmEtradeadmin/products" element={<Products/>}/>
         </Route>
 
         <Route element={<AccountPanel topMargin={topMargin} />}>

@@ -28,6 +28,7 @@ import { fetchGetOrder } from "../../Api/OrderApi";
 import Remove from '../../assets/trash.png'
 import Bin from '../../assets/Bin.png'
 import edit from '../../assets/Edit.png'
+import axios from "axios";
 
 // import { setAddress } from "../../Store/Store";
 function Address({ topMargin, totalAmount }) {
@@ -827,6 +828,35 @@ function Address({ topMargin, totalAmount }) {
     (item) => item.addressId === selectedAddressId
   );
 
+  const [address, setAddress] = useState(null)
+  const handleRemoveAddress = async (addressId) => {
+    try {
+      // Send a POST request to delete the address
+      const response = await axios.post(`/api/Customer/Address/Delete?addressId=${addressId}`);
+
+      console.log("Response from delete:", response);
+
+      if (response.status === 200) {
+        // Filter out the deleted address from the address list
+        const updatedAddresses = getAddress.filter((address) => address.addressId !== addressId);
+
+        // Update the state with the new list of addresses
+        setAddress(updatedAddresses);
+
+        // Optionally, show a success message
+        alert("Address removed successfully!");
+      } else {
+        // Handle cases where the deletion was not successful
+        alert("Failed to remove the address. Please try again.");
+      }
+    } catch (error) {
+      // Catch and handle any errors (network or other)
+      console.error("Error deleting address:", error);
+      alert("An error occurred while deleting the address. Please try again later.");
+    }
+  };
+
+
   return (
     <div className="w-full flex justify-center">
       <div className="bg-white  Largest:w-[1550px]  Laptop:w-full  w-full h-fit text-lg text-black px-12 py-2 relative">
@@ -1025,9 +1055,8 @@ function Address({ topMargin, totalAmount }) {
                                         </Tooltip>
                                         </p>
                                         <p className="flex items-center justify-center ml-2 text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
-                                          onClick={() => handleremoveAddress}>
-
-<Tooltip placement="top" title="Delete">
+                                          onClick={() => handleRemoveAddress(item.addressId)}>
+                                       <Tooltip placement="top" title="Delete">
                                           <img
                                             src={Bin}
                                             alt="Delete"

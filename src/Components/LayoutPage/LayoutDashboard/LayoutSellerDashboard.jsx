@@ -427,6 +427,7 @@
 
 
 
+
 import React, { useEffect, useState } from 'react';
 import LayoutDashboardgrid from './LayoutDashboardGrid'
 import { useDispatch, useSelector } from 'react-redux';
@@ -575,15 +576,21 @@ const LayoutSellerDashboard = () => {
 
   const details = [
     {
-      totalOrder: sellerDashboard?.totalOrders, label: "Total Products", percentage: sellerDashboard?.totalProducts, color: "red", grid: "totalProducts"
+      totalOrder: sellerDashboard?.totalOrders, label: "Incoming Orders", percentage: sellerDashboard?.totalProducts, color: "red", grid: "totalProducts"
     }, // Red
     {
-      label: "Products Ordered", percentage: sellerDashboard?.productsOrdered, color: "orange", grid: "productsOrdered"
+      label: "Outgoing Orders", percentage: sellerDashboard?.productsOrdered, color: "orange", grid: "productsOrdered"
     }, // Yellow
     {
-      label: "Customers Ordered", percentage: sellerDashboard?.customersOrdered, color: "green", grid: "customersOrdered"
+      label: "Total No.of Products Count", percentage: sellerDashboard?.customersOrdered, color: "green", grid: "customersOrdered"
     }, // Green
 
+    {
+      label: "Total Incoming Order Value", percentage: sellerDashboard?.customersOrdered, color: "blue", grid: "customersOrdered"
+    },
+    {
+      label: "Total Outgoing Order Value", percentage: sellerDashboard?.customersOrdered, color: "purple", grid: "customersOrdered"
+    },
   ];
 
   const productdetails = [
@@ -676,44 +683,38 @@ const LayoutSellerDashboard = () => {
         </div>
 
         <div className="flex flex-col ">
-          <div className='flex justify-normal flex-wrap  gap-4 w-full mt-8 border p-4 rounded-lg shadow-lg'>
+          <div className='flex justify-center flex-wrap  gap-2 w-full mt-8 border p-4 rounded-lg shadow-lg'>
 
-            <div className='flex flex-col items-center justify-center ml-7'>
+            {/* <div className='flex flex-col items-center justify-center ml-7'>
               <h1 className='text-xl font-semibold'>Order(s)</h1>
               <p className='text-3xl '>{sellerDashboard?.totalOrders}</p>
-            </div>
-            <div className='flex gap-4 ml-2 '>
+            </div> */}
+            <div className='flex gap-3 ml-2 '>
               {details.map((detail, index) => (
                 <div className='flex gap-4'>
 
-                  {/* <h1 className='text-3xl  items-center text-center  justify-start flex'>{detail.totalOrder}</h1> */}
                   <div
                     key={index}
-                    className="bg-white w-48 rounded-lg shadow-xl cursor-pointer  h-28 p-4 flex flex-col justify-between"
+                    className="bg-white w-44 rounded-lg shadow-xl cursor-pointer  h-28 p-1 flex flex-col justify-between"
                     onClick={() => toggleGrid(detail.grid)}
                     style={{ borderBottom: `4px solid ${detail.color}` }} // Set bottom border color
                   >
 
                     <div className="flex justify-between items-center" onClick={handleTotalProduct}>
-                      <h1 className='hover:text-red-600 hover:underline'>{detail.label}</h1>
+                      <h1 className='hover:text-red-600 hover:underline px-2 '>{detail.label}</h1>
 
                     </div>
                     <div className="flex justify-between">
-                      <p className='items-center flex justify-center text-3xl mt-4 font-semibold'>{detail.percentage}</p>
+                      <p className='items-center flex justify-center text-3xl mt-4 font-semibold px-2'>{detail.percentage}</p>
                       <CircleProgress percentage={detail.percentage} color={detail.color} />
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-            {/* <div className='w-48 h-28 bg-white rounded-lg shadow-xl   border-b-4 border-b-blue-900'>
-          <h1 className=' cursor-pointer hover:text-red-500 items-center justify-center flex font-semibold text-xl text-center p-10'
-          onClick={handleClick}>
-                {isGridOpen ? 'Close Latest' : 'Latest'} 
-                </h1>
-          </div> */}
+           
 
-            <div
+            {/* <div
               className="w-48 h-28 bg-white rounded-lg shadow-xl border-b-4 border-b-blue-900 flex items-center justify-center cursor-pointer"
               onClick={handleClick}
             >
@@ -730,7 +731,7 @@ const LayoutSellerDashboard = () => {
                   Close Latest
                 </h1>
               )}
-            </div>
+            </div> */}
 
 
           </div>

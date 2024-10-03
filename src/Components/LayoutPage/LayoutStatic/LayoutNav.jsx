@@ -112,7 +112,7 @@ const LayoutNav = ({ Form_Data, }) => {
 
     await fetchCriteriaProductsApi(Criteria);
     navigate(`/layout/layoutCategoryProducts?Search=${SearchInput}`);
-
+    setSearchInput("")
   };
 
 

@@ -309,6 +309,27 @@ const mastersSlice = createSlice({
   }
   }
 })
+
+
+const earningSlice = createSlice({
+  name: 'earning',
+  initialState: { earning: [] },
+  reducers: {
+    setEarning(state, action) {
+      state.earning = action.payload
+    }
+  }
+})
+
+const returnsSlice = createSlice({
+  name: 'returns',
+  initialState: { returns: [] },
+  reducers: {
+    setReturns(state, action) {
+      state.returns = action.payload
+    }
+  }
+})
 export const { setSpecialOffer } = productsSlice.actions;
 export const { setGetProductSpecialOffer } = productsSlice.actions
 
@@ -331,6 +352,8 @@ export const { setOrderInvoice } = orderSlice.actions
 export const { setSellerGetAll } = dashboardSlice.actions
 export const { setOrderDownloadInvoice } = orderSlice.actions
 export const { setOrderViewInvoice } = orderSlice.actions
+export const { setEarning } = earningSlice.actions
+export const { setReturns } = returnsSlice.actions
 
 
 const store = configureStore({
@@ -343,7 +366,9 @@ const store = configureStore({
     product: productsSlice.reducer,
     banner: bannerSlice.reducer,
     dashboard: dashboardSlice.reducer,
-    master: mastersSlice.reducer
+    master: mastersSlice.reducer,
+    earning: earningSlice.reducer,
+    returns: returnsSlice.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });
