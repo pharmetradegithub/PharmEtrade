@@ -60,7 +60,7 @@ import {
 } from "../Api/ProductApi";
 import { addCartApi } from "../Api/CartApi";
 import { addToWishlistApi, removeFromWishlistApi } from "../Api/WishList";
-import { fetchGetOrder, fetchOrderApi } from "../Api/OrderApi";
+import { fetchGetOrder, fetchOrderApi, fetchOrderPlace } from "../Api/OrderApi";
 import { Tooltip } from "@mui/material";
 // import { orderApi, orderGetApi } from "../Api/CustomerOrderList";
 // import { customerOrderApi, customerOrderGetApi } from "../Api/CustomerOrderList";
@@ -123,6 +123,7 @@ function Items({
 
   const upsellProducts = useSelector((state) => state.product.UpSellProducts);
 
+
   const crossSellProducts = useSelector(
     (state) => state.product.CrossSellProducts
   );
@@ -140,6 +141,7 @@ function Items({
     NewProductsAPI();
   }, []);
 
+  console.log("prod--->", prod)
   // useEffect(() => {
   //   if (prod) {
   //     setimg(prod.productGallery.imageUrl);
@@ -332,24 +334,41 @@ function Items({
       setQuantity((prevQuantity) => prevQuantity - 1);
     }
   };
-  console.log("productDataItem-->", prod);
-  const userId = localStorage.getItem("userId");
+  // console.log("productDataItem-->", prod);
+  // const userId = localStorage.getItem("userId");
   const handleOrder = async () => {
     const currentDate = new Date();
     const payLoad = {
+      // orderId: "0",
+      // customerId: userId,
+      // totalAmount: quantity * prod.salePrice,
+      // orderDate: currentDate.toISOString(),
+      // // orderDateString: currentDate.toDateString(),
+      // // orderTimeString: currentDate.toLocaleTimeString(),
+      // shippingMethodId: 1,
+      // orderStatusId: 1,
+      // trackingNumber: "",
+      // productId: prod.productID,
+      // quantity: quantity,
+      // pricePerProduct: prod.salePrice,
+      // vendorId: prod.sellerId,
+      
       orderId: "0",
-      customerId: userId,
+      customerId: user.customerId,
       totalAmount: quantity * prod.salePrice,
       orderDate: currentDate.toISOString(),
-      // orderDateString: currentDate.toDateString(),
-      // orderTimeString: currentDate.toLocaleTimeString(),
       shippingMethodId: 1,
       orderStatusId: 1,
       trackingNumber: "",
-      productId: prod.productID,
-      quantity: quantity,
-      pricePerProduct: prod.salePrice,
-      vendorId: prod.sellerId,
+      products: [
+        {
+          productId: prod.productID,
+          quantity: quantity,
+          pricePerProduct: prod.salePrice,
+          sellerId: prod.sellerId,
+          imageUrl: prod.productGallery.imageUrl
+        }
+      ]
     };
     navigate(`/checkout?total=${quantity * prod.salePrice.toFixed(2)}`);
 
@@ -362,8 +381,8 @@ function Items({
     //   console.error("Error adding product to cart:", error);
     // }
     try {
-      await dispatch(fetchOrderApi(payLoad));
-      await dispatch(fetchGetOrder(userId));
+      await dispatch(fetchOrderPlace(payLoad));
+      // await dispatch(fetchGetOrder(userId));
       navigate(`/checkout?total=${quantity * prod.salePrice}`);
     } catch (error) {
       console.log(error);

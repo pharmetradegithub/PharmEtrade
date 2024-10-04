@@ -197,8 +197,9 @@ export const fetchOrderDownloadInvoice = (orderId) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`/api/Orders/DownloadInvoice?orderId=${orderId}`);
+      console.log(response, "reppppp")
       if (response.status === 200) {
-        const downloadInvoice = response.data.result;
+        const downloadInvoice = response;
         console.log('Dispatching get order action:', downloadInvoice); // Log before dispatch
         dispatch(setOrderDownloadInvoice(downloadInvoice)); // Dispatch action
       } else {

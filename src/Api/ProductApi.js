@@ -283,6 +283,32 @@ export const fetchDeleteProduct = (productID) => {
   };
 };
 
+export const DeactivateProductAPI = async (productID) => {
+  try {
+    const response = await axios.post(`/api/Product/DeActivateProduct?productId=${productID}`);
+    if (response.status === 200) {
+      return response.data.result;
+    } else {
+      console.error('Failed to fetch Deactive Product:', response.data.message);
+    }
+  } catch (error) {
+    console.error('Error fetching Deactive Product:', error);
+
+  }
+}
+export const DeleteProductAPI = async (productID) => {
+  try {
+    const response = await axios.post(`/api/Product/DeleteProduct?productId=${productID}`);
+    if (response.status === 200) {
+      return response.data.result;
+    } else {
+      console.error('Failed to fetch Deactive Product:', response.data.message);
+    }
+  } catch (error) {
+    console.error('Error fetching Deactive Product:', error);
+
+  }
+}
 export const fetchProductOffer = () => {
   return async (dispatch) => {
     try {
