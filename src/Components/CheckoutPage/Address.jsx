@@ -1557,13 +1557,13 @@ function Address({ topMargin, totalAmount }) {
                   </div> */}
                     <Payment />
 
-                    <div>
+                    {/* <div>
                       <div className="my-2 border-b">
                         <h1> 3 Offers</h1>
                       </div>
 
                       <ItemsAndDelivery />
-                    </div>
+                    </div> */}
                   </div>
                   <div className=" w-[30%] mx-16 flex flex-col pt-2 items-center">
                     <div className="border fixed shadow-md rounded-md p-7 py-5">

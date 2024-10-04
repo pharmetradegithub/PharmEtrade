@@ -8,7 +8,7 @@ import { IoIosArrowRoundDown } from "react-icons/io";
 import { CiSearch, CiMenuKebab } from "react-icons/ci";
 import filter from "../../../assets/Filter_icon.png";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGetOrderBySellerId, fetchOrderInvoice, fetchOrderView } from "../../../Api/OrderApi";
+import { fetchGetOrderBySellerId, fetchOrderDownloadInvoice, fetchOrderInvoice, fetchOrderView } from "../../../Api/OrderApi";
 import { FaFileInvoice } from "react-icons/fa";
 import { Tooltip } from "@mui/material";
 import eye from '../../../assets/eye.png'
@@ -109,6 +109,9 @@ function LayoutSellOrders() {
     await dispatch(fetchOrderInvoice(orderID))
   }
 
+  // const handleDownload = (orderId) => {
+  //   dispatch(fetchOrderDownloadInvoice(orderId))
+  // }
   return (
     
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
@@ -222,9 +225,10 @@ function LayoutSellOrders() {
             <thead className="bg-blue-900 text-white">
               <tr className="border-b-2">
                 <th className="px-4 py-2 text-left">Order ID</th>
+                <th className="px-4 py-2 text-left">Thumbnail</th>
+                <th className="px-4 py-2 text-left">Product Name</th>
                 <th className="px-4 py-2 text-left">Purchased On</th>
-                <th className="px-4 py-2 text-left">Products</th>
-                <th className="px-4 py-2 text-left">Total</th>
+                <th className="px-4 py-2 text-left">Amount</th>
                 <th className="px-4 py-2 text-left">Customer</th>
                 <th className="px-4 py-2 text-left">Status</th>
                 <th className="px-4 py-2 text-left">Action</th>
@@ -254,12 +258,13 @@ function LayoutSellOrders() {
                 SellerOrder.map((product, index) => (
                   <tr key={product.productId} className="border-b">
                     <td className="px-4 py-2">{index + 1}</td>
+                    <td className="px-4 py-2"><img className="w-10 h-10" src={product.imageUrl} /></td>
+                    <td className="px-4 py-2">{product?.productName}</td>
                     <td className="px-4 py-2">{new Date(product.orderDate).toLocaleDateString('en-US', {
                                 year: 'numeric',
                                 month: '2-digit',
                                 day: '2-digit',
                               }).replace(/\//g, '-')}</td>
-                    <td className="px-4 py-2">{product?.productName}</td>
                     <td className="px-4 py-2">{product?.totalAmount}</td>
                     <td className="px-4 py-2">{product?.customerName}</td>
                     <td className="px-4 py-2">{product?.status}</td>

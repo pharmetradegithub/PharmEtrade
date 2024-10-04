@@ -15,6 +15,7 @@ import { Tooltip } from "@mui/material";
 import next from "../../../../assets/Next_icon.png";
 import previous from "../../../../assets/Previous_icon.png";
 import {
+  DeleteProductAPI,
   fetchDeactiveProduct,
   fetchDeleteProduct,
 } from "../../../../Api/ProductApi";
@@ -54,33 +55,34 @@ const LayoutPostingProducts = () => {
   //   { label: "Price", value: sellerDashboard?.totalSaleValue, percentage: 50 },
   // ];
   const calculatePercentage = (part, total) => {
-  if (!part || !total || total === 0 || isNaN(part) || isNaN(total)) {
-    return 0; // Return 0 if values are invalid or total is 0
-  }
-  return (part / total) * 100;
-};
+    if (!part || !total || total === 0 || isNaN(part) || isNaN(total)) {
+      return 0; // Return 0 if values are invalid or total is 0
+    }
+    return (part / total) * 100;
+  };
 
-const stats = [
-  {
-    label: "Total Product",
-    value: sellerDashboard?.totalProducts || 0, // Fallback to 0 if undefined or null
-    percentage: 100, // Since it's the total, it represents 100%
-  },
-  {
-    label: "Total Approved Product",
-    value: sellerDashboard?.activeProducts || 0,
-    percentage: calculatePercentage(sellerDashboard?.activeProducts, sellerDashboard?.totalProducts), // Calculating the percentage
-  },
-  {
-    label: "Price",
-    value: sellerDashboard?.totalSaleValue || 0,
-    percentage: calculatePercentage(sellerDashboard?.totalSaleValue, sellerDashboard?.totalProducts), // Assuming you're calculating the price per product
-  },
-];
+  const stats = [
+    {
+      label: "Total Product",
+      value: sellerDashboard?.totalProducts || 0, // Fallback to 0 if undefined or null
+      percentage: 100, // Since it's the total, it represents 100%
+    },
+    {
+      label: "Total Approved Product",
+      value: sellerDashboard?.activeProducts || 0,
+      percentage: calculatePercentage(sellerDashboard?.activeProducts, sellerDashboard?.totalProducts), // Calculating the percentage
+    },
+    {
+      label: "Price",
+      value: sellerDashboard?.totalSaleValue || 0,
+      percentage: calculatePercentage(sellerDashboard?.totalSaleValue, sellerDashboard?.totalProducts), // Assuming you're calculating the price per product
+    },
+  ];
 
   const queryParam = location.pathname;
   const parts = queryParam.split('/');
   const listed = parts[2];
+  const [trigger, settrigger] = useState(1);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -107,7 +109,7 @@ const stats = [
     if (listed && user?.customerId) {
       fetchProducts();
     }
-  }, [listed, user?.customerId]);
+  }, [listed, user?.customerId, trigger]);
 
   const handleAddNewProductClick = () => {
     navigate("layout/addproduct");
@@ -168,14 +170,13 @@ const stats = [
     setDeletePop(true);
     setDeleteProduct(productID);
   };
-
   const cancelDeleteButton = () => {
     setDeletePop(false);
   };
-
-  const successDeleteButton = () => {
+  const successDeleteButton = async () => {
     try {
-      dispatch(fetchDeleteProduct(deleteProduct));
+      await DeleteProductAPI(deleteProduct);
+      settrigger((prev) => prev + 1);
       setDeletePop(false);
       setNotification({ show: true, message: "Product Delete Successfully!" });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);

@@ -7,8 +7,8 @@ const AdminDasboard = () => {
   const details = [
     {
       totalOrder: 65,
-      label: "Total No. of Sales",
-      percentage: "$100",
+      label: "Total Sales Amount",
+      percentage: "$100.00",
       color: "red",
       grid: "totalProducts",
     },

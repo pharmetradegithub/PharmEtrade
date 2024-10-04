@@ -277,11 +277,20 @@ function LayoutOrderList() {
   console.log("getOrder--->", getOrder)
   const dispatch = useDispatch()
   
+  const pathname = location.pathname
+  const part = pathname.split('/')
+  const orderId = part[2]
+
 
 
   useEffect(() => {
-    dispatch(fetchGetOrder(user?.customerId))
-  }, [user])
+    const data = async () => {
+     await dispatch(fetchGetOrder(user?.customerId))
+    }
+    if (orderId && user?.customerId) {
+      data();
+    }
+  }, [orderId, user?.customerId])
 
   // useEffect(() => {
   //   if (orderList.length > 0) {

@@ -27,7 +27,11 @@ import {
   ProductInfoValidation,
   ProductPriceValidation,
 } from "../../../Validations/AddProduct";
-import { fetchCategorySpecificationsGetAll, fetchNdcUpcListApi, fetchProductCategoriesGetAll } from "../../../Api/MasterDataApi";
+import {
+  fetchCategorySpecificationsGetAll,
+  fetchNdcUpcListApi,
+  fetchProductCategoriesGetAll,
+} from "../../../Api/MasterDataApi";
 
 function LayoutaddProduct() {
   const user = useSelector((state) => state.user.user);
@@ -75,23 +79,25 @@ function LayoutaddProduct() {
     setStates(useStates); // Adjust based on actual structure
   }, []);
 
-  const categorySpecificationGetAll = useSelector((state) => state.master.setCategorySpecificationsGetAll)
-  console.log("category-->", categorySpecificationGetAll)
+  const categorySpecificationGetAll = useSelector(
+    (state) => state.master.setCategorySpecificationsGetAll
+  );
+  console.log("category-->", categorySpecificationGetAll);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchCategorySpecificationsGetAll())
-  }, [])
+    dispatch(fetchCategorySpecificationsGetAll());
+  }, []);
 
   useEffect(() => {
-    dispatch(fetchProductCategoriesGetAll())
-  }, [])
+    dispatch(fetchProductCategoriesGetAll());
+  }, []);
 
   const [activeTab, setActiveTab] = useState(0);
   const [images, setImages] = useState([]);
   const [error, setError] = useState("");
-  const components = useSelector((state) => state.master.productCategoryGetAll)
-  console.log("categoeryyyaddproduct-->", components)
+  const components = useSelector((state) => state.master.productCategoryGetAll);
+  console.log("categoeryyyaddproduct-->", components);
   const [notification, setNotification] = useState({
     show: false,
     message: "",
@@ -165,7 +171,7 @@ function LayoutaddProduct() {
       product?.productGallery?.thumbnail6,
     ];
     const validThumbnails = thumnailArray.filter(
-      (thumb) => thumb !== "null" && thumb!=="" && thumb !== null
+      (thumb) => thumb !== "null" && thumb !== "" && thumb !== null
     );
     setThumnails(validThumbnails);
 
@@ -236,7 +242,7 @@ function LayoutaddProduct() {
   };
   const searchParams = new URLSearchParams(location.search);
   const queryProductId = searchParams.get("productId");
-  const ResetFormDate = ()=>{
+  const ResetFormDate = () => {
     setFormData({
       // Reset form data fields
       categorySpecification: 0,
@@ -287,7 +293,7 @@ function LayoutaddProduct() {
       videoUrl: null,
     });
     setThumnails([]);
-  }
+  };
   useEffect(() => {
     const productId = localStorage.getItem("productId");
     const searchParams = new URLSearchParams(location.search);
@@ -298,17 +304,19 @@ function LayoutaddProduct() {
         const response = await fetchProductByIdApi(queryProductId);
         localStorage.setItem("productId", response.productID);
         localStorage.setItem("productPriceId", response.productPriceId);
-        localStorage.setItem("productGalleryId", response.productGallery.productGalleryId);
-
+        localStorage.setItem(
+          "productGalleryId",
+          response.productGallery.productGalleryId
+        );
 
         setHeading("EDIT PRODUCT");
         AssignFormData(response);
         setproductFetched(response);
         console.log(response, "APi,response");
       } else {
-        localStorage.removeItem('productId');
-        localStorage.removeItem('productPriceId');
-        localStorage.removeItem('productGalleryId');
+        localStorage.removeItem("productId");
+        localStorage.removeItem("productPriceId");
+        localStorage.removeItem("productGalleryId");
         setHeading("ADD PRODUCT");
         ResetFormDate();
       }
@@ -395,7 +403,7 @@ function LayoutaddProduct() {
   const handleClearSelection = () => {
     setSelectedVideos([]);
     setVideoPreviews([]);
-    setFormData({...formData,["videoUrl"]:null})
+    setFormData({ ...formData, ["videoUrl"]: null });
   };
 
   const tabs = [
@@ -413,15 +421,25 @@ function LayoutaddProduct() {
   };
 
   const [selectedImage, setSelectedImage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(""); // State for error message
 
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
-    if (file) {
-      setSelectedImage(URL.createObjectURL(file));
+    setErrorMessage("");
+    // Check if the file is an image
+    if (file && file.type.startsWith("image/")) {
+      // Create an object URL for previewing the image
+      const imagePreviewUrl = URL.createObjectURL(file);
+
+      // Set the preview and update form data
+      setSelectedImage(imagePreviewUrl);
       setFormData({
         ...formData,
-        imageUrl: file,
+        imageUrl: file, // You can handle the file (e.g., send it in form submission)
       });
+    } else {
+      // If not an image, handle the error (show an alert or handle it as needed)
+      setErrorMessage("Please upload a valid image file.");
     }
   };
 
@@ -470,16 +488,17 @@ function LayoutaddProduct() {
 
   const handleInputChange = (e) => {
     const { name, value, type, options, id } = e.target;
-    console.log(name,value,type,options,id);
-    if(name==="discount")
-    {
-      console.log(name,type)
-      if(name == "discount")
-      {
-        setFormData({...formData,[name]:value===""?"":Number(value),["salePrice"]:Number((formData.price*(100-Number(value)))/100)});
+    console.log(name, value, type, options, id);
+    if (name === "discount") {
+      console.log(name, type);
+      if (name == "discount") {
+        setFormData({
+          ...formData,
+          [name]: value === "" ? "" : Number(value),
+          ["salePrice"]: Number((formData.price * (100 - Number(value))) / 100),
+        });
       }
-    }
-    else if (type === "select-multiple") {
+    } else if (type === "select-multiple") {
       const selectedOptions = Array.from(options)
         .filter((option) => option.selected)
         .map((option) => option.value);
@@ -493,7 +512,6 @@ function LayoutaddProduct() {
         [name]: Number(value),
       });
     } else if (type === "phone") {
-      
       setFormData({
         ...formData,
         [name]: value === "" ? "" : Number(value),
@@ -571,8 +589,6 @@ function LayoutaddProduct() {
   const handleChange = (e) => {
     setSelectedValue(e.target.value);
   };
-
-
 
   const handleRemoveImage = () => {
     setSelectedImage(null);
@@ -724,7 +740,10 @@ function LayoutaddProduct() {
       productId: queryProductId != null ? queryProductId : productId,
       unitPrice: formData.price,
       upnMemberPrice: formData.upnMemberPrice,
-      discount: formData.discount == null || formData.discount == "" ? 0 : formData.discount,
+      discount:
+        formData.discount == null || formData.discount == ""
+          ? 0
+          : formData.discount,
       salePrice: formData.salePrice,
       salePriceValidFrom: formData.salePriceForm,
       salePriceValidTo: formData.salePriceTo,
@@ -770,7 +789,8 @@ function LayoutaddProduct() {
         setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1)); // Enable Tab 2
         setNotification({
           show: true,
-          message: `Product Info ${queryProductId != null ? "Edited" : "Added"} Successfully!`,
+          message: `Product Info ${queryProductId != null ? "Edited" : "Added"
+            } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -785,7 +805,8 @@ function LayoutaddProduct() {
         ); // Enable Tabs 2 and 3
         setNotification({
           show: true,
-          message: `Price Details ${queryProductId != null ? "Edited" : "Added"} Successfully!`,
+          message: `Price Details ${queryProductId != null ? "Edited" : "Added"
+            } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -795,7 +816,8 @@ function LayoutaddProduct() {
         setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 3)); // Enable Tab 3
         setNotification({
           show: true,
-          message: `Related Products ${queryProductId != null ? "Edited" : "Added"} Successfully!`,
+          message: `Related Products ${queryProductId != null ? "Edited" : "Added"
+            } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -806,14 +828,15 @@ function LayoutaddProduct() {
 
         const response = await AddProductGallery(tab4, user.customerId);
         localStorage.setItem("productGalleryId", response);
-        localStorage.removeItem('productPriceId');
-        localStorage.removeItem('productGalleryId')
-        localStorage.removeItem('productId')
+        localStorage.removeItem("productPriceId");
+        localStorage.removeItem("productGalleryId");
+        localStorage.removeItem("productId");
 
         console.log("Product Data", response);
         setNotification({
           show: true,
-          message: `Product ${queryProductId != null ? "Edited" : "Added"} Successfully!`,
+          message: `Product ${queryProductId != null ? "Edited" : "Added"
+            } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -915,7 +938,11 @@ function LayoutaddProduct() {
                       <option value="2">OTC Product</option>
                       <option value="3">General Merchandise</option> */}
                       {categorySpecificationGetAll.map((item) => {
-                        return <option value={item.categorySpecificationId}>{item.specificationName}</option>
+                        return (
+                          <option value={item.categorySpecificationId}>
+                            {item.specificationName}
+                          </option>
+                        );
                       })}
                     </select>
                     {formErrors.categorySpecification && (
@@ -939,8 +966,10 @@ function LayoutaddProduct() {
                       <option value="">Select a product category</option>
                       {components.map((items) => {
                         return (
-                          <option value={items.productCategoryId}>{items.categoryName}</option>
-                        )
+                          <option value={items.productCategoryId}>
+                            {items.categoryName}
+                          </option>
+                        );
                       })}
                       {/* <option value="1">Prescription Medications</option>
                       <option value="4">Health care products</option>
@@ -1074,7 +1103,6 @@ function LayoutaddProduct() {
                         />
                       </div>
 
-
                       <div className="flex flex-col">
                         <label className="text-sm font-semibold">
                           Expiration Date:
@@ -1101,9 +1129,7 @@ function LayoutaddProduct() {
                         )}
                       </div>
                       <div className="flex flex-col">
-                        <label className="text-sm font-semibold">
-                          SKU:
-                        </label>
+                        <label className="text-sm font-semibold">SKU:</label>
                         <input
                           name="sku"
                           type="text"
@@ -1156,7 +1182,10 @@ function LayoutaddProduct() {
                           id="full"
                           name="option"
                           value={1}
-                          checked={formData.isfullpack != null && formData.isfullpack == 1}
+                          checked={
+                            formData.isfullpack != null &&
+                            formData.isfullpack == 1
+                          }
                           onChange={handleInputChange}
                           className="mx-1"
                         />{" "}
@@ -1173,7 +1202,10 @@ function LayoutaddProduct() {
                           id="partial"
                           name="option"
                           value={0}
-                          checked={formData.isfullpack != null && formData.isfullpack == 0}
+                          checked={
+                            formData.isfullpack != null &&
+                            formData.isfullpack == 0
+                          }
                           onChange={handleInputChange}
                           className="ml-2 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                         />
@@ -1258,7 +1290,7 @@ function LayoutaddProduct() {
                         id="tornLabel"
                         name="tornLabel"
                         checked={
-                          (formData.packCondition.tornLabel != null)
+                          formData.packCondition.tornLabel != null
                             ? formData.packCondition.tornLabel
                             : null
                         }
@@ -1380,6 +1412,49 @@ function LayoutaddProduct() {
               {/* section start */}
 
               <div className="w-[19%] flex flex-col ">
+                {/* <div className=" ">
+                  <p className="text-sm mt-1 font-semibold">
+                    Main Product Image:
+                  </p>
+                  <p className="text-sm font-semibold"> ( JPEG, PNG)</p>
+                  <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
+                    {formData.imageUrl ? (
+                      <div className="relative">
+                        <img
+                          src={
+                            typeof formData.imageUrl === "object"
+                              ? URL.createObjectURL(formData.imageUrl)
+                              : formData.imageUrl
+                          }
+                          alt="Selected"
+                          className="w-64 h-64 object-cover rounded-md"
+                        />
+                        <button
+                          onClick={handleRemoveImage}
+                          className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full focus:outline-none"
+                        >
+                          &times;
+                        </button>
+                      </div>
+                    ) : (
+                      <label
+                        htmlFor="imageUpload"
+                        className="flex flex-col justify-center items-center w-full h-32 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200"
+                      >
+                        <span className="text-gray-500 text-center">
+                          Click here or drag and drop image
+                        </span>
+                        <input
+                          type="file"
+                          id="imageUpload"
+                          accept="image/*"
+                          onChange={handleImageChange}
+                          className="hidden"
+                        />
+                      </label>
+                    )}
+                  </div>
+                </div> */}
                 <div className=" ">
                   <p className="text-sm mt-1 font-semibold">
                     Main Product Image:
@@ -1422,6 +1497,11 @@ function LayoutaddProduct() {
                       </label>
                     )}
                   </div>
+
+                  {/* Conditionally render error message */}
+                  {errorMessage && (
+                    <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
+                  )}
                 </div>
                 <div className="w-full">
                   <div className="">
@@ -1487,7 +1567,9 @@ function LayoutaddProduct() {
                   </div>
 
                   <div className="flex flex-col">
-                    <label className="text-sm font-semibold">Discount (%):</label>
+                    <label className="text-sm font-semibold">
+                      Discount (%):
+                    </label>
                     <input
                       name="discount"
                       type="phone"
@@ -1500,7 +1582,6 @@ function LayoutaddProduct() {
                         {formErrors.discount}
                       </span>
                     )} */}
-
                   </div>
 
                   <div className="flex flex-col">
@@ -1536,7 +1617,6 @@ function LayoutaddProduct() {
                       value={
                         formData.salePrice === "" ? "" : formData.salePrice
                       }
-
                     />
                     {formErrors.salePrice && (
                       <span className="text-red-500 text-sm">
@@ -2218,7 +2298,7 @@ function LayoutaddProduct() {
                     </button>
                   )}
                 </div>
-              </div> 
+              </div>
               <div className="flex flex-col w-[50%] p-4 font-semibold">
                 <div className="flex flex-col">
                   <span>Url :</span>
@@ -2279,11 +2359,15 @@ function LayoutaddProduct() {
           {tabs.map((tab, index) => (
             <li key={index} className="mr-2 gap-4">
               <button
-                disabled={queryProductId!=null? false: showTab.includes(index)} // Corrected to 'disabled'
+                disabled={
+                  queryProductId != null ? false : showTab.includes(index)
+                } // Corrected to 'disabled'
                 className={`w-full flex justify-center items-center px-2 p-3 py-1 mt-7 shadow-md ${activeTab === index
-                  ? "text-white bg-blue-900 rounded-t-xl font-semibold"
-                  : "text-blue-900 shadow-none rounded-t-xl bg-white"
-                  } ${(showTab.includes(index) && queryProductId==null) ? "opacity-50 cursor-not-allowed" : ""
+                    ? "text-white bg-blue-900 rounded-t-xl font-semibold"
+                    : "text-blue-900 shadow-none rounded-t-xl bg-white"
+                  } ${showTab.includes(index) && queryProductId == null
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
                   }`} // Style changes for disabled state
                 onClick={() => setActiveTab(index)}
               >
@@ -2307,17 +2391,15 @@ function LayoutaddProduct() {
         >
           {/* Save */}
           {/* {activeTab === 3 ? "Save" : "Save and Continue"} */}
-          {
-            activeTab === 0
-              ? "Save and Continue to Price Details"
-              : activeTab === 1
-                ? "Save and Continue to Related Products"
-                : activeTab === 2
-                  ? "Save and Continue to Additional Images"
-                  : activeTab === 3
-                    ? "Save and Close"
-                    : ""
-          }
+          {activeTab === 0
+            ? "Save and Continue to Price Details"
+            : activeTab === 1
+              ? "Save and Continue to Related Products"
+              : activeTab === 2
+                ? "Save and Continue to Additional Images"
+                : activeTab === 3
+                  ? "Save and Close"
+                  : ""}
         </button>
       </div>
     </div>

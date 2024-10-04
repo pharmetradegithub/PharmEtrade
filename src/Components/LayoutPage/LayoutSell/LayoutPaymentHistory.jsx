@@ -432,9 +432,9 @@ function LayoutPaymentHistory() {
                 <th className="px-4 py-2 text-left">Net Amount</th>
                 <th className="px-4 py-2 text-left">View</th> */}
                 <th className="px-4 py-2 text-left">OrderId</th>
-                <th className="px-4 py-2 text-left">PaymentDate</th>
-                <th className="px-4 py-2 text-left">PaymentStatus</th>
-                <th className="px-4 py-2 text-left">PaymentAmount</th>
+                <th className="px-4 py-2 text-left">Payment Date</th>
+                <th className="px-4 py-2 text-left">Payment Status</th>
+                <th className="px-4 py-2 text-left">Payment Amount</th>
                 <th className="px-4 py-2 text-left">Action</th>
               </tr>
             </thead>
