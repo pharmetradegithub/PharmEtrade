@@ -46,49 +46,49 @@ const AdminDasboard = () => {
     }
   };
 
-  const CircleProgress = ({ percentage, color }) => {
-    const radius = 20;
-    const strokeWidth = 4;
-    const circumference = 2 * Math.PI * radius;
-    const progress = (percentage / 100) * circumference;
+  // const CircleProgress = ({ percentage, color }) => {
+  //   const radius = 20;
+  //   const strokeWidth = 4;
+  //   const circumference = 2 * Math.PI * radius;
+  //   const progress = (percentage / 100) * circumference;
 
-    return (
-      <svg width={50} height={50}>
-        <circle
-          cx="25"
-          cy="25"
-          r={radius}
-          stroke="#e0e0e0"
-          strokeWidth={strokeWidth}
-          fill="none"
-        />
-        <circle
-          cx="25"
-          cy="25"
-          r={radius}
-          stroke={color}
-          strokeWidth={strokeWidth}
-          fill="none"
-          strokeDasharray={circumference}
-          strokeDashoffset={circumference - progress}
-          strokeLinecap="round"
-          transform="rotate(-90 25 25)" // Start progress from the top
-        />
-        {/* Percentage Text */}
-        <text
-          x="50%"
-          y="50%"
-          dominantBaseline="middle"
-          textAnchor="middle"
-          fontSize="10"
-          fill={color}
-          fontWeight="bold"
-        >
-          {percentage}
-        </text>
-      </svg>
-    );
-  };
+  //   return (
+  //     <svg width={50} height={50}>
+  //       <circle
+  //         cx="25"
+  //         cy="25"
+  //         r={radius}
+  //         stroke="#e0e0e0"
+  //         strokeWidth={strokeWidth}
+  //         fill="none"
+  //       />
+  //       <circle
+  //         cx="25"
+  //         cy="25"
+  //         r={radius}
+  //         stroke={color}
+  //         strokeWidth={strokeWidth}
+  //         fill="none"
+  //         strokeDasharray={circumference}
+  //         strokeDashoffset={circumference - progress}
+  //         strokeLinecap="round"
+  //         transform="rotate(-90 25 25)" // Start progress from the top
+  //       />
+  //       {/* Percentage Text */}
+  //       <text
+  //         x="50%"
+  //         y="50%"
+  //         dominantBaseline="middle"
+  //         textAnchor="middle"
+  //         fontSize="10"
+  //         fill={color}
+  //         fontWeight="bold"
+  //       >
+  //         {percentage}
+  //       </text>
+  //     </svg>
+  //   );
+  // };
   return (
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
       <div className="w-[95%] h-full mt-8">
@@ -116,10 +116,10 @@ const AdminDasboard = () => {
                     <p className="items-center flex justify-center text-3xl mt-4 font-semibold">
                       {detail.percentage}
                     </p>
-                    <CircleProgress
+                    {/* <CircleProgress
                       percentage={detail.percentage}
                       color={detail.color}
-                    />
+                    /> */}
                   </div>
                 </div>
               </div>

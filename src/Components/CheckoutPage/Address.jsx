@@ -29,6 +29,7 @@ import Remove from '../../assets/trash.png'
 import Bin from '../../assets/Bin.png'
 import edit from '../../assets/Edit.png'
 import axios from "axios";
+import { fetchAddAddress, fetchGetByCustomerId } from "../../Api/AddressApi";
 
 // import { setAddress } from "../../Store/Store";
 function Address({ topMargin, totalAmount }) {
@@ -40,6 +41,7 @@ function Address({ topMargin, totalAmount }) {
   const [isActive, setIsActive] = useState(true);
   const [ischeck, setIsCheck] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const dispatch = useDispatch()
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -117,7 +119,7 @@ function Address({ topMargin, totalAmount }) {
 
   const user = useSelector((state) => state.user.user)
   console.log("user-->address", user)
-  const dispatch = useDispatch()
+
   useEffect(() => {
     dispatch(fetchGetOrder(user?.customerId))
   }, [user])
@@ -402,8 +404,12 @@ function Address({ topMargin, totalAmount }) {
     }));
   };
 
+  const addAddress = useSelector((state) => state.address.address)
+  console.log("addd-->", addAddress)
   const [newAddressData, setNewAddressData] = useState([]);
-  const [getAddress, setGetAddress] = useState([]);
+  const getAddress = useSelector((state) => state.address.customerId)
+  console.log("addressdata-->", getAddress)
+  // const [getAddress, setGetAddress] = useState(getCustomer);
 
   // useEffect(() => {
   //   if (newAddressData && newAddressData.addressId) {
@@ -414,34 +420,34 @@ function Address({ topMargin, totalAmount }) {
   //   }
   // }, [newAddressData]);
 
-  const fetchGetFormData = async (addressId) => {
-    // console.log("ressss-->",responseData)
-    try {
-      const response = await fetch(
-        `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/GetById?addressId=${addressId}`,
-        {
-          method: "GET",
-        }
-      );
+  // const fetchGetFormData = async (addressId) => {
+  //   // console.log("ressss-->",responseData)
+  //   try {
+  //     const response = await fetch(
+  //       `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/GetById?addressId=${addressId}`,
+  //       {
+  //         method: "GET",
+  //       }
+  //     );
 
-      if (!response.ok) {
-        const errorDetails = await response.json();
-        throw new Error(
-          `Error: ${response.status} ${response.statusText} - ${JSON.stringify(
-            errorDetails
-          )}`
-        );
-      }
+  //     if (!response.ok) {
+  //       const errorDetails = await response.json();
+  //       throw new Error(
+  //         `Error: ${response.status} ${response.statusText} - ${JSON.stringify(
+  //           errorDetails
+  //         )}`
+  //       );
+  //     }
 
-      const result = await response.json();
-      // setProductData(result.result[0]);
-      console.log("getnewForm-->", result.result);
-      setGetAddress(result.result);
-    } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
-      throw error;
-    }
-  };
+  //     const result = await response.json();
+  //     // setProductData(result.result[0]);
+  //     console.log("getnewForm-->", result.result);
+  //     setGetAddress(result.result);
+  //   } catch (error) {
+  //     console.error("There was a problem with the fetch operation:", error);
+  //     throw error;
+  //   }
+  // };
 
   // const handleSubmitForm = async (e) => {
   //   e.preventDefault();
@@ -619,6 +625,39 @@ function Address({ topMargin, totalAmount }) {
   //     }
   //   };
 
+  const fetchCustomerById = async () => {
+    // console.log("Fetching address details for ID:", addressId);
+
+    // try {
+    //   const response = await fetch(
+    //     `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/GetByCustomerId?customerId=${userId}`,
+    //     {
+    //       method: "GET",
+    //     }
+    //   );
+
+    //   if (!response.ok) {
+    //     const errorDetails = await response.json();
+    //     throw new Error(
+    //       `Error: ${response.status} ${response.statusText} - ${JSON.stringify(
+    //         errorDetails
+    //       )}`
+    //     );
+    //   }
+
+    //   const result = await response.json();
+    //   console.log("Fetched address details:", result.result);
+    //   // setGetAddress((prevAddresses) => [...prevAddresses, result.result]);
+    //   // else if (result.result) {
+    //   //   // Append the single address
+    //   //   setGetAddress((prevAddresses) => [...prevAddresses, result.result]);
+    //   // }
+    //   setGetAddress(result.result);
+    // } catch (error) {
+    //   console.error("Error fetching address details:", error);
+    // }
+    dispatch(fetchGetByCustomerId(user?.customerId))
+  };
   const handleSubmitForm = async (e) => {
     e.preventDefault();
 
@@ -694,42 +733,55 @@ function Address({ topMargin, totalAmount }) {
       deliveryInstructions: null,
     };
 
+    // try {
+    //   const response = await fetch(
+    //     "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/Add",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify(payLaodNewForm),
+    //     }
+    //   );
+
+    //   if (!response.ok) {
+    //     throw new Error("Failed to add address");
+    //   }
+
+    //   const responseData = await response.json();
+    //   if (responseData.result && responseData.result.length > 0) {
+    //     const newAddress = responseData.result[0];
+    //     if (newAddress && newAddress.addressId) {
+    //       setNewAddressData(newAddress); // Save the new address object to state
+    //       fetchCustomerById();
+    //       setShowPopUp(false);
+    //       setNotification({
+    //         show: true,
+    //         message: "Address added successfully!",
+    //       });
+    //       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    //     } else {
+    //       console.warn("Address data is missing addressId:", newAddress);
+    //       setShowPopUp(false);
+    //     }
+    //   } else {
+    //     console.warn("No address data found in response");
+    //     setShowPopUp(false);
+    //   }
+    // } catch (error) {
+    //   console.error("Error adding address:", error);
+    //   setShowPopUp(false);
+    // }
     try {
-      const response = await fetch(
-        "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/Add",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payLaodNewForm),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to add address");
-      }
-
-      const responseData = await response.json();
-      if (responseData.result && responseData.result.length > 0) {
-        const newAddress = responseData.result[0];
-        if (newAddress && newAddress.addressId) {
-          setNewAddressData(newAddress); // Save the new address object to state
-          fetchCustomerById();
-          setShowPopUp(false);
-          setNotification({
-            show: true,
-            message: "Address added successfully!",
-          });
-          setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-        } else {
-          console.warn("Address data is missing addressId:", newAddress);
-          setShowPopUp(false);
-        }
-      } else {
-        console.warn("No address data found in response");
-        setShowPopUp(false);
-      }
+      dispatch(fetchAddAddress(payLaodNewForm))
+      setShowPopUp(false);
+      setNotification({
+        show: true,
+        message: "Address added successfully!",
+      });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      dispatch(fetchGetByCustomerId(user?.customerId))
     } catch (error) {
       console.error("Error adding address:", error);
       setShowPopUp(false);
@@ -737,44 +789,10 @@ function Address({ topMargin, totalAmount }) {
   };
 
 
-  const fetchCustomerById = async () => {
-    // console.log("Fetching address details for ID:", addressId);
-
-    try {
-      const response = await fetch(
-        `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/GetByCustomerId?customerId=${userId}`,
-        {
-          method: "GET",
-        }
-      );
-
-      if (!response.ok) {
-        const errorDetails = await response.json();
-        throw new Error(
-          `Error: ${response.status} ${response.statusText} - ${JSON.stringify(
-            errorDetails
-          )}`
-        );
-      }
-
-      const result = await response.json();
-      console.log("Fetched address details:", result.result);
-      // setGetAddress((prevAddresses) => [...prevAddresses, result.result]);
-      // else if (result.result) {
-      //   // Append the single address
-      //   setGetAddress((prevAddresses) => [...prevAddresses, result.result]);
-      // }
-      setGetAddress(result.result);
-    } catch (error) {
-      console.error("Error fetching address details:", error);
-    }
-  };
 
   useEffect(() => {
-
-
-    fetchCustomerById();
-  }, []);
+    dispatch(fetchGetByCustomerId(user?.customerId))
+  }, [dispatch, user?.customerId]);
 
   // })
 
@@ -785,7 +803,7 @@ function Address({ topMargin, totalAmount }) {
     handleSubmitForm(e);
   };
 
-  console.log("add----->", getAddress);
+  // console.log("add----->", getAddress);
 
   const [states, setStates] = useState([]);
 
@@ -872,7 +890,7 @@ function Address({ topMargin, totalAmount }) {
               show={notification.show}
               message={notification.message}
             />
-            {showpagepopup && (
+            {/* {showpagepopup && ( */}
               <div className="z-50 -ml-20 flex items-center justify-center bg-opacity-50">
                 <div className="bg-gray-100 p-2 rounded-lg shadow-lg">
                   <div className="flex justify-center gap-4">
@@ -891,7 +909,7 @@ function Address({ topMargin, totalAmount }) {
                   </div>
                 </div>
               </div>
-            )}
+            {/* )} */}
           </div>
           <h1 className="text-3xl flex  text-center text-black ">
             Checkout
