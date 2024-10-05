@@ -625,49 +625,49 @@ const LayoutSellerDashboard = () => {
     Daily: 'https://th.bing.com/th/id/OIP.aoXhfbHqx42fr7fUzSHh4gHaEK?w=286&h=180&c=7&r=0&o=5&pid=1.7',
   };
 
-  const CircleProgress = ({ percentage, color }) => {
-    const radius = 20;
-    const strokeWidth = 4;
-    const circumference = 2 * Math.PI * radius;
-    const progress = (percentage / 100) * circumference;
+  // const CircleProgress = ({ percentage, color }) => {
+  //   const radius = 20;
+  //   const strokeWidth = 4;
+  //   const circumference = 2 * Math.PI * radius;
+  //   const progress = (percentage / 100) * circumference;
 
-    return (
-      <svg width={50} height={50}>
-        <circle
-          cx="25"
-          cy="25"
-          r={radius}
-          stroke="#e0e0e0"
-          strokeWidth={strokeWidth}
-          fill="none"
-        />
-        <circle
-          cx="25"
-          cy="25"
-          r={radius}
-          stroke={color}
-          strokeWidth={strokeWidth}
-          fill="none"
-          strokeDasharray={circumference}
-          strokeDashoffset={circumference - progress}
-          strokeLinecap="round"
-          transform="rotate(-90 25 25)" // Start progress from the top
-        />
-        {/* Percentage Text */}
-        <text
-          x="50%"
-          y="50%"
-          dominantBaseline="middle"
-          textAnchor="middle"
-          fontSize="10"
-          fill={color}
-          fontWeight="bold"
-        >
-          {percentage}%
-        </text>
-      </svg>
-    );
-  };
+  //   return (
+  //     <svg width={50} height={50}>
+  //       <circle
+  //         cx="25"
+  //         cy="25"
+  //         r={radius}
+  //         stroke="#e0e0e0"
+  //         strokeWidth={strokeWidth}
+  //         fill="none"
+  //       />
+  //       <circle
+  //         cx="25"
+  //         cy="25"
+  //         r={radius}
+  //         stroke={color}
+  //         strokeWidth={strokeWidth}
+  //         fill="none"
+  //         strokeDasharray={circumference}
+  //         strokeDashoffset={circumference - progress}
+  //         strokeLinecap="round"
+  //         transform="rotate(-90 25 25)" // Start progress from the top
+  //       />
+  //       {/* Percentage Text */}
+  //       <text
+  //         x="50%"
+  //         y="50%"
+  //         dominantBaseline="middle"
+  //         textAnchor="middle"
+  //         fontSize="10"
+  //         fill={color}
+  //         fontWeight="bold"
+  //       >
+  //         {percentage}%
+  //       </text>
+  //     </svg>
+  //   );
+  // };
 
 
   const handleTotalProduct = () => {
@@ -706,7 +706,7 @@ const LayoutSellerDashboard = () => {
                     </div>
                     <div className="flex justify-between">
                       <p className='items-center flex justify-center text-3xl mt-4 font-semibold px-2'>{detail.percentage}</p>
-                      <CircleProgress percentage={detail.percentage} color={detail.color} />
+                      {/* <CircleProgress percentage={detail.percentage} color={detail.color} /> */}
                     </div>
                   </div>
                 </div>

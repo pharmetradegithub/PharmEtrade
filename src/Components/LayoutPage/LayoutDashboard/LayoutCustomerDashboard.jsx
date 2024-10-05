@@ -24,49 +24,49 @@ const LayoutDashboard = () => {
       label: "Cancelled", quantity: customerList.cancelledOrders, color: 'red', grid: "cancelled" },
   ];
 
-  const CircleProgress = ({ percentage, color }) => {
-    const radius = 20;
-    const strokeWidth = 4;
-    const circumference = 2 * Math.PI * radius;
-    const progress = (percentage / 100) * circumference;
+  // const CircleProgress = ({ percentage, color }) => {
+  //   const radius = 20;
+  //   const strokeWidth = 4;
+  //   const circumference = 2 * Math.PI * radius;
+  //   const progress = (percentage / 100) * circumference;
 
-    return (
-      <svg width={50} height={50}>
-        <circle
-          cx="25"
-          cy="25"
-          r={radius}
-          stroke="#e0e0e0"
-          strokeWidth={strokeWidth}
-          fill="none"
-        />
-        <circle
-          cx="25"
-          cy="25"
-          r={radius}
-          stroke={color}
-          strokeWidth={strokeWidth}
-          fill="none"
-          strokeDasharray={circumference}
-          strokeDashoffset={circumference - progress}
-          strokeLinecap="round"
-          transform="rotate(-90 25 25)" // Start progress from the top
-        />
-        {/* Percentage Text */}
-        <text
-          x="50%"
-          y="50%"
-          dominantBaseline="middle"
-          textAnchor="middle"
-          fontSize="10"
-          fill={color}
-          fontWeight="bold"
-        >
-          {percentage}%
-        </text>
-      </svg>
-    );
-  };
+  //   return (
+  //     <svg width={50} height={50}>
+  //       <circle
+  //         cx="25"
+  //         cy="25"
+  //         r={radius}
+  //         stroke="#e0e0e0"
+  //         strokeWidth={strokeWidth}
+  //         fill="none"
+  //       />
+  //       <circle
+  //         cx="25"
+  //         cy="25"
+  //         r={radius}
+  //         stroke={color}
+  //         strokeWidth={strokeWidth}
+  //         fill="none"
+  //         strokeDasharray={circumference}
+  //         strokeDashoffset={circumference - progress}
+  //         strokeLinecap="round"
+  //         transform="rotate(-90 25 25)" // Start progress from the top
+  //       />
+  //       {/* Percentage Text */}
+  //       <text
+  //         x="50%"
+  //         y="50%"
+  //         dominantBaseline="middle"
+  //         textAnchor="middle"
+  //         fontSize="10"
+  //         fill={color}
+  //         fontWeight="bold"
+  //       >
+  //         {percentage}%
+  //       </text>
+  //     </svg>
+  //   );
+  // };
 
   return (
     <div className='w-full h-full bg-gray-100 flex items-center justify-center overflow-y-scroll'>
@@ -91,7 +91,7 @@ const LayoutDashboard = () => {
                   <div className='flex justify-between mt-2'>
                     <p className='text-3xl mt-2'>{order.quantity}</p>
                     {/* Circle with colored border and percentage */}
-                    <CircleProgress percentage={order.quantity} color={order.color} />
+                    {/* <CircleProgress percentage={order.quantity} color={order.color} /> */}
                     {/* <div
                     className={`w-16 h-16 rounded-full flex items-center justify-center border-4 ${order.color}`}
                     // style={{ backgroundColor: 'transparent' }}

@@ -330,6 +330,21 @@ const returnsSlice = createSlice({
     }
   }
 })
+
+const addressSlice = createSlice({
+  name: 'address',
+  initialState: { address: [], customerId :[]},
+  reducers: {
+    setAddAddress(state, action) {
+      state.address = action.payload
+    },
+    setAddress(state, action) {
+      state.customerId = action.payload
+    }
+  }
+})
+
+
 export const { setSpecialOffer } = productsSlice.actions;
 export const { setGetProductSpecialOffer } = productsSlice.actions
 
@@ -354,6 +369,8 @@ export const { setOrderDownloadInvoice } = orderSlice.actions
 export const { setOrderViewInvoice } = orderSlice.actions
 export const { setEarning } = earningSlice.actions
 export const { setReturns } = returnsSlice.actions
+export const { setAddress } = addressSlice.actions
+export const { setAddAddress } = addressSlice.actions
 
 
 const store = configureStore({
@@ -368,7 +385,8 @@ const store = configureStore({
     dashboard: dashboardSlice.reducer,
     master: mastersSlice.reducer,
     earning: earningSlice.reducer,
-    returns: returnsSlice.reducer
+    returns: returnsSlice.reducer,
+    address: addressSlice.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });
