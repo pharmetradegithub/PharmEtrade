@@ -148,7 +148,6 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
   //   setCurrentPage((prev) => Math.max(prev - 1, 1));
   // };
 
-
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = productCriteria.slice(indexOfFirstItem, indexOfLastItem);
@@ -329,7 +328,8 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
 
                 <div className="w-full py-1">
                   <h2 className="text-fonts h-12">{item.productName}</h2>
-                  {item.salePrice > 0 ? (
+                  {new Date() >= new Date(item?.salePriceValidFrom) &&
+                  new Date() <= new Date(item?.salePriceValidTo) ? (
                     <div className="flex items-center gap-1">
                       <h1 className="text-fonts font-semibold">
                         ${item.salePrice?.toFixed(2)}
@@ -352,24 +352,24 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                   <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                   <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                 </div> */}
-                 <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <span style={{ fontSize: "24px", color: "orange" }}>★</span>
-                  <span style={{ fontSize: "24px", color: "orange" }}>★</span>
-                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
-                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
-                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center">
+                    <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                  </div>
+                  <div className="text-xs">
+                    {item.amountInStock <= 0 ? (
+                      <p className="text-red-500 font-semibold">Out Of Stock</p>
+                    ) : (
+                      <p className="text-green-600 rounded-lg font-semibold ">
+                        In Stock - {item.amountInStock}
+                      </p>
+                    )}
+                  </div>
                 </div>
-                <div className="text-xs">
-                  {item.amountInStock <= 0 ? (
-                    <p className="text-red-500 font-semibold">Out Of Stock</p>
-                  ) : (
-                    <p className="text-green-600 rounded-lg font-semibold ">
-                      In Stock - {item.amountInStock}
-                    </p>
-                  )}
-                </div>
-              </div>
 
                 <div className="flex flex-row items-center justify-between w-full px-1">
                   <div className="text-foot text-xs">UPN Member Price:</div>
@@ -389,32 +389,34 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                   />
                   <button className="text-white font-semibold">ADD</button>
                 </div> */}
-                   <div
-  className={`flex p-1 rounded-md justify-center ${
-    item.amountInStock === 0
-      ? "bg-gray-400 cursor-not-allowed"
-      : "bg-blue-900 cursor-pointer"
-  }`}
-  onClick={() => {
-    if (item.amountInStock > 0) {
-      handleCart(item.productID); // Only call handleCart if item is in stock
-    }
-  }}
->
-  <img
-    src={addcart}
-    alt="Add to cart"
-    className={`h-8 p-[6px] ${item.amountInStock === 0 ? "opacity-50" : ""}`}
-  />
-  <button
-    className={`text-white font-semibold ${
-      item.amountInStock === 0 ? "opacity-50" : ""
-    }`}
-    disabled={item.amountInStock === 0} // Disable the button when out of stock
-  >
-    ADD
-  </button>
-</div>
+                <div
+                  className={`flex p-1 rounded-md justify-center ${
+                    item.amountInStock === 0
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-blue-900 cursor-pointer"
+                  }`}
+                  onClick={() => {
+                    if (item.amountInStock > 0) {
+                      handleCart(item.productID); // Only call handleCart if item is in stock
+                    }
+                  }}
+                >
+                  <img
+                    src={addcart}
+                    alt="Add to cart"
+                    className={`h-8 p-[6px] ${
+                      item.amountInStock === 0 ? "opacity-50" : ""
+                    }`}
+                  />
+                  <button
+                    className={`text-white font-semibold ${
+                      item.amountInStock === 0 ? "opacity-50" : ""
+                    }`}
+                    disabled={item.amountInStock === 0} // Disable the button when out of stock
+                  >
+                    ADD
+                  </button>
+                </div>
 
                 {pop && <Items topMargin={topMargin} onClose={handleClose} />}
               </div>
@@ -441,15 +443,15 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
           <img src={next} className="w-2" />
         </button>
       </div> */}
-       <Pagination
-              indexOfFirstItem={indexOfFirstItem}
-              indexOfLastItem={indexOfLastItem}
-              productList={productCriteria}
-              itemsPerPage={itemsPerPage}
-              setItemsPerPage={setItemsPerPage}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
+      <Pagination
+        indexOfFirstItem={indexOfFirstItem}
+        indexOfLastItem={indexOfLastItem}
+        productList={productCriteria}
+        itemsPerPage={itemsPerPage}
+        setItemsPerPage={setItemsPerPage}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 }

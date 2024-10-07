@@ -16,7 +16,7 @@ import share from "../assets/share.png";
 import wrong from "../assets/Icons/wrongred.png";
 import Facebook from "../assets/facebook1.png";
 import Pintrist from "../assets/pinterest.png";
-import Instagram from "../assets/instagram_icon.png"
+import Instagram from "../assets/instagram_icon.png";
 import email from "../assets/envelope.png";
 import Whatsapp from "../assets/Icons/Whatsapp.png";
 import { FaRegHeart } from "react-icons/fa";
@@ -123,7 +123,6 @@ function Items({
 
   const upsellProducts = useSelector((state) => state.product.UpSellProducts);
 
-
   const crossSellProducts = useSelector(
     (state) => state.product.CrossSellProducts
   );
@@ -141,7 +140,7 @@ function Items({
     NewProductsAPI();
   }, []);
 
-  console.log("prod--->", prod)
+  console.log("prod--->", prod);
   // useEffect(() => {
   //   if (prod) {
   //     setimg(prod.productGallery.imageUrl);
@@ -352,7 +351,7 @@ function Items({
       // quantity: quantity,
       // pricePerProduct: prod.salePrice,
       // vendorId: prod.sellerId,
-      
+
       orderId: "0",
       customerId: user.customerId,
       totalAmount: quantity * prod.salePrice,
@@ -366,9 +365,9 @@ function Items({
           quantity: quantity,
           pricePerProduct: prod.salePrice,
           sellerId: prod.sellerId,
-          imageUrl: prod.productGallery.imageUrl
-        }
-      ]
+          imageUrl: prod.productGallery.imageUrl,
+        },
+      ],
     };
     navigate(`/checkout?total=${quantity * prod.salePrice.toFixed(2)}`);
 
@@ -399,7 +398,7 @@ function Items({
   const formattedMonth = month < 10 ? `0${month}` : month;
   const formattedDay = day < 10 ? `0${day}` : day;
 
-  const formattedDate =`${formattedMonth}-${formattedDay}-${year}`;
+  const formattedDate = `${formattedMonth}-${formattedDay}-${year}`;
 
   // const formattedDate = `${month}-${day}-${year}`;
   return (
@@ -510,27 +509,32 @@ function Items({
           </div>
         </div>
 
-
-
         {isShowPopup && (
-          
-                      
-          
           <div className="flex flex-col justify-center items-center top-0 right-0 h-full absolute inset-0 bg-transparent z-auto">
             <div className="border w-[13%] rounded-lg bg-gray-100 -ml-40">
               <div className="flex border-b justify-between p-2">
                 <div className="flex items-center">
-                  <a href="mailto:example@example.com" className="flex items-center">
-
+                  <a
+                    href="mailto:example@example.com"
+                    className="flex items-center"
+                  >
                     <img src={email} className="text-blue-400 w-6" />
                     <p className="ml-3">Email</p>
                   </a>
                 </div>
-                <img src={wrong} onClick={handleSharePopupToggle} className="w-3 h-3" />
+                <img
+                  src={wrong}
+                  onClick={handleSharePopupToggle}
+                  className="w-3 h-3"
+                />
               </div>
               <div className="flex border-b p-2">
-              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
-
+                <a
+                  href="https://www.instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center"
+                >
                   <img src={Instagram} className="text-blue-400 w-6" />
 
                   {/* <FaPinterest className="text-red-500 text-2xl" /> */}
@@ -538,23 +542,31 @@ function Items({
                 </a>
               </div>
               <div className="flex border-b p-2">
-                <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
-
+                <a
+                  href="https://www.facebook.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center"
+                >
                   <img src={Facebook} className="text-blue-400 w-6" />
                   {/* <FaFacebook  /> */}
                   <p className="ml-3">Facebook</p>
                 </a>
               </div>
               <div className="flex border-b p-2">
-              <a href="https://wa.me/1234567890?text=Hello" target="_blank" rel="noopener noreferrer" className="flex items-center">
-
+                <a
+                  href="https://wa.me/1234567890?text=Hello"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center"
+                >
                   <img src={Whatsapp} className="text-blue-400 w-6" />
                   <p className="ml-3">Whatsapp</p>
                 </a>
               </div>
             </div>
           </div>
-                    )}
+        )}
 
         <div className="w-[60%] overflow-scroll justify-between h-[500px] flex border-none">
           <div className="w-[50%] ">
@@ -572,14 +584,25 @@ function Items({
               </h3>
 
               {/* <div className="flex items-center">
-                <span className="text-sky-500 font-semibold text-[18px] ">
-                  {prod?.salePrice?.toFixed(2)}
-                </span>
-                <p className="text-xs ml-1 line-through">${prod?.unitPrice?.toFixed(2)}</p>
-                
-              </div> */}
-              <div className="flex items-center">
                 {prod?.salePrice > 0 ? (
+                  <>
+                    <span className="text-sky-500 font-semibold text-[18px]">
+                      ${prod?.salePrice?.toFixed(2)}
+                    </span>
+                    <p className="text-xs ml-1 line-through">
+                      ${prod?.unitPrice?.toFixed(2)}
+                    </p>
+                  </>
+                ) : (
+                  <span className="text-sky-500 font-semibold text-[18px]">
+                    ${prod?.unitPrice?.toFixed(2)}
+                  </span>
+                )}
+              </div> */}
+
+              <div className="flex items-center">
+                {new Date() >= new Date(prod?.salePriceValidFrom) &&
+                new Date() <= new Date(prod?.salePriceValidTo) ? (
                   <>
                     <span className="text-sky-500 font-semibold text-[18px]">
                       ${prod?.salePrice?.toFixed(2)}
@@ -712,12 +735,20 @@ function Items({
             <div className="border rounded-lg shadow-lg  pb-4 w-full h-full">
               <div className="p-4">
                 <div className="flex justify-between">
-                  <p className="text-black text-[22px]">
+                  {/* <p className="text-black text-[22px]">
                     $
                     {prod?.salePrice > 0
                       ? prod?.salePrice.toFixed(2)
                       : prod?.unitPrice?.toFixed(2)}
+                  </p> */}
+                  <p className="text-black text-[22px]">
+                    $
+                    {new Date() >= new Date(prod?.salePriceValidFrom) &&
+                    new Date() <= new Date(prod?.salePriceValidTo)
+                      ? prod?.salePrice?.toFixed(2)
+                      : prod?.unitPrice?.toFixed(2)}
                   </p>
+
                   {/* <img src={ ?Wishlist :filledheart} className="w-5 h-5 flex   "/> */}
                   <Tooltip placement="top" title="wishlist">
                     <img
@@ -811,28 +842,56 @@ function Items({
                      `}
                   onClick={() => handleCart(id)}
                 > */}
-                <button
+                {/* <button
                   className={`bg-blue-900 w-40 flex  rounded-lg justify-center  items-center py-1 cursor-pointer
-                     ${prod?.amountInStock === 0
-                      ? "opacity-50"
-                      : "cursor-pointer"
-                    } `}
+                     ${
+                       prod?.amountInStock <= 0
+                         ? "bg-gray-400 cursor-not-allowed"
+                         : "cursor-pointer"
+                     } `}
                   // onClick={() => handleCart(id)}
                   onClick={() => {
                     if (prod?.amountInStock !== 0) {
-                      handleCart((id).CartQuantity);
+                      handleCart(id.CartQuantity);
                     }
                   }}
                 >
                   <img src={addcart} className="h-7 p-1" />
                   <p className="text-white font-semibold">ADD</p>
+                </button> */}
+                <button
+                  className={`w-40 flex rounded-lg justify-center items-center py-1 
+    ${
+      prod?.amountInStock <= 0
+        ? "bg-gray-400 cursor-not-allowed"
+        : "bg-blue-900 cursor-pointer"
+    }`}
+                  disabled={prod?.amountInStock <= 0}
+                  onClick={() => {
+                    if (prod?.amountInStock > 0) {
+                      handleCart(id.CartQuantity);
+                    }
+                  }}
+                >
+                  <img src={addcart} className="h-7 p-1" alt="Add to Cart" />
+                  <p className="text-white font-semibold">ADD</p>
                 </button>
 
-                <button
+                {/* <button
                   className={`w-40 text-white font-semibold text-lg border rounded-lg  items-center  bg-orange-400 flex justify-center`}
                   onClick={handleOrder}
                 >
-                  {/* <FiShoppingCart className="text-[20px] mt-1 mx-1" /> */}
+                  Buy Now
+                </button> */}
+                <button
+                  className={`w-40 text-white font-semibold text-lg border rounded-lg items-center flex justify-center ${
+                    prod?.amountInStock === 0
+                      ? "bg-orange-200 cursor-not-allowed"
+                      : "bg-orange-400"
+                  }`}
+                  onClick={handleOrder}
+                  disabled={prod?.amountInStock === 0}
+                >
                   Buy Now
                 </button>
               </div>
@@ -849,8 +908,7 @@ function Items({
                 <p className="font-semibold text-gray-600">SOLD BY</p>
                 <p className="text-red-600">
                   {" "}
-                  {prod?.sellerFirstName}
-                  {prod?.sellerLastName}
+                  {prod?.sellerFirstName} {prod?.sellerLastName}
                 </p>
                 <p className="hover:text-red-600">Company Website</p>
                 <div className="flex flex-col">

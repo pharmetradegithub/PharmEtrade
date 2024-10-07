@@ -271,7 +271,22 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
               </div> */}
               <div className="w-full py-1">
                 <h2 className="text-fonts h-12">{item.productName}</h2>
-                {item.salePrice > 0 ? (
+                {/* {item.salePrice > 0 ? (
+                  <div className="flex items-center gap-1">
+                    <h1 className="text-fonts font-semibold">
+                      ${item.salePrice?.toFixed(2)}
+                    </h1>
+                    <span className="text-[10px] line-through">
+                      (${item.unitPrice?.toFixed(2)})
+                    </span>
+                  </div>
+                ) : (
+                  <h1 className="text-fonts font-semibold">
+                    ${item.unitPrice?.toFixed(2)}
+                  </h1>
+                )} */}
+                {new Date() >= new Date(item?.salePriceValidFrom) &&
+                new Date() <= new Date(item?.salePriceValidTo) ? (
                   <div className="flex items-center gap-1">
                     <h1 className="text-fonts font-semibold">
                       ${item.salePrice?.toFixed(2)}
@@ -325,7 +340,9 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 <div className="text-base font-semibold">${item.upnMemberPrice?.toFixed(2)}</div>
               </div> */}
 
-              <div className="text-foot">{item.productCategory.categoryName}</div>
+              <div className="text-foot">
+                {item.productCategory.categoryName}
+              </div>
 
               {/* <div
                 className="flex bg-blue-900 p-1 cursor-pointer rounded-md justify-center"
@@ -335,10 +352,11 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 <button className="text-white font-semibold">ADD</button>
               </div> */}
               <div
-                className={`flex p-1 rounded-md justify-center ${item.amountInStock === 0
+                className={`flex p-1 rounded-md justify-center ${
+                  item.amountInStock === 0
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-blue-900 cursor-pointer"
-                  }`}
+                }`}
                 onClick={() => {
                   if (item.amountInStock > 0) {
                     handleCart(item.productID); // Only call handleCart if item is in stock
@@ -348,12 +366,14 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 <img
                   src={addcart}
                   alt="Add to cart"
-                  className={`h-8 p-[6px] ${item.amountInStock === 0 ? "opacity-50" : ""
-                    }`}
+                  className={`h-8 p-[6px] ${
+                    item.amountInStock === 0 ? "opacity-50" : ""
+                  }`}
                 />
                 <button
-                  className={`text-white font-semibold ${item.amountInStock === 0 ? "opacity-50" : ""
-                    }`}
+                  className={`text-white font-semibold ${
+                    item.amountInStock === 0 ? "opacity-50" : ""
+                  }`}
                   disabled={item.amountInStock === 0} // Disable the button when out of stock
                 >
                   ADD
