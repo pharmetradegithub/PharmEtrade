@@ -168,10 +168,10 @@ console.log(date)
                   className="text-xl border rounded-lg p-1 w-16"
                   min="1"
                 />
-                <div className="flex">
+                {/* <div className="flex">
                   <p>{}</p>
                   <p>{itemsdetail.customerName}</p>
-                </div>
+                </div> */}
               </div>
 
               {/* <div>

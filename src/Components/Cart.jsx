@@ -8,22 +8,45 @@
 // import { addCartApi, removeItemFromCartApi } from "../Api/CartApi";
 // import { fetchOrderPlace } from "../Api/OrderApi";
 
+// import {
+//   Tooltip,
+//   Dialog,
+//   DialogTitle,
+//   DialogContent,
+//   DialogActions,
+//   Button,
+// } from "@mui/material";
+// import wrong from "../assets/Icons/wrongred.png";
+
 // function Cart() {
 //   const user = useSelector((state) => state.user.user);
 //   const cartList = useSelector((state) => state.cart.cart);
 //   const [cartItems, setcartItems] = useState(cartList);
 //   // const { cartItems, setCartItems } = useContext(AppContext);
 //   const [quantities, setQuantities] = useState([]);
+//   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+//   const [openDialog, setOpenDialog] = useState(false);
 //   const navigate = useNavigate();
 
 //   useEffect(() => {
 //     if (cartList) setcartItems(cartList);
 //   }, [cartList]);
 
-//   const handleremove = async (index) => {
+//   const handleDeleteClick = (index) => {
+//     setSelectedItemIndex(index);
+//     setOpenDialog(true);
+//   };
+
+//   const handleDialogClose = () => {
+//     setOpenDialog(false);
+//     setSelectedItemIndex(null);
+//   };
+
+//   const handleremove = async () => {
 //     try {
-//       const cartId = cartItems[index].cartId;
+//       const cartId = cartItems[selectedItemIndex].cartId;
 //       await removeItemFromCartApi(cartId);
+//       handleDialogClose(); // Close dialog after deleting
 //     } catch (error) {
 //       console.error("There was a problem with the fetch operation:", error);
 //     }
@@ -58,22 +81,19 @@
 //       );
 //     }
 //   };
-//   // const handleQuantityChange = (index, newQuantity) => {
-//   //   const updatedQuantities = [...quantities];
-//   //   updatedQuantities[index] = newQuantity;
-//   //   setQuantities(updatedQuantities);
-//   // };
 
 //   const calculateSubtotal = (price, quantity) => price * quantity;
 
-//   // Calculate total dynamically based on updated quantities
-//   const total = cartItems.reduce(
-//     (acc, item, index) =>
-//       acc + calculateSubtotal(item.product.salePrice, item.quantity),
-//     0
-//   );
+//   const total = cartItems.reduce((acc, item) => {
+//     const price =
+//       item.product?.salePrice > 0
+//         ? item.product.salePrice.toFixed(2)
+//         : item.product.unitPrice?.toFixed(2);
 
-//   const dispatch = useDispatch()
+//     return acc + calculateSubtotal(price, item.quantity);
+//   }, 0);
+
+//   const dispatch = useDispatch();
 //   const handleProceed = () => {
 //     const currentDate = new Date();
 //     const payload = {
@@ -90,62 +110,17 @@
 //           quantity: items.quantity,
 //           pricePerProduct: items.product.salePrice,
 //           sellerId: user.customerId,
-//           imageUrl: items.product.imageUrl
+//           imageUrl: items.product.imageUrl,
 //         };
-//       })
+//       }),
 //     };
-//     dispatch(fetchOrderPlace(payload))
+//     dispatch(fetchOrderPlace(payload));
 //     navigate(`/checkout?total=${total?.toFixed(2)}`);
 //   };
 
 //   const handlemove = () => {
 //     navigate("/detailspage/0");
 //   };
-
-//   // const Search = styled("div")(({ theme }) => ({
-//   //   position: "relative",
-//   //   borderRadius: theme.shape.borderRadius,
-//   //   backgroundColor: alpha(theme.palette.common.white, 0.15),
-//   //   "&:hover": {
-//   //     backgroundColor: alpha(theme.palette.common.white, 0.25),
-//   //   },
-//   //   marginLeft: 0,
-//   //   width: "100%",
-//   //   [theme.breakpoints.up("sm")]: {
-//   //     marginLeft: theme.spacing(1),
-//   //     width: "auto",
-//   //   },
-//   // }));
-
-//   // const SearchIconWrapper = styled("div")(({ theme }) => ({
-//   //   padding: theme.spacing(0, 2),
-//   //   height: "100%",
-//   //   position: "absolute",
-//   //   pointerEvents: "none",
-//   //   display: "flex",
-//   //   alignItems: "center",
-//   //   justifyContent: "center",
-//   //   color: "black",
-//   //   zIndex: "1",
-//   // }));
-
-//   // const StyledInputBase = styled(InputBase)(({ theme }) => ({
-//   //   border: "1px solid gray",
-//   //   borderRadius: "5px",
-//   //   color: "black",
-//   //   width: "100%",
-//   //   "& .MuiInputBase-input": {
-//   //     padding: theme.spacing(1, 1, 1, 0),
-//   //     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-//   //     transition: theme.transitions.create("width"),
-//   //     [theme.breakpoints.up("sm")]: {
-//   //       width: "12ch",
-//   //       "&:focus": {
-//   //         width: "20ch",
-//   //       },
-//   //     },
-//   //   },
-//   // }));
 
 //   return (
 //     <div className="flex flex-col justify-center font-sans bg-gray-200 p-8">
@@ -154,22 +129,9 @@
 //       </p>
 //       <div className="w-full bg-white rounded-lg shadow-lg p-5">
 //         <div className="flex justify-between">
-//           <h2 className="text-xl md:text-2xl m-5 text-blue-900 font-semibold">Cart</h2>
-//           {/* <div className="flex bg-white mb-4">
-//             <Search>
-//               <SearchIconWrapper>
-//                 <img
-//                   src={searchimg}
-//                   className="w-6 absolute"
-//                   alt="search-icon"
-//                 />
-//               </SearchIconWrapper>
-//               <StyledInputBase
-//                 placeholder="Search..."
-//                 inputProps={{ "aria-label": "search" }}
-//               />
-//             </Search>
-//           </div> */}
+//           <h2 className="text-xl md:text-2xl m-5 text-blue-900 font-semibold">
+//             Cart
+//           </h2>
 //         </div>
 //         {cartItems.length > 0 ? (
 //           <div className="flex flex-col lg:flex-row gap-2">
@@ -189,7 +151,7 @@
 //                     <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">
 //                       Quantity
 //                     </th>
-//                     <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">
+//                     <th className="px-2 md:px-5 -mr-2 py-2 md:py-3 text-right font-semibold text-blue-950 tracking-wider">
 //                       Subtotal
 //                     </th>
 //                     <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">
@@ -212,8 +174,11 @@
 //                       <td className="px-2 md:px-4 py-3 p-2 flex flex-wrap">
 //                         {item.product.productName}
 //                       </td>
-//                       <td className=" md:px-4 py-3 text-left ">
-//                         ${item.product.salePrice?.toFixed(2)}
+//                       <td className=" md:px-4 py-3 text-center ">
+//                         {/* ${item.product.unitPrice?.toFixed(2)} */}$
+//                         {item.product?.salePrice > 0
+//                           ? item.product.salePrice.toFixed(2)
+//                           : item.product.unitPrice?.toFixed(2)}
 //                       </td>
 //                       <td className="px-2 flex gap-2 md:px-4 py-3 ">
 //                         <input
@@ -225,26 +190,15 @@
 //                           className="text-xl border rounded-lg p-1 w-16"
 //                           min="1"
 //                         />
-//                         {/* {item.updateQuantity != item.quantity && (
-//                           <button onClick={()=>handleCart(item.product.productID,item.updateQuantity-item.quantity)} className="text-white px-2 bg-blue-900">
-//                             Update
-//                           </button>
-//                         )} */}
 //                       </td>
-//                       {/* <td className="px-2 md:px-4 py-3 whitespace-nowrap">
+
+//                       <td className="px-2 md:px-4 text-right py-3 ">
 //                         <strong>
 //                           $
 //                           {calculateSubtotal(
-//                             item.product.salePrice,
-//                             item.quantity
-//                           )}
-//                         </strong>
-//                       </td> */}
-//                       <td className="px-2 md:px-4 text-left py-3 ">
-//                         <strong>
-//                           $
-//                           {calculateSubtotal(
-//                             item.product.salePrice,
+//                             item.product?.salePrice > 0
+//                               ? item.product.salePrice.toFixed(2)
+//                               : item.product.unitPrice?.toFixed(2),
 //                             item.quantity
 //                           )?.toFixed(2)}
 //                         </strong>
@@ -252,13 +206,16 @@
 //                       <td className="px-2 md:px-4 py-8 whitespace-nowrap flex items-center justify-center">
 //                         <button
 //                           className="text-red-600 w-4 h-3"
-//                           onClick={() => handleremove(index)}
+//                           // onClick={() => handleremove(index)}
+//                           onClick={() => handleDeleteClick(index)}
 //                         >
-//                           <img
-//                             src={deleteicon}
-//                             className="w-6"
-//                             alt="delete-icon"
-//                           />
+//                           <Tooltip placement="top" title="Delete">
+//                             <img
+//                               src={deleteicon}
+//                               className="w-6"
+//                               alt="delete-icon"
+//                             />
+//                           </Tooltip>
 //                         </button>
 //                       </td>
 //                     </tr>
@@ -289,11 +246,15 @@
 //                   <tbody>
 //                     <tr>
 //                       <td className="px-4 py-2 font-semibold">Subtotal</td>
-//                       <td className="px-4 py-2 text-right">${total?.toFixed(2)}</td>
+//                       <td className="px-4 py-2 text-right">
+//                         ${total?.toFixed(2)}
+//                       </td>
 //                     </tr>
 //                     <tr>
 //                       <td className="px-4 py-2 font-semibold">Total</td>
-//                       <td className="px-4 py-2 text-right">${total?.toFixed(2)}</td>
+//                       <td className="px-4 py-2 text-right">
+//                         ${total?.toFixed(2)}
+//                       </td>
 //                     </tr>
 //                   </tbody>
 //                 </table>
@@ -314,21 +275,57 @@
 //             <h2 className="text-xl font-semibold text-gray-700">
 //               Your cart is currently empty.
 //             </h2>
-//             <Link
-//               to="/allProducts"
-//               className="mt-5 px-8 py-2 font-semibold text-white text-lg bg-blue-900 rounded-full"
-//             >
-//               RETURN TO SHOP
-//             </Link>
+
+//             <img src={searchimg} className="w-24 h-24 mt-4" alt="empty-cart" />
+//             <button className="bg-blue-900 text-white px-4 py-2 mt-6 rounded-lg">
+//               <Link to="/allProducts">Continue Shopping</Link>
+//             </button>
 //           </div>
 //         )}
 //       </div>
+//       {/* Confirmation Dialog */}
+//       <Dialog open={openDialog} onClose={handleDialogClose}>
+//         <div className="flex justify-end p-2">
+//           <img src={wrong} className="w-5 h-5 flex justify-end" />
+//         </div>
+//         <DialogContent>
+//           Are you sure you want to delete this item from your cart?
+//         </DialogContent>
+//         <div>
+//           <DialogActions
+//             sx={{
+//               display: "flex",
+//               justifyContent: "space-around",
+//             }}
+//           >
+//             <Button
+//               onClick={handleDialogClose}
+//               sx={{
+//                 color: "white",
+//                 backgroundColor: "red",
+//                 "&:hover": { backgroundColor: "#cc0000" },
+//               }}
+//             >
+//               Cancel
+//             </Button>
+//             <Button
+//               onClick={handleremove}
+//               sx={{
+//                 color: "white",
+//                 backgroundColor: "green",
+//                 "&:hover": { backgroundColor: "#006400" },
+//               }}
+//             >
+//               Delete
+//             </Button>
+//           </DialogActions>
+//         </div>
+//       </Dialog>
 //     </div>
 //   );
 // }
 
 // export default Cart;
-
 
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -347,7 +344,8 @@ import {
   DialogContent,
   DialogActions,
   Button,
-} from "@mui/material";import wrong from "../assets/Icons/wrongred.png"
+} from "@mui/material";
+import wrong from "../assets/Icons/wrongred.png";
 
 function Cart() {
   const user = useSelector((state) => state.user.user);
@@ -373,15 +371,6 @@ function Cart() {
     setSelectedItemIndex(null);
   };
 
-  // const handleremove = async (index) => {
-  //   try {
-  //     const cartId = cartItems[index].cartId;
-  //     await removeItemFromCartApi(cartId);
-  //   } catch (error) {
-  //     console.error("There was a problem with the fetch operation:", error);
-  //   }
-  // };
-
   const handleremove = async () => {
     try {
       const cartId = cartItems[selectedItemIndex].cartId;
@@ -405,48 +394,58 @@ function Cart() {
       console.error("Error adding product to cart:", error);
     }
   };
-  const handleQuantityChange = (index, newQuantity) => {
-    if (newQuantity) {
-      setcartItems((prev) => {
-        const updatedList = [...prev];
-        updatedList[index] = {
-          ...updatedList[index],
-          updateQuantity: newQuantity,
-        };
-        return updatedList;
-      });
-      handleCart(
-        cartItems[index].product.productID,
-        newQuantity - cartItems[index].quantity
-      );
-    }
-  };
   // const handleQuantityChange = (index, newQuantity) => {
-  //   const updatedQuantities = [...quantities];
-  //   updatedQuantities[index] = newQuantity;
-  //   setQuantities(updatedQuantities);
+  //   if (newQuantity) {
+  //     setcartItems((prev) => {
+  //       const updatedList = [...prev];
+  //       updatedList[index] = {
+  //         ...updatedList[index],
+  //         updateQuantity: newQuantity,
+  //       };
+  //       return updatedList;
+  //     });
+  //     handleCart(
+  //       cartItems[index].product.productID,
+  //       newQuantity - cartItems[index].quantity
+  //     );
+  //   }
   // };
+
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleQuantityChange = (index, newQuantity) => {
+    if (newQuantity > 10) {
+      setShowPopup(true);
+      return;
+    }
+
+    setcartItems((prev) => {
+      const updatedList = [...prev];
+      updatedList[index] = {
+        ...updatedList[index],
+        updateQuantity: newQuantity,
+      };
+      return updatedList;
+    });
+
+    handleCart(
+      cartItems[index].product.productID,
+      newQuantity - cartItems[index].quantity
+    );
+  };
 
   const calculateSubtotal = (price, quantity) => price * quantity;
 
-  // Calculate total dynamically based on updated quantities
-  // const total = cartItems.reduce(
-  //   (acc, item, index) =>
-  //     acc + calculateSubtotal(item.product.salePrice, item.quantity),
-  //   0
-  // );
-
-
   const total = cartItems.reduce((acc, item) => {
-    const price = item.product?.salePrice > 0 
-      ? item.product.salePrice.toFixed(2) 
-      : item.product.unitPrice?.toFixed(2);
-  
+    const price =
+      item.product?.salePrice > 0
+        ? item.product.salePrice.toFixed(2)
+        : item.product.unitPrice?.toFixed(2);
+
     return acc + calculateSubtotal(price, item.quantity);
   }, 0);
-  
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleProceed = () => {
     const currentDate = new Date();
     const payload = {
@@ -467,58 +466,13 @@ function Cart() {
         };
       }),
     };
-    dispatch(fetchOrderPlace(payload))
+    dispatch(fetchOrderPlace(payload));
     navigate(`/checkout?total=${total?.toFixed(2)}`);
   };
 
   const handlemove = () => {
     navigate("/detailspage/0");
   };
-
-  // const Search = styled("div")(({ theme }) => ({
-  //   position: "relative",
-  //   borderRadius: theme.shape.borderRadius,
-  //   backgroundColor: alpha(theme.palette.common.white, 0.15),
-  //   "&:hover": {
-  //     backgroundColor: alpha(theme.palette.common.white, 0.25),
-  //   },
-  //   marginLeft: 0,
-  //   width: "100%",
-  //   [theme.breakpoints.up("sm")]: {
-  //     marginLeft: theme.spacing(1),
-  //     width: "auto",
-  //   },
-  // }));
-
-  // const SearchIconWrapper = styled("div")(({ theme }) => ({
-  //   padding: theme.spacing(0, 2),
-  //   height: "100%",
-  //   position: "absolute",
-  //   pointerEvents: "none",
-  //   display: "flex",
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  //   color: "black",
-  //   zIndex: "1",
-  // }));
-
-  // const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  //   border: "1px solid gray",
-  //   borderRadius: "5px",
-  //   color: "black",
-  //   width: "100%",
-  //   "& .MuiInputBase-input": {
-  //     padding: theme.spacing(1, 1, 1, 0),
-  //     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-  //     transition: theme.transitions.create("width"),
-  //     [theme.breakpoints.up("sm")]: {
-  //       width: "12ch",
-  //       "&:focus": {
-  //         width: "20ch",
-  //       },
-  //     },
-  //   },
-  // }));
 
   return (
     <div className="flex flex-col justify-center font-sans bg-gray-200 p-8">
@@ -527,22 +481,9 @@ function Cart() {
       </p>
       <div className="w-full bg-white rounded-lg shadow-lg p-5">
         <div className="flex justify-between">
-          <h2 className="text-xl md:text-2xl m-5 text-blue-900 font-semibold">Cart</h2>
-          {/* <div className="flex bg-white mb-4">
-            <Search>
-              <SearchIconWrapper>
-                <img
-                  src={searchimg}
-                  className="w-6 absolute"
-                  alt="search-icon"
-                />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search..."
-                inputProps={{ "aria-label": "search" }}
-              />
-            </Search>
-          </div> */}
+          <h2 className="text-xl md:text-2xl m-5 text-blue-900 font-semibold">
+            Cart
+          </h2>
         </div>
         {cartItems.length > 0 ? (
           <div className="flex flex-col lg:flex-row gap-2">
@@ -586,10 +527,12 @@ function Cart() {
                         {item.product.productName}
                       </td>
                       <td className=" md:px-4 py-3 text-center ">
-                        {/* ${item.product.unitPrice?.toFixed(2)} */}
-                        ${item.product?.salePrice > 0 ? item.product.salePrice.toFixed(2) : item.product.unitPrice?.toFixed(2)}
+                        {/* ${item.product.unitPrice?.toFixed(2)} */}$
+                        {item.product?.salePrice > 0
+                          ? item.product.salePrice.toFixed(2)
+                          : item.product.unitPrice?.toFixed(2)}
                       </td>
-                      <td className="px-2 flex gap-2 md:px-4 py-3 ">
+                      {/* <td className="px-2 flex gap-2 md:px-4 py-3 ">
                         <input
                           type="number"
                           value={item.updateQuantity}
@@ -599,14 +542,45 @@ function Cart() {
                           className="text-xl border rounded-lg p-1 w-16"
                           min="1"
                         />
+                        
+                      </td> */}
+
+                      <td className="px-2 flex gap-2 md:px-4 py-3 ">
                        
+
+                        <input
+                          type="phone"
+                          value={item.updateQuantity}
+                          onChange={(e) =>
+                            handleQuantityChange(index, Number(e.target.value))
+                          }
+                          className="text-xl border rounded-lg p-1 w-16"
+                          min="1"
+                        />
+
+                        {/* Popup for quantity limit */}
+                        {showPopup && (
+                          <div className="popup bg-gray-300 p-4 rounded-md absolute">
+                            <p>
+                              The seller has set a limit of 10 per customer.
+                            </p>
+                            <button
+                              onClick={() => setShowPopup(false)}
+                              className="bg-blue-500 text-white p-2 rounded"
+                            >
+                              Close
+                            </button>
+                          </div>
+                        )}
                       </td>
-                      
+
                       <td className="px-2 md:px-4 text-right py-3 ">
                         <strong>
                           $
                           {calculateSubtotal(
-                            item.product?.salePrice > 0 ? item.product.salePrice.toFixed(2) : item.product.unitPrice?.toFixed(2),
+                            item.product?.salePrice > 0
+                              ? item.product.salePrice.toFixed(2)
+                              : item.product.unitPrice?.toFixed(2),
                             item.quantity
                           )?.toFixed(2)}
                         </strong>
@@ -618,11 +592,11 @@ function Cart() {
                           onClick={() => handleDeleteClick(index)}
                         >
                           <Tooltip placement="top" title="Delete">
-                          <img
-                            src={deleteicon}
-                            className="w-6"
-                            alt="delete-icon"
-                          />
+                            <img
+                              src={deleteicon}
+                              className="w-6"
+                              alt="delete-icon"
+                            />
                           </Tooltip>
                         </button>
                       </td>
@@ -654,11 +628,15 @@ function Cart() {
                   <tbody>
                     <tr>
                       <td className="px-4 py-2 font-semibold">Subtotal</td>
-                      <td className="px-4 py-2 text-right">${total?.toFixed(2)}</td>
+                      <td className="px-4 py-2 text-right">
+                        ${total?.toFixed(2)}
+                      </td>
                     </tr>
                     <tr>
                       <td className="px-4 py-2 font-semibold">Total</td>
-                      <td className="px-4 py-2 text-right">${total?.toFixed(2)}</td>
+                      <td className="px-4 py-2 text-right">
+                        ${total?.toFixed(2)}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -679,53 +657,51 @@ function Cart() {
             <h2 className="text-xl font-semibold text-gray-700">
               Your cart is currently empty.
             </h2>
-            {/* <Link
-              to="/allProducts"
-              className="mt-5 px-8 py-2 font-semibold text-white text-lg bg-blue-900 rounded-full"
-            >
-              RETURN TO SHOP
-            </Link> */}
-             <img src={searchimg} className="w-24 h-24 mt-4" alt="empty-cart" />
+
+            <img src={searchimg} className="w-24 h-24 mt-4" alt="empty-cart" />
             <button className="bg-blue-900 text-white px-4 py-2 mt-6 rounded-lg">
               <Link to="/allProducts">Continue Shopping</Link>
             </button>
           </div>
         )}
       </div>
-       {/* Confirmation Dialog */}
-       <Dialog open={openDialog} onClose={handleDialogClose}>
-<div className="flex justify-end p-2">
-        <img src={wrong} className="w-5 h-5 flex justify-end"/>
+      {/* Confirmation Dialog */}
+      <Dialog open={openDialog} onClose={handleDialogClose}>
+        <div className="flex justify-end p-2">
+          <img src={wrong} className="w-5 h-5 flex justify-end" />
         </div>
         <DialogContent>
           Are you sure you want to delete this item from your cart?
         </DialogContent>
-        <div >
-        <DialogActions sx={{
-          display:'flex',justifyContent:'space-around'
-        }}>
-          <Button
-            onClick={handleDialogClose}
+        <div>
+          <DialogActions
             sx={{
-              color: "white",
-              backgroundColor: "red",
-              "&:hover": { backgroundColor: "#cc0000" },
+              display: "flex",
+              justifyContent: "space-around",
             }}
           >
-            Cancel
-          </Button>
-          <Button
-            onClick={handleremove}
-            sx={{
-              color: "white",
-              backgroundColor: "green",
-              "&:hover": { backgroundColor: "#006400" },
-            }}
-          >
-            Delete
-          </Button>
-        </DialogActions>
-        </div> 
+            <Button
+              onClick={handleDialogClose}
+              sx={{
+                color: "white",
+                backgroundColor: "red",
+                "&:hover": { backgroundColor: "#cc0000" },
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleremove}
+              sx={{
+                color: "white",
+                backgroundColor: "green",
+                "&:hover": { backgroundColor: "#006400" },
+              }}
+            >
+              Delete
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
     </div>
   );
