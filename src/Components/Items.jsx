@@ -754,7 +754,7 @@ function Items({
                   {prod?.amountInStock > 0 ? (
                     <div className="flex items-center text-[18px] mb-1">
                       <TbSquareRoundedCheckFilled className="text-sky-500 mr-1" />
-                      <span>In Stock</span>
+                      <span>Amount in Stock</span>
                     </div>
                   ) : (
                     <div className="flex items-center text-[18px] mb-1">
@@ -806,10 +806,23 @@ function Items({
               </div>
 
               <div className="flex gap-2 mx-2">
-                <button
+                {/* <button
                   className={`bg-blue-900 w-40 flex  rounded-lg justify-center  items-center py-1 cursor-pointer
                      `}
                   onClick={() => handleCart(id)}
+                > */}
+                <button
+                  className={`bg-blue-900 w-40 flex  rounded-lg justify-center  items-center py-1 cursor-pointer
+                     ${prod?.amountInStock === 0
+                      ? "opacity-50"
+                      : "cursor-pointer"
+                    } `}
+                  // onClick={() => handleCart(id)}
+                  onClick={() => {
+                    if (prod?.amountInStock !== 0) {
+                      handleCart((id).CartQuantity);
+                    }
+                  }}
                 >
                   <img src={addcart} className="h-7 p-1" />
                   <p className="text-white font-semibold">ADD</p>

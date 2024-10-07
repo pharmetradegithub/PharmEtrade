@@ -228,7 +228,7 @@ function LayoutSellOrders() {
                 <th className="px-4 py-2 text-left">Thumbnail</th>
                 <th className="px-4 py-2 text-left">Product Name</th>
                 <th className="px-4 py-2 text-left">Purchased On</th>
-                <th className="px-4 py-2 text-left">Amount</th>
+                <th className="px-4 py-2 text-center">Amount</th>
                 <th className="px-4 py-2 text-left">Customer</th>
                 <th className="px-4 py-2 text-left">Status</th>
                 <th className="px-4 py-2 text-left">Action</th>
@@ -265,7 +265,7 @@ function LayoutSellOrders() {
                                 month: '2-digit',
                                 day: '2-digit',
                               }).replace(/\//g, '-')}</td>
-                    <td className="px-4 py-2">{product?.totalAmount}</td>
+                    <td className="text-right px-4 py-2">${product?.totalAmount.toFixed(2)}</td>
                     <td className="px-4 py-2">{product?.customerName}</td>
                     <td className="px-4 py-2">{product?.status}</td>
                     <td className="px-4 py-2 cursor-pointer flex gap-1">

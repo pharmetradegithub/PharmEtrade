@@ -384,7 +384,14 @@ function LayoutCategory({
                     <div className="flex flex-col mx-3">
                       <p className="font-semibold">Unit Price</p>
                       <div className="mt-2">
-                        <p className="font-semibold">
+                        {/* <p className="font-semibold">
+                          ${product.unitPrice?.toFixed(2)}
+                        </p> */}
+                        <p className={`font-semibold ${product.amountInStock === 0
+                          ? "opacity-50"
+                          : "cursor-pointer"
+                          }`}
+                        >
                           ${product.unitPrice?.toFixed(2)}
                         </p>
                       </div>
@@ -470,8 +477,19 @@ function LayoutCategory({
                               ? filledHeart
                               : emptyHeart
                           }
-                          className="w-6 h-6 cursor-pointer"
-                          onClick={() => handleClick(product.productID)}
+                          // className="w-6 h-6 cursor-pointer"
+                          className={`w-6 h-6 ${product.amountInStock === 0
+                              ? "opacity-50"
+                              : "cursor-pointer"
+                            }`}
+                          // className="w-6 h-6 cursor-pointer"
+                          // onClick={() => handleClick(product.productID)}
+                          onClick={() => {
+                            if (product.amountInStock !== 0) {
+                              handleClick(product.productID, product.CartQuantity);
+                            }
+                          }}
+                          // onClick={() => handleClick(product.productID)}
                           alt="Wishlist Icon"
                         />
                       </div>
@@ -479,8 +497,19 @@ function LayoutCategory({
                         <Tooltip title="Share" placement="top">
                           <img
                             src={share}
-                            className="w-6 mx-3 "
-                            onClick={handleSharePopupToggle}
+                            // className="w-6 mx-3 "
+                            // onClick={handleSharePopupToggle}
+
+                            className={`w-6 mx-3 ${product.amountInStock === 0
+                                ? "opacity-50"
+                                : "cursor-pointer"
+                              }`}
+                            // onClick={handleSharePopupToggle}
+                            onClick={() => {
+                              if (product.amountInStock !== 0) {
+                                handleSharePopupToggle(product.productID, product.CartQuantity);
+                              }
+                            }}
                           />
                         </Tooltip>
                       </div>

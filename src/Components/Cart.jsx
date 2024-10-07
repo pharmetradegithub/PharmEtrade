@@ -562,7 +562,7 @@ function Cart() {
                     <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">
                       Quantity
                     </th>
-                    <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">
+                    <th className="px-2 md:px-5 -mr-2 py-2 md:py-3 text-right font-semibold text-blue-950 tracking-wider">
                       Subtotal
                     </th>
                     <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">
@@ -585,7 +585,7 @@ function Cart() {
                       <td className="px-2 md:px-4 py-3 p-2 flex flex-wrap">
                         {item.product.productName}
                       </td>
-                      <td className=" md:px-4 py-3 text-left ">
+                      <td className=" md:px-4 py-3 text-center ">
                         {/* ${item.product.unitPrice?.toFixed(2)} */}
                         ${item.product?.salePrice > 0 ? item.product.salePrice.toFixed(2) : item.product.unitPrice?.toFixed(2)}
                       </td>
@@ -602,7 +602,7 @@ function Cart() {
                        
                       </td>
                       
-                      <td className="px-2 md:px-4 text-left py-3 ">
+                      <td className="px-2 md:px-4 text-right py-3 ">
                         <strong>
                           $
                           {calculateSubtotal(
