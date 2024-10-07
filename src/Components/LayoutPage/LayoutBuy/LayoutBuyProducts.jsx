@@ -1013,7 +1013,7 @@ function LayoutBuy({
                           </p>
                         ) : (
                           <p className="text-white p-1 bg-green-600 rounded-lg ">
-                           Amount in Stock -{" "}
+                           Stock Available -{" "}
                             <span className="font-semibold">
                               {product.amountInStock}
                             </span>

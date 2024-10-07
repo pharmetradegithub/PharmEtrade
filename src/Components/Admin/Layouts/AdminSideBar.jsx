@@ -18,7 +18,9 @@ function AdminSidebar() {
   let location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
   const [isSellerDropdownOpen, setIsSellerDropdownOpen] = useState(false);
-  const [isChatDropdownOpen, setIsChatDropdownOpen] = useState(false);
+  const [isPaymentDropdownOpen, setIsPaymentDropdownOpen] = useState(false);
+  // const [isOutgoingDropdownOpen, setIsOutgoingDropdownOpen] = useState(false);
+  // const [isSettlementDropdownOpen, setIsSettlementDropdownOpen] = useState(false);
   const [isCustomerDropdownOpen, setIsCustomerDropdownOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isDashboardDropdownOpen, setIsDashboardDropdownOpen] = useState(false);
@@ -31,8 +33,14 @@ function AdminSidebar() {
 
   const toggleSellerDropdown = () => {
     setIsSellerDropdownOpen(!isSellerDropdownOpen);
-    setIsChatDropdownOpen(false);
+    // setIsChatDropdownOpen(false);
     setIsCustomerDropdownOpen(false);
+  };
+
+  const togglePaymentDropdown = () => {
+    setIsPaymentDropdownOpen(!isPaymentDropdownOpen);
+    // setIsChatDropdownOpen(false);
+    // setIsCustomerDropdownOpen(false);
   };
 
   const toggleChatDropdown = () => {
@@ -44,7 +52,7 @@ function AdminSidebar() {
   const toggleCustomerDropdown = () => {
     setIsCustomerDropdownOpen(!isCustomerDropdownOpen);
     setIsSellerDropdownOpen(false);
-    setIsChatDropdownOpen(false);
+    // setIsChatDropdownOpen(false);
   };
 
   const toggleDashboardDropdown = () => {
@@ -81,13 +89,13 @@ function AdminSidebar() {
       links: [
         {
           to: "/pharmEtradeadmin/AdminBanners",
-          label: "AdminBanners",
+          label: "Admin Banners",
           icon: orderListIcon,
         },
       ],
     },
     {
-      label: "Seller",
+      label: "User Administration",
       icon: sellerIcon,
       isOpen: isSellerDropdownOpen,
       toggleDropdown: toggleSellerDropdown,
@@ -97,34 +105,53 @@ function AdminSidebar() {
           label: "Seller List",
           icon: orderListIcon,
         },
-      ],
-    },
-    {
-      label: "Customer",
-      icon: customerIcon,
-      isOpen: isCustomerDropdownOpen,
-      toggleDropdown: toggleCustomerDropdown,
-      links: [
         {
           to: "/pharmEtradeadmin/customerList",
           label: "Customer List",
-          icon: customerListIcon,
+          icon: orderListIcon,
         },
       ],
     },
-       
+
     {
       label: "Products",
       icon: sellerIcon,
       to: "/pharmEtradeadmin/products", // Direct link to the Dashboard page
     },
+
+
+    {
+      label: "Payment",
+      icon: sellerIcon,
+      isOpen: isPaymentDropdownOpen,
+      toggleDropdown: togglePaymentDropdown,
+      links: [
+        {
+          to: "/pharmEtradeadmin/Incoming",
+          label: "Incoming",
+          icon: orderListIcon,
+        },
+        {
+          to: "/pharmEtradeadmin/Outgoing",
+          label: "Outgoing",
+          icon: orderListIcon,
+        },
+      ],
+    },
+
+    {
+      label: "Settlement",
+      icon: customerIcon,
+      to: "/pharmEtradeadmin/Settlement",
+    },
+
+
   ];
 
   return (
     <div
-      className={`p-2 overflow-scroll h-full w-full z-[100] font-normal font-sans flex flex-col shadow-lg ${
-        isCollapsed ? "min-w-16 items-center" : "min-w-64"
-      }`}
+      className={`p-2 overflow-scroll h-full w-full z-[100] font-normal font-sans flex flex-col shadow-lg ${isCollapsed ? "min-w-16 items-center" : "min-w-64"
+        }`}
       style={{ backgroundColor: "rgba(14, 81, 140, 1)" }}
     >
       <div className="w-full flex flex-col justify-center items-center my-5">
@@ -172,15 +199,13 @@ function AdminSidebar() {
                   {!isCollapsed &&
                     (item.isOpen ? (
                       <FaChevronUp
-                        className={`mr-2 ${
-                          item.links.length > 0 ? "" : "hidden"
-                        }`}
+                        className={`mr-2 ${item.links.length > 0 ? "" : "hidden"
+                          }`}
                       />
                     ) : (
                       <FaChevronDown
-                        className={`mr-2 ${
-                          item.links.length > 0 ? "" : "hidden"
-                        }`}
+                        className={`mr-2 ${item.links.length > 0 ? "" : "hidden"
+                          }`}
                       />
                     ))}
                 </div>
@@ -189,11 +214,10 @@ function AdminSidebar() {
                 <Link
                   to={item.to}
                   onClick={() => handleClick(item.to)}
-                  className={`flex items-center p-2 ${
-                    activeLink === item.to
+                  className={`flex items-center p-2 ${activeLink === item.to
                       ? "text-white bg-gray-400"
                       : "text-white"
-                  } hover:text-white hover:bg-gray-400`}
+                    } hover:text-white hover:bg-gray-400`}
                 >
                   <img src={item.icon} className="w-6 h-6" alt={item.label} />
                   {!isCollapsed && <span className="ml-3">{item.label}</span>}
@@ -206,11 +230,10 @@ function AdminSidebar() {
                       <Link
                         to={link.to}
                         onClick={() => handleClick(link.to)}
-                        className={`flex items-center p-2 ${
-                          activeLink === link.to
+                        className={`flex items-center p-2 ${activeLink === link.to
                             ? "text-white bg-gray-400"
                             : "text-white"
-                        } hover:text-white hover:bg-gray-400`}
+                          } hover:text-white hover:bg-gray-400`}
                       >
                         <img
                           src={link.icon}
@@ -228,19 +251,19 @@ function AdminSidebar() {
         </nav>
 
         <button
-        className="text-white bg-red-600 p-2 rounded-lg font-semibold"
+          className="text-white bg-red-600 mt-2 p-2 rounded-lg font-semibold"
         // onClick={handleLogout}
-      >
-        Logout
-      </button>
-      
-      
-      
-      
-      
-      
-      
-   
+        >
+          Logout
+        </button>
+
+
+
+
+
+
+
+
       </div>
     </div>
   );

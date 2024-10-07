@@ -17,9 +17,9 @@ import previous from "../../../../assets/Previous_icon.png";
 import {
   DeleteProductAPI,
   fetchDeactiveProduct,
-  fetchDeleteProduct,
 } from "../../../../Api/ProductApi";
 import Notification from "../../../Notification";
+import Pagination from "../../../Pagination";
 
 const LayoutPostingProducts = () => {
   const navigate = useNavigate();
@@ -124,14 +124,23 @@ const LayoutPostingProducts = () => {
   };
   console.log("ghjkghfgvbg", products);
 
-  const itemsPerPage = 10;
+  // const itemsPerPage = 10;
+  // const [currentPage, setCurrentPage] = useState(1);
+
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
+
+
   const [openPop, setOpenPop] = useState(false);
   const [deletePop, setDeletePop] = useState(false);
+
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil((products?.length || 0) / itemsPerPage);
+
+
 
   const handleNextPage = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -140,6 +149,18 @@ const LayoutPostingProducts = () => {
   const handlePreviousPage = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(parseInt(event.target.value));
+    setCurrentPage(1); // Reset to page 1 when items per page is changed
+  };
+
+  // const handleNextPage = () => {
+  //   setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  // };
+
+  // const handlePreviousPage = () => {
+  //   setCurrentPage((prev) => Math.max(prev - 1, 1));
+  // };
 
   const deactivatePopUp = (productID) => {
     setOpenPop(true);
@@ -398,7 +419,7 @@ const LayoutPostingProducts = () => {
           </div>
         </div>
 
-        <div className="flex justify-end my-2">
+        {/* <div className="flex justify-end my-2">
           <button
             onClick={handlePreviousPage}
             disabled={currentPage === 1}
@@ -416,7 +437,17 @@ const LayoutPostingProducts = () => {
           >
             <img src={next} className="w-2" alt="Next Page" />
           </button>
-        </div>
+        </div> */}
+
+        <Pagination
+          indexOfFirstItem={indexOfFirstItem}
+          indexOfLastItem={indexOfLastItem}
+          productList={products}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
       {/* {showPopup.editProduct && (
         <div className="absolute inset-0 flex  flex-col bg-gray-100">

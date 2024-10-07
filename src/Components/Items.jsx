@@ -754,7 +754,7 @@ function Items({
                   {prod?.amountInStock > 0 ? (
                     <div className="flex items-center text-[18px] mb-1">
                       <TbSquareRoundedCheckFilled className="text-sky-500 mr-1" />
-                      <span>Amount in Stock</span>
+                      <span>In Stock</span>
                     </div>
                   ) : (
                     <div className="flex items-center text-[18px] mb-1">

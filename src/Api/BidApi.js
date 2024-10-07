@@ -16,3 +16,16 @@ export const fetchCustomer = (customerId) => {
     }
   }
 }
+
+export const AddBidAPI = async (obj) => {
+  try {
+    const response = await axios.post(`/api/Bid/Add`, obj);
+    if (response.status === 200 && response.data.result !== null) {
+      return;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    return null;
+  }
+}

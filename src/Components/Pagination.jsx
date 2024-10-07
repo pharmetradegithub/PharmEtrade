@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import next from "../assets/Next_icon.png";
 import previous from "../assets/Previous_icon.png";
+import { Tooltip } from "@mui/material";
 
 const Pagination = ({
   productList,
@@ -55,9 +56,14 @@ const Pagination = ({
           style={{ color: "blue" }}
           onClick={handleGoToFirstPage}
           disabled={currentPage === 1}
-          className="mx-2 px-4 border p-2 text-white rounded-lg"
+          className="mx-2 px-4 border p-2 text-white rounded-lg cursor-pointer"
         >
-          First Page
+          <Tooltip title="First page" placement="top" >
+            <div className="flex ">
+              <img src={previous} className="w-2" alt="Next Page" />
+              <img src={previous} className="w-2" alt="Next Page" />
+            </div>
+          </Tooltip>
         </button>
         <button
           onClick={handlePreviousPage}
@@ -82,9 +88,15 @@ const Pagination = ({
           style={{ color: "blue" }}
           onClick={handleGoToLastPage}
           disabled={currentPage === totalPages}
-          className="mx-2 px-4 border p-2 text-white rounded-lg"
+          className="mx-2 px-4 border p-2 text-white rounded-lg "
         >
-          Last Page
+          
+          <Tooltip title="Last page" placement="top" >
+            <div className="flex ">
+            <img src={next} className="w-2" alt="Next Page" />
+            <img src={next} className="w-2" alt="Next Page" />
+            </div>
+          </Tooltip>
         </button>
       </div>
     </div>

@@ -134,7 +134,7 @@ export const RemoveUpsellProductAPI = async (productId, upsellProductId) => {
   }
 };
 
-export const fetchCriteriaProductsApi = async (data, name) => {
+export const fetchCriteriaProductsApi = async (data, name, isProductIds = false) => {
   try {
     const response = await axios.post(
       "/api/Product/GetByCriteria",
@@ -146,6 +146,9 @@ export const fetchCriteriaProductsApi = async (data, name) => {
       }
     );
     if (response.status === 200) {
+      if (isProductIds == true) {
+        return response.data.result;
+      }
       console.log(response.data, "FetchCreteria")
       const cartItems = store.getState().cart.cart;
       const cartItemsMap = new Map(cartItems.map(item => [item.product.productID, item.quantity]));
@@ -180,7 +183,7 @@ export const fetchRelatedProductApi = async (productID) => {
     const response = await axios.get(`/api/Product/GetRelatedProducts?productId=${productID}`);
     if (response.status === 200) {
       const relatedProduct = response.data.result;
-      store.dispatch({ type: 'product/setRelatedProduct', payload: relatedProduct==null? []:relatedProduct });
+      store.dispatch({ type: 'product/setRelatedProduct', payload: relatedProduct == null ? [] : relatedProduct });
 
       console.log(relatedProduct);
       return relatedProduct; // Return the related product data
@@ -199,7 +202,7 @@ export const fetchUpsellProductApi = async (productID) => {
     const response = await axios.get(`/api/Product/GetUpsellProducts?productId=${productID}`);
     if (response.status === 200) {
       const upsellProducts = response.data.result;
-      store.dispatch({ type: 'product/setUpSellProduct', payload: upsellProducts==null? []:upsellProducts });
+      store.dispatch({ type: 'product/setUpSellProduct', payload: upsellProducts == null ? [] : upsellProducts });
 
       console.log(upsellProducts);
       return upsellProducts; // Return the upsell products data
@@ -218,7 +221,7 @@ export const fetchCrossSellProductApi = async (productID) => {
     const response = await axios.get(`/api/Product/GetCrossSellProducts?productId=${productID}`);
     if (response.status === 200) {
       const crossSellProducts = response.data.result;
-      store.dispatch({ type: 'product/setCrossSellProduct', payload: crossSellProducts==null? []:crossSellProducts });
+      store.dispatch({ type: 'product/setCrossSellProduct', payload: crossSellProducts == null ? [] : crossSellProducts });
 
       console.log(crossSellProducts);
       return crossSellProducts; // Return the cross-sell products data
@@ -266,22 +269,22 @@ export const fetchDeactiveProduct = (productID) => {
   };
 };
 
-export const fetchDeleteProduct = (productID) => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.post(`/api/Product/DeleteProduct?productId=${productID}`);
-      if (response.status === 200) {
-        const deleteProduct = response.data.result;
-        console.log('Dispatching Deactive Product action:', deleteProduct); // Log before dispatch
-        dispatch(setDeleteProduct(deleteProduct)); // Dispatch action
-      } else {
-        console.error('Failed to fetch Deactive Product:', response.data.message);
-      }
-    } catch (error) {
-      console.error('Error fetching Deactive Product:', error);
-    }
-  };
-};
+// export const fetchDeleteProduct = (productID) => {
+//   return async (dispatch) => {
+//     try {
+//       const response = await axios.post(`/api/Product/DeleteProduct?productId=${productID}`);
+//       if (response.status === 200) {
+//         const deleteProduct = response.data.result;
+//         console.log('Dispatching Deactive Product action:', deleteProduct); // Log before dispatch
+//         dispatch(setDeleteProduct(deleteProduct)); // Dispatch action
+//       } else {
+//         console.error('Failed to fetch Deactive Product:', response.data.message);
+//       }
+//     } catch (error) {
+//       console.error('Error fetching Deactive Product:', error);
+//     }
+//   };
+// };
 
 export const DeactivateProductAPI = async (productID) => {
   try {

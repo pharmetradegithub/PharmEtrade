@@ -1,5 +1,4 @@
-
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 // import addcart from "../assets/addcart.png";
 // import fav from "../assets/fav.png";
@@ -26,58 +25,56 @@ import { addCartApi } from "../../../Api/CartApi";
 import Notification from "../../../Components/Notification"; // Import Notification component
 
 import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
-import bottontotop from '../../../Components/ScrollToTop'
+import bottontotop from "../../../Components/ScrollToTop";
 import Pagination from "../../Pagination";
 function AllProducts({ Title, topMargin, addCart, wishList }) {
-
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const searchInput = queryParams.get('Search');
-  
+  const searchInput = queryParams.get("Search");
 
   const { pop, setPop } = useNavbarContext();
   const navigate = useNavigate();
   const products = useSelector((state) => state.product.Products);
-  const productCriteria = useSelector((state) => state.product.productsByCriteria)
-  const [ProductList,setProductsList] = useState([]);
+  const productCriteria = useSelector(
+    (state) => state.product.productsByCriteria
+  );
+  const [ProductList, setProductsList] = useState([]);
   useEffect(() => {
-    if(searchInput)
-    {
-      setProductsList(productCriteria)
+    if (searchInput) {
+      setProductsList(productCriteria);
+    } else {
+      setProductsList(products);
     }
-    else
-    {
-      setProductsList(products)
-    }
-  }, [searchInput,products,productCriteria])
-  
-  const Heading = useSelector((state)=>state.product.Heading);
-  const user = useSelector((state)=>state.user.user);
-  const wishlist = useSelector((state)=>state.wishlist.wishlist);
+  }, [searchInput, products, productCriteria]);
+
+  const Heading = useSelector((state) => state.product.Heading);
+  const user = useSelector((state) => state.user.user);
+  const wishlist = useSelector((state) => state.wishlist.wishlist);
 
   const [wishlistProductIDs, setWishlistProductIDs] = useState([]);
   //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
-    const wishlistItem = wishlist.find((item) => item.product.productID === productID);
-    return wishlistItem ? wishlistItem.wishListId : null; 
+    const wishlistItem = wishlist.find(
+      (item) => item.product.productID === productID
+    );
+    return wishlistItem ? wishlistItem.wishListId : null;
   };
 
   useEffect(() => {
     if (Array.isArray(wishlist)) {
-      setWishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
+      setWishlistProductIDs(
+        wishlist.map((wishItem) => wishItem.product.productID)
+      );
     }
   }, [wishlist]);
-
-
-
 
   // const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   // const getWishlistIdByProductID = (productID) => {
   //   const wishlistItem = wishlist.find((item) => item.product.productID === productID);
-  //   return wishlistItem ? wishlistItem.wishListId : null; 
+  //   return wishlistItem ? wishlistItem.wishListId : null;
   // };
   const images = Array(115).fill(nature);
-  
+
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
   const [favoriteItems, setFavoriteItems] = useState({});
@@ -122,19 +119,19 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
   };
 
   const handleClick = async (productID) => {
-    if(wishlistProductIDs.includes(productID))
-    {
-      setWishlistProductIDs(wishlistProductIDs.filter(id => id !== productID));
-      await removeFromWishlistApi(getWishlistIdByProductID(productID))
-    }
-    else{
+    if (wishlistProductIDs.includes(productID)) {
+      setWishlistProductIDs(
+        wishlistProductIDs.filter((id) => id !== productID)
+      );
+      await removeFromWishlistApi(getWishlistIdByProductID(productID));
+    } else {
       setWishlistProductIDs([...wishlistProductIDs, productID]);
       const wishListData = {
         wishListId: "0",
         productId: productID,
         customerId: user.customerId,
-        isActive: 1
-      }
+        isActive: 1,
+      };
       await addToWishlistApi(wishListData);
     }
   };
@@ -152,7 +149,6 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
   // const handlePreviousPage = () => {
   //   setCurrentPage((prev) => Math.max(prev - 1, 1));
   // };
-
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -224,28 +220,19 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
 
   return (
     <div className="w-full mt-4 h-full overflow-y-scroll">
-       
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
       <div className=" flex justify-between bg-blue-900 p-1 rounded-lg">
         <div className="text-xl pl-2 flex items-center text-white">
-          {searchInput !=null? (
-            `Search on ${searchInput}` 
-          ):("ALL PRODUCTS")}
+          {searchInput != null ? `Search on ${searchInput}` : "ALL PRODUCTS"}
           {/* {{Heading} ? Heading : "All Products"} */}
         </div>
-
       </div>
 
       <div className="w-[95%]">
         <div className="grid grid-cols-4 grid-rows-2 gap-4 mt-8">
-        {currentItems.length==0 && 
-          
-          <div>
-            No products are available
-          </div>
-        }
+          {currentItems.length == 0 && <div>No products are available</div>}
           {currentItems?.map((item, index) => (
             <div
               key={item.productID}
@@ -255,7 +242,11 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
               <div className="flex justify-center bg-slate-200 relative">
                 <img
                   onClick={() => handleClick(item.productID)}
-                  src={wishlistProductIDs.includes(item.productID)? filledHeart : emptyHeart}
+                  src={
+                    wishlistProductIDs.includes(item.productID)
+                      ? filledHeart
+                      : emptyHeart
+                  }
                   className="h-8 p-[6px] cursor-pointer absolute right-0 "
                   alt="Favorite Icon"
                 />
@@ -278,23 +269,23 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 <h2 className="text-fonts h-12">{item.productName}</h2>
                 <h1 className="text-fonts font-semibold">${item.salePrice?.toFixed(2)}</h1>
               </div> */}
-                <div className="w-full py-1">
-                  <h2 className="text-fonts h-12">{item.productName}</h2>
-                  {item.salePrice > 0 ? (
-                    <div className="flex items-center gap-1">
-                      <h1 className="text-fonts font-semibold">
-                        ${item.salePrice?.toFixed(2)}
-                      </h1>
-                      <span className="text-[10px] line-through">
-                        (${item.unitPrice?.toFixed(2)})
-                      </span>
-                    </div>
-                  ) : (
+              <div className="w-full py-1">
+                <h2 className="text-fonts h-12">{item.productName}</h2>
+                {item.salePrice > 0 ? (
+                  <div className="flex items-center gap-1">
                     <h1 className="text-fonts font-semibold">
-                      ${item.unitPrice?.toFixed(2)}
+                      ${item.salePrice?.toFixed(2)}
                     </h1>
-                  )}
-                </div>
+                    <span className="text-[10px] line-through">
+                      (${item.unitPrice?.toFixed(2)})
+                    </span>
+                  </div>
+                ) : (
+                  <h1 className="text-fonts font-semibold">
+                    ${item.unitPrice?.toFixed(2)}
+                  </h1>
+                )}
+              </div>
               {/* <div>
                 {Array.from({ length: totalStars }, (v, i) => (
                   <Star
@@ -304,14 +295,14 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                   />
                 ))}
               </div> */}
-               {/* <div className="flex items-center   ">
+              {/* <div className="flex items-center   ">
                 <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                 <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                 <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                 <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                 <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
               </div> */}
-               <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center">
                 <div className="flex items-center">
                   <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                   <span style={{ fontSize: "24px", color: "orange" }}>★</span>
@@ -329,10 +320,13 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                   )}
                 </div>
               </div>
-              <div className="flex flex-row items-center justify-between w-full px-1">
+              {/* <div className="flex flex-row items-center justify-between w-full px-1">
                 <div className="text-foot text-xs">UPN Member Price:</div>
                 <div className="text-base font-semibold">${item.upnMemberPrice?.toFixed(2)}</div>
-              </div>
+              </div> */}
+
+              <div className="text-foot">{item.productCategory.categoryName}</div>
+
               {/* <div
                 className="flex bg-blue-900 p-1 cursor-pointer rounded-md justify-center"
                 onClick={() => handleCart(item.productID)}
@@ -341,31 +335,30 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 <button className="text-white font-semibold">ADD</button>
               </div> */}
               <div
-  className={`flex p-1 rounded-md justify-center ${
-    item.amountInStock === 0
-      ? "bg-gray-400 cursor-not-allowed"
-      : "bg-blue-900 cursor-pointer"
-  }`}
-  onClick={() => {
-    if (item.amountInStock > 0) {
-      handleCart(item.productID); // Only call handleCart if item is in stock
-    }
-  }}
->
-  <img
-    src={addcart}
-    alt="Add to cart"
-    className={`h-8 p-[6px] ${item.amountInStock === 0 ? "opacity-50" : ""}`}
-  />
-  <button
-    className={`text-white font-semibold ${
-      item.amountInStock === 0 ? "opacity-50" : ""
-    }`}
-    disabled={item.amountInStock === 0} // Disable the button when out of stock
-  >
-    ADD
-  </button>
-</div>
+                className={`flex p-1 rounded-md justify-center ${item.amountInStock === 0
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-blue-900 cursor-pointer"
+                  }`}
+                onClick={() => {
+                  if (item.amountInStock > 0) {
+                    handleCart(item.productID); // Only call handleCart if item is in stock
+                  }
+                }}
+              >
+                <img
+                  src={addcart}
+                  alt="Add to cart"
+                  className={`h-8 p-[6px] ${item.amountInStock === 0 ? "opacity-50" : ""
+                    }`}
+                />
+                <button
+                  className={`text-white font-semibold ${item.amountInStock === 0 ? "opacity-50" : ""
+                    }`}
+                  disabled={item.amountInStock === 0} // Disable the button when out of stock
+                >
+                  ADD
+                </button>
+              </div>
 
               {/*<ul className="flex flex-row justify-around border bg-gray-100 border-gray-300 shadow-md rounded-xl  py-2">
               <li>
@@ -395,18 +388,15 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
         </div>
       </div>
 
-     
-
       <Pagination
-              indexOfFirstItem={indexOfFirstItem}
-              indexOfLastItem={indexOfLastItem}
-              productList={ProductList}
-              itemsPerPage={itemsPerPage}
-              setItemsPerPage={setItemsPerPage}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
-      
+        indexOfFirstItem={indexOfFirstItem}
+        indexOfLastItem={indexOfLastItem}
+        productList={ProductList}
+        itemsPerPage={itemsPerPage}
+        setItemsPerPage={setItemsPerPage}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 }

@@ -94,12 +94,12 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
 
   const handleClick = async (productID) => {
     if (wishlistProductIDs.includes(productID)) {
-      setwishlistProductIDs(
+      setWishlistProductIDs(
         wishlistProductIDs.filter((id) => id !== productID)
       );
       await removeFromWishlistApi(getWishlistIdByProductID(productID));
     } else {
-      setwishlistProductIDs([...wishlistProductIDs, productID]);
+      setWishlistProductIDs([...wishlistProductIDs, productID]);
       const wishListData = {
         wishListId: "0",
         productId: productID,

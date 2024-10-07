@@ -23,6 +23,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRelatedProductApi } from "../../../Api/ProductApi";
 import Bin from "../../../assets/trash.png";
+import Pagination from "../../Pagination";
 
 const LayoutRelatedProducts = () => {
   const [formData, setFormData] = useState({
@@ -37,8 +38,8 @@ const LayoutRelatedProducts = () => {
     productName: "",
   });
 
-  const components = useSelector((state) => state.master.productCategoryGetAll)
-  console.log("relatedproduct-->", components)
+  const components = useSelector((state) => state.master.productCategoryGetAll);
+  console.log("relatedproduct-->", components);
   const [buttonClick, setButtonClick] = useState(false);
   const [ButtonUpClick, setButtonUpClick] = useState(false);
   const [isButtonClicked, setButtonClicked] = useState(false);
@@ -48,8 +49,10 @@ const LayoutRelatedProducts = () => {
   const [product, setproduct] = useState(null);
   const productDetails = useSelector((state) => state.product.Products);
 
-  const categorySpecificationGetAll = useSelector((state) => state.master.setCategorySpecificationsGetAll)
-  console.log("relatedcategory-->", categorySpecificationGetAll)
+  const categorySpecificationGetAll = useSelector(
+    (state) => state.master.setCategorySpecificationsGetAll
+  );
+  console.log("relatedcategory-->", categorySpecificationGetAll);
 
   const productsByCriteria = useSelector(
     (state) => state.product.productsByCriteria
@@ -196,7 +199,9 @@ const LayoutRelatedProducts = () => {
   };
   const sellerId = localStorage.getItem("userId");
 
-  const productsbySeller = useSelector((state)=>state.product.productsBySeller[sellerId]);
+  const productsbySeller = useSelector(
+    (state) => state.product.productsBySeller[sellerId]
+  );
   const handleCriteria = async () => {
     const sellerId = localStorage.getItem("userId");
     let Criteria = {
@@ -284,26 +289,27 @@ const LayoutRelatedProducts = () => {
     },
   ];
 
-  
-  const [currentPage, setCurrentPage] = useState(1); // Tracks the current page
-  const [currentItems, setCurrentItems] = useState([]); // Holds the products to be displayed on the current page
-  const itemsPerPage = 5;
+  // const [currentPage, setCurrentPage] = useState(1); // Tracks the current page
+  // const [currentItems, setCurrentItems] = useState([]); // Holds the products to be displayed on the current page
+  // const itemsPerPage = 5;
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Calculate the total number of pages
-  const totalPages = Math.ceil((productsByCriteria?.length || 0) / itemsPerPage);
+  // const totalPages = Math.ceil(
+  //   (productsByCriteria?.length || 0) / itemsPerPage
+  // );
 
-  // Calculate the range of items to be displayed on the current page
+  // // Calculate the range of items to be displayed on the current page
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = productsByCriteria.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil((productsByCriteria?.length || 0) / itemsPerPage);
 
-  // Slice the products based on the current page and items per page
-  useEffect(() => {
-    if (productsByCriteria) {
-      setCurrentItems(productsByCriteria.slice(indexOfFirstItem, indexOfLastItem));
-    }
-  }, [productsByCriteria, currentPage]);
-
-  // Handle page navigation
   const handleNextPage = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
@@ -311,6 +317,28 @@ const LayoutRelatedProducts = () => {
   const handlePreviousPage = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(parseInt(event.target.value));
+    setCurrentPage(1); // Reset to page 1 when items per page is changed
+  };
+
+  // Slice the products based on the current page and items per page
+  // useEffect(() => {
+  //   if (productsByCriteria) {
+  //     setCurrentItems(
+  //       productsByCriteria.slice(indexOfFirstItem, indexOfLastItem)
+  //     );
+  //   }
+  // }, [productsByCriteria, currentPage]);
+
+  // Handle page navigation
+  // const handleNextPage = () => {
+  //   setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  // };
+
+  // const handlePreviousPage = () => {
+  //   setCurrentPage((prev) => Math.max(prev - 1, 1));
+  // };
 
   return (
     <div className="font-sans font-medium">
@@ -332,7 +360,11 @@ const LayoutRelatedProducts = () => {
               >
                 <option value="">Select a category</option>
                 {categorySpecificationGetAll.map((item) => {
-                  return <option value={item.categorySpecificationId}>{item.specificationName}</option>
+                  return (
+                    <option value={item.categorySpecificationId}>
+                      {item.specificationName}
+                    </option>
+                  );
                 })}
                 {/* <option value="1"> Prescription Drug</option>
                 <option value="2">OTC Product</option>
@@ -352,8 +384,10 @@ const LayoutRelatedProducts = () => {
                 <option value="2">Electronics</option> */}
                 {components.map((items) => {
                   return (
-                    <option value={items.productCategoryId}>{items.categoryName}</option>
-                  )
+                    <option value={items.productCategoryId}>
+                      {items.categoryName}
+                    </option>
+                  );
                 })}
                 {/* <option value="1">Prescription Medications</option>
                 <option value="2">Baby & Child Care Products</option>
@@ -411,9 +445,7 @@ const LayoutRelatedProducts = () => {
               />
             </div>
             <div className="flex flex-col  ">
-              <label className="text-sm font-semibold">
-                Sale Price From:
-              </label>
+              <label className="text-sm font-semibold">Sale Price From:</label>
               <input
                 name="salePriceForm"
                 type="Date"
@@ -473,7 +505,7 @@ const LayoutRelatedProducts = () => {
             </button>
             <button
               // onClick={() => setFormData(initialFormState)}
-              onClick={()=>handleReset()}
+              onClick={() => handleReset()}
               className="bg-blue-900 p-2 mx-1 text-white border rounded-md"
             >
               RESET
@@ -503,13 +535,13 @@ const LayoutRelatedProducts = () => {
               </tr>
             </thead>
             <tbody>
-              {productsByCriteria && productsByCriteria.length > 0 ? (
-                productsByCriteria.map((product, index) => (
+              {currentItems && currentItems.length > 0 ? (
+                currentItems.map((product, index) => (
                   <tr key={index} className="border-b">
                     {/* <td className=" p-2">
                 <input className=" h-6 w-4" type="checkbox" />
               </td> */}
-                    <td className="text-sm p-2 "> {index+1}</td>
+                    <td className="text-sm p-2 "> {index + 1}</td>
                     <td className="text-sm p-2">
                       <img
                         src={
@@ -517,7 +549,7 @@ const LayoutRelatedProducts = () => {
                           "placeholder-image-url"
                         }
                         className="w-12 h-12"
-                        // alt={product?.productName || "No image"}
+                      // alt={product?.productName || "No image"}
                       />
                     </td>
                     <td className="text-sm p-2">
@@ -533,11 +565,18 @@ const LayoutRelatedProducts = () => {
                     <td className="text-sm p-2">
                       {product?.productCategory?.categoryName || "No category"}
                     </td>
-                    <td className="text-sm p-2 text-right">
+                    {/* <td className="text-sm p-2 text-right">
                       {product?.salePrice
                         ? `$${product.salePrice.toFixed(2)}`
                         : "No price"}
+                    </td> */}
+                    <td className="text-sm p-2 text-right">
+                      $
+                      {product?.salePrice > 0
+                        ? product?.salePrice.toFixed(2)
+                        : product?.unitPrice?.toFixed(2)}
                     </td>
+
                     <td className="px-4 py-2 cursor-pointer flex items-center space-x-2">
                       <Tooltip title="Add to Related Products" placement="top">
                         <img
@@ -615,6 +654,16 @@ const LayoutRelatedProducts = () => {
           </table>
         </div>
 
+        <Pagination
+          indexOfFirstItem={indexOfFirstItem}
+          indexOfLastItem={indexOfLastItem}
+          productList={productsByCriteria}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+
         {/* <div className="flex justify-end my-2">
           <button
             onClick={handlePreviousPage}
@@ -634,25 +683,7 @@ const LayoutRelatedProducts = () => {
             <img src={next} className="w-2" alt="Next Page" />
           </button>
         </div> */}
-        <div className="flex justify-end my-2">
-          <button
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1}
-            className="mx-2 px-4 border p-2 text-white rounded-lg"
-          >
-            <img src={previous} className="w-2" alt="Previous Page" />
-          </button>
-          <span className="mx-2 px-4 flex items-center bg-white text-black rounded-lg">
-            {currentPage} of {totalPages}
-          </span>
-          <button
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-            className="mx-2 px-4 border p-2 text-white rounded-lg"
-          >
-            <img src={next} className="w-2" alt="Next Page" />
-          </button>
-        </div>
+
       </div>
       <h1 className="text-2xl font-semibold">Related Products </h1>
       <div className="flex  justify-between w-full Largest:w-[60%]">
@@ -660,96 +691,7 @@ const LayoutRelatedProducts = () => {
           Related products are shown to customers in addition to the item the
           customer is looking at.{" "}
         </p>
-        <button
-          className={`  text-base font-medium p-2 rounded-md  h-8 flex items-center  ${
-            buttonClick ? "bg-white text-blue-900" : "bg-blue-900 text-white"
-          }`}
-          onClick={handleRelatedFilter}
-        >
-          <img src={filter} className="w-6 h-3 px-1" />
-          Filter
-        </button>
       </div>
-      {isRelatedFiltervisible && (
-        <div className=" bg-white p-2 px-4   w-full Largest:w-[60%] ">
-          <div className="flex justify-between">
-            <div className="flex flex-col w-36">
-              <label>Id From</label>
-              <input className="border rounded-sm" />
-            </div>
-            <div className="flex flex-col w-36">
-              <label>to</label>
-              <input className="border rounded-sm" />
-            </div>
-            <div className="flex flex-col w-36">
-              <label>Price From</label>
-              <input className="border rounded-sm" />
-            </div>
-            <div className="flex flex-col w-36">
-              <label>to</label>
-              <input className="border rounded-sm" />
-            </div>
-
-            <div className="flex flex-col w-36">
-              <label>Name</label>
-              <input className="border rounded-sm" />
-            </div>
-          </div>
-
-          <div className="flex justify-between my-2">
-            <div className="flex flex-col w-36">
-              <label>Status</label>
-              <select className="border rounded-sm">
-                <option></option>
-                <option>Enable</option>
-                <option>Disable</option>
-              </select>
-            </div>
-
-            <div className="flex flex-col w-36">
-              <label> Attribute Set</label>
-              <select className="border rounded-sm">
-                <option></option>
-                <option>Merchandise</option>
-                <option>OTC Product</option>
-                <option>Rx Product</option>
-              </select>
-            </div>
-
-            <div className="flex flex-col w-36">
-              <label>Type</label>
-              <select className="border rounded-sm w-">
-                <option></option>
-                <option>Simple Product</option>
-                <option>Virtual Product</option>
-                <option>Configurable Product</option>
-                <option>Downloadable Product</option>
-                <option>Grouped Product</option>
-                <option>Bundle Product</option>
-                <option>Quote </option>
-              </select>
-            </div>
-
-            <div className="flex flex-col w-36">
-              <label>SKU</label>
-              <input className="border rounded-sm" />
-            </div>
-
-            <div className="my-4 flex">
-              <button
-                onClick={handleCancelRelated}
-                className="bg-blue-900 p-2 mx-1 text-white border rounded-md"
-              >
-                {" "}
-                Cancel
-              </button>
-              <button className="bg-blue-900 text-white p-2 mx-2 border rounded-md">
-                Apply
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* section start */}
       <div>
@@ -768,29 +710,11 @@ const LayoutRelatedProducts = () => {
                 <th className=" p-2  text-left text-sm w-48">Category</th>
                 <th className=" p-2  text-left text-sm w-24">Status</th>
                 <th className=" p-2  text-left text-sm w-52">Type</th>
-                <th className=" p-2  text-left text-sm  w-24">Price</th>
+                <th className=" p-2  text-right text-sm  w-24">Price</th>
                 <th className=" p-2  text-left text-sm  w-24">Action</th>
               </tr>
             </thead>
-            {/* <tbody>
-              {relatedProducts.map((product, index) => (
-                <tr key={index} className="border-b">
-                  <td className=" p-2">
-                    <input className=" h-6 w-4" type="checkbox" />
-                  </td>
-                  <td className="text-sm p-2"> {product.productID}</td>
-                  <td className="text-sm p-2">{product.thumbnail}</td>
-                  <td className="text-sm p-2">{product.name}</td>
-                  <td className="text-sm p-2">{product.attribute}</td>
-                  <td className="text-sm p-2">{product.status}</td>
-                  <td className="text-sm p-2">{product.type}</td>
-                  <td className="text-sm p-2">{product.sku}</td>
-                  <td className="text-sm p-2">{product.price}</td>
-                  <td onClick={()=>handleRemoveSelectedProducts(1,product.productID)} className="text-sm p-2">remove</td>
 
-                </tr>
-              ))}
-            </tbody> */}
             <tbody>
               {relatedProducts.map((product, index) => (
                 <tr key={index} className="border-b">
@@ -812,8 +736,15 @@ const LayoutRelatedProducts = () => {
                   <td className="text-sm p-2">
                     {product.productCategory.categoryName}
                   </td>
-                  <td className="text-sm p-2">
+                  {/* <td className="text-sm p-2">
                     ${product.salePrice?.toFixed(2)}
+                  </td> */}
+
+                  <td className="text-sm p-2 text-right">
+                    $
+                    {product?.salePrice > 0
+                      ? product?.salePrice.toFixed(2)
+                      : product?.unitPrice?.toFixed(2)}
                   </td>
                   <td className="px-4 py-2 cursor-pointer">
                     <Tooltip title="Delete" placement="top">
@@ -841,99 +772,8 @@ const LayoutRelatedProducts = () => {
             higher-quality alternative to the product the customer is looking
             at.
           </p>
-          <button
-            className={`  text-base font-medium p-2 rounded-md  h-8 flex  items-center justify-end ${
-              ButtonUpClick
-                ? "bg-white text-blue-900"
-                : "bg-blue-900 text-white"
-            }`}
-            onClick={handleUpsellFilter}
-          >
-            {" "}
-            <img src={filter} className="w-6 h-3 px-1" />
-            Filter
-          </button>
         </div>
-        {isUpsellFilterVisible && (
-          <div className=" bg-white p-2 px-5   w-full Largest:w-[60%]">
-            <div className="flex justify-between">
-              <div className="flex flex-col w-36">
-                <label>Id From</label>
-                <input className="border rounded-sm" />
-              </div>
-              <div className="flex flex-col w-36">
-                <label>to</label>
-                <input className="border rounded-sm" />
-              </div>
-              <div className="flex flex-col w-36">
-                <label>Price From</label>
-                <input className="border rounded-sm" />
-              </div>
-              <div className="flex flex-col w-36">
-                <label>to</label>
-                <input className="border rounded-sm" />
-              </div>
 
-              <div className="flex flex-col w-36">
-                <label>Name</label>
-                <input className="border rounded-sm" />
-              </div>
-            </div>
-
-            <div className="flex justify-between">
-              <div className="flex flex-col w-36">
-                <label>Status</label>
-                <select className="border rounded-sm">
-                  <option></option>
-                  <option>Enable</option>
-                  <option>Disable</option>
-                </select>
-              </div>
-
-              <div className="flex flex-col w-36">
-                <label> Attribute Set</label>
-                <select className="border rounded-sm">
-                  <option></option>
-                  <option>Merchandise</option>
-                  <option>OTC Product</option>
-                  <option>Rx Product</option>
-                </select>
-              </div>
-
-              <div className="flex flex-col w-36">
-                <label>Type</label>
-                <select className="border rounded-sm w-">
-                  <option></option>
-                  <option>Simple Product</option>
-                  <option>Virtual Product</option>
-                  <option>Configurable Product</option>
-                  <option>Downloadable Product</option>
-                  <option>Grouped Product</option>
-                  <option>Bundle Product</option>
-                  <option>Quote </option>
-                </select>
-              </div>
-
-              <div className="flex flex-col w-36">
-                <label>SKU</label>
-                <input className="border rounded-sm" />
-              </div>
-
-              <div className="my-4 flex justify-end">
-                <button
-                  onClick={handleCancelUpsell}
-                  className="bg-blue-900 p-2 mx-2 text-white border rounded-md"
-                >
-                  {" "}
-                  Cancel
-                </button>
-                <button className="bg-blue-900 text-white p-2 mx-1 border rounded-md">
-                  Apply
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
         <div className="my-6 border rounded-md bg-white w-full Largest:w-[60%] ">
           <table className="w-full">
             <thead className="bg-blue-900 text-white  ">
@@ -949,29 +789,11 @@ const LayoutRelatedProducts = () => {
                 <th className=" p-2  text-left text-sm w-48">Category</th>
                 <th className=" p-2  text-left text-sm w-24">Status</th>
                 <th className=" p-2 text-left text-sm w-52">Type</th>
-                <th className=" p-2  text-left text-sm  w-24">Price</th>
+                <th className=" p-2  text-right text-sm  w-24">Price</th>
                 <th className=" p-2 text-left text-sm w-24">Action</th>
               </tr>
             </thead>
-            {/* <tbody>
-              {UpSellProducts.map((product, index) => (
-                <tr key={index} className="border-b">
-                  <td className=" p-2">
-                    <input className=" h-6 w-4" type="checkbox" />
-                  </td>
-                  <td className="text-sm p-2"> {product.productID}</td>
-                  <td className="text-sm p-2">{product.thumbnail}</td>
-                  <td className="text-sm p-2">{product.name}</td>
-                  <td className="text-sm p-2">{product.attribute}</td>
-                  <td className="text-sm p-2">{product.status}</td>
-                  <td className="text-sm p-2">{product.type}</td>
-                  <td className="text-sm p-2">{product.sku}</td>
-                  <td className="text-sm p-2">{product.price}</td>
-                  <td onClick={()=>handleRemoveSelectedProducts(2,product.productID)} className="text-sm p-2">remove</td>
 
-                </tr>
-              ))}
-            </tbody> */}
             <tbody>
               {UpSellProducts.map((product, index) => (
                 <tr key={index} className="border-b">
@@ -993,8 +815,13 @@ const LayoutRelatedProducts = () => {
                   <td className="text-sm p-2">
                     {product.productCategory.categoryName}
                   </td>
-                  <td className="text-sm p-2">
+                  {/* <td className="text-sm p-2">
                     ${product.salePrice?.toFixed(2)}
+                  </td> */}
+                  <td className="text-sm p-2 text-right">
+                    ${product?.salePrice > 0
+                      ? product?.salePrice.toFixed(2)
+                      : product?.unitPrice?.toFixed(2)}
                   </td>
                   <td className="px-4 py-2 cursor-pointer">
                     <Tooltip title="Delete" placement="top">
@@ -1021,97 +848,8 @@ const LayoutRelatedProducts = () => {
           These "impulse-buy" products appear next to the shopping cart as
           cross-sells to the items already in the shopping cart.
         </p>
-        <button
-          className={` text-base font-medium  p-2 rounded-md  h-8 flex items-center ${
-            isButtonClicked
-              ? "bg-white text-blue-900"
-              : "bg-blue-900 text-white"
-          }`}
-          onClick={handleCrossSellFilter}
-        >
-          <img src={filter} className="w-6 h-3 px-1" />
-          Filter
-        </button>
       </div>
-      {isCrossSellFiltervisible && (
-        <div className=" bg-white p-2 px-5  w-full Largest:w-[60%] ">
-          <div className="flex justify-between">
-            <div className="flex flex-col w-36">
-              <label>Id From</label>
-              <input className="border rounded-sm" />
-            </div>
-            <div className="flex flex-col w-36">
-              <label>to</label>
-              <input className="border rounded-sm" />
-            </div>
-            <div className="flex flex-col w-36">
-              <label>Price From</label>
-              <input className="border rounded-sm" />
-            </div>
-            <div className="flex flex-col w-36">
-              <label>to</label>
-              <input className="border rounded-sm" />
-            </div>
 
-            <div className="flex flex-col w-36">
-              <label>Name</label>
-              <input className="border rounded-sm" />
-            </div>
-          </div>
-
-          <div className="flex justify-between">
-            <div className="flex flex-col w-36">
-              <label>Status</label>
-              <select className="border rounded-sm">
-                <option></option>
-                <option>Enable</option>
-                <option>Disable</option>
-              </select>
-            </div>
-
-            <div className="flex flex-col w-36">
-              <label> Attribute Set</label>
-              <select className="border rounded-sm">
-                <option></option>
-                <option>Merchandise</option>
-                <option>OTC Product</option>
-                <option>Rx Product</option>
-              </select>
-            </div>
-
-            <div className="flex flex-col w-36">
-              <label>Type</label>
-              <select className="border rounded-sm w-">
-                <option></option>
-                <option>Simple Product</option>
-                <option>Virtual Product</option>
-                <option>Configurable Product</option>
-                <option>Downloadable Product</option>
-                <option>Grouped Product</option>
-                <option>Bundle Product</option>
-                <option>Quote </option>
-              </select>
-            </div>
-
-            <div className="flex flex-col w-36">
-              <label>SKU</label>
-              <input className="border rounded-sm" />
-            </div>
-            <div className="my-4 flex justify-end">
-              <button
-                onClick={handleCrossSellCancel}
-                className="bg-blue-900 p-2 mx-2 text-white border rounded-md"
-              >
-                {" "}
-                Cancel
-              </button>
-              <button className="bg-blue-900 text-white p-2 mx-1 border rounded-md">
-                Apply
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
       <div className="my-6 border rounded-md bg-white w-full Largest:w-[60%]">
         <table className="w-full">
           <thead className="bg-blue-900 text-white  ">
@@ -1127,29 +865,11 @@ const LayoutRelatedProducts = () => {
               <th className=" p-2  text-left text-sm w-48 ">Category</th>
               <th className=" p-2  text-left text-sm w-24">Status</th>
               <th className=" p-2 text-left text-sm w-52">Type</th>
-              <th className=" p-2 text-left text-sm w-24">Price</th>
+              <th className=" p-2 text-right text-sm w-24">Price</th>
               <th className=" p-2 text-left text-sm w-24">Action</th>
             </tr>
           </thead>
-          {/* <tbody>
-            {CrossSellProducts.map((product, index) => (
-              <tr key={index} className="border-b">
-                <td className=" p-2">
-                  <input className=" h-6 w-4" type="checkbox" />
-                </td>
-                <td className="text-sm p-2"> {product.productID}</td>
-                <td className="text-sm p-2">{product.thumbnail}</td>
-                <td className="text-sm p-2">{product.name}</td>
-                <td className="text-sm p-2">{product.attribute}</td>
-                <td className="text-sm p-2">{product.status}</td>
-                <td className="text-sm p-2">{product.type}</td>
-                <td className="text-sm p-2">{product.sku}</td>
-                <td className="text-sm p-2">{product.price}</td>
-                <td onClick={()=>handleRemoveSelectedProducts(3,product.productID)} className="text-sm p-2">remove</td>
 
-              </tr>
-            ))}
-          </tbody> */}
           <tbody>
             {CrossSellProducts.map((product, index) => (
               <tr key={index} className="border-b">
@@ -1171,7 +891,15 @@ const LayoutRelatedProducts = () => {
                 <td className="text-sm p-2">
                   {product.productCategory.categoryName}
                 </td>
-                <td className="text-sm p-2 text-left"> ${product.salePrice?.toFixed(2)}</td>
+                {/* <td className="text-sm p-2 text-left">
+                  {" "}
+                  ${product.salePrice?.toFixed(2)}
+                </td> */}
+                <td className="text-sm p-2 text-right">
+                  ${product?.salePrice > 0
+                    ? product?.salePrice.toFixed(2)
+                    : product?.unitPrice?.toFixed(2)}
+                </td>
                 <td className="px-4 py-2 cursor-pointer">
                   <Tooltip title="Delete" placement="top">
                     <img

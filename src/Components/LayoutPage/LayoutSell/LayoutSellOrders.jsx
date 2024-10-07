@@ -143,7 +143,7 @@ function LayoutSellOrders() {
               <button className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400 cursor-pointer" onClick={() => setModal(false)}>
                 Cancel
               </button>
-              <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 cursor-pointer" onClick={handleClickInvoice}>
+              <button className="bg-blue-500 text-black py-2 px-4 rounded hover:bg-blue-600 cursor-pointer" onClick={handleClickInvoice}>
                 <img src={Invoice} alt="Invoice" className="inline w-6 h-6 mr-2" />
                 Send Invoice
               </button>
