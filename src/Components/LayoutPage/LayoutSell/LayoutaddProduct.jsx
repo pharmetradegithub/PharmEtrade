@@ -1105,7 +1105,7 @@ function LayoutaddProduct() {
 
                       <div className="flex flex-col">
                         <label className="text-sm font-semibold">
-                          Expiration Date:
+                          Expiration Date: <span className="text-red-600">*</span>
                         </label>
                         <input
                           name="expirationDate"
@@ -1505,7 +1505,7 @@ function LayoutaddProduct() {
                 </div>
                 <div className="w-full">
                   <div className="">
-                    <span className="text-base font-semibold">States :</span>
+                    <span className="text-base font-semibold">States : <span className="text-red-600">*</span></span>
                     <div className="w-56 h-44 pl-2   py-1 border border-slate-300 rounded-md overflow-y-scroll">
                       <label className="flex items-center">
                         <input
@@ -1744,7 +1744,10 @@ function LayoutaddProduct() {
 
                 <div className="flex items-center gap-8 ">
                   <div className=" flex flex-col">
-                    <label className="font-semibold">Amount in Stock:</label>
+                    <label className="font-semibold">
+                      Amount in Stock:<span className="text-red-600">*</span>
+                    </label>
+                    {/* <label className="font-semibold">Amount in Stock:</label> */}
                     <input
                       name="amountInStock"
                       type="phone"

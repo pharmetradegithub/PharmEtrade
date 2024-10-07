@@ -87,9 +87,16 @@ const AdminBanners = () => {
     <div className="p-6 bg-gray-100 overflow-y-scroll">
       <h1 className="flex items-center text-3xl font-bold mb-6">
         Manage Banners{" "}
-        <p className="text-lg mt-2 ml-3">
+        {/* <p className="text-lg mt-2 ml-3">
           (Banner Size Should be in Width: 7680px , Height: 2200px ,
           Resolution:300)
+        </p> */}
+
+        <p className="flex text-lg mt-2 ml-2 items-center justify-center">
+          (
+          <p className="text-lg   text-red-500"> Banner Size Should be in Width: 7680px , Height: 2200px ,
+            Resolution:300 </p>
+          )
         </p>
       </h1>
 

@@ -1013,7 +1013,7 @@ function LayoutBuy({
                           </p>
                         ) : (
                           <p className="text-white p-1 bg-green-600 rounded-lg ">
-                            Stock Available -{" "}
+                           Amount in Stock -{" "}
                             <span className="font-semibold">
                               {product.amountInStock}
                             </span>
@@ -1025,7 +1025,12 @@ function LayoutBuy({
                     <div className="flex flex-col mx-3">
                       <p className="font-semibold">Unit Price</p>
                       <div className="mt-2">
-                        <p className="font-semibold">
+                        <p
+                          className={`font-semibold ${product.amountInStock === 0
+                            ? "opacity-50"
+                            : "cursor-pointer"
+                            }`}
+                        >
                           ${product.unitPrice?.toFixed(2)}
                         </p>
                       </div>
@@ -1084,7 +1089,7 @@ function LayoutBuy({
                     {/* Wishlist */}
                     <div className="flex flex-col items-center justify-between">
                       <div className="mt-2">
-                        <Tooltip title="Wishlist" placement="top">
+                        {/* <Tooltip title="Wishlist" placement="top">
                           <img
                             src={
                               wishlistProductIDs.includes(product.productID)
@@ -1095,14 +1100,57 @@ function LayoutBuy({
                             onClick={() => handleClick(product.productID)}
                             alt="Wishlist Icon"
                           />
+                        </Tooltip> */}
+
+                        <Tooltip title="Wishlist" placement="top">
+                          <img
+                            src={
+                              wishlistProductIDs.includes(product.productID)
+                                ? filledHeart
+                                : emptyHeart
+                            }
+
+                            className={`w-6 h-6 ${product.amountInStock === 0
+                              ? "opacity-50"
+                              : "cursor-pointer"
+                              }`}
+                            // // className={` w-6 h-6 cursor-pointer ${product.amountInStock === 0 ? "opacity-50" : ""
+                            // }`}
+                            // className="w-6 h-6 cursor-pointer"
+                            onClick={() => {
+                              if (product.amountInStock !== 0) {
+                                handleClick(product.productID, product.CartQuantity);
+                              }
+                            }
+                              // handleClick(product.productID)
+                            }
+                            alt="Wishlist Icon"
+                          />
                         </Tooltip>
                       </div>
                       <div className="relative inline-block">
-                        <Tooltip title="Share" placement="right">
+                        {/* <Tooltip title="Share" placement="right">
                           <img
                             src={share}
                             className="w-6 mx-3 "
                             onClick={() => handleShare(product.productID)}
+                          />
+                        </Tooltip> */}
+                        <Tooltip title="Share" placement="right">
+                          <img
+                            src={share}
+                            // className="w-6 mx-3 "
+                            className={`w-6 mx-3 ${product.amountInStock === 0
+                              ? "opacity-50"
+                              : "cursor-pointer"
+                              }`}
+                            onClick={() => {
+                              if (product.amountInStock !== 0) {
+                                handleShare(product.productID, product.CartQuantity);
+                              }
+                            }
+                              // handleShare(product.productID)
+                            }
                           />
                         </Tooltip>
                       </div>
