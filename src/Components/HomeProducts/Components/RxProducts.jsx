@@ -175,7 +175,8 @@ const RxProducts = () => {
               </div> */}
               <div className="w-full py-1">
                 <h2 className="text-fonts h-12">{item.productName}</h2>
-                {item.salePrice > 0 ? (
+                {new Date() >= new Date(item?.salePriceValidFrom) &&
+                new Date() <= new Date(item?.salePriceValidTo) ? (
                   <div className="flex items-center gap-1">
                     <h1 className="text-fonts font-semibold">
                       ${item.salePrice?.toFixed(2)}
@@ -265,14 +266,14 @@ const RxProducts = () => {
         </div>
       </div>
       <Pagination
-              indexOfFirstItem={indexOfFirstItem}
-              indexOfLastItem={indexOfLastItem}
-              productList={RXProducts}
-              itemsPerPage={itemsPerPage}
-              setItemsPerPage={setItemsPerPage}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
+        indexOfFirstItem={indexOfFirstItem}
+        indexOfLastItem={indexOfLastItem}
+        productList={RXProducts}
+        itemsPerPage={itemsPerPage}
+        setItemsPerPage={setItemsPerPage}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 };

@@ -1025,14 +1025,17 @@ function LayoutBuy({
                     <div className="flex flex-col mx-3">
                       <p className="font-semibold">Unit Price</p>
                       <div className="mt-2">
-                        <p
+                      <p className="font-semibold">
+                          ${product.unitPrice?.toFixed(2)}
+                        </p>
+                        {/* <p
                           className={`font-semibold ${product.amountInStock === 0
                             ? "opacity-50"
                             : "cursor-pointer"
                             }`}
                         >
                           ${product.unitPrice?.toFixed(2)}
-                        </p>
+                        </p> */}
                       </div>
                     </div>
 
@@ -1089,7 +1092,7 @@ function LayoutBuy({
                     {/* Wishlist */}
                     <div className="flex flex-col items-center justify-between">
                       <div className="mt-2">
-                        {/* <Tooltip title="Wishlist" placement="top">
+                        <Tooltip title="Wishlist" placement="top">
                           <img
                             src={
                               wishlistProductIDs.includes(product.productID)
@@ -1100,9 +1103,9 @@ function LayoutBuy({
                             onClick={() => handleClick(product.productID)}
                             alt="Wishlist Icon"
                           />
-                        </Tooltip> */}
+                        </Tooltip>
 
-                        <Tooltip title="Wishlist" placement="top">
+                        {/* <Tooltip title="Wishlist" placement="top">
                           <img
                             src={
                               wishlistProductIDs.includes(product.productID)
@@ -1126,17 +1129,17 @@ function LayoutBuy({
                             }
                             alt="Wishlist Icon"
                           />
-                        </Tooltip>
+                        </Tooltip> */}
                       </div>
                       <div className="relative inline-block">
-                        {/* <Tooltip title="Share" placement="right">
+                        <Tooltip title="Share" placement="right">
                           <img
                             src={share}
                             className="w-6 mx-3 "
                             onClick={() => handleShare(product.productID)}
                           />
-                        </Tooltip> */}
-                        <Tooltip title="Share" placement="right">
+                        </Tooltip>
+                        {/* <Tooltip title="Share" placement="right">
                           <img
                             src={share}
                             // className="w-6 mx-3 "
@@ -1152,7 +1155,7 @@ function LayoutBuy({
                               // handleShare(product.productID)
                             }
                           />
-                        </Tooltip>
+                        </Tooltip> */}
                       </div>
                       {isShowPopup && (
                         <div

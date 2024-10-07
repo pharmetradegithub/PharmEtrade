@@ -1,7 +1,4 @@
-
-
-
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import addcart from "../../../assets/cartw_icon.png";
 import emptyHeart from "../../../assets/Wishlist1_icon.png";
@@ -20,28 +17,31 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
     show: false,
     message: "one",
   });
-  const user = useSelector((state)=>state.user.user);
+  const user = useSelector((state) => state.user.user);
   // const wishlist = useSelector((state)=>state.wishlist.wishlist);
   // const [wishlistProductIDs, setWishlistProductIDs] = useState([]);
   //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   // const getWishlistIdByProductID = (productID) => {
   //   const wishlistItem = wishlist.find((item) => item.product.productID === productID);
-  //   return wishlistItem ? wishlistItem.wishListId : null; 
+  //   return wishlistItem ? wishlistItem.wishListId : null;
   // };
   const wishlist = useSelector((state) => state.wishlist.wishlist);
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
   //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
-    const wishlistItem = wishlist.find((item) => item.product.productID === productID);
+    const wishlistItem = wishlist.find(
+      (item) => item.product.productID === productID
+    );
     return wishlistItem ? wishlistItem.wishListId : null;
   };
 
   useEffect(() => {
     if (Array.isArray(wishlist)) {
-      setwishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
+      setwishlistProductIDs(
+        wishlist.map((wishItem) => wishItem.product.productID)
+      );
     }
   }, [wishlist]);
-
 
   const totalStars = 5;
   const navigate = useNavigate();
@@ -51,14 +51,13 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
   //     setWishlistProductIDs(wishlist.map((wishItem) => wishItem.product.productID));
   //   }
   // }, [wishlist]);
-  const handleCart = async(productID) => {
-    if(user==null)
-    {
-      navigate('/login')
+  const handleCart = async (productID) => {
+    if (user == null) {
+      navigate("/login");
       return;
-    } 
+    }
     const cartData = {
-      customerId: user.customerId, 
+      customerId: user.customerId,
       productId: productID,
       quantity: 1,
       isActive: 1,
@@ -81,11 +80,10 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
     }
   };
   const handleClick = async (productID) => {
-    if(user==null)
-      {
-        navigate('/login')
-        return;
-      }
+    if (user == null) {
+      navigate("/login");
+      return;
+    }
     if (wishlistProductIDs.includes(productID)) {
       setwishlistProductIDs(
         wishlistProductIDs.filter((id) => id !== productID)
@@ -111,7 +109,7 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
       {filled ? "★" : "☆"}
     </span>
   );
-  const handleProductCategory =async ()=>{
+  const handleProductCategory = async () => {
     let Criteria = {
       deals: null,
       brands: null,
@@ -126,72 +124,90 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
       topSellingProducts: null,
       buyAgain: null,
     };
-    if(heading==="Rx Items"){
-    await fetchCriteriaProductsApi(Criteria,"Prescription Drugs");
-    navigate(`/allProducts/RxProducts`); 
+    if (heading === "Rx Items") {
+      await fetchCriteriaProductsApi(Criteria, "Prescription Drugs");
+      navigate(`/allProducts/RxProducts`);
+    } else {
+      await fetchCriteriaProductsApi(Criteria, "OTC Products");
+      navigate(`/allProducts/OtcProducts`);
     }
-  else{
-    await fetchCriteriaProductsApi(Criteria,"OTC Products");
-    navigate(`/allProducts/OtcProducts`); 
-  }
-   }
+  };
   return (
     <div className="bg-white w-full p-4">
-       {notification.show && (
+      {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
       <h1 className="text-2xl font-bold text-text-blue">{heading}</h1>
       {products.length > 0 ? (
-           <div className="grid grid-cols-3 grid-rows-1 gap-0  p-2">
-        {products.map((item, index) => (
-          <div
-            key={item.id}
-            className="snap-center border rounded-sm bg-white shrink-0 m-3"
-          >
-            <div className="relative rounded-t-sm bg-slate-100 m-2">
-              <img
-                onClick={(e) => {
-                  // e.stopPropagation(); // Prevent event from bubbling to parent
-                  handleClick(item.productID);
-                }}
-                src={
-                  wishlistProductIDs.includes(item.productID)
-                    ? filledHeart
-                    : emptyHeart
-                }
-                className="absolute h-6 w-6  right-1 p-1 cursor-pointer"
-                alt="Favorite Icon"
-              />
-              <img
-                src={item.productGallery.imageUrl} // Assuming item.img contains image URL
-                className="h-40 cursor-pointer w-40 object-contain rounded-lg"
-                onClick={() => navigate(`/detailspage/${item.productID}`)}
-                alt={item.productName}
-              />
-              <img
-                src={other}
-                className="h-5 w-5 right-1 absolute bottom-1 text-green-700"
-                alt="Other Icon"
-              />
-            </div>
-            <div className="p-2 rounded-b-lg w-40">
-              <div className="flex justify-between flex-col font-medium">
-                <h2 className="text-black font-bold h-16 w-36 overflow-scroll">{item.productName}</h2>
-                <div className="flex justify-between items-center">
-                  <div className="flex gap-1 items-center">
+        <div className="grid grid-cols-3 grid-rows-1 gap-0  p-2">
+          {products.map((item, index) => (
+            <div
+              key={item.id}
+              className="snap-center border rounded-sm bg-white shrink-0 m-3"
+            >
+              <div className="relative rounded-t-sm bg-slate-100 m-2">
+                <img
+                  onClick={(e) => {
+                    // e.stopPropagation(); // Prevent event from bubbling to parent
+                    handleClick(item.productID);
+                  }}
+                  src={
+                    wishlistProductIDs.includes(item.productID)
+                      ? filledHeart
+                      : emptyHeart
+                  }
+                  className="absolute h-6 w-6  right-1 p-1 cursor-pointer"
+                  alt="Favorite Icon"
+                />
+                <img
+                  src={item.productGallery.imageUrl} // Assuming item.img contains image URL
+                  className="h-40 cursor-pointer w-40 object-contain rounded-lg"
+                  onClick={() => navigate(`/detailspage/${item.productID}`)}
+                  alt={item.productName}
+                />
+                <img
+                  src={other}
+                  className="h-5 w-5 right-1 absolute bottom-1 text-green-700"
+                  alt="Other Icon"
+                />
+              </div>
+              <div className="p-2 rounded-b-lg w-40">
+                <div className="flex justify-between flex-col font-medium">
+                  <h2 className="text-black font-bold h-16 w-36 overflow-scroll">
+                    {item.productName}
+                  </h2>
+                  <div className="flex justify-between items-center">
+                    {/* <div className="flex gap-1 items-center">
                     <h3 className="text-black font-semibold">${item.salePrice?.toFixed(2)}</h3>
                     <span className="text-[10px] line-through">(${item.unitPrice?.toFixed(2)})</span>
+                  </div> */}
+                    <div className="flex gap-1 items-center">
+                      {new Date() >= new Date(item?.salePriceValidFrom) &&
+                      new Date() <= new Date(item?.salePriceValidTo) ? (
+                        <>
+                          <h3 className="text-black font-semibold">
+                            ${item.salePrice?.toFixed(2)}
+                          </h3>
+                          <span className="text-[10px] line-through">
+                            (${item.unitPrice?.toFixed(2)})
+                          </span>
+                        </>
+                      ) : (
+                        <h3 className="text-black font-semibold">
+                          ${item.unitPrice?.toFixed(2)}
+                        </h3>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="flex items-center   ">
-                <span style={{ fontSize: "24px", color: "orange" }}>★</span>
-                <span style={{ fontSize: "24px", color: "orange" }}>★</span>
-                <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
-                <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
-                <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
-              </div>
-              {/* <div>
+                <div className="flex items-center   ">
+                  <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                </div>
+                {/* <div>
                 {Array.from({ length: totalStars }, (v, i) => (
                   <Star
                     key={i}
@@ -200,26 +216,26 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
                   />
                 ))}
               </div> */}
-              {/* <div onClick={() => handleCart(index)}>
+                {/* <div onClick={() => handleCart(index)}>
                 <img src={addcart} className="h-7 p-1" alt="Add to Cart Icon" />
               </div> */}
-              <div
-                onClick={() => handleCart(item.productID)}
-                className="bg-blue-900 flex gap-1 p-1 rounded-lg justify-center items-center  cursor-pointer"
-              >
-                <img src={addcart} className="h-7 p-1" />
-                <p className="text-white font-semibold">ADD</p>
+                <div
+                  onClick={() => handleCart(item.productID)}
+                  className="bg-blue-900 flex gap-1 p-1 rounded-lg justify-center items-center  cursor-pointer"
+                >
+                  <img src={addcart} className="h-7 p-1" />
+                  <p className="text-white font-semibold">ADD</p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-       ) : (
+          ))}
+        </div>
+      ) : (
         <p className="text-center text-gray-500">No products available</p>
       )}
-      
+
       <Link
-        onClick={()=>handleProductCategory()}
+        onClick={() => handleProductCategory()}
         className="font-semibold hover:text-red-500 flex justify-end underline"
       >
         See all products
@@ -229,30 +245,3 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
 };
 
 export default ProductSection;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

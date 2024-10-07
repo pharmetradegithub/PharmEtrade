@@ -1,4 +1,3 @@
-
 import React, { useRef, useState, useEffect, useContext } from "react";
 import left from "../../../assets/arrowleft.png";
 import right from "../../../assets/arrowright.png";
@@ -153,128 +152,82 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
           ref={carouselContainer}
           className="flex w-full gap-6 overflow-x-scroll snap-x snap-mandatory"
         >
-          {data.map((item, index) => (
-            <div
-              key={index}
-              className="snap-center border rounded-sm bg-white shrink-0"
-            >
-              <div className="relative bg-slate-100 m-2">
-                <img
-                  onClick={(e) => {
-                    e.stopPropagation(); // Prevent event from bubbling to parent
-                    handleClick(item.productID);
-                  }}
-                  src={
-                    wishlistProductIDs.includes(item.productID)
-                      ? filledHeart
-                      : emptyHeart
-                  }
-                  className="absolute h-7 w-7 right-1 p-1 cursor-pointer"
-                  alt="Favorite Icon"
-                />
-                <img
-                  src={comp}
-                  className="absolute h-7 w-7 bottom-0 right-1 p-1"
-                />
+          {data && data.length > 0 ? (
+            data.map((item, index) => (
+              <div
+                key={index}
+                className="snap-center border rounded-sm bg-white shrink-0"
+              >
+                <div className="relative bg-slate-100 m-2">
+                  <img
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent event from bubbling to parent
+                      handleClick(item.productID);
+                    }}
+                    src={
+                      wishlistProductIDs.includes(item.productID)
+                        ? filledHeart
+                        : emptyHeart
+                    }
+                    className="absolute h-7 w-7 right-1 p-1 cursor-pointer"
+                    alt="Favorite Icon"
+                  />
+                  <img
+                    src={comp}
+                    className="absolute h-7 w-7 bottom-0 right-1 p-1"
+                  />
 
-                {/* <img
-                  src={item.imageUrl}
-                  // onClick={() => naviagte(`/detailspage/${index}`)}
-                  onClick={()=>handleproductdetiails}
-                  alt={item.name}
-                  className="h-48 w-48 object-contain rounded-lg hover:cursor-pointer"
-                /> */}
-                <img
-                  src={item.productGallery.imageUrl}
-                  onClick={() => handleProductDetails(item.productID)} // Assuming item.id is the product ID
-                  alt={item.name}
-                  className="h-48 w-48 object-contain rounded-lg hover:cursor-pointer"
-                />
-              </div>
-              <div className="p-2 w-48">
-                <div className="flex justify-between flex-col font-medium">
-                  <h2 className="text-black font-bold h-12">
-                    {item.productName}
-                  </h2>
-                  {/* <div className="flex gap-1 items-center">
-                    <h3 className="text-black font-semibold">
-                      ${item.salePrice}
-                    </h3>
-                    <span className="text-[10px] line-through">
-                      (${item.unitPrice})
-                    </span>
-                  </div> */}
-                  <div className="flex gap-1 items-center">
-                    {item.salePrice > 0 ? (
-                      <>
-                        <h3 className="text-black font-semibold">
-                          ${item.salePrice}
-                        </h3>
-                        <span className="text-[10px] line-through">
-                          (${item.unitPrice})
-                        </span>
-                      </>
-                    ) : (
-                      <h3 className="text-black font-semibold">
-                        ${item.unitPrice}
-                      </h3>
-                    )}
+                  <img
+                    src={item.productGallery.imageUrl}
+                    onClick={() => handleProductDetails(item.productID)}
+                    // onClick={() => navigate(`/detailspage/${item.productID}`)}
+                    alt={item.name}
+                    className="h-48 w-48 object-contain rounded-lg hover:cursor-pointer"
+                  />
+                </div>
+                <div className="p-2 w-48">
+                  <div className="flex justify-between flex-col font-medium">
+                    <h2 className="text-black font-bold h-12">
+                      {item.productName}
+                    </h2>
+                    <div className="flex gap-1 items-center">
+                      {new Date() >= new Date(item?.salePriceValidFrom) &&
+                      new Date() <= new Date(item?.salePriceValidTo) ? (
+                        <div className="flex items-center gap-1">
+                          <h1 className="text-fonts font-semibold">
+                            ${item.salePrice?.toFixed(2)}
+                          </h1>
+                          <span className="text-[10px] line-through">
+                            (${item.unitPrice?.toFixed(2)})
+                          </span>
+                        </div>
+                      ) : (
+                        <h1 className="text-fonts font-semibold">
+                          ${item.unitPrice?.toFixed(2)}
+                        </h1>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center   ">
-                  <span style={{ fontSize: "24px", color: "orange" }}>★</span>
-                  <span style={{ fontSize: "24px", color: "orange" }}>★</span>
-                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
-                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
-                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
-                </div>
-                {/* <div>
-                  {Array.from({ length: totalStars }, (v, i) => (
-                    <Star
-                      key={i}
-                      filled={i < rating}
-                      onClick={() => setRating(i + 1)}
-                    />
-                  ))}
-                </div> */}
-                <div
-                  onClick={() => handleCart(index)}
-                  className="bg-blue-900 flex gap-1 p-1 rounded-lg justify-center items-center  cursor-pointer"
-                >
-                  <img src={addcart} className="h-7 p-1" />
-                  <p className="text-white font-semibold">ADD</p>
-                </div>
-                {/* {cartQuantities[index] ? (
-                  <div className="flex text-white justify-between items-center px-3 gap-2 mt-2">
-                    <button
-                      onClick={() => handleQuantityChange(index, -1)}
-                      disabled={(cartQuantities[index] || 0) <= 0}
-                      className="bg-blue-900 w-[30px]  p-1 rounded-lg"
-                    >
-                      -
-                    </button>
-                    <span className="px-2 text-black">
-                      {cartQuantities[index]}
-                    </span>
-                    <button
-                      onClick={() => handleQuantityChange(index, 1)}
-                      className="bg-blue-900 w-[30px]  p-1 rounded-lg"
-                    >
-                      +
-                    </button>
+                  <div className="flex items-center">
+                    <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                   </div>
-                ) : (
                   <div
                     onClick={() => handleCart(index)}
-                    className="bg-blue-900 flex gap-1 p-1 rounded-lg justify-center items-center mt-2 cursor-pointer"
+                    className="bg-blue-900 flex gap-1 p-1 rounded-lg justify-center items-center cursor-pointer"
                   >
                     <img src={addcart} className="h-7 p-1" />
                     <p className="text-white font-semibold">ADD</p>
                   </div>
-                )} */}
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p>No products available</p>
+          )}
         </div>
       </div>
     </div>
