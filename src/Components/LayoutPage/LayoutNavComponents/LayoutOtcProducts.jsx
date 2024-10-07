@@ -959,7 +959,7 @@ function LayoutOtcProducts({
                         </p>
                       </div>
                       <div className="text-sm">
-                        {product.amountInStock === 0 ? (
+                        {product.amountInStock <= 0 ? (
                           <p className="text-red-500 font-semibold">
                             Out Of Stock
                           </p>

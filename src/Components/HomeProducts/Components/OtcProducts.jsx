@@ -198,7 +198,7 @@ const OtcProducts = () => {
                   <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                 </div>
                 <div className="text-xs">
-                  {item.amountInStock === 0 ? (
+                  {item.amountInStock <= 0 ? (
                     <p className="text-red-500 font-semibold">Out Of Stock</p>
                   ) : (
                     <p className="text-green-600 rounded-lg font-semibold ">
