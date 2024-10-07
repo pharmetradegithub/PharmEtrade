@@ -136,6 +136,9 @@ import LayoutBuyerUpcomingGrid from "./Components/LayoutPage/LayoutDashboard/Lay
 import LayoutBuyerReceiversgrid from "./Components/LayoutPage/LayoutDashboard/LayoutBuyerReceiversgrid";
 import LayoutBuyerCancelledgrid from "./Components/LayoutPage/LayoutDashboard/LayoutBuyerCancelledgrid";
 import Products from "./Components/Admin/Products/Products";
+import Settlement from "./Components/Admin/Components/Settlement";
+import Incomimg from "./Components/Admin/Components/Incomimg";
+import Outgoing from "./Components/Admin/Components/Outgoing";
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
@@ -222,9 +225,8 @@ function App() {
         <Nav topDivRef={topDivRef} cartItems={cartItems} />
       )} */}
       <div
-        className={`w-screen ${
-          loading == false ? "hidden" : "flex"
-        } flex flex-col justify-center items-center z-[100] bg-slate-200 absolute h-screen`}
+        className={`w-screen ${loading == false ? "hidden" : "flex"
+          } flex flex-col justify-center items-center z-[100] bg-slate-200 absolute h-screen`}
       >
         <div className="animate-pulse flex justify-center items-center flex-col">
           <img src={Logo} alt="" />
@@ -368,9 +370,9 @@ function App() {
             element={<LayoutCustomerDashboard />}
           />
 
-          <Route path="/layout/layoutbuyerupcominggrid" element={<LayoutBuyerUpcomingGrid/>}/>
-          <Route path="/layout/layoutbuyerreceivedgrid" element={<LayoutBuyerReceiversgrid/>}/>
-          <Route path="/layout/layoutbuyercancelledgrid" element={<LayoutBuyerCancelledgrid/>}/>
+          <Route path="/layout/layoutbuyerupcominggrid" element={<LayoutBuyerUpcomingGrid />} />
+          <Route path="/layout/layoutbuyerreceivedgrid" element={<LayoutBuyerReceiversgrid />} />
+          <Route path="/layout/layoutbuyercancelledgrid" element={<LayoutBuyerCancelledgrid />} />
           <Route path="/layoutsell" element={<LayoutSell />} />
           <Route path="/layout/addproduct" element={<LayoutaddProduct />} />
           <Route
@@ -460,9 +462,12 @@ function App() {
             path="/pharmEtradeadmin/AdminBanners"
             element={<AdminBanners />}
           />
-          <Route path="/pharmEtradeadmin/customerList" element={<CustomerList/>} />
-          <Route path="/pharmEtradeadmin/sellerList" element={<SellerList/>} />
-          <Route path= "/pharmEtradeadmin/products" element={<Products/>}/>
+          <Route path="/pharmEtradeadmin/customerList" element={<CustomerList />} />
+          <Route path="/pharmEtradeadmin/sellerList" element={<SellerList />} />
+          <Route path="/pharmEtradeadmin/products" element={<Products />} />
+          <Route path="/pharmEtradeadmin/Settlement" element={<Settlement />} />
+          <Route path="/pharmEtradeadmin/Incoming" element={<Incomimg />} />
+          <Route path="/pharmEtradeadmin/Outgoing" element={<Outgoing />} />
         </Route>
 
         <Route element={<AccountPanel topMargin={topMargin} />}>

@@ -102,16 +102,32 @@
 
 // export default Products
 
+
 import React, { useState } from "react";
-import offer from "../../../assets/offers_1.png";
+// import offer from "../../../assets/offers_1.png";
 import edit from "../../../assets/Edit.png";
+import rxicon from "../../../assets/Icons/rx_12214494.png";
+import otc from "../../../assets/Icons/OTC.png";
+// import sold from "../../../assets/Icons/sold_6188755.png";
+import discount from "../../../assets/Icons/discount.png";
 //  "../../../../assets/Edit.png";
 import Bin from "../../../assets/Bin.png";
 import Deactivate from "../../../assets/Deactivate.png";
+import view from "../../../assets/eye.png";
 import { Tooltip } from "@mui/material";
 import { useSelector } from "react-redux";
 import Pagination from "../../Pagination";
-
+import {
+  Button,
+  Dialog,
+  Checkbox,
+  Typography,
+  DialogBody,
+  IconButton,
+  DialogHeader,
+  DialogFooter,
+} from "@material-tailwind/react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 const Products = () => {
   const products = useSelector((state) => state.product.Products);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
@@ -120,6 +136,7 @@ const Products = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil((products?.length || 0) / itemsPerPage);
+  const [open, setOpen] = useState(false);
   // const details = [
   //     {
   //         Product_Name: "1-CLIC VIAL RV 145 GREEN 20DR",
@@ -137,6 +154,16 @@ const Products = () => {
   //         Brand_Name: "	Tester",
   //     }
   // ]
+
+  // Toggle popup visibility
+  // const togglePopup = () => {
+  //   setIsPopupOpen(!isPopupOpen);
+  // };
+  const handleOpen = () => {
+    setOpen(!open);
+    // alert("clicked successfully");
+  };
+
   return (
     <>
       <div className="bg-gray-100 w-full h-full flex overflow-y-scroll items-center justify-center">
@@ -171,7 +198,7 @@ const Products = () => {
                   <td>{detail.productName}</td>
                   <td>{detail.manufacturer}</td>
                   <td>{detail.categorySpecification.specificationName}</td>
-                  <td className="px-4  justify-center py-2 cursor-pointer flex items-center space-x-2">
+                  <td className="px-4  justify-center py-2 cursor-pointer flex items-center space-x-2 bg-transparent">
                     <Tooltip title="Edit" placement="top">
                       <img
                         src={edit}
@@ -196,6 +223,176 @@ const Products = () => {
                       //   onClick={() => deactivatePopUp(product.productID)}
                       />
                     </Tooltip>
+                    <Tooltip title="View" placement="top">
+                      <img
+                        src={view}
+                        alt="View"
+                        style={{ width: "20px", height: "20px" }}
+                        className="cursor-pointer w-4 h-4"
+                        onClick={handleOpen}
+                      //   onClick={() => deactivatePopUp(product.productID)}
+                      />
+                    </Tooltip>
+                    {/* Popup */}
+                    <div
+                      className="flex justify-center"
+                      style={{ opacity: "0" }}
+                    >
+                      <Dialog
+                        style={{
+                          width: "auto",
+                          height: "auto",
+                          opacity: 0,
+                          // position: "80px",
+                          position: "absolute",
+                          left: "500px",
+                          top: "180px",
+                          boxShadow: "none",
+                        }}
+                        // backdrop={false}
+                        size="s"
+                        open={open}
+                        // handler={handleOpen}
+                        className="p-4  "
+                      >
+                        <DialogHeader className="relative m-0 block">
+                          <Typography variant="h4" color="blue-gray">
+                            Select Categories
+                          </Typography>
+                          {/* <Typography className="mt-1 font-normal text-gray-600">
+                            Categories help you organize your contacts based on
+                            their interests and interactions.
+                          </Typography> */}
+                          <IconButton
+                            size="sm"
+                            variant="text"
+                            className="!absolute right-3.5 top-3.5"
+                            onClick={handleOpen}
+                          >
+                            <XMarkIcon className="h-4 w-4 stroke-2" />
+                          </IconButton>
+                        </DialogHeader>
+
+                        <DialogBody className=" px-2 flex gap-1 ">
+                          <img
+                            src={otc}
+                            alt="otc"
+                            style={{ width: "48px", height: "48px" }}
+                            className="cursor-pointer w-4 h-4"
+                          //   onClick={() => deactivatePopUp(product.productID)}
+                          />
+                          <Checkbox
+                            label={
+                              <div>
+                                <Typography
+                                  color="blue-gray"
+                                  className="font-medium"
+                                >
+                                  Move to OTC
+                                </Typography>
+                                <Typography
+                                  variant="small"
+                                  color="gray"
+                                  className="font-normal"
+                                ></Typography>
+                              </div>
+                            }
+                            containerProps={{
+                              className: "-mt-5",
+                            }}
+                          />
+
+                          {/* <img
+                            src={sold}
+                            alt="sold"
+                            style={{ width: "48px", height: "48px" }}
+                            className="cursor-pointer w-4 h-4"
+                            //   onClick={() => deactivatePopUp(product.productID)}
+                          /> */}
+
+                          {/* <Checkbox
+                            label={
+                              <div>
+                                <Typography
+                                  color="blue-gray"
+                                  className="font-medium"
+                                >
+                                  Move to Sold Produ
+                                </Typography>
+                                <Typography
+                                  variant="small"
+                                  color="gray"
+                                  className="font-normal"
+                                ></Typography>
+                              </div>
+                            }
+                            containerProps={{
+                              className: "-mt-5",
+                            }}
+                          /> */}
+                          <img
+                            src={rxicon}
+                            alt="rxicon"
+                            style={{ width: "48px", height: "48px" }}
+                            className="cursor-pointer w-4 h-4"
+                          //   onClick={() => deactivatePopUp(product.productID)}
+                          />
+                          <Checkbox
+                            label={
+                              <div>
+                                <Typography
+                                  color="blue-gray"
+                                  className="text-base font-medium"
+                                >
+                                  Move to RX
+                                </Typography>
+                                <Typography
+                                  variant="small"
+                                  color="gray"
+                                  className="font-normal"
+                                ></Typography>
+                              </div>
+                            }
+                            containerProps={{
+                              className: "-mt-5",
+                            }}
+                          />
+                          <img
+                            src={discount}
+                            alt="discount"
+                            style={{ width: "48px", height: "48px" }}
+                            className="cursor-pointer w-4 h-4"
+                          //   onClick={() => deactivatePopUp(product.productID)}
+                          />
+                          <Checkbox
+                            label={
+                              <div>
+                                <Typography
+                                  color="blue-gray"
+                                  className="text-base font-medium"
+                                >
+                                  Move to Offers
+                                </Typography>
+                                <Typography
+                                  variant="small"
+                                  color="gray"
+                                  className="font-normal"
+                                ></Typography>
+                              </div>
+                            }
+                            containerProps={{
+                              className: "-mt-5",
+                            }}
+                          />
+                        </DialogBody>
+
+                        <DialogFooter>
+                          <Button className="ml-auto" onClick={handleOpen}>
+                            Apply
+                          </Button>
+                        </DialogFooter>
+                      </Dialog>
+                    </div>
                   </td>
                 </tr>
               ))}

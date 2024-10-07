@@ -344,6 +344,16 @@ const addressSlice = createSlice({
   }
 })
 
+const adminSlice = createSlice({
+  name : "admin",
+  initialState: { admin: [] },
+  reducers: {
+    setAdmin(state, action) {
+      state.admin = action.payload
+    }
+  }
+})
+
 
 export const { setSpecialOffer } = productsSlice.actions;
 export const { setGetProductSpecialOffer } = productsSlice.actions
@@ -371,6 +381,7 @@ export const { setEarning } = earningSlice.actions
 export const { setReturns } = returnsSlice.actions
 export const { setAddress } = addressSlice.actions
 export const { setAddAddress } = addressSlice.actions
+export const { setAdmin } = adminSlice.actions
 
 
 const store = configureStore({
@@ -386,7 +397,8 @@ const store = configureStore({
     master: mastersSlice.reducer,
     earning: earningSlice.reducer,
     returns: returnsSlice.reducer,
-    address: addressSlice.reducer
+    address: addressSlice.reducer,
+    admin: adminSlice.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });

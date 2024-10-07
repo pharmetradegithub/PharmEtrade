@@ -311,6 +311,14 @@ function Address({ topMargin, totalAmount }) {
       [name]: value,
     }));
   };
+  // const handleInputChange = (event) => {
+  //   const { name, value } = event.target;
+  //   setAddressForm({
+  //     ...addressForm,
+  //     [name]: value, // Dynamically update the form field based on the input's name
+  //   });
+  // };
+
 
   const handleSaveAddress = async (e) => {
     // Implement save address functionality here
@@ -774,14 +782,14 @@ function Address({ topMargin, totalAmount }) {
     //   setShowPopUp(false);
     // }
     try {
-      dispatch(fetchAddAddress(payLaodNewForm))
+      await dispatch(fetchAddAddress(payLaodNewForm))
       setShowPopUp(false);
       setNotification({
         show: true,
         message: "Address added successfully!",
       });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-      dispatch(fetchGetByCustomerId(user?.customerId))
+      await fetchCustomerById();
     } catch (error) {
       console.error("Error adding address:", error);
       setShowPopUp(false);
@@ -1206,8 +1214,8 @@ function Address({ topMargin, totalAmount }) {
                               <Select
                                 id="state-select"
                                 label="State"
-                                value={formData.States}
-                                name="State"
+                                value={addressForm.States}  // Correctly bind the form value
+                                name="States"               // Ensure name matches the key in addressForm
                                 onChange={handleInputChange}
                                 MenuProps={{
                                   PaperProps: {
@@ -1221,10 +1229,7 @@ function Address({ topMargin, totalAmount }) {
                                   <em>None</em>
                                 </MenuItem>
                                 {states.map((state) => (
-                                  <MenuItem
-                                    key={state.abbreviation}
-                                    value={state.abbreviation}
-                                  >
+                                  <MenuItem key={state.abbreviation} value={state.abbreviation}>
                                     {state.name}
                                   </MenuItem>
                                 ))}
@@ -1238,7 +1243,11 @@ function Address({ topMargin, totalAmount }) {
                               size="small"
                               className="w-[50%]"
                               value={addressForm.Pin_Code}
-                              onChange={handleInputChange}
+                              // onChange={handleInputChange}
+                              onChange={(e) => {
+                                const value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+                                handleInputChange({ target: { name: "Pin_Code", value } }); // Update the state with only numbers
+                              }}
                               error={!!formErrors.Pin_Code}
                               helperText={formErrors.Pin_Code}
                               inputProps= {{maxLength:5}}
@@ -1374,7 +1383,7 @@ function Address({ topMargin, totalAmount }) {
                             <div className="flex my-2 gap-2">
 
                               
-                              <FormControl
+                              {/* <FormControl
                                 className="w-[50%]"
                                 size="small"
                                 error={!!formErrors.States}
@@ -1383,7 +1392,7 @@ function Address({ topMargin, totalAmount }) {
                                 <Select
                                   id="state-select"
                                   label="State"
-                                  value={formData.States}
+                                  value={newAddressForm.States}
                                   name="State"
                                   onChange={handleInputChange}
                                   MenuProps={{
@@ -1406,7 +1415,38 @@ function Address({ topMargin, totalAmount }) {
                                     </MenuItem>
                                   ))}
                                 </Select>
-                                {/* {error.State && <span className="text-red-500">{error.State}</span>} */}
+                                {/* {error.State && <span className="text-red-500">{error.State}</span>} 
+                              </FormControl> */}
+                              <FormControl
+                                className="w-[50%]"
+                                size="small"
+                                error={!!formErrors.States}
+                              >
+                                <InputLabel id="state-select-label">State</InputLabel>
+                                <Select
+                                  id="state-select"
+                                  label="State"
+                                  value={addressForm.States} // Bind value to addressForm.States
+                                  name="States" // Ensure name matches the state key in addressForm
+                                  onChange={handleInputChange} // Call handleInputChange on selection
+                                  MenuProps={{
+                                    PaperProps: {
+                                      style: {
+                                        maxHeight: 200, // Set the max height of the dropdown
+                                      },
+                                    },
+                                  }}
+                                >
+                                  <MenuItem value="">
+                                    <em>None</em>
+                                  </MenuItem>
+                                  {states.map((state) => (
+                                    <MenuItem key={state.abbreviation} value={state.abbreviation}>
+                                      {state.name}
+                                    </MenuItem>
+                                  ))}
+                                </Select>
+                                {formErrors.States && <span className="text-red-500">{formErrors.States}</span>}
                               </FormControl>
 
                               <TextField
@@ -1414,7 +1454,11 @@ function Address({ topMargin, totalAmount }) {
                                 id="Pin_Code"
                                 name="Pin_Code" // Matches state key
                                 value={newAddressForm.Pin_Code}
-                                onChange={handleChangeForm}
+                                // onChange={handleChangeForm}
+                                onChange={(e) => {
+                                  const value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+                                  handleChangeForm({ target: { name: "Pin_Code", value } }); // Update the state with only numbers
+                                }}
                                 size="small"
                                 className="w-[50%]"
                                 error={!!formErrors.Pin_Code}

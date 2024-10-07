@@ -485,7 +485,9 @@ function LayoutaddProduct() {
   //     [name]: value === "" ? "" : Number(value),
   //   });
   // };
-
+  const [firstValidation, setfirstValidation] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
+  const [triggerValidation, settriggerValidation] = useState(0);
   const handleInputChange = (e) => {
     const { name, value, type, options, id } = e.target;
     console.log(name, value, type, options, id);
@@ -582,8 +584,39 @@ function LayoutaddProduct() {
         [name]: value,
       });
     }
+    settriggerValidation((prev) => prev + 1);
+
+  };
+  const checkValidationOnchange = () => {
+    setFormErrors({});
+
+    if (firstValidation == true) {
+      console.log("hey");
+      if (activeTab == 0) {
+        const validationErrorsTab1 = ProductInfoValidation(formData);
+        if (Object.keys(validationErrorsTab1).length > 0) {
+          setFormErrors(validationErrorsTab1);
+          return;
+        }
+      }
+      if (activeTab == 1) {
+        const validationErrorsTab2 = ProductPriceValidation(formData);
+        if (Object.keys(validationErrorsTab2).length > 0) {
+          setFormErrors(validationErrorsTab2);
+          return;
+        }
+      }
+    }
   };
 
+  useEffect(() => {
+    checkValidationOnchange();
+  }, [triggerValidation])
+  useEffect(() => {
+    setfirstValidation(false);
+  }, [activeTab])
+
+  console.log(firstValidation, formErrors);
   const [selectedValue, setSelectedValue] = React.useState("");
 
   const handleChange = (e) => {
@@ -595,11 +628,11 @@ function LayoutaddProduct() {
     setFormData({ ...formData, ["imageUrl"]: null });
   };
 
-  const [formErrors, setFormErrors] = useState({});
   const [showTab, setShowTab] = useState([1, 2, 3]);
   const handleSubmit = async () => {
     if (activeTab == 0) {
       const validationErrorsTab1 = ProductInfoValidation(formData);
+      setfirstValidation(true);
       if (Object.keys(validationErrorsTab1).length > 0) {
         setFormErrors(validationErrorsTab1);
         return;
@@ -732,7 +765,7 @@ function LayoutaddProduct() {
       sellerId: user.customerId, // Static value
       states: formData.states.join(","),
       UnitOfMeasure: formData.unitOfMeasurement,
-      mainImageUrl: imageUrl,
+      mainImageUrl: null,
     };
     setFormData({ ...formData, ["imageUrl"]: imageUrl });
     const tab2 = {
@@ -1105,7 +1138,8 @@ function LayoutaddProduct() {
 
                       <div className="flex flex-col">
                         <label className="text-sm font-semibold">
-                          Expiration Date: <span className="text-red-600">*</span>
+                          Expiration Date:{" "}
+                          <span className="text-red-600">*</span>
                         </label>
                         <input
                           name="expirationDate"
@@ -1505,7 +1539,9 @@ function LayoutaddProduct() {
                 </div>
                 <div className="w-full">
                   <div className="">
-                    <span className="text-base font-semibold">States : <span className="text-red-600">*</span></span>
+                    <span className="text-base font-semibold">
+                      States : <span className="text-red-600">*</span>
+                    </span>
                     <div className="w-56 h-44 pl-2   py-1 border border-slate-300 rounded-md overflow-y-scroll">
                       <label className="flex items-center">
                         <input

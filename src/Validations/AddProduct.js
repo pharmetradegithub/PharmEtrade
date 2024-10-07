@@ -24,9 +24,11 @@ export const ProductInfoValidation = (formData) => {
         errors.productCategory = "Product Category is required.";
     }
 
-
+    console.log(formData.states.length, "statessssssss");
     // States validation
-    if (!formData.states || formData.states.length === 0) {
+    if (formData.states.length <= 0) {
+        console.log(formData.states.length, "why");
+
         errors.states = "At least one state must be selected.";
     }
 

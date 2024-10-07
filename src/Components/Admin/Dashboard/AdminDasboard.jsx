@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
+import { fetchAdminLogin } from "../../../Api/AdminApi";
 
 const AdminDasboard = () => {
   const navigate = useNavigate(); // Initialize useNavigate hook
+  const adminData = useSelector((state) => state.admin.admin)
+  console.log("adminData-->", adminData)
 
   const details = [
     {
@@ -14,14 +18,14 @@ const AdminDasboard = () => {
     },
     {
       label: "Total No. of Products",
-      percentage: 45,
+      percentage: adminData?.totalProducts,
       color: "green",
       grid: "customersOrdered",
       to: "/pharmEtradeadmin/products",
     },
     {
       label: "Total No. of Orders",
-      percentage: 75,
+      percentage: adminData?.totalOrders,
       color: "purple",
       grid: "customersOrdered",
     },
@@ -34,7 +38,7 @@ const AdminDasboard = () => {
     },
     {
       label: "Total No. of Customers",
-      percentage: 50,
+      percentage: adminData?.totalCustomers,
       color: "blue",
       grid: "customersOrdered",
       to: "/pharmEtradeadmin/customerList",
@@ -46,6 +50,11 @@ const AdminDasboard = () => {
     }
   };
 
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchAdminLogin("1b8ec36a-6549-11ef-8a1f-0affd374995f"))
+  }, [])
+ 
   // const CircleProgress = ({ percentage, color }) => {
   //   const radius = 20;
   //   const strokeWidth = 4;

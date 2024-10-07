@@ -44,7 +44,11 @@ function LayoutDashboard() {
       console.log("sellerDashBoardApi-->")
       dispatch(fetchSellerDashboard(user?.customerId));
       navigate('/layout/layoutsellerdashboard')
-    } else {
+    } else if (user?.customerTypeId === 5) {
+      dispatch(fetchAdminLogin("1b8ec36a-6549-11ef-8a1f-0affd374995f"))
+      navigate('/pharmEtradeadmin')
+    }
+    else {
       console.log("fetchAllcustomerDashboard-->")
       dispatch(fetchCustomerDashboard(user?.customerId))
       navigate('/layout/layoutcustomerdashboard')
