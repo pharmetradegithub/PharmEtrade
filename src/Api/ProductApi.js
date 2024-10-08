@@ -241,7 +241,7 @@ export const fetchGetProductOffer = (categorySpecificationId) => {
       const response = await axios.get(`/api/Product/GetProductOffers?specificationId=${categorySpecificationId}`);
       if (response.status === 200) {
         const specialOffer = response.data.result;
-        console.log('Dispatching setSpecialOffer action:', specialOffer); // Log before dispatch
+        console.log('Dispatching get  SpecialOffer action:', specialOffer); // Log before dispatch
         dispatch(setGetProductSpecialOffer(specialOffer)); // Dispatch action
       } else {
         console.error('Failed to fetch Special Offer:', response.data.message);
@@ -319,13 +319,13 @@ export const fetchProductOffer = () => {
       console.log('API response:', response.data); // Log API response
       if (response.status === 200) {
         const specialOffer = response.data.result;
-        console.log('Dispatching setSpecialOffer action:', specialOffer); // Log before dispatch
+        console.log('Dispatching set Special Offer action:', specialOffer); // Log before dispatch
         dispatch(setSpecialOffer(specialOffer)); // Dispatch action
       } else {
-        console.error('Failed to fetch Deactive Product:', response.data.message);
+        console.error('Failed to fetch special offer Product:', response.data.message);
       }
     } catch (error) {
-      console.error('Error fetching Deactive Product:', error);
+      console.error('Error fetching special offer Product:', error);
     }
   };
 };

@@ -135,10 +135,14 @@ import SellerList from "./Components/Admin/Seller/SellerList";
 import LayoutBuyerUpcomingGrid from "./Components/LayoutPage/LayoutDashboard/LayoutBuyerUpcomingGrid";
 import LayoutBuyerReceiversgrid from "./Components/LayoutPage/LayoutDashboard/LayoutBuyerReceiversgrid";
 import LayoutBuyerCancelledgrid from "./Components/LayoutPage/LayoutDashboard/LayoutBuyerCancelledgrid";
-import Products from "./Components/Admin/Products/Products";
+import Products from "./Components/Admin/Products/TotalProducts";
 import Settlement from "./Components/Admin/Components/Settlement";
 import Incomimg from "./Components/Admin/Components/Incomimg";
 import Outgoing from "./Components/Admin/Components/Outgoing";
+import OtcProductsAdmin from "./Components/Admin/Products/OtcProductsAdmin";
+import RxProductsAdmin from "./Components/Admin/Products/RxProductsAdmin";
+import OfferedProductsAdmin from "./Components/Admin/Products/OfferedProductsAdmin";
+import EditProductAdmin from "./Components/Admin/Products/EditProductAdmin";
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
@@ -465,6 +469,10 @@ function App() {
           <Route path="/pharmEtradeadmin/customerList" element={<CustomerList />} />
           <Route path="/pharmEtradeadmin/sellerList" element={<SellerList />} />
           <Route path="/pharmEtradeadmin/products" element={<Products />} />
+          <Route path="/pharmEtradeadmin/EditProductAdmin" element={<EditProductAdmin />} />
+          <Route path="/pharmEtradeadmin/OtcProducts" element={<OtcProductsAdmin />} />
+          <Route path="/pharmEtradeadmin/RxProducts" element={<RxProductsAdmin />} />
+          <Route path="/pharmEtradeadmin/OfferedProducts" element={<OfferedProductsAdmin />} />
           <Route path="/pharmEtradeadmin/Settlement" element={<Settlement />} />
           <Route path="/pharmEtradeadmin/Incoming" element={<Incomimg />} />
           <Route path="/pharmEtradeadmin/Outgoing" element={<Outgoing />} />

@@ -19,7 +19,7 @@ function AdminSidebar() {
   const [activeLink, setActiveLink] = useState(location.pathname);
   const [isSellerDropdownOpen, setIsSellerDropdownOpen] = useState(false);
   const [isPaymentDropdownOpen, setIsPaymentDropdownOpen] = useState(false);
-  // const [isOutgoingDropdownOpen, setIsOutgoingDropdownOpen] = useState(false);
+  const [isProductsDropdownOpen, setIsProductsDropdownOpen] = useState(false);
   // const [isSettlementDropdownOpen, setIsSettlementDropdownOpen] = useState(false);
   const [isCustomerDropdownOpen, setIsCustomerDropdownOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -43,10 +43,9 @@ function AdminSidebar() {
     // setIsCustomerDropdownOpen(false);
   };
 
-  const toggleChatDropdown = () => {
-    setIsChatDropdownOpen(!isChatDropdownOpen);
-    setIsSellerDropdownOpen(false);
-    setIsCustomerDropdownOpen(false);
+  const toggleProductsDropdown = () => {
+    setIsProductsDropdownOpen(!isProductsDropdownOpen);
+    
   };
 
   const toggleCustomerDropdown = () => {
@@ -116,8 +115,33 @@ function AdminSidebar() {
     {
       label: "Products",
       icon: sellerIcon,
-      to: "/pharmEtradeadmin/products", // Direct link to the Dashboard page
+      isOpen: isProductsDropdownOpen,
+      toggleDropdown: toggleProductsDropdown,
+      links: [
+        {
+          to: "/pharmEtradeadmin/products",
+          label: "All Products",
+          icon: orderListIcon,
+        },
+        {
+          to: "/pharmEtradeadmin/RxProducts",
+          label: "Rx Products",
+          icon: orderListIcon,
+        },
+        {
+          to: "/pharmEtradeadmin/OtcProducts",
+          label: "Otc Products",
+          icon: orderListIcon,
+        },
+        {
+          to: "/pharmEtradeadmin/OfferedProducts",
+          label: "Offered Products",
+          icon: orderListIcon,
+        },
+      ],
     },
+    //   to: "/pharmEtradeadmin/products", // Direct link to the Dashboard page
+    // },
 
 
     {
@@ -136,14 +160,15 @@ function AdminSidebar() {
           label: "Outgoing",
           icon: orderListIcon,
         },
+        {
+          to: "/pharmEtradeadmin/Settlement",
+          label: "Settlement",
+          icon: orderListIcon,
+        },
       ],
     },
 
-    {
-      label: "Settlement",
-      icon: customerIcon,
-      to: "/pharmEtradeadmin/Settlement",
-    },
+   
 
 
   ];
