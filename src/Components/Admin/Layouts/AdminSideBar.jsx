@@ -130,7 +130,7 @@ function AdminSidebar() {
         },
         {
           to: "/pharmEtradeadmin/OtcProducts",
-          label: "Otc Products",
+          label: "OTC Products",
           icon: orderListIcon,
         },
         {

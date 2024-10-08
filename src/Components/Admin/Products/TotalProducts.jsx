@@ -60,6 +60,7 @@ const TotalProducts = () => {
                 <th className="py-2 px-5">ID</th>
                 <th className="py-2 px-5">Thumbnail</th>
                 <th className="py-2">Product Name</th>
+                <th className="py-2">Creative Date</th>
                 <th className="py-2">Seller Name</th>
                 {/* <th className="py-2">Category Specification</th> */}
                 <th className="py-2">Unit Price</th>
@@ -77,9 +78,10 @@ const TotalProducts = () => {
                     />
                   </td>
                   <td>{detail.productName}</td>
+                  <td>{}</td>
                   <td>{detail.sellerFirstName}</td>
                   {/* <td>{detail.categorySpecification.specificationName}</td> */}
-                  <td>{detail.unitPrice}</td>
+                  <td>{detail.unitPrice?.toFixed(2)}</td>
                   <td className="px-4  justify-center py-2 cursor-pointer flex items-center space-x-2 bg-transparent">
                     <Tooltip title="Edit" placement="top">
                       <img
