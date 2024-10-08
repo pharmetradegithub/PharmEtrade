@@ -524,7 +524,7 @@ const RelatedProductsAdmin = () => {
                           <option>-</option>
                         </select>
                       </th> */}
-                <th className=" p-2  text-left text-sm w-32 ">ID</th>
+                <th className=" p-2  text-left text-sm w-32 ">S.NO</th>
                 <th className=" p-2  text-left text-sm w-40">Thumbnail</th>
                 <th className=" p-2  text-left text-sm  w-80">Name</th>
                 <th className=" p-2  text-left text-sm w-32">Category</th>

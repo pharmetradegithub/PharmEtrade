@@ -185,8 +185,10 @@ const CustomerList = () => {
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-lg text-white  bg-blue-900 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  <th className="px-6 py-3 text-center">ID</th>
+                  <th className="px-6 py-3 text-center">S.NO</th>
                   <th className="px-6 py-3">User Name</th>
+                  <th className="px-6 py-3">Registration Date</th>
+                  <th className="px-6 py-3">Activation Date</th>
                   <th className="px-6 py-3 text-center">Status</th>
                   <th className="px-6 py-3 text-center">Phone</th>
                   <th className="px-6 py-3 text-center">Actions</th>
@@ -217,6 +219,8 @@ const CustomerList = () => {
                         </div>
                       </div>
                     </th>
+                    <td className="px-6  text-center">{""}</td>
+                    <td className="px-6  text-center">{""}</td>
                     <td className="px-6  text-center">
                       <div className="flex justify-center items-center">
                         <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>

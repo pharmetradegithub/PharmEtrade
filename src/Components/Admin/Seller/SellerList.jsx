@@ -113,7 +113,7 @@ import Pagination from "../../Pagination";
 
 const SellerList = () => {
   const [customers, setcustomers] = useState([]);
-  const [itemsPerPage, setItemsPerPage] = useState(8); // Set initial items per page
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -180,12 +180,14 @@ const SellerList = () => {
 
             </div>
           </div>
-          <div className="overflow-y-auto h-full">
+          <div className="overflow-y-auto h-full clearfix">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead className=" text-white text-lg bg-blue-900 dark:bg-gray-700 dark:text-gray-400">
+              <thead className="text-lg text-white  bg-blue-900 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  <th className="px-6 py-3 text-center">ID</th>
-                  <th className="px-6 py-3">User Profile</th>
+                  <th className="px-6 py-3 text-center">S.NO</th>
+                  <th className="px-6 py-3">User Name</th>
+                  <th className="px-6 py-3">Registration Date</th>
+                  <th className="px-6 py-3">Activation Date</th>
                   <th className="px-6 py-3 text-center">Status</th>
                   <th className="px-6 py-3 text-center">Phone</th>
                   <th className="px-6 py-3 text-center">Actions</th>
@@ -198,26 +200,30 @@ const SellerList = () => {
                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                   >
                     <td className="px-6  text-center">{indexOfFirstItem+index + 1}</td>
-                    <th
+                    {/* <th
                       scope="row"
                       className="flex items-center px-6  text-gray-900 whitespace-nowrap dark:text-white"
+                    > */}
+                    <th
+                      scope="row"
+                      className="flex items-center px-6 text-gray-900 whitespace-nowrap dark:text-white"
                     >
                       {/* <img
                       className="w-10 h-10 rounded-full"
                       src={customer.profileImage}
                       alt={`${customer.name} profile`}
                     /> */}
-                      <div className="">
-                        <div className="text-base items-center font-semibold">
-                          {customer.firstName}
-                          {""}
-                          {customer.lastName}
+                      <div className="w-40"> {/* Set the width as needed */}
+                        <div className="text-base font-semibold truncate"> {/* Add truncate class */}
+                          {customer.firstName} {customer.lastName}
                         </div>
-                        <div className="font-normal text-gray-500">
+                        <div className="font-normal text-gray-500 truncate"> {/* Add truncate for email too */}
                           {customer.email}
                         </div>
                       </div>
                     </th>
+                    <td className="px-6  text-center">{""}</td>
+                    <td className="px-6  text-center">{""}</td>
                     {/* <td className="px-6 py-4 text-center">{customer.country}</td> */}
                     <td className="px-6  text-center">
                       <div className="flex justify-center items-center">

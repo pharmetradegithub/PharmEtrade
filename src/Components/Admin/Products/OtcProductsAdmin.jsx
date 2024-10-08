@@ -70,9 +70,10 @@ const OtcProductsAdmin = () => {
           <table className="w-full">
             <thead className="bg-blue-900 text-white  ">
               <tr className="border-b-2 text-left ">
-                <th className="py-2 px-5">ID</th>
+                <th className="py-2 px-5">S.NO</th>
                 <th className="py-2 px-5">Thumbnail</th>
                 <th className="py-2">Product Name</th>
+                <th className="py-2">Creative Date</th>
                 <th className="py-2">Seller Name</th>
                 {/* <th className="py-2">Category Specification</th> */}
                 <th className="py-2">Unit Price</th>
@@ -89,10 +90,17 @@ const OtcProductsAdmin = () => {
                       className="w-16 h-12"
                     />
                   </td>
-                  <td>{detail.productName}</td>
+                  <td className='px-4 py-2'>
+                    {/* <Tooltip title={detail.productName} placement="top"> Show full name on hover */}
+                      <span className="truncate block w-40 cursor-pointer"> {/* Truncate and make clickable */}
+                        {detail.productName}
+                      </span>
+                   
+                  </td>
+                  <td>{}</td>
                   <td>{detail.sellerFirstName}</td>
                   {/* <td>{detail.categorySpecification.specificationName}</td> */}
-                  <td>{detail.unitPrice}</td>
+                  <td>{detail.unitPrice?.toFixed(2)}</td>
                   <td className="px-4  justify-center py-2 cursor-pointer flex items-center space-x-2 bg-transparent">
                     <Tooltip title="Edit" placement="top">
                       <img
