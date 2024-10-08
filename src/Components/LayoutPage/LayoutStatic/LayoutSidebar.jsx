@@ -78,7 +78,7 @@ function LayoutSidebar() {
     };
 
     // Step 3: Build navItems from top-level menu items
-    const navItems = menuMap[0].map(createNavItem);
+    const navItems = menuMap[0]?.map(createNavItem) || [];
 
     return navItems;
   };

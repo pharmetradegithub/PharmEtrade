@@ -1,4 +1,5 @@
 import axios from "axios"
+import store from "../Store/Store"
 
 
 export const fetchCustomer = (customerId) => {
@@ -27,5 +28,19 @@ export const AddBidAPI = async (obj) => {
     }
   } catch (error) {
     return null;
+  }
+}
+
+export const fetchQuotedProduct = async (customerId) => {
+  try {
+    const response = await axios.get(`/api/Bid/GetProductsQuotedBySeller?sellerId=${customerId}`)
+    if (response.status === 200 && response.data.result !== null) {
+      store.dispatch({ type: 'bid/SetBidQuotedProduct', payload: response.data.result})
+    } else {
+      console.error('Failed to fetch bid data:', response.data.message);
+    }
+
+  } catch (error) {
+    console.error('Failed to fetch bid data:', error.message);
   }
 }

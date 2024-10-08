@@ -88,8 +88,18 @@ const userSlice = createSlice({
 // });
 
 const initialBidState = {
-  bidCustomer : []
+  bidQuotedProduct : []
 }
+
+const bidSlice = createSlice({
+  name: "bid",
+  initialState: initialBidState,
+  reducers: {
+    SetBidQuotedProduct(state, action) {
+      state.bidQuotedProduct = action.payload
+    }
+  }
+})
 
 const initialOrderState = {
   orders: [],
@@ -240,9 +250,11 @@ const productsSlice = createSlice({
       );
     },
     setSpecialOffer(state, action) {
+      console.log("reduxspeee-->", action.payload)
       state.productSpecialOffer = action.payload; 
     },
     setGetProductSpecialOffer(state, action) {
+      console.log("redux-->", action.payload)
       state.getProductSpecialOffer = action.payload
     },
     setRelatedProduct(state, action){
@@ -398,7 +410,8 @@ const store = configureStore({
     earning: earningSlice.reducer,
     returns: returnsSlice.reducer,
     address: addressSlice.reducer,
-    admin: adminSlice.reducer
+    admin: adminSlice.reducer,
+    bid:bidSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });

@@ -32,8 +32,8 @@ const LayoutPostingProducts = () => {
   const dispatch = useDispatch();
   const [error, setError] = useState(null);
   const [deactive, setdeactive] = useState(null);
-  const sellerDashboard = useSelector((state) => state.dashboard.getSellerId)
-  console.log("sellerdash-->", sellerDashboard)
+  const sellerDashboard = useSelector((state) => state.dashboard.getSellerId);
+  console.log("sellerdash-->", sellerDashboard);
 
   const [deleteProduct, setDeleteProduct] = useState(null);
   const [notification, setNotification] = useState({
@@ -70,17 +70,23 @@ const LayoutPostingProducts = () => {
     {
       label: "Total Approved Product",
       value: sellerDashboard?.activeProducts || 0,
-      percentage: calculatePercentage(sellerDashboard?.activeProducts, sellerDashboard?.totalProducts), // Calculating the percentage
+      percentage: calculatePercentage(
+        sellerDashboard?.activeProducts,
+        sellerDashboard?.totalProducts
+      ), // Calculating the percentage
     },
     {
       label: "Price",
       value: sellerDashboard?.totalSaleValue || 0,
-      percentage: calculatePercentage(sellerDashboard?.totalSaleValue, sellerDashboard?.totalProducts), // Assuming you're calculating the price per product
+      percentage: calculatePercentage(
+        sellerDashboard?.totalSaleValue,
+        sellerDashboard?.totalProducts
+      ), // Assuming you're calculating the price per product
     },
   ];
 
   const queryParam = location.pathname;
-  const parts = queryParam.split('/');
+  const parts = queryParam.split("/");
   const listed = parts[2];
   const [trigger, settrigger] = useState(1);
 
@@ -94,7 +100,7 @@ const LayoutPostingProducts = () => {
         );
 
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
 
         const data = await response.json();
@@ -130,17 +136,13 @@ const LayoutPostingProducts = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
 
-
   const [openPop, setOpenPop] = useState(false);
   const [deletePop, setDeletePop] = useState(false);
-
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil((products?.length || 0) / itemsPerPage);
-
-
 
   const handleNextPage = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -355,6 +357,7 @@ const LayoutPostingProducts = () => {
               <table className="w-full">
                 <thead className="bg-blue-900 text-white">
                   <tr className="border-b-2">
+                    <th className="px-4 py-2 text-left">ID</th>
                     <th className="px-4 py-2 text-left">Thumbnail</th>
                     <th className=" px-4 py-2 text-left">Product Name</th>
                     <th className="px-4 py-2 text-left">Manufacturer</th>
@@ -372,8 +375,11 @@ const LayoutPostingProducts = () => {
                       </td>
                     </tr>
                   ) : (
-                    currentItems.map((product) => (
+                    currentItems.map((product, index) => (
                       <tr key={product.id} className="border-b">
+                        <td className="px-4 py-2">
+                          {indexOfFirstItem + index + 1}
+                        </td>
                         <td className="px-4 py-2">
                           <img
                             src={product?.productGallery?.imageUrl}

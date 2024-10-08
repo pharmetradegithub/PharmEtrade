@@ -15,6 +15,7 @@ import eye from '../../../assets/eye.png'
 import Invoice from '../../../assets/Icons/Invoice.png'
 import download from '../../../assets/Icons/download.png'
 import wrong from "../../../assets/Icons/wrongred.png";
+import Pagination from "../../Pagination";
 
 function LayoutSellOrders() {
   const dispatch = useDispatch()
@@ -22,8 +23,10 @@ function LayoutSellOrders() {
   const [searchQuery, setSearchQuery] = useState("");
   const SellerOrder = useSelector((state) => state.order.OrderBySellerId)
   console.log("sellerOrder---->", SellerOrder)
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
+  const [currentPage, setCurrentPage] = useState(1);
   const ordered = useSelector((state) => state.order.orderView)
-  console.log("orderedview-->", ordered)
+  console.log("orderedview-->", ordered) 
   const localData = localStorage.getItem("userId")
   const products = [
     {
@@ -112,6 +115,11 @@ function LayoutSellOrders() {
   // const handleDownload = (orderId) => {
   //   dispatch(fetchOrderDownloadInvoice(orderId))
   // }
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = SellerOrder.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil((SellerOrder?.length || 0) / itemsPerPage);
   return (
     
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
@@ -254,10 +262,10 @@ function LayoutSellOrders() {
               })()}
             </tbody> */}
               
-              {Array.isArray(SellerOrder) && SellerOrder.length > 0 ?(
-                SellerOrder.map((product, index) => (
+              {Array.isArray(currentItems) && currentItems.length > 0 ?(
+                currentItems.map((product, index) => (
                   <tr key={product.productId} className="border-b">
-                    <td className="px-4 py-2">{index + 1}</td>
+                    <td className="px-4 py-2">{indexOfFirstItem + index + 1}</td>
                     <td className="px-4 py-2"><img className="w-10 h-10" src={product.imageUrl} /></td>
                     <td className="px-4 py-2">{product?.productName}</td>
                     <td className="px-4 py-2">{new Date(product.orderDate).toLocaleDateString('en-US', {
@@ -293,6 +301,15 @@ function LayoutSellOrders() {
               </tbody>
           </table>
         </div>
+          <Pagination
+            indexOfFirstItem={indexOfFirstItem}
+            indexOfLastItem={indexOfLastItem}
+            productList={SellerOrder}
+            itemsPerPage={itemsPerPage}
+            setItemsPerPage={setItemsPerPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
       </div>
     </div>
   );
