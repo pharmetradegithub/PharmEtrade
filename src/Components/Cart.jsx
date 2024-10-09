@@ -180,7 +180,7 @@ function Cart() {
                           ? item.product.salePrice.toFixed(2)
                           : item.product.unitPrice?.toFixed(2)}
                       </td>
-                      <td className="px-2 flex gap-2 md:px-4 py-3 ">
+                      {/* <td className="px-2 flex gap-2 md:px-4 py-3 ">
                         <input
                           type="number"
                           value={item.updateQuantity}
@@ -190,6 +190,43 @@ function Cart() {
                           className="text-xl border rounded-lg p-1 w-16"
                           min="1"
                         />
+                      </td> */}
+                      <td>
+                        <div className="flex flex-col mx-3">
+                          {/* <p className="font-semibold">Quantity</p> */}
+
+                          <div className="mt-2 flex items-center">
+                            <button
+                              className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                              onClick={() =>
+                                handleQuantityChange(index, item.updateQuantity-1)
+
+                               
+                              }
+                             
+                            >
+                              -
+                            </button>
+
+                            <input
+                              type="text"
+                              value={item.updateQuantity}
+                              disabled={true}
+                              className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
+                            />
+
+                            <button
+                              className="px-2 py-1 border rounded-md  bg-gray-200 text-gray-700 font-bold"
+                              onClick={() =>
+                                handleQuantityChange(index, item.updateQuantity+1)
+
+                              }
+                              
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
                       </td>
 
                       <td className="px-2 md:px-4 text-right py-3 ">
@@ -326,6 +363,3 @@ function Cart() {
 }
 
 export default Cart;
-
-
-
