@@ -1961,8 +1961,18 @@ const LayoutProfile = () => {
             </div>
           </div> */}
 
-            <div className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
-             <h1 className="text-xl font-semibold text-blue-900 my-2">User Information</h1>
+            {/* <div className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
+             <h1 className="text-xl font-semibold text-blue-900 my-2">User Information</h1> */}
+             <div className={`bg-white border  ${isEditable ? 'border-blue-900' : 'border-gray-400'} rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}>
+  {/* Conditionally display heading on the border */}
+  {isEditable && (
+    <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+      User Information
+    </h1>
+  )}            {/* <h1 className="text-xl font-semibold text-blue-900 my-2">Address Information</h1> */}
+
+            <h1 className={`text-xl font-semibold my-2 ${isEditable ? 'invisible' : 'text-blue-900'}`}>User Information</h1>
+
               <div className="flex justify-between">
                 <div className="py-4 flex flex-col gap-4">
                   {/* <TextField
@@ -2056,79 +2066,19 @@ const LayoutProfile = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-white border  flex justify-between flex-col border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4">
-            <h1 className="text-xl font-semibold text-blue-900 my-2">Account Type</h1>
+            {/* <div className="bg-white border  flex justify-between flex-col border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4">
+            <h1 className="text-xl font-semibold text-blue-900 my-2">Account Type</h1> */}
 
-              <div className="flex justify-between">
-                <div className="flex-col flex py-4">
 
-                  <div className="mb-4">
-                    <label className="flex gap-2 text-gray-700 text-sm font-bold mb-2" htmlFor="userType">
-                      User Type
-                      {/* <div className="text-red-400">
-              {errors.userType && <div>{errors.userType}</div>}
-            </div> */}
-                    </label>
-                    <select
-                      id="userType"
-                      value={userType}
-                      disabled={!isselectable}
-                      onChange={handleUserTypeChange}
-                      className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    >
-                      <option value="">Select User Type</option>
-                      {userTypes.map((type) => (
-                        <option key={type} value={type}>
-                          {type}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  {userType === "Retail Pharmacy" && (
-                    <div className="flex items-center">
-                      <label className="text-gray-700">
-                        <span className="text-red-500">*</span>Are you a UPN Member
-                      </label>
-                      <Box sx={{ display: "flex", gap: 2 }}>
-                        <div>
-                          <Radio
-                            checked={selectedValue === "a"}
-                            onChange={handleChange}
-                            value="a"
-                            name="radio-buttons"
-                            size="small"
-                            inputProps={{ "aria-label": "A" }}
-                          />
-                          <span>YES</span>
-                        </div>
-                        <div>
-                          <Radio
-                            checked={selectedValue === "b"}
-                            onChange={handleChange}
-                            value="b"
-                            name="radio-buttons"
-                            size="small"
-                            inputProps={{ "aria-label": "B" }}
-                          />
-                          <span>NO</span>
-                        </div>
-                      </Box>
-                    </div>
-                  )}
-                </div>
-                <div className="flex flex-col justify-between py-2">
-                  <img src={edit} className="w-6 h-6 ml-4"
-                    onClick={handleselectClick} />
-                  <button
-                    // className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold"
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isselectable ? "opacity-50 cursor-not-allowed" : ""}`}
+            <div className={`bg-white border  ${istabable ? 'border-blue-900' : 'border-gray-400'} rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}>
+  {/* Conditionally display heading on the border */}
+  {istabable && (
+    <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+      Address Information
+    </h1>
+  )}            {/* <h1 className="text-xl font-semibold text-blue-900 my-2">Address Information</h1> */}
 
-                    onClick={handleSelectClick} >Save</button>
-                </div>
-              </div>
-            </div>
-            <div className="bg-white border border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4">
-            <h1 className="text-xl font-semibold text-blue-900 my-2">Address Information</h1>
+            <h1 className={`text-xl font-semibold my-2 ${istabable ? 'invisible' : 'text-blue-900'}`}>Address Information</h1>
 
               <div className="flex justify-between py-4">
 
@@ -2311,7 +2261,7 @@ const LayoutProfile = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-white border border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4">
+            {/* <div className="bg-white border border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4">
             <h1 className="text-xl font-semibold text-blue-900 my-2">Account Information</h1>
 
               <div className="flex justify-between py-4">
@@ -2462,7 +2412,128 @@ const LayoutProfile = () => {
                     onClick={handletabesave} >Save</button>
                 </div>
               </div>
-            </div>
+            </div> */}
+
+
+<div className={`bg-white border  ${istabedit ? 'border-blue-900' : 'border-gray-400'} rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}>
+  {/* Conditionally display heading on the border */}
+  {istabedit && (
+    <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+      Account Information
+    </h1>
+  )}
+  
+  <h1 className={`text-xl font-semibold my-2 ${istabedit ? 'invisible' : 'text-blue-900'}`}>Account Information</h1>
+
+  <div className="flex justify-between py-4">
+    <div className="flex flex-col gap-3">
+      <TextField
+        label="DEA"
+        id="outlined-size-small"
+        name="dea"
+        value={businessInfo?.dea || ""}
+        disabled={!istabedit}
+        size="small"
+        className="w-[60%]"
+      />
+      <TextField
+        label=""
+        type="date"
+        id="outlined-size-small"
+        name="deaExpirationDate"
+        value={businessInfo?.deaExpirationDate || ""}
+        disabled={!istabedit}
+        size="small"
+        className="w-[60%]"
+      />
+      <TextField
+        label=""
+        type="file"
+        id="outlined-size-small"
+        name="deaLicenseCopy"
+        disabled={!istabedit}
+        value={businessInfo?.deaLicenseCopy || ""}
+        size="small"
+        className="w-[60%]"
+      />
+      <TextField
+        label="NPI"
+        id="outlined-size-small"
+        name="npi"
+        disabled={!istabedit}
+        value={businessInfo?.npi || ""}
+        size="small"
+        className="w-[60%]"
+      />
+      <TextField
+        label="Federal Tax"
+        id="outlined-size-small"
+        name="federalTax"
+        value={federalTax}
+        onChange={handleFederalTaxChange}
+        size="small"
+        className="w-[60%]"
+        disabled={!istabedit}
+        inputProps={{ maxLength: 10 }}
+      />
+    </div>
+    <div className="flex flex-col gap-3">
+      <TextField
+        label="Pharmacy License"
+        id="outlined-size-small"
+        name="pharmacyLicence"
+        disabled={!istabedit}
+        value={businessInfo?.pharmacyLicence || ""}
+        size="small"
+        className="w-[60%]"
+      />
+      <TextField
+        label=""
+        type="date"
+        id="outlined-size-small"
+        name="pharmacyLicenseExpirationDate"
+        disabled={!istabedit}
+        value={businessInfo?.pharmacyLicenseExpirationDate || ""}
+        size="small"
+        className="w-[60%]"
+      />
+      <TextField
+        label=""
+        type="file"
+        id="outlined-size-small"
+        name="pharmacyLicenseCopy"
+        disabled={!istabedit}
+        value={businessInfo?.pharmacyLicenseCopy || ""}
+        size="small"
+        className="w-[60%]"
+      />
+      <TextField
+        label="NCPDP"
+        id="outlined-size-small"
+        name="ncpdp"
+        disabled={!istabedit}
+        value={businessInfo?.ncpdp || ""}
+        size="small"
+        className="w-[60%]"
+      />
+    </div>
+
+    <div className="flex flex-col justify-between py-2">
+      <img
+        src={edit}
+        className="w-6 h-6 ml-4 cursor-pointer"
+        onClick={handletabclick}
+      />
+      <button
+        className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!istabedit ? "opacity-50 cursor-not-allowed" : ""}`}
+        onClick={handletabesave}
+      >
+        Save
+      </button>
+    </div>
+  </div>
+</div>
+
           </div>
         )}
 

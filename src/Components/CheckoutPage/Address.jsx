@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import {
   Link,
@@ -25,9 +24,9 @@ import MenuItem from "@mui/material/MenuItem";
 import Notification from "../Notification";
 import { useStates } from "react-us-states";
 import { fetchGetOrder } from "../../Api/OrderApi";
-import Remove from '../../assets/trash.png'
-import Bin from '../../assets/Bin.png'
-import edit from '../../assets/Edit.png'
+import Remove from "../../assets/trash.png";
+import Bin from "../../assets/Bin.png";
+import edit from "../../assets/Edit.png";
 import axios from "axios";
 import { fetchAddAddress, fetchGetByCustomerId } from "../../Api/AddressApi";
 
@@ -41,7 +40,7 @@ function Address({ topMargin, totalAmount }) {
   const [isActive, setIsActive] = useState(true);
   const [ischeck, setIsCheck] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -73,7 +72,6 @@ function Address({ topMargin, totalAmount }) {
     // }
   };
 
-
   // const [formErrors, setFormErrors] = useState({});
 
   const [showWeekendOptions, setShowWeekendOptions] = useState(false);
@@ -101,7 +99,6 @@ function Address({ topMargin, totalAmount }) {
     Bussiness_phone: "",
   });
 
-
   const formatPhoneNumber = (phoneNumber) => {
     // Remove non-digit characters
     phoneNumber = phoneNumber.replace(/\D/g, "");
@@ -115,14 +112,14 @@ function Address({ topMargin, totalAmount }) {
       formattedPhoneNumber += phoneNumber[i];
     }
     return formattedPhoneNumber;
-  }
+  };
 
-  const user = useSelector((state) => state.user.user)
-  console.log("user-->address", user)
+  const user = useSelector((state) => state.user.user);
+  console.log("user-->address", user);
 
   useEffect(() => {
-    dispatch(fetchGetOrder(user?.customerId))
-  }, [user])
+    dispatch(fetchGetOrder(user?.customerId));
+  }, [user]);
 
   useEffect(() => {
     if (shortPopup) {
@@ -319,7 +316,6 @@ function Address({ topMargin, totalAmount }) {
   //   });
   // };
 
-
   const handleSaveAddress = async (e) => {
     // Implement save address functionality here
     console.log("Address saved:", addressForm);
@@ -412,11 +408,11 @@ function Address({ topMargin, totalAmount }) {
     }));
   };
 
-  const addAddress = useSelector((state) => state.address.address)
-  console.log("addd-->", addAddress)
+  const addAddress = useSelector((state) => state.address.address);
+  console.log("addd-->", addAddress);
   const [newAddressData, setNewAddressData] = useState([]);
-  const getAddress = useSelector((state) => state.address.customerId)
-  console.log("addressdata-->", getAddress)
+  const getAddress = useSelector((state) => state.address.customerId);
+  console.log("addressdata-->", getAddress);
   // const [getAddress, setGetAddress] = useState(getCustomer);
 
   // useEffect(() => {
@@ -459,7 +455,6 @@ function Address({ topMargin, totalAmount }) {
 
   // const handleSubmitForm = async (e) => {
   //   e.preventDefault();
-
 
   //   const payLaodNewForm = {
   //     addressId: "0",
@@ -664,7 +659,7 @@ function Address({ topMargin, totalAmount }) {
     // } catch (error) {
     //   console.error("Error fetching address details:", error);
     // }
-    dispatch(fetchGetByCustomerId(user?.customerId))
+    dispatch(fetchGetByCustomerId(user?.customerId));
   };
   const handleSubmitForm = async (e) => {
     e.preventDefault();
@@ -698,10 +693,10 @@ function Address({ topMargin, totalAmount }) {
     if (!newAddressForm.Town_City.trim()) {
       errors.Town_City = "City is required";
     }
-     // Check if the "State" field is empty
-  // if (!newAddressForm.States || newAddressForm.States.trim() === "") {
-  //   errors.States = "State is required";
-  // }
+    // Check if the "State" field is empty
+    // if (!newAddressForm.States || newAddressForm.States.trim() === "") {
+    //   errors.States = "State is required";
+    // }
 
     // State Validation
     // if (!newAddressForm.States) {
@@ -721,7 +716,7 @@ function Address({ topMargin, totalAmount }) {
     if (Object.keys(errors).length > 0) {
       return;
     }
-
+    console.log(newAddressForm,"new address");
     const payLaodNewForm = {
       addressId: "0",
       customerId: userId,
@@ -782,7 +777,7 @@ function Address({ topMargin, totalAmount }) {
     //   setShowPopUp(false);
     // }
     try {
-      await dispatch(fetchAddAddress(payLaodNewForm))
+      await dispatch(fetchAddAddress(payLaodNewForm));
       setShowPopUp(false);
       setNotification({
         show: true,
@@ -796,10 +791,8 @@ function Address({ topMargin, totalAmount }) {
     }
   };
 
-
-
   useEffect(() => {
-    dispatch(fetchGetByCustomerId(user?.customerId))
+    dispatch(fetchGetByCustomerId(user?.customerId));
   }, [dispatch, user?.customerId]);
 
   // })
@@ -807,7 +800,7 @@ function Address({ topMargin, totalAmount }) {
   const handleUseAddressButtons = (e) => {
     e.preventDefault();
     setShowPopUp(false);
-    setShowPopUp(true);
+    setShowPopUp(true); 
     handleSubmitForm(e);
   };
 
@@ -819,7 +812,7 @@ function Address({ topMargin, totalAmount }) {
     // Set the states data
     setStates(useStates); // Adjust based on actual structure
   }, []);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const filteredStates = states.filter((state) => {
     return state.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -832,7 +825,7 @@ function Address({ topMargin, totalAmount }) {
   //     // Set the first address as the default selected address when data is loaded
   //     setSelectedAddressId(getAddress[0].addressId);
   //   }
-  // }, [getAddress]); 
+  // }, [getAddress]);
   const [isInitialized, setIsInitialized] = useState(false); // Flag to track if default selection is set
 
   useEffect(() => {
@@ -844,27 +837,29 @@ function Address({ topMargin, totalAmount }) {
     }
   }, [getAddress, isInitialized]);
 
-
   const handleChangeAddress = (addressId) => {
     setSelectedAddressId(addressId);
   };
-
 
   const selectedAddress = getAddress.find(
     (item) => item.addressId === selectedAddressId
   );
 
-  const [address, setAddress] = useState(null)
+  const [address, setAddress] = useState(null);
   const handleRemoveAddress = async (addressId) => {
     try {
       // Send a POST request to delete the address
-      const response = await axios.post(`/api/Customer/Address/Delete?addressId=${addressId}`);
+      const response = await axios.post(
+        `/api/Customer/Address/Delete?addressId=${addressId}`
+      );
 
       console.log("Response from delete:", response);
 
       if (response.status === 200) {
         // Filter out the deleted address from the address list
-        const updatedAddresses = getAddress.filter((address) => address.addressId !== addressId);
+        const updatedAddresses = getAddress.filter(
+          (address) => address.addressId !== addressId
+        );
 
         // Update the state with the new list of addresses
         setAddress(updatedAddresses);
@@ -878,11 +873,11 @@ function Address({ topMargin, totalAmount }) {
     } catch (error) {
       // Catch and handle any errors (network or other)
       console.error("Error deleting address:", error);
-      alert("An error occurred while deleting the address. Please try again later.");
+      alert(
+        "An error occurred while deleting the address. Please try again later."
+      );
     }
   };
-
-
   return (
     <div className="w-full flex justify-center">
       <div className="bg-white  Largest:w-[1550px]  Laptop:w-full  w-full h-fit text-lg text-black px-12 py-2 relative">
@@ -899,29 +894,27 @@ function Address({ topMargin, totalAmount }) {
               message={notification.message}
             />
             {/* {showpagepopup && ( */}
-              <div className="z-50 -ml-20 flex items-center justify-center bg-opacity-50">
-                <div className="bg-gray-100 p-2 rounded-lg shadow-lg">
-                  <div className="flex justify-center gap-4">
-                    <button
-                      className="bg-white hover:bg-gray-200 text-black px-4 py-2 rounded"
-                      onClick={handleStayInCheckout}
-                    >
-                      Stay in Checkout
-                    </button>
-                    <button
-                      className="bg-blue-900 hover:bg-blue-950 text-white px-4 py-2 rounded"
-                      onClick={handleReturnToCart}
-                    >
-                      Return to Cart
-                    </button>
-                  </div>
+            <div className="z-50 -ml-20 flex items-center justify-center bg-opacity-50">
+              <div className="bg-gray-100 p-2 rounded-lg shadow-lg">
+                <div className="flex justify-center gap-4">
+                  <button
+                    className="bg-white hover:bg-gray-200 text-black px-4 py-2 rounded"
+                    onClick={handleStayInCheckout}
+                  >
+                    Stay in Checkout
+                  </button>
+                  <button
+                    className="bg-blue-900 hover:bg-blue-950 text-white px-4 py-2 rounded"
+                    onClick={handleReturnToCart}
+                  >
+                    Return to Cart
+                  </button>
                 </div>
               </div>
+            </div>
             {/* )} */}
           </div>
-          <h1 className="text-3xl flex  text-center text-black ">
-            Checkout
-          </h1>
+          <h1 className="text-3xl flex  text-center text-black ">Checkout</h1>
           {/* <FaLock /> */}
         </div>
         <div className="bg-white p-4 w-full h-full border-t">
@@ -938,98 +931,13 @@ function Address({ topMargin, totalAmount }) {
 
                   <div className="flex min-w-full">
                     {/* <div className=""> */}
-                    {/* <div className=" border shadow-md rounded-md h-48 w-full  overflow-y-auto">
-                      <div className="p-2 mx-5 ">
-                        <h1 className="border-b-2 text-base">Your Address</h1>
-                        {getAddress.length === 0 ? (
-                          <div className="w-full">
-                            <p className="m-4 pt-2 flex justify-center">
-                              No addresses available
-                            </p>
-                          </div>
-                        ) : (
-                          getAddress.map((item) => (
-                            <div
-                              key={item.addressId}
-                              className="border flex-col rounded-md flex my-2 p-2 px-6 bg-pink-50 border-orange-200"
-                            >
-                              <div className="flex flex-col">
-                                <div className="flex text-base w-full">
-                                  <div className="flex items-center w-full">
-                                    <div className="flex flex-wrap">
-                                      <div className="flex">
-                                        <input
-                                          type="radio"
-                                          checked={selectedAddressId === item.addressId}
-                                          onChange={() =>
-                                            handleChangeAddress(item.addressId)
-                                          }
-                                          className="mr-3"
-                                        />
-                                      </div>
-
-                                      <h1 className="font-semibold">
-                                        {item.firstName} {item.lastName || ""},
-                                      </h1>
-                                      {item.address2 && (
-                                        <p className="mr-1">{item.address2},</p>
-                                      )}
-                                      <p className="mr-1">{item.address1},</p>
-                                      <p className="mr-1">{item.city},</p>
-                                      <p className="mr-1">{item.state},</p>
-                                      <p className="mr-1">{item.pincode},</p>
-                                      <p>{item.phoneNumber}</p>
-                                      <p
-                                        className="ml-2 items-center flex justify-center text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
-                                        onClick={() =>
-                                          handleEditAddress(
-                                            item.addressId,
-                                            item
-                                          )
-                                        }
-                                      >
-                                        Edit Address
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          ))
-                        )}
-
-                       
-
-                        <div className="flex cursor-pointer">
-                          <img src={plus} className="w-5 h-5" />
-                          <h1
-                            className="hover:text-red-400 hover:underline text-cyan-600"
-                            onClick={handlepopOpen}
-                          >
-                            Add a new address{" "}
-                          </h1>
-
-                         
-                        </div>
-
-                       
-                        <button
-          className="border rounded-full h-8 text-sm w-32 bg-blue-900 text-white mt-6"
-          onClick={handleUseAddress}
-        >
-          Use this address
-        </button>
-
-        {showError && (
-          <p className="text-red-500 text-sm mt-2">Please select an address.</p>
-        )}
-                      </div>
-                    </div> */}
-
+                   
 
                     <div className="border shadow-md rounded-md h-56 w-full overflow-y-auto">
                       <div className="p-2 mx-5 ">
-                        <h1 className="border-b-2 text-base  bg-white mt-3">Your Address</h1>
+                        <h1 className="border-b-2 text-base  bg-white mt-3">
+                          Your Address
+                        </h1>
                         <div className="overflow-y-scroll h-28">
                           {getAddress.length === 0 ? (
                             <div className="w-full">
@@ -1050,17 +958,27 @@ function Address({ topMargin, totalAmount }) {
                                         <div className="flex">
                                           <input
                                             type="radio"
-                                            checked={selectedAddressId === item.addressId}
-                                            onChange={() => handleChangeAddress(item.addressId)}
+                                            checked={
+                                              selectedAddressId ===
+                                              item.addressId
+                                            }
+                                            onChange={() =>
+                                              handleChangeAddress(
+                                                item.addressId
+                                              )
+                                            }
                                             className="mr-3"
                                           />
                                         </div>
 
                                         <h1 className="font-semibold">
-                                          {item.firstName} {item.lastName || ""},
+                                          {item.firstName} {item.lastName || ""}
+                                          ,
                                         </h1>
                                         {item.address2 && (
-                                          <p className="mr-1">{item.address2},</p>
+                                          <p className="mr-1">
+                                            {item.address2},
+                                          </p>
                                         )}
                                         <p className="mr-1">{item.address1},</p>
                                         <p className="mr-1">{item.city},</p>
@@ -1069,30 +987,39 @@ function Address({ topMargin, totalAmount }) {
                                         <p>{item.phoneNumber}</p>
                                         <p
                                           className="ml-2 items-center flex justify-center text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
-                                          onClick={() => handleEditAddress(item.addressId, item)}
+                                          onClick={() =>
+                                            handleEditAddress(
+                                              item.addressId,
+                                              item
+                                            )
+                                          }
                                         >
-                                             <Tooltip title="Edit" placement="top">
-                                          <img
-                                            src={edit}
-                                            alt="Edit"
-                                            className="cursor-pointer w-7 h-7"
-                                            // onClick={() => handleEditProduct(product)}
-                                          />
-                                        </Tooltip>
+                                          <Tooltip title="Edit" placement="top">
+                                            <img
+                                              src={edit}
+                                              alt="Edit"
+                                              className="cursor-pointer w-7 h-7"
+                                              // onClick={() => handleEditProduct(product)}
+                                            />
+                                          </Tooltip>
                                         </p>
-                                        <p className="flex items-center justify-center ml-2 text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
-                                          onClick={() => handleRemoveAddress(item.addressId)}>
-                                       <Tooltip placement="top" title="Delete">
-                                          <img
-                                            src={Bin}
-                                            alt="Delete"
-                                            className="cursor-pointer w-4 h-4"
-                                            // onClick={() => DeleteProduct(product.productID)}
-                                          />
-                                        </Tooltip>
-
-
-
+                                        <p
+                                          className="flex items-center justify-center ml-2 text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
+                                          onClick={() =>
+                                            handleRemoveAddress(item.addressId)
+                                          }
+                                        >
+                                          <Tooltip
+                                            placement="top"
+                                            title="Delete"
+                                          >
+                                            <img
+                                              src={Bin}
+                                              alt="Delete"
+                                              className="cursor-pointer w-4 h-4"
+                                              // onClick={() => DeleteProduct(product.productID)}
+                                            />
+                                          </Tooltip>
                                         </p>
                                       </div>
                                     </div>
@@ -1101,7 +1028,6 @@ function Address({ topMargin, totalAmount }) {
                               </div>
                             ))
                           )}
-
                         </div>
                         <div className="flex cursor-pointer">
                           <img src={plus} className="w-5 h-5" />
@@ -1121,7 +1047,9 @@ function Address({ topMargin, totalAmount }) {
                               if (selectedAddressId) {
                                 handleUseAddress(); // Proceed with navigation
                               } else {
-                                alert('Please select an address before continuing.'); // Or display error message
+                                alert(
+                                  "Please select an address before continuing."
+                                ); // Or display error message
                               }
                             }}
                           >
@@ -1130,8 +1058,6 @@ function Address({ topMargin, totalAmount }) {
                         )}
                       </div>
                     </div>
-
-
 
                     {/* Edit ddress Pop up */}
                     {isShowPopUp && (
@@ -1146,7 +1072,6 @@ function Address({ topMargin, totalAmount }) {
                               alt="Close Icon"
                             />
                           </div>
-
                           {/* Address form fields */}
 
                           <div className="flex my-2 gap-2">
@@ -1171,13 +1096,9 @@ function Address({ topMargin, totalAmount }) {
                               error={!!formErrors.Last_Name}
                               helperText={formErrors.Last_Name}
                             />
-
-
-
                           </div>
 
                           <div className="my-4 flex gap-2">
-                            
                             <TextField
                               label="Address"
                               id="Address"
@@ -1189,7 +1110,7 @@ function Address({ topMargin, totalAmount }) {
                               error={!!formErrors.Address}
                               helperText={formErrors.Address}
                             />
-                               <TextField
+                            <TextField
                               label="City"
                               name="Town_City"
                               size="small"
@@ -1199,23 +1120,22 @@ function Address({ topMargin, totalAmount }) {
                               error={!!formErrors.Town_City}
                               helperText={formErrors.Town_City}
                             />
-
                           </div>
 
                           <div className="flex my-2 gap-2">
-
-                           
                             <FormControl
                               className="w-[50%]"
                               size="small"
                               error={!!formErrors.States}
                             >
-                              <InputLabel id="state-select-label">State</InputLabel>
+                              <InputLabel id="state-select-label">
+                                State
+                              </InputLabel>
                               <Select
                                 id="state-select"
                                 label="State"
-                                value={addressForm.States}  // Correctly bind the form value
-                                name="States"               // Ensure name matches the key in addressForm
+                                value={addressForm.States} // Correctly bind the form value
+                                name="States" // Ensure name matches the key in addressForm
                                 onChange={handleInputChange}
                                 MenuProps={{
                                   PaperProps: {
@@ -1229,7 +1149,10 @@ function Address({ topMargin, totalAmount }) {
                                   <em>None</em>
                                 </MenuItem>
                                 {states.map((state) => (
-                                  <MenuItem key={state.abbreviation} value={state.abbreviation}>
+                                  <MenuItem
+                                    key={state.abbreviation}
+                                    value={state.abbreviation}
+                                  >
                                     {state.name}
                                   </MenuItem>
                                 ))}
@@ -1246,28 +1169,31 @@ function Address({ topMargin, totalAmount }) {
                               // onChange={handleInputChange}
                               onChange={(e) => {
                                 const value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
-                                handleInputChange({ target: { name: "Pin_Code", value } }); // Update the state with only numbers
+                                handleInputChange({
+                                  target: { name: "Pin_Code", value },
+                                }); // Update the state with only numbers
                               }}
                               error={!!formErrors.Pin_Code}
                               helperText={formErrors.Pin_Code}
-                              inputProps= {{maxLength:5}}
+                              inputProps={{ maxLength: 5 }}
                             />
                           </div>
-                          <div className="flex my-2 gap-2" >
-
-                          <TextField
+                          <div className="flex my-2 gap-2">
+                            <TextField
                               label="Phone Number"
                               name="Phone_Number"
                               size="small"
                               className="w-full"
-                              value={formatPhoneNumber(addressForm.Phone_Number)}
+                              value={formatPhoneNumber(
+                                addressForm.Phone_Number
+                              )}
                               onChange={handleInputChange}
                               error={!!formErrors.Phone_Number}
                               helperText={formErrors.Phone_Number}
                               inputProps={{ maxLength: 12 }}
                             />
 
-<TextField
+                            <TextField
                               label="Email ID"
                               name="Email ID"
                               size="small"
@@ -1282,10 +1208,7 @@ function Address({ topMargin, totalAmount }) {
 
                           <div className="my-4">
                             <input type="checkbox" id="default-address" />
-                            <label
-                              htmlFor="default-address"
-                              className="ml-2"
-                            >
+                            <label htmlFor="default-address" className="ml-2">
                               Make this my default address
                             </label>
                           </div>
@@ -1349,11 +1272,9 @@ function Address({ topMargin, totalAmount }) {
                                 error={!!formErrors.Last_Name}
                                 helperText={formErrors.Last_Name}
                               />
-
                             </div>
 
                             <div className="my-4 flex gap-2">
-                             
                               <TextField
                                 label="Address"
                                 id="Address"
@@ -1366,7 +1287,7 @@ function Address({ topMargin, totalAmount }) {
                                 helperText={formErrors.Address}
                               />
 
-<TextField
+                              <TextField
                                 label="City"
                                 id="Town_City"
                                 name="Town_City" // Matches state key
@@ -1377,12 +1298,9 @@ function Address({ topMargin, totalAmount }) {
                                 error={!!formErrors.Town_City}
                                 helperText={formErrors.Town_City}
                               />
-
                             </div>
 
                             <div className="flex my-2 gap-2">
-
-                              
                               {/* <FormControl
                                 className="w-[50%]"
                                 size="small"
@@ -1422,13 +1340,15 @@ function Address({ topMargin, totalAmount }) {
                                 size="small"
                                 error={!!formErrors.States}
                               >
-                                <InputLabel id="state-select-label">State</InputLabel>
+                                <InputLabel id="state-select-label">
+                                  State
+                                </InputLabel>
                                 <Select
                                   id="state-select"
                                   label="State"
-                                  value={addressForm.States} // Bind value to addressForm.States
+                                  value={newAddressForm.States} // Bind value to addressForm.States
                                   name="States" // Ensure name matches the state key in addressForm
-                                  onChange={handleInputChange} // Call handleInputChange on selection
+                                  onChange={handleChangeForm} // Call handleInputChange on selection
                                   MenuProps={{
                                     PaperProps: {
                                       style: {
@@ -1441,12 +1361,19 @@ function Address({ topMargin, totalAmount }) {
                                     <em>None</em>
                                   </MenuItem>
                                   {states.map((state) => (
-                                    <MenuItem key={state.abbreviation} value={state.abbreviation}>
+                                    <MenuItem
+                                      key={state.abbreviation}
+                                      value={state.abbreviation}
+                                    >
                                       {state.name}
                                     </MenuItem>
                                   ))}
                                 </Select>
-                                {formErrors.States && <span className="text-red-500">{formErrors.States}</span>}
+                                {formErrors.States && (
+                                  <span className="text-red-500">
+                                    {formErrors.States}
+                                  </span>
+                                )}
                               </FormControl>
 
                               <TextField
@@ -1456,31 +1383,37 @@ function Address({ topMargin, totalAmount }) {
                                 value={newAddressForm.Pin_Code}
                                 // onChange={handleChangeForm}
                                 onChange={(e) => {
-                                  const value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
-                                  handleChangeForm({ target: { name: "Pin_Code", value } }); // Update the state with only numbers
+                                  const value = e.target.value.replace(
+                                    /\D/g,
+                                    ""
+                                  ); // Remove non-numeric characters
+                                  handleChangeForm({
+                                    target: { name: "Pin_Code", value },
+                                  }); // Update the state with only numbers
                                 }}
                                 size="small"
                                 className="w-[50%]"
                                 error={!!formErrors.Pin_Code}
                                 helperText={formErrors.Pin_Code}
-                                inputProps={{maxLength :5}}
+                                inputProps={{ maxLength: 5 }}
                               />
-
                             </div>
                             <div className="flex my-2 gap-2">
-                            <TextField
+                              <TextField
                                 label="Phone Number"
                                 name="Phone_Number"
                                 size="small"
                                 className="w-full"
-                                value={formatPhoneNumber(addressForm.Phone_Number)}
-                                onChange={handleInputChange}
+                                value={formatPhoneNumber(
+                                  newAddressForm.Phone_Number
+                                )}
+                                onChange={handleChangeForm}
                                 error={!!formErrors.Phone_Number}
                                 helperText={formErrors.Phone_Number}
                                 inputProps={{ maxLength: 12 }}
                               />
 
-<TextField
+                              <TextField
                                 label="Email ID"
                                 name="Email ID"
                                 size="small"
@@ -1494,14 +1427,8 @@ function Address({ topMargin, totalAmount }) {
                             </div>
 
                             <div className="my-4">
-                              <input
-                                type="checkbox"
-                                id="default-address"
-                              />
-                              <label
-                                htmlFor="default-address"
-                                className="ml-2"
-                              >
+                              <input type="checkbox" id="default-address" />
+                              <label htmlFor="default-address" className="ml-2">
                                 Make this my default address
                               </label>
                             </div>

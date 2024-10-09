@@ -46,7 +46,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   const components = useSelector((state) => state.master.productCategoryGetAll);
   console.log("categoeryyy-->", components);
   const modifiedComponents = [
-    { productCategoryId: 0, categoryName: 'All' },
+    { productCategoryId: -1, categoryName: 'All' },
     ...components
   ];
 
@@ -61,13 +61,22 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const category = searchParams.get("CategoryName");
-    if (category && components.length > 0) {
-      const component = components.find(
-        (comp) => comp.productCategoryId === category
-      );
+    if(category===null)
+    {
+      setSelectedItem("Äll")
 
+    }
+    else if (category && components.length > 0) {
+      const component = modifiedComponents.find(
+        (comp) => comp.productCategoryId == category
+      );
+      console.log("heyeheyehhoanceu",component,category)
       if (component) {
         setSelectedItem(component.categoryName); // Set the name if found
+      }
+      else
+      {
+        setSelectedItem("Äll")
       }
     }
   }, [location.search]);
@@ -205,7 +214,11 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
     };
 
     console.log("cr--->", obj);
-
+    if(obj.productCategoryId===-1)
+    {
+      navigate('/allProducts')
+      return;
+    }
     await fetchCriteriaProductsApi(Criteria);
     navigate(
       `/allProducts/CategoryProducts?CategoryName=${obj.productCategoryId}`
