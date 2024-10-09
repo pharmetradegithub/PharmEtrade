@@ -366,14 +366,23 @@ const LayoutProfileAddress = () => {
   return (
     <div className='w-full h-full'>
       {/* Present Address Section */}
-      <div className='flex justify-between ml-6 mt-8'>
-        <h1 className='text-xl text-blue-900 font-semibold'>Present Address</h1>
+      <div className='flex justify-end ml-6 mt-8'>
         <button className='bg-blue-900 text-white p-2 flex rounded-md' onClick={handleAddNewAddressClick}>
           <img src={plus} className='w-6 h-6' alt="Add New" /> Add New Address
         </button>
       </div>
 
-      <div className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
+      <div className={`bg-white border  ${isTabEdit ? 'border-blue-900' : 'border-gray-400'} rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}>
+  {/* Conditionally display heading on the border */}
+  {isTabEdit && (
+    <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+      Address 
+    </h1>
+  )}            {/* <h1 className="text-xl font-semibold text-blue-900 my-2">Address Information</h1> */}
+
+            <h1 className={`text-xl font-semibold my-2 ${isTabEdit ? 'invisible' : 'text-blue-900'}`}>Address </h1>
+ 
+
         <div className='flex justify-between'>
           <div className='flex flex-col py-4'>
             <label>Building Name</label>
@@ -449,77 +458,70 @@ const LayoutProfileAddress = () => {
         {/* Radio Button for Present Address */}
         <FormControlLabel
           control={<Radio checked={selectedAddress === presentAddress} onChange={() => handleRadioSelect(presentAddress)} />}
-          label="Use as Permanent Address"
+          label="Use as Shipping Address"
         />
       </div>
 
       {/* Render Additional Addresses with Radio Buttons */}
-      {addresses.map((address, index) => (
-        <div key={index} className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
-          <div className='flex justify-between'>
-            <div className='flex flex-col py-4'>
-              <p>
-                <TextField
-                  label="Building"
-                  value={address.buildingName} // Pass the city value from the address object
-                  // onChange={handleAddressChange} // Ensure there's an onChange handler if needed
-                  name="city" // Optional, to track the field in the onChange handler
-                 size='small'
-                  margin="dense"
-                /></p>
-              <p><TextField
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ml-6 mt-6">
+      
+        {addresses.map((address, index) => (
+          <div key={index} className="bg-white border border-gray-400 rounded-lg p-6">
+           <h1 className='text-blue-900 text-xl font-semibold'>Add New Address</h1>
+            <div className="flex flex-col space-y-4">
+              <TextField
+                label="Building"
+                value={address.buildingName}
+                size="small"
+                margin="dense"
+                fullWidth
+              />
+              <TextField
                 label="City"
                 value={address.city}
-                name="city"
-                size='small'
+                size="small"
                 margin="dense"
-              /></p>
-            </div>
-            <div className='flex flex-col py-4'>
-              <p>
-                <TextField
-                  label="State"
-                  value={address.state} // Pass the city value from the address object
-                  // onChange={handleAddressChange} // Ensure there's an onChange handler if needed
-                  name="city" // Optional, to track the field in the onChange handler
-                  size='small'
-                  margin="dense"
-                />
-                {/* <strong>City: </strong> */}
-              </p>
-              <p><TextField
+                fullWidth
+              />
+              <TextField
+                label="State"
+                value={address.state}
+                size="small"
+                margin="dense"
+                fullWidth
+              />
+              <TextField
                 label="Zip"
-                value={address.zip}// Pass the city value from the address object
-                // onChange={handleAddressChange} // Ensure there's an onChange handler if needed
-                name="city" // Optional, to track the field in the onChange handler
-                size='small'
+                value={address.zip}
+                size="small"
                 margin="dense"
-              /></p>
-            </div>
-            <div className='flex flex-col py-4'>
-              <p>
-                <TextField
-                  label="Location"
-                  value={address.location} // Pass the city value from the address object
-                  // onChange={handleAddressChange} // Ensure there's an onChange handler if needed
-                  name="city" // Optional, to track the field in the onChange handler
-                 size='small'
-                  margin="dense"
-                /></p>
-            </div>
-            <div className='flex items-center'>
-              {/* Radio Button for each new address */}
+                fullWidth
+              />
+              <TextField
+                label="Location"
+                value={address.location}
+                size="small"
+                margin="dense"
+                fullWidth
+              />
               <FormControlLabel
-                control={<Radio checked={selectedAddress === address} onChange={() => handleRadioSelect(address)} />}
-                label="Use as Permanent Address"
+                control={
+                  <Radio
+                    checked={selectedAddress === address}
+                    onChange={() => handleRadioSelect(address)}
+                  />
+                }
+                label="Use as Shipping Address"
               />
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
+
 
       {/* Permanent Address Section */}
-      <h1 className='text-xl text-blue-900 font-semibold ml-6 mt-6'>Permanent Address</h1>
+      <h1 className='text-xl text-blue-900 font-semibold ml-6 mt-6'>Shipping Address</h1>
       <div className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
         <div className='flex justify-between'>
           <div className='flex flex-col py-4'>
