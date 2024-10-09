@@ -1,273 +1,8 @@
-
-// import React, { useState } from 'react';
-// import plus from '../../../assets/Icons/plus[1].png';
-// import { TextField, Snackbar, Alert } from '@mui/material'; // Import Snackbar and Alert for notifications
-// import edit from '../../../assets/Edit.png';
-
-// const LayoutProfileAddress = () => {
-//   const [isTabEdit, setIsTabEdit] = useState(false);
-//   const [usePresentForPermanent, setUsePresentForPermanent] = useState(false);
-
-//   // State to store Present Address values
-//   const [presentAddress, setPresentAddress] = useState({
-//     buildingName: '',
-//     zip: '',
-//     city: '',
-//     state: '',
-//     location: '',
-//   });
-
-//   // State to store Permanent Address values
-//   const [permanentAddress, setPermanentAddress] = useState({
-//     buildingName: '',
-//     zip: '',
-//     city: '',
-//     state: '',
-//     location: '',
-//   });
-
-//   // Notification state
-//   const [notificationOpen, setNotificationOpen] = useState(false);
-
-//   // Handle Present Address changes
-//   const handlePresentAddressChange = (e) => {
-//     const { name, value } = e.target;
-//     setPresentAddress((prev) => ({
-//       ...prev,
-//       [name]: value,
-//     }));
-
-//     // Automatically update Permanent Address if checkbox is checked
-//     if (usePresentForPermanent) {
-//       setPermanentAddress((prev) => ({
-//         ...prev,
-//         [name]: value,
-//       }));
-//     }
-//   };
-
-//   // Handle checkbox click
-//   const handleCheckboxClick = (e) => {
-//     const isChecked = e.target.checked;
-//     setUsePresentForPermanent(isChecked);
-
-//     // Copy Present Address to Permanent Address when checkbox is checked
-//     if (isChecked) {
-//       setPermanentAddress(presentAddress);
-//     }
-//   };
-
-//   // Edit and save logic for tab
-//   const handleTabClick = () => {
-//     setIsTabEdit(true);
-//   };
-
-//   const handleTabSave = () => {
-//     setIsTabEdit(false);
-//     // Show success notification when fields are saved
-//     setNotificationOpen(true);
-//   };
-
-//   // Close notification
-//   const handleNotificationClose = () => {
-//     setNotificationOpen(false);
-//   };
-
-//   return (
-//     <div className='w-full h-full'>
-//       <div className='w-full h-full'>
-//         {/* Present Address Section */}
-//         <div className='flex justify-between ml-6 mt-8'>
-//           <h1 className='text-xl text-blue-900 font-semibold'>Present Address</h1>
-//           <button className='bg-blue-900 text-white p-2 flex rounded-md'>
-//             <img src={plus} className='w-6 h-6' alt="Add New" /> Add New Address
-//           </button>
-//         </div>
-//         <div className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
-//           <div className='flex justify-between'>
-//             <div className='flex flex-col py-4'>
-//               <label>Building Name</label>
-//               <TextField
-//                 name="buildingName"
-//                 value={presentAddress.buildingName}
-//                 onChange={handlePresentAddressChange}
-//                 label="Building Name"
-//                 className='w-full'
-//                 size='small'
-//                 disabled={!isTabEdit}
-//               />
-//               <label>Zip</label>
-//               <TextField
-//                 name="zip"
-//                 value={presentAddress.zip}
-//                 onChange={handlePresentAddressChange}
-//                 label="Zip"
-//                 className='w-full'
-//                 size='small'
-//                 disabled={!isTabEdit}
-//               />
-//             </div>
-
-//             <div className='flex flex-col py-4'>
-//               <label>City</label>
-//               <TextField
-//                 name="city"
-//                 value={presentAddress.city}
-//                 onChange={handlePresentAddressChange}
-//                 label="City"
-//                 className='w-full'
-//                 size='small'
-//                 disabled={!isTabEdit}
-//               />
-//               <label>State</label>
-//               <TextField
-//                 name="state"
-//                 value={presentAddress.state}
-//                 onChange={handlePresentAddressChange}
-//                 label="State"
-//                 className='w-full'
-//                 size='small'
-//                 disabled={!isTabEdit}
-//               />
-//             </div>
-
-//             <div className='flex flex-col py-4'>
-//               <label>Location</label>
-//               <TextField
-//                 name="location"
-//                 value={presentAddress.location}
-//                 onChange={handlePresentAddressChange}
-//                 label="Location"
-//                 className='w-full'
-//                 size='small'
-//                 disabled={!isTabEdit}
-//               />
-//             </div>
-
-//             <div className='flex flex-col justify-between py-4'>
-//               <img src={edit} className='w-6 h-6' alt="Edit" onClick={handleTabClick} />
-//               <button
-//                 className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit ? "opacity-50 cursor-not-allowed" : ""}`}
-//                 onClick={handleTabSave}
-//                 disabled={!isTabEdit}
-//               >
-//                 Save
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-
-//         <div className='ml-6 mt-4'>
-//           <input type='checkbox' onChange={handleCheckboxClick} />
-//           <label className='ml-2'>Use Present Address as Permanent Address</label>
-//         </div>
-
-//         {/* Permanent Address Section */}
-//         <h1 className='text-xl text-blue-900 font-semibold ml-6 mt-6'>Permanent Address</h1>
-//         <div className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
-//           <div className='flex justify-between'>
-//             <div className='flex flex-col py-4'>
-//               <label>Building Name</label>
-//               <TextField
-//                 name="buildingName"
-//                 value={permanentAddress.buildingName}
-//                 label="Building Name"
-//                 className='w-full'
-//                 size='small'
-//                 disabled={!isTabEdit}
-//               />
-//               <label>Zip</label>
-//               <TextField
-//                 name="zip"
-//                 value={permanentAddress.zip}
-//                 label="Zip"
-//                 className='w-full'
-//                 size='small'
-//                 disabled={!isTabEdit}
-//               />
-//             </div>
-
-//             <div className='flex flex-col py-4'>
-//               <label>City</label>
-//               <TextField
-//                 name="city"
-//                 value={permanentAddress.city}
-//                 label="City"
-//                 className='w-full'
-//                 size='small'
-//                 disabled={!isTabEdit}
-//               />
-//               <label>State</label>
-//               <TextField
-//                 name="state"
-//                 value={permanentAddress.state}
-//                 label="State"
-//                 className='w-full'
-//                 size='small'
-//                 disabled={!isTabEdit}
-//               />
-//             </div>
-
-//             <div className='flex flex-col py-4'>
-//               <label>Location</label>
-//               <TextField
-//                 name="location"
-//                 value={permanentAddress.location}
-//                 label="Location"
-//                 className='w-full'
-//                 size='small'
-//                 disabled={!isTabEdit}
-//               />
-//             </div>
-
-//             <div className='flex flex-col justify-between py-4'>
-//               <button
-//                 className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold`}
-//                 onClick={handleTabSave}
-//                 disabled={!isTabEdit}
-//               >
-//                 Save
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Notification */}
-//       <Snackbar
-//         open={notificationOpen}
-//         autoHideDuration={3000} // Auto hide after 3 seconds
-//         onClose={handleNotificationClose}
-//         anchorOrigin={{ vertical: 'top', horizontal: 'right' }} // Positioning top-right
-//       >
-//         <Alert
-//           onClose={handleNotificationClose}
-//           severity="success"
-//           sx={{ 
-//             width: '100%', 
-//             backgroundColor: '#1E3A8A',  // blue-900 color
-//             color: '#ffffff'  // White text color
-//           }}
-//         >
-//           Address saved successfully!
-//         </Alert>
-//       </Snackbar>
-//     </div>
-//   );
-// };
-
-// export default LayoutProfileAddress;
-
-
-
-
-
-
-
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import plus from '../../../assets/Icons/plus[1].png';
-import { TextField, Snackbar, Alert, Dialog, DialogActions, DialogContent, DialogTitle, Button, RadioGroup, FormControlLabel, Radio } from '@mui/material'; // Import additional Material-UI components
+import { TextField, Snackbar, Alert, Dialog, DialogActions, DialogContent, DialogTitle, Button, RadioGroup, FormControlLabel, Radio, FormControl, InputLabel, Select, MenuItem } from '@mui/material'; // Import additional Material-UI components
 import edit from '../../../assets/Edit.png';
+import { useStates } from 'react-us-states';
 
 const LayoutProfileAddress = () => {
   const [isTabEdit, setIsTabEdit] = useState(false);
@@ -309,13 +44,13 @@ const LayoutProfileAddress = () => {
   const [notificationOpen, setNotificationOpen] = useState(false);
 
   // Handle Present Address changes
-  const handlePresentAddressChange = (e) => {
-    const { name, value } = e.target;
-    setPresentAddress((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  // const handlePresentAddressChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setPresentAddress((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+  // };
 
   // Handle Permanent Address when radio button is selected
   const handleRadioSelect = (address) => {
@@ -324,13 +59,21 @@ const LayoutProfileAddress = () => {
   };
 
   // Handle New Address changes
+
   const handleNewAddressChange = (e) => {
     const { name, value } = e.target;
-    setNewAddress((prev) => ({
-      ...prev,
-      [name]: value,
+    setNewAddress((prevAddress) => ({
+      ...prevAddress,
+      [name]: value, // Update the specific field in newAddress
     }));
   };
+  // const handleNewAddressChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setNewAddress((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+  // };
 
   // Open the dialog for adding new address
   const handleAddNewAddressClick = () => {
@@ -362,7 +105,21 @@ const LayoutProfileAddress = () => {
   const handleNotificationClose = () => {
     setNotificationOpen(false);
   };
+  const accountTypes = ['Savings', 'Checking', 'Current']; // Example account types
 
+  const [states, setStates] = useState([]);
+
+  useEffect(() => {
+    // Set the states data
+    setStates(useStates); // Adjust based on actual structure
+  }, []);
+
+  const handlePresentAddressChange = (event) => {
+    setFormData({
+      ...formData,
+      state: event.target.value, // Update the selected state
+    });
+  };
   return (
     <div className='w-full h-full'>
       {/* Present Address Section */}
@@ -418,20 +175,8 @@ const LayoutProfileAddress = () => {
               size='small'
               disabled={!isTabEdit}
             />
-            <label>State</label>
-            <TextField
-              name="state"
-              value={presentAddress.state}
-              onChange={handlePresentAddressChange}
-              label="State"
-              className='w-full'
-              size='small'
-              disabled={!isTabEdit}
-            />
-          </div>
-
-          <div className='flex flex-col py-4'>
-            <label>Location</label>
+            {/*  */}
+             <label>Location</label>
             <TextField
               name="location"
               value={presentAddress.location}
@@ -441,6 +186,50 @@ const LayoutProfileAddress = () => {
               size='small'
               disabled={!isTabEdit}
             />
+          </div>
+
+          <div className='flex flex-col py-4'>
+           <label>State</label>
+            {/* <TextField
+              name="state"
+              value={presentAddress.state}
+              onChange={handlePresentAddressChange}
+              label="State"
+              className='w-full'
+              size='small'
+              disabled={!isTabEdit}
+            /> */}
+
+<FormControl
+                size="small"
+                // error={!!errors.States}
+                sx={{ minWidth: 210, whiteSpace: 'initial' }}
+              >
+                <InputLabel id="state-select-label">State</InputLabel>
+                <Select
+                  id="state-select"
+                  label="State"
+                  value={presentAddress.state} // Correctly bind the form value
+                  name="States" // Ensure name matches the key in addressForm
+                  onChange={(e) => handlePresentAddressChange(e)} // Handle state change
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: 200, // Set the maximum height of the dropdown
+                      },
+                    },
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {states.map((state) => (
+                    <MenuItem key={state.abbreviation} value={state.abbreviation}>
+                      {state.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
           </div>
 
           <div className='flex flex-col justify-between py-4'>
@@ -484,13 +273,44 @@ const LayoutProfileAddress = () => {
                 margin="dense"
                 fullWidth
               />
-              <TextField
+              {/* <TextField
                 label="State"
                 value={address.state}
                 size="small"
                 margin="dense"
                 fullWidth
-              />
+              /> */}
+
+<FormControl
+                size="small"
+                // error={!!errors.States}
+                sx={{ minWidth: 210, whiteSpace: 'initial' }}
+              >
+                <InputLabel id="state-select-label">State</InputLabel>
+                <Select
+                  id="state-select"
+                  label="State"
+                  value={address.state}
+                  name="States" // Ensure name matches the key in addressForm
+                  // onChange={(e) => handlePresentAddressChange(e)} // Handle state change
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: 200, // Set the maximum height of the dropdown
+                      },
+                    },
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {states.map((state) => (
+                    <MenuItem key={state.abbreviation} value={state.abbreviation}>
+                      {state.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
               <TextField
                 label="Zip"
                 value={address.zip}
@@ -555,19 +375,7 @@ const LayoutProfileAddress = () => {
               size='small'
               disabled
             />
-            <label>State</label>
-            <TextField
-              name="state"
-              value={permanentAddress.state}
-              label="State"
-              className='w-full'
-              size='small'
-              disabled
-            />
-          </div>
-
-          <div className='flex flex-col py-4'>
-            <label>Location</label>
+             <label>Location</label>
             <TextField
               name="location"
               value={permanentAddress.location}
@@ -575,7 +383,50 @@ const LayoutProfileAddress = () => {
               className='w-full'
               size='small'
               disabled
-            />
+            /> 
+          </div>
+
+          <div className='flex flex-col py-4'>
+           
+             <label>State</label>
+            {/* <TextField
+              name="state"
+              value={permanentAddress.state}
+              label="State"
+              className='w-full'
+              size='small'
+              disabled
+            /> */}
+            <FormControl
+                size="small"
+                // error={!!errors.States}
+                sx={{ minWidth: 210, whiteSpace: 'initial' }}
+              >
+                <InputLabel id="state-select-label">State</InputLabel>
+                <Select
+                  id="state-select"
+                  label="State"
+                  value={permanentAddress.state}
+                  name="States" // Ensure name matches the key in addressForm
+                  // onChange={(e) => handlePresentAddressChange(e)} // Handle state change
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: 200, // Set the maximum height of the dropdown
+                      },
+                    },
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {states.map((state) => (
+                    <MenuItem key={state.abbreviation} value={state.abbreviation}>
+                      {state.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
           </div>
         </div>
       </div>
@@ -591,15 +442,9 @@ const LayoutProfileAddress = () => {
             onChange={handleNewAddressChange}
             fullWidth
             margin="dense"
+             size="small"
           />
-          <TextField
-            name="zip"
-            label="Zip"
-            value={newAddress.zip}
-            onChange={handleNewAddressChange}
-            fullWidth
-            margin="dense"
-          />
+          
           <TextField
             name="city"
             label="City"
@@ -607,14 +452,54 @@ const LayoutProfileAddress = () => {
             onChange={handleNewAddressChange}
             fullWidth
             margin="dense"
+             size="small"
           />
-          <TextField
+          {/* <TextField
             name="state"
             label="State"
             value={newAddress.state}
             onChange={handleNewAddressChange}
             fullWidth
             margin="dense"
+          /> */}
+           <FormControl
+                size="small"
+                // error={!!errors.States}
+                sx={{ minWidth: 550, whiteSpace: 'initial' }}
+              >
+                <InputLabel id="state-select-label">State</InputLabel>
+                <Select
+                  id="state-select"
+                  label="State"
+                  value={newAddress.state}
+                  name="States" // Ensure name matches the key in addressForm
+                   onChange={(e) => handleNewAddressChange(e)} // Handle state change
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: 200, // Set the maximum height of the dropdown
+                      },
+                    },
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {states.map((state) => (
+                    <MenuItem key={state.abbreviation} value={state.abbreviation}>
+                      {state.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+          <TextField
+            name="zip"
+            label="Zip"
+            value={newAddress.zip}
+            onChange={handleNewAddressChange}
+            fullWidth
+            margin="dense"
+             size="small"
           />
           <TextField
             name="location"
@@ -623,6 +508,7 @@ const LayoutProfileAddress = () => {
             onChange={handleNewAddressChange}
             fullWidth
             margin="dense"
+             size="small"
           />
         </DialogContent>
         <DialogActions>
