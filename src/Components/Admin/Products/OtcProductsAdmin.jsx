@@ -72,11 +72,13 @@ const OtcProductsAdmin = () => {
               <tr className="border-b-2 text-left ">
                 <th className="py-2 px-5">S.NO</th>
                 <th className="py-2 px-5">Thumbnail</th>
-                <th className="py-2">Product Name</th>
-                <th className="py-2">Creative Date</th>
-                <th className="py-2">Seller Name</th>
+                <th className="py-2 px-3">Product Name</th>
+                <th className="py-2 px-5">Created Date</th>
+                <th className="py-2 px-2">Seller Name</th>
                 {/* <th className="py-2">Category Specification</th> */}
-                <th className="py-2">Unit Price</th>
+                <th className="py-2 px-2 text-right">Unit Price</th>
+                <th className="py-2 px-5">Saleprice Start</th>
+                <th className="py-2 px-5">Saleprice End</th>
                 <th className="py-2  text-center">Action</th>
               </tr>
             </thead>
@@ -91,16 +93,28 @@ const OtcProductsAdmin = () => {
                     />
                   </td>
                   <td className='px-4 py-2'>
-                    <Tooltip title={detail.productName} arrow> 
+                    <Tooltip title={detail.productName} placement="right"> 
                       <span className="truncate block w-40 cursor-pointer"> {/* Truncate and make clickable */}
                         {detail.productName}
                       </span>
                    </Tooltip>
                   </td>
                   <td>{}</td>
-                  <td>{detail.sellerFirstName}</td>
+                  <td className="text-left">{detail.sellerFirstName}</td>
                   {/* <td>{detail.categorySpecification.specificationName}</td> */}
-                  <td>{detail.unitPrice?.toFixed(2)}</td>
+                  <td className="text-right">{detail.unitPrice?.toFixed(2)}</td>
+                  <td className="px-4 py-2">{new Date(detail.salePriceValidFrom).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                        })
+                          .replace(/\//g, "-")}</td>
+                        <td className="px-4 py-2">{new Date(detail.salePriceValidTo).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                        })
+                          .replace(/\//g, "-")}</td>
                   <td className="px-4  justify-center py-2 cursor-pointer flex items-center space-x-2 bg-transparent">
                     <Tooltip title="Edit" placement="top">
                       <img

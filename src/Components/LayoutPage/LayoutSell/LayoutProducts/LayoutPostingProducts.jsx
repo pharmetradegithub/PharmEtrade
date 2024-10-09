@@ -211,6 +211,8 @@ const LayoutPostingProducts = () => {
     setDeletePop(false);
   };
 
+  
+
   return (
     <div className="relative  bg-gray-100 w-full h-full flex justify-center overflow-scroll items-center">
       {notification.show && (
@@ -357,13 +359,13 @@ const LayoutPostingProducts = () => {
               <table className="w-full">
                 <thead className="bg-blue-900 text-white">
                   <tr className="border-b-2">
-                    <th className="px-4 py-2 text-left">ID</th>
+                    <th className="px-4 py-2 text-left">S.No</th>
                     <th className="px-4 py-2 text-left">Thumbnail</th>
                     <th className=" px-4 py-2 text-left">Product Name</th>
-                    <th className="px-4 py-2 text-left">Manufacturer</th>
-                    <th className="px-4 py-2 text-left">Brand Name</th>
-                    {/* <th className="px-4 py-2 text-left">Product Status</th> */}
-
+                    <th className="px-4 py-2 text-left">Created Date</th>
+                    <th className="px-4 py-2 text-left">Unit Price</th>
+                    <th className="px-4 py-2 text-left">Saleprice Start</th>
+                    <th className="px-4 py-2 text-left">Saleprice End</th>
                     <th className="px-4 py-2 ">Action</th>
                   </tr>
                 </thead>
@@ -387,8 +389,21 @@ const LayoutPostingProducts = () => {
                           />
                         </td>
                         <td className="px-4 py-2">{product.productName}</td>
-                        <td className="px-4 py-2">{product.manufacturer}</td>
-                        <td className="px-4 py-2">{product.brandName}</td>
+                        <td className="px-4 py-2">{}</td>
+                        <td className="px-4 py-2">{product.unitPrice.toFixed(2)}</td>
+                        <td className="px-4 py-2">{new Date(product.salePriceValidFrom).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                        })
+                          .replace(/\//g, "-")}</td>
+                        <td className="px-4 py-2">{new Date(product.salePriceValidTo).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                        })
+                          .replace(/\//g, "-")}</td>
+
 
                         <td className="px-4 py-2 cursor-pointer flex items-center space-x-2">
                           <Tooltip title="Edit" placement="top">

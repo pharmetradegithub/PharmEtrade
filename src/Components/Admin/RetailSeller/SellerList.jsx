@@ -112,6 +112,7 @@ import { Tooltip } from "@mui/material";
 import Pagination from "../../Pagination";
 import { useNavigate } from "react-router-dom";
 import { getUserByCustomerIdApi } from "../../../Api/UserApi";
+import { useSelector } from "react-redux";
 const SellerList = () => {
   const [customers, setcustomers] = useState([]);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
@@ -121,12 +122,14 @@ const SellerList = () => {
   const currentItems = customers.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil((customers?.length || 0) / itemsPerPage);
   const navigate = useNavigate();
+  const businessInfo = useSelector((state)=>state.user.businessInfo);
+  console.log("bbbbbb", businessInfo)
 
   useEffect(() => {
     const fetchcustomers = async () => {
       const res = await GetCustomers();
       const filteredCustomers = res.filter((customer) =>
-        [1, 2, 3].includes(customer.customerTypeId)
+        [1].includes(customer.customerTypeId)
       );
       setcustomers(filteredCustomers);
     };
@@ -179,7 +182,7 @@ const SellerList = () => {
         <div className="w-[95%] h-full mt-8">
           <div className="flex justify-between">
             <h1 className="text-xl text-blue-900 font-semibold mb-4">
-              SELLER LIST
+              Retail Pharmacy List
             </h1>
             <div className="flex  mb-4">
               <input
@@ -231,14 +234,15 @@ const SellerList = () => {
                         {" "}
                         {/* Set the width as needed */}
                         <div className="text-base font-semibold truncate">
-                          {" "}
-                          {/* Add truncate class */}
+                          
                           {customer.firstName} {customer.lastName}
                         </div>
                         <div className="font-normal text-gray-500 truncate">
                           {" "}
                           {/* Add truncate for email too */}
-                          {customer.email}
+                          <p>
+                          {customer.email}</p>
+
                         </div>
                       </div>
                     </th>

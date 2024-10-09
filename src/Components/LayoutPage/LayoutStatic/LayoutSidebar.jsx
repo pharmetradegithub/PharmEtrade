@@ -16,8 +16,11 @@ function LayoutSidebar() {
   const [navItems, setnavItems] = useState([]);
   const user = useSelector((state) => state.user.user);
   const businessInfo = useSelector((state)=>state.user.businessInfo);
+  console.log("bbbbbb", businessInfo)
+
   const menuItems = useSelector((state)=>state.user.menuItems);
   console.log(user);
+  console.log("bbbbbghgvhg",businessInfo)
   console.log(menuItems,"menu");
   useEffect(() => {
     if(menuItems)

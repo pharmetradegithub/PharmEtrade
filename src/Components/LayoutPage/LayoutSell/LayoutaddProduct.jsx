@@ -1781,7 +1781,7 @@ function LayoutaddProduct() {
                 <div className="flex items-center gap-8 ">
                   <div className=" flex flex-col">
                     <label className="font-semibold">
-                      Amount in Stock:<span className="text-red-600">*</span>
+                      Product in Stock:<span className="text-red-600">*</span>
                     </label>
                     {/* <label className="font-semibold">Amount in Stock:</label> */}
                     <input
@@ -1822,6 +1822,22 @@ function LayoutaddProduct() {
                       <option value="0">No</option>
                       <option value="1">Yes</option>
                     </select>
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="text-sm font-semibold">
+                      Product Limit :
+                    </label>
+                    <input
+                      // name="upnMemberPrice"
+                      type="phone"
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      // onChange={handleInputChange}
+                      // value={
+                      //   formData.upnMemberPrice === ""
+                      //     ? ""
+                      //     : formData.upnMemberPrice
+                      // }
+                    />
                   </div>
                 </div>
               </div>

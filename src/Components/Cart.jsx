@@ -322,8 +322,8 @@ function Cart() {
       </div>
       {/* Confirmation Dialog */}
       <Dialog open={openDialog} onClose={handleDialogClose}>
-        <div className="flex justify-end p-2">
-          <img src={wrong} className="w-5 h-5 flex justify-end" />
+        <div className="flex  justify-end p-2">
+          <img onClick={handleDialogClose} src={wrong} className="w-5 h-5 cursor-pointer flex justify-end" />
         </div>
         <DialogContent>
           Are you sure you want to delete this item from your cart?
