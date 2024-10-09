@@ -80,7 +80,7 @@ function LayoutCategory({
   const handleQuantityChange = (index, newQuantity) => {
     // if (newQuantity) {
     const quantity = Math.max(1, newQuantity);
-    setproductList((prev) => {
+    setcurrentItems((prev) => {
       const updatedList = [...prev];
 
       updatedList[index] = {
@@ -131,7 +131,20 @@ function LayoutCategory({
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
+  // const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
+  const [currentItems,setcurrentItems] = useState(productList.slice(indexOfFirstItem, indexOfLastItem));
+  useEffect(() => {
+    if(productList)
+    {
+      const indexOfLastItem = currentPage * itemsPerPage;
+      const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+      setcurrentItems( productList.slice(indexOfFirstItem, indexOfLastItem))
+
+    }
+ 
+  }, [currentPage,products,productList])
+
+
   const totalPages = Math.ceil((productList?.length || 0) / itemsPerPage);
 
   const handleNextPage = () => {
