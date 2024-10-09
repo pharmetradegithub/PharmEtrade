@@ -91,11 +91,11 @@ const OtcProductsAdmin = () => {
                     />
                   </td>
                   <td className='px-4 py-2'>
-                    {/* <Tooltip title={detail.productName} placement="top"> Show full name on hover */}
+                    <Tooltip title={detail.productName} arrow> 
                       <span className="truncate block w-40 cursor-pointer"> {/* Truncate and make clickable */}
                         {detail.productName}
                       </span>
-                   
+                   </Tooltip>
                   </td>
                   <td>{}</td>
                   <td>{detail.sellerFirstName}</td>

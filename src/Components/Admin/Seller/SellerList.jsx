@@ -110,7 +110,8 @@ import Bin from "../../../assets/Bin.png";
 import Deactivate from "../../../assets/Deactivate.png";
 import { Tooltip } from "@mui/material";
 import Pagination from "../../Pagination";
-
+import { useNavigate } from "react-router-dom";
+import { getUserByCustomerIdApi } from "../../../Api/UserApi";
 const SellerList = () => {
   const [customers, setcustomers] = useState([]);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
@@ -119,6 +120,8 @@ const SellerList = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = customers.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil((customers?.length || 0) / itemsPerPage);
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchcustomers = async () => {
       const res = await GetCustomers();
@@ -140,25 +143,36 @@ const SellerList = () => {
       ...SearchInput,
       [e.target.name]: e.target.value,
     });
-
   };
 
-
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();  // Prevent the default behavior
-      handleSearchClick();           // Call submit function when Enter is pressed
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent the default behavior
+      handleSearchClick(); // Call submit function when Enter is pressed
     }
-  }
+  };
   const handleSearchClick = async () => {
     try {
-      const response = await GetByAdminCriteriaAPI(SearchInput)
+      const response = await GetByAdminCriteriaAPI(SearchInput);
       setcustomers(response);
     } catch (error) {
       console.log("no fields");
     }
-  }
-
+  };
+  // const handleEditProduct = (customer) => {
+  //   navigate(
+  //     `/pharmEtradeadmin/EditSellerListproductId=${customer.customerId}`
+  //   );
+  // };
+  const handleEditProduct = async (customerId) => {
+    try {
+      await getUserByCustomerIdApi(customerId);
+      navigate(`/pharmEtradeadmin/EditSellerList`);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+  console.log(`sellers data`, currentItems);
   return (
     <>
       <div className="bg-gray-100 w-full h-full flex overflow-y-scroll items-center justify-center">
@@ -176,8 +190,6 @@ const SellerList = () => {
                 onKeyDown={handleKeyDown}
                 value={SearchInput.customerName}
               />
-
-
             </div>
           </div>
           <div className="overflow-y-auto h-full clearfix">
@@ -199,7 +211,9 @@ const SellerList = () => {
                     key={index}
                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                   >
-                    <td className="px-6  text-center">{indexOfFirstItem+index + 1}</td>
+                    <td className="px-6  text-center">
+                      {indexOfFirstItem + index + 1}
+                    </td>
                     {/* <th
                       scope="row"
                       className="flex items-center px-6  text-gray-900 whitespace-nowrap dark:text-white"
@@ -213,11 +227,17 @@ const SellerList = () => {
                       src={customer.profileImage}
                       alt={`${customer.name} profile`}
                     /> */}
-                      <div className="w-40"> {/* Set the width as needed */}
-                        <div className="text-base font-semibold truncate"> {/* Add truncate class */}
+                      <div className="w-40">
+                        {" "}
+                        {/* Set the width as needed */}
+                        <div className="text-base font-semibold truncate">
+                          {" "}
+                          {/* Add truncate class */}
                           {customer.firstName} {customer.lastName}
                         </div>
-                        <div className="font-normal text-gray-500 truncate"> {/* Add truncate for email too */}
+                        <div className="font-normal text-gray-500 truncate">
+                          {" "}
+                          {/* Add truncate for email too */}
                           {customer.email}
                         </div>
                       </div>
@@ -239,7 +259,7 @@ const SellerList = () => {
                           src={edit}
                           alt="Edit"
                           className="cursor-pointer w-7 h-7 -mb-5"
-                          onClick={() => handleEditProduct(product)}
+                          onClick={() => handleEditProduct(customer.customerId)}
                         />
                       </Tooltip>
                       <Tooltip placement="top" title="Delete">

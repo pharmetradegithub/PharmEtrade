@@ -143,6 +143,7 @@ import OtcProductsAdmin from "./Components/Admin/Products/OtcProductsAdmin";
 import RxProductsAdmin from "./Components/Admin/Products/RxProductsAdmin";
 import OfferedProductsAdmin from "./Components/Admin/Products/OfferedProductsAdmin";
 import EditProductAdmin from "./Components/Admin/Products/EditProductAdmin";
+import EditSellerList from "./Components/Admin/Seller/EditSellerList";
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
@@ -470,6 +471,10 @@ function App() {
           <Route path="/pharmEtradeadmin/sellerList" element={<SellerList />} />
           <Route path="/pharmEtradeadmin/products" element={<Products />} />
           <Route path="/pharmEtradeadmin/EditProductAdmin" element={<EditProductAdmin />} />
+          <Route
+            path="/pharmEtradeadmin/EditSellerList"
+            element={<EditSellerList />}
+          />
           <Route path="/pharmEtradeadmin/OtcProducts" element={<OtcProductsAdmin />} />
           <Route path="/pharmEtradeadmin/RxProducts" element={<RxProductsAdmin />} />
           <Route path="/pharmEtradeadmin/OfferedProducts" element={<OfferedProductsAdmin />} />
