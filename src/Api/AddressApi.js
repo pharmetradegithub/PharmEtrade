@@ -54,3 +54,17 @@ export const fetchAddAddress = (payload) => {
     }
   }
 }
+
+export const fetchDeleteAddressApi = async (addressID) => {
+  try {
+    const response = await axios.post(`/api/Customer/Address/Delete?addressId=${addressID}`);
+    if (response.status === 200) {
+      return response.data.result;
+    } else {
+      console.error('Failed to fetch Address delete:', response.data.message);
+    }
+  } catch (error) {
+    console.error('Error fetching Address delete:', error);
+
+  }
+}

@@ -28,8 +28,8 @@ import Remove from "../../assets/trash.png";
 import Bin from "../../assets/Bin.png";
 import edit from "../../assets/Edit.png";
 import axios from "axios";
-import { fetchAddAddress, fetchGetByCustomerId } from "../../Api/AddressApi";
-
+import wrong from "../../assets/Icons/wrongred.png";
+import { fetchAddAddress, fetchDeleteAddressApi, fetchGetByCustomerId } from "../../Api/AddressApi";
 // import { setAddress } from "../../Store/Store";
 function Address({ topMargin, totalAmount }) {
   // const fetchData = useSelector((state) => state.product.Products);
@@ -846,40 +846,117 @@ function Address({ topMargin, totalAmount }) {
   );
 
   const [address, setAddress] = useState(null);
-  const handleRemoveAddress = async (addressId) => {
+  // const handleRemoveAddress = async (addressId) => {
+  //   try {
+  //     // Send a POST request to delete the address
+  //     const response = await axios.post(
+  //       `/api/Customer/Address/Delete?addressId=${addressId}`
+  //     );
+
+  //     console.log("Response from delete:", response);
+
+  //     if (response.status === 200) {
+  //       // Filter out the deleted address from the address list
+  //       const updatedAddresses = getAddress.filter(
+  //         (address) => address.addressId !== addressId
+  //       );
+
+  //       // Update the state with the new list of addresses
+  //       setAddress(updatedAddresses);
+
+  //       // Optionally, show a success message
+  //       alert("Address removed successfully!");
+  //     } else {
+  //       // Handle cases where the deletion was not successful
+  //       alert("Failed to remove the address. Please try again.");
+  //     }
+  //   } catch (error) {
+  //     // Catch and handle any errors (network or other)
+  //     console.error("Error deleting address:", error);
+  //     alert(
+  //       "An error occurred while deleting the address. Please try again later."
+  //     );
+  //   }
+  // };
+  
+  const [deletePop, setDeletePop] = useState(false);
+  const [deleteProduct, setDeleteProduct] = useState(null);
+  // const [notification, setNotification] = useState({ show: false, message: "" });
+
+  // Delete Address Handler
+  const handleDeleteAddress = (addressId) => {
+    console.log("Opening delete modal for address ID:", addressId);
+    setDeletePop(true); // Set modal to visible
+    setDeleteProduct(addressId); // Set the selected product to delete
+  };
+
+  // Cancel Delete Button
+  const cancelDeleteButton = () => {
+    console.log("Canceling delete operation");
+    setDeletePop(false); // Close modal without deleting
+    // setDeleteProduct(null); // Reset selected product
+  };
+
+  // Success Delete Button
+  const successDeleteButton = async () => {
     try {
-      // Send a POST request to delete the address
-      const response = await axios.post(
-        `/api/Customer/Address/Delete?addressId=${addressId}`
-      );
-
-      console.log("Response from delete:", response);
-
-      if (response.status === 200) {
-        // Filter out the deleted address from the address list
-        const updatedAddresses = getAddress.filter(
-          (address) => address.addressId !== addressId
-        );
-
-        // Update the state with the new list of addresses
-        setAddress(updatedAddresses);
-
-        // Optionally, show a success message
-        alert("Address removed successfully!");
-      } else {
-        // Handle cases where the deletion was not successful
-        alert("Failed to remove the address. Please try again.");
+      console.log("Deleting product:", deleteProduct);
+      if (deleteProduct) {
+        await fetchDeleteAddressApi(deleteProduct); // Call delete API
+        setDeletePop(false); // Close modal after deletion
+        setDeleteProduct(null); // Reset selected product
+        setNotification({ show: true, message: "Address Deleted Successfully!" });
+        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
       }
     } catch (error) {
-      // Catch and handle any errors (network or other)
-      console.error("Error deleting address:", error);
-      alert(
-        "An error occurred while deleting the address. Please try again later."
-      );
+      console.error("Error while deleting product:", error);
+      setNotification({ show: true, message: "Error deleting address." });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     }
   };
+
+  // Close Modal Button
+  const closeDeleteButton = () => {
+    console.log("Closing delete modal");
+    setDeletePop(false); // Close modal
+    setDeleteProduct(null); // Reset selected product
+  };
+
+  
   return (
     <div className="w-full flex justify-center">
+      {deletePop && (
+        <div
+          className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-slate-900 bg-opacity-50 z-50"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
+            <div className="flex justify-end">
+              <button className="w-5 p-1 -mt-8 mx-2" onClick={closeDeleteButton}>
+                <img src={wrong} className="w-6 h-4" alt="Close" />
+              </button>
+            </div>
+            <h1 className="text-black text-center mt-2">
+              Are you sure you want to delete this address?
+            </h1>
+            <div className="flex justify-around mt-6">
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                onClick={cancelDeleteButton}
+              >
+                No
+              </button>
+              <button
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                onClick={successDeleteButton}
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="bg-white  Largest:w-[1550px]  Laptop:w-full  w-full h-fit text-lg text-black px-12 py-2 relative">
         <div className=" w-[85%] flex   items-center shadow-transparent ">
           <div className="w-[50%]">
@@ -1006,7 +1083,7 @@ function Address({ topMargin, totalAmount }) {
                                         <p
                                           className="flex items-center justify-center ml-2 text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
                                           onClick={() =>
-                                            handleRemoveAddress(item.addressId)
+                                            handleDeleteAddress(item.addressId)
                                           }
                                         >
                                           <Tooltip
