@@ -100,13 +100,23 @@ function AdminSidebar() {
       toggleDropdown: toggleSellerDropdown,
       links: [
         {
-          to: "/pharmEtradeadmin/sellerList",
-          label: "Seller List",
+          to: "/pharmEtradeadmin/RetailPharmacyList",
+          label: "Retail Pharmacy",
+          icon: orderListIcon,
+        },
+        {
+          to: "/pharmEtradeadmin/GeneralMerchandiseSellerList",
+          label: "General Merchandise Seller",
+          icon: orderListIcon,
+        },
+        {
+          to: "/pharmEtradeadmin/PharmacyDistributorList",
+          label: "Pharmacy Distributor",
           icon: orderListIcon,
         },
         {
           to: "/pharmEtradeadmin/customerList",
-          label: "Customer List",
+          label: "Retail Customer",
           icon: orderListIcon,
         },
       ],

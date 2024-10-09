@@ -131,7 +131,7 @@ import Login from "./Components/Login";
 import OffersProducts from "./Components/HomeProducts/Components/OffersProducts";
 import Customer from "./Components/Admin/Customer/CustomerList";
 import CustomerList from "./Components/Admin/Customer/CustomerList";
-import SellerList from "./Components/Admin/Seller/SellerList";
+import SellerList from "./Components/Admin/RetailSeller/SellerList";
 import LayoutBuyerUpcomingGrid from "./Components/LayoutPage/LayoutDashboard/LayoutBuyerUpcomingGrid";
 import LayoutBuyerReceiversgrid from "./Components/LayoutPage/LayoutDashboard/LayoutBuyerReceiversgrid";
 import LayoutBuyerCancelledgrid from "./Components/LayoutPage/LayoutDashboard/LayoutBuyerCancelledgrid";
@@ -143,7 +143,9 @@ import OtcProductsAdmin from "./Components/Admin/Products/OtcProductsAdmin";
 import RxProductsAdmin from "./Components/Admin/Products/RxProductsAdmin";
 import OfferedProductsAdmin from "./Components/Admin/Products/OfferedProductsAdmin";
 import EditProductAdmin from "./Components/Admin/Products/EditProductAdmin";
-import EditSellerList from "./Components/Admin/Seller/EditSellerList";
+import EditSellerList from "./Components/Admin/RetailSeller/EditSellerList";
+import GeneralMerchandiseSeller from "./Components/Admin/GeneralMerchandiseSeller/GeneralMerchandiseSeller";
+import PharmacyDistributor from "./Components/Admin/PharmacyDistributor/PharmacyDistributor";
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
@@ -468,7 +470,9 @@ function App() {
             element={<AdminBanners />}
           />
           <Route path="/pharmEtradeadmin/customerList" element={<CustomerList />} />
-          <Route path="/pharmEtradeadmin/sellerList" element={<SellerList />} />
+          <Route path="/pharmEtradeadmin/RetailPharmacyList" element={<SellerList />} />
+          <Route path="/pharmEtradeadmin/GeneralMerchandiseSellerList" element={<GeneralMerchandiseSeller/>} />
+          <Route path="/pharmEtradeadmin/PharmacyDistributorList" element={<PharmacyDistributor />} />
           <Route path="/pharmEtradeadmin/products" element={<Products />} />
           <Route path="/pharmEtradeadmin/EditProductAdmin" element={<EditProductAdmin />} />
           <Route
