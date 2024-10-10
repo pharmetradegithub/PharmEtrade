@@ -162,12 +162,12 @@ function AdminSidebar() {
       links: [
         {
           to: "/pharmEtradeadmin/Incoming",
-          label: "Incoming",
+          label: "Payments Received",
           icon: orderListIcon,
         },
         {
           to: "/pharmEtradeadmin/Outgoing",
-          label: "Outgoing",
+          label: "Payments Send",
           icon: orderListIcon,
         },
         {

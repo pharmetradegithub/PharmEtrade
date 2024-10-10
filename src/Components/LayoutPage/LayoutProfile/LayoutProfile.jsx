@@ -1708,7 +1708,6 @@ import { useSelector } from "react-redux";
 import { Box, Radio, }
   from "@mui/material";
 import BankInformation from "./BankInformation";
-import LayoutProfileAddress from "./LayoutProfileAddress";
 const LayoutProfile = () => {
   const userdata = useSelector((state) => state.user.user)
   console.log("profile", userdata)
@@ -1725,10 +1724,7 @@ const LayoutProfile = () => {
       label: "Bank Information",
       grid: "bank"
     },
-    {
-      label: "Address",
-      grid: "address"
-    }
+   
   ];
 
 
@@ -2548,14 +2544,7 @@ const LayoutProfile = () => {
         )}
 
         {/* Address Grid */}
-        {visibleGrid === "address" && (
-          <div 
-          // className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4"
-          >
-            {/* Your address details grid here */}
-            <LayoutProfileAddress/>
-          </div>
-        )}
+       
       </div>
     </div>
   );
