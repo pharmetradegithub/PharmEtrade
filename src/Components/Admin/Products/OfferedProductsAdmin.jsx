@@ -37,7 +37,8 @@ import {
 } from "@material-tailwind/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-import { fetchGetProductOffer, fetchProductOffer } from "../../../Api/ProductApi";
+import { DeactivateProductAPI, fetchGetProductOffer, fetchProductOffer } from "../../../Api/ProductApi";
+import wrong from '../../../assets/Icons/wrongred.png'
 const OfferedProductsAdmin = () => {
   // const products = useSelector((state) => state.product.getProductSpecialOffer);
   const products = useSelector((state) => state.product.getProductSpecialOffer);
@@ -69,10 +70,81 @@ const OfferedProductsAdmin = () => {
     dispatch(fetchGetProductOffer(1)); // Dispatch the API call to fetch special offers
   }, [dispatch]);
 
+  const [openPop, setOpenPop] = useState(false);
+  const [deactive, setDeactive] = useState(null);
+  const [deactivatedProducts, setDeactivatedProducts] = useState([]);
+
+  // Trigger the deactivation popup
+  const deactivatePopUp = (productID) => {
+    setOpenPop(true);
+    setDeactive(productID); // Store the productID to be deactivated
+  };
+
+  // Close the popup without action
+  const cancelButton = () => {
+    setOpenPop(false);
+  };
+
+  // Confirm deactivation and update the state
+  const successButton = () => {
+    try {
+      // Assuming DeactivateProductAPI is asynchronous
+      dispatch(DeactivateProductAPI(deactive)).then(() => {
+        setDeactivatedProducts((prev) => [...prev, deactive]); // Add the deactivated product ID
+        setOpenPop(false); // Close the popup
+        setNotification({
+          show: true,
+          message: "Product Deactivated Successfully!",
+        });
+        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      });
+    } catch (error) {
+      console.log(error);
+      setOpenPop(false);
+    }
+  };
+
+  // Close the popup
+  const closeButton = () => {
+    setOpenPop(false);
+  };
+
 
   return (
     <>
       <div className="bg-gray-100 w-full h-full flex overflow-y-scroll items-center justify-center">
+        {openPop && (
+          <div
+            className="fixed top-0 left-25 w-4/5 h-full flex justify-center items-center bg-slate-900 bg-opacity-20"
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
+              <div className="flex justify-end  ">
+                <button className="w-5 p-1 -mt-8 mx-2" onClick={closeButton}>
+                  <img src={wrong} className="w-6 h-4" />
+                </button>
+              </div>
+              <h1 className="text-black text-center mt-2">
+                Are you sure you want to deactivate this product ?
+              </h1>
+              <div className="flex justify-around mt-6">
+                <button
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={cancelButton}
+                >
+                  No
+                </button>
+                <button
+                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={successButton}
+                >
+                  Yes
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="w-[95%] h-full mt-8">
           <div>
             <h1 className="text-blue-900 text-xl font-semibold my-3">
@@ -88,7 +160,7 @@ const OfferedProductsAdmin = () => {
                 <th className="py-2">Product Name</th>
                 {/* <th className="py-2 px-3">Valid From</th> */}
                 {/* <th className="py-2 px-3">Valid To</th> */}
-                <th className="py-2 px-2 text-center">Seller Name</th>
+                <th className="py-2 px-2">Seller Name</th>
                 {/* <th className="py-2">Category Specification</th> */}
                 <th className="py-2 px-2 text-center">Unit Price</th>
                 <th className="py-2 px-2">Offer Start</th>
@@ -107,7 +179,7 @@ const OfferedProductsAdmin = () => {
                     />
                   </td>
                   <Tooltip title={detail.productName} placement="right">
-                    <span className="truncate block w-40 cursor-pointer"> {/* Truncate and make clickable */}
+                    <span className="truncate block w-40 cursor-pointer "> {/* Truncate and make clickable */}
                       {detail.productName}
                     </span>
                   </Tooltip>
@@ -150,7 +222,7 @@ const OfferedProductsAdmin = () => {
                         src={Deactivate}
                         alt="Deactivate"
                         className="cursor-pointer w-4 h-4"
-                      //   onClick={() => deactivatePopUp(product.productID)}
+                        onClick={() => deactivatePopUp(detail.productID)}
                       />
                     </Tooltip>
                     <Tooltip title="View" placement="top">

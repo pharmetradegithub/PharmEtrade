@@ -10,7 +10,7 @@ import email from "../../../assets/envelope.png";
 import Whatsapp from "../../../assets/Icons/Whatsapp.png";
 import wrong from "../../../assets/wrong.png";
 import { Tooltip } from "@mui/material";
-import share from "../../../assets/share.png";
+import share from "../../../assets/Icons/shareupload.png";
 import other from "../../../assets/compare1_Icon.png";
 import addcart from "../../../assets/cartw_icon.png";
 import emptyHeart from "../../../assets/Wishlist1_icon.png";
