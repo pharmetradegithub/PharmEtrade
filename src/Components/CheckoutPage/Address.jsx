@@ -301,23 +301,70 @@ function Address({ topMargin, totalAmount }) {
     }
   };
 
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setAddressForm((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+  // };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setAddressForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    
+    // Phone number formatting (777-777-7777)
+    if (name === "Phone_Number") {
+      const formattedPhone = formatPhoneNumber(value);
+      setAddressForm((prev) => ({
+        ...prev,
+        [name]: formattedPhone,
+      }));
+    } else {
+      setAddressForm((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
-  // const handleInputChange = (event) => {
-  //   const { name, value } = event.target;
-  //   setAddressForm({
-  //     ...addressForm,
-  //     [name]: value, // Dynamically update the form field based on the input's name
-  //   });
-  // };
+ 
+
+  const validateForm = () => {
+    const errors = {};
+    
+    if (!addressForm.First_Name.trim()) {
+      errors.First_Name = "First name is required";
+    }
+    if (!addressForm.Last_Name.trim()) {
+      errors.Last_Name = "Last name is required";
+    }
+    if (!addressForm.Address.trim()) {
+      errors.Address = "Address is required";
+    }
+    if (!addressForm.Town_City.trim()) {
+      errors.Town_City = "City is required";
+    }
+    if (!/^\d{5}$/.test(addressForm.Pin_Code)) {
+      errors.Pin_Code = "Zip code must be 5 digits";
+    }
+    // if (!/^\d{3}-\d{3}-\d{4}$/.test(addressForm.Phone_Number)) {
+    //   errors.Phone_Number = "Phone number must be in 777-777-7777 format";
+    // }
+    if (!addressForm.States) {
+      errors.States = "State is required";
+    }
+  
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
 
   const handleSaveAddress = async (e) => {
     // Implement save address functionality here
+    // e.preventDefault();
+  
+    if (!validateForm()) {
+      return; // Stop if validation fails
+    }
     console.log("Address saved:", addressForm);
     e.preventDefault();
     console.log("saveee--->", addressForm);
@@ -694,9 +741,9 @@ function Address({ topMargin, totalAmount }) {
       errors.Town_City = "City is required";
     }
     // Check if the "State" field is empty
-    // if (!newAddressForm.States || newAddressForm.States.trim() === "") {
-    //   errors.States = "State is required";
-    // }
+    if (!newAddressForm.States || newAddressForm.States.trim() === "") {
+      errors.States = "State is required";
+    }
 
     // State Validation
     // if (!newAddressForm.States) {
@@ -716,7 +763,7 @@ function Address({ topMargin, totalAmount }) {
     if (Object.keys(errors).length > 0) {
       return;
     }
-    console.log(newAddressForm,"new address");
+    console.log(newAddressForm, "new address");
     const payLaodNewForm = {
       addressId: "0",
       customerId: userId,
@@ -800,7 +847,7 @@ function Address({ topMargin, totalAmount }) {
   const handleUseAddressButtons = (e) => {
     e.preventDefault();
     setShowPopUp(false);
-    setShowPopUp(true); 
+    setShowPopUp(true);
     handleSubmitForm(e);
   };
 
@@ -878,7 +925,7 @@ function Address({ topMargin, totalAmount }) {
   //     );
   //   }
   // };
-  
+
   const [deletePop, setDeletePop] = useState(false);
   const [deleteProduct, setDeleteProduct] = useState(null);
   // const [notification, setNotification] = useState({ show: false, message: "" });
@@ -922,7 +969,7 @@ function Address({ topMargin, totalAmount }) {
     setDeleteProduct(null); // Reset selected product
   };
 
-  
+
   return (
     <div className="w-full flex justify-center">
       {deletePop && (
@@ -1008,7 +1055,7 @@ function Address({ topMargin, totalAmount }) {
 
                   <div className="flex min-w-full">
                     {/* <div className=""> */}
-                   
+
 
                     <div className="border shadow-md rounded-md h-56 w-full overflow-y-auto">
                       <div className="p-2 mx-5 ">
@@ -1076,7 +1123,7 @@ function Address({ topMargin, totalAmount }) {
                                               src={edit}
                                               alt="Edit"
                                               className="cursor-pointer w-7 h-7"
-                                              // onClick={() => handleEditProduct(product)}
+                                            // onClick={() => handleEditProduct(product)}
                                             />
                                           </Tooltip>
                                         </p>
@@ -1094,7 +1141,7 @@ function Address({ topMargin, totalAmount }) {
                                               src={Bin}
                                               alt="Delete"
                                               className="cursor-pointer w-4 h-4"
-                                              // onClick={() => DeleteProduct(product.productID)}
+                                            // onClick={() => DeleteProduct(product.productID)}
                                             />
                                           </Tooltip>
                                         </p>
@@ -1163,16 +1210,16 @@ function Address({ topMargin, totalAmount }) {
                               helperText={formErrors.First_Name}
                             />
 
-                            <TextField
-                              label="Last Name"
-                              name="Last Name"
-                              size="small"
-                              className="w-full"
-                              value={addressForm.Last_Name}
-                              onChange={handleInputChange}
-                              error={!!formErrors.Last_Name}
-                              helperText={formErrors.Last_Name}
-                            />
+<TextField
+            label="Last Name"
+            name="Last_Name"
+            size="small"
+            className="w-full"
+            value={addressForm.Last_Name}
+            onChange={handleInputChange}
+            error={!!formErrors.Last_Name}
+            helperText={formErrors.Last_Name}
+          />
                           </div>
 
                           <div className="my-4 flex gap-2">
@@ -1275,11 +1322,11 @@ function Address({ topMargin, totalAmount }) {
                               name="Email ID"
                               size="small"
                               className="w-full"
-                              // value={formatPhoneNumber(addressForm.Phone_Number)}
-                              // onChange={handleInputChange}
-                              // error={!!formErrors.Phone_Number}
-                              // helperText={formErrors.Phone_Number}
-                              // inputProps={{ maxLength: 12 }}
+                            // value={formatPhoneNumber(addressForm.Phone_Number)}
+                            // onChange={handleInputChange}
+                            // error={!!formErrors.Phone_Number}
+                            // helperText={formErrors.Phone_Number}
+                            // inputProps={{ maxLength: 12 }}
                             />
                           </div>
 
@@ -1447,7 +1494,7 @@ function Address({ topMargin, totalAmount }) {
                                   ))}
                                 </Select>
                                 {formErrors.States && (
-                                  <span className="text-red-500">
+                                  <span className="text-red-700 text-sm">
                                     {formErrors.States}
                                   </span>
                                 )}
@@ -1495,11 +1542,11 @@ function Address({ topMargin, totalAmount }) {
                                 name="Email ID"
                                 size="small"
                                 className="w-full"
-                                // value={formatPhoneNumber(addressForm.Phone_Number)}
-                                // onChange={handleInputChange}
-                                // error={!!formErrors.Phone_Number}
-                                // helperText={formErrors.Phone_Number}
-                                // inputProps={{ maxLength: 12 }}
+                              // value={formatPhoneNumber(addressForm.Phone_Number)}
+                              // onChange={handleInputChange}
+                              // error={!!formErrors.Phone_Number}
+                              // helperText={formErrors.Phone_Number}
+                              // inputProps={{ maxLength: 12 }}
                               />
                             </div>
 

@@ -86,13 +86,13 @@ const OfferedProductsAdmin = () => {
                 <th className="py-2 px-5">S.NO</th>
                 <th className="py-2 px-5">Thumbnail</th>
                 <th className="py-2">Product Name</th>
-                <th className="py-2 px-3">Valid From</th>
-                <th className="py-2 px-3">Valid To</th>
-                <th className="py-2 px-2">Seller Name</th>
+                {/* <th className="py-2 px-3">Valid From</th> */}
+                {/* <th className="py-2 px-3">Valid To</th> */}
+                <th className="py-2 px-2 text-center">Seller Name</th>
                 {/* <th className="py-2">Category Specification</th> */}
-                <th className="py-2 px-2 text-right">Unit Price</th>
-                <th className="py-2 px-2">Saleprice Start</th>
-                <th className="py-2 px-2">Saleprice End</th>
+                <th className="py-2 px-2 text-center">Unit Price</th>
+                <th className="py-2 px-2">Offer Start</th>
+                <th className="py-2 px-2">Offer End</th>
                 <th className="py-2  text-center">Action</th>
               </tr>
             </thead>
@@ -111,11 +111,11 @@ const OfferedProductsAdmin = () => {
                       {detail.productName}
                     </span>
                   </Tooltip>
-                  <td>{}</td>
-                  <td>{}</td>
-                  <td className="text-left">{detail.sellerFirstName}</td>
+                  {/* <td>{}</td> */}
+                  {/* <td>{}</td> */}
+                  <td className="text-center">{detail.sellerFirstName}</td>
                   {/* <td>{detail.categorySpecification.specificationName}</td> */}
-                  <td className="text-right">{detail.unitPrice?.toFixed(2)}</td>
+                  <td className="text-center">{detail.unitPrice?.toFixed(2)}</td>
                   <td className="px-2 py-1">{new Date(detail.salePriceValidFrom).toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "2-digit",

@@ -1866,6 +1866,7 @@ function EditProductAdmin() {
                   </div>
                 </Box>
               </div> */}
+              <div className=" ">
               <div className="flex items-center">
                 <label className="font-semibold">
                   Price includes the shipping cost
@@ -1895,6 +1896,38 @@ function EditProductAdmin() {
                 <label htmlFor="no" className="text-sm mx-1 font-semibold">
                   No
                 </label>
+              </div>
+
+              <div className="flex items-center  my-4">
+                <label className="font-semibold">
+                 Is this product returnable
+                </label>
+                <input
+                  type="radio"
+                  id="yes"
+                  name="product returnable"
+                  value="1"
+                  checked={formData.productReturnable === true}
+                  onChange={handleInputChange}
+                  className="ml-2"
+                />
+                <label htmlFor="yes" className="text-sm mx-1 font-semibold">
+                  Yes
+                </label>
+
+                <input
+                  type="radio"
+                  id="no"
+                  name="productReturnable"
+                  value="0"
+                  checked={formData.productReturnable === false}
+                  onChange={handleInputChange}
+                  className="ml-2"
+                />
+                <label htmlFor="no" className="text-sm mx-1 font-semibold">
+                  No
+                </label>
+              </div>
               </div>
             </div>
 

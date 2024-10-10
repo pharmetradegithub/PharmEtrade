@@ -1825,7 +1825,7 @@ function LayoutaddProduct() {
                   </div>
                   <div className="flex flex-col">
                     <label className="text-sm font-semibold">
-                      Product Limit :
+                     Minimum Order Quantity :
                     </label>
                     <input
                       // name="upnMemberPrice"
@@ -1840,6 +1840,23 @@ function LayoutaddProduct() {
                     />
                   </div>
                 </div>
+
+                <div className="flex flex-col mt-2">
+                    <label className="text-sm font-semibold">
+                       Maximum Order  Quantity :
+                    </label>
+                    <input
+                      // name="upnMemberPrice"
+                      type="phone"
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      // onChange={handleInputChange}
+                      // value={
+                      //   formData.upnMemberPrice === ""
+                      //     ? ""
+                      //     : formData.upnMemberPrice
+                      // }
+                    />
+                  </div>
               </div>
             </div>
             <div className="my-4">
@@ -1912,6 +1929,39 @@ function LayoutaddProduct() {
                   No
                 </label>
               </div>
+
+             
+              <div className="flex items-center mt-4">
+                <label className="font-semibold">
+                 Is this price returnable
+                </label>
+                <input
+                  type="radio"
+                  id="yes"
+                  name="shippingCostApplicable"
+                  value="1"
+                  checked={formData.shippingCostApplicable === true}
+                  onChange={handleInputChange}
+                  className="ml-2"
+                />
+                <label htmlFor="yes" className="text-sm mx-1 font-semibold">
+                  Yes
+                </label>
+
+                <input
+                  type="radio"
+                  id="no"
+                  name="shippingCostApplicable"
+                  value="0"
+                  checked={formData.shippingCostApplicable === false}
+                  onChange={handleInputChange}
+                  className="ml-2"
+                />
+                <label htmlFor="no" className="text-sm mx-1 font-semibold">
+                  No
+                </label>
+              </div>
+
             </div>
 
             {/* section5 start */}

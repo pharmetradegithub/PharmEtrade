@@ -94,7 +94,7 @@ function LayoutPaymentHistory() {
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
       <div className="w-[95%] h-full mt-8">
         <div className="flex justify-between">
-          <h1 className="text-[22px] text-blue-900 font-semibold">Outgoing Payment History</h1>
+          <h1 className="text-[22px] text-blue-900 font-semibold"> Payments Send</h1>
         </div>
 
         <div className="flex justify-normal flex-wrap gap-2 w-full mt-4">
@@ -119,7 +119,7 @@ function LayoutPaymentHistory() {
         </div>
 
         <div className="w-full my-4">
-          <h2 className="text-[22px] font-semibold">Payment History</h2>
+          {/* <h2 className="text-[22px] font-semibold">Payment History</h2> */}
           <div className="flex justify-between my-2">
             <div className="flex bg-gray-100">
               <select
@@ -205,12 +205,13 @@ function LayoutPaymentHistory() {
                 <th className="px-4 py-2 text-left">Net Amount</th>
                 <th className="px-4 py-2 text-left">View</th> */}
                 <th className="px-4 py-2 text-left">S.NO</th>
+                <th className="px-4 py-2 text-left">Invoice Number</th>
+                <th className="px-4 py-2 text-left">Invoice Date</th>
                 <th className="px-4 py-2 text-left">To User</th>
                 <th className="px-4 py-2 text-left">Transaction Id</th>
                 <th className="px-4 py-2 text-left">Transaction Date</th>
                 <th className="px-4 py-2 text-left">Transaction Amount</th>
-                <th className="px-4 py-2 text-left">Invoice Number</th>
-                <th className="px-4 py-2 text-left">Invoice Date</th>
+                
                 <th className="px-4 py-2 text-left">Payment mode</th>
                 <th className="px-4 py-2 text-left">cheque Number</th>
                 <th className="px-4 py-2 text-left">cheque Date</th>
