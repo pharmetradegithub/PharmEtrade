@@ -10,8 +10,9 @@ import Bin from "../../../assets/Bin.png";
 import Deactivate from "../../../assets/Deactivate.png";
 import view from "../../../assets/eye.png";
 import { Tooltip } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Pagination from "../../Pagination";
+import wrong from '../../../assets/Icons/wrongred.png'
 import {
   Button,
   Dialog,
@@ -24,6 +25,7 @@ import {
 } from "@material-tailwind/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
+import { DeactivateProductAPI } from "../../../Api/ProductApi";
 const TotalProducts = () => {
   const products = useSelector((state) => state.product.Products);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
@@ -44,9 +46,82 @@ const TotalProducts = () => {
     navigate(`/pharmEtradeadmin/EditProductAdmin?productId=${detail.productID}`);
   };
 
+  const [openPop, setOpenPop] = useState(false);
+  const [deactive, setDeactive] = useState(null);
+  const [deactivatedProducts, setDeactivatedProducts] = useState([]);
+  const dispatch = useDispatch()
+
+  // Trigger the deactivation popup
+  const deactivatePopUp = (productID) => {
+    setOpenPop(true);
+    setDeactive(productID); // Store the productID to be deactivated
+  };
+
+  // Close the popup without action
+  const cancelButton = () => {
+    setOpenPop(false);
+  };
+
+  // Confirm deactivation and update the state
+  const successButton = () => {
+    try {
+      // Assuming DeactivateProductAPI is asynchronous
+      dispatch(DeactivateProductAPI(deactive)).then(() => {
+        setDeactivatedProducts((prev) => [...prev, deactive]); // Add the deactivated product ID
+        setOpenPop(false); // Close the popup
+        setNotification({
+          show: true,
+          message: "Product Deactivated Successfully!",
+        });
+        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      });
+    } catch (error) {
+      console.log(error);
+      setOpenPop(false);
+    }
+  };
+
+  // Close the popup
+  const closeButton = () => {
+    setOpenPop(false);
+  };
+
+
   return (
     <>
       <div className="bg-gray-100 w-full h-full flex overflow-y-scroll items-center justify-center">
+      {openPop && (
+          <div
+            className="fixed top-0 left-25 w-4/5 h-full flex justify-center items-center bg-slate-900 bg-opacity-20"
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
+              <div className="flex justify-end  ">
+                <button className="w-5 p-1 -mt-8 mx-2" onClick={closeButton}>
+                  <img src={wrong} className="w-6 h-4" />
+                </button>
+              </div>
+              <h1 className="text-black text-center mt-2">
+                Are you sure you want to deactivate this product ?
+              </h1>
+              <div className="flex justify-around mt-6">
+                <button
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={cancelButton}
+                >
+                  No
+                </button>
+                <button
+                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={successButton}
+                >
+                  Yes
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="w-[95%] h-full mt-8">
           <div>
             <h1 className="text-blue-900 text-xl font-semibold my-3">
@@ -122,7 +197,7 @@ const TotalProducts = () => {
                         src={Deactivate}
                         alt="Deactivate"
                         className="cursor-pointer w-4 h-4"
-                      //   onClick={() => deactivatePopUp(product.productID)}
+                        onClick={() => deactivatePopUp(detail.productID)}
                       />
                     </Tooltip>
                     <Tooltip title="View" placement="top">

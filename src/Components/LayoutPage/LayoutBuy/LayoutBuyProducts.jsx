@@ -646,7 +646,7 @@ import email from "../../../assets/envelope.png";
 import wrong from "../../../assets/wrong.png";
 import { addCartApi } from "../../../Api/CartApi";
 import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
-import share from "../../../assets/share.png";
+import share from "../../../assets/Icons/shareupload.png";
 import { Tooltip } from "@mui/material";
 function LayoutBuy({
   topMargin,

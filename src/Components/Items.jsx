@@ -12,7 +12,7 @@ import addcart from "../assets/cartw_icon.png";
 import fav from "../assets/fav.png";
 import other from "../assets/other.png";
 // import PRight from "./PRight";
-import share from "../assets/share.png";
+import share from "../assets/Icons/shareupload.png";
 import wrong from "../assets/Icons/wrongred.png";
 import Facebook from "../assets/facebook1.png";
 import Pintrist from "../assets/pinterest.png";
