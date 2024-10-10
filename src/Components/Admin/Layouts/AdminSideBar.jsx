@@ -172,7 +172,7 @@ function AdminSidebar() {
         },
         {
           to: "/pharmEtradeadmin/Settlement",
-          label: "Settlement",
+          label: "Settlements",
           icon: orderListIcon,
         },
       ],
