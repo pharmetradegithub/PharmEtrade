@@ -86,10 +86,36 @@ function LayoutPaymentHistory() {
   useEffect(() => {
     dispatch(fetchPaymentHistory(user?.customerId))
   }, [user?.customerId])
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = paymentHistory.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
+
+
+  // sorting 
+
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
+
+const handleSort = (key) => {
+  let direction = 'ascending';
+  if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+    direction = 'descending';
+  }
+  setSortConfig({ key, direction });
+};
+
+const sortedItems = React.useMemo(() => {
+  if (sortConfig.key) {
+    return [...paymentHistory].sort((a, b) => {
+      if (sortConfig.direction === "ascending") {
+        return a[sortConfig.key] > b[sortConfig.key] ? 1 : -1;
+      }
+      return a[sortConfig.key] < b[sortConfig.key] ? 1 : -1;
+    });
+  }
+  return paymentHistory;
+}, [paymentHistory, sortConfig]);
+
+const indexOfLastItem = currentPage * itemsPerPage;
+const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+const currentItems = sortedItems.slice(indexOfFirstItem, indexOfLastItem);
+const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
   return (
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
       <div className="w-[95%] h-full mt-8">
@@ -197,27 +223,63 @@ function LayoutPaymentHistory() {
 
         <div className="border text-[15px] rounded-md bg-white mt-4">
           <table className="w-full">
-            <thead className="bg-blue-900 text-white">
+            {/* <thead className="bg-blue-900 text-white">
               <tr className="border-b-2">
-                {/* <th className="px-4 py-2 text-left">Purchase Date</th>
-                <th className="px-4 py-2 text-left">Transaction Id</th>
-                <th className="px-4 py-2 text-left">Note</th>
-                <th className="px-4 py-2 text-left">Net Amount</th>
-                <th className="px-4 py-2 text-left">View</th> */}
+                
                 <th className="px-4 py-2 text-left">S.NO</th>
-                <th className="px-4 py-2 text-left">Invoice Number</th>
-                <th className="px-4 py-2 text-left">Invoice Date</th>
-                <th className="px-4 py-2 text-left">To User</th>
+                <th className="px-4 py-2 text-left" onClick={()=> handleSort('')}>Invoice Number {sortConfig.key ==="" && (sortConfig.direction ==="ascending"  ? '▲' : '▼')}</th>
+                <th className="px-4 py-2 text-left" onClick={()=> handleSort ("")}>Invoice Date {sortConfig.key ==="" && (sortConfig.direction ==="ascending" ? '▲' : '▼')}</th>
+                  <th className="px-4 py-2 text-left" onClick={() => handleSort('paymentDate')}>
+                To User {sortConfig.key === 'paymentDate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+          </th>
+
                 <th className="px-4 py-2 text-left">Transaction Id</th>
                 <th className="px-4 py-2 text-left">Transaction Date</th>
-                <th className="px-4 py-2 text-left">Transaction Amount</th>
+                <th className="px-4 py-2 text-left" onClick={()=> handleSort ("paymentAmount")}>Transaction Amount {sortConfig.key === "paymentAmount" && ( sortConfig.direction === "ascending" ?  '▲' : '▼')}</th>
                 
                 <th className="px-4 py-2 text-left">Payment mode</th>
                 <th className="px-4 py-2 text-left">cheque Number</th>
                 <th className="px-4 py-2 text-left">cheque Date</th>
                 <th className="px-4 py-2 text-left">Action</th>
               </tr>
-            </thead>
+            </thead> */}
+            <thead className="bg-blue-900 text-white">
+        <tr className="border-b-2">
+          <th className="px-4 py-2 text-left">S.NO</th>
+          <th className="px-4 py-2 text-left" onClick={() => handleSort('invoiceNumber')}>
+            Invoice Number {sortConfig.key === 'invoiceNumber' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+          </th>
+          <th className="px-4 py-2 text-left" onClick={() => handleSort('invoiceDate')}>
+            Invoice Date {sortConfig.key === 'invoiceDate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+          </th>
+          <th className="px-4 py-2 text-left" onClick={() => handleSort('paymentDate')}>
+            To User {sortConfig.key === 'paymentDate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+          </th>
+          <th className="px-4 py-2 text-left" onClick={() => handleSort('paymentAmount')}>
+            Transaction Id {sortConfig.key === 'paymentAmount' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}</th>
+          <th className="px-4 py-2 text-left" onClick={() => handleSort('transactionDate')}>
+            Transaction Date {sortConfig.key === 'transactionDate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+          </th>
+          <th className="px-4 py-2 text-left" onClick={() => handleSort('transactionAmount')}>
+            Transaction Amount {sortConfig.key === 'transactionAmount' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+          </th>
+          <th className="px-4 py-2 text-left" onClick={() => handleSort('paymentStatus')}>Payment Mode
+          {sortConfig.key === 'paymentStatus' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+         
+          </th>
+          <th className="px-4 py-2 text-left" onClick={() => handleSort('chequeNumber')}>Cheque Number
+          {sortConfig.key === 'chequeNumber' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+         
+          </th>
+          <th className="px-4 py-2 text-left" onClick={() => handleSort('chequeDate')}>Cheque Date
+          {sortConfig.key === 'chequeDate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+         
+          </th>
+          <th className="px-4 py-2 text-left">Action
+         
+          </th>
+        </tr>
+      </thead>
             <tbody>
               {currentItems.length > 0 ? (
                 currentItems.map((payout, index) => (

@@ -181,8 +181,8 @@ const LayoutNav = ({ Form_Data, }) => {
 
   const iconItems = [
     { icon: OTCProd, text: "OTC Products", path: "/layout/layoutOtcProducts" },
-    { icon: buyagain, text: "Buy Again" },
-    { icon: deals, text: "Deals" },
+    { icon: buyagain, text: "Buy Again" ,path:'/layout/layoutorderlist'},
+    { icon: deals, text: "Deals",path:'/allProducts/offers' },
 
     // { icon: notification, text: "" },
   ];

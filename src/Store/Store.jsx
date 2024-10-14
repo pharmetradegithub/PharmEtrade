@@ -345,10 +345,13 @@ const returnsSlice = createSlice({
 
 const addressSlice = createSlice({
   name: 'address',
-  initialState: { address: [], customerId :[]},
+  initialState: { address: [], customerId :[] , editAddress: []},
   reducers: {
     setAddAddress(state, action) {
       state.address = action.payload
+    },
+    setEditAddress(state, action) {
+      state.editAddress = action.payload
     },
     setAddress(state, action) {
       state.customerId = action.payload

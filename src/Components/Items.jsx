@@ -64,7 +64,8 @@ import { fetchGetOrder, fetchOrderApi, fetchOrderPlace } from "../Api/OrderApi";
 import { Tooltip } from "@mui/material";
 // import { orderApi, orderGetApi } from "../Api/CustomerOrderList";
 // import { customerOrderApi, customerOrderGetApi } from "../Api/CustomerOrderList";
-
+import filledHeart from '../assets/wishlist2_icon.png'
+import emptyHeart from '../assets/Wishlist1_icon.png'
 function Items({
   onClose,
   topMargin,
@@ -752,9 +753,14 @@ function Items({
                   {/* <img src={ ?Wishlist :filledheart} className="w-5 h-5 flex   "/> */}
                   <Tooltip placement="top" title="wishlist">
                     <img
-                      src={isWishlisted ? filledheart : Wishlist}
+                      src={
+                        wishlistProductIDs.includes(prod?.productID)
+                          ? filledHeart
+                          : emptyHeart
+                      }
                       className="w-5 h-5 flex cursor-pointer"
-                      onClick={handleWishlistClick}
+                      // onClick={handleWishlistClick}
+                      onClick={() => handleClick(prod?.productID)}
                       alt="Wishlist Icon"
                     />
                   </Tooltip>

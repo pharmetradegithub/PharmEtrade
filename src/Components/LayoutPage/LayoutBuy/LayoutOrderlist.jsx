@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import img from "../../../assets/img1.png";
 import { styled, alpha } from "@mui/material/styles";
 import searchimg from "../../../assets/search1.png";
@@ -131,6 +131,35 @@ function LayoutOrderList() {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
 
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [reviewText, setReviewText] = useState("");
+  const [image, setImage] = useState(null);
+  const [video, setVideo] = useState(null);
+
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+  const handleVideoChange = (e) => {
+    setVideo(e.target.files[0]);
+  };
+
+  const handleSubmit = () => {
+    // Handle form submission (e.g., send review, rating, image, and video to the backend)
+    console.log({ rating, reviewText, image, video });
+    setIsOpen(false); // Close the popup after submission
+  };
+
+
+  const navigate = useNavigate()
+  const handleNav = (productId) => {
+    navigate(`/detailspage/${productId}`)
+  }
+
+
   return (
     <div
       className="w-full h-full overflow-y-scroll "
@@ -231,10 +260,91 @@ function LayoutOrderList() {
                     <button className="border rounded-lg p-2 w-60 shadow-md">
                       Leave Seller Feedback
                     </button>
-                    <button className="border rounded-lg p-2 my-2 shadow-md">
-                      Write a product review
-                    </button>
+                    <button
+        className="border rounded-lg p-2 my-2 shadow-md"
+        onClick={() => setIsOpen(true)}
+      >
+        Write a product review
+      </button>
                   </div>
+
+                {/* review popup */}
+                {isOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+            <h2 className="text-xl font-semibold text-blue-900 mb-4">Write a Review</h2>
+
+            {/* Text Area */}
+            <textarea
+              className="border rounded-lg w-full p-2 mb-4"
+              rows="4"
+              placeholder="Write your review..."
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+            ></textarea>
+
+            {/* Rating Stars */}
+            <div className="mb-4">
+              <div className="flex">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <svg
+                    key={star}
+                    onClick={() => setRating(star)}
+                    className={`h-6 w-6 cursor-pointer ${
+                      rating >= star ? "text-yellow-500" : "text-gray-400"
+                    }`}
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M12 .587l3.668 7.568L24 9.423l-6 5.847L19.335 24 12 20.021 4.665 24l1.335-8.73L0 9.423l8.332-1.268L12 .587z" />
+                  </svg>
+                ))}
+              </div>
+              <p className="text-gray-500 text-sm mt-1">Rate this product</p>
+            </div>
+
+            {/* Image Upload */}
+            <div className="mb-4">
+              <label className="block mb-1 text-gray-700">Upload Image:</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="block w-full text-sm text-gray-900 border rounded-lg cursor-pointer bg-gray-50"
+              />
+            </div>
+
+            {/* Video Upload */}
+            <div className="mb-4">
+              <label className="block mb-1 text-gray-700">Upload Video:</label>
+              <input
+                type="file"
+                accept="video/*"
+                onChange={handleVideoChange}
+                className="block w-full text-sm text-gray-900 border rounded-lg cursor-pointer bg-gray-50"
+              />
+            </div>
+
+            {/* Buttons */}
+            <div className="flex justify-end space-x-2">
+              <button
+                className="border rounded-lg px-4 py-2 bg-red-600 text-white"
+                onClick={() => setIsOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-blue-900 text-white rounded-lg px-4 py-2"
+                onClick={handleSubmit}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+
                 </div>
 
                 <div className="flex border-b">
@@ -259,9 +369,9 @@ function LayoutOrderList() {
                         }).replace(/\//g, '-')}
                       </p>
                       </div>
-                      <div className="flex my-2">
+                      <div className="flex my-2 cursor-pointer"  onClick={() => handleNav(order.productId)}>
                         <button className="border rounded-lg p-2 bg-blue-900 text-white w-48 shadow-md">
-                          <Link to="/allProducts"> Buy it again</Link>
+                           Buy it again
                         </button>
                         {/* <button className="border rounded-lg p-2 mx-3 shadow-md w-48">
                         <Link to={`/detailspage/${order.productId}`}>
@@ -283,25 +393,8 @@ function LayoutOrderList() {
             <p>No orders available</p>
           </div>
         )}
-        {/* <div className="flex justify-end my-2">
-          <button
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1}
-            className="mx-2 px-4 border p-2 text-white rounded-lg"
-          >
-            <img src={previous} className="w-2" alt="Previous Page" />
-          </button>
-          <span className="mx-2 px-4 flex items-center bg-white text-black rounded-lg">
-            {currentPage} of {totalPages}
-          </span>
-          <button
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-            className="mx-2 px-4 border p-2 text-white rounded-lg"
-          >
-            <img src={next} className="w-2" alt="Next Page" />
-          </button>
-        </div> */}
+
+        
         <Pagination
           indexOfFirstItem={indexOfFirstItem}
           indexOfLastItem={indexOfLastItem}

@@ -117,10 +117,40 @@ const SellerList = () => {
   const [customers, setcustomers] = useState([]);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "" }); // For sorting
+
+  const handleSort = (key) => {
+    let direction = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
+    setSortConfig({ key, direction });
+  };
+  
+  
+  const sortedItems = React.useMemo(() => {
+    if (sortConfig.key) {
+      return [...customers].sort((a, b) => {
+        if (sortConfig.direction === "ascending") {
+          return a[sortConfig.key] > b[sortConfig.key] ? 1 : -1;
+        }
+        return a[sortConfig.key] < b[sortConfig.key] ? 1 : -1;
+      });
+    }
+    return customers;
+  }, [customers, sortConfig]);
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = customers.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = sortedItems.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil((customers?.length || 0) / itemsPerPage);
+
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = customers.slice(indexOfFirstItem, indexOfLastItem);
+  // const totalPages = Math.ceil((customers?.length || 0) / itemsPerPage);
+
   const navigate = useNavigate();
   const businessInfo = useSelector((state)=>state.user.businessInfo);
   console.log("bbbbbb", businessInfo)
@@ -200,11 +230,26 @@ const SellerList = () => {
               <thead className="text-lg text-white  bg-blue-900 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   <th className="px-6 py-3 text-center">S.NO</th>
-                  <th className="px-6 py-3">User Name</th>
-                  <th className="px-6 py-3">Registration Date</th>
-                  <th className="px-6 py-3">Activation Date</th>
-                  <th className="px-6 py-3 text-center">Status</th>
-                  <th className="px-6 py-3 text-center">Phone</th>
+                  <th className="px-6 py-3" onClick={() => handleSort('firstName')}>User Name
+                  {sortConfig.key === 'firstName' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+
+                  </th>
+                  <th className="px-6 py-3" onClick={() => handleSort('Registrationdate')} >Registration Date
+                  {sortConfig.key === 'Registrationdate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+
+                  </th>
+                  <th className="px-6 py-3" onClick={() => handleSort('ActivationDate')}>Activation Date
+                  {sortConfig.key === 'ActivationDate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+
+                  </th>
+                  <th className="px-6 py-3 text-center" onClick={() => handleSort('status')}>Status
+                  {sortConfig.key === 'status' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+
+                  </th>
+                  <th className="px-6 py-3 text-center" onClick={() => handleSort('mobile')}>Phone
+                  {sortConfig.key === 'mobile' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+
+                  </th>
                   <th className="px-6 py-3 text-center">Actions</th>
                 </tr>
               </thead>

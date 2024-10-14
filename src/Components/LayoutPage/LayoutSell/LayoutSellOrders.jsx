@@ -118,7 +118,8 @@ function LayoutSellOrders() {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = SellerOrder.slice(indexOfFirstItem, indexOfLastItem);
+  // const currentItems = SellerOrder.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = SellerOrder ? SellerOrder.slice(indexOfFirstItem, indexOfLastItem) : [];
   const totalPages = Math.ceil((SellerOrder?.length || 0) / itemsPerPage);
   return (
     

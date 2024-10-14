@@ -30,9 +30,34 @@ const TotalProducts = () => {
   const products = useSelector((state) => state.product.Products);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
+
+
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "" }); // For sorting
+
+  const handleSort = (key) => {
+    let direction = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
+    setSortConfig({ key, direction });
+  };
+  
+  
+  const sortedItems = React.useMemo(() => {
+    if (sortConfig.key) {
+      return [...products].sort((a, b) => {
+        if (sortConfig.direction === "ascending") {
+          return a[sortConfig.key] > b[sortConfig.key] ? 1 : -1;
+        }
+        return a[sortConfig.key] < b[sortConfig.key] ? 1 : -1;
+      });
+    }
+    return products;
+  }, [products, sortConfig]);
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = sortedItems.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil((products?.length || 0) / itemsPerPage);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -133,14 +158,29 @@ const TotalProducts = () => {
             <thead className="bg-blue-900 text-white  ">
               <tr className="border-b-2 text-left ">
                 <th className="py-2 px-5">S.NO</th>
-                <th className="py-2 px-5">Thumbnail</th>
-                <th className="py-2">Product Name</th>
-                <th className="py-2 px-5">Created Date</th>
-                <th className="py-2 px-2">Seller Name</th>
+                <th className="py-2 px-5" onClick={() => handleSort('')}>Thumbnail</th>
+                
+                <th className="py-2" onClick={() => handleSort('productName')}>Product Name
+                {sortConfig.key === 'productName' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+                </th>
+                <th className="py-2 px-5"  onClick={() => handleSort('createdDate')}>Created Date
+                {sortConfig.key === 'createdDate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+                </th>
+                <th className="py-2 px-2"  onClick={() => handleSort('sellerFirstName')}>Seller Name
+                {sortConfig.key === 'sellerFirstName' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+                </th>
                 {/* <th className="py-2">Category Specification</th> */}
-                <th className="py-2 px-2 text-right">Unit Price</th>
-                <th className="py-2 px-4">Saleprice Start</th>
-                <th className="py-2 px-4">Saleprice End</th>
+                <th className="py-2 px-2 text-right"  onClick={() => handleSort('unitPrice')}>Unit Price
+                {sortConfig.key === 'unitPrice' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+                </th>
+                <th className="py-2 px-4"  onClick={() => handleSort('salePriceValidFrom')}>Saleprice Start
+                {sortConfig.key === 'salePriceValidFrom' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+
+                </th>
+                <th className="py-2 px-4"  onClick={() => handleSort('salePriceValidTo')}>Saleprice End
+                {sortConfig.key === 'salePriceValidTo' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+
+                </th>
                 <th className="py-2  text-center">Action</th>
               </tr>
             </thead>
