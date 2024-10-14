@@ -164,7 +164,7 @@ function Footers({ topMargin}) {
   return (
     <>
     <div
-        className="bg-yellow-100  cursor-pointer text-blue-900 font-semibold p-3 flex justify-center items-center text-[17px]"
+        className="bg-yellow-100  cursor-pointer text-blue-900 font-semibold p-3 flex justify-center items-center text-[17px] min-w-screen z-50"
         onClick={scrollToTop}
         style={{
           marginTop: `${topMargin}px`,

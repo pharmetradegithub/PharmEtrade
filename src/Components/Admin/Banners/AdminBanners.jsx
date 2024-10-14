@@ -197,13 +197,13 @@ const AdminBanners = () => {
             )}
             <button
               onClick={handleSaveEdit}
-              className="bg-green-500 text-white px-4 py-2 rounded mr-2"
+              className="bg-green-500 text-white px-4 py-2 rounded mr-2 my-2"
             >
               Save Changes
             </button>
             <button
               onClick={() => setEditingIndex(null)}
-              className="bg-gray-500 text-white px-4 py-2 rounded"
+              className="bg-gray-500 text-white px-4 py-2 rounded my-2"
             >
               Cancel
             </button>

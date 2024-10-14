@@ -101,8 +101,7 @@ function LayoutSellOrders() {
   }, [user, orderSellerId, dispatch]);
 
   const handleClickView = async (orderId) => {
-     
-     setModal(true)
+    setModal(true)
     await dispatch(fetchOrderView(orderId))
     setOrderID(orderId)
   }

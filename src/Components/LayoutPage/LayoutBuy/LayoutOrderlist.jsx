@@ -6,10 +6,12 @@ import { styled, alpha } from "@mui/material/styles";
 import searchimg from "../../../assets/search1.png";
 import InputBase from "@mui/material/InputBase";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGetOrder } from "../../../Api/OrderApi";
+import Invoice from '../../../assets/Icons/Invoice.png';
+import { fetchGetOrder, fetchOrderInvoice, fetchOrderView } from "../../../Api/OrderApi";
 import next from '../../../assets/Next_icon.png'
 import previous from '../../../assets/Previous_icon.png'
 import Pagination from "../../Pagination";
+import wrong from '../../../assets/Icons/wrongred.png'
 
 function LayoutOrderList() {
   // const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
@@ -22,8 +24,11 @@ function LayoutOrderList() {
   // const orderList = useSelector((state) => state.order.orders)
   const getOrder = useSelector((state) => state.order.getOrder)
   console.log("getOrder--->", getOrder)
+  const ordered = useSelector((state) => state.order.orderView)
+  console.log("orderedview-->", ordered)
   const dispatch = useDispatch()
-  
+  const [modal, setModal] = useState(false)
+
   const pathname = location.pathname
   const part = pathname.split('/')
   const orderId = part[2]
@@ -32,7 +37,7 @@ function LayoutOrderList() {
 
   useEffect(() => {
     const data = async () => {
-     await dispatch(fetchGetOrder(user?.customerId))
+      await dispatch(fetchGetOrder(user?.customerId))
     }
     if (orderId && user?.customerId) {
       data();
@@ -55,7 +60,7 @@ function LayoutOrderList() {
   const YearDropdown = () => {
     const currentYear = new Date().getFullYear();
     const years = generateYears(2000, currentYear);
-    
+
     return (
       <select className="border  rounded-md mx-2 shadow-md bg-slate-200">
         {years.map((year) => (
@@ -159,12 +164,62 @@ function LayoutOrderList() {
     navigate(`/detailspage/${productId}`)
   }
 
+  const [orderID, setOrderID] = useState(null)
+  const handleClickView = async (orderId) => {
+    setModal(true)
+    await dispatch(fetchOrderView(orderId))
+    setOrderID(orderId)
+  }
+
+  const handleClickInvoice = async () => {
+    // console.log("ordersdf", ordered?.orderId)
+    await dispatch(fetchOrderInvoice(orderID))
+  }
+
+
+  console.log("ggggggggg", currentItems)
 
   return (
     <div
       className="w-full h-full overflow-y-scroll "
     // style={{marginTop: `${topMargin}px`,}}
     >
+      {modal && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+          onClick={() => setModal(false)}
+        >
+          <div
+            className="bg-white p-6 rounded-lg shadow-lg max-w-4xl w-full h-[85%] flex flex-col"
+            onClick={(e) => e.stopPropagation()} /* Stop click from closing modal */
+          >
+            {/* Close button */}
+            <button
+              className="self-end text-red-500 font-bold py-1 px-2 rounded hover:bg-red-100"
+              onClick={() => setModal(false)}
+            >
+              <img src={wrong} className="w-6 h-4" />
+            </button>
+
+            {/* Content section */}
+            <div
+              dangerouslySetInnerHTML={{ __html: ordered }}
+              className="mt-4 overflow-y-scroll flex-grow"
+            />
+
+            {/* Buttons at the bottom */}
+            <div className="flex justify-between mt-4 pt-4 border-t border-gray-200">
+              <button className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400 cursor-pointer" onClick={() => setModal(false)}>
+                Cancel
+              </button>
+              <button className="bg-blue-500 text-black py-2 px-4 rounded hover:bg-blue-600 cursor-pointer" onClick={handleClickInvoice}>
+                <img src={Invoice} alt="Invoice" className="inline w-6 h-6 mr-2" />
+                Send Invoice
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="mx-10">
         <div className="flex justify-between items-center ">
@@ -227,7 +282,7 @@ function LayoutOrderList() {
         </div>
         {/* section start */}
 
-        {Array.isArray(currentItems) && currentItems.length > 0 ? (   
+        {Array.isArray(currentItems) && currentItems.length > 0 ? (
           currentItems.map((order) => (
             <div key={order.orderId} className="border my-6 rounded-lg shadow-md">
               <div className="flex justify-between border-b pb-2 pt-2 pr-3 pl-3 bg-slate-200">
@@ -245,8 +300,9 @@ function LayoutOrderList() {
                 </div>
                 <div>
                   <h1>Order ID</h1>
-                  <p className="text-blue-900">
-                    <Link to="/"> View Order Details | Invoice</Link>
+                  <p className="text-blue-900 flex">
+                    <Link to="/"> View Order Details | </Link>
+                    <span className="ml-2 cursor-pointer" onClick={() => handleClickView(order?.orderId)}>Invoice</span>
                   </p>
                 </div>
               </div>
@@ -261,88 +317,87 @@ function LayoutOrderList() {
                       Leave Seller Feedback
                     </button>
                     <button
-        className="border rounded-lg p-2 my-2 shadow-md"
-        onClick={() => setIsOpen(true)}
-      >
-        Write a product review
-      </button>
+                      className="border rounded-lg p-2 my-2 shadow-md"
+                      onClick={() => setIsOpen(true)}
+                    >
+                      Write a product review
+                    </button>
                   </div>
 
-                {/* review popup */}
-                {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
-            <h2 className="text-xl font-semibold text-blue-900 mb-4">Write a Review</h2>
+                  {/* review popup */}
+                  {isOpen && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                      <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+                        <h2 className="text-xl font-semibold text-blue-900 mb-4">Write a Review</h2>
 
-            {/* Text Area */}
-            <textarea
-              className="border rounded-lg w-full p-2 mb-4"
-              rows="4"
-              placeholder="Write your review..."
-              value={reviewText}
-              onChange={(e) => setReviewText(e.target.value)}
-            ></textarea>
+                        {/* Text Area */}
+                        <textarea
+                          className="border rounded-lg w-full p-2 mb-4"
+                          rows="4"
+                          placeholder="Write your review..."
+                          value={reviewText}
+                          onChange={(e) => setReviewText(e.target.value)}
+                        ></textarea>
 
-            {/* Rating Stars */}
-            <div className="mb-4">
-              <div className="flex">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <svg
-                    key={star}
-                    onClick={() => setRating(star)}
-                    className={`h-6 w-6 cursor-pointer ${
-                      rating >= star ? "text-yellow-500" : "text-gray-400"
-                    }`}
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 .587l3.668 7.568L24 9.423l-6 5.847L19.335 24 12 20.021 4.665 24l1.335-8.73L0 9.423l8.332-1.268L12 .587z" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-gray-500 text-sm mt-1">Rate this product</p>
-            </div>
+                        {/* Rating Stars */}
+                        <div className="mb-4">
+                          <div className="flex">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <svg
+                                key={star}
+                                onClick={() => setRating(star)}
+                                className={`h-6 w-6 cursor-pointer ${rating >= star ? "text-yellow-500" : "text-gray-400"
+                                  }`}
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path d="M12 .587l3.668 7.568L24 9.423l-6 5.847L19.335 24 12 20.021 4.665 24l1.335-8.73L0 9.423l8.332-1.268L12 .587z" />
+                              </svg>
+                            ))}
+                          </div>
+                          <p className="text-gray-500 text-sm mt-1">Rate this product</p>
+                        </div>
 
-            {/* Image Upload */}
-            <div className="mb-4">
-              <label className="block mb-1 text-gray-700">Upload Image:</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="block w-full text-sm text-gray-900 border rounded-lg cursor-pointer bg-gray-50"
-              />
-            </div>
+                        {/* Image Upload */}
+                        <div className="mb-4">
+                          <label className="block mb-1 text-gray-700">Upload Image:</label>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            className="block w-full text-sm text-gray-900 border rounded-lg cursor-pointer bg-gray-50"
+                          />
+                        </div>
 
-            {/* Video Upload */}
-            <div className="mb-4">
-              <label className="block mb-1 text-gray-700">Upload Video:</label>
-              <input
-                type="file"
-                accept="video/*"
-                onChange={handleVideoChange}
-                className="block w-full text-sm text-gray-900 border rounded-lg cursor-pointer bg-gray-50"
-              />
-            </div>
+                        {/* Video Upload */}
+                        <div className="mb-4">
+                          <label className="block mb-1 text-gray-700">Upload Video:</label>
+                          <input
+                            type="file"
+                            accept="video/*"
+                            onChange={handleVideoChange}
+                            className="block w-full text-sm text-gray-900 border rounded-lg cursor-pointer bg-gray-50"
+                          />
+                        </div>
 
-            {/* Buttons */}
-            <div className="flex justify-end space-x-2">
-              <button
-                className="border rounded-lg px-4 py-2 bg-red-600 text-white"
-                onClick={() => setIsOpen(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="bg-blue-900 text-white rounded-lg px-4 py-2"
-                onClick={handleSubmit}
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+                        {/* Buttons */}
+                        <div className="flex justify-end space-x-2">
+                          <button
+                            className="border rounded-lg px-4 py-2 bg-red-600 text-white"
+                            onClick={() => setIsOpen(false)}
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            className="bg-blue-900 text-white rounded-lg px-4 py-2"
+                            onClick={handleSubmit}
+                          >
+                            Save
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
 
                 </div>
@@ -356,22 +411,23 @@ function LayoutOrderList() {
                     />
                     <div className="flex flex-col justify-between">
                       <div>
-                      <p className="max-w-2xl text-sky-900 flex flex-wrap">
-                        {order.productDescription}
-                      </p>
-                      <p className="my-2 text-sm">
-                        Return Window closed on{" "}
-                        {/* {new Date(order.orderDate).toLocaleDateString()} */}
-                        {new Date(order.orderDate).toLocaleDateString('en-US', {
-                          month: '2-digit',
-                          day: '2-digit',
-                          year: 'numeric'
-                        }).replace(/\//g, '-')}
-                      </p>
+                        <p className="font-semibold">{order.productName}</p>
+                        <p className="max-w-2xl text-sky-900 flex flex-wrap">
+                          {order.productDescription}
+                        </p>
+                        <p className="my-2 text-sm">
+                          Return Window closed on{" "}
+                          {/* {new Date(order.orderDate).toLocaleDateString()} */}
+                          {new Date(order.orderDate).toLocaleDateString('en-US', {
+                            month: '2-digit',
+                            day: '2-digit',
+                            year: 'numeric'
+                          }).replace(/\//g, '-')}
+                        </p>
                       </div>
-                      <div className="flex my-2 cursor-pointer"  onClick={() => handleNav(order.productId)}>
+                      <div className="flex my-2 cursor-pointer" onClick={() => handleNav(order.productId)}>
                         <button className="border rounded-lg p-2 bg-blue-900 text-white w-48 shadow-md">
-                           Buy it again
+                          Buy it again
                         </button>
                         {/* <button className="border rounded-lg p-2 mx-3 shadow-md w-48">
                         <Link to={`/detailspage/${order.productId}`}>
@@ -394,7 +450,7 @@ function LayoutOrderList() {
           </div>
         )}
 
-        
+
         <Pagination
           indexOfFirstItem={indexOfFirstItem}
           indexOfLastItem={indexOfLastItem}

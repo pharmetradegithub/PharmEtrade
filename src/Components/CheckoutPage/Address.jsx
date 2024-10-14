@@ -1535,7 +1535,7 @@ function Address({ topMargin, totalAmount }) {
                                 className="w-[50%]"
                                 error={!!formErrors.Pin_Code}
                                 helperText={formErrors.Pin_Code}
-                                inputProps={{ maxLength: 5 }}
+                                inputProps={{ maxLength: 10 }}
                               />
                             </div>
                             <div className="flex my-2 gap-2">
