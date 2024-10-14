@@ -91,11 +91,11 @@ const LayoutNav = ({ Form_Data, }) => {
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-        event.preventDefault();  // Prevent the default behavior
-        handleSearchAPI();           // Call submit function when Enter is pressed
+      event.preventDefault();  // Prevent the default behavior
+      handleSearchAPI();           // Call submit function when Enter is pressed
     }
   }
-  const [selectedItem, setSelectedItem] = useState("All"); 
+  const [selectedItem, setSelectedItem] = useState("All");
   const [SearchInput, setSearchInput] = useState("");
   const handleSearch = async (e) => {
     setSearchInput(e.target.value)
@@ -181,11 +181,20 @@ const LayoutNav = ({ Form_Data, }) => {
 
   const iconItems = [
     { icon: OTCProd, text: "OTC Products", path: "/layout/layoutOtcProducts" },
-    { icon: buyagain, text: "Buy Again" ,path:'/layout/layoutorderlist'},
-    { icon: deals, text: "Deals",path:'/allProducts/offers' },
+    { icon: buyagain, text: "Buy Again", path: '/layout/layoutorderlist' },
+    { icon: deals, text: "Deals", path: '/allProducts/offers' },
 
     // { icon: notification, text: "" },
   ];
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsPopupVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsPopupVisible(false);
+  };
 
   return (
     <div className="my-3 pb-2 cursor-pointer border-b-2 border-gray-300 shadow-lg">
@@ -246,37 +255,37 @@ const LayoutNav = ({ Form_Data, }) => {
               }`}
           >
             <div className="relative inline-block">
-            <button
-              className={`h-10 pl-2 mr-[1px] font-semibold text-left gap-1 text-[14px] flex  w-auto items-center text-gray-600 bg-gray-100 border-gray-300 rounded-l-md border ${isButtonFocused ? "ring-2 ring-blue-500" : ""
-                } button-focus`}
-              onClick={handleDropdownToggle}
-              onFocus={handleFocusIn}
-              onBlur={handleFocusOut}
-            >
-              {selectedItem}
-              <span>
-                <img src={dropdown} className="h-4 w-4" alt="dropdown" />
-              </span>
-            </button>
-
-       
-            {isDropdownOpen && (
-              <div
-                className="absolute z-10"
-                style={{ top: "30px", left: "0px" }}
+              <button
+                className={`h-10 pl-2 mr-[1px] font-semibold text-left gap-1 text-[14px] flex  w-auto items-center text-gray-600 bg-gray-100 border-gray-300 rounded-l-md border ${isButtonFocused ? "ring-2 ring-blue-500" : ""
+                  } button-focus`}
+                onClick={handleDropdownToggle}
+                onFocus={handleFocusIn}
+                onBlur={handleFocusOut}
               >
-                <div className="bg-white px-4 py-3 rounded shadow-lg w-64">
-                  {components.map((items, index) => (
-                    <ul onClick={() => handleCriteria(items)} key={index}>
-                      <li className="">
-                        <a
-                          className="hover:text-black cursor-pointer text-sm font-medium text-blue-900"
-                          onClick={() => handleItemClick(items.name)}
-                          onMouseLeave={handleCatMouseLeave}
-                        >
-                          {items.name}
-                        </a>
-                        {/* {popUps === items.name && (
+                {selectedItem}
+                <span>
+                  <img src={dropdown} className="h-4 w-4" alt="dropdown" />
+                </span>
+              </button>
+
+
+              {isDropdownOpen && (
+                <div
+                  className="absolute z-10"
+                  style={{ top: "30px", left: "0px" }}
+                >
+                  <div className="bg-white px-4 py-3 rounded shadow-lg w-64">
+                    {components.map((items, index) => (
+                      <ul onClick={() => handleCriteria(items)} key={index}>
+                        <li className="">
+                          <a
+                            className="hover:text-black cursor-pointer text-sm font-medium text-blue-900"
+                            onClick={() => handleItemClick(items.name)}
+                            onMouseLeave={handleCatMouseLeave}
+                          >
+                            {items.name}
+                          </a>
+                          {/* {popUps === items.name && (
                             <div
                               className="absolute bg-white border border-gray-300 rounded shadow-lg"
                               style={{
@@ -288,12 +297,12 @@ const LayoutNav = ({ Form_Data, }) => {
                               {items.component}
                             </div>
                           )} */}
-                      </li>
-                    </ul>
-                  ))}
+                        </li>
+                      </ul>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
             </div>
 
 
@@ -307,9 +316,9 @@ const LayoutNav = ({ Form_Data, }) => {
                 placeholder="Search for products..."
                 className="flex-grow p-4 border-none focus:outline-none container-focus"
               />
-              <button  onClick={()=>handleSearchAPI()}
+              <button onClick={() => handleSearchAPI()}
                 className="w-[40px] flex items-center justify-center p-2 bg-blue-900 text-white border-blue-500 rounded-r-md focus:outline-none container-focus">
-                <img src={search}  alt="search icon" />
+                <img src={search} alt="search icon" />
               </button>
             </div>
           </div>
@@ -323,33 +332,61 @@ const LayoutNav = ({ Form_Data, }) => {
               <span className="text-base font-semibold mr-4">{item.text}</span>
             </div>
           ))}
-          <Tooltip title='Notification' placement='top'>
-          <img
-            src={notification}
-            className="w-10 h-10 "
-            alt="Notification icon"
-            />
+          <div >
+           
+            <Tooltip title='Notification' placement='top'>
+          
+              <img
+                src={notification}
+                className="w-10 h-10 "
+                alt="Notification icon"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              />
+                <div className="absolute text-white rounded-full bg-blue-900  ml-5 right-4.5 -mt-10 px-1 font-medium text-[10px]">
+              {cartItems.length}
+            </div>
             </Tooltip>
-          <Tooltip title='Wishlist' placement='top'>
-          <img
-            onClick={() => navigate("/layout/layoutwishlist")}
-            src={wishlist}
-            className="w-6 h-6 mr-2"
-            alt="wishlist icon"
-            />
-            </Tooltip>
+          </div>
+          {isPopupVisible && (
+            <div
+              className="absolute right-2 top-8 mt-10 w-64 bg-white border border-gray-300 shadow-lg p-4 rounded-lg"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <h4 className="font-bold text-lg mb-2 border-b text-center "> Your Notifications</h4>
+              <ul className="text-sm text-gray-600">
+                <li className="flex flex-wrap">New order placed</li>
+                <li className="flex flex-wrap">Product review received</li>
+                <li className="flex flex-wrap">Stock running low on some items</li>
+              </ul>
+            </div>
+          )}
 
-            <div onClick={() => navigate("/cart")} className="relative">
-              <div className="absolute text-white rounded-full bg-blue-900 bottom-1/2 left-1.5 px-1 font-medium text-[10px]">
-                {cartItems.length}
+
+          <Tooltip title='Wishlist' placement='top'>
+            <img
+              onClick={() => navigate("/layout/layoutwishlist")}
+              src={wishlist}
+              className="w-6 h-6 mr-2"
+              alt="wishlist icon"
+            />
+          </Tooltip>
+
+          <div onClick={() => navigate("/cart")} className="relative">
+            <div className="absolute text-white rounded-full bg-blue-900 bottom-1/2 left-1.5 px-1 font-medium text-[10px]">
+              {cartItems.length}
             </div>
             <Tooltip title='Cart' placement='top'>
               <img src={cartNav} className="w-6 h-6 mr-2" alt="cart icon" />
-              </Tooltip>
-            </div>
+            </Tooltip>
+          </div>
 
         </div>
+
+
       </div>
+
     </div>
   );
 };

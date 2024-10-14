@@ -219,7 +219,7 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
   // );
 
   return (
-    <div className="w-full mt-4 h-full overflow-y-scroll">
+    <div className="w-full mt-4 h-full ">
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
