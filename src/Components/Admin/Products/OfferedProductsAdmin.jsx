@@ -174,7 +174,7 @@ const OfferedProductsAdmin = () => {
     // Fetch product data from the server when 'trigger' updates
     const fetchData = async () => {
       try {
-        const response = await fetchGetProductOffer(1); // Replace with your actual fetch function
+        const response = await dispatch(fetchGetProductOffer(1)); // Replace with your actual fetch function
         // setProductList(response.data); // Update the product list
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -182,7 +182,7 @@ const OfferedProductsAdmin = () => {
     };
 
     fetchData();
-  }, [trigger]); // This useEffect will run whenever 'trigger' changes
+  }, [trigger, dispatch]); // This useEffect will run whenever 'trigger' changes
 
 
   return (
