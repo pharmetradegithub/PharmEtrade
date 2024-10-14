@@ -55,6 +55,24 @@ export const fetchAddAddress = (payload) => {
   }
 }
 
+export const fetchEditAddress = (payload) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post('/api/Customer/Address/Edit', payload);
+      console.log(response, "user---")
+      if (response.status === 200) {
+        const addAddress = response.data.result[0]
+        dispatch(setEditAddress(addAddress))
+      } else {
+        console.error('Failed to add address action:', response.data.message);
+      }
+    } catch (error) {
+      console.log("error", error)
+    }
+  }
+}
+
+
 export const fetchDeleteAddressApi = async (addressID) => {
   try {
     const response = await axios.post(`/api/Customer/Address/Delete?addressId=${addressID}`);

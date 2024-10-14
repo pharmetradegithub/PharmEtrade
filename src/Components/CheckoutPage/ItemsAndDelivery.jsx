@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setGetOrder } from '../../Store/Store';
 import previous from '../../assets/Previous_icon.png'
 import next from '../../assets/Next_icon.png'
+import { useNavigate } from 'react-router-dom';
 
 const ItemsAndDelivery = () => {
-
+  const navigate = useNavigate()
 
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,6 +49,12 @@ console.log(date)
       const handlePreviousPage = () => {
         setCurrentPage((prev) => Math.max(prev - 1, 1));
       };
+
+      console.log("currrr", currentItems)
+
+      const handleNav = (productId) =>{
+        navigate(`/detailspage/${productId}`)
+      }
 
   return (
     <div >
@@ -142,7 +149,8 @@ console.log(date)
             </p>
 
             <div className="flex justify-around">
-              <div className="mt-4 p-2">
+              <div className="mt-4 p-2 cursor-pointer" onClick={()=>handleNav(itemsdetail.productId)}>
+
                 <img
                   src={itemsdetail.imageUrl}
                   className="w-44 h-28 p-4"
@@ -162,12 +170,13 @@ console.log(date)
                 <p className="text-red-600 font-semibold">
                   ${itemsdetail.totalAmount.toFixed(2)}
                 </p>
-                <input
-                  type="number"
+                <p className='font-semibold'>Quantity: {itemsdetail.quantity}</p>
+                {/* <input
+                  // type="number"
                   value={itemsdetail.quantity}
-                  className="text-xl border rounded-lg p-1 w-16"
+                  className="text-xl p-1 w-16"
                   min="1"
-                />
+                /> */}
                 {/* <div className="flex">
                   <p>{}</p>
                   <p>{itemsdetail.customerName}</p>

@@ -65,8 +65,25 @@ function Cart() {
       console.error("Error adding product to cart:", error);
     }
   };
+  // const handleQuantityChange = (index, newQuantity) => {
+  //   if (newQuantity) {
+  //     setcartItems((prev) => {
+  //       const updatedList = [...prev];
+  //       updatedList[index] = {
+  //         ...updatedList[index],
+  //         updateQuantity: newQuantity,
+  //       };
+  //       return updatedList;
+  //     });
+  //     handleCart(
+  //       cartItems[index].product.productID,
+  //       newQuantity - cartItems[index].quantity
+  //     );
+  //   }
+  // };
   const handleQuantityChange = (index, newQuantity) => {
-    if (newQuantity) {
+    // Ensure the new quantity is at least 1
+    if (newQuantity >= 1) {
       setcartItems((prev) => {
         const updatedList = [...prev];
         updatedList[index] = {
@@ -195,15 +212,15 @@ function Cart() {
                         <div className="flex flex-col mx-3">
                           {/* <p className="font-semibold">Quantity</p> */}
 
-                          <div className="mt-2 flex items-center">
+                          {/* <div className="mt-2 flex items-center">
                             <button
                               className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
                               onClick={() =>
-                                handleQuantityChange(index, item.updateQuantity-1)
-
-                               
+                                handleQuantityChange(
+                                  index,
+                                  item.updateQuantity - 1
+                                )
                               }
-                             
                             >
                               -
                             </button>
@@ -218,10 +235,44 @@ function Cart() {
                             <button
                               className="px-2 py-1 border rounded-md  bg-gray-200 text-gray-700 font-bold"
                               onClick={() =>
-                                handleQuantityChange(index, item.updateQuantity+1)
-
+                                handleQuantityChange(
+                                  index,
+                                  item.updateQuantity + 1
+                                )
                               }
-                              
+                            >
+                              +
+                            </button>
+                          </div> */}
+                          <div className="mt-2 flex items-center">
+                            <button
+                              className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                              onClick={() =>
+                                handleQuantityChange(
+                                  index,
+                                  Math.max(1, item.updateQuantity - 1)
+                                )
+                              }
+                              disabled={item.updateQuantity === 1} // Disable button if quantity is 1
+                            >
+                              -
+                            </button>
+
+                            <input
+                              type="text"
+                              value={item.updateQuantity}
+                              disabled={true}
+                              className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
+                            />
+
+                            <button
+                              className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                              onClick={() =>
+                                handleQuantityChange(
+                                  index,
+                                  item.updateQuantity + 1
+                                )
+                              }
                             >
                               +
                             </button>
@@ -323,7 +374,11 @@ function Cart() {
       {/* Confirmation Dialog */}
       <Dialog open={openDialog} onClose={handleDialogClose}>
         <div className="flex  justify-end p-2">
-          <img onClick={handleDialogClose} src={wrong} className="w-5 h-5 cursor-pointer flex justify-end" />
+          <img
+            onClick={handleDialogClose}
+            src={wrong}
+            className="w-5 h-5 cursor-pointer flex justify-end"
+          />
         </div>
         <DialogContent>
           Are you sure you want to delete this item from your cart?

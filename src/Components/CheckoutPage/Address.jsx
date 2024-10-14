@@ -29,7 +29,7 @@ import Bin from "../../assets/Bin.png";
 import edit from "../../assets/Edit.png";
 import axios from "axios";
 import wrong from "../../assets/Icons/wrongred.png";
-import { fetchAddAddress, fetchDeleteAddressApi, fetchGetByCustomerId } from "../../Api/AddressApi";
+import { fetchAddAddress, fetchDeleteAddressApi, fetchEditAddress, fetchGetByCustomerId } from "../../Api/AddressApi";
 // import { setAddress } from "../../Store/Store";
 function Address({ topMargin, totalAmount }) {
   // const fetchData = useSelector((state) => state.product.Products);
@@ -247,6 +247,7 @@ function Address({ topMargin, totalAmount }) {
     Bussiness_phone: "",
     States: "",
     Town_City: "",
+
   });
 
   const [notification, setNotification] = useState({
@@ -274,31 +275,31 @@ function Address({ topMargin, totalAmount }) {
     // Show the popup with the pre-filled address
     setIsShowPopUp(true);
 
-    try {
-      const response = await fetch(
-        `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/GetById?addressId=${addressId}`,
-        {
-          method: "GET",
-        }
-      );
+    // try {
+    //   const response = await fetch(
+    //     `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/GetById?addressId=${addressId}`,
+    //     {
+    //       method: "GET",
+    //     }
+    //   );
 
-      if (!response.ok) {
-        const errorDetails = await response.json();
-        throw new Error(
-          `Error: ${response.status} ${response.statusText} - ${JSON.stringify(
-            errorDetails
-          )}`
-        );
-      }
+    //   if (!response.ok) {
+    //     const errorDetails = await response.json();
+    //     throw new Error(
+    //       `Error: ${response.status} ${response.statusText} - ${JSON.stringify(
+    //         errorDetails
+    //       )}`
+    //     );
+    //   }
 
-      const result = await response.json();
-      // setProductData(result.result[0]);
-      console.log("getnewForm-->", result.result);
-      // setGetAddress(result.result[0])
-    } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
-      throw error;
-    }
+    //   const result = await response.json();
+    //   // setProductData(result.result[0]);
+    //   console.log("getnewForm-->", result.result);
+    //   // setGetAddress(result.result[0])
+    // } catch (error) {
+    //   console.error("There was a problem with the fetch operation:", error);
+    //   throw error;
+    // }
   };
 
   // const handleInputChange = (e) => {
@@ -358,6 +359,7 @@ function Address({ topMargin, totalAmount }) {
   };
 
 
+ 
   const handleSaveAddress = async (e) => {
     // Implement save address functionality here
     // e.preventDefault();
@@ -381,13 +383,14 @@ function Address({ topMargin, totalAmount }) {
       landmark: "",
       city: addressForm.Town_City,
       state: addressForm.States,
+      // state: selectedState ? selectedState.name : "", 
       country: null,
       isDefault: true,
       addressTypeId: 1,
       deliveryInstructions: null,
     };
 
-    try {
+    // try {
       // If selectedAddressId is present, update the address, otherwise add a new one
       // const apiUrl = selectedAddressId
       //   ? `http://your-api-url.com/api/Customer/Address/Update/${selectedAddressId}`
@@ -395,28 +398,45 @@ function Address({ topMargin, totalAmount }) {
 
       // const method = selectedAddressId ? 'PUT' : 'POST';
 
-      const response = await fetch(
-        "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/Edit",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      // const response = await fetch(
+      //   "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/Edit",
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify(payload),
+      //   }
+      // );
 
-      if (!response.ok) {
-        throw new Error(
-          `Failed to ${selectedAddressId ? "update" : "add"} address`
-        );
-      }
+      // if (!response.ok) {
+      //   throw new Error(
+      //     `Failed to ${selectedAddressId ? "update" : "add"} address`
+      //   );
+      // }
 
-      const responseData = await response.json();
-      if (responseData.result && responseData.result.length > 0) {
-        const newAddress = responseData.result[0];
-        if (newAddress && newAddress.addressId) {
-          setNewAddressData(newAddress); // Save the new address object to state
+      // const responseData = await response.json();
+      // if (responseData.result && responseData.result.length > 0) {
+      //   const newAddress = responseData.result[0];
+      //   if (newAddress && newAddress.addressId) {
+      //     setNewAddressData(newAddress); // Save the new address object to state
+      //     fetchCustomerById();
+      //     setIsShowPopUp(false);
+      //     setNotification({
+      //       show: true,
+      //       message: "Edit Successfully!",
+      //     });
+      //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      //   } else {
+      //     console.warn("Address data is missing addressId:", newAddress);
+      //     setIsShowPopUp(false);
+      //   }
+      // } else {
+      //   console.warn("No address data found in response");
+      //   setIsShowPopUp(false); // Close the popup after saving
+    // }
+    try {
+      await dispatch(fetchEditAddress(payload))
           fetchCustomerById();
           setIsShowPopUp(false);
           setNotification({
@@ -424,14 +444,7 @@ function Address({ topMargin, totalAmount }) {
             message: "Edit Successfully!",
           });
           setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-        } else {
-          console.warn("Address data is missing addressId:", newAddress);
-          setIsShowPopUp(false);
-        }
-      } else {
-        console.warn("No address data found in response");
-        setIsShowPopUp(false); // Close the popup after saving
-      }
+
     } catch (error) {
       console.error("Error adding address:", error);
       setIsShowPopUp(false);
@@ -446,7 +459,7 @@ function Address({ topMargin, totalAmount }) {
     Town_City: "",
     States: "",
   });
-
+  
   const handleChangeForm = (e) => {
     const { name, value } = e.target;
     setNewAddressForm((prevForm) => ({
@@ -1275,7 +1288,8 @@ function Address({ topMargin, totalAmount }) {
                                 {states.map((state) => (
                                   <MenuItem
                                     key={state.abbreviation}
-                                    value={state.abbreviation}
+                                    // value={state.abbreviation}
+                                    value={state.name}
                                   >
                                     {state.name}
                                   </MenuItem>
@@ -1299,7 +1313,7 @@ function Address({ topMargin, totalAmount }) {
                               }}
                               error={!!formErrors.Pin_Code}
                               helperText={formErrors.Pin_Code}
-                              inputProps={{ maxLength: 5 }}
+                              inputProps={{ maxLength: 10 }}
                             />
                           </div>
                           <div className="flex my-2 gap-2">
@@ -1322,6 +1336,7 @@ function Address({ topMargin, totalAmount }) {
                               name="Email ID"
                               size="small"
                               className="w-full"
+                              // value ={}
                             // value={formatPhoneNumber(addressForm.Phone_Number)}
                             // onChange={handleInputChange}
                             // error={!!formErrors.Phone_Number}
@@ -1487,7 +1502,8 @@ function Address({ topMargin, totalAmount }) {
                                   {states.map((state) => (
                                     <MenuItem
                                       key={state.abbreviation}
-                                      value={state.abbreviation}
+                                      // value={state.abbreviation}
+                                      value={state.name}
                                     >
                                       {state.name}
                                     </MenuItem>

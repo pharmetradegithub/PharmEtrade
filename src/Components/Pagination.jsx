@@ -72,10 +72,14 @@ const Pagination = ({
         >
           <img src={previous} className="w-2" alt="Previous Page" />
         </button>
-        <span className="mx-2 px-4 flex items-center bg-white text-black rounded-lg">
+        {/* <span className="mx-2 px-4 flex items-center bg-white text-black rounded-lg">
           Showing {indexOfFirstItem + 1}-{indexOfLastItem} of{" "}
           {productList.length}
-          {/* {currentPage} of {totalPages} */}
+          {/* {currentPage} of {totalPages} 
+        </span> */}
+        <span className="mx-2 px-4 flex items-center bg-white text-black rounded-lg">
+          Showing {indexOfFirstItem + 1}-{indexOfLastItem} of{" "}
+          {productList?.length || 0}
         </span>
         <button
           onClick={handleNextPage}
