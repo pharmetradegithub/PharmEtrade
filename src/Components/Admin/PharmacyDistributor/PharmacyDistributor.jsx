@@ -8,6 +8,9 @@ import Deactivate from "../../../assets/Deactivate.png";
 import { Tooltip } from "@mui/material";
 // import AdminDasboard from "../Dashboard/AdminDasboard";
 import Pagination from "../../Pagination";
+import { useNavigate } from "react-router-dom";
+import { getUserByCustomerIdApi } from "../../../Api/UserApi";
+
 
 const PharmacyDistributor = () => {
   const [customers, setcustomers] = useState([]);
@@ -78,6 +81,17 @@ const PharmacyDistributor = () => {
       console.log("no fields");
     }
   }
+
+  const navigate = useNavigate();
+
+  const handleEditProduct = async (customerId) => {
+    try {
+      await getUserByCustomerIdApi(customerId);
+      navigate(`/pharmEtradeadmin/EditSellerList`);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 
   return (
     <>
@@ -177,7 +191,7 @@ const PharmacyDistributor = () => {
                           src={edit}
                           alt="Edit"
                           className="cursor-pointer w-7 h-7 -mb-5"
-                          onClick={() => handleEditProduct(product)}
+                          onClick={() => handleEditProduct(customer.customerId)}
                         />
                       </Tooltip>
                       <Tooltip placement="top" title="Delete">

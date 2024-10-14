@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import offer from "../../../assets/offers_1.png";
 import edit from "../../../assets/Edit.png";
 import rxicon from "../../../assets/Icons/rx_12214494.png";
@@ -25,11 +25,13 @@ import {
 } from "@material-tailwind/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-import { DeactivateProductAPI } from "../../../Api/ProductApi";
+import { DeactivateProductAPI, DeleteProductAPI, fetchAllProductsApi } from "../../../Api/ProductApi";
+import Notification from "../../Notification";
 const TotalProducts = () => {
   const products = useSelector((state) => state.product.Products);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
+  // const [trigger, settrigger] = useState(1);
 
 
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "" }); // For sorting
@@ -112,9 +114,55 @@ const TotalProducts = () => {
   };
 
 
+  const [deletePop, setDeletePop] = useState(false);
+  const [trigger, settrigger] = useState(1);
+  const [deleteProduct, setDeleteProduct] = useState(null);
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+  });
+
+  const DeleteProduct = (productID) => {
+    setDeletePop(true);
+    setDeleteProduct(productID);
+  };
+  const cancelDeleteButton = () => {
+    setDeletePop(false);
+  };
+  const successDeleteButton = async () => {
+    try {
+      await DeleteProductAPI(deleteProduct);
+      settrigger((prev) => prev + 1);
+      setDeletePop(false);
+      setNotification({ show: true, message: "Product Delete Successfully!" });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const closeDeleteButton = () => {
+    setDeletePop(false);
+  };
+
+  useEffect(() => {
+    // Fetch product data from the server when 'trigger' updates
+    const fetchData = async () => {
+      try {
+        const response = await fetchAllProductsApi(); // Replace with your actual fetch function
+        // setProductList(response.data); // Update the product list
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchData();
+  }, [trigger]); // This useEffect will run whenever 'trigger' changes
   return (
     <>
       <div className="bg-gray-100 w-full h-full flex overflow-y-scroll items-center justify-center">
+        {notification.show && (
+          <Notification show={notification.show} message={notification.message} />
+        )}
       {openPop && (
           <div
             className="fixed top-0 left-25 w-4/5 h-full flex justify-center items-center bg-slate-900 bg-opacity-20"
@@ -140,6 +188,41 @@ const TotalProducts = () => {
                 <button
                   className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                   onClick={successButton}
+                >
+                  Yes
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {deletePop && (
+          <div
+            className="fixed top-0 left-25 w-4/5 h-full flex justify-center items-center bg-slate-900 bg-opacity-20"
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
+              <div className="flex justify-end  ">
+                <button
+                  className="w-5 p-1 -mt-8 mx-2"
+                  onClick={closeDeleteButton}
+                >
+                  <img src={wrong} className="w-6 h-4" />
+                </button>
+              </div>
+              <h1 className="text-black text-center mt-2">
+                Are you sure you want to delete this product ?
+              </h1>
+              <div className="flex justify-around mt-6">
+                <button
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={cancelDeleteButton}
+                >
+                  No
+                </button>
+                <button
+                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={successDeleteButton}
                 >
                   Yes
                 </button>
@@ -229,7 +312,7 @@ const TotalProducts = () => {
                         src={Bin}
                         alt="Delete"
                         className="cursor-pointer w-4 h-4"
-                      //   onClick={() => DeleteProduct(product.productID)}
+                        onClick={() => DeleteProduct(detail.productID)}
                       />
                     </Tooltip>
                     <Tooltip title="Deactivate" placement="top">
