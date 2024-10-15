@@ -103,7 +103,7 @@ import LayoutAllQuotesProducts from "./Components/LayoutPage/LayoutSell/LayoutAl
 import LayoutAllrequestedQuote from "./Components/LayoutPage/LayoutSell/LayoutAllrequestedQuote";
 import LayoutSetting from "./Components/LayoutPage/LayoutSetting/LayoutSetting";
 import LayoutPaymentHistory from "./Components/LayoutPage/LayoutSell/LayoutPaymentHistory";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUserByCustomerIdApi, UserMenuItemsApi } from "./Api/UserApi";
 import { getCartItemsApi } from "./Api/CartApi";
 import { fetchWishlistItemsApi } from "./Api/WishList";
@@ -146,6 +146,7 @@ import EditProductAdmin from "./Components/Admin/Products/EditProductAdmin";
 import EditSellerList from "./Components/Admin/RetailSeller/EditSellerList";
 import GeneralMerchandiseSeller from "./Components/Admin/GeneralMerchandiseSeller/GeneralMerchandiseSeller";
 import PharmacyDistributor from "./Components/Admin/PharmacyDistributor/PharmacyDistributor";
+import { fetchProductCategoriesGetAll } from "./Api/MasterDataApi";
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
@@ -157,6 +158,7 @@ function App() {
 
   const topMargin = useSelector((state) => state.home.TopMargin);
   const topDivRef = useRef(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const LoadAll = async (userId) => {
@@ -172,6 +174,7 @@ function App() {
       await fetchOtcProductsApi();
       await fetchRxProductsApi();
       await fetchAllProductsApi();
+      dispatch(fetchProductCategoriesGetAll());
       TopMarginApi(topDivRef?.current?.offsetHeight);
       LoadingApi(false);
     };

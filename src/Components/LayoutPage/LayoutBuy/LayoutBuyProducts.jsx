@@ -353,7 +353,7 @@
 //                           {product.packCondition}
 //                         </p>
 //                       </div>
-                    
+
 //                       <div className="text-sm">
 //                         {product.amountInStock === 0 ? (
 //                           <p className="text-red-500 font-semibold">
@@ -787,7 +787,7 @@ function LayoutBuy({
 
   const handleQuantityChange = (index, newQuantity) => {
     // if (newQuantity) {
-    const quantity = Math.max(1, newQuantity);
+    const quantity = Math.max(0, newQuantity);
     setcurrentItems((prev) => {
       const updatedList = [...prev];
       updatedList[index] = {
@@ -841,17 +841,16 @@ function LayoutBuy({
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   // const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
-  const [currentItems,setcurrentItems] = useState(productList.slice(indexOfFirstItem, indexOfLastItem));
+  const [currentItems, setcurrentItems] = useState(
+    productList.slice(indexOfFirstItem, indexOfLastItem)
+  );
   useEffect(() => {
-    if(productList)
-    {
+    if (productList) {
       const indexOfLastItem = currentPage * itemsPerPage;
       const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-      setcurrentItems( productList.slice(indexOfFirstItem, indexOfLastItem))
-
+      setcurrentItems(productList.slice(indexOfFirstItem, indexOfLastItem));
     }
- 
-  }, [currentPage,products,productList])
+  }, [currentPage, products, productList]);
   const totalPages = Math.ceil((productList?.length || 0) / itemsPerPage);
 
   const handleNextPage = () => {
@@ -1025,7 +1024,7 @@ function LayoutBuy({
                           </p>
                         ) : (
                           <p className="text-white p-1 bg-green-600 rounded-lg ">
-                           Stock Available -{" "}
+                            Stock Available -{" "}
                             <span className="font-semibold">
                               {product.amountInStock}
                             </span>
@@ -1037,7 +1036,7 @@ function LayoutBuy({
                     <div className="flex flex-col mx-3">
                       <p className="font-semibold">Unit Price</p>
                       <div className="mt-2">
-                      <p className="font-semibold">
+                        <p className="font-semibold">
                           ${product.unitPrice?.toFixed(2)}
                         </p>
                         {/* <p
@@ -1051,7 +1050,7 @@ function LayoutBuy({
                       </div>
                     </div>
 
-                    <div className="flex flex-col mx-3">
+                    {/* <div className="flex flex-col mx-3">
                       <p className="font-semibold">Quantity</p>
 
                       <div className="mt-2 flex items-center">
@@ -1095,6 +1094,71 @@ function LayoutBuy({
                                 item.product.productID === product.productID
                             ) === 1
                           }
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div> */}
+                    <div className="flex flex-col mx-3">
+                      <p className="font-semibold">Quantity</p>
+
+                      <div className="mt-2 flex items-center">
+                        <button
+                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                          onClick={() =>
+                            handleQuantityChange(
+                              index,
+                              Math.max(1, product.CartQuantity - 1)
+                            )
+                          }
+                          disabled={
+                            product.CartQuantity <= 1 ||
+                            cart.some(
+                              (item) =>
+                                item.product.productID === product.productID
+                            )
+                          }
+                        >
+                          -
+                        </button>
+
+                        <input
+                          type="text"
+                          value={product.CartQuantity}
+                          className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            const numericValue =
+                              value === ""
+                                ? ""
+                                : Math.max(1, parseInt(value, 10));
+
+                            handleQuantityChange(index, numericValue);
+                          }}
+                        />
+
+                        <button
+                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                          onClick={() => {
+                            if (
+                              product.CartQuantity + 1 >
+                              product.amountInStock
+                            ) {
+                              // Show the popup here
+                              alert(
+                                `Only ${product.amountInStock} items available in stock.`
+                              );
+                            } else {
+                              handleQuantityChange(
+                                index,
+                                product.CartQuantity + 1
+                              );
+                            }
+                          }}
+                          disabled={cart.some(
+                            (item) =>
+                              item.product.productID === product.productID
+                          )}
                         >
                           +
                         </button>
@@ -1269,30 +1333,31 @@ function LayoutBuy({
                       </div> */}
 
                       <div
-                        onClick={() => {
-                          if (product.amountInStock !== 0) {
-                            handleCart(product.productID, product.CartQuantity);
-                          }
+                        onClick={() => {if (product.amountInStock > 0) {
+                            handleCart(product.productID, product.CartQuantity);}
                         }}
                         className={`flex text-white h-[40px] px-2 rounded-lg mx-3 justify-center items-center
-                                  ${product.amountInStock === 0
-                            ? "bg-gray-400 cursor-not-allowed"
-                            : "bg-blue-900 cursor-pointer"
-                          }`}
+                                  ${
+                                    product.amountInStock <= 0
+                                      ? "bg-gray-400 cursor-not-allowed"
+                                      : "bg-blue-900 cursor-pointer"
+                                  }`}
                       >
                         <div className="mr-1">
                           <img
                             src={addcart}
-                            className={`w-6 h-6 ${product.amountInStock === 0
+                            className={`w-6 h-6 ${
+                              product.amountInStock <= 0
                                 ? "opacity-50"
                                 : "cursor-pointer"
-                              }`}
+                            }`}
                             alt="Add to Cart Icon"
                           />
                         </div>
                         <p
-                          className={`font-semibold ${product.amountInStock === 0 ? "opacity-50" : ""
-                            }`}
+                          className={`font-semibold ${
+                            product.amountInStock <= 0 ? "opacity-50" : ""
+                          }`}
                         >
                           {"Add to Cart"}
                         </p>

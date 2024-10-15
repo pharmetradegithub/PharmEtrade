@@ -227,7 +227,7 @@ const SellerList = () => {
           </div>
           <div className="overflow-y-auto h-full clearfix">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead className="text-lg text-white  bg-blue-900 dark:bg-gray-700 dark:text-gray-400">
+              <thead className="text-xs text-white  bg-blue-900 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   <th className="px-6 py-3 text-center">S.NO</th>
                   <th className="px-6 py-3" onClick={() => handleSort('firstName')}>User Name
@@ -278,7 +278,7 @@ const SellerList = () => {
                       <div className="w-40">
                         {" "}
                         {/* Set the width as needed */}
-                        <div className="text-base font-semibold truncate">
+                        <div className="text-sm font-semibold truncate">
                           
                           {customer.firstName} {customer.lastName}
                         </div>

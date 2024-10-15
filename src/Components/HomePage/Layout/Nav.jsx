@@ -377,13 +377,14 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 >
                   <div
                     className="flex  items-center cursor-pointer"
-                    onClick={handleredirect}
+                    // onClick={handleredirect}
+                    onClick={() => setIsPopupVisible(prevState => !prevState)}
                   >
                     <img
                       src={add}
                       className="w-4 md:w-6 lg:w-8 h-8"
                       alt="clickable"
-                      onClick={handleredirect}
+                      // onClick={handleredirect}
                     />
                     <div className="text-blue-900 hover:cursor-pointer ">
                       {user ? (

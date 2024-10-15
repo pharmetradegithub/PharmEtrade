@@ -1,8 +1,3 @@
-
-
-
-
-
 import React, { useState, useRef, useEffect, useContext } from "react";
 import bid from "../../../assets/Bid3d.png";
 import buy from "../../../assets/buy3d.png";
@@ -17,11 +12,11 @@ import { useNavigate } from "react-router-dom";
 import OTCProd from "../../../assets/OtcProduct.png";
 import notification from "../../../assets/Notification.png";
 import { useSelector } from "react-redux";
-import warning from '../../../assets/Icons/warning2.png'
+import warning from "../../../assets/Icons/warning2.png";
 import { fetchCriteriaProductsApi } from "../../../Api/ProductApi";
 import { Tooltip } from "@mui/material";
 
-const LayoutNav = ({ Form_Data, }) => {
+const LayoutNav = ({ Form_Data }) => {
   const [isContainerFocused, setIsContainerFocused] = useState(false);
   const [isButtonFocused, setIsButtonFocused] = useState(false);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -76,63 +71,78 @@ const LayoutNav = ({ Form_Data, }) => {
     setDropdownOpen(false); // Close the dropdown after selection
   };
 
+  // const handleCriteria = async (obj) => {
+  //   let Criteria = {
+  //     productCategoryId: obj.id
+  //   };
+
+  //   console.log("cr--->", Criteria)
+
+  //   await fetchCriteriaProductsApi(Criteria);
+  //   navigate('/layout/layoutCategoryProducts');
+
+  // };
+
   const handleCriteria = async (obj) => {
     let Criteria = {
-      productCategoryId: obj.id
+      productCategoryId: obj.productCategoryId,
     };
 
-    console.log("cr--->", Criteria)
-
+    console.log("cr--->", obj);
+    if (obj.productCategoryId === -1) {
+      navigate("/layout/layoutbuy");
+      return;
+    }
     await fetchCriteriaProductsApi(Criteria);
-    navigate('/layout/layoutCategoryProducts');
-
+    navigate(
+      `/layout/layoutCategoryProducts?CategoryName=${obj.productCategoryId}`
+    );
   };
 
-
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();  // Prevent the default behavior
-      handleSearchAPI();           // Call submit function when Enter is pressed
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent the default behavior
+      handleSearchAPI(); // Call submit function when Enter is pressed
     }
-  }
+  };
   const [selectedItem, setSelectedItem] = useState("All");
   const [SearchInput, setSearchInput] = useState("");
   const handleSearch = async (e) => {
-    setSearchInput(e.target.value)
+    setSearchInput(e.target.value);
   };
 
-
-  console.log(SearchInput, "search")
+  console.log(SearchInput, "search");
   const handleSearchAPI = async () => {
     let Criteria = {
-      productName: SearchInput
+      productName: SearchInput,
     };
 
-    console.log("g--->", Criteria)
+    console.log("g--->", Criteria);
 
     await fetchCriteriaProductsApi(Criteria);
     navigate(`/layout/layoutCategoryProducts?Search=${SearchInput}`);
-    setSearchInput("")
+    setSearchInput("");
   };
 
+  const components = useSelector((state) => state.master.productCategoryGetAll);
 
-
-
-
-
-
-  const components = [
-    { id: 1, name: "Prescription Medications" },
-    { id: 2, name: "Baby & Child Care Products" },
-    { id: 4, name: "Health care products" },
-    { id: 5, name: "Household Suppliers" },
-    { id: 6, name: "Oral Care Products" },
-    { id: 7, name: "Stationery & Gift Wrapping Supplies" },
-    { id: 8, name: "Vision Products" },
-    { id: 9, name: "Diet & Sports Nutrition" },
-    { id: 10, name: "Vitamins, Minerals & Supplements" },
-    { id: 11, name: "Personal Care Products" },
+  const modifiedComponents = [
+    { productCategoryId: -1, categoryName: "All" },
+    ...components,
   ];
+
+  // const components = [
+  //   { id: 1, name: "Prescription Medications" },
+  //   { id: 2, name: "Baby & Child Care Products" },
+  //   { id: 4, name: "Health care products" },
+  //   { id: 5, name: "Household Suppliers" },
+  //   { id: 6, name: "Oral Care Products" },
+  //   { id: 7, name: "Stationery & Gift Wrapping Supplies" },
+  //   { id: 8, name: "Vision Products" },
+  //   { id: 9, name: "Diet & Sports Nutrition" },
+  //   { id: 10, name: "Vitamins, Minerals & Supplements" },
+  //   { id: 11, name: "Personal Care Products" },
+  // ];
   const handleCatMouseLeave = () => {
     setPopUps(null);
   };
@@ -169,10 +179,9 @@ const LayoutNav = ({ Form_Data, }) => {
   //   }
   // };
 
-
   const handleItemclick = (item) => {
-    navigate(item.path)
-  }
+    navigate(item.path);
+  };
 
   const navItems = [
     { image: buy, text: "BUY", path: "/layout/layoutbuy" },
@@ -181,8 +190,8 @@ const LayoutNav = ({ Form_Data, }) => {
 
   const iconItems = [
     { icon: OTCProd, text: "OTC Products", path: "/layout/layoutOtcProducts" },
-    { icon: buyagain, text: "Buy Again", path: '/layout/layoutorderlist' },
-    { icon: deals, text: "Deals", path: '/allProducts/offers' },
+    { icon: buyagain, text: "Buy Again", path: "/layout/layoutorderlist" },
+    { icon: deals, text: "Deals", path: "/allProducts/offers" },
 
     // { icon: notification, text: "" },
   ];
@@ -195,11 +204,39 @@ const LayoutNav = ({ Form_Data, }) => {
   const handleMouseLeave = () => {
     setIsPopupVisible(false);
   };
+  const handleCriteriaLoad = async (id)=>{
+    let Criteria = {
+      productCategoryId: id,
+    };
 
+    if (id === -1) {
+      return;
+    }
+    await fetchCriteriaProductsApi(Criteria);
+  }
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const category = searchParams.get("CategoryName");
+    console.log("testing",category);
+    if (category === null) {
+      setSelectedItem("Äll");
+    } else if (category && components.length > 0) {
+      const component = modifiedComponents.find(
+        (comp) => comp.productCategoryId == category
+      );
+      handleCriteriaLoad(category);
+      
+      console.log("heyeheyehhoanceu", component, category);
+      if (component) {
+        setSelectedItem(component.categoryName); // Set the name if found
+      } else {
+        setSelectedItem("Äll");
+      }
+    }
+  }, [components]);
   return (
     <div className="my-3 pb-2 cursor-pointer border-b-2 border-gray-300 shadow-lg">
       <div className="flex justify-around items-center">
-
         <div className="flex">
           {navItems.map((item, index) => (
             <div
@@ -207,10 +244,8 @@ const LayoutNav = ({ Form_Data, }) => {
               className={`flex items-center ml-2 cursor-pointer
               ${
                 //  item.text === "SELL" &&
-                Form_Data?.userType === "Retail Customer"
-                  ? "hidden"
-                  : ""
-                }`}
+                Form_Data?.userType === "Retail Customer" ? "hidden" : ""
+              }`}
               // onClick={() => navigate(item.path)}
               onClick={() => handleItemclick(item)}
             >
@@ -246,18 +281,19 @@ const LayoutNav = ({ Form_Data, }) => {
           </div>
         )}
 
-
         {/* Search and dropdown */}
         <div className="flex rounded-lg w-[40%]">
           <div
             ref={dropdownRef}
-            className={`w-full relative flex items-center ${isContainerFocused ? "ring-2 ring-blue-500 rounded-md" : ""
-              }`}
+            className={`w-full relative flex items-center ${
+              isContainerFocused ? "ring-2 ring-blue-500 rounded-md" : ""
+            }`}
           >
             <div className="relative inline-block">
               <button
-                className={`h-10 pl-2 mr-[1px] font-semibold text-left gap-1 text-[14px] flex  w-auto items-center text-gray-600 bg-gray-100 border-gray-300 rounded-l-md border ${isButtonFocused ? "ring-2 ring-blue-500" : ""
-                  } button-focus`}
+                className={`h-10 pl-2 mr-[1px] font-semibold text-left gap-1 text-[14px] flex  w-auto items-center text-gray-600 bg-gray-100 border-gray-300 rounded-l-md border ${
+                  isButtonFocused ? "ring-2 ring-blue-500" : ""
+                } button-focus`}
                 onClick={handleDropdownToggle}
                 onFocus={handleFocusIn}
                 onBlur={handleFocusOut}
@@ -268,22 +304,21 @@ const LayoutNav = ({ Form_Data, }) => {
                 </span>
               </button>
 
-
               {isDropdownOpen && (
                 <div
                   className="absolute z-10"
                   style={{ top: "30px", left: "0px" }}
                 >
                   <div className="bg-white px-4 py-3 rounded shadow-lg w-64">
-                    {components.map((items, index) => (
+                    {modifiedComponents.map((items, index) => (
                       <ul onClick={() => handleCriteria(items)} key={index}>
                         <li className="">
                           <a
                             className="hover:text-black cursor-pointer text-sm font-medium text-blue-900"
-                            onClick={() => handleItemClick(items.name)}
+                            onClick={() => handleItemClick(items.categoryName)}
                             onMouseLeave={handleCatMouseLeave}
                           >
-                            {items.name}
+                            {items.categoryName}
                           </a>
                           {/* {popUps === items.name && (
                             <div
@@ -305,7 +340,6 @@ const LayoutNav = ({ Form_Data, }) => {
               )}
             </div>
 
-
             <div className="flex w-full h-10 border container-focus">
               <input
                 type="text"
@@ -316,8 +350,10 @@ const LayoutNav = ({ Form_Data, }) => {
                 placeholder="Search for products..."
                 className="flex-grow p-4 border-none focus:outline-none container-focus"
               />
-              <button onClick={() => handleSearchAPI()}
-                className="w-[40px] flex items-center justify-center p-2 bg-blue-900 text-white border-blue-500 rounded-r-md focus:outline-none container-focus">
+              <button
+                onClick={() => handleSearchAPI()}
+                className="w-[40px] flex items-center justify-center p-2 bg-blue-900 text-white border-blue-500 rounded-r-md focus:outline-none container-focus"
+              >
                 <img src={search} alt="search icon" />
               </button>
             </div>
@@ -327,15 +363,17 @@ const LayoutNav = ({ Form_Data, }) => {
         {/* Icons with text */}
         <div className="flex items-center">
           {iconItems.map((item, index) => (
-            <div key={index} className="flex items-center " onClick={() => navigate(item.path)}>
+            <div
+              key={index}
+              className="flex items-center "
+              onClick={() => navigate(item.path)}
+            >
               <img src={item.icon} className="w-8 h-8 mr-[2px]" />
               <span className="text-base font-semibold mr-4">{item.text}</span>
             </div>
           ))}
-          <div >
-           
-            <Tooltip title='Notification' placement='top'>
-          
+          <div>
+            <Tooltip title="Notification" placement="top">
               <img
                 src={notification}
                 className="w-10 h-10 "
@@ -343,28 +381,32 @@ const LayoutNav = ({ Form_Data, }) => {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               />
-                <div className="absolute text-white rounded-full bg-blue-900  ml-5 right-4.5 -mt-10 px-1 font-medium text-[10px]">
-              {cartItems.length}
-            </div>
+              <div className="absolute text-white rounded-full bg-blue-900  ml-5 right-4.5 -mt-10 px-1 font-medium text-[10px]">
+                {cartItems.length}
+              </div>
             </Tooltip>
           </div>
           {isPopupVisible && (
             <div
-              className="absolute right-2 top-8 mt-10 w-64 bg-white border border-gray-300 shadow-lg p-4 rounded-lg"
+              className="absolute right-2 top-8 mt-10 w-64 bg-white border border-gray-300 shadow-lg p-4 rounded-lg z-40"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             >
-              <h4 className="font-bold text-lg mb-2 border-b text-center "> Your Notifications</h4>
+              <h4 className="font-bold text-lg mb-2 border-b text-center ">
+                {" "}
+                Your Notifications
+              </h4>
               <ul className="text-sm text-gray-600">
                 <li className="flex flex-wrap">New order placed</li>
                 <li className="flex flex-wrap">Product review received</li>
-                <li className="flex flex-wrap">Stock running low on some items</li>
+                <li className="flex flex-wrap">
+                  Stock running low on some items
+                </li>
               </ul>
             </div>
           )}
 
-
-          <Tooltip title='Wishlist' placement='top'>
+          <Tooltip title="Wishlist" placement="top">
             <img
               onClick={() => navigate("/layout/layoutwishlist")}
               src={wishlist}
@@ -377,19 +419,14 @@ const LayoutNav = ({ Form_Data, }) => {
             <div className="absolute text-white rounded-full bg-blue-900 bottom-1/2 left-1.5 px-1 font-medium text-[10px]">
               {cartItems.length}
             </div>
-            <Tooltip title='Cart' placement='top'>
+            <Tooltip title="Cart" placement="top">
               <img src={cartNav} className="w-6 h-6 mr-2" alt="cart icon" />
             </Tooltip>
           </div>
-
         </div>
-
-
       </div>
-
     </div>
   );
 };
 
 export default LayoutNav;
-

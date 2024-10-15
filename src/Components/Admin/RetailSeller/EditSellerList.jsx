@@ -733,10 +733,11 @@ const EditSellerList = () => {
             <div className="flex justify-between flex-col  rounded-lg  px-8  w-[95%] mt-4">
               <div className="button-group">
                 <Button
+                
                   variant="contained"
-                  color="primary"
+                  // color="primary"
                   // onClick={handleActivate} // Function to handle activation
-                  className="mr-2"
+                  className="mr-2 bg-green-500 text-white"
                 >
                   Active
                 </Button>
@@ -745,7 +746,7 @@ const EditSellerList = () => {
                   variant="contained"
                   color="secondary"
                   // onClick={handleDeactivate} // Function to handle deactivation
-                  className="mr-2"
+                  className="mr-2  bg-red-500 text-white"
                 >
                   Deactivate
                 </Button>
@@ -753,13 +754,14 @@ const EditSellerList = () => {
                 <Button
                   variant="contained"
                   color="default"
+                  className="mr-2  bg-blue-900 text-white"
                   // onClick={handleSendEmail} // Function to handle sending email
                 >
                   Send Email
                 </Button>
                 <Button
                   variant="contained"
-                  className="ml-2"
+                  className="ml-2  bg-gray-400 text-white"
                   color="default"
                   component="label" // Allows the button to trigger a file upload
                 >
