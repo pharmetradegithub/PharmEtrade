@@ -312,7 +312,7 @@ const TotalProducts = () => {
                       sortConfig.direction === 'ascending' ? '▲' : '▼'
                     ) : '▲'}                 </th>
                 {/* <th className="py-2">Category Specification</th> */}
-                <th className="py-2 px-2 text-right"  onClick={() => handleSort('unitPrice')}>Unit Price
+                <th className="py-2 px-2 text-center"  onClick={() => handleSort('unitPrice')}>Unit Price
                 {sortConfig.key === 'unitPrice' ? (
                       sortConfig.direction === 'ascending' ? '▲' : '▼'
                     ) : '▲'}                 </th>
@@ -340,7 +340,7 @@ const TotalProducts = () => {
                     />
                   </td>
                   <Tooltip title={detail.productName} placement="right">
-                    <span className="truncate block w-40 cursor-pointer"> {/* Truncate and make clickable */}
+                    <span className="truncate block w-24 cursor-pointer"> {/* Truncate and make clickable */}
                       {detail.productName}
                     </span>
                   </Tooltip>

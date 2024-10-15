@@ -318,7 +318,13 @@ const SellerList = () => {
                       <div className="w-40">
                         {" "}
                         {/* Set the width as needed */}
-                        <div className="text-sm font-semibold truncate">
+                        <div className="font-semibold  truncate">
+                          {" "}
+                          <p>
+                          {customer.shopName}</p>
+
+                        </div>
+                        <div className="font-normal text-gray-500 truncate">
                           
                           {customer.firstName} {customer.lastName}
                         </div>
@@ -328,12 +334,7 @@ const SellerList = () => {
                           {customer.email}</p>
 
                         </div>
-                        <div className="font-normal text-gray-500 truncate">
-                          {" "}
-                          <p>
-                          {customer.shopName}</p>
-
-                        </div>
+                       
                       </div>
                     </th>
                     {/* <td className="px-6  text-center">{""}</td>
