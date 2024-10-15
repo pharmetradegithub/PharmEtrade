@@ -149,7 +149,7 @@ export const fetchCriteriaProductsApi = async (data, name, isProductIds = false)
       if (isProductIds == true) {
         return response.data.result;
       }
-      console.log(response.data, "FetchCreteria")
+      console.log(response.data.result, "FetchCreteria")
       const cartItems = store.getState().cart.cart;
       const cartItemsMap = new Map(cartItems.map(item => [item.product.productID, item.quantity]));
       const products = response.data.result.map(product => ({
@@ -157,6 +157,7 @@ export const fetchCriteriaProductsApi = async (data, name, isProductIds = false)
         CartQuantity: cartItemsMap.get(product.productID) || 0
       }))
       store.dispatch({ type: SET_Criteria_Products, payload: { products: products, name: name } });
+      return products //////////////////
     } else {
       console.error('Failed to fetch all products:', response.data.message);
     }

@@ -43,7 +43,7 @@
 //       grid: "productsOrdered",
 //       to: "/pharmEtradeadmin/sellerList",
 //     },
-    
+
 //   ];
 
 //   const detailsGrids = [
@@ -67,7 +67,7 @@
 //       grid: "customersOrdered",
 //       to: "/pharmEtradeadmin/products",
 //     },
-   
+
 //     // {
 //     //   label: "Total No. of Sellers",
 //     //   percentage: 65,
@@ -93,7 +93,7 @@
 //   useEffect(() => {
 //     dispatch(fetchAdminLogin("1b8ec36a-6549-11ef-8a1f-0affd374995f"))
 //   }, [])
- 
+
 //   // const CircleProgress = ({ percentage, color }) => {
 //   //   const radius = 20;
 //   //   const strokeWidth = 4;
@@ -175,7 +175,6 @@
 //           </div>
 //         </div>
 
-
 //         <div className="flex justify-normal flex-wrap  gap-6 w-full mt-8 border p-4 rounded-lg shadow-lg">
 //           <div className="flex  gap-3  ">
 //             {detailsGrids.map((detailgrid) => (
@@ -211,19 +210,6 @@
 
 // export default AdminDasboard;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -231,8 +217,8 @@ import { fetchAdminLogin } from "../../../Api/AdminApi";
 
 const AdminDasboard = () => {
   const navigate = useNavigate(); // Initialize useNavigate hook
-  const adminData = useSelector((state) => state.admin.admin)
-  console.log("adminData-->", adminData)
+  const adminData = useSelector((state) => state.admin.admin);
+  console.log("adminData-->", adminData);
 
   const details = [
     {
@@ -240,7 +226,7 @@ const AdminDasboard = () => {
       percentage: adminData?.totalCustomers,
       color: "blue",
       grid: "customersOrdered",
-      to: "/pharmEtradeadmin/customerList",
+      // to: "/pharmEtradeadmin/customerList",
     },
     {
       totalOrder: 65,
@@ -248,28 +234,29 @@ const AdminDasboard = () => {
       percentage: "$100.00",
       color: "red",
       grid: "totalProducts",
+      to: "/pharmEtradeadmin/RetailPharmacyList",
     },
     {
       label: "General Merchandise Seller",
       percentage: adminData?.totalProducts,
       color: "green",
       grid: "customersOrdered",
-      to: "/pharmEtradeadmin/products",
+      to: "/pharmEtradeadmin/GeneralMerchandiseSellerList",
     },
     {
       label: "Pharmacy Distributor",
       percentage: adminData?.totalOrders,
       color: "purple",
       grid: "customersOrdered",
+      to: "/pharmEtradeadmin/PharmacyDistributorList",
     },
     {
       label: "Retail Customer",
       percentage: 65,
       color: "orange",
       grid: "productsOrdered",
-      to: "/pharmEtradeadmin/sellerList",
+      to: "/pharmEtradeadmin/customerList",
     },
-    
   ];
 
   const detailsGrids = [
@@ -293,7 +280,7 @@ const AdminDasboard = () => {
       grid: "customersOrdered",
       to: "/pharmEtradeadmin/products",
     },
-   
+
     // {
     //   label: "Total No. of Sellers",
     //   percentage: 65,
@@ -315,11 +302,11 @@ const AdminDasboard = () => {
     }
   };
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchAdminLogin("1b8ec36a-6549-11ef-8a1f-0affd374995f"))
-  }, [])
- 
+    dispatch(fetchAdminLogin("1b8ec36a-6549-11ef-8a1f-0affd374995f"));
+  }, []);
+
   // const CircleProgress = ({ percentage, color }) => {
   //   const radius = 20;
   //   const strokeWidth = 4;
@@ -368,13 +355,13 @@ const AdminDasboard = () => {
       <div className="w-[95%] h-full mt-8">
         <div className="flex justify-between">
           <h1 className="text-[22px] text-blue-900  font-semibold">
-            Admin Dashboard
+             Dashboard
           </h1>
         </div>
 
         <div className="flex justify-normal flex-wrap  gap-6 w-full mt-8 border  p-4 rounded-lg shadow-lg">
           <div className="flex  gap-3  ">
-            {details.map((detail) => (
+            {details.map((detail, index) => (
               <div className="flex ">
                 <div
                   className="bg-white w-44 rounded-lg shadow-xl cursor-pointer  h-auto p-2 flex flex-col justify-between"
@@ -382,7 +369,16 @@ const AdminDasboard = () => {
                   onClick={() => handleNavigation(detail.to)}
                 >
                   <div className="flex justify-between items-center">
-                    <h1 className="hover:text-red-600 hover:underline ">
+                    {/* <h1 className="hover:text-red-600 hover:underline font-semibold ">
+                      {detail.label}
+                    </h1> */}
+                    <h1
+                      className={`${
+                        index === 0
+                          ? "font-semibold"
+                          : "hover:text-red-600 hover:underline font-semibold"
+                      }`}
+                    >
                       {detail.label}
                     </h1>
                   </div>
@@ -397,29 +393,28 @@ const AdminDasboard = () => {
                   </div>
                   <div className="flex justify-between -mt-1">
                     <div className="flex flex-col">
-                    <div className="flex">
-                  <div className="h-2.5 w-2.5 rounded-full bg-green-500  mt-2 mr-1"></div>
+                      <div className="flex">
+                        <div className="h-2.5 w-2.5 rounded-full bg-green-500  mt-2 mr-1"></div>
 
-                    <p className="text-green-700">Active</p>
-                    </div>
-                    <p>230</p>
+                        <p className="text-green-700">Active</p>
+                      </div>
+                      <p>230</p>
                     </div>
 
                     <div className="flex flex-col">
-                    <div className="flex">
-                  <div className="h-2.5 w-2.5 rounded-full bg-red-500  mt-2 mr-1"></div>
+                      <div className="flex">
+                        <div className="h-2.5 w-2.5 rounded-full bg-red-500  mt-2 mr-1"></div>
 
-                    <p className="text-red-700">Inactive</p>
+                        <p className="text-red-700">Inactive</p>
+                      </div>
+                      <p>54</p>
                     </div>
-                    <p>54</p>
-                    </div>
-                    </div>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
-
 
         <div className="flex justify-normal flex-wrap  gap-6 w-full mt-8 border p-4 rounded-lg shadow-lg">
           <div className="flex  gap-3  ">
@@ -431,7 +426,7 @@ const AdminDasboard = () => {
                   onClick={() => handleNavigation(detailgrid.to)}
                 >
                   <div className="flex justify-between items-center">
-                    <h1 className="hover:text-red-600 hover:underline ">
+                    <h1 className="hover:text-red-600 hover:underline font-semibold ">
                       {detailgrid.label}
                     </h1>
                   </div>
@@ -444,7 +439,6 @@ const AdminDasboard = () => {
                       color={detail.color}
                     /> */}
                   </div>
-                  
                 </div>
               </div>
             ))}

@@ -27,15 +27,18 @@ const GeneralMerchandiseSeller = () => {
     fetchcustomers();
   }, []);
   // SORT
-  const [sortConfig, setSortConfig] = useState({ key: "", direction: "" }); // For sorting
+  const [sortConfig, setSortConfig] = useState({ key: '', direction: 'ascending' });
 
   const handleSort = (key) => {
-    let direction = "ascending";
-    if (sortConfig.key === key && sortConfig.direction === "ascending") {
-      direction = "descending";
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    } else if (sortConfig.key === key && sortConfig.direction === 'descending') {
+      direction = 'ascending'; // Reset to ascending after descending
     }
     setSortConfig({ key, direction });
   };
+  
   
   
   const sortedItems = React.useMemo(() => {
@@ -52,7 +55,8 @@ const GeneralMerchandiseSeller = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = sortedItems.slice(indexOfFirstItem, indexOfLastItem);
+  // const currentItems = sortedItems.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = (Array.isArray(sortedItems) ? sortedItems : []).slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil((customers?.length || 0) / itemsPerPage);
   // const indexOfLastItem = currentPage * itemsPerPage;
   // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -69,7 +73,12 @@ const GeneralMerchandiseSeller = () => {
       ...SearchInput,
       [e.target.name]: e.target.value,
     });
-
+  };
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent the default behavior
+      handleSearchClick(); // Call submit function when Enter is pressed
+    }
   };
   const handleSearchClick = async () => {
     try {
@@ -106,9 +115,10 @@ const GeneralMerchandiseSeller = () => {
                 placeholder="Search..."
                 name="customerName"
                 onChange={(e) => handleInputChange(e)}
+                onKeyDown={handleKeyDown}
                 value={SearchInput.customerName}
               />
-              <button onClick={() => handleSearchClick()}>Search</button>
+              {/* <button onClick={() => handleSearchClick()}>Search</button> */}
 
 
             </div>
@@ -116,7 +126,7 @@ const GeneralMerchandiseSeller = () => {
           <div className="overflow-y-auto h-full clearfix">
             <table className="w-full text-sm  text-left text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-white  bg-blue-900 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
+                {/* <tr>
                   <th className="px-6 py-3 text-center">S.NO</th>
                   <th className="px-6 py-3" onClick={() => handleSort('firstName')}>
                     User Name{sortConfig.key === 'firstName' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
@@ -137,10 +147,45 @@ const GeneralMerchandiseSeller = () => {
 
                   </th>
                   <th className="px-6 py-3 text-center">Actions</th>
+                </tr> */}
+                 <tr>
+                  <th className="px-6 py-3 text-center">S.NO</th>
+                  <th className="px-6 py-3 cursor-pointer" onClick={() => handleSort('firstName')}>
+                    User Name{' '}
+                    {/* Show one icon dynamically based on sortConfig */}
+                    {sortConfig.key === 'firstName' ? (
+                      sortConfig.direction === 'ascending' ? '▲' : '▼'
+                    ) : '▲'} {/* Default icon before any click */}
+                  </th>
+                  <th className="px-6 py-3 cursor-pointer" onClick={() => handleSort('Registrationdate')}>
+                    Registration Date{' '}
+                    {sortConfig.key === 'Registrationdate' ? (
+                      sortConfig.direction === 'ascending' ? '▲' : '▼'
+                    ) : '▲'}
+                  </th>
+                  <th className="px-6 py-3 cursor-pointer" onClick={() => handleSort('Activationdate')}>
+                    Activation Date{' '}
+                    {sortConfig.key === 'Activationdate' ? (
+                      sortConfig.direction === 'ascending' ? '▲' : '▼'
+                    ) : '▲'}
+                  </th>
+                  <th className="px-6 py-3 text-center cursor-pointer" onClick={() => handleSort('status')}>
+                    Status{' '}
+                    {sortConfig.key === 'status' ? (
+                      sortConfig.direction === 'ascending' ? '▲' : '▼'
+                    ) : '▲'}
+                  </th>
+                  <th className="px-6 py-3 text-center cursor-pointer" onClick={() => handleSort('mobile')}>
+                    Phone{' '}
+                    {sortConfig.key === 'mobile' ? (
+                      sortConfig.direction === 'ascending' ? '▲' : '▼'
+                    ) : '▲'}
+                  </th>
+                  <th className="px-6 py-3 text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {currentItems.map((customer, index) => (
+                {currentItems.length > 0 ? (currentItems.map((customer, index) => (
                   <tr
                     key={index}
                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -164,8 +209,20 @@ const GeneralMerchandiseSeller = () => {
                         </div>
                       </div>
                     </th>
-                    <td className="px-6  text-center">{""}</td>
-                    <td className="px-6  text-center">{""}</td>
+                    {/* <td className="px-6  text-center">{""}</td>
+                    <td className="px-6  text-center">{""}</td> */}
+                     <td className="px-6 text-center">{new Date(customer.createdDate).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })
+                      .replace(/\//g, "-")}</td>
+                    <td className="px-6 text-center">{new Date(customer.activationDate).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })
+                      .replace(/\//g, "-")}</td>
                     <td className="px-6  text-center">
                       <div className="flex justify-center items-center">
                         <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
@@ -208,7 +265,14 @@ const GeneralMerchandiseSeller = () => {
                       </Tooltip>
                     </td>
                   </tr>
-                ))}
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6" className="text-center py-4 text-black">
+                    No users available
+                  </td>
+                </tr>
+            )}
               </tbody>
             </table>
           </div>

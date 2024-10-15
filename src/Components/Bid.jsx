@@ -194,7 +194,7 @@ const Bid = ({ topMargin }) => {
               </div>
             </div>
           </div>
-          <div className="md:col-span-2">
+          {/* <div className="md:col-span-2">
             <label className="block text-base font-medium text-gray-700">
               Seller Type
             </label>
@@ -208,7 +208,7 @@ const Bid = ({ topMargin }) => {
               <option value="prescription">Prescription Drug Seller</option>
               <option value="general">General Merchandise Seller</option>
             </select>
-          </div>
+          </div> */}
           <button
             type="submit"
             onClick={(e) => handleSubmit(e)}

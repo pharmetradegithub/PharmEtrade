@@ -238,7 +238,7 @@ const BankInformation = () => {
           </div>
         </div>
 
-        <h1 className="text-xl font-bold mb-4 text-blue-900"> Beneficiary  Details </h1>
+        <h1 className="text-xl font-bold mb-4 text-blue-900"> Check Mailing Accounts </h1>
 
         {/* Address 1, Address 2 */}
         <div className="flex mb-4">

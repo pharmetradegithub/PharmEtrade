@@ -37,7 +37,7 @@ import {
 } from "@material-tailwind/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-import { DeactivateProductAPI, DeleteProductAPI, fetchGetProductOffer, fetchProductOffer } from "../../../Api/ProductApi";
+import { DeactivateProductAPI, DeleteProductAPI, fetchCriteriaProductsApi, fetchGetProductOffer, fetchProductOffer } from "../../../Api/ProductApi";
 import wrong from '../../../assets/Icons/wrongred.png'
 import Notification from "../../Notification";
 const OfferedProductsAdmin = () => {
@@ -48,6 +48,40 @@ const OfferedProductsAdmin = () => {
   console.log("special-->", specialOffers)
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
+
+
+  const [data, setData] = useState(products)
+  const [SearchInput, setSearchInput] = useState({
+    productName: null,
+  });
+  const handleInputChange = (e) => {
+    console.log(e.target.name);
+    setSearchInput({
+      ...SearchInput,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent the default behavior
+      handleSearchClick(); // Call submit function when Enter is pressed
+    }
+  };
+
+  const handleSearchClick = async () => {
+    console.log("SearchInput:", SearchInput); // Check SearchInput value
+    try {
+      const productsData = await fetchCriteriaProductsApi(SearchInput);
+      console.log("API Response:", productsData); // Check API response
+      if (productsData) {
+        setData(productsData); // Only set if valid
+      } else {
+        console.log("No data returned from API.");
+      }
+    } catch (error) {
+      console.log("Error fetching data:", error);
+    }
+  };
 
   
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "" }); // For sorting
@@ -63,15 +97,15 @@ const OfferedProductsAdmin = () => {
   
   const sortedItems = React.useMemo(() => {
     if (sortConfig.key) {
-      return [...products].sort((a, b) => {
+      return [...data].sort((a, b) => {
         if (sortConfig.direction === "ascending") {
           return a[sortConfig.key] > b[sortConfig.key] ? 1 : -1;
         }
         return a[sortConfig.key] < b[sortConfig.key] ? 1 : -1;
       });
     }
-    return products;
-  }, [products, sortConfig]);
+    return data;
+  }, [data, sortConfig]);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -259,45 +293,60 @@ const OfferedProductsAdmin = () => {
           </div>
         )}
         <div className="w-[95%] h-full mt-8">
-          <div>
+          <div className="flex justify-between">
             <h1 className="text-blue-900 text-xl font-semibold my-3">
               Offered Products List
             </h1>
+            <div className="flex  mb-4">
+              <input
+                className="rounded-lg p-1"
+                placeholder="Search..."
+                name="productName"
+                onChange={(e) => handleInputChange(e)}
+                onKeyDown={handleKeyDown}
+                value={SearchInput.productName}
+              />
+              {/* <button onClick={() => handleSearchClick()}>Search</button> */}
+            </div>
           </div>
 
           <table className="w-full">
             <thead className="bg-blue-900 text-white  ">
-              <tr className="border-b-2 text-left ">
+            <tr className="border-b-2 text-left ">
                 <th className="py-2 px-5">S.NO</th>
                 <th className="py-2 px-5">Thumbnail</th>
                 <th className="py-2"  onClick={() => handleSort('productName')}>Product Name
-                {sortConfig.key === 'productName' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
-
+                {sortConfig.key === 'productName' ? (
+                      sortConfig.direction === 'ascending' ? '▲' : '▼'
+                    ) : '▲'}
                 </th>
                 {/* <th className="py-2 px-3">Valid From</th> */}
                 {/* <th className="py-2 px-3">Valid To</th> */}
                 <th className="py-2 px-2"  onClick={() => handleSort('sellerFirstName')}>Seller Name
-                {sortConfig.key === 'sellerFirstName' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
-
-                </th>
+                {sortConfig.key === 'sellerFirstName' ? (
+                      sortConfig.direction === 'ascending' ? '▲' : '▼'
+                    ) : '▲'}                 </th>
                 {/* <th className="py-2">Category Specification</th> */}
-                <th className="py-2 px-2 text-center"  onClick={() => handleSort('unitPrice')}>Unit Price
-                {sortConfig.key === 'unitPrice' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
-
-                </th>
+                <th className="py-2 px-2 text-right"  onClick={() => handleSort('unitPrice')}>Unit Price
+                {sortConfig.key === 'unitPrice' ? (
+                      sortConfig.direction === 'ascending' ? '▲' : '▼'
+                    ) : '▲'}                 </th>
                 <th className="py-2 px-2"  onClick={() => handleSort('salePriceValidFrom')}>Offer Start
-                {sortConfig.key === 'salePriceValidFrom' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
-
+                {sortConfig.key === 'salePriceValidFrom' ? (
+                      sortConfig.direction === 'ascending' ? '▲' : '▼'
+                    ) : '▲'} 
                 </th>
                 <th className="py-2 px-2"  onClick={() => handleSort('salePriceValidTo')}>Offer End
-                {sortConfig.key === 'salePriceValidTo' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
-
+                {sortConfig.key === 'salePriceValidTo' ? (
+                      sortConfig.direction === 'ascending' ? '▲' : '▼'
+                    ) : '▲'} 
                 </th>
                 <th className="py-2  text-center">Action</th>
               </tr>
             </thead>
             <tbody>
-              {currentItems.map((detail, index) => (
+              {currentItems.length > 0 ? (
+              currentItems.map((detail, index) => (
                 <tr className="border-b" key={detail.id}>
                   <td className='px-4 py-2"'>{indexOfFirstItem+index + 1}</td>
                   <td className='px-4 py-2"'>
@@ -525,7 +574,14 @@ const OfferedProductsAdmin = () => {
                     </div>
                   </td>
                 </tr>
-              ))}
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6" className="text-center py-4 text-gray-500">
+                    No Products Available
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -535,7 +591,7 @@ const OfferedProductsAdmin = () => {
         <Pagination
           indexOfFirstItem={indexOfFirstItem}
           indexOfLastItem={indexOfLastItem}
-          productList={products}
+          productList={data}
           itemsPerPage={itemsPerPage}
           setItemsPerPage={setItemsPerPage}
           currentPage={currentPage}
