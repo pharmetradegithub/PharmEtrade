@@ -161,15 +161,15 @@ const PharmacyDistributor = () => {
                       sortConfig.direction === 'ascending' ? '▲' : '▼'
                     ) : '▲'} {/* Default icon before any click */}
                   </th>
-                  <th className="px-6 py-3 cursor-pointer" onClick={() => handleSort('Registrationdate')}>
+                  <th className="px-6 py-3 cursor-pointer" onClick={() => handleSort('createdDate')}>
                     Registration Date{' '}
-                    {sortConfig.key === 'Registrationdate' ? (
+                    {sortConfig.key === 'createdDate' ? (
                       sortConfig.direction === 'ascending' ? '▲' : '▼'
                     ) : '▲'}
                   </th>
-                  <th className="px-6 py-3 cursor-pointer" onClick={() => handleSort('Activationdate')}>
+                  <th className="px-6 py-3 cursor-pointer" onClick={() => handleSort('activationDate')}>
                     Activation Date{' '}
-                    {sortConfig.key === 'Activationdate' ? (
+                    {sortConfig.key === 'activationDate' ? (
                       sortConfig.direction === 'ascending' ? '▲' : '▼'
                     ) : '▲'}
                   </th>

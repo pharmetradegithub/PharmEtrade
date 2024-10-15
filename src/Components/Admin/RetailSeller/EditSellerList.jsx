@@ -730,12 +730,12 @@ const EditSellerList = () => {
               />
             </div>
             {/* </div> */}
-            <div className="flex justify-between flex-col  rounded-lg  px-8  w-[95%] mt-4">
+            {/* <div className="flex justify-between flex-col  rounded-lg  px-8  w-[95%] mt-4">
               <div className="button-group">
                 <Button
                 
                   variant="contained"
-                  // color="primary"
+                  color="primary"
                   // onClick={handleActivate} // Function to handle activation
                   className="mr-2 bg-green-500 text-white"
                 >
@@ -773,7 +773,52 @@ const EditSellerList = () => {
                   />
                 </Button>
               </div>
-            </div>
+            </div> */}
+            <div className="flex justify-between flex-col  rounded-lg  px-8  w-[95%] mt-4">
+  <div className="button-group">
+    <Button
+      // variant="filled" // Replaced "contained" with "filled" (or you can use "outlined", "gradient", or "text")
+      // color="primary"
+      // onClick={handleActivate} // Function to handle activation
+      className="mr-2 bg-green-500 text-white"
+    >
+      Activate
+    </Button>
+
+    <Button
+      // variant="filled" // Replaced "contained" with "filled"
+      // color="secondary"
+      // onClick={handleDeactivate} // Function to handle deactivation
+      className="mr-2  bg-red-500 text-white"
+    >
+      Deactivate
+    </Button>
+
+    <Button
+      // variant="filled" // Replaced "contained" with "filled"
+      // color="default"
+      className="mr-2  bg-blue-900 text-white"
+      // onClick={handleSendEmail} // Function to handle sending email
+    >
+      Send Email
+    </Button>
+
+    <Button
+      // variant="filled" // Replaced "contained" with "filled"
+      className="ml-2  bg-gray-400 text-white"
+      // color="default"
+      component="label" // Allows the button to trigger a file upload
+    >
+      Load Supporting Documents
+      <input
+        type="file"
+        hidden // Hide the default input element
+        // onChange={handleFileUpload} // Function to handle file upload
+      />
+    </Button>
+  </div>
+</div>
+
             <div className=" flex justify-between flex-col  rounded-lg  px-8  w-[90%]  my-4">
               <div className="data-group bg-white p-4 rounded-lg">
                 <div className="data-item">
