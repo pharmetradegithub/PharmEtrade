@@ -39,7 +39,8 @@ console.log(date)
 
       const indexOfLastItem = currentPage * itemsPerPage;
       const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-      const currentItems = getOrder.slice(indexOfFirstItem, indexOfLastItem);
+  // const currentItems = getOrder.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = getOrder ? getOrder.slice(indexOfFirstItem, indexOfLastItem) : [];
       const totalPages = Math.ceil((getOrder?.length || 0) / itemsPerPage);
     
       const handleNextPage = () => {

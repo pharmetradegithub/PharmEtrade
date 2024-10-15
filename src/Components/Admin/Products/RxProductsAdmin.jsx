@@ -355,7 +355,12 @@ const RxProductsAdmin = () => {
                       {detail.productName}
                     </span>
                   </Tooltip>
-                  <td>{}</td>
+                  <td className="px-4 py-2">{new Date(detail.createdDate).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                  })
+                    .replace(/\//g, "-")}</td>
                   <td className="text-left">{detail.sellerFirstName}</td>
                   {/* <td>{detail.categorySpecification.specificationName}</td> */}
                   <td className="text-right">{detail.unitPrice?.toFixed(2)}</td>

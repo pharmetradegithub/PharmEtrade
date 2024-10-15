@@ -133,6 +133,7 @@ const Payment = () => {
       paymentAmount: 0,
       isCreditCard: true,
       statusId: 3,
+      paymentStatus: "",
       paymentDate: currentDate.toISOString()
     };
 
