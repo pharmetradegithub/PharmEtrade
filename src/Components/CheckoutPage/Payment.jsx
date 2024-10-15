@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import plus from '../../assets/Icons/plus[1].png';
 import AmericanExpress from "../../assets/AmericanExpress.png";
 import visa from "../../assets/visa.png";
@@ -15,6 +15,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOrderPayment } from "../../Api/OrderApi";
 import Notification from "../Notification";
+import { useNavigate } from "react-router-dom";
+import { getCartItemsApi } from "../../Api/CartApi";
 
 
 const Payment = () => {
@@ -104,6 +106,7 @@ const Payment = () => {
     return !Object.values(newErrors).some((error) => error); // Return true if no errors
   };
 
+  const navigate = useNavigate()
   const handleProceedPayment = async () => {
     if (!validateFields()) {
       setSuccessMessage("Please fill all the fields correctly.");
@@ -137,16 +140,41 @@ const Payment = () => {
       paymentDate: currentDate.toISOString()
     };
 
+  //   try {
+  //     await dispatch(fetchOrderPayment(payload));
+  //     setIsCardPopup(false);
+  //     setNotification({ show: true, message: "Payment processed successfully!" });
+  //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //     await navigate('/layout/layoutorderlist')
+  //   } catch (error) {
+  //     console.log("error", error);
+    //   }
     try {
       await dispatch(fetchOrderPayment(payload));
       setIsCardPopup(false);
       setNotification({ show: true, message: "Payment processed successfully!" });
-      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      setTimeout(() => {
+        setNotification({ show: false, message: "" });
+        navigate('/layout/layoutorderlist');
+      }, 5000); // Navigate after 3 seconds
     } catch (error) {
       console.log("error", error);
     }
+  
   };
 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await getCartItemsApi()
+      } catch (error) {
+        console.log("error", error);
+      }
+    }
+    fetchData()
+
+  }, [dispatch])
 
 
   const handleProceedCodPayment = () => {
