@@ -174,10 +174,10 @@ const CustomerList = () => {
                   </th>
                   <th
                     className="px-6 py-3 cursor-pointer"
-                    onClick={() => handleSort("Registrationdate")}
+                    onClick={() => handleSort("createdDate")}
                   >
                     Registration Date{" "}
-                    {sortConfig.key === "Registrationdate"
+                    {sortConfig.key === "createdDate"
                       ? sortConfig.direction === "ascending"
                         ? "▲"
                         : "▼"
@@ -185,10 +185,10 @@ const CustomerList = () => {
                   </th>
                   <th
                     className="px-6 py-3 cursor-pointer"
-                    onClick={() => handleSort("Activationdate")}
+                    onClick={() => handleSort("activationDate")}
                   >
                     Activation Date{" "}
-                    {sortConfig.key === "Activationdate"
+                    {sortConfig.key === "activationDate"
                       ? sortConfig.direction === "ascending"
                         ? "▲"
                         : "▼"
