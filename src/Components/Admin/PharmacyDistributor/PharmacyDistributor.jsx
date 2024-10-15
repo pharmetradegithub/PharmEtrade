@@ -205,12 +205,16 @@ const PharmacyDistributor = () => {
                       alt={`${customer.name} profile`}
                     /> */}
                       <div className="">
-                        <div className="text-sm font-semibold">
+                      <div className="font-semiboid ">
+                          {customer.shopName}
+                        </div>
+                        <div className="text-sm font-normal text-gray-500">
                           {customer.firstName} {customer.lastName}
                         </div>
                         <div className="font-normal text-gray-500">
                           {customer.email}
                         </div>
+                       
                       </div>
                     </th>
                     {/* <td className="px-6  text-center">{""}</td>

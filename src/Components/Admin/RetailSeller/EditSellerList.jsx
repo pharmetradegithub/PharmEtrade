@@ -739,7 +739,7 @@ const EditSellerList = () => {
                   // onClick={handleActivate} // Function to handle activation
                   className="mr-2 bg-green-500 text-white"
                 >
-                  Active
+                  Activate
                 </Button>
 
                 <Button
