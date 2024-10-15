@@ -145,10 +145,10 @@ const LayoutAddBulkProduct = () => {
   const handleDownload = () => {
     // Replace this with the actual path to your Excel file
     const fileUrl = '/Users/Public/Desktop/13sep24_0546pm.xlsx'; // Path relative to the public folder
-    const fileUrl2 = '/SideMenu.xlsx'; 
+    const fileUrl2 = '/BulkProducts.xlsx'; 
     const link = document.createElement('a');       
     link.href = fileUrl2;
-    link.download = 'SideMenu.xlsx';  
+    link.download = 'BulkProducts.xlsx';  
     // "C:\Users\Bhargav\Desktop\Signup Input Field doc.xlsx"; // This will set the name of the downloaded file
     document.body.appendChild(link);
     link.click();
@@ -156,31 +156,17 @@ const LayoutAddBulkProduct = () => {
   };
 
   return (
-    <div className="flex flex-col  justify-center pl-8 mt-4 bg-gray-100">
-      <div className="flex flex-col justify-start ">
-        <h1 className="text-2xl font-bold text-blue-900 ">ADD PRODUCT</h1>
-        <p className="border-b border-blue-900 w-40  "></p>
+    <div className="flex flex-col  justify-center pl-8 min-h-full bg-gray-100  overflow-y-scroll">
+      <div className="flex flex-col justify-start  -mt-4">
+        <h1 className="text-2xl font-bold text-blue-900 ">ADD BULK PRODUCTS <span className="text-base text-black">( To Upload Bulk Products , Please Download Sample Excel Sheet And kindly Re-upload The Excel Sheet)</span></h1>
+        <p className="border-b border-blue-900 w-52  "></p>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col ">
 
-      <div className=" max-w-md mt-8 ">
-      <h1 className="text-2xl font-bold text-center mb-4 -ml-10">Download Excel Sheet</h1>
-      <div className=" p-4 mb-4 text-center w-ull ml-16"  onClick={handleDownload}>
-        <p className=" w-60 border-green-500 text-green-500 hover:text-red-600 cursor-pointer hover:border-red-600 hover:border-b">
-          Download Sample Excel file here
-        </p>
-      </div>
-      {/* <button
-        type="button"
-        className="w-full bg-blue-900 text-white py-2 px-4 mt-5 rounded-lg hover:bg-blue-600"
-        onClick={handleDownload}
-      >
-        Download
-      </button> */}
-    </div>
+     
 
 
-      <div className="w-full max-w-md p-8  bg-white rounded-lg shadow-lg">
+      <div className="w-full max-w-md p-8  mt-7 bg-white rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold text-center mb-4">Add Excel Sheet</h1>
         <form onSubmit={handleSubmit}>
           <div
@@ -208,6 +194,23 @@ const LayoutAddBulkProduct = () => {
           </button>
         </form>
       </div>
+
+
+      <div className=" max-w-md mt-8 ">
+      <h1 className="text-2xl font-bold text-center mb-4 -ml-10">Download Excel Sheet</h1>
+      <div className=" p-4 mb-4 text-center w-ull ml-16"  onClick={handleDownload}>
+        <p className=" w-60 border-green-500 text-green-500 hover:text-red-600 cursor-pointer hover:border-red-600 hover:border-b">
+          Download Sample Excel file here
+        </p>
+      </div>
+      {/* <button
+        type="button"
+        className="w-full bg-blue-900 text-white py-2 px-4 mt-5 rounded-lg hover:bg-blue-600"
+        onClick={handleDownload}
+      >
+        Download
+      </button> */}
+    </div>
       {/* <div className="w-full max-w-md p-8 mt-8 bg-white rounded-lg shadow-lg ">
       <h1 className="text-2xl font-bold text-center mb-4">Download Excel Sheet</h1>
      <div className="border-2 border-dashed rounded-lg p-4 mb-4 text-center">

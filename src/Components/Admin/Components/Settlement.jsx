@@ -150,27 +150,26 @@ function Settlement() {
             <div className='flex '>
               <label className="font-semibold flex items-center ml-4 mt-5">Member Name / DBA: </label>
               <select
-                className=" rounded-md ml-4 border mt-5 text-sm"
-                value={selectedUserId}
-                onChange={handleUserChange} // Update on selection change
-              >
-                <option  className='border border-black '>Select  Seller</option>
+                  className="rounded-md ml-4 border mt-5 text-sm"
+                  value={selectedUserId}
+                  onChange={handleUserChange} // Update on selection change
+                >
+                  <option value="">Select Seller</option> {/* Default option */}
+                  <option value="1">Seller Name 1</option>
+                  <option value="2">Seller Name 2</option>
+                  <option value="3">Seller Name 3</option>
+                  <option value="4">Seller Name 4</option>
+                </select>
 
-                <option value="1">Seller Name 1</option>
-                <option value="2">Seller Name 2</option>
-                <option value="3">Seller Name 3</option>
-
-                <option value="4">Seller Name 4</option>
-
-                {/* Add more options as needed */}
-              </select>
-
-              <button
-                onClick={toggleDetails}
-                className="bg-blue-900 rounded-md   w-28  ml-5 mt-5 text-white font-semibold text-base items-center flex  justify-center"
-              >
-                {isDetailsVisible ? "Hide Address Details" : "Show Details"}
-              </button>
+               
+                <button
+                  onClick={toggleDetails}
+                  disabled={!selectedUserId} // Disable button when no seller is selected
+                  className={`bg-blue-900 rounded-md w-28 ml-5 mt-5 text-white font-semibold text-base items-center flex justify-center ${!selectedUserId ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
+                    }`}
+                >
+                  {isDetailsVisible ? "Hide  Details" : "Show Details"}
+                </button>
             </div>
 
             {/* Show address details only if isDetailsVisible is true */}
