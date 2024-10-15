@@ -734,6 +734,15 @@ const Signup = () => {
         userType != "Retail Customer"
       )
         newErrors.NPI = "NPI is required";
+
+      if(newsletterChecked==false || termsChecked == false)
+      {
+        newErrors.TermsAndConditions = "Terms and confition requried";
+      }
+      if(newsletterChecked==false)
+      {
+        newErrors.newsletterchecked = "news letter checked is required";
+      }
     }
 
     setErrors(newErrors);
@@ -759,7 +768,7 @@ const Signup = () => {
       if (activeStep === 2 && userType === "Retail Customer") {
         setActiveStep(4);
         try {
-          const isRegistered = await RegisterBusinessInfo(formData, userType);
+          const isRegistered = await RegisterBusinessInfo();
           if (isRegistered) setActiveStep(4); // Move to the next step if API call is successful
         } catch (error) {
           setisSubmit(false);
@@ -784,7 +793,7 @@ const Signup = () => {
       }
       if (activeStep === 3) {
         try {
-          const isRegistered = await RegisterBusinessInfo(formData, userType);
+          const isRegistered = await RegisterBusinessInfo();
           if (isRegistered) setActiveStep(4); // Move to the next step if API call is successful
         } catch (error) {
           setisSubmit(false);
@@ -811,29 +820,29 @@ const Signup = () => {
       setisSubmit(false);
     }
   };
-  const RegisterBusinessInfo = async (formData, userType) => {
+  const RegisterBusinessInfo = async () => {
     const requestBody = {
       customerBusinessInfoId: 0,
       customerId: formData.customerId,
       shopName: formData.shopName,
-      dba: formData.dba,
+      dba: formData.dbaName,
       legalBusinessName: formData.legalBusinessName,
-      address: formData.address,
+      address: formData.Address1,
       city: formData.city,
-      state: formData.state,
+      state: formData.State,
       zip: formData.zip,
-      businessPhone: formData.businessPhone,
-      businessFax: formData.businessFax,
-      businessEmail: formData.businessEmail,
-      federalTaxId: formData.federalTaxId,
-      dea: formData.dea,
-      pharmacyLicence: formData.pharmacyLicence,
-      deaExpirationDate: formData.deaExpirationDate,
-      pharmacyLicenseExpirationDate: formData.pharmacyLicenseExpirationDate,
-      deaLicenseCopy: formData.deaLicenseCopy,
-      pharmacyLicenseCopy: formData.pharmacyLicenseCopy,
-      npi: formData.npi,
-      ncpdp: formData.ncpdp,
+      businessPhone: formData.BusinessPhone,
+      businessFax: formData.Business_Fax,
+      businessEmail: formData.Business_Email,
+      federalTaxId: formData.Federal_Tax_ID,
+      dea: formData.DEA,
+      pharmacyLicence: formData.Pharmacy_License,
+      deaExpirationDate: formData.DEA_Expiration_Date,
+      pharmacyLicenseExpirationDate: formData.Pharmacy_Expiration_Date,
+      deaLicenseCopy: formData.DEA_License_Copy,
+      pharmacyLicenseCopy: formData.Pharmacy_License_Copy,
+      npi: formData.NPI,
+      ncpdp: formData.NCPDP,
     };
     console.log(requestBody, "h,");
     try {
@@ -1458,10 +1467,10 @@ const Signup = () => {
                   id="state-select"
                   options={states}
                   getOptionLabel={(option) => option.name}
-                  value={states.find(state => state.abbreviation === formData.State) || null}
+                  value={states.find(state => state.name === formData.State) || null}
                   onChange={(event, newValue) => {
                     handleInputChange({
-                      target: { name: 'State', value: newValue ? newValue.abbreviation : '' }
+                      target: { name: 'State', value: newValue ? newValue.name : '' }
                     });
                   }}
                   renderInput={(params) => (
@@ -1868,9 +1877,11 @@ const Signup = () => {
                   checked={newsletterChecked}
                   onChange={handleNewsletterChange}
                   onBlur={validateCheckboxes}
+                  error={!!errors.newsletterchecked}
+
                 />
                 <label className="text-gray-700"> Signup for Newsletters</label>
-                {showErrors && !newsletterChecked && (
+                {errors.newsletterchecked!=null && (
                   <p className="text-red-500">Please sign up for newsletters.</p>
                 )}
               </div>
@@ -1882,6 +1893,7 @@ const Signup = () => {
                   tabIndex={11}
                   checked={termsChecked}
                   onChange={handleTermsChange}
+                  onError={!!errors.TermsAndConditions}
                   onBlur={validateCheckboxes}
                 />
                 <label className="text-gray-700 ml-1">
@@ -1890,7 +1902,7 @@ const Signup = () => {
                     Terms & Conditions
                   </Link>
                 </label>
-                {showErrors && !termsChecked && (
+                {errors.TermsAndConditions!=null && (
                   <p className="text-red-500">
                     You must accept the Terms & Conditions.
                   </p>
