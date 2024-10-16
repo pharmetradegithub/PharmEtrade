@@ -345,7 +345,7 @@ function Address({ topMargin, totalAmount }) {
       errors.Town_City = "City is required";
     }
     if (!/^\d{5}$/.test(addressForm.Pin_Code)) {
-      errors.Pin_Code = "Zip code must be 5 digits";
+      errors.Pin_Code = "Zip code must be required";
     }
     // if (!/^\d{3}-\d{3}-\d{4}$/.test(addressForm.Phone_Number)) {
     //   errors.Phone_Number = "Phone number must be in 777-777-7777 format";
@@ -765,9 +765,9 @@ function Address({ topMargin, totalAmount }) {
 
     // Zip Code (Pin Code) Validation
     if (!newAddressForm.Pin_Code) {
-      errors.Pin_Code = "Zip/Pin Code is required";
+      errors.Pin_Code = "Zip Code is required";
     } else if (!/^\d{5}$/.test(newAddressForm.Pin_Code)) {
-      errors.Pin_Code = "Zip/Pin Code must be exactly 5 digits";
+      errors.Pin_Code = "Zip  Code must be required";
     }
 
     setFormErrors(errors); // Update the state with validation errors
