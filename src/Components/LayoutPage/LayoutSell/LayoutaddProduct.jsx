@@ -1933,7 +1933,7 @@ function LayoutaddProduct() {
              
               <div className="flex items-center mt-4">
                 <label className="font-semibold">
-                 Is this price returnable
+                 Is this product returnable
                 </label>
                 <input
                   type="radio"
