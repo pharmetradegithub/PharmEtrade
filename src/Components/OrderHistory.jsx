@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import img from "../assets/img1.png";
+import LayoutOrderList from "./LayoutPage/LayoutBuy/LayoutOrderlist";
 function OrderHistory({ topMargin }) {
   const [searchQuery, setSearchQuery] = useState("");
   const generateYears = (startYear, endYear) => {
@@ -13,7 +14,7 @@ function OrderHistory({ topMargin }) {
 
   const YearDropdown = () => {
     const currentYear = new Date().getFullYear();
-    const years = generateYears(2000, currentYear);
+    const years = generateYears( currentYear, currentYear+5);
 
     return (
       <select className="border  rounded-md mx-2 shadow-md bg-slate-200">
@@ -42,7 +43,7 @@ function OrderHistory({ topMargin }) {
         </p>
       </div> */}
 
-      <div className="flex justify-between items-center ">
+      {/* <div className="flex justify-between items-center ">
         <h2 className="text-3xl font-semibold"> Your Orders</h2>
 
         <div className="flex   text-end justify-end items-center">
@@ -59,9 +60,9 @@ function OrderHistory({ topMargin }) {
             Search order
           </button>
         </div>
-      </div>
+      </div> */}
       {/* links start */}
-      <div className="flex   ">
+      {/* <div className="flex   ">
         <button className=" border-b border-red-500  hover:text-blue-900 text-black w-60   h-9  text-xl">
           Orders
         </button>
@@ -82,15 +83,15 @@ function OrderHistory({ topMargin }) {
           {""}
           <Link to="/layout/layoutbuyercancelledgrid"> Cancelled Orders</Link>
         </button>
-      </div>
+      </div> */}
       {/* limks end */}
-      <div className="flex my-4">
+      {/* <div className="flex my-4">
         <h1>Orders Placed In</h1>
         <YearDropdown className="border rounded-lg" />
-      </div>
+      </div> */}
       {/* section start */}
 
-      <div className="border my-6 rounded-lg shadow-md">
+      {/* <div className="border my-6 rounded-lg shadow-md">
         <div className="flex justify-between border-b pb-2 pt-2 pr-3 pl-3 bg-slate-200">
           <div>
             <h1 className="">Order Placed</h1>
@@ -157,8 +158,9 @@ function OrderHistory({ topMargin }) {
             <button className="text-blue-900">Archieve order</button>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* section end */}
+      <LayoutOrderList />
     </div>
 
     // </div>
