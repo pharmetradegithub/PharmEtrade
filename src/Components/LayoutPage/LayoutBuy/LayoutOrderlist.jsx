@@ -814,7 +814,7 @@ const currentItems = sortedOrders.slice(indexOfFirstItem, indexOfLastItem);
                 </div>
                 <div>
                   <h1>Total</h1>
-                  {/* <p>${order.totalAmount.toFixed(2)}</p> */}
+                  <p>${order?.totalAmount?.toFixed(2)}</p>
                 </div>
                 <div>
                   <h1>Ship To</h1>
