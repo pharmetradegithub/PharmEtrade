@@ -2304,8 +2304,10 @@ const LayoutProfile = () => {
     lastName: userdata?.lastName || "",
     email: userdata?.email || "",
     password: userdata?.password || "",
-    phoneNumber: userdata?.phoneNumber || "",
+    // phoneNumber: userdata?.phoneNumber || "",
+    mobile: userdata?.mobile || "",
   });
+  console.log("uuuuuuu", userdata)
 
   // Handle changes to input fields
   const handleInputChange = (e) => {
@@ -2347,6 +2349,17 @@ const LayoutProfile = () => {
     address: businessInfo?.address || "",
     state: businessInfo?.state || "",
     businessPhone: businessInfo?.businessPhone || "",
+    businessFax: businessInfo?.businessFax || "",
+    deaExpirationDate: businessInfo?.deaExpirationDate || "",
+    businessEmail: businessInfo?.businessEmail || "",
+
+    companyWebsite: businessInfo?.companyWebsite || "",
+
+
+
+
+
+    pharmacyLicenseExpirationDate: businessInfo?.pharmacyLicenseExpirationDate || "",
   });
   const profiles = [
     {
@@ -2364,7 +2377,7 @@ const LayoutProfile = () => {
   };
   const handleAddressChange = (e) => {
     const { name, value } = e.target;
-    
+
     setAddressData((prevData) => ({ ...prevData, [name]: value }));
   };
   const handlePhoneChange = (e) => {
@@ -2394,10 +2407,13 @@ const LayoutProfile = () => {
     dea: businessInfo?.dea || "",
     deaExpirationDate: businessInfo?.deaExpirationDate || "",
     npi: businessInfo?.npi || "",
+    ncpdp: businessInfo?.ncpdp || "",
     federalTax: businessInfo?.federalTax || "",
     pharmacyLicense: businessInfo?.pharmacyLicense || "",
     pharmacyLicenseExpirationDate:
       businessInfo?.pharmacyLicenseExpirationDate || "",
+    federalTaxId: businessInfo?.federalTaxId || "",
+    pharmacyLicence: businessInfo?.pharmacyLicence || "",
   });
 
   const handleAccountChange = (e) => {
@@ -2417,7 +2433,7 @@ const LayoutProfile = () => {
   };
 
 
-    const [states, setStates] = useState([]);
+  const [states, setStates] = useState([]);
 
   useEffect(() => {
     // Set the states data
@@ -2451,8 +2467,8 @@ const LayoutProfile = () => {
             <div key={profile.grid} className="flex ml-6">
               <div
                 className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${visibleGrid === profile.grid
-                    ? "border-b-4 border-blue-900"
-                    : ""
+                  ? "border-b-4 border-blue-900"
+                  : ""
                   }`}
                 onClick={() => toggleGrid(profile.grid)}
               >
@@ -2517,11 +2533,11 @@ const LayoutProfile = () => {
                   />
                   <TextField
                     label="Phone Number"
-                    name="phoneNumber"
-                    value={userDetails.phoneNumber}
+                    name="mobile"
+                    value={userDetails.mobile}
                     onChange={handlePhoneNumberChange}
                     // onChange={handlePhoneChange}
-                    inputProps={{maxLength:12}}
+                    inputProps={{ maxLength: 12 }}
                     disabled={!isEditable}
                     size="small"
                     className="w-full"
@@ -2602,13 +2618,13 @@ const LayoutProfile = () => {
                     onChange={handleAddressChange}
                     disabled={!isAddressEdit}
                     size="small"
-                    inputProps={{maxLength:10}}
+                    inputProps={{ maxLength: 10 }}
                   />
                   <TextField
                     label=" Business Fax"
-                    id="Businessfax"
-                    name="Businessfax"
-                    // value={addressData.Businessemail}
+                    id="businessFax"
+                    name="businessFax"
+                    value={addressData.businessFax}
                     onChange={handleAddressChange}
                     disabled={!isAddressEdit}
                     size="small"
@@ -2616,9 +2632,9 @@ const LayoutProfile = () => {
                   />
                   <TextField
                     label=" Company Website"
-                    id="Companywebsite"
-                    name="Companywebsite"
-                    // value={addressData.Businessemail}
+                    id="companyWebsite"
+                    name="companyWebsite"
+                    value={addressData.companyWebsite}
                     onChange={handleAddressChange}
                     disabled={!isAddressEdit}
                     size="small"
@@ -2654,38 +2670,38 @@ const LayoutProfile = () => {
                     disabled={!isAddressEdit}
                     size="small"
                   /> */}
-                   <FormControl
-                size="small"
-                disabled={!isAddressEdit}
+                  <FormControl
+                    size="small"
+                    disabled={!isAddressEdit}
 
-                // error={!!errors.States}
-                // sx={{ minWidth: 550, whiteSpace: 'initial' }}
-              >
-                <InputLabel id="state-select-label">State</InputLabel>
-                <Select
-                  id="state-select"
-                  label="State"
-                  value={addressData.state}
-                  name="States" // Ensure name matches the key in addressForm
-                  onChange={handleAddressChange}
-                                    MenuProps={{
-                    PaperProps: {
-                      style: {
-                        maxHeight: 200, // Set the maximum height of the dropdown
-                      },
-                    },
-                  }}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {states.map((state) => (
-                    <MenuItem key={state.abbreviation} value={state.abbreviation}>
-                      {state.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+                  // error={!!errors.States}
+                  // sx={{ minWidth: 550, whiteSpace: 'initial' }}
+                  >
+                    <InputLabel id="state-select-label">State</InputLabel>
+                    <Select
+                      id="state-select"
+                      label="State"
+                      value={addressData.state}
+                      name="States" // Ensure name matches the key in addressForm
+                      onChange={handleAddressChange}
+                      MenuProps={{
+                        PaperProps: {
+                          style: {
+                            maxHeight: 200, // Set the maximum height of the dropdown
+                          },
+                        },
+                      }}
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      {states.map((state) => (
+                        <MenuItem key={state.abbreviation} value={state.abbreviation}>
+                          {state.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                   <TextField
                     label="Business Phone"
                     id="businessPhone"
@@ -2694,14 +2710,17 @@ const LayoutProfile = () => {
                     onChange={handlePhoneChange}
                     disabled={!isAddressEdit}
                     size="small"
-                    inputProps={{maxLength:12}}
+                    inputProps={{ maxLength: 12 }}
 
                   />
-                   <TextField
+                  <TextField
                     label=" Business Email"
-                    id="Businessemail"
-                    name="Businessemail"
-                    // value={addressData.Businessemail}
+                    id="businessEmail
+"
+                    name="businessEmail
+"
+                    value={addressData.businessEmail
+                    }
                     onChange={handleAddressChange}
                     disabled={!isAddressEdit}
                     size="small"
@@ -2752,7 +2771,7 @@ const LayoutProfile = () => {
                     onChange={handleAccountChange}
                     disabled={!isAccountEdit}
                     size="small"
-                      className="w-[60%]"
+                    className="w-[60%]"
                   />
                   <label> DEA Expiration Date </label>
                   <TextField
@@ -2764,24 +2783,24 @@ const LayoutProfile = () => {
                     onChange={handleAccountChange}
                     disabled={!isAccountEdit}
                     size="small"
-                      className="w-[60%]"
+                    className="w-[60%]"
                   />
-                                    <label> DEA Expiration File </label>
+                  <label> DEA Expiration File </label>
 
-                    <TextField
-                  label=""
-                  type="file"
-                  id="outlined-size-small"
-                  name="Last Name"
-                   value={accountData.First_Name}
-                  onChange={handleAccountChange}
+                  <TextField
+                    label=""
+                    type="file"
+                    id="outlined-size-small"
+                    name="Last Name"
+                    value={accountData.First_Name}
+                    onChange={handleAccountChange}
                     disabled={!isAccountEdit}
-                  // error={!!errors.First_Name}
-                  // helperText={errors.First_Name}
+                    // error={!!errors.First_Name}
+                    // helperText={errors.First_Name}
 
-                  size="small"
-                className="w-[60%]"
-                />
+                    size="small"
+                    className="w-[60%]"
+                  />
                   <TextField
                     label="NPI"
                     id="npi"
@@ -2790,31 +2809,31 @@ const LayoutProfile = () => {
                     onChange={handleAccountChange}
                     disabled={!isAccountEdit}
                     size="small"
-                      className="w-[60%]"
+                    className="w-[60%]"
                   />
                   <TextField
                     label="Federal Tax"
-                    id="federalTax"
-                    name="federalTax"
-                    value={accountData.federalTax}
+                    id="federalTaxId"
+                    name="federalTaxId"
+                    value={accountData.federalTaxId}
                     onChange={handleAccountChange}
                     disabled={!isAccountEdit}
                     size="small"
-                      className="w-[60%]"
+                    className="w-[60%]"
                   />
                 </div>
                 <div className="flex flex-col gap-3">
                   <TextField
                     label="Pharmacy License"
-                    id="pharmacyLicense"
-                    name="pharmacyLicense"
-                    value={accountData.pharmacyLicense}
+                    id="pharmacyLicence"
+                    name="pharmacyLicence"
+                    value={accountData.pharmacyLicence}
                     onChange={handleAccountChange}
                     disabled={!isAccountEdit}
                     size="small"
-                      className="w-[60%]"
+                    className="w-[60%]"
                   />
-                                    <label> Pharmacy License Expiration Date </label>
+                  <label> Pharmacy License Expiration Date </label>
 
                   <TextField
                     label=""
@@ -2825,29 +2844,29 @@ const LayoutProfile = () => {
                     onChange={handleAccountChange}
                     disabled={!isAccountEdit}
                     size="small"
-                      className="w-[60%]"
-                  />         
-                           <label>Pharmacy License Expiration File</label>
+                    className="w-[60%]"
+                  />
+                  <label>Pharmacy License Expiration File</label>
 
 
-                    <TextField
-                  label=""
-                  type="file"
-                  id="outlined-size-small"
-                  name="Last Name"
-                  // value={formData.First_Name}
-                  onChange={handleAccountChange}
-                  disabled={!isAccountEdit}
-                  // error={!!errors.First_Name}
-                  // helperText={errors.First_Name}
+                  <TextField
+                    label=""
+                    type="file"
+                    id="outlined-size-small"
+                    name="Last Name"
+                    // value={formData.First_Name}
+                    onChange={handleAccountChange}
+                    disabled={!isAccountEdit}
+                    // error={!!errors.First_Name}
+                    // helperText={errors.First_Name}
 
-                  size="small"
-                className="w-[60%]"
-                />
+                    size="small"
+                    className="w-[60%]"
+                  />
 
                   <TextField
                     label="NCPDP"
-                    id="outlined-size-small"
+                    id="ncpdp"
                     name="ncpdp"
                     onChange={handleAccountChange}
                     disabled={!isAccountEdit}

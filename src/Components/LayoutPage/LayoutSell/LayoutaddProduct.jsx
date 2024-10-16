@@ -122,6 +122,8 @@ function LayoutaddProduct() {
     mainImageUrl: null,
     price: 0,
     amountInStock: 0,
+    minimumquantity:1,
+
     taxable: false,
     productDetails: "",
     aboutProduct: "",
@@ -191,6 +193,7 @@ function LayoutaddProduct() {
       price: product.unitPrice,
       sku: product.sku,
       amountInStock: product.amountInStock,
+      minimumquantity:product.minimumquantity,
       taxable: product.taxable,
       productDetails: product.productDescription,
       aboutProduct: product.aboutTheProduct,
@@ -257,6 +260,7 @@ function LayoutaddProduct() {
       mainImageUrl: null,
       price: 0,
       amountInStock: 0,
+      minimumquantity:0,
       taxable: false,
       productDetails: "",
       aboutProduct: "",
@@ -785,6 +789,8 @@ function LayoutaddProduct() {
         formData.shippingCostApplicable == 1 ? true : false,
       shippingCost: 20,
       amountInStock: formData.amountInStock,
+      minimumquantity: formData.minimumquantity,
+
     };
     if (formData.discount == null || formData.discount == "")
       setFormData({ ...formData, ["discount"]: 0 });
@@ -1823,21 +1829,22 @@ function LayoutaddProduct() {
                       <option value="1">Yes</option>
                     </select>
                   </div>
-                  <div className="flex flex-col">
-                    <label className="text-sm font-semibold">
-                     Minimum Order Quantity :
+                  <div className=" flex flex-col">
+                    <label className="font-semibold">
+                      Minimum Order Qunatity:
                     </label>
+                    {/* <label className="font-semibold">Amount in Stock:</label> */}
                     <input
-                      // name="upnMemberPrice"
+                      name="minumumquantity"
                       type="phone"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      // onChange={handleInputChange}
-                      // value={
-                      //   formData.upnMemberPrice === ""
-                      //     ? ""
-                      //     : formData.upnMemberPrice
-                      // }
+                      className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.minimumquantity === 0
+                          ? ""
+                          : formData.minimumquantity
+                      }
                     />
+                    
                   </div>
                 </div>
 

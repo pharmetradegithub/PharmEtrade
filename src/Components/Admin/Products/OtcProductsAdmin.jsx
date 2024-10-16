@@ -349,7 +349,7 @@ const OtcProductsAdmin = () => {
                   </td>
                   <td className='px-4 py-2'>
                     <Tooltip title={detail.productName} placement="right"> 
-                      <span className="truncate block w-40 cursor-pointer"> {/* Truncate and make clickable */}
+                      <span className="truncate block w-24 cursor-pointer"> {/* Truncate and make clickable */}
                         {detail.productName}
                       </span>
                    </Tooltip>
