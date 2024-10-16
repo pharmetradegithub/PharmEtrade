@@ -423,9 +423,18 @@ function EditProductAdmin() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
 
+  // const [formData, setFormData] = useState({ imageUrl: null });
+  const [isDragging, setIsDragging] = useState(false);
+
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
     setErrorMessage("");
+    
+      // const file = e.target.files[0];
+      if (file) {
+        setFormData({ ...formData, imageUrl: file });
+      }
+    
     // Check if the file is an image
     if (file && file.type.startsWith("image/")) {
       // Create an object URL for previewing the image
@@ -920,6 +929,35 @@ function EditProductAdmin() {
     }
   };
   console.log(formData, "formdata");
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      setFormData({ ...formData, imageUrl: file });
+    }
+  };
+
   const renderTabContent = () => {
     switch (activeTab) {
       case 0:
@@ -1494,7 +1532,7 @@ function EditProductAdmin() {
                     Main Product Image:
                   </p>
                   <p className="text-sm font-semibold"> ( JPEG, PNG)</p>
-                  <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
+                  {/* <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
                     {formData.imageUrl ? (
                       <div className="relative">
                         <img
@@ -1530,7 +1568,55 @@ function EditProductAdmin() {
                         />
                       </label>
                     )}
-                  </div>
+                  </div> */}
+
+<div
+      className={`flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg ${
+        isDragging ? 'bg-gray-200' : ''
+      }`}
+      onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+    >
+      {formData.imageUrl ? (
+        <div className="relative">
+          <img
+            src={
+              typeof formData.imageUrl === 'object'
+                ? URL.createObjectURL(formData.imageUrl)
+                : formData.imageUrl
+            }
+            alt="Selected"
+            className="w-64 h-64 object-cover rounded-md"
+          />
+          <button
+            onClick={handleRemoveImage}
+            className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full focus:outline-none"
+          >
+            &times;
+          </button>
+        </div>
+      ) : (
+        <label
+          htmlFor="imageUpload"
+          className={`flex flex-col justify-center items-center w-full h-32 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200 ${
+            isDragging ? 'bg-gray-200 border-gray-400' : ''
+          }`}
+        >
+          <span className="text-gray-500 text-center">
+            Click here or drag and drop image
+          </span>
+          <input
+            type="file"
+            id="imageUpload"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="hidden"
+          />
+        </label>
+      )}
+    </div>
 
                   {/* Conditionally render error message */}
                   {errorMessage && (
@@ -2252,7 +2338,7 @@ function EditProductAdmin() {
             </p>
 
             <div className="flex w-full gap-4 justify-between">
-              <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
+              {/* <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
                 {selectedImage || formData.imageUrl ? (
                   <div className="relative">
                     <img
@@ -2285,7 +2371,54 @@ function EditProductAdmin() {
                     />
                   </label>
                 )}
-              </div>
+              </div> */}
+               <div
+      className={`flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg ${
+        isDragging ? 'bg-gray-200' : ''
+      }`}
+      onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+    >
+      {formData.imageUrl ? (
+        <div className="relative">
+          <img
+            src={
+              typeof formData.imageUrl === 'object'
+                ? URL.createObjectURL(formData.imageUrl)
+                : formData.imageUrl
+            }
+            alt="Selected"
+            className="w-64 h-64 object-cover rounded-md"
+          />
+          <button
+            onClick={handleRemoveImage}
+            className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full focus:outline-none"
+          >
+            &times;
+          </button>
+        </div>
+      ) : (
+        <label
+          htmlFor="imageUpload"
+          className={`flex flex-col justify-center items-center w-full h-32 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200 ${
+            isDragging ? 'bg-gray-200 border-gray-400' : ''
+          }`}
+        >
+          <span className="text-gray-500 text-center">
+            Click here or drag and drop image
+          </span>
+          <input
+            type="file"
+            id="imageUpload"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="hidden"
+          />
+        </label>
+      )}
+    </div>
 
               <div className="flex flex-col w-full p-4 border rounded-lg shadow-md">
                 <h1 className="text-xl font-bold mb-4 text-justify">

@@ -46,7 +46,7 @@ const Payment = () => {
   };
 
   const currentYear = new Date().getFullYear();
-  const futureYears = generateYears(2024, currentYear + 40); // Including future years (e.g., 10 years ahead)
+  const futureYears = generateYears(2024, currentYear + 10); // Including future years (e.g., 10 years ahead)
   const months = generateMonths();
   const getOrder = useSelector((state) => state.order.getOrder)
   console.log("getorderPayment-->", getOrder)
@@ -406,6 +406,8 @@ const Payment = () => {
                           </option>
                         ))}
                       </select>
+                      {/* {errors.expiryMonth && <p className="text-red-500 text-sm">Month name is required.</p>} */}
+
 
                       {/* CVV */}
                       <div className="flex items-center">
@@ -425,7 +427,11 @@ const Payment = () => {
                         <label className="ml-2 text-sm">CVV</label>
                       </div>
                     </div>
+                    <div className="flex gap-2">
+                    {errors.expiryMonth && <p className="text-red-500 text-sm">Month & Year name is required.</p>}
+
                     {errors.cvv && <p className="text-red-500 text-sm">CVV must be 3 or 4 digits.</p>}
+               </div>
                   </div>
 
                   {/* Info Text */}

@@ -2287,14 +2287,14 @@
 
 
 
-import { useState } from "react";
-import { TextField } from "@mui/material";
+import { useEffect, useState } from "react";
+import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 // import editIcon from "../../../assets/Edit.png"; // Renamed for clarity
 import edit from "../../../assets/Edit.png";
 import BankInformation from "./BankInformation";
 
 import { useSelector } from "react-redux";
-
+import { useStates } from 'react-us-states';
 const LayoutProfile = () => {
   const userdata = useSelector((state) => state.user.user); // Get user data from redux
   const [isEditable, setIsEditable] = useState(false); // State to toggle edit mode
@@ -2311,6 +2311,15 @@ const LayoutProfile = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserDetails({ ...userDetails, [name]: value });
+  };
+  const handlePhoneNumberChange = (e) => {
+    const formattedPhone = formatPhoneNumber(e.target.value);
+    handleInputChange({
+      target: {
+        name: e.target.name,
+        value: formattedPhone
+      }
+    });
   };
 
   // Toggle edit mode
@@ -2355,7 +2364,17 @@ const LayoutProfile = () => {
   };
   const handleAddressChange = (e) => {
     const { name, value } = e.target;
+    
     setAddressData((prevData) => ({ ...prevData, [name]: value }));
+  };
+  const handlePhoneChange = (e) => {
+    const formattedPhone = formatPhoneNumber(e.target.value);
+    handleAddressChange({
+      target: {
+        name: e.target.name,
+        value: formattedPhone
+      }
+    });
   };
 
   const handleAddressEditClick = () => {
@@ -2397,6 +2416,32 @@ const LayoutProfile = () => {
     alert("Account information saved successfully!");
   };
 
+
+    const [states, setStates] = useState([]);
+
+  useEffect(() => {
+    // Set the states data
+    setStates(useStates); // Adjust based on actual structure
+  }, []);
+
+
+  const formatPhoneNumber = (value) => {
+    // Remove all non-numeric characters
+    const cleaned = ('' + value).replace(/\D/g, '');
+
+    // Match the cleaned input with a pattern and format it as 777-777-7777
+    const match = cleaned.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
+
+    if (match) {
+      const part1 = match[1] ? match[1] : '';
+      const part2 = match[2] ? `-${match[2]}` : '';
+      const part3 = match[3] ? `-${match[3]}` : '';
+      return `${part1}${part2}${part3}`;
+    }
+
+    return value;
+  };
+
   return (
     <div className="w-full h-full flex-col bg-slate-200 flex justify-center overflow-y-scroll">
       <div className="w-[95%] mt-8 h-full flex flex-col justify-normal">
@@ -2405,11 +2450,10 @@ const LayoutProfile = () => {
           {profiles.map((profile) => (
             <div key={profile.grid} className="flex ml-6">
               <div
-                className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${
-                  visibleGrid === profile.grid
+                className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${visibleGrid === profile.grid
                     ? "border-b-4 border-blue-900"
                     : ""
-                }`}
+                  }`}
                 onClick={() => toggleGrid(profile.grid)}
               >
                 <h1 className="text-lg text-blue-900 font-semibold">
@@ -2425,9 +2469,8 @@ const LayoutProfile = () => {
               Primary
             </h1>
             <div
-              className={`bg-white border ${
-                isEditable ? "border-blue-900" : "border-gray-400"
-              } rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}
+              className={`bg-white border ${isEditable ? "border-blue-900" : "border-gray-400"
+                } rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}
             >
               <h1 className={`text-xl font-semibold my-2 text-blue-900`}>
                 User Information
@@ -2476,7 +2519,9 @@ const LayoutProfile = () => {
                     label="Phone Number"
                     name="phoneNumber"
                     value={userDetails.phoneNumber}
-                    onChange={handleInputChange}
+                    onChange={handlePhoneNumberChange}
+                    // onChange={handlePhoneChange}
+                    inputProps={{maxLength:12}}
                     disabled={!isEditable}
                     size="small"
                     className="w-full"
@@ -2490,9 +2535,8 @@ const LayoutProfile = () => {
                     alt="Edit"
                   />
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-                      !isEditable ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isEditable ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                     onClick={handleSaveClick}
                     disabled={!isEditable}
                   >
@@ -2507,9 +2551,8 @@ const LayoutProfile = () => {
           <div className="flex flex-col bg-slate-200 p-6 w-full h-full">
             {/* Address Information Section */}
             <div
-              className={`bg-white border ${
-                isAddressEdit ? "border-blue-900" : "border-gray-400"
-              } rounded-lg px-8 w-full mt-8 relative`}
+              className={`bg-white border ${isAddressEdit ? "border-blue-900" : "border-gray-400"
+                } rounded-lg px-8 w-full mt-8 relative`}
             >
               {isAddressEdit && (
                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -2517,9 +2560,8 @@ const LayoutProfile = () => {
                 </h1>
               )}
               <h1
-                className={`text-xl font-semibold my-2 ${
-                  isAddressEdit ? "invisible" : "text-blue-900"
-                }`}
+                className={`text-xl font-semibold my-2 ${isAddressEdit ? "invisible" : "text-blue-900"
+                  }`}
               >
                 Address Information
               </h1>
@@ -2560,6 +2602,27 @@ const LayoutProfile = () => {
                     onChange={handleAddressChange}
                     disabled={!isAddressEdit}
                     size="small"
+                    inputProps={{maxLength:10}}
+                  />
+                  <TextField
+                    label=" Business Fax"
+                    id="Businessfax"
+                    name="Businessfax"
+                    // value={addressData.Businessemail}
+                    onChange={handleAddressChange}
+                    disabled={!isAddressEdit}
+                    size="small"
+
+                  />
+                  <TextField
+                    label=" Company Website"
+                    id="Companywebsite"
+                    name="Companywebsite"
+                    // value={addressData.Businessemail}
+                    onChange={handleAddressChange}
+                    disabled={!isAddressEdit}
+                    size="small"
+
                   />
                 </div>
                 <div className="flex flex-col gap-3">
@@ -2571,6 +2634,7 @@ const LayoutProfile = () => {
                     onChange={handleAddressChange}
                     disabled={!isAddressEdit}
                     size="small"
+
                   />
                   <TextField
                     label="Address"
@@ -2581,7 +2645,7 @@ const LayoutProfile = () => {
                     disabled={!isAddressEdit}
                     size="small"
                   />
-                  <TextField
+                  {/* <TextField
                     label="State"
                     id="state"
                     name="state"
@@ -2589,15 +2653,59 @@ const LayoutProfile = () => {
                     onChange={handleAddressChange}
                     disabled={!isAddressEdit}
                     size="small"
-                  />
+                  /> */}
+                   <FormControl
+                size="small"
+                disabled={!isAddressEdit}
+
+                // error={!!errors.States}
+                // sx={{ minWidth: 550, whiteSpace: 'initial' }}
+              >
+                <InputLabel id="state-select-label">State</InputLabel>
+                <Select
+                  id="state-select"
+                  label="State"
+                  value={addressData.state}
+                  name="States" // Ensure name matches the key in addressForm
+                  onChange={handleAddressChange}
+                                    MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: 200, // Set the maximum height of the dropdown
+                      },
+                    },
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {states.map((state) => (
+                    <MenuItem key={state.abbreviation} value={state.abbreviation}>
+                      {state.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
                   <TextField
                     label="Business Phone"
                     id="businessPhone"
                     name="businessPhone"
                     value={addressData.businessPhone}
+                    onChange={handlePhoneChange}
+                    disabled={!isAddressEdit}
+                    size="small"
+                    inputProps={{maxLength:12}}
+
+                  />
+                   <TextField
+                    label=" Business Email"
+                    id="Businessemail"
+                    name="Businessemail"
+                    // value={addressData.Businessemail}
                     onChange={handleAddressChange}
                     disabled={!isAddressEdit}
                     size="small"
+
                   />
                 </div>
                 <div className="flex flex-col justify-between py-2">
@@ -2607,9 +2715,8 @@ const LayoutProfile = () => {
                     onClick={handleAddressEditClick}
                   />
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-                      !isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                     onClick={handleAddressSaveClick}
                     disabled={!isAddressEdit}
                   >
@@ -2621,9 +2728,8 @@ const LayoutProfile = () => {
 
             {/* Account Information Section */}
             <div
-              className={`bg-white border ${
-                isAccountEdit ? "border-blue-900" : "border-gray-400"
-              } rounded-lg px-8 w-full mt-8 relative`}
+              className={`bg-white border ${isAccountEdit ? "border-blue-900" : "border-gray-400"
+                } rounded-lg px-8 w-full mt-8 relative`}
             >
               {isAccountEdit && (
                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -2631,9 +2737,8 @@ const LayoutProfile = () => {
                 </h1>
               )}
               <h1
-                className={`text-xl font-semibold my-2 ${
-                  isAccountEdit ? "invisible" : "text-blue-900"
-                }`}
+                className={`text-xl font-semibold my-2 ${isAccountEdit ? "invisible" : "text-blue-900"
+                  }`}
               >
                 Account Information
               </h1>
@@ -2647,9 +2752,11 @@ const LayoutProfile = () => {
                     onChange={handleAccountChange}
                     disabled={!isAccountEdit}
                     size="small"
+                      className="w-[60%]"
                   />
+                  <label> DEA Expiration Date </label>
                   <TextField
-                    label="DEA Expiration Date"
+                    label=""
                     type="date"
                     id="deaExpirationDate"
                     name="deaExpirationDate"
@@ -2657,7 +2764,24 @@ const LayoutProfile = () => {
                     onChange={handleAccountChange}
                     disabled={!isAccountEdit}
                     size="small"
+                      className="w-[60%]"
                   />
+                                    <label> DEA Expiration File </label>
+
+                    <TextField
+                  label=""
+                  type="file"
+                  id="outlined-size-small"
+                  name="Last Name"
+                   value={accountData.First_Name}
+                  onChange={handleAccountChange}
+                    disabled={!isAccountEdit}
+                  // error={!!errors.First_Name}
+                  // helperText={errors.First_Name}
+
+                  size="small"
+                className="w-[60%]"
+                />
                   <TextField
                     label="NPI"
                     id="npi"
@@ -2666,6 +2790,7 @@ const LayoutProfile = () => {
                     onChange={handleAccountChange}
                     disabled={!isAccountEdit}
                     size="small"
+                      className="w-[60%]"
                   />
                   <TextField
                     label="Federal Tax"
@@ -2675,6 +2800,7 @@ const LayoutProfile = () => {
                     onChange={handleAccountChange}
                     disabled={!isAccountEdit}
                     size="small"
+                      className="w-[60%]"
                   />
                 </div>
                 <div className="flex flex-col gap-3">
@@ -2686,9 +2812,12 @@ const LayoutProfile = () => {
                     onChange={handleAccountChange}
                     disabled={!isAccountEdit}
                     size="small"
+                      className="w-[60%]"
                   />
+                                    <label> Pharmacy License Expiration Date </label>
+
                   <TextField
-                    label="Pharmacy License Expiration Date"
+                    label=""
                     type="date"
                     id="pharmacyLicenseExpirationDate"
                     name="pharmacyLicenseExpirationDate"
@@ -2696,6 +2825,35 @@ const LayoutProfile = () => {
                     onChange={handleAccountChange}
                     disabled={!isAccountEdit}
                     size="small"
+                      className="w-[60%]"
+                  />         
+                           <label>Pharmacy License Expiration File</label>
+
+
+                    <TextField
+                  label=""
+                  type="file"
+                  id="outlined-size-small"
+                  name="Last Name"
+                  // value={formData.First_Name}
+                  onChange={handleAccountChange}
+                  disabled={!isAccountEdit}
+                  // error={!!errors.First_Name}
+                  // helperText={errors.First_Name}
+
+                  size="small"
+                className="w-[60%]"
+                />
+
+                  <TextField
+                    label="NCPDP"
+                    id="outlined-size-small"
+                    name="ncpdp"
+                    onChange={handleAccountChange}
+                    disabled={!isAccountEdit}
+                    value={accountData.ncpdp}
+                    size="small"
+                    className="w-[60%]"
                   />
                 </div>
                 <div className="flex flex-col justify-between py-2">
@@ -2705,9 +2863,8 @@ const LayoutProfile = () => {
                     onClick={handleAccountEditClick}
                   />
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-                      !isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                     onClick={handleAccountSaveClick}
                     disabled={!isAccountEdit}
                   >
