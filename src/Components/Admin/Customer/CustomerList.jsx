@@ -706,11 +706,14 @@ import { Tooltip } from "@mui/material";
 import Pagination from "../../Pagination";
 import { useNavigate } from "react-router-dom";
 import { getUserByCustomerIdApi } from "../../../Api/UserApi";
+import Loading from "../../Loading";
 
 const CustomerList = () => {
   const [customers, setCustomers] = useState([]);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [searchInput, setSearchInput] = useState({
     customerName: '',
     customerTypeId: 0,
@@ -719,20 +722,44 @@ const CustomerList = () => {
   const navigate = useNavigate();
 
   // Fetch and filter customers
+  // useEffect(() => {
+  //   const fetchCustomers = async () => {
+  //     const res = await GetCustomers();
+  //     const filteredCustomers = res.filter((customer) =>
+  //       [4].includes(customer.customerTypeId)
+  //     );
+
+  //     // Sort by createdDate in descending order
+  //     filteredCustomers.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
+  //     setCustomers(filteredCustomers);
+  //   };
+
+  //   fetchCustomers();
+  // }, []);
+
   useEffect(() => {
     const fetchCustomers = async () => {
-      const res = await GetCustomers();
-      const filteredCustomers = res.filter((customer) =>
-        [4].includes(customer.customerTypeId)
-      );
-
-      // Sort by createdDate in descending order
-      filteredCustomers.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
-      setCustomers(filteredCustomers);
+      setLoading(true); // Set loading state before the request
+  
+      try {
+        const res = await GetCustomers();
+        const filteredCustomers = res.filter((customer) =>
+          [4].includes(customer.customerTypeId)
+        );
+  
+        // Sort by createdDate in descending order
+        filteredCustomers.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
+        setCustomers(filteredCustomers);
+      } catch (error) {
+        setError(error); // Handle and store error
+      } finally {
+        setLoading(false); // Ensure loading is stopped
+      }
     };
-
+  
     fetchCustomers();
   }, []);
+  
 
   // Sorting configuration
   const [sortConfig, setSortConfig] = useState({
@@ -822,6 +849,13 @@ const CustomerList = () => {
             </div>
           </div>
           <div className="overflow-y-auto h-full clearfix">
+          {loading && (
+              <div>
+                <Loading />
+              </div>
+            )}
+            {error && <div>Error: {error.message}</div>}
+            {!loading && !error && (
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-white bg-blue-900 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -934,6 +968,7 @@ const CustomerList = () => {
                 )}
               </tbody>
             </table>
+            )}
           </div>
           {/* <div className="flex justify-center mt-4">
             <Pagination
