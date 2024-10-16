@@ -642,21 +642,19 @@ function LayoutOrderList() {
       },
     },
   }));
-
+  // const [orders, setOrders] = useState([]);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = getOrder.slice(indexOfFirstItem, indexOfLastItem);
+  // const currentItems = getOrder.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil((getOrder?.length || 0) / itemsPerPage);
 
-  const handleNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  };
+  const sortedOrders = Array.isArray(getOrder)
+  ? [...getOrder].sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate)) // Sort by date
+  : [];
 
-  const handlePreviousPage = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
-  };
+const currentItems = sortedOrders.slice(indexOfFirstItem, indexOfLastItem);
 
 
   const [isOpen, setIsOpen] = useState(false);
