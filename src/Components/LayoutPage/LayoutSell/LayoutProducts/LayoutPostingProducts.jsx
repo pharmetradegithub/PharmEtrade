@@ -20,6 +20,7 @@ import {
 } from "../../../../Api/ProductApi";
 import Notification from "../../../Notification";
 import Pagination from "../../../Pagination";
+import { fetchSellerDashboard } from "../../../../Api/Dashboard";
 
 const LayoutPostingProducts = () => {
   const navigate = useNavigate();
@@ -211,10 +212,12 @@ const LayoutPostingProducts = () => {
     setDeletePop(false);
   };
 
-  
+  useEffect(() => {
+    dispatch(fetchSellerDashboard(user?.customerId));
+  }, [])
 
   return (
-    <div className="relative  bg-gray-100 w-full h-full flex justify-center overflow-scroll items-center">
+    <div className="relative bg-gray-100 w-full h-full flex justify-center overflow-scroll items-center">
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}

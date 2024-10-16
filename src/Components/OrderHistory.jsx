@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import img from "../assets/img1.png";
 import LayoutOrderList from "./LayoutPage/LayoutBuy/LayoutOrderlist";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchGetOrder } from "../Api/OrderApi";
 function OrderHistory({ topMargin }) {
   const [searchQuery, setSearchQuery] = useState("");
+  const user = useSelector((state) => state.user.user)
   const generateYears = (startYear, endYear) => {
     let years = [];
     for (let year = startYear; year <= endYear; year++) {
@@ -26,6 +29,11 @@ function OrderHistory({ topMargin }) {
       </select>
     );
   };
+
+  const dispatch = useDispatch()
+  useEffect(() => {
+     dispatch(fetchGetOrder(user?.customerId))
+  })
 
   return (
     <div

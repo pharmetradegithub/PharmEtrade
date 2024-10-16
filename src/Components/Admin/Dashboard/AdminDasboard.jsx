@@ -210,15 +210,21 @@
 
 // export default AdminDasboard;
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
-import { fetchAdminLogin } from "../../../Api/AdminApi";
+import { fetchAdminLogin, GetCustomers } from "../../../Api/AdminApi";
 
 const AdminDasboard = () => {
   const navigate = useNavigate(); // Initialize useNavigate hook
   const adminData = useSelector((state) => state.admin.admin);
   console.log("adminData-->", adminData);
+
+  const [retailPhar, setretailPhar] = useState([])
+  const [pharmacy, setPharmacy] = useState([])
+  const [generalMar, setGeneralMer] = useState([])
+  const [customer, setCustomer] = useState([])
+
 
   const details = [
     {
@@ -231,28 +237,28 @@ const AdminDasboard = () => {
     {
       totalOrder: 65,
       label: "Retail Pharmacy",
-      percentage: "$100.00",
+      percentage: retailPhar.length,
       color: "red",
       grid: "totalProducts",
       to: "/pharmEtradeadmin/RetailPharmacyList",
     },
     {
       label: "General Merchandise Seller",
-      percentage: adminData?.totalProducts,
+      percentage: generalMar.length,
       color: "green",
       grid: "customersOrdered",
       to: "/pharmEtradeadmin/GeneralMerchandiseSellerList",
     },
     {
       label: "Pharmacy Distributor",
-      percentage: adminData?.totalOrders,
+      percentage: pharmacy.length,
       color: "purple",
       grid: "customersOrdered",
       to: "/pharmEtradeadmin/PharmacyDistributorList",
     },
     {
       label: "Retail Customer",
-      percentage: 65,
+      percentage: customer.length,
       color: "orange",
       grid: "productsOrdered",
       to: "/pharmEtradeadmin/customerList",
@@ -307,6 +313,49 @@ const AdminDasboard = () => {
     dispatch(fetchAdminLogin("1b8ec36a-6549-11ef-8a1f-0affd374995f"));
   }, []);
 
+
+  useEffect(() => {
+    const data = async () => {
+      const res = await GetCustomers();
+      const filteredCustomers = res.filter((customer) =>
+        [1].includes(customer.customerTypeId)
+      );
+      setretailPhar(filteredCustomers)
+    }
+    data()
+  }, [])
+
+  useEffect(() => {
+    const data = async () => {
+      const res = await GetCustomers();
+      const filteredCustomers = res.filter((customer) =>
+        [2].includes(customer.customerTypeId)
+      );
+      setGeneralMer(filteredCustomers)
+    }
+    data()
+  }, [])
+  useEffect(() => {
+    const data = async () => {
+      const res = await GetCustomers();
+      const filteredCustomers = res.filter((customer) =>
+        [3].includes(customer.customerTypeId)
+      );
+      setPharmacy(filteredCustomers)
+    }
+    data()
+  }, [])
+  useEffect(() => {
+    const data = async () => {
+      const res = await GetCustomers();
+      const filteredCustomers = res.filter((customer) =>
+        [4].includes(customer.customerTypeId)
+      );
+      setCustomer(filteredCustomers)
+    }
+    data()
+  }, [])
+  console.log("customerAdminDash-->", customer.length)
   // const CircleProgress = ({ percentage, color }) => {
   //   const radius = 20;
   //   const strokeWidth = 4;
