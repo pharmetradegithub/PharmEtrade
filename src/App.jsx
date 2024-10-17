@@ -364,6 +364,8 @@ function App() {
           <Route path="manage-shipping" element={<ManageShipping />} />
         </Route>
 
+        <Route path="/faqs" element={<Faqs />} />
+
         <Route path="/layout" element={<LayoutPanel cartItems={cartItems} />}>
           <Route
             path="/layout"
@@ -408,7 +410,7 @@ function App() {
             path="/layout/requestedquote"
             element={<LayoutAllrequestedQuote />}
           />
-                    <Route path="/layout/faqs" element={<Faqs />} />
+                    {/* <Route path="/layout/faqs" element={<Faqs />} /> */}
 
           <Route
             path="/layout/quotedproducts"

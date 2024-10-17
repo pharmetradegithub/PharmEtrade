@@ -57,7 +57,8 @@ export default {
         large:"1100px",
         Large:"1200px",
         Laptop:"1350px",
-        Largest : "1650px"
+        Largest : "1650px",
+        Desktop:"1900px"
     }
       
     },

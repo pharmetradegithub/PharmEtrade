@@ -153,7 +153,7 @@ const LayoutBuyerUpcomingGrid = () => {
         <div className='w-full h-[80vh] mt-4 overflow-y-auto'>
             <div className='flex flex-col mx-5'>
                 <div className='flex justify-between'>
-                <h1 className='text-xl text-blue-900 font-semibold mt-4'>Upcoming Deliveries</h1>
+                <h1 className='text-xl text-blue-900 font-semibold mt-4'>Upcoming Orders</h1>
                 {/* search start */}
                 <div className="relative flex mb-9">
                     <input
