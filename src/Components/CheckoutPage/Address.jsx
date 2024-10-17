@@ -1313,7 +1313,7 @@ function Address({ topMargin, totalAmount }) {
                               }}
                               error={!!formErrors.Pin_Code}
                               helperText={formErrors.Pin_Code}
-                              inputProps={{ maxLength: 10 }}
+                              inputProps={{ maxLength: 5 }}
                             />
                           </div>
                           <div className="flex my-2 gap-2">
@@ -1535,7 +1535,7 @@ function Address({ topMargin, totalAmount }) {
                                 className="w-[50%]"
                                 error={!!formErrors.Pin_Code}
                                 helperText={formErrors.Pin_Code}
-                                inputProps={{ maxLength: 10 }}
+                                inputProps={{ maxLength: 5 }}
                               />
                             </div>
                             <div className="flex my-2 gap-2">
@@ -1663,12 +1663,12 @@ function Address({ topMargin, totalAmount }) {
                         {selectedAddress && (
                           <div className="mt-4">
                             <h2 className="font-bold">Selected Address:</h2>
-                            <p>{selectedAddress.firstName}</p>
-                            <p>{selectedAddress.address1}</p>
-                            <p>{selectedAddress.city}</p>
+                            <p>{selectedAddress.firstName},</p>
+                            <p>{selectedAddress.address1},</p>
+                            <p>{selectedAddress.city},</p>
                             <div className="flex">
                               <p>{selectedAddress.state},</p>
-                              <p className="ml-2">{selectedAddress.pincode}</p>
+                              <p className="ml-2">{selectedAddress.pincode}.</p>
                             </div>
                           </div>
                         )}

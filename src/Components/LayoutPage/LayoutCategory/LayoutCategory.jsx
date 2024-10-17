@@ -45,7 +45,24 @@ function LayoutCategory({
   const productCriteria = useSelector(
     (state) => state.product.productsByCriteria
   );
-
+  const components = useSelector((state) => state.master.productCategoryGetAll);
+  const queryParams = new URLSearchParams(location.search);
+  const CategoryId = queryParams.get("CategoryName");
+  const modifiedComponents = [
+    { productCategoryId: -1, categoryName: "All" },
+    ...components,
+  ];
+  const [Header,setHeader]= useState('All');
+  useEffect(() => {
+    const heading = modifiedComponents.find(
+      (component) => component.productCategoryId == CategoryId
+    );
+    console.log(heading,"heading",CategoryId);
+    if(heading)
+      setHeader(heading.categoryName);
+    
+  }, [modifiedComponents,CategoryId])
+  
   console.log("cart--->", cart);
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
   //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
@@ -287,7 +304,7 @@ function LayoutCategory({
 
       <div className="flex justify-between">
         <h1 className="text-2xl font-semibold text-blue-900">
-          {productCriteria[0]?.productCategory?.categoryName}
+          {Header}
         </h1>
 
         <div className="flex gap-1">

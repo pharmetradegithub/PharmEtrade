@@ -414,14 +414,20 @@
 
 
 
-
 import React, { useEffect, useState } from 'react';
 import { TextField } from '@mui/material';
 import edit from '../../../assets/Edit.png';
 import { Select, MenuItem, FormControl, InputLabel, FormHelperText } from '@mui/material';
 import { useStates } from 'react-us-states';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchBeneficiaryAdd, fetchGetBeneficiary } from '../../../Api/UserApi';
 
 const BankInformation = () => {
+  const user = useSelector((state) => state.user.user);
+  const getBeneficiaryDetails = useSelector((state) => state.user.getBeneficiary);
+  console.log("----> Beneficiary Details:", getBeneficiaryDetails);
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     bankName: '',
     BankAddress: '',
@@ -440,7 +446,6 @@ const BankInformation = () => {
   });
 
   const [errors, setErrors] = useState({});
-
   const validate = () => {
     const newErrors = {};
     const regex = /^[0-9]*$/; // For numeric validation
@@ -496,12 +501,55 @@ const BankInformation = () => {
     setIsTabEdit(true);
   };
 
-  const handleTabSave = () => {
+  // const handleTabSave = async () => {
+  //   setIsTabEdit(false);
+  //   const payload = {
+  //     id: '',
+  //     customerId: user.customerId,
+  //     bankName: formData.bankName,
+  //     bankAddress: formData.BankAddress,
+  //     routingNumber: formData.RoutingNumber,
+  //     accountNumber: formData.AccountNumber,
+  //     accountType: formData.AccountType,
+  //     checkPayableTo: formData.CheckPayableTo,
+  //     firstName: formData.firstname,
+  //     lastName: formData.lastname,
+  //     addressLine1: formData.Address1,
+  //     addressLine2: formData.Address2,
+  //     city: formData.city,
+  //     state: formData.state,
+  //     zip: formData.zip
+  //   };
+  //   await dispatch(fetchBeneficiaryAdd(payload));
+   
+  // };
+
+  const handleTabSave = async () => {
     setIsTabEdit(false);
+    const payload = {
+      id: '',
+      customerId: user.customerId,
+      bankName: formData.bankName,
+      bankAddress: formData.BankAddress,
+      routingNumber: formData.RoutingNumber,
+      accountNumber: formData.AccountNumber,
+      accountType: formData.AccountType,
+      checkPayableTo: formData.CheckPayableTo,
+      firstName: formData.firstname,
+      lastName: formData.lastname,
+      addressLine1: formData.Address1,
+      addressLine2: formData.Address2,
+      city: formData.city,
+      state: formData.state,
+      zip: formData.zip
+    };
+    await dispatch(fetchBeneficiaryAdd(payload));
+  
+    // Show an alert message after saving
+    alert("Beneficiary details saved successfully!");
   };
 
   const accountTypes = ['Savings', 'Checking', 'Current']; // Example account types
-
   const [states, setStates] = useState([]);
 
   useEffect(() => {
@@ -516,6 +564,36 @@ const BankInformation = () => {
     });
   };
 
+  // Populate form data with beneficiary details when available
+  useEffect(() => {
+    if (getBeneficiaryDetails) {
+      setFormData({
+        bankName: getBeneficiaryDetails.bankName || '',
+        BankAddress: getBeneficiaryDetails.bankAddress || '',
+        RoutingNumber: getBeneficiaryDetails.routingNumber || '',
+        AccountNumber: getBeneficiaryDetails.accountNumber || '',
+        AccountType: getBeneficiaryDetails.accountType || '',
+        CheckPayableTo: getBeneficiaryDetails.checkPayableTo || '',
+        firstname: getBeneficiaryDetails.firstName || '',
+        lastname: getBeneficiaryDetails.lastName || '',
+        Address1: getBeneficiaryDetails.addressLine1 || '',
+        Address2: getBeneficiaryDetails.addressLine2 || '',
+        city: getBeneficiaryDetails.city || '',
+        state: getBeneficiaryDetails.state || '',
+        zip: getBeneficiaryDetails.zip || '',
+        bankAccountDollars: getBeneficiaryDetails.bankAccountDollars || '',
+      });
+    }
+  }, [getBeneficiaryDetails]);
+
+  useEffect(() => {
+    const fetchdata = async () => {
+      dispatch(fetchGetBeneficiary(user.customerId));  // Dispatch function to get beneficiary details
+    };
+    if (user.customerId) {
+      fetchdata();
+    }
+  }, [user.customerId, dispatch]);
   return (
     <div>
       <h1 className="text-xl text-blue-900 font-semibold mx-6 py-4">Bank Information</h1>
@@ -719,7 +797,7 @@ const BankInformation = () => {
                   
                 >
                   {states.map((state, index) => (
-                    <MenuItem key={index} value={state.abbreviation}>
+                    <MenuItem key={state.abbreviation } value={state.name}>
                       {state.name}
                     </MenuItem>
                   ))}
@@ -758,7 +836,7 @@ const BankInformation = () => {
               </button>
             ) : null}
           </div> */}
-
+{/* 
 <div className="flex  justify-end py-2">
                  
                   <button
@@ -769,7 +847,18 @@ const BankInformation = () => {
                   >
                     Save
                   </button>
-                </div>
+                </div> */}
+                <div className="flex justify-end py-2">
+  <button
+    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit ? "opacity-50 cursor-not-allowed" : ""
+      }`}
+    onClick={handleTabSave}
+    disabled={!isTabEdit}
+  >
+    Save
+  </button>
+</div>
+
         </form>
       </div>
     </div>
