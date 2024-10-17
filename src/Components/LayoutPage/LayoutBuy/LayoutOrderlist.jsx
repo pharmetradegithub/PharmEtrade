@@ -1187,7 +1187,7 @@ const currentItems = sortedOrders.slice(indexOfFirstItem, indexOfLastItem);
       grid: "received",
     },
     {
-      label: "Upcoming Orders",
+      label: "Upcoming Deliveries",
       grid: "upcoming",
     },
     {
