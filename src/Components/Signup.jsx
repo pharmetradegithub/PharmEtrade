@@ -3962,7 +3962,19 @@ if (!formData.Business_Fax && userType !== "Retail Customer") {
                 />
                 <label className="text-gray-700 ml-1">
                   Please accept PharmEtrade{" "}
-                  <Link onClick={() => setActiveStep(5)} className="text-red-500">
+                  {/* <Link onClick={() => setActiveStep(5)} className="text-red-500"> */}
+                  <Link
+                    onClick={(e) => {
+                      e.preventDefault(); // Prevents default behavior if needed
+                      // setActiveStep(5); // This keeps your original functionality
+                      window.open(
+                        "/termsandconditions",
+                        "_blank",
+                        "noopener,noreferrer"
+                      ); // Opens the link in a new tab
+                    }}
+                    className="text-red-500"
+                  >
                     Terms & Conditions
                   </Link>
                 </label>
