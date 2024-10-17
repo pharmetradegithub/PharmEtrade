@@ -53,9 +53,27 @@ const wishlistSlice = createSlice({
   },
 });
 
+// const userSlice = createSlice({
+//   name: "user",
+//   initialState: { user: null, businessInfo: null, menuItems: null },
+//   reducers: {
+//     setUser(state, action) {
+//       state.user = action.payload.customerDetails;
+//       state.businessInfo = action.payload.businessInfo;
+//     },
+//     setMenuItems(state, action) {
+//       state.menuItems = action.payload;
+//     },
+//     clearUser(state) {
+//       state.user = null;
+//       state.businessInfo = null;
+//     },
+//   },
+// });
+
 const userSlice = createSlice({
   name: "user",
-  initialState: { user: null, businessInfo: null, menuItems: null },
+  initialState: { user: null, businessInfo: null, menuItems: null, addBeneficiary: [], getBeneficiary: []},
   reducers: {
     setUser(state, action) {
       state.user = action.payload.customerDetails;
@@ -67,6 +85,13 @@ const userSlice = createSlice({
     clearUser(state) {
       state.user = null;
       state.businessInfo = null;
+    },
+    setAddBeneficiary(state, action) {
+      state.addBeneficiary = action.payload;
+    },
+    setGetBeneficiary(state, action) {
+      console.log(action.payload, "beneficiary")
+      state.getBeneficiary = action.payload;
     },
   },
 });
@@ -397,7 +422,8 @@ export const { setReturns } = returnsSlice.actions
 export const { setAddress } = addressSlice.actions
 export const { setAddAddress } = addressSlice.actions
 export const { setAdmin } = adminSlice.actions
-
+export const { setAddBeneficiary } = userSlice.actions
+export const { setGetBeneficiary } = userSlice.actions
 
 const store = configureStore({
   reducer: {

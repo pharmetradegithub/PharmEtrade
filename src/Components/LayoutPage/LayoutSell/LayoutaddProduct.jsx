@@ -122,8 +122,8 @@ function LayoutaddProduct() {
     mainImageUrl: null,
     price: 0,
     amountInStock: 0,
-    minimumquantity:1,
-
+    minOrderQuantity:1,
+    maxOrderQuantity:0,
     taxable: false,
     productDetails: "",
     aboutProduct: "",
@@ -136,6 +136,7 @@ function LayoutaddProduct() {
     Width: 0,
     states: [],
     shippingCostApplicable: false,
+    isReturnable : "",
     upnMemberPrice: 0,
     salePrice: 0,
     salePriceForm: null,
@@ -193,13 +194,16 @@ function LayoutaddProduct() {
       price: product.unitPrice,
       sku: product.sku,
       amountInStock: product.amountInStock,
-      minimumquantity:product.minimumquantity,
+      minOrderQuantity:product.minOrderQuantity==0? 1 : product.minOrderQuantity,
+      maxOrderQuantity:product.maxOrderQuantity,
       taxable: product.taxable,
       productDetails: product.productDescription,
       aboutProduct: product.aboutTheProduct,
       states: product.states.split(",").map((state) => state.trim()),
       size: product.size,
       form: product.form,
+      isReturnable: product.isReturnable,
+      shippingCostApplicable:product.shippingCostApplicable,
       unitOfMeasurement: product.unitOfMeasure,
       upnMemberPrice: product.upnMemberPrice,
       salePrice: product.salePrice,
@@ -260,7 +264,8 @@ function LayoutaddProduct() {
       mainImageUrl: null,
       price: 0,
       amountInStock: 0,
-      minimumquantity:0,
+      minOrderQuantity:1,
+      maxOrderQuantity:0,
       taxable: false,
       productDetails: "",
       aboutProduct: "",
@@ -541,6 +546,13 @@ function LayoutaddProduct() {
           [name]: value === "1" ? true : false, // Set to true for "1" (Yes), false for "0" (No)
         }));
       }
+      if(name === "isReturnable")
+      {
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: value === "1" ? true : false, // Set to true for "1" (Yes), false for "0" (No)
+        }));
+      }
     } else if (type === "checkbox") {
       // Handle checkboxes for packCondition
       if (name === "states") {
@@ -789,8 +801,8 @@ function LayoutaddProduct() {
         formData.shippingCostApplicable == 1 ? true : false,
       shippingCost: 20,
       amountInStock: formData.amountInStock,
-      minimumquantity: formData.minimumquantity,
-
+      minOrderQuantity: formData.minOrderQuantity,
+      maxOrderQuantity: formData.maxOrderQuantity,
     };
     if (formData.discount == null || formData.discount == "")
       setFormData({ ...formData, ["discount"]: 0 });
@@ -1835,13 +1847,13 @@ function LayoutaddProduct() {
                     </label>
                     {/* <label className="font-semibold">Amount in Stock:</label> */}
                     <input
-                      name="minumumquantity"
+                      name="minOrderQuantity"
                       type="phone"
                       className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       onChange={handleInputChange}
-                      value={formData.minimumquantity === 0
+                      value={formData.minOrderQuantity === 0
                           ? ""
-                          : formData.minimumquantity
+                          : formData.minOrderQuantity
                       }
                     />
                     
@@ -1853,15 +1865,14 @@ function LayoutaddProduct() {
                        Maximum Order  Quantity :
                     </label>
                     <input
-                      // name="upnMemberPrice"
+                      name="maxOrderQuantity"
                       type="phone"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      // onChange={handleInputChange}
-                      // value={
-                      //   formData.upnMemberPrice === ""
-                      //     ? ""
-                      //     : formData.upnMemberPrice
-                      // }
+                      className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.maxOrderQuantity === 0
+                          ? ""
+                          : formData.maxOrderQuantity
+                      }
                     />
                   </div>
               </div>
@@ -1945,9 +1956,9 @@ function LayoutaddProduct() {
                 <input
                   type="radio"
                   id="yes"
-                  name="shippingCostApplicable"
+                  name="isReturnable"
                   value="1"
-                  checked={formData.shippingCostApplicable === true}
+                  checked={formData.isReturnable === true}
                   onChange={handleInputChange}
                   className="ml-2"
                 />
@@ -1958,9 +1969,9 @@ function LayoutaddProduct() {
                 <input
                   type="radio"
                   id="no"
-                  name="shippingCostApplicable"
+                  name="isReturnable"
                   value="0"
-                  checked={formData.shippingCostApplicable === false}
+                  checked={formData.isReturnable === false}
                   onChange={handleInputChange}
                   className="ml-2"
                 />
@@ -2518,4 +2529,4 @@ function LayoutaddProduct() {
   );
 }
 
-export default LayoutaddProduct;
+export default LayoutaddProduct; 

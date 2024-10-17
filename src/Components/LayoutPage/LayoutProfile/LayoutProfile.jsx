@@ -2295,6 +2295,7 @@ import BankInformation from "./BankInformation";
 
 import { useSelector } from "react-redux";
 import { useStates } from 'react-us-states';
+import TaxInformation from "./TaxInformation";
 const LayoutProfile = () => {
   const userdata = useSelector((state) => state.user.user); // Get user data from redux
   const [isEditable, setIsEditable] = useState(false); // State to toggle edit mode
@@ -2369,6 +2370,10 @@ const LayoutProfile = () => {
     {
       label: "Bank Information",
       grid: "bank",
+    },
+    {
+      label: "Tax Information",
+      grid: "Tax",
     },
   ];
   const [visibleGrid, setVisibleGrid] = useState("account"); // Default to Account Information
@@ -2748,7 +2753,7 @@ const LayoutProfile = () => {
             {/* Account Information Section */}
             <div
               className={`bg-white border ${isAccountEdit ? "border-blue-900" : "border-gray-400"
-                } rounded-lg px-8 w-full mt-8 relative`}
+                } rounded-lg px-8 w-full mt-8 relative mb-4`}
             >
               {isAccountEdit && (
                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -2900,6 +2905,15 @@ const LayoutProfile = () => {
           >
             {/* Your bank information grid details here */}
             <BankInformation />
+          </div>
+        )}
+
+{visibleGrid === "Tax" && (
+          <div
+          //  className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4"
+          >
+            {/* Your bank information grid details here */}
+            <TaxInformation />
           </div>
         )}
       </div>

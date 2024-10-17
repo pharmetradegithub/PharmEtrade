@@ -305,7 +305,6 @@ function App() {
             path="/offers"
             element={<Offers addCart={addCart} wishList={wishList} />}
           /> */}
-          <Route path="/faqs" element={<Faqs />} />
           <Route
             path="/wishlist"
             element={
@@ -409,6 +408,8 @@ function App() {
             path="/layout/requestedquote"
             element={<LayoutAllrequestedQuote />}
           />
+                    <Route path="/layout/faqs" element={<Faqs />} />
+
           <Route
             path="/layout/quotedproducts"
             element={<LayoutAllQuotesProducts />}

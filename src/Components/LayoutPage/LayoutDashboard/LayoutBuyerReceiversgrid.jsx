@@ -153,10 +153,11 @@ const LayoutBuyerReceiversgrid = () => {
     return (
         <div className='w-full h-[80vh] mt-4 overflow-y-auto'>
             <div className='flex flex-col mx-5'>
-                <h1 className='text-xl text-blue-900 font-semibold'>Received Deliveries</h1>
+                <div className='flex justify-between'>
+                <h1 className='text-xl text-blue-900 font-semibold mt-4'>Received Deliveries</h1>
 
                 {/* search start */}
-                <div className="relative flex my-4">
+                <div className="relative flex mb-9">
                     <input
                         type="text"
                         placeholder="Search Product....."
@@ -165,6 +166,7 @@ const LayoutBuyerReceiversgrid = () => {
                         className="border rounded-xl h-10 w-64 text-left px-8 gap-2"
                     />
                     <CiSearch className="absolute left-2 top-3 text-gray-400 " />
+                </div>
                 </div>
                 {/* search end */}
                 <div className='w-full '>

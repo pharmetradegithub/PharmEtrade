@@ -59,12 +59,14 @@ const LayoutNav = ({ Form_Data }) => {
   //     setActivePopUp(name); // Set the active popup
   //   }
   // };
-
-  const handleItemClick = (name) => {
+  const [selectedItemId,setSelectedItemId]= useState(-1);
+  const handleItemClick = (name,id) => {
     if (activePopUp === name) {
+      setSelectedItemId(-1);
       setActivePopUp(null); // Close the popup if it's already open
       setSelectedItem("All"); // Reset to "All" when closed
     } else {
+      setSelectedItemId(id);
       setActivePopUp(name); // Set the active popup
       setSelectedItem(name); // Update the button label with the selected item
     }
@@ -84,6 +86,7 @@ const LayoutNav = ({ Form_Data }) => {
   // };
 
   const handleCriteria = async (obj) => {
+    handleItemClick(obj.categoryName,obj.productCategoryId)
     let Criteria = {
       productCategoryId: obj.productCategoryId,
     };
@@ -113,17 +116,33 @@ const LayoutNav = ({ Form_Data }) => {
 
   console.log(SearchInput, "search");
   const handleSearchAPI = async () => {
-    let Criteria = {
-      productName: SearchInput,
-    };
+ 
 
-    console.log("g--->", Criteria);
+      
+      let Criteria = {
+        productCategoryId: selectedItemId,
+        productName: SearchInput,
+      };
+      if(selectedItemId==-1)
+      {
+        Criteria = {
+          productName: SearchInput,
 
-    await fetchCriteriaProductsApi(Criteria);
-    navigate(`/layout/layoutCategoryProducts?Search=${SearchInput}`);
-    setSearchInput("");
+
+        }
+      }
+  
+      console.log("g--->", Criteria);
+  
+      await fetchCriteriaProductsApi(Criteria);
+      navigate(`/layout/layoutCategoryProducts?CategoryName=${selectedItemId}`);
+      setSearchInput("");
+    
+    
+    
+   
   };
-
+console.log(selectedItem);
   const components = useSelector((state) => state.master.productCategoryGetAll);
 
   const modifiedComponents = [
@@ -131,18 +150,6 @@ const LayoutNav = ({ Form_Data }) => {
     ...components,
   ];
 
-  // const components = [
-  //   { id: 1, name: "Prescription Medications" },
-  //   { id: 2, name: "Baby & Child Care Products" },
-  //   { id: 4, name: "Health care products" },
-  //   { id: 5, name: "Household Suppliers" },
-  //   { id: 6, name: "Oral Care Products" },
-  //   { id: 7, name: "Stationery & Gift Wrapping Supplies" },
-  //   { id: 8, name: "Vision Products" },
-  //   { id: 9, name: "Diet & Sports Nutrition" },
-  //   { id: 10, name: "Vitamins, Minerals & Supplements" },
-  //   { id: 11, name: "Personal Care Products" },
-  // ];
   const handleCatMouseLeave = () => {
     setPopUps(null);
   };
@@ -315,23 +322,10 @@ const LayoutNav = ({ Form_Data }) => {
                         <li className="">
                           <a
                             className="hover:text-black cursor-pointer text-sm font-medium text-blue-900"
-                            onClick={() => handleItemClick(items.categoryName)}
                             onMouseLeave={handleCatMouseLeave}
                           >
                             {items.categoryName}
                           </a>
-                          {/* {popUps === items.name && (
-                            <div
-                              className="absolute bg-white border border-gray-300 rounded shadow-lg"
-                              style={{
-                                top: "0%",
-                                left: "100%",
-                                width: "150px",
-                              }}
-                            >
-                              {items.component}
-                            </div>
-                          )} */}
                         </li>
                       </ul>
                     ))}

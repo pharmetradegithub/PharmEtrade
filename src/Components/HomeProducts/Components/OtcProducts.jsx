@@ -227,7 +227,7 @@ const OtcProducts = () => {
               </div> */}
               <div
                 className={`flex p-1 rounded-md justify-center ${
-                  item.amountInStock === 0
+                  item.amountInStock <= 0
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-blue-900 cursor-pointer"
                 }`}
@@ -241,14 +241,14 @@ const OtcProducts = () => {
                   src={addcart}
                   alt="Add to cart"
                   className={`h-8 p-[6px] ${
-                    item.amountInStock === 0 ? "opacity-50" : ""
+                    item.amountInStock <= 0 ? "opacity-50" : ""
                   }`}
                 />
                 <button
                   className={`text-white font-semibold ${
-                    item.amountInStock === 0 ? "opacity-50" : ""
+                    item.amountInStock <= 0 ? "opacity-50" : ""
                   }`}
-                  disabled={item.amountInStock === 0} // Disable the button when out of stock
+                  disabled={item.amountInStock <= 0} // Disable the button when out of stock
                 >
                   ADD
                 </button>
