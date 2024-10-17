@@ -2686,16 +2686,36 @@ const Signup = () => {
 //         newErrors.Business_Fax = "Business PhoneNumber must be 10 digits";
 
 //       }
-if (!formData.Business_Fax && userType !== "Retail Customer") {
-  newErrors.Business_Fax = "Business Fax is required";
-} else if (formData.Business_Fax.replace(/\D/g, '').length !== 10) {
-  newErrors.Business_Fax = "Business Fax must be exactly 10 digits";
+// if (!formData.Business_Fax && userType !== "Retail Customer") {
+//   newErrors.Business_Fax = "Business Fax is required";
+// } else if (formData.Business_Fax.replace(/\D/g, '').length !== 10) {
+//   newErrors.Business_Fax = "Business Fax must be exactly 10 digits";
+// }
+
+if (userType !== "Retail Customer") { // Only validate for non-retail customers
+  if (!formData.Business_Fax) {
+    newErrors.Business_Fax = "Business Fax is required";
+  } else if (formData.Business_Fax.replace(/\D/g, '').length !== 10) {
+    newErrors.Business_Fax = "Business Fax must be exactly 10 digits";
+  }
 }
       if (!formData.Business_Email && userType != "Retail Customer")
         newErrors.Business_Email = " Business Email is required";
 
-      if (!formData.companyWebsite && userType != "Retail Customer")
-        newErrors.companyWebsite = "company Website is required";
+      // if (!formData.companyWebsite && userType != "Retail Customer")
+      //   newErrors.companyWebsite = "company Website is required";
+
+      const websiteRegex = /^www\.[a-zA-Z0-9-]+\.com$/;
+      if (userType !== "Retail Customer") { // Only validate for non-retail customers
+        if (!formData.companyWebsite) {
+          newErrors.companyWebsite = "Company website is required";
+        } else if (!websiteRegex.test(formData.companyWebsite)) {
+          newErrors.companyWebsite = "Invalid company website format. Use www.example.com";
+}
+}
+    
+      // setErrors(newErrors);
+      // return Object.keys(newErrors).length === 0;
 
       else if (
         !formData.Business_Email.match(regexp) &&
@@ -2703,7 +2723,13 @@ if (!formData.Business_Fax && userType !== "Retail Customer") {
       )
         newErrors.Business_Email = " Business Email is required";
 
-      if (!formData.zip) newErrors.zip = "Zip is required";
+      // if (!formData.zip) newErrors.zip = "Zip is required";
+        // Zip validation
+  if (!formData.zip) {
+    newErrors.zip = "Zip is required";
+  } else if (formData.zip.length < 5) {
+    newErrors.zip = "Zip must be at least 5 digits long";
+  }
       if (!formData.Address1) newErrors.Address1 = "Address is required";
       if (!formData.city) newErrors.city = "City is required";
       if (!formData.State) newErrors.State = "State is required";
@@ -3962,19 +3988,7 @@ if (!formData.Business_Fax && userType !== "Retail Customer") {
                 />
                 <label className="text-gray-700 ml-1">
                   Please accept PharmEtrade{" "}
-                  {/* <Link onClick={() => setActiveStep(5)} className="text-red-500"> */}
-                  <Link
-                    onClick={(e) => {
-                      e.preventDefault(); // Prevents default behavior if needed
-                      // setActiveStep(5); // This keeps your original functionality
-                      window.open(
-                        "/termsandconditions",
-                        "_blank",
-                        "noopener,noreferrer"
-                      ); // Opens the link in a new tab
-                    }}
-                    className="text-red-500"
-                  >
+                  <Link onClick={() => setActiveStep(5)} className="text-red-500">
                     Terms & Conditions
                   </Link>
                 </label>
@@ -4098,40 +4112,4 @@ const activeCircleStyle = {
 };
 
 export default Signup;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
