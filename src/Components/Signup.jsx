@@ -3794,7 +3794,7 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
             <div className="flex flex-row w-full -mb-2 justify-between">
               <div className="w-[45%]">
                 <span className="text-xs">DEA License Copy (jpg, png, jpeg)</span>
-                <TextField
+                {/* <TextField
                   label=""
                   type="file"
                   onChange={handleInputChange}
@@ -3808,27 +3808,70 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                   FormHelperTextProps={{
                     sx: { visibility: errors.DEA_License_Copy ? "visible" : "hidden" },
                   }}
+                /> */}
+                <input
+                  type="file"
+                  name="DEA_License_Copy"
+                  id="dea-license-copy"
+                  onChange={handleInputChange}
+                  accept="image/*"
+                  className={`w-full p-2 border rounded-md ${
+                    errors.DEA_License_Copy
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  }`}
+                  style={{
+                    borderColor: errors.DEA_License_Copy ? "red" : "gray",
+                    outline: "none",
+                    transition: "border-color 0.3s ease", // Smooth transition for the border color
+                  }}
+                  onFocus={(e) => (e.target.style.borderColor = "black")} // Black border on focus
+                  onBlur={(e) =>
+                    (e.target.style.borderColor = errors.DEA_License_Copy
+                      ? "red"
+                      : "gray")
+                  } // Revert back to the original color after losing focus
                 />
+                 <p
+                  style={{
+                    color: "red",
+                    visibility: errors.DEA_License_Copy
+                      ? "visible"
+                      : "hidden",
+                  }}
+                >
+                  {errors.DEA_License_Copy}
+                </p>
                 {file1 && <div>{file1}</div>}
               </div>
 
               <div className="w-[45%]">
                 <span className="text-xs">Pharmacy License Copy (jpeg, jpg, png)</span>
-                <TextField
-                  label=""
+                <input
                   type="file"
                   onChange={handleInputChange}
                   name="Pharmacy_License_Copy"
-                  id="outlined-size-small"
-                 accept="image/jpeg, image/png, image/gif, image/jpg, image/webp"
-                  error={!!errors.Pharmacy_License_Copy}
-                  size="small"
-                  className="w-full"
-                  helperText={errors.Pharmacy_License_Copy}
-                  FormHelperTextProps={{
-                    sx: { visibility: errors.Pharmacy_License_Copy ? "visible" : "hidden" },
+                  accept="image/*"
+                  className="file-input"
+                  style={{
+                    display: "block",
+                    width: "100%",
+                    padding: "8px 12px",
+                    fontSize: "16px",
+                    borderRadius: "4px",
+                    border: "1px solid #ced4da",
                   }}
                 />
+                <p
+                  style={{
+                    color: "red",
+                    visibility: errors.Pharmacy_License_Copy
+                      ? "visible"
+                      : "hidden",
+                  }}
+                >
+                  {errors.Pharmacy_License_Copy}
+                </p>
                 {file2 && <div>{file2}</div>}
               </div>
             </div>
