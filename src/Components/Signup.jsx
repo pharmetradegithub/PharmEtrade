@@ -1,4 +1,3 @@
-
 // import React, { useEffect, useState } from "react";
 // import "../App.css";
 // import logoImage from "../assets/logo2.png";
@@ -75,7 +74,6 @@
 //   const [newsletterChecked, setNewsletterChecked] = useState(false);
 //   const [termsChecked, setTermsChecked] = useState(false);
 
-
 //   const validateCheckboxes = () => {
 //     // Set showErrors to true if either checkbox is not checked
 //     setShowErrors(true);
@@ -116,7 +114,6 @@
 //     event.preventDefault();
 //   };
 
-
 //   const userTypes = [
 //     "Retail Pharmacy",
 //     "General Merchandise Seller",
@@ -128,7 +125,6 @@
 //     setUserType(e.target.value);
 //     setSelectedValue(""); // Reset UPN Member selection on User Type change
 //   };
-
 
 //   // const userTypes = [
 //   //   "Retail Pharmacy",
@@ -177,8 +173,6 @@
 //     setBuyerVisible(true);
 //   };
 
-
-
 //   // Validate the newsletter checkbox on change
 //   useEffect(() => {
 //     if (!newsletterChecked) {
@@ -207,8 +201,6 @@
 //       }));
 //     }
 //   }, [termsChecked]);
-
-
 
 //   const [activeStep, setActiveStep] = useState(0);
 //   const [skippedSteps, setSkippedSteps] = useState([]);
@@ -360,7 +352,6 @@
 //   //   }
 //   // };
 
-
 //   const handleInputChange = async (e) => {
 //     const { name, value, type, files, checked } = e.target;
 //     setErrors((prevErrors) => ({
@@ -460,12 +451,10 @@
 
 //   // const [searchTerm, setSearchTerm] = useState('');
 
-
 //   const handleClickShowConfirmPassword = () => {
 //     setShowConfirmPassword(!showConfirmPassword);
 //   };
 //   const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-
 
 //   // Prevent special characters from being typed
 //   const handleKeyPress = (e) => {
@@ -597,7 +586,6 @@
 //     //     newErrors.upnMember = "UPN Member selection is required";
 //     // }
 
-
 //     if (step === 1) {
 //       if (!userType) newErrors.userType = "User Type is required";
 
@@ -654,8 +642,6 @@
 //       if (!formData.Address1) newErrors.Address1 = "Address is required";
 //       if (!formData.city) newErrors.city = "City is required";
 //       if (!formData.State) newErrors.State = "State is required";
-
-
 
 //     } else if (step === 3) {
 //       if (
@@ -1131,7 +1117,7 @@
 //               {errors?.password?.length > 1 && (
 //                 <div className="w-[80%]">{errors.password}</div>
 //               )}
-//               {/* {errors.confirmPassword && 
+//               {/* {errors.confirmPassword &&
 //               <div>
 //                 {errors.confirmPassword}
 //               </div>
@@ -1276,7 +1262,6 @@
 //           //     </span>
 //           //   </div>
 //           // </div>
-
 
 //           <div>
 //             <div className="p-4">
@@ -1459,7 +1444,6 @@
 
 //             </div>
 
-
 //             <div>
 //               <FormControl className="w-[92%]" error={!!errors.State}>
 //                 <InputLabel id="state-select-label"></InputLabel>
@@ -1533,8 +1517,8 @@
 //                   placeholder="Enter your business phone"
 //                   size="small"
 //                   className="w-[92%]"
-//                   helperText={ 
-//                    "" && formData.BusinessPhone !== "" 
+//                   helperText={
+//                    "" && formData.BusinessPhone !== ""
 //                       ?""
 //                       : "Bussiness phone is required" // Fallback to helper text
 //                   }
@@ -1815,7 +1799,7 @@
 //           helperText={errors.Federal_Tax_ID}
 //           FormHelperTextProps={{
 //             sx: { visibility: errors.Federal_Tax_ID ? "visible" : "hidden" },
-            
+
 //           }}
 //         /> */}
 //               </div>
@@ -1909,8 +1893,6 @@
 //                 )}
 //               </div>
 //             </div>
-
-
 
 //           </div>
 //         );
@@ -2022,10 +2004,6 @@
 
 // export default Signup;
 
-
-
-
-
 import React, { useEffect, useState } from "react";
 import "../App.css";
 import logoImage from "../assets/logo2.png";
@@ -2064,7 +2042,7 @@ function getSteps() {
     { label: "User", para: "Information" },
     { label: "Account Type" },
     { label: "Address", para: "Information" },
-    { label: "Account", para: "Information" }
+    { label: "Account", para: "Information" },
   ];
 }
 
@@ -2102,7 +2080,6 @@ const Signup = () => {
   const [newsletterChecked, setNewsletterChecked] = useState(false);
   const [termsChecked, setTermsChecked] = useState(false);
 
-
   const validateCheckboxes = () => {
     // Set showErrors to true if either checkbox is not checked
     setShowErrors(true);
@@ -2121,7 +2098,7 @@ const Signup = () => {
   // Federal Tax Id
   const formatFederalTaxID = (value) => {
     // Remove all non-numeric characters
-    const numericValue = value.replace(/\D/g, '');
+    const numericValue = value.replace(/\D/g, "");
 
     // Format according to the 99-9999999 pattern
     if (numericValue.length <= 2) {
@@ -2136,13 +2113,12 @@ const Signup = () => {
     const { value } = e.target;
     const formattedValue = formatFederalTaxID(value);
     handleInputChange({
-      target: { name: 'Federal_Tax_ID', value: formattedValue },
+      target: { name: "Federal_Tax_ID", value: formattedValue },
     });
   };
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
 
   const userTypes = [
     "Retail Pharmacy",
@@ -2155,7 +2131,6 @@ const Signup = () => {
     setUserType(e.target.value);
     setSelectedValue(""); // Reset UPN Member selection on User Type change
   };
-
 
   // const userTypes = [
   //   "Retail Pharmacy",
@@ -2204,8 +2179,6 @@ const Signup = () => {
     setBuyerVisible(true);
   };
 
-
-
   // Validate the newsletter checkbox on change
   useEffect(() => {
     if (!newsletterChecked) {
@@ -2234,8 +2207,6 @@ const Signup = () => {
       }));
     }
   }, [termsChecked]);
-
-
 
   const [activeStep, setActiveStep] = useState(0);
   const [skippedSteps, setSkippedSteps] = useState([]);
@@ -2389,8 +2360,8 @@ const Signup = () => {
   const getTodayDate = () => {
     const today = new Date();
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // Add leading zero to month
-    const day = String(today.getDate()).padStart(2, '0'); // Add leading zero to day
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // Add leading zero to month
+    const day = String(today.getDate()).padStart(2, "0"); // Add leading zero to day
     return `${year}-${month}-${day}`; // Return today's date in 'YYYY-MM-DD' format
   };
 
@@ -2445,31 +2416,32 @@ const Signup = () => {
       });
     }
 
-    if (name === 'DEA_Expiration_Date') {
+    if (name === "DEA_Expiration_Date") {
       const today = getTodayDate();
       if (new Date(value) < new Date(today)) {
         setErrors((prev) => ({
           ...prev,
-          DEA_Expiration_Date: 'DEA Expiration Date cannot be in the past.',
+          DEA_Expiration_Date: "DEA Expiration Date cannot be in the past.",
         }));
       } else {
         setErrors((prev) => ({
           ...prev,
-          DEA_Expiration_Date: '',
+          DEA_Expiration_Date: "",
         }));
       }
     }
-    if (name === 'Pharmacy_Expiration_Date') {
+    if (name === "Pharmacy_Expiration_Date") {
       const today = getTodayDate();
       if (new Date(value) < new Date(today)) {
         setErrors((prev) => ({
           ...prev,
-          Pharmacy_Expiration_Date: 'Pharmacy Expiration Date cannot be in the past.',
+          Pharmacy_Expiration_Date:
+            "Pharmacy Expiration Date cannot be in the past.",
         }));
       } else {
         setErrors((prev) => ({
           ...prev,
-          Pharmacy_Expiration_Date: '',
+          Pharmacy_Expiration_Date: "",
         }));
       }
     }
@@ -2493,12 +2465,10 @@ const Signup = () => {
 
   // const [searchTerm, setSearchTerm] = useState('');
 
-
   const handleClickShowConfirmPassword = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
-  const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-
+  const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
 
   // Prevent special characters from being typed
   const handleKeyPress = (e) => {
@@ -2510,13 +2480,13 @@ const Signup = () => {
   // bussiness afx
   // Function to format phone number as 222-222-1457
   const formatFaxNumber = (value) => {
-    const cleaned = value.replace(/\D/g, ''); // Remove all non-numeric characters
+    const cleaned = value.replace(/\D/g, ""); // Remove all non-numeric characters
     const match = cleaned.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
 
     if (match) {
-      const part1 = match[1] ? `${match[1]}` : '';
-      const part2 = match[2] ? `-${match[2]}` : '';
-      const part3 = match[3] ? `-${match[3]}` : '';
+      const part1 = match[1] ? `${match[1]}` : "";
+      const part2 = match[2] ? `-${match[2]}` : "";
+      const part3 = match[3] ? `-${match[3]}` : "";
       return `${part1}${part2}${part3}`;
     }
 
@@ -2553,8 +2523,7 @@ const Signup = () => {
         /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
       if (!formData.First_Name)
         newErrors.First_Name = "First Name is required.";
-      if (!formData.Last_Name)
-        newErrors.Last_Name = "Last Name is required."
+      if (!formData.Last_Name) newErrors.Last_Name = "Last Name is required.";
 
       if (!formData.Email_id.match(regexp))
         newErrors.Email_id = "Email Id is required";
@@ -2604,7 +2573,6 @@ const Signup = () => {
           } else {
             console.error("Server error:", response.statusText);
           }
-
         } catch (error) {
           console.log(error);
         }
@@ -2630,14 +2598,16 @@ const Signup = () => {
     //     newErrors.upnMember = "UPN Member selection is required";
     // }
 
-
     if (step === 1) {
       if (!userType) newErrors.userType = "User Type is required";
 
-      if (userType === "Retail Pharmacy" && !selectedValue && !formData.upnMember)
+      if (
+        userType === "Retail Pharmacy" &&
+        !selectedValue &&
+        !formData.upnMember
+      )
         newErrors.upnMember = "UPN Member selection is required";
-    }
-    else if (step === 2) {
+    } else if (step === 2) {
       if (
         !formData.shopName &&
         userType != "Pharmacy Distributor" &&
@@ -2660,11 +2630,11 @@ const Signup = () => {
       //   newErrors.BusinessPhone = "businessphone is required";
 
       if (userType !== "Retail Customer") {
-        const cleanedPhone = formData.BusinessPhone.replace(/\D/g, ''); // Remove non-numeric characters
-      
+        const cleanedPhone = formData.BusinessPhone.replace(/\D/g, ""); // Remove non-numeric characters
+
         if (formData.BusinessPhone.length === 0) {
           newErrors.BusinessPhone = "Business PhoneNumber is required";
-        } else if (cleanedPhone .replace(/\D/g, '').length !== 10) {
+        } else if (cleanedPhone.replace(/\D/g, "").length !== 10) {
           newErrors.BusinessPhone = "Business PhoneNumber must be 10 digits";
         } else if (!formData.BusinessPhone.match(regphn)) {
           newErrors.BusinessPhone = "Invalid phone number format";
@@ -2679,26 +2649,27 @@ const Signup = () => {
       //   } else if (formData.BusinessPhone.replace(/\D/g, '').length !== 10)
       //     newErrors.BusinessPhone = "Business PhoneNumber must be 10 digits";
       // }
-// {
-//       if (!formData.Business_Fax .length === 0 && userType != "Retail Customer")
-//       { newErrors.Business_Fax = "Business Fax is required";
-//       }else if (formData.Business_Fax .length !== 12)
-//         newErrors.Business_Fax = "Business PhoneNumber must be 10 digits";
+      // {
+      //       if (!formData.Business_Fax .length === 0 && userType != "Retail Customer")
+      //       { newErrors.Business_Fax = "Business Fax is required";
+      //       }else if (formData.Business_Fax .length !== 12)
+      //         newErrors.Business_Fax = "Business PhoneNumber must be 10 digits";
 
-//       }
-// if (!formData.Business_Fax && userType !== "Retail Customer") {
-//   newErrors.Business_Fax = "Business Fax is required";
-// } else if (formData.Business_Fax.replace(/\D/g, '').length !== 10) {
-//   newErrors.Business_Fax = "Business Fax must be exactly 10 digits";
-// }
+      //       }
+      // if (!formData.Business_Fax && userType !== "Retail Customer") {
+      //   newErrors.Business_Fax = "Business Fax is required";
+      // } else if (formData.Business_Fax.replace(/\D/g, '').length !== 10) {
+      //   newErrors.Business_Fax = "Business Fax must be exactly 10 digits";
+      // }
 
-if (userType !== "Retail Customer") { // Only validate for non-retail customers
-  if (!formData.Business_Fax) {
-    newErrors.Business_Fax = "Business Fax is required";
-  } else if (formData.Business_Fax.replace(/\D/g, '').length !== 10) {
-    newErrors.Business_Fax = "Business Fax must be exactly 10 digits";
-  }
-}
+      if (userType !== "Retail Customer") {
+        // Only validate for non-retail customers
+        if (!formData.Business_Fax) {
+          newErrors.Business_Fax = "Business Fax is required";
+        } else if (formData.Business_Fax.replace(/\D/g, "").length !== 10) {
+          newErrors.Business_Fax = "Business Fax must be exactly 10 digits";
+        }
+      }
       if (!formData.Business_Email && userType != "Retail Customer")
         newErrors.Business_Email = " Business Email is required";
 
@@ -2706,17 +2677,18 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
       //   newErrors.companyWebsite = "company Website is required";
 
       const websiteRegex = /^www\.[a-zA-Z0-9-]+\.com$/;
-      if (userType !== "Retail Customer") { // Only validate for non-retail customers
+      if (userType !== "Retail Customer") {
+        // Only validate for non-retail customers
         if (!formData.companyWebsite) {
           newErrors.companyWebsite = "Company website is required";
         } else if (!websiteRegex.test(formData.companyWebsite)) {
-          newErrors.companyWebsite = "Invalid company website format. Use www.example.com";
-}
-}
-    
+          newErrors.companyWebsite =
+            "Invalid company website format. Use www.example.com";
+        }
+      }
+
       // setErrors(newErrors);
       // return Object.keys(newErrors).length === 0;
-
       else if (
         !formData.Business_Email.match(regexp) &&
         userType != "Retail Customer"
@@ -2724,18 +2696,15 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
         newErrors.Business_Email = " Business Email is required";
 
       // if (!formData.zip) newErrors.zip = "Zip is required";
-        // Zip validation
-  if (!formData.zip) {
-    newErrors.zip = "Zip is required";
-  } else if (formData.zip.length < 5) {
-    newErrors.zip = "Zip must be at least 5 digits long";
-  }
+      // Zip validation
+      if (!formData.zip) {
+        newErrors.zip = "Zip is required";
+      } else if (formData.zip.length < 5) {
+        newErrors.zip = "Zip must be at least 5 digits long";
+      }
       if (!formData.Address1) newErrors.Address1 = "Address is required";
       if (!formData.city) newErrors.city = "City is required";
       if (!formData.State) newErrors.State = "State is required";
-
-
-
     } else if (step === 3) {
       if (
         !formData.DEA &&
@@ -2809,7 +2778,7 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
       if (!formData.Federal_Tax_ID && userType != "Retail Customer") {
         newErrors.Federal_Tax_ID = "Federal Tax ID is required";
       } else if (userType != "Retail Customer" && formData.Federal_Tax_ID) {
-        const cleanedTaxID = formData.Federal_Tax_ID.replace(/\D/g, ''); // Remove non-numeric characters
+        const cleanedTaxID = formData.Federal_Tax_ID.replace(/\D/g, ""); // Remove non-numeric characters
         if (cleanedTaxID.length !== 9) {
           newErrors.Federal_Tax_ID = "Federal Tax ID must be 9 digits";
         }
@@ -2822,8 +2791,7 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
       )
         newErrors.NPI = "NPI is required";
 
-      if( termsChecked == false)
-      {
+      if (termsChecked == false) {
         newErrors.TermsAndConditions = "Terms and confition requried";
       }
       // if(newsletterChecked==false)
@@ -2969,10 +2937,10 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
         userType === "Retail Pharmacy"
           ? 1
           : userType === "General Merchandise Seller"
-            ? 2
-            : userType === "Pharmacy Distributor"
-              ? 3
-              : 4,
+          ? 2
+          : userType === "Pharmacy Distributor"
+          ? 3
+          : 4,
       accountTypeId:
         accountType === "Buyer" ? 1 : accountType === "Seller" ? 2 : 3,
       isUPNMember: formData.upnMember === "true" ? 1 : 0, // Convert to boolean if needed
@@ -3025,7 +2993,7 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
   //   }
   //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
   // };
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const filteredStates = states.filter((state) => {
     return state.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -3068,7 +3036,6 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                   onChange={handleInputChange}
                   error={!!errors.First_Name}
                   helperText={errors.First_Name}
-
                   size="small"
                   className="w-full"
                 />
@@ -3083,7 +3050,6 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                   onChange={handleInputChange}
                   error={!!errors.Last_Name}
                   helperText={errors.Last_Name}
-
                   size="small"
                   className="w-full"
                 />
@@ -3101,11 +3067,7 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                   error={!!errors.Email_id}
                   size="small"
                   className="w-full"
-                  helperText={
-                    errors?.Email_id !== null
-                      ? errors.Email_id
-                      : ""
-                  }
+                  helperText={errors?.Email_id !== null ? errors.Email_id : ""}
                 />
               </div>
 
@@ -3142,7 +3104,7 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                   error={Object.keys(PasswordErros).length > 0}
                   helperText={
                     formData.password.length > 0 &&
-                      Object.keys(PasswordErros).length > 0
+                    Object.keys(PasswordErros).length > 0
                       ? Object.values(PasswordErros).join(", ")
                       : ""
                   }
@@ -3248,7 +3210,6 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                 variant="standard"
                 error={!!errors.captcha}
                 helperText={errors.captcha}
-
               />
             </div>
           </div>
@@ -3364,7 +3325,6 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
           //   </div>
           // </div>
 
-
           <div>
             <div className="p-4">
               {/* User Type Section */}
@@ -3427,9 +3387,7 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
               )}
               <span>
                 {errors.upnMember && (
-                  <span className="text-red-500">
-                    {errors.upnMember}
-                  </span>
+                  <span className="text-red-500">{errors.upnMember}</span>
                 )}
               </span>
             </div>
@@ -3439,12 +3397,13 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
         return (
           <div className="grid grid-cols-2 gap-4 align-middle">
             <div
-              className={`${userType === "Pharmacy Distributor" ||
+              className={`${
+                userType === "Pharmacy Distributor" ||
                 userType === "Retail Customer" ||
                 userType === "General Merchandise Seller"
-                ? "hidden"
-                : ""
-                } w-full`}
+                  ? "hidden"
+                  : ""
+              } w-full`}
             >
               <TextField
                 label="Shop Name"
@@ -3473,9 +3432,12 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                   onChange={(e) => {
                     const { value } = e.target;
                     // Allow only alphabets and spaces by replacing anything else
-                    const alphabeticValue = value.replace(/[^a-zA-Z\s]/g, '');
+                    const alphabeticValue = value.replace(/[^a-zA-Z\s]/g, "");
                     handleInputChange({
-                      target: { name: "legalBusinessName", value: alphabeticValue }
+                      target: {
+                        name: "legalBusinessName",
+                        value: alphabeticValue,
+                      },
                     });
                   }}
                   error={!!errors.legalBusinessName}
@@ -3486,12 +3448,13 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
               </div>
             </div>
             <div
-              className={`${userType === "Pharmacy Distributor" ||
+              className={`${
+                userType === "Pharmacy Distributor" ||
                 userType === "Retail Customer" ||
                 userType === "General Merchandise Seller"
-                ? "hidden"
-                : ""
-                } `}
+                  ? "hidden"
+                  : ""
+              } `}
             >
               <TextField
                 label="DBA"
@@ -3502,7 +3465,6 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                 error={!!errors.dbaName}
                 onKeyPress={handleKeyPress}
                 helperText={errors.dbaName}
-
                 size="small"
                 className="w-[92%]"
               />
@@ -3517,7 +3479,6 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                 onChange={handleInputChange}
                 error={!!errors.Address1}
                 helperText={errors.Address1}
-
                 size="small"
                 className="w-[92%]"
               />
@@ -3532,20 +3493,17 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                 onChange={(e) => {
                   const { value } = e.target;
                   // Allow only alphabets and spaces by replacing anything else
-                  const alphabeticValue = value.replace(/[^a-zA-Z\s]/g, '');
+                  const alphabeticValue = value.replace(/[^a-zA-Z\s]/g, "");
                   handleInputChange({
-                    target: { name: "city", value: alphabeticValue }
+                    target: { name: "city", value: alphabeticValue },
                   });
                 }}
                 error={!!errors.city}
                 helperText={errors.city}
-
                 size="small"
                 className="w-[92%]"
               />
-
             </div>
-
 
             <div>
               <FormControl className="w-[92%]" error={!!errors.State}>
@@ -3554,10 +3512,16 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                   id="state-select"
                   options={states}
                   getOptionLabel={(option) => option.name}
-                  value={states.find(state => state.name === formData.State) || null}
+                  value={
+                    states.find((state) => state.name === formData.State) ||
+                    null
+                  }
                   onChange={(event, newValue) => {
                     handleInputChange({
-                      target: { name: 'State', value: newValue ? newValue.name : '' }
+                      target: {
+                        name: "State",
+                        value: newValue ? newValue.name : "",
+                      },
                     });
                   }}
                   renderInput={(params) => (
@@ -3571,11 +3535,15 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                   )}
                   filterOptions={(options, { inputValue }) => {
                     return options.filter((option) =>
-                      option.name.toLowerCase().includes(inputValue.toLowerCase())
+                      option.name
+                        .toLowerCase()
+                        .includes(inputValue.toLowerCase())
                     );
                   }}
                 />
-                {errors.State && <FormHelperText>{errors.State}</FormHelperText>}
+                {errors.State && (
+                  <FormHelperText>{errors.State}</FormHelperText>
+                )}
               </FormControl>
             </div>
 
@@ -3589,15 +3557,14 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                 onChange={(e) => {
                   const { value } = e.target;
                   // Allow only numbers by replacing non-numeric characters
-                  const numericValue = value.replace(/[^0-9]/g, '');
+                  const numericValue = value.replace(/[^0-9]/g, "");
                   handleInputChange({
-                    target: { name: "zip", value: numericValue }
+                    target: { name: "zip", value: numericValue },
                   });
                 }}
                 // error={!!errors.zip}
                 size="small"
                 error={!!errors.zip}
-
                 className="w-[92%]"
                 inputProps={{ maxLength: 5 }}
                 helperText={errors.zip}
@@ -3643,7 +3610,7 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                   //     ? "Business phone is required" // Show helper text only if validation fails
                   //     : ""
                   // }
-                  helperText={errors.BusinessPhone ? errors.BusinessPhone : ""} 
+                  helperText={errors.BusinessPhone ? errors.BusinessPhone : ""}
                 />
               </div>
             </div>
@@ -3685,7 +3652,8 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
               </div>
             </div>
             <div
-              className={`${userType === "Retail Customer" ? "hidden" : ""}`}            >
+              className={`${userType === "Retail Customer" ? "hidden" : ""}`}
+            >
               <TextField
                 label="Company website"
                 id="outlined-size-small"
@@ -3737,7 +3705,11 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                   onKeyPress={handleKeyPress}
                   helperText={errors.Pharmacy_License}
                   FormHelperTextProps={{
-                    sx: { visibility: errors.Pharmacy_License ? "visible" : "hidden" },
+                    sx: {
+                      visibility: errors.Pharmacy_License
+                        ? "visible"
+                        : "hidden",
+                    },
                   }}
                 />
               </div>
@@ -3762,7 +3734,11 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                   }}
                   helperText={errors.DEA_Expiration_Date}
                   FormHelperTextProps={{
-                    sx: { visibility: errors.DEA_Expiration_Date ? "visible" : "hidden" },
+                    sx: {
+                      visibility: errors.DEA_Expiration_Date
+                        ? "visible"
+                        : "hidden",
+                    },
                   }}
                 />
               </div>
@@ -3785,7 +3761,11 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                   }}
                   helperText={errors.Pharmacy_Expiration_Date}
                   FormHelperTextProps={{
-                    sx: { visibility: errors.Pharmacy_Expiration_Date ? "visible" : "hidden" },
+                    sx: {
+                      visibility: errors.Pharmacy_Expiration_Date
+                        ? "visible"
+                        : "hidden",
+                    },
                   }}
                 />
               </div>
@@ -3793,7 +3773,9 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
 
             <div className="flex flex-row w-full -mb-2 justify-between">
               <div className="w-[45%]">
-                <span className="text-xs">DEA License Copy (jpg, png, jpeg)</span>
+                <span className="text-xs">
+                  DEA License Copy (jpg, png, jpeg)
+                </span>
                 {/* <TextField
                   label=""
                   type="file"
@@ -3832,12 +3814,10 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                       : "gray")
                   } // Revert back to the original color after losing focus
                 />
-                 <p
+                <p
                   style={{
                     color: "red",
-                    visibility: errors.DEA_License_Copy
-                      ? "visible"
-                      : "hidden",
+                    visibility: errors.DEA_License_Copy ? "visible" : "hidden",
                   }}
                 >
                   {errors.DEA_License_Copy}
@@ -3846,7 +3826,9 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
               </div>
 
               <div className="w-[45%]">
-                <span className="text-xs">Pharmacy License Copy (jpeg, jpg, png)</span>
+                <span className="text-xs">
+                  Pharmacy License Copy (jpeg, jpg, png)
+                </span>
                 <input
                   type="file"
                   onChange={handleInputChange}
@@ -3925,7 +3907,6 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                   value={formData.Federal_Tax_ID}
                   // onChange={handleInputChange}
                   onChange={handleFederalTaxIDChange}
-
                   error={!!errors.Federal_Tax_ID}
                   size="small"
                   inputProps={{ maxLength: 20 }}
@@ -4011,7 +3992,6 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                   onChange={handleNewsletterChange}
                   onBlur={validateCheckboxes}
                   // error={!!errors.newsletterchecked}
-
                 />
                 <label className="text-gray-700"> Signup for Newsletters</label>
                 {/* {errors.newsletterchecked!=null && (
@@ -4031,20 +4011,31 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
                 />
                 <label className="text-gray-700 ml-1">
                   Please accept PharmEtrade{" "}
-                  <Link onClick={() => setActiveStep(5)} className="text-red-500">
+                  {/* <Link onClick={() => setActiveStep(5)} className="text-red-500">
+                    Terms & Conditions
+                  </Link> */}
+                  <Link
+                    onClick={(e) => {
+                      e.preventDefault(); // Prevents default behavior if needed
+                      // setActiveStep(5); // This keeps your original functionality
+                      window.open(
+                        "/termsandconditions",
+                        "_blank",
+                        "noopener,noreferrer"
+                      ); // Opens the link in a new tab
+                    }}
+                    className="text-red-500"
+                  >
                     Terms & Conditions
                   </Link>
                 </label>
-                {errors.TermsAndConditions!=null && (
+                {errors.TermsAndConditions != null && (
                   <p className="text-red-500 text-sm">
                     You must accept the Terms & Conditions.
                   </p>
                 )}
               </div>
             </div>
-
-
-
           </div>
         );
       case 4:
@@ -4053,10 +4044,12 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
             <div className="">
               Thank you for registering as
               <span className="font-bold text-green-500"> {userType} </span>
-              Your registration 
-              is under review.
+              Your registration is under review.
               <p>
-                <p>You will receive a confirmation email when the review is completed. </p>
+                <p>
+                  You will receive a confirmation email when the review is
+                  completed.{" "}
+                </p>
                 <p>Please allow up to 48 hours for the process. </p>
                 If you have any question please contact us.{" "}
                 <span className="hover:text-green-500 hover:font-semibold text-blue-900 underline">
@@ -4095,8 +4088,9 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
           <div className="h-[80%]  flex justify-center items-center">
             <div className="bg-white w-[600px] px-12 py-6 rounded-lg shadow-lg mt-10">
               <span
-                className={`text-blue-900 ${activeStep == 4 ? "hidden" : ""
-                  } text-[25px]  text-center font-bold     flex justify-center items-center  `}
+                className={`text-blue-900 ${
+                  activeStep == 4 ? "hidden" : ""
+                } text-[25px]  text-center font-bold     flex justify-center items-center  `}
               >
                 Sign Up
               </span>
@@ -4126,8 +4120,9 @@ if (userType !== "Retail Customer") { // Only validate for non-retail customers
               <div className="flex justify-around m-2">
                 <button
                   onClick={handleBack}
-                  className={`${activeStep === 0 ? "opacity-50 " : ""} ${activeStep === 4 ? "hidden" : ""
-                    } bg-blue-900 w-24 p-2 flex justify-center text-white h-10 cursor-pointer font-semibold border rounded-lg my-4 `}
+                  className={`${activeStep === 0 ? "opacity-50 " : ""} ${
+                    activeStep === 4 ? "hidden" : ""
+                  } bg-blue-900 w-24 p-2 flex justify-center text-white h-10 cursor-pointer font-semibold border rounded-lg my-4 `}
                 >
                   <img src={back} className="w-6" />
                 </button>
@@ -4155,4 +4150,3 @@ const activeCircleStyle = {
 };
 
 export default Signup;
-

@@ -2284,20 +2284,24 @@
 
 // export default LayoutProfile;
 
-
-
-
 import { useEffect, useState } from "react";
-import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 // import editIcon from "../../../assets/Edit.png"; // Renamed for clarity
 import edit from "../../../assets/Edit.png";
 import BankInformation from "./BankInformation";
 
 import { useSelector } from "react-redux";
-import { useStates } from 'react-us-states';
+import { useStates } from "react-us-states";
 import TaxInformation from "./TaxInformation";
 const LayoutProfile = () => {
   const userdata = useSelector((state) => state.user.user); // Get user data from redux
+  console.log("rrrrrrrrrrrrrrrrr", userdata);
   const [isEditable, setIsEditable] = useState(false); // State to toggle edit mode
   // State to handle user data (controlled inputs)
   const [userDetails, setUserDetails] = useState({
@@ -2308,7 +2312,7 @@ const LayoutProfile = () => {
     // phoneNumber: userdata?.phoneNumber || "",
     mobile: userdata?.mobile || "",
   });
-  console.log("uuuuuuu", userdata)
+  console.log("uuuuuuu", userdata);
 
   // Handle changes to input fields
   const handleInputChange = (e) => {
@@ -2320,8 +2324,8 @@ const LayoutProfile = () => {
     handleInputChange({
       target: {
         name: e.target.name,
-        value: formattedPhone
-      }
+        value: formattedPhone,
+      },
     });
   };
 
@@ -2356,11 +2360,8 @@ const LayoutProfile = () => {
 
     companyWebsite: businessInfo?.companyWebsite || "",
 
-
-
-
-
-    pharmacyLicenseExpirationDate: businessInfo?.pharmacyLicenseExpirationDate || "",
+    pharmacyLicenseExpirationDate:
+      businessInfo?.pharmacyLicenseExpirationDate || "",
   });
   const profiles = [
     {
@@ -2390,8 +2391,8 @@ const LayoutProfile = () => {
     handleAddressChange({
       target: {
         name: e.target.name,
-        value: formattedPhone
-      }
+        value: formattedPhone,
+      },
     });
   };
 
@@ -2437,7 +2438,6 @@ const LayoutProfile = () => {
     alert("Account information saved successfully!");
   };
 
-
   const [states, setStates] = useState([]);
 
   useEffect(() => {
@@ -2445,18 +2445,17 @@ const LayoutProfile = () => {
     setStates(useStates); // Adjust based on actual structure
   }, []);
 
-
   const formatPhoneNumber = (value) => {
     // Remove all non-numeric characters
-    const cleaned = ('' + value).replace(/\D/g, '');
+    const cleaned = ("" + value).replace(/\D/g, "");
 
     // Match the cleaned input with a pattern and format it as 777-777-7777
     const match = cleaned.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
 
     if (match) {
-      const part1 = match[1] ? match[1] : '';
-      const part2 = match[2] ? `-${match[2]}` : '';
-      const part3 = match[3] ? `-${match[3]}` : '';
+      const part1 = match[1] ? match[1] : "";
+      const part2 = match[2] ? `-${match[2]}` : "";
+      const part3 = match[3] ? `-${match[3]}` : "";
       return `${part1}${part2}${part3}`;
     }
 
@@ -2468,30 +2467,37 @@ const LayoutProfile = () => {
       <div className="w-[95%] mt-8 h-full flex flex-col justify-normal">
         {/* Render Profile Buttons */}
         <div className="flex">
-          {profiles.map((profile) => (
-            <div key={profile.grid} className="flex ml-6">
-              <div
-                className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${visibleGrid === profile.grid
-                  ? "border-b-4 border-blue-900"
-                  : ""
+          {profiles.map((profile, index) =>
+            // Hide index 1 if user.customerTypeId is 4
+            userdata?.customerTypeId === 4 &&
+            (index === 1 || index === 2) ? null : (
+              <div key={profile.grid} className="flex ml-6">
+                <div
+                  className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${
+                    visibleGrid === profile.grid
+                      ? "border-b-4 border-blue-900"
+                      : ""
                   }`}
-                onClick={() => toggleGrid(profile.grid)}
-              >
-                <h1 className="text-lg text-blue-900 font-semibold">
-                  {profile.label}
-                </h1>
+                  onClick={() => toggleGrid(profile.grid)}
+                >
+                  <h1 className="text-lg text-blue-900 font-semibold">
+                    {profile.label}
+                  </h1>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          )}
         </div>
+
         {visibleGrid === "account" && (
           <div>
             <h1 className="text-xl text-blue-900 font-semibold mt-4 ml-6 ">
               Primary
             </h1>
             <div
-              className={`bg-white border ${isEditable ? "border-blue-900" : "border-gray-400"
-                } rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}
+              className={`bg-white border ${
+                isEditable ? "border-blue-900" : "border-gray-400"
+              } rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}
             >
               <h1 className={`text-xl font-semibold my-2 text-blue-900`}>
                 User Information
@@ -2556,8 +2562,9 @@ const LayoutProfile = () => {
                     alt="Edit"
                   />
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isEditable ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                      !isEditable ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                     onClick={handleSaveClick}
                     disabled={!isEditable}
                   >
@@ -2572,8 +2579,9 @@ const LayoutProfile = () => {
           <div className="flex flex-col bg-slate-200 p-6 w-full h-full">
             {/* Address Information Section */}
             <div
-              className={`bg-white border ${isAddressEdit ? "border-blue-900" : "border-gray-400"
-                } rounded-lg px-8 w-full mt-8 relative`}
+              className={`bg-white border ${
+                isAddressEdit ? "border-blue-900" : "border-gray-400"
+              } rounded-lg px-8 w-full mt-8 relative`}
             >
               {isAddressEdit && (
                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -2581,13 +2589,15 @@ const LayoutProfile = () => {
                 </h1>
               )}
               <h1
-                className={`text-xl font-semibold my-2 ${isAddressEdit ? "invisible" : "text-blue-900"
-                  }`}
+                className={`text-xl font-semibold my-2 ${
+                  isAddressEdit ? "invisible" : "text-blue-900"
+                }`}
               >
                 Address Information
               </h1>
               <div className="flex justify-between py-4">
                 <div className="flex flex-col gap-3">
+                {userdata.customerTypeId !== 4 && (
                   <TextField
                     label="Shop Name"
                     id="shopName"
@@ -2597,6 +2607,8 @@ const LayoutProfile = () => {
                     disabled={!isAddressEdit}
                     size="small"
                   />
+                )}
+                {userdata.customerTypeId !== 4 && (
                   <TextField
                     label="DBA Name"
                     id="dba"
@@ -2606,6 +2618,8 @@ const LayoutProfile = () => {
                     disabled={!isAddressEdit}
                     size="small"
                   />
+                )}
+                
                   <TextField
                     label="City"
                     id="city"
@@ -2625,6 +2639,7 @@ const LayoutProfile = () => {
                     size="small"
                     inputProps={{ maxLength: 10 }}
                   />
+                  {userdata.customerTypeId !== 4 && (
                   <TextField
                     label=" Business Fax"
                     id="businessFax"
@@ -2633,8 +2648,9 @@ const LayoutProfile = () => {
                     onChange={handleAddressChange}
                     disabled={!isAddressEdit}
                     size="small"
-
                   />
+                  )}
+                  {userdata.customerTypeId !== 4 && (
                   <TextField
                     label=" Company Website"
                     id="companyWebsite"
@@ -2643,10 +2659,11 @@ const LayoutProfile = () => {
                     onChange={handleAddressChange}
                     disabled={!isAddressEdit}
                     size="small"
-
                   />
+                  )}
                 </div>
                 <div className="flex flex-col gap-3">
+                {userdata.customerTypeId !== 4 && (
                   <TextField
                     label="Legal Business Name"
                     id="legalBusinessName"
@@ -2655,8 +2672,8 @@ const LayoutProfile = () => {
                     onChange={handleAddressChange}
                     disabled={!isAddressEdit}
                     size="small"
-
                   />
+                )}
                   <TextField
                     label="Address"
                     id="address"
@@ -2679,8 +2696,8 @@ const LayoutProfile = () => {
                     size="small"
                     disabled={!isAddressEdit}
 
-                  // error={!!errors.States}
-                  // sx={{ minWidth: 550, whiteSpace: 'initial' }}
+                    // error={!!errors.States}
+                    // sx={{ minWidth: 550, whiteSpace: 'initial' }}
                   >
                     <InputLabel id="state-select-label">State</InputLabel>
                     <Select
@@ -2701,12 +2718,16 @@ const LayoutProfile = () => {
                         <em>None</em>
                       </MenuItem>
                       {states.map((state) => (
-                        <MenuItem key={state.abbreviation} value={state.abbreviation}>
+                        <MenuItem
+                          key={state.abbreviation}
+                          value={state.abbreviation}
+                        >
                           {state.name}
                         </MenuItem>
                       ))}
                     </Select>
                   </FormControl>
+                  {userdata.customerTypeId !== 4 && (
                   <TextField
                     label="Business Phone"
                     id="businessPhone"
@@ -2716,21 +2737,22 @@ const LayoutProfile = () => {
                     disabled={!isAddressEdit}
                     size="small"
                     inputProps={{ maxLength: 12 }}
-
                   />
+                  )}
+                  {userdata.customerTypeId !== 4 && (
                   <TextField
                     label=" Business Email"
                     id="businessEmail
 "
                     name="businessEmail
 "
-                    value={addressData.businessEmail
-                    }
+                    value={addressData.businessEmail}
                     onChange={handleAddressChange}
                     disabled={!isAddressEdit}
                     size="small"
-
                   />
+                  )}
+                  
                 </div>
                 <div className="flex flex-col justify-between py-2">
                   <img
@@ -2739,8 +2761,9 @@ const LayoutProfile = () => {
                     onClick={handleAddressEditClick}
                   />
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                      !isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                     onClick={handleAddressSaveClick}
                     disabled={!isAddressEdit}
                   >
@@ -2751,18 +2774,19 @@ const LayoutProfile = () => {
             </div>
 
             {/* Account Information Section */}
-            <div
-              className={`bg-white border ${isAccountEdit ? "border-blue-900" : "border-gray-400"
-                } rounded-lg px-8 w-full mt-8 relative mb-4`}
-            >
+            {/* <div
+              className={`bg-white border ${
+                isAccountEdit ? "border-blue-900" : "border-gray-400"
+              } rounded-lg px-8 w-full mt-8 relative mb-4`}>
               {isAccountEdit && (
                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
                   Account Information
                 </h1>
               )}
               <h1
-                className={`text-xl font-semibold my-2 ${isAccountEdit ? "invisible" : "text-blue-900"
-                  }`}
+                className={`text-xl font-semibold my-2 ${
+                  isAccountEdit ? "invisible" : "text-blue-900"
+                }`}
               >
                 Account Information
               </h1>
@@ -2853,7 +2877,6 @@ const LayoutProfile = () => {
                   />
                   <label>Pharmacy License Expiration File</label>
 
-
                   <TextField
                     label=""
                     type="file"
@@ -2887,8 +2910,9 @@ const LayoutProfile = () => {
                     onClick={handleAccountEditClick}
                   />
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                      !isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                     onClick={handleAccountSaveClick}
                     disabled={!isAccountEdit}
                   >
@@ -2896,7 +2920,145 @@ const LayoutProfile = () => {
                   </button>
                 </div>
               </div>
-            </div>
+            </div> */}
+            {userdata.customerTypeId !== 4 && (
+  <div
+    className={`bg-white border ${isAccountEdit ? "border-blue-900" : "border-gray-400"} rounded-lg px-8 w-full mt-8 relative mb-4`}
+  >
+    {isAccountEdit && (
+      <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+        Account Information
+      </h1>
+    )}
+    <h1
+      className={`text-xl font-semibold my-2 ${
+        isAccountEdit ? "invisible" : "text-blue-900"
+      }`}
+    >
+      Account Information
+    </h1>
+    <div className="flex justify-between py-4">
+      <div className="flex flex-col gap-3">
+        <TextField
+          label="DEA"
+          id="dea"
+          name="dea"
+          value={accountData.dea}
+          onChange={handleAccountChange}
+          disabled={!isAccountEdit}
+          size="small"
+          className="w-[60%]"
+        />
+        <label> DEA Expiration Date </label>
+        <TextField
+          label=""
+          type="date"
+          id="deaExpirationDate"
+          name="deaExpirationDate"
+          value={accountData.deaExpirationDate}
+          onChange={handleAccountChange}
+          disabled={!isAccountEdit}
+          size="small"
+          className="w-[60%]"
+        />
+        <label> DEA Expiration File </label>
+        <TextField
+          label=""
+          type="file"
+          id="outlined-size-small"
+          name="Last Name"
+          value={accountData.First_Name}
+          onChange={handleAccountChange}
+          disabled={!isAccountEdit}
+          size="small"
+          className="w-[60%]"
+        />
+        <TextField
+          label="NPI"
+          id="npi"
+          name="npi"
+          value={accountData.npi}
+          onChange={handleAccountChange}
+          disabled={!isAccountEdit}
+          size="small"
+          className="w-[60%]"
+        />
+        <TextField
+          label="Federal Tax"
+          id="federalTaxId"
+          name="federalTaxId"
+          value={accountData.federalTaxId}
+          onChange={handleAccountChange}
+          disabled={!isAccountEdit}
+          size="small"
+          className="w-[60%]"
+        />
+      </div>
+      <div className="flex flex-col gap-3">
+        <TextField
+          label="Pharmacy License"
+          id="pharmacyLicence"
+          name="pharmacyLicence"
+          value={accountData.pharmacyLicence}
+          onChange={handleAccountChange}
+          disabled={!isAccountEdit}
+          size="small"
+          className="w-[60%]"
+        />
+        <label> Pharmacy License Expiration Date </label>
+        <TextField
+          label=""
+          type="date"
+          id="pharmacyLicenseExpirationDate"
+          name="pharmacyLicenseExpirationDate"
+          value={accountData.pharmacyLicenseExpirationDate}
+          onChange={handleAccountChange}
+          disabled={!isAccountEdit}
+          size="small"
+          className="w-[60%]"
+        />
+        <label>Pharmacy License Expiration File</label>
+        <TextField
+          label=""
+          type="file"
+          id="outlined-size-small"
+          name="Last Name"
+          onChange={handleAccountChange}
+          disabled={!isAccountEdit}
+          size="small"
+          className="w-[60%]"
+        />
+        <TextField
+          label="NCPDP"
+          id="ncpdp"
+          name="ncpdp"
+          onChange={handleAccountChange}
+          disabled={!isAccountEdit}
+          value={accountData.ncpdp}
+          size="small"
+          className="w-[60%]"
+        />
+      </div>
+      <div className="flex flex-col justify-between py-2">
+        <img
+          src={edit}
+          className="w-6 h-6 cursor-pointer"
+          onClick={handleAccountEditClick}
+        />
+        <button
+          className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+            !isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          onClick={handleAccountSaveClick}
+          disabled={!isAccountEdit}
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
           </div>
         )}
         {visibleGrid === "bank" && (
@@ -2908,7 +3070,7 @@ const LayoutProfile = () => {
           </div>
         )}
 
-{visibleGrid === "Tax" && (
+        {visibleGrid === "Tax" && (
           <div
           //  className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4"
           >
