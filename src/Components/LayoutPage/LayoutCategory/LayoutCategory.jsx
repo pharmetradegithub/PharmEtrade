@@ -59,7 +59,17 @@ function LayoutCategory({
     );
     console.log(heading,"heading",CategoryId);
     if(heading)
+    {
+      if(CategoryId==-1)
+      {
+        setHeader("Buy Products");
+
+      }
+      else
       setHeader(heading.categoryName);
+
+
+    }
     
   }, [modifiedComponents,CategoryId])
   

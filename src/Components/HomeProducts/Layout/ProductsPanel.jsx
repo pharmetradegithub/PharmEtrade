@@ -133,16 +133,35 @@ console.log(scrollPosition,"Y axis");
     };
   }, []);
 
+  const [leftOffset, setLeftOffset] = useState(0);
 
+  useEffect(() => {
+    // Find the parent relative container
+    const parentElement = document.querySelector('.relative');
+
+    if (parentElement && scrollPosition > 880) {
+      // Get the parent element's left position relative to the viewport
+      const rect = parentElement.getBoundingClientRect();
+      setLeftOffset(rect.left);
+    } else {
+      // Reset offset when it's no longer `fixed`
+      setLeftOffset(0);
+    }
+  }, [scrollPosition]);
 
   // console.log("criteria--->", criteriaProducts);
   return (
-    <div className="w-screen overflow-">
-      <div className="flex flex-row justify-center pr-4 h- gap-10">
-        <div className={` flex overflow-y-scroll h-[calc(100vh-125px)] justify-center w-72 mt-2 pb-10 ${scrollPosition >880 ? "absolute":"fixed"} fixed left-0  `}>
+    <div className="w-screen overflow-x-hidden ">
+      <div className="flex relative Largest:w-[85%] flex-row justify-center pr-4 gap-10">
+        <div
+          className={`flex overflow-y-scroll h-[calc(100vh-125px)] justify-center w-72 mt-2 pb-10 ${
+            scrollPosition > 880 ? 'absolute' : 'fixed'
+          }`}
+          style={{ left: scrollPosition > 880 ? `${leftOffset}px` : '0' }}
+        >
           <ProductSideBar handleChange={handleChange} />
         </div>
-        <div className="w-[calc(100%-288px)]   ml-72  overflow-y-">
+        <div className="Largest:w-full w-[calc(100%-288px)] Desktop:ml-28 Largest::ml-48 ml-72 min-h-[230vh] ">
           <Outlet />
         </div>
       </div>
