@@ -91,21 +91,54 @@ const LayoutPostingProducts = () => {
   const listed = parts[2];
   const [trigger, settrigger] = useState(1);
 
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     setLoading(true); // Set loading state before the request
+
+  //     try {
+  //       const response = await fetch(
+  //         `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Product/GetBySeller?sellerId=${user?.customerId}`
+  //       );
+
+  //       if (!response.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+
+  //       const data = await response.json();
+  //       setProducts(data.result);
+  //     } catch (error) {
+  //       setError(error); // Handle and store error
+  //     } finally {
+  //       setLoading(false); // Ensure loading is stopped
+  //     }
+  //   };
+
+  //   if (listed && user?.customerId) {
+  //     fetchProducts();
+  //   }
+  // }, [listed, user?.customerId, trigger]);
+
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchData = async () => {
       setLoading(true); // Set loading state before the request
 
       try {
-        const response = await fetch(
-          `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Product/GetBySeller?sellerId=${user?.customerId}`
-        );
+        if (listed && user?.customerId) {
+          const productPromise = fetch(
+            `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Product/GetBySeller?sellerId=${user?.customerId}`
+          ).then((res) => {
+            if (!res.ok) throw new Error("Network response was not ok");
+            return res.json();
+          });
 
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+          const dashboardPromise = dispatch(fetchSellerDashboard(user?.customerId));
+
+          // Wait for both to resolve
+          const [productData] = await Promise.all([productPromise, dashboardPromise]);
+
+          // Set product data
+          setProducts(productData.result);
         }
-
-        const data = await response.json();
-        setProducts(data.result);
       } catch (error) {
         setError(error); // Handle and store error
       } finally {
@@ -113,8 +146,8 @@ const LayoutPostingProducts = () => {
       }
     };
 
-    if (listed && user?.customerId) {
-      fetchProducts();
+    if (user?.customerId) {
+      fetchData();
     }
   }, [listed, user?.customerId, trigger]);
 
@@ -212,9 +245,9 @@ const LayoutPostingProducts = () => {
     setDeletePop(false);
   };
 
-  useEffect(() => {
-    dispatch(fetchSellerDashboard(user?.customerId));
-  }, [])
+  // useEffect(() => {
+  //   dispatch(fetchSellerDashboard(user?.customerId));
+  // }, [])
 
   return (
     <div className="relative bg-gray-100 w-full h-full flex justify-center overflow-scroll items-center">
