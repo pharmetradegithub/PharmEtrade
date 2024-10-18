@@ -2187,6 +2187,7 @@
 
 
 
+
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
@@ -2270,26 +2271,75 @@ function LayoutBuy({
   const products = useSelector((state) => state.product.Products);
   const [productList, setproductList] = useState(products);
   const [sortOption, setSortOption] = useState(""); // State for sorting
+  // const sortProducts = (products, sortOption) => {
+  //   if (sortOption === "Product Ascending (A-Z)") {
+  //     return products.sort((a, b) =>
+  //       a.productName.localeCompare(b.productName)
+  //     );
+  //   }
+  //   if (sortOption === "Product Decending (Z-A)") {
+  //     return products.sort((a, b) =>
+  //       b.productName.localeCompare(a.productName)
+  //     );
+  //   }
+  //   if (sortOption === "Price Low to High") {
+  //     return products.sort((a, b) => a.unitPrice - b.unitPrice);
+  //   }
+  //   if (sortOption === "Price High to Low") {
+  //     return products.sort((a, b) => b.unitPrice - a.unitPrice);
+  //   }
+  //   return products; // Return the original array if no sorting option is selected
+  // };
   const sortProducts = (products, sortOption) => {
+    const isNumber = (str) => /^\d/.test(str); // Check if the first character is a digit
+    if (!sortOption) {
+      return products.sort(
+        (a, b) => new Date(b.orderDate) - new Date(a.orderDate)
+      );
+    }
+    if (sortOption === "Filter Products") {
+      return products.sort(
+        (a, b) => new Date(b.createdDate) - new Date(a.createdDate)
+      );
+    }
+
     if (sortOption === "Product Ascending (A-Z)") {
-      return products.sort((a, b) =>
-        a.productName.localeCompare(b.productName)
-      );
+      return products.sort((a, b) => {
+        if (isNumber(a.productName) && !isNumber(b.productName)) {
+          return -1; // Move numbers to the top
+        }
+        if (!isNumber(a.productName) && isNumber(b.productName)) {
+          return 1; // Keep letters after numbers
+        }
+        return a.productName.localeCompare(b.productName); // Normal A-Z sort
+      });
     }
+
     if (sortOption === "Product Decending (Z-A)") {
-      return products.sort((a, b) =>
-        b.productName.localeCompare(a.productName)
-      );
+      return products.sort((a, b) => {
+        if (isNumber(a.productName) && !isNumber(b.productName)) {
+          return -1; // Move numbers to the top
+        }
+        if (!isNumber(a.productName) && isNumber(b.productName)) {
+          return 1; // Keep letters after numbers
+        }
+        return b.productName.localeCompare(a.productName); // Normal Z-A sort
+      });
     }
+
     if (sortOption === "Price Low to High") {
       return products.sort((a, b) => a.unitPrice - b.unitPrice);
     }
+
     if (sortOption === "Price High to Low") {
       return products.sort((a, b) => b.unitPrice - a.unitPrice);
     }
-    return products; // Return the original array if no sorting option is selected
-  };
 
+    // Default to sorting by recent created date if no option is selected
+    // return products.sort(
+    //   (a, b) => new Date(b.createdDate) - new Date(a.createdDate)
+    // );
+  };
   const handleSortChange = (event) => {
     const selectedOption = event.target.value;
     setSortOption(selectedOption); // Set the selected sort option
@@ -2503,6 +2553,9 @@ function LayoutBuy({
 
   console.log("searching:", location.href);
   // console.log("productlink", productURL);
+  const sortedItems = currentItems.sort(
+    (a, b) => new Date(a.createdDate) - new Date(b.createdDate)
+  );
 
   return (
     <div className="w-[95%] mt-4 ml-4 h-full overflow-y-scroll">
@@ -2534,7 +2587,7 @@ function LayoutBuy({
             <div className="flex flex-col justify-between">
               {/* {productList.length} */}
               {productList.length > 0 ? (
-                currentItems.map((product, index) => (
+                [...sortedItems].reverse().map((product, index) => (
                   <div
                     key={index}
                     className="flex p-4 border w-full justify-around shadow-lg rounded-md mb-4"

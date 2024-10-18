@@ -153,7 +153,7 @@ function LayoutWishlist({ addCart }) {
   console.log("wishlist----layout", wishItems);
   return (
     <div
-      className="bg-gray-200  p-8 overflow-scroll"
+      className="bg-gray-200 h-full p-8 overflow-scroll"
     // style={{ marginTop: `${topMargin}px `}}
     >
       {notification.show && (
@@ -183,7 +183,7 @@ function LayoutWishlist({ addCart }) {
             {wishItems.map((item, index) => (
               <div
                 key={index}
-                className="border rounded-lg flex justify-evenly h-56 p-4 max-w-6xl bg-white shadow-md"
+                className="border rounded-lg flex justify-evenly h-auto p-4 max-w-6xl bg-white shadow-md"
               >
                 <Link to={`/detailspage/${item.product.productID}`}>
                   <img
@@ -202,14 +202,32 @@ function LayoutWishlist({ addCart }) {
                       {item.product.productName}
                     </h3>
                     {/* <p className="text-xl">Cough Syrup 1000mg</p> */}
-                    <p className="text-xl font-semibold">${item.product.salePrice?.toFixed(2)}</p>
+                    <p className="text-lg font-semibold">${item.product.salePrice?.toFixed(2)}</p>
                   </Link>
-                  <p className="pt-2 text-xl font-semibold">Manufacturer: <span className="font-normal">{item.product.manufacturer}</span> </p>
+                  <div className="flex">
+                  <p className=" text-xl font-semibold mr-2">Manufacturer: 
+                     </p>
+                    <span className="text-sm flex flex-wrap mt-1">{item.product.manufacturer}</span>
+                 </div>
                   {/* <p>Quantity: 1</p> */}
-                  <div className="flex flex-col">
-                    <span className="text-lg font-semibold">Brand Name :</span>
-                    <p>{item.product.brandName}</p>
+                  <div className="flex ">
+                    <span className="text-lg font-semibold mr-2">Brand Name :</span>
+                    <p className="flex flex-wrap">{item.product.brandName}</p>
                   </div>
+                  <div className="flex">
+                    <p className="mr-2">
+
+                    Quantity  :
+                    </p>
+                    <p>1</p>
+                    </div>
+                    <div className="flex">
+                    <p className="mr-2">
+
+                   Expires on or after :
+                    </p>
+                    <p>Dec 24</p>
+                    </div>
                 </div>
                 <div className="flex flex-col items-center justify-center">
                   <button

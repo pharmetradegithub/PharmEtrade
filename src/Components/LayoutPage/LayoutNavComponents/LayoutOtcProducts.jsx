@@ -601,6 +601,7 @@
 
 
 
+
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
@@ -618,7 +619,7 @@ import Expicon from "../../../assets/Expicon.png";
 import search from "../../../assets/search1.png";
 import nature from "../../../assets/img1.png";
 import { useSelector } from "react-redux";
-import Whatsapp from '../../../assets/Icons/Whatsapp.png'
+import Whatsapp from "../../../assets/Icons/Whatsapp.png";
 import twitter from "../../../assets/twitter_icon.png";
 import Facebook from "../../../assets/facebook1.png";
 import Pintrist from "../../../assets/pinterest.png";
@@ -677,7 +678,61 @@ function LayoutOtcProducts({
   // };
   const products = useSelector((state) => state.product.otcProducts);
   const [productList, setproductList] = useState(products);
-  console.log("layoutproduct-->", productList);
+  const [sortOption, setSortOption] = useState(""); // State for sorting
+  const sortProducts = (products, sortOption) => {
+    const isNumber = (str) => /^\d/.test(str); // Check if the first character is a digit
+    if (sortOption === "Filter Products") {
+      return products.sort(
+        (a, b) => new Date(b.createdDate) - new Date(a.createdDate)
+      );
+    }
+
+    if (sortOption === "Product Ascending (A-Z)") {
+      return products.sort((a, b) => {
+        if (isNumber(a.productName) && !isNumber(b.productName)) {
+          return -1; // Move numbers to the top
+        }
+        if (!isNumber(a.productName) && isNumber(b.productName)) {
+          return 1; // Keep letters after numbers
+        }
+        return a.productName.localeCompare(b.productName); // Normal A-Z sort
+      });
+    }
+
+    if (sortOption === "Product Decending (Z-A)") {
+      return products.sort((a, b) => {
+        if (isNumber(a.productName) && !isNumber(b.productName)) {
+          return -1; // Move numbers to the top
+        }
+        if (!isNumber(a.productName) && isNumber(b.productName)) {
+          return 1; // Keep letters after numbers
+        }
+        return b.productName.localeCompare(a.productName); // Normal Z-A sort
+      });
+    }
+
+    if (sortOption === "Price Low to High") {
+      return products.sort((a, b) => a.unitPrice - b.unitPrice);
+    }
+
+    if (sortOption === "Price High to Low") {
+      return products.sort((a, b) => b.unitPrice - a.unitPrice);
+    }
+
+    // Default to sorting by recent created date if no option is selected
+    return products.sort(
+      (a, b) => new Date(b.createdDate) - new Date(a.createdDate)
+    );
+  };
+
+  console.log("layoutotcproduct-->", productList);
+  // filter functionality
+  const handleSortChange = (event) => {
+    const selectedOption = event.target.value;
+    setSortOption(selectedOption); // Set the selected sort option
+    const sortedProducts = sortProducts([...productList], selectedOption); // Sort products
+    setproductList(sortedProducts); // Update the product list with sorted products
+  };
   useEffect(() => {
     if (products) {
       const updatedProducts = products.map((product) => ({
@@ -777,14 +832,12 @@ function LayoutOtcProducts({
     // }
   };
 
-
   const [isShowPopup, setIsShowPopup] = useState(false);
   const handleSharePopupToggle = (event) => {
     const { top } = event.currentTarget.getBoundingClientRect();
     setPopupPosition({ top }); // Adjusting the left position to be next to the button
     setIsShowPopup(!isShowPopup);
   };
-
 
   // const [isShowPopup, setIsShowPopup] = useState(false);
 
@@ -793,30 +846,18 @@ function LayoutOtcProducts({
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   // const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
-  const [currentItems,setcurrentItems] = useState(productList.slice(indexOfFirstItem, indexOfLastItem));
+  const [currentItems, setcurrentItems] = useState(
+    productList.slice(indexOfFirstItem, indexOfLastItem)
+  );
   useEffect(() => {
-    if(productList)
-    {
+    if (productList) {
       const indexOfLastItem = currentPage * itemsPerPage;
       const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-      setcurrentItems( productList.slice(indexOfFirstItem, indexOfLastItem))
-
+      setcurrentItems(productList.slice(indexOfFirstItem, indexOfLastItem));
     }
- 
-  }, [currentPage,products,productList])
+  }, [currentPage, products, productList]);
   const totalPages = Math.ceil((productList?.length || 0) / itemsPerPage);
 
-  const handleNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  };
-
-  const handlePreviousPage = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
-  };
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(parseInt(event.target.value));
-    setCurrentPage(1); // Reset to page 1 when items per page is changed
-  };
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
@@ -880,9 +921,11 @@ function LayoutOtcProducts({
         <h1 className="text-2xl font-semibold text-blue-900">OTC PRODUCTS</h1>
         <div className="flex">
           <div className="flex gap-1">
-            <select className="bg-white  w-auto h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center">
-              <option> Filter Products</option>
-
+            <select
+              onChange={handleSortChange}
+              className="bg-white w-auto h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center"
+            >
+              <option>Filter Products</option>
               <option>Product Ascending (A-Z)</option>
               <option>Product Decending (Z-A)</option>
               <option>Price Low to High</option>
@@ -976,7 +1019,10 @@ function LayoutOtcProducts({
                           </p>
                         ) : (
                           <p className="text-white p-1 bg-green-600 rounded-lg ">
-                            Stock Available - <span className="font-semibold">{product.amountInStock}</span>
+                            Stock Available -{" "}
+                            <span className="font-semibold">
+                              {product.amountInStock}
+                            </span>
                           </p>
                         )}
                       </div>
@@ -1165,7 +1211,7 @@ function LayoutOtcProducts({
                         <p className="font-semibold">{"Add to Cart"}</p>
                       </div> */}
 
-<div
+                      <div
                         onClick={() => {
                           if (product.amountInStock !== 0) {
                             handleCart(product.productID, product.CartQuantity);
