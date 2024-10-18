@@ -185,9 +185,19 @@ function Wishlist({ topMargin, addCart }) {
                     {/* <h3 className="text-xl font-semibold">Vitamin C(1000IU) Cap X Syrup 1000mg Nature Made</h3> */}
                     <h3 className="text-xl font-semibold">{item.product.productName}</h3>
                     {/* <p className="text-xl">Cough Syrup 1000mg</p> */}
-                    <p className="text-xl">${item.product.salePrice?.toFixed(2)}</p>
+                    <p className="text-lg font-semibold">${item.product.salePrice?.toFixed(2)}</p>
                   </Link>
-                  <p className="pt-2 text-xl">Mfr. PharmaEtrade Pvt.Ltd</p>
+                  {/* <p className="pt-2 text-xl">Mfr. PharmaEtrade Pvt.Ltd</p> */}
+                  <div className="flex">
+                  <p className=" text-xl font-semibold mr-2">Manufacturer: 
+                     </p>
+                    <span className="text-sm flex flex-wrap mt-1">{item.product.manufacturer}</span>
+                 </div>
+                  {/* <p>Quantity: 1</p> */}
+                  <div className="flex ">
+                    <span className="text-lg font-semibold mr-2">Brand Name :</span>
+                    <p className="flex flex-wrap">{item.product.brandName}</p>
+                  </div>
                   <p>Quantity: 1</p>
                   <div className="flex flex-col">
                     <span className="text-lg">Expires on or after :</span>

@@ -11,6 +11,9 @@ import { fetchAllProductsApi } from '../../../Api/ProductApi';
 import { fetchCustomerOrered, fetchSellerDashboard, fetchTotalProductDashboard } from '../../../Api/Dashboard';
 import { fetchSellerGetAll } from '../../../Api/OrderApi';
 const LayoutSellerDashboard = () => {
+  const navigate = useNavigate(); // Initialize useNavigate hook
+
+
   const user = useSelector((state) => state.user.user);
   console.log("layoutDash-->", user)
   const sellerId = useSelector((state) => state.dashboard.getSellerId)
@@ -20,7 +23,7 @@ const LayoutSellerDashboard = () => {
   const [isPercentageShown, setIsPercentageShown] = useState(false);
   const sellerDashboard = useSelector((state) => state.dashboard.getSellerId)
   console.log("sellerdash-->", sellerDashboard)
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // Handle Latest button click to show percentage or close the grid
   const products = useSelector((state) => state.product.Products);
@@ -156,14 +159,14 @@ const LayoutSellerDashboard = () => {
       label: "Outgoing Orders", percentage: sellerDashboard?.outgoingOrdersCount, color: "orange", grid: "productsOrdered"
     }, // Yellow
     {
-      label: "Total No.of Products Count", percentage: sellerDashboard?.totalProducts, color: "green", grid: "customersOrdered"
+      label: "Total No.of Products Count", percentage: sellerDashboard?.totalProducts, color: "green", grid: "customersOrdered", to: '/layout/postingproducts'
     }, // Green
 
     {
-      label: "Total Incoming Order Value", percentage: sellerDashboard?.totalPurchaseValue, color: "blue", grid: "customersOrdered"
+      label: "Total Incoming Order Value", percentage:    `$${(sellerDashboard?.totalPurchaseValue || 0).toFixed(2)}`, color: "blue", grid: "customersOrdered"
     },
     {
-      label: "Total Outgoing Order Value", percentage: sellerDashboard?.totalSaleValue, color: "purple", grid: "customersOrdered"
+      label: "Total Outgoing Order Value", percentage: `$${(sellerDashboard?.totalSaleValue || 0).toFixed(2)}`, color: "purple", grid: "customersOrdered"
     },
   ];
 
@@ -181,7 +184,13 @@ const LayoutSellerDashboard = () => {
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
   };
- 
+
+  const handleNavigation = (to) => {
+    if (to) {
+      navigate(to); // Navigate to the path when a card is clicked
+    }
+  };
+
 
   useEffect(() => {
     console.log(user, "uerr--->")
@@ -276,18 +285,18 @@ const LayoutSellerDashboard = () => {
                   >
 
                     <div className="flex justify-between items-center">
-                      <h1 className='hover:text-red-600 hover:underline px-2 '>{detail.label}</h1>
+                      <h1  onClick={() => handleNavigation(detail.to)} className='hover:text-red-600 hover:underline px-2 '>{detail.label}</h1>
 
                     </div>
                     <div className="flex justify-between">
-                      <p className='items-center flex justify-center text-3xl mt-4 font-semibold px-2'>{detail.percentage}</p>
+                      <p className='items-center flex justify-center text-lg mt-4 font-semibold px-2'>{detail.percentage}</p>
                       {/* <CircleProgress percentage={detail.percentage} color={detail.color} /> */}
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-           
+
 
             {/* <div
               className="w-48 h-28 bg-white rounded-lg shadow-xl border-b-4 border-b-blue-900 flex items-center justify-center cursor-pointer"
@@ -410,7 +419,7 @@ const LayoutSellerDashboard = () => {
 
 
 
-
+        {/* 
         <div>
           {visibleGrid === "customersOrdered" && <LayoutSellerCustomerOrders />}
         </div>
@@ -419,7 +428,7 @@ const LayoutSellerDashboard = () => {
         </div>
         <div>
           {visibleGrid === "totalProducts" && <LayoutSellerTotalProducts />}
-        </div>
+        </div> */}
       </div>
 
 

@@ -226,7 +226,7 @@ console.log(selectedItem);
     const category = searchParams.get("CategoryName");
     console.log("testing",category);
     if (category === null) {
-      setSelectedItem("Äll");
+      setSelectedItem("All");
     } else if (category && components.length > 0) {
       const component = modifiedComponents.find(
         (comp) => comp.productCategoryId == category
@@ -237,7 +237,7 @@ console.log(selectedItem);
       if (component) {
         setSelectedItem(component.categoryName); // Set the name if found
       } else {
-        setSelectedItem("Äll");
+        setSelectedItem("All");
       }
     }
   }, [components]);
