@@ -64,17 +64,17 @@ function LayoutPaymentHistory() {
   const stats = [
     {
       label: "Total Earnings",
-      value: "2,420",
+      value: `$${(2420 ||.0).toFixed(2)}`,
       text: "as of 01-December-2023",
       color: "text-green-500",
     },
     {
       label: "Pending Payments",
-      value: "3,843",
+      value: `$${(3843 ||.0).toFixed(2)}`,
       text: "as of 01-December-2023",
       color: "text-blue-900",
     },
-    { label: "Withdrawal Method", value: "1,700", text: "" },
+    { label: "Withdrawal Method", value: `$${(1700 ||.0).toFixed(2)}`, text: "" },
   ];
 
   const filteredPayouts = payouts.filter(
@@ -134,7 +134,7 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
                 {stat.label}
               </h1>
               <h1
-                className={`text-2xl font-semibold ${
+                className={`text-xl font-semibold ${
                   stat.color || "text-gray-900"
                 }`}
               >

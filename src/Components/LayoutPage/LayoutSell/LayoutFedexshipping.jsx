@@ -13,6 +13,7 @@
 
 
 
+import { TextField } from '@mui/material';
 import React, { useState } from 'react';
 
 function  LayoutFedexshipping() {
@@ -52,25 +53,22 @@ function  LayoutFedexshipping() {
       )}
       <div className='flex justify-between border-b border-black my-5 p-4'>
         <h1 className='text-xl text-blue-900 font-semibold'>Manage Fedex Configuration</h1>
-        <button 
-          className='border font-bold text-[15px] rounded-lg p-2 px-4 h-8 flex justify-center items-center bg-blue-900 text-white '
-          onClick={handleSubmit}
-        >
-          SAVE
-        </button>
+       
       </div>
 
-      <div className='w-full flex flex-col justify-center'>
+      <div className='w-[60%] border rounded-md shadow-md flex flex-col justify-center'>
 
-      <div className="w-[80%] flex justify-between text-gray-600 my-4">
+      <div className="w-[80%] flex gap-5 ml-8 text-gray-600 my-4">
         <div className="flex flex-col">
           <label className="text-lg font-semibold">
             Account ID:<span className="text-red-600 text-xl">*</span>
           </label>
-          <input
+          <TextField
+          label=" Account ID"
+          size='small'
             type="text"
             name="accountid"
-            className='border rounded-md h-8 w-80 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
+            className='border rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
             value={formData.accountid}
             onChange={handleChange}
           />
@@ -79,25 +77,29 @@ function  LayoutFedexshipping() {
           <label className="text-lg font-semibold">
             Meter Number<span className="text-red-600 text-xl">*</span>
           </label>
-          <input
+          <TextField
+          label=" Meter Number"
             type="text"
+            size='small'
             name="meterNumber"
-            className='border rounded-md h-8 w-80 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
+            className='border rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
             value={formData.meterNumber}
             onChange={handleChange}
           />
         </div>
       </div>
 
-      <div className="w-[80%] flex justify-between text-gray-600 my-4">
+      <div className="w-[80%] flex gap-5 ml-8 text-gray-600 my-4">
         <div className="flex flex-col">
           <label className="text-lg font-semibold">
             Key<span className="text-red-600 text-xl">*</span>
           </label>
-          <input
+          <TextField
+          label="Key"
+          size='small'
             type="text"
             name="key"
-            className='border rounded-md h-8 w-80 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
+            className='border rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
             value={formData.key}
             onChange={handleChange}
           />
@@ -106,15 +108,25 @@ function  LayoutFedexshipping() {
           <label className="text-lg font-semibold">
             Password:<span className="text-red-600 text-xl">*</span>
           </label>
-          <input
+          <TextField
+          label="Password"
+          size='small'
             type="text"
             name="password"
-            className='border rounded-md h-8 w-80 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
+            className='border rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
             value={formData.password}
             onChange={handleChange}
           />
         </div>
       </div>
+      <div className='flex justify-end p-4'>
+      <button 
+          className='border font-bold text-[15px] rounded-lg p-2 px-4 h-8 flex justify-center items-center bg-blue-900 text-white '
+          onClick={handleSubmit}
+        >
+          SAVE
+        </button>
+        </div>
       </div>
     </div>
   );

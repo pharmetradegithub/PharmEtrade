@@ -11,6 +11,7 @@
 // export default LayoutUpsShipping
 
 
+import { TextField } from '@mui/material';
 import React, { useState } from 'react';
 
 function LayoutUpsShipping() {
@@ -52,25 +53,22 @@ function LayoutUpsShipping() {
       )}
       <div className='flex justify-between  border-b border-black my-5 p-4'>
         <h1 className='text-xl text-blue-900 font-semibold'>MARKETPLACE UPS CONFIGURATION</h1>
-        <button 
-          className='border rounded-lg h-8 p-2 px-4 font-bold flex justify-center items-center text-[15px] bg-blue-900 text-white '
-          onClick={handleSubmit}
-        >
-          SAVE
-        </button>
+      
       </div>
 
-      <div className='w-full flex flex-col justify-center'>
+      <div className='w-[60%] flex flex-col justify-center border p-2 rounded-md  shadow-lg'>
 
-      <div className="w-[80%] flex justify-between text-gray-600 my-4">
+      <div className="w-[80%] flex gap-6 ml-4 text-gray-600 my-4">
         <div className="flex flex-col">
           <label className="text-lg font-semibold">
             Access License Number:<span className="text-red-600 text-xl">*</span>
           </label>
-          <input
+          <TextField
             type="text"
+            label=" Access License Number"
+            size='small'
             name="accessLicenseNumber"
-            className='border rounded-md h-8 w-80 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
+            className='border rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
             value={formData.accessLicenseNumber}
             onChange={handleChange}
             
@@ -80,25 +78,30 @@ function LayoutUpsShipping() {
           <label className="text-lg font-semibold">
             User Id:<span className="text-red-600 text-2xl">*</span>
           </label>
-          <input
+          <TextField
+          size='small'
+          label=" User Id"
             type="text"
             name="userId"
-            className='border rounded-md h-8 w-80 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
+            className='border rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
             value={formData.userId}
             onChange={handleChange}
           />
         </div>
       </div>
 
-      <div className="w-[80%] flex justify-between text-gray-600 my-4">
+      <div className="w-[80%] flex gap-6 ml-4  text-gray-600 my-4">
         <div className="flex flex-col">
           <label className="text-lg font-semibold">
             Password:<span className="text-red-600 text-xl font-semibold">*</span>
           </label>
-          <input
+          <TextField
+          label="password"
             type="text"
+            size='small'
+            
             name="password"
-            className='border rounded-md h-8 w-80 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
+            className='border rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
             value={formData.password}
             onChange={handleChange}
           />
@@ -107,15 +110,25 @@ function LayoutUpsShipping() {
           <label className="text-lg font-semibold">
             Shipper Number:<span className="text-red-600 text-xl">*</span>
           </label>
-          <input
+          <TextField
             type="text"
+            label=" Shipper Number"
+            size='small'
             name="shipperNumber"
-            className='border rounded-md h-8 w-80 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
+            className='border rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
             value={formData.shipperNumber}
             onChange={handleChange}
           />
         </div>
       </div>
+      <div className='flex justify-end p-5'>
+      <button 
+          className='border rounded-lg h-8 w-20 p-2 px-4 font-bold flex justify-center items-center text-[15px] bg-blue-900 text-white '
+          onClick={handleSubmit}
+        >
+          SAVE
+        </button>
+        </div>
       </div>
     </div>
   );

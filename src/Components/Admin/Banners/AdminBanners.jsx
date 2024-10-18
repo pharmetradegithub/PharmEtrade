@@ -10,7 +10,9 @@ const AdminBanners = () => {
   const [editingIndex, setEditingIndex] = useState(null);
   const [editBanner, setEditBanner] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-
+  const [fileName, setFileName] = useState('');
+  const [bannerImage, setBannerImage] = useState(null); // State to store the uploaded image
+  const [isDragOver, setIsDragOver] = useState(false); 
   const MAX_WIDTH = 7680;
   const MAX_HEIGHT = 2200;
 
@@ -34,6 +36,28 @@ const AdminBanners = () => {
     });
   };
 
+
+ 
+  
+    const handleDrop = (event) => {
+      event.preventDefault(); // Prevent default behavior (Prevent file from being opened)
+      const file = event.dataTransfer.files[0];
+      if (file) {
+        const imageUrl = URL.createObjectURL(file); // Create a URL for the dropped image
+        setBannerImage(imageUrl); // Set the image URL for display
+        // Add any further processing logic here (e.g., uploading the file)
+      }
+      setIsDragOver(false); // Reset drag state after drop
+    };
+  
+    const handleDragOver = (event) => {
+      event.preventDefault(); // Prevent default behavior to allow dropping
+      setIsDragOver(true); // Set drag state to true
+    };
+  
+    const handleDragLeave = () => {
+      setIsDragOver(false); // Reset drag state when the file leaves the drop area
+    };
   // Handle adding new banners
   const handleAddBanners = () => {
     if (newBanners.length > 0) {
@@ -116,7 +140,7 @@ const AdminBanners = () => {
         >
           <input {...getInputProps()} multiple />
           <p className="text-gray-500 text-center">
-            Click here to select images
+            Click here or Drag and Drop image
           </p>
         </div>
         <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
@@ -177,7 +201,7 @@ const AdminBanners = () => {
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-900 bg-opacity-50">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-semibold mb-4">Edit Banner</h2>
-            <div className="relative w-full p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400">
+            {/* <div className="relative w-full p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400">
               <input
                 type="file"
                 accept="image/*"
@@ -187,7 +211,34 @@ const AdminBanners = () => {
               <p className="text-gray-500 text-center">
                 Click here or drag and drop images
               </p>
-            </div>
+            </div> */}
+
+<div
+      className={`relative w-96 p-4 border-2 rounded-lg cursor-pointer hover:border-gray-400 ${
+        isDragOver ? 'border-blue-500' : 'border-dashed border-gray-300' // Change border color if dragging
+      }`}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+      onDragLeave={handleDragLeave}
+    >
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleEditBannerChange}
+        className="absolute inset-0 opacity-0 cursor-pointer"
+      />
+      {bannerImage ? ( // Conditionally render the image if it exists
+        <img
+          src={bannerImage}
+          alt="Banner Preview"
+          className="w-full h-auto rounded-lg object-cover" // Add styling for the image
+        />
+      ) : (
+        <p className="text-gray-500 text-center">
+          Click here or drag and drop images
+        </p>
+      )}
+    </div>
             {editBanner && (
               <img
                 src={editBanner}
@@ -214,4 +265,4 @@ const AdminBanners = () => {
   );
 };
 
-export default AdminBanners;
+export default AdminBanners

@@ -151,8 +151,6 @@ export const getUserByCustomerIdApi = async (customerId) => {
   try {
     const response = await axios.get(`/api/Customer/GetByCustomerId?customerId=${customerId}`);
     if (response.status === 200) {
-
-      store.dispatch({ type: 'user/setUser', payload: response.data.result[0] });
       return response.data.result[0];
     } else {
       console.error('Failed to fetch user data:', response.data.message);

@@ -1,19 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
 import edit from "../../../assets/Edit.png";
 import { useSelector } from "react-redux";
 import { Box, Radio } from "@mui/material";
 import { Button, Textarea } from "@material-tailwind/react";
+import { getUserByCustomerIdApi } from "../../../Api/UserApi";
 // import BankInformation from "./BankInformation";
 // import LayoutProfileAddress from "./LayoutProfileAddress";
 const EditSellerList = () => {
+  const searchParams = new URLSearchParams(location.search);
+  const CustomerId = searchParams.get("CustomerId");
+  const [userdata, setuserdata] = useState(null);
+  const [businessInfo, setbusinessInfo] = useState(null);
+
+  useEffect(() => {
+    const FetchUserDetails = async () => {
+      const user = await getUserByCustomerIdApi(CustomerId);
+      if (user) {
+        setuserdata(user.customerDetails);
+        setbusinessInfo(user.businessInfo);
+      }
+    };
+    if (CustomerId) {
+      FetchUserDetails();
+    }
+  }, [CustomerId]);
+  console.log(userdata);
   const [confirmPassword, setConfirmPassword] = useState(""); // State to track user input
-
-  const userdata = useSelector((state) => state.user.user);
-  console.log("profile", userdata);
-
-  const businessInfo = useSelector((state) => state.user.businessInfo);
-  console.log("business", businessInfo);
 
   const profiles = [
     {
@@ -94,7 +107,6 @@ const EditSellerList = () => {
         6
       )}-${input.slice(6, 10)}`;
     }
-
     setPhoneNumber(formattedPhoneNumber);
   };
 
@@ -329,8 +341,9 @@ const EditSellerList = () => {
                     size="small"
                     className="w-full"
                   />
-                  <TextField
+                  {/* <TextField
                     label="Phone Number"
+                    id="outlined-size-small"
                     name="phoneNumber"
                     value={userdata?.mobile}
                     onChange={handlePhoneNumberChange}
@@ -338,6 +351,19 @@ const EditSellerList = () => {
                     className="w-full"
                     disabled={!isEditable} // Disable unless in edit mode
                     inputProps={{ maxLength: 12 }} // Limit the max length to 12 (including dashes)
+                  /> */}
+                  <TextField
+                    label="Phone Number"
+                    name="phoneNumber"
+                    value={userdata?.mobile || ""} // Ensure value is not undefined
+                    onChange={handlePhoneNumberChange}
+                    size="small"
+                    className="w-full"
+                    disabled={!isEditable} // Disable unless in edit mode
+                    inputProps={{ maxLength: 12 }} // Limit the max length to 12 (including dashes)
+                    InputLabelProps={{
+                      shrink: !!userdata?.mobile, // Shrink the label if there is a value
+                    }}
                   />
                   {/* <TextField
                     label="Confirm Password"
@@ -380,10 +406,9 @@ const EditSellerList = () => {
               </div>
             </div>
             {/* <div className="bg-white border  flex justify-between flex-col border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4"> */}
-           
+
             <div className="button-group"></div>
 
-           
             <div className="bg-white border border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4">
               <h1 className="text-xl font-semibold text-blue-900 my-2">
                 Address Information
@@ -526,7 +551,7 @@ const EditSellerList = () => {
                     label="Business Phone"
                     id="outlined-size-small"
                     name="businessPhone"
-                    value={businessInfo?.businessPhone}
+                    value={businessInfo?.businessPhone || ""}
                     onChange={handleBusinessPhoneChange}
                     size="small"
                     className="w-full"
@@ -585,12 +610,13 @@ const EditSellerList = () => {
                     size="small"
                     className="w-[60%]"
                   />
+
                   <TextField
                     label=""
                     type="date"
                     id="outlined-size-small"
                     name="Last Name"
-                    value={businessInfo?.deaExpirationDate || ""}
+                    value={businessInfo?.deaExpirationDate?.split("T")[0] || ""}
                     // onChange={handleInputChange}
                     // error={!!errors.First_Name}
                     // helperText={errors.First_Name}
@@ -598,19 +624,20 @@ const EditSellerList = () => {
                     size="small"
                     className="w-[60%]"
                   />
-                  <TextField
+                  <input
                     label=""
                     type="file"
+                    accept="image/*"
                     id="outlined-size-small"
                     name="City"
                     disabled={!istabedit}
-                    value={businessInfo?.deaLicenseCopy || ""}
+                    // value={businessInfo?.deaLicenseCopy || ""}
                     // onChange={handleInputChange}
                     // error={!!errors.First_Name}
                     // helperText={errors.First_Name}
 
                     size="small"
-                    className="w-[60%]"
+                    className="w-[60%] border p-1 border-gray-400 rounded-md"
                   />
                   <TextField
                     label="NPI"
@@ -629,7 +656,7 @@ const EditSellerList = () => {
                     label="Federal Tax"
                     id="outlined-size-small"
                     name="federalTax"
-                    value={businessInfo?.federalTaxId}
+                    value={businessInfo?.federalTaxId || ""}
                     onChange={handleFederalTaxChange}
                     size="small"
                     className="w-[60%]"
@@ -655,29 +682,34 @@ const EditSellerList = () => {
                     label=""
                     type="date"
                     id="outlined-size-small"
-                    name="Last Name"
+                    name="pharmacyLicenseExpirationDate"
                     disabled={!istabedit}
-                    value={businessInfo?.pharmacyLicenseExpirationDate || ""}
-                    // onChange={handleInputChange}
-                    // error={!!errors.First_Name}
-                    // helperText={errors.First_Name}
-
+                    value={
+                      businessInfo?.pharmacyLicenseExpirationDate
+                        ? businessInfo.pharmacyLicenseExpirationDate.split(
+                            "T"
+                          )[0]
+                        : ""
+                    } // Extracts the "YYYY-MM-DD" portion
+                    onChange={handleInputChange}
                     size="small"
                     className="w-[60%]"
                   />
-                  <TextField
+
+                  <input
                     label=""
                     type="file"
+                    accept="image/*"
                     id="outlined-size-small"
                     name="Last Name"
                     disabled={!istabedit}
-                    value={businessInfo?.pharmacyLicenseCopy || ""}
+                    // value={businessInfo?.pharmacyLicenseCopy || ""}
                     // onChange={handleInputChange}
                     // error={!!errors.First_Name}
                     // helperText={errors.First_Name}
 
                     size="small"
-                    className="w-[60%]"
+                    className="w-[60%] border rounded-md p-1 border-gray-400"
                   />
                   <TextField
                     label="NCPDP "
@@ -714,12 +746,11 @@ const EditSellerList = () => {
               </div>
             </div>
 
-
             <div className="flex justify-between flex-col  rounded-lg  px-8  w-[95%] mt-4">
               <TextField
                 label="Add Notes"
                 id="outlined-size-small"
-                value={confirmPassword} // Handles null or undefined values
+                value={confirmPassword || ""} // Handles null or undefined values
                 name="comments" // camelCase for the name
                 onChange={handleInputChange} // Handles input change
                 // disabled={!isEditable} // Disable unless in edit mode
@@ -775,49 +806,49 @@ const EditSellerList = () => {
               </div>
             </div> */}
             <div className="flex justify-between flex-col  rounded-lg  px-8  w-[95%] mt-4">
-  <div className="button-group">
-    <Button
-      // variant="filled" // Replaced "contained" with "filled" (or you can use "outlined", "gradient", or "text")
-      // color="primary"
-      // onClick={handleActivate} // Function to handle activation
-      className="mr-2 bg-green-500 text-white"
-    >
-      Activate
-    </Button>
+              <div className="button-group">
+                <Button
+                  // variant="filled" // Replaced "contained" with "filled" (or you can use "outlined", "gradient", or "text")
+                  // color="primary"
+                  // onClick={handleActivate} // Function to handle activation
+                  className="mr-2 bg-green-500 text-white"
+                >
+                  Activate
+                </Button>
 
-    <Button
-      // variant="filled" // Replaced "contained" with "filled"
-      // color="secondary"
-      // onClick={handleDeactivate} // Function to handle deactivation
-      className="mr-2  bg-red-500 text-white"
-    >
-      Deactivate
-    </Button>
+                <Button
+                  // variant="filled" // Replaced "contained" with "filled"
+                  // color="secondary"
+                  // onClick={handleDeactivate} // Function to handle deactivation
+                  className="mr-2  bg-red-500 text-white"
+                >
+                  Deactivate
+                </Button>
 
-    <Button
-      // variant="filled" // Replaced "contained" with "filled"
-      // color="default"
-      className="mr-2  bg-blue-900 text-white"
-      // onClick={handleSendEmail} // Function to handle sending email
-    >
-      Send Email
-    </Button>
+                <Button
+                  // variant="filled" // Replaced "contained" with "filled"
+                  // color="default"
+                  className="mr-2  bg-blue-900 text-white"
+                  // onClick={handleSendEmail} // Function to handle sending email
+                >
+                  Send Email
+                </Button>
 
-    <Button
-      // variant="filled" // Replaced "contained" with "filled"
-      className="ml-2  bg-gray-400 text-white"
-      // color="default"
-      component="label" // Allows the button to trigger a file upload
-    >
-      Load Supporting Documents
-      <input
-        type="file"
-        hidden // Hide the default input element
-        // onChange={handleFileUpload} // Function to handle file upload
-      />
-    </Button>
-  </div>
-</div>
+                <Button
+                  // variant="filled" // Replaced "contained" with "filled"
+                  className="ml-2  bg-gray-400 text-white"
+                  // color="default"
+                  component="label" // Allows the button to trigger a file upload
+                >
+                  Load Supporting Documents
+                  <input
+                    type="file"
+                    hidden // Hide the default input element
+                    // onChange={handleFileUpload} // Function to handle file upload
+                  />
+                </Button>
+              </div>
+            </div>
 
             <div className=" flex justify-between flex-col  rounded-lg  px-8  w-[90%]  my-4">
               <div className="data-group bg-white p-4 rounded-lg">
