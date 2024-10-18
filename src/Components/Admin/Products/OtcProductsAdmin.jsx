@@ -40,6 +40,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { DeactivateProductAPI, DeleteProductAPI, fetchCriteriaProductsApi, fetchOtcProductsApi } from "../../../Api/ProductApi";
 import Notification from "../../Notification";
+import Loading from "../../Loading";
 const OtcProductsAdmin = () => {
   const products = useSelector((state) => state.product.otcProducts);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
@@ -165,6 +166,9 @@ const OtcProductsAdmin = () => {
     setOpenPop(false);
   };
 
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [deletePop, setDeletePop] = useState(false);
   const [trigger, settrigger] = useState(1);
   const [deleteProduct, setDeleteProduct] = useState(null);
@@ -195,19 +199,26 @@ const OtcProductsAdmin = () => {
     setDeletePop(false);
   };
 
+
   useEffect(() => {
     // Fetch product data from the server when 'trigger' updates
     const fetchData = async () => {
+      setLoading(true); // Set loading state before the request
+  
       try {
         const response = await fetchOtcProductsApi(); // Replace with your actual fetch function
         // setProductList(response.data); // Update the product list
       } catch (error) {
+        setError(error); // Handle and store error
         console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false); // Ensure loading is stopped
       }
     };
-
+  
     fetchData();
-  }, [trigger]); // This useEffect will run whenever 'trigger' changes
+  }, [trigger]);
+  
 
   return (
     <>
@@ -300,6 +311,15 @@ const OtcProductsAdmin = () => {
             </div>
           </div>
 
+          <div>
+
+          {loading && (
+              <div>
+                <Loading />
+              </div>
+            )}
+            {error && <div>Error: {error.message}</div>}
+            {!loading && !error && (
           <table className="w-full text-sm">
             <thead className="bg-blue-900 text-white  ">
             <tr className="border-b-2 text-left ">
@@ -338,7 +358,14 @@ const OtcProductsAdmin = () => {
               </tr>
             </thead>
             <tbody>
-              {currentItems.length > 0 ? ( currentItems.map((detail, index) => (
+              {/* {currentItems.length > 0 ? ( currentItems.map((detail, index) => ( */}
+              {currentItems.length === 0 ? (
+                    <tr>
+                      <td colSpan="5" className="text-center py-4">
+                        No Products available
+                      </td>
+                    </tr>
+                  ) : (currentItems.map((detail, index) => (
                 <tr className="border-b" key={detail.id}>
                   <td className='px-4 py-2"'>{indexOfFirstItem+index + 1}</td>
                   <td className='px-4 py-2"'>
@@ -354,22 +381,22 @@ const OtcProductsAdmin = () => {
                       </span>
                    </Tooltip>
                   </td>
-                  <td className="px-4 py-2">{new Date(detail.createdDate).toLocaleDateString("en-US", {
+                  <td className="px-4 py-2 text-center">{new Date(detail.createdDate).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "2-digit",
                     day: "2-digit",
                   })
                     .replace(/\//g, "-")}</td>
-                  <td className="text-left">{detail.sellerFirstName}</td>
+                  <td className="text-center">{detail.sellerFirstName}</td>
                   {/* <td>{detail.categorySpecification.specificationName}</td> */}
-                  <td className="text-right">{detail.unitPrice?.toFixed(2)}</td>
-                  <td className="px-4 py-2">{new Date(detail.salePriceValidFrom).toLocaleDateString("en-US", {
+                  <td className="text-right">${detail.unitPrice?.toFixed(2)}</td>
+                  <td className="px-4 py-2 text-center">{new Date(detail.salePriceValidFrom).toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "2-digit",
                           day: "2-digit",
                         })
                           .replace(/\//g, "-")}</td>
-                        <td className="px-4 py-2">{new Date(detail.salePriceValidTo).toLocaleDateString("en-US", {
+                        <td className="px-4 py-2 text-center">{new Date(detail.salePriceValidTo).toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "2-digit",
                           day: "2-digit",
@@ -573,17 +600,14 @@ const OtcProductsAdmin = () => {
                   </td>
                 </tr>
                 ))
-              ) : (
-                <tr>
-                  <td colSpan="6" className="text-center py-4 text-gray-500">
-                    No Products Available
-                  </td>
-                </tr>
-              )}
+              ) }
             </tbody>
           </table>
+            )}
+            </div>
         </div>
-      </div>
+        </div>
+      
       <div className="bg-gray-100 flex items-center justify-center">
         {" "}
         <Pagination

@@ -54,18 +54,17 @@ function LayoutSellOrders() {
     { label: "Total Products", value: SellerOrder ? SellerOrder.length : 0, percentage: SellerOrder ? ((SellerOrder.length - 100) / 100 * 100).toFixed(2) : 0, },
     {
       label: "Base Amount",
-      value: SellerOrder
-        ? Math.floor(SellerOrder.reduce((total, order) => total + (order.baseAmount || 0), 0))
-        : 0,
+      value: `$${SellerOrder ? SellerOrder.reduce((total, order) => total + (order.baseAmount || 0), 0).toFixed(2) : 0.00}`,
       percentage: SellerOrder
         ? Math.floor(((Math.floor(SellerOrder.reduce((total, order) => total + (order.baseAmount || 0), 0)) - 1500) / 1500) * 100)
         : 0,
     },
     {
       label: "Purchase Amount",
-      value: SellerOrder
-        ? Math.floor(SellerOrder.reduce((total, order) => total + (order.totalAmount || 0), 0))
-        : 0,
+      value: `$${SellerOrder ? SellerOrder.reduce((total,order) => total + (order.totalAmount  || 0),0).toFixed(2) : 0.00}`,
+      // `$${SellerOrder
+      //   ? Math.floor(SellerOrder.reduce((total, order) => total + (order.totalAmount || 0), 0) .toFixed(2) : 0.00)
+      //   : 0}`,
       percentage: SellerOrder
         ? Math.floor(((Math.floor(SellerOrder.reduce((total, order) => total + (order.totalAmount || 0), 0)) - 2000) / 2000) * 100)
         : 0,
@@ -175,7 +174,7 @@ function LayoutSellOrders() {
             >
               <div className="w-full">
                 <div className="flex justify-between items-center">
-                  <div className="text-[15px] text-gray-700 font-normal">
+                  <div className="text-[16px] text-gray-700 font-semibold">
                     {stat.label}
                   </div>
                   <div className="menu-icon">
@@ -183,7 +182,7 @@ function LayoutSellOrders() {
                   </div>
                 </div>
                 <div className="flex justify-between mt-2 items-center">
-                  <div className="text-2xl font-semibold">{stat.value}</div>
+                  <div className="text-xl font-semibold">{stat.value}</div>
                   {/* <div
                     className={`text-sm ${
                       stat.percentage > 0 ? "bg-green-400" : "bg-red-400"
@@ -236,7 +235,7 @@ function LayoutSellOrders() {
                 <th className="px-4 py-2 text-left">Thumbnail</th>
                 <th className="px-4 py-2 text-left">Product Name</th>
                 <th className="px-4 py-2 text-left">Purchased On</th>
-                <th className="px-4 py-2 text-center">Amount</th>
+                <th className="px-4 py-2 text-right">Amount</th>
                 <th className="px-4 py-2 text-left">Customer</th>
                 <th className="px-4 py-2 text-left">Status</th>
                 <th className="px-4 py-2 text-left">Action</th>

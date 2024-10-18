@@ -428,8 +428,8 @@ const GeneralMerchandiseSeller = () => {
 
   const handleEditProduct = async (customerId) => {
     try {
-      await getUserByCustomerIdApi(customerId);
-      navigate(`/pharmEtradeadmin/EditSellerList`);
+      // await getUserByCustomerIdApi(customerId);
+      navigate(`/pharmEtradeadmin/EditSellerList?CustomerId=${customerId}`);
     } catch (error) {
       console.log("error", error);
     }

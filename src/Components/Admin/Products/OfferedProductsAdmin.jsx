@@ -40,6 +40,7 @@ import { useNavigate } from "react-router-dom";
 import { DeactivateProductAPI, DeleteProductAPI, fetchCriteriaProductsApi, fetchGetProductOffer, fetchProductOffer } from "../../../Api/ProductApi";
 import wrong from '../../../assets/Icons/wrongred.png'
 import Notification from "../../Notification";
+import Loading from "../../Loading";
 const OfferedProductsAdmin = () => {
   // const products = useSelector((state) => state.product.getProductSpecialOffer);
   const products = useSelector((state) => state.product.getProductSpecialOffer);
@@ -131,9 +132,26 @@ const OfferedProductsAdmin = () => {
 
   const dispatch = useDispatch();
 
+  // useEffect(() => {
+  //   dispatch(fetchGetProductOffer(1)); // Dispatch the API call to fetch special offers
+  // }, [dispatch]);
+
   useEffect(() => {
-    dispatch(fetchGetProductOffer(1)); // Dispatch the API call to fetch special offers
+    const fetchOffers = async () => {
+      setLoading(true); // Set loading state before the request
+  
+      try {
+        await dispatch(fetchGetProductOffer(1)); // Dispatch the API call
+      } catch (error) {
+        setError(error); // Handle and store error
+      } finally {
+        setLoading(false); // Ensure loading is stopped
+      }
+    };
+  
+    fetchOffers();
   }, [dispatch]);
+  
 
   const [openPop, setOpenPop] = useState(false);
   const [deactive, setDeactive] = useState(null);
@@ -174,6 +192,8 @@ const OfferedProductsAdmin = () => {
     setOpenPop(false);
   };
 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [deletePop, setDeletePop] = useState(false);
   const [trigger, settrigger] = useState(1);
   const [deleteProduct, setDeleteProduct] = useState(null);
@@ -310,6 +330,14 @@ const OfferedProductsAdmin = () => {
             </div>
           </div>
 
+          <div>
+          {loading && (
+              <div>
+                <Loading />
+              </div>
+            )}
+            {error && <div>Error: {error.message}</div>}
+            {!loading && !error && (
           <table className="w-full">
             <thead className="bg-blue-900 text-white  ">
             <tr className="border-b-2 text-left ">
@@ -345,8 +373,13 @@ const OfferedProductsAdmin = () => {
               </tr>
             </thead>
             <tbody>
-              {currentItems.length > 0 ? (
-              currentItems.map((detail, index) => (
+            {currentItems.length === 0 ? (
+                    <tr>
+                      <td colSpan="5" className="text-center py-4">
+                        No Products available
+                      </td>
+                    </tr>
+                  ) : (currentItems.map((detail, index) => (
                 <tr className="border-b" key={detail.id}>
                   <td className='px-4 py-2"'>{indexOfFirstItem+index + 1}</td>
                   <td className='px-4 py-2"'>
@@ -356,7 +389,7 @@ const OfferedProductsAdmin = () => {
                     />
                   </td>
                   <Tooltip title={detail.productName} placement="right">
-                    <span className="truncate block w-24 cursor-pointer "> {/* Truncate and make clickable */}
+                    <span className="truncate block w-24 cursor-pointer text-center "> {/* Truncate and make clickable */}
                       {detail.productName}
                     </span>
                   </Tooltip>
@@ -364,8 +397,8 @@ const OfferedProductsAdmin = () => {
                   {/* <td>{}</td> */}
                   <td className="text-center">{detail.sellerFirstName}</td>
                   {/* <td>{detail.categorySpecification.specificationName}</td> */}
-                  <td className="text-center">{detail.unitPrice?.toFixed(2)}</td>
-                  <td className="px-2 py-1">{new Date(detail.salePriceValidFrom).toLocaleDateString("en-US", {
+                  <td className="text-right">${detail.unitPrice?.toFixed(2)}</td>
+                  <td className="px-2 py-1 text-center">{new Date(detail.salePriceValidFrom).toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "2-digit",
                           day: "2-digit",
@@ -575,15 +608,11 @@ const OfferedProductsAdmin = () => {
                   </td>
                 </tr>
                 ))
-              ) : (
-                <tr>
-                  <td colSpan="6" className="text-center py-4 text-gray-500">
-                    No Products Available
-                  </td>
-                </tr>
               )}
             </tbody>
           </table>
+            )}
+          </div>
         </div>
       </div>
       <div className="bg-gray-100 flex items-center justify-center">

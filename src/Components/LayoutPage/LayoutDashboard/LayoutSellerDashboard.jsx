@@ -159,7 +159,7 @@ const LayoutSellerDashboard = () => {
       label: "Outgoing Orders", percentage: sellerDashboard?.outgoingOrdersCount, color: "orange", grid: "productsOrdered"
     }, // Yellow
     {
-      label: "Total No.of Products Count", percentage: sellerDashboard?.totalProducts, color: "green", grid: "customersOrdered", to: '/layout/postingproducts'
+      label: "Total No.of Products ", percentage: sellerDashboard?.totalProducts, color: "green", grid: "customersOrdered", to: '/layout/postingproducts'
     }, // Green
 
     {
@@ -169,6 +169,19 @@ const LayoutSellerDashboard = () => {
       label: "Total Outgoing Order Value", percentage: `$${(sellerDashboard?.totalSaleValue || 0).toFixed(2)}`, color: "purple", grid: "customersOrdered"
     },
   ];
+
+
+  const productsactives=[
+    {
+      label: "Total No.of Products ", percentage: sellerDashboard?.totalProducts, color: "green", grid: "customersOrdered", to: '/layout/postingproducts'
+    },
+    {
+      label: "Total No.of Products Active", percentage: 180, color: "green", grid: "customersOrdered", to: '/layout/postingproducts'
+    },
+    {
+      label: "Total No.of Products Inactive", percentage: 25, color: "green", grid: "customersOrdered", to: '/layout/postingproducts'
+    },
+  ]
 
   const productdetails = [
     { totalproducts: 9, heading: "Top Selling Products", label: "ALEGRA 24 HOUR", number: 5, sales: "Sales", text: "DAYQUIL LIQ 80Z", quantity: 3 },
@@ -267,7 +280,7 @@ const LayoutSellerDashboard = () => {
         </div>
 
         <div className="flex flex-col ">
-          <div className='flex justify-center flex-wrap  gap-2 w-full mt-8 border p-4 rounded-lg shadow-lg'>
+          <div className='flex justify-center flex-wrap  gap-2 w-auto mt-8 border p-4 rounded-lg shadow-lg'>
 
             {/* <div className='flex flex-col items-center justify-center ml-7'>
               <h1 className='text-xl font-semibold'>Order(s)</h1>
@@ -279,13 +292,13 @@ const LayoutSellerDashboard = () => {
 
                   <div
                     key={index}
-                    className="bg-white w-44 rounded-lg shadow-xl cursor-pointer  h-28 p-1 flex flex-col justify-between"
+                    className="bg-white w-48 rounded-lg shadow-xl cursor-pointer  h-28 p-1 flex flex-col justify-between"
                     onClick={() => toggleGrid(detail.grid)}
                     style={{ borderBottom: `4px solid ${detail.color}` }} // Set bottom border color
                   >
 
                     <div className="flex justify-between items-center">
-                      <h1  onClick={() => handleNavigation(detail.to)} className='hover:text-red-600 hover:underline px-2 '>{detail.label}</h1>
+                      <h1  onClick={() => handleNavigation(detail.to)} className='hover:text-red-600  hover:underline px-2 font-semibold '>{detail.label}</h1>
 
                     </div>
                     <div className="flex justify-between">
@@ -320,20 +333,46 @@ const LayoutSellerDashboard = () => {
 
           </div>
 
-          <div className='flex flex-wrap gap-6 w-full mt-8 border rounded-lg shadow-lg p-4'>
-            {/* products */}
 
-            {/* <h1 className='text-xl font-semibold'> Product(s)</h1> */}
+                {/* Active inactive products */}
+
+           <div className='flex flex-wrap gap-6 w-full mt-8 border rounded-lg shadow-lg p-4'>
+                  <div className='flex gap-5'>
+                  {productsactives.map((productactive)=>(
+                    <div className=''>
+                      <div 
+                        style={{ borderBottom: `4px solid ${productactive.color}` }}
+                       className="bg-white w-52 flex rounded-lg shadow-xl cursor-pointer flex-col  h-28 p-2   justify-between"
+                      >
+                      <h1 className='font-semibold'>{productactive.label}</h1>
+                      <p className='font-semibold text-xl'>{productactive.percentage}</p>
+                      </div>
+                      </div>
+                  ))}
+                  </div>
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+          {/* <div className='flex flex-wrap gap-6 w-full mt-8 border rounded-lg shadow-lg p-4'>
+
             <div className='flex flex-col items-center justify-center ml-4'>
               <h1 className='text-xl font-semibold'>Product(s)</h1>
               <p className='text-3xl '>{sellerDashboard?.productsOrdered}</p>
             </div>
-            {/* <p>Top Selling Products</p> */}
 
             <div className=''>
               {productdetails.map((productdetail, index) => (
                 <div >
-                  {/* <h1 className='text-3xl items-center justify-start text-center flex'>{productdetail.totalproducts}</h1> */}
                   <div className='w-48 p-4  border rounded-lg shadow-lg  h-28 bg-white '>
                     <div className=''>
                       <h1 className='flex justify-center '>{productdetail.heading}</h1>
@@ -377,7 +416,7 @@ const LayoutSellerDashboard = () => {
               ))}
             </div>
 
-            {/* customers */}
+            
 
             <div className=' flex gap-8'>
               <div className='flex flex-col items-center justify-center ml-5'>
@@ -387,7 +426,6 @@ const LayoutSellerDashboard = () => {
               <div   >
                 {customerdetails.map((customerdetail, index) => (
                   <div className='flex'>
-                    {/* <h1 className='text-3xl items-center text-center -ml-5 justify-start flex'>{customerdetail.totalcutomers}</h1> */}
                     <div className='w-48 p-4 ml-8  border rounded-lg shadow-lg h-28 bg-white'>
                       <div className='flex border-b -mt-2'>
                         <h1> {customerdetail.label} :</h1>
@@ -406,7 +444,7 @@ const LayoutSellerDashboard = () => {
               </div>
             </div>
 
-          </div>
+          </div> */}
         </div>
 
         {/* <div className='mt-8'>

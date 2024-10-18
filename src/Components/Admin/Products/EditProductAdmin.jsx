@@ -22,6 +22,7 @@ import {
   uploadImageApi,
 } from "../../../Api/ProductApi";
 import { useDispatch, useSelector } from "react-redux";
+import RelatedProductsAdmin from "./RelatedProductsAdmin";
 import {
   ProductInfoValidation,
   ProductPriceValidation,
@@ -31,7 +32,6 @@ import {
   fetchNdcUpcListApi,
   fetchProductCategoriesGetAll,
 } from "../../../Api/MasterDataApi";
-import RelatedProductsAdmin from "./RelatedProductsAdmin";
 
 function EditProductAdmin() {
   const user = useSelector((state) => state.user.user);
@@ -122,6 +122,8 @@ function EditProductAdmin() {
     mainImageUrl: null,
     price: 0,
     amountInStock: 0,
+    minOrderQuantity:1,
+    maxOrderQuantity:0,
     taxable: false,
     productDetails: "",
     aboutProduct: "",
@@ -134,6 +136,7 @@ function EditProductAdmin() {
     Width: 0,
     states: [],
     shippingCostApplicable: false,
+    isReturnable : "",
     upnMemberPrice: 0,
     salePrice: 0,
     salePriceForm: null,
@@ -191,12 +194,16 @@ function EditProductAdmin() {
       price: product.unitPrice,
       sku: product.sku,
       amountInStock: product.amountInStock,
+      minOrderQuantity:product.minOrderQuantity==0? 1 : product.minOrderQuantity,
+      maxOrderQuantity:product.maxOrderQuantity,
       taxable: product.taxable,
       productDetails: product.productDescription,
       aboutProduct: product.aboutTheProduct,
       states: product.states.split(",").map((state) => state.trim()),
       size: product.size,
       form: product.form,
+      isReturnable: product.isReturnable,
+      shippingCostApplicable:product.shippingCostApplicable,
       unitOfMeasurement: product.unitOfMeasure,
       upnMemberPrice: product.upnMemberPrice,
       salePrice: product.salePrice,
@@ -257,6 +264,8 @@ function EditProductAdmin() {
       mainImageUrl: null,
       price: 0,
       amountInStock: 0,
+      minOrderQuantity:1,
+      maxOrderQuantity:0,
       taxable: false,
       productDetails: "",
       aboutProduct: "",
@@ -423,18 +432,9 @@ function EditProductAdmin() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
 
-  // const [formData, setFormData] = useState({ imageUrl: null });
-  const [isDragging, setIsDragging] = useState(false);
-
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
     setErrorMessage("");
-    
-      // const file = e.target.files[0];
-      if (file) {
-        setFormData({ ...formData, imageUrl: file });
-      }
-    
     // Check if the file is an image
     if (file && file.type.startsWith("image/")) {
       // Create an object URL for previewing the image
@@ -541,6 +541,13 @@ function EditProductAdmin() {
         });
       }
       if (name === "shippingCostApplicable") {
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: value === "1" ? true : false, // Set to true for "1" (Yes), false for "0" (No)
+        }));
+      }
+      if(name === "isReturnable")
+      {
         setFormData((prevData) => ({
           ...prevData,
           [name]: value === "1" ? true : false, // Set to true for "1" (Yes), false for "0" (No)
@@ -794,6 +801,8 @@ function EditProductAdmin() {
         formData.shippingCostApplicable == 1 ? true : false,
       shippingCost: 20,
       amountInStock: formData.amountInStock,
+      minOrderQuantity: formData.minOrderQuantity,
+      maxOrderQuantity: formData.maxOrderQuantity,
     };
     if (formData.discount == null || formData.discount == "")
       setFormData({ ...formData, ["discount"]: 0 });
@@ -929,35 +938,6 @@ function EditProductAdmin() {
     }
   };
   console.log(formData, "formdata");
-  const handleDragEnter = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
-    
-    const file = e.dataTransfer.files[0];
-    if (file) {
-      setFormData({ ...formData, imageUrl: file });
-    }
-  };
-
   const renderTabContent = () => {
     switch (activeTab) {
       case 0:
@@ -1532,7 +1512,7 @@ function EditProductAdmin() {
                     Main Product Image:
                   </p>
                   <p className="text-sm font-semibold"> ( JPEG, PNG)</p>
-                  {/* <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
+                  <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
                     {formData.imageUrl ? (
                       <div className="relative">
                         <img
@@ -1568,55 +1548,7 @@ function EditProductAdmin() {
                         />
                       </label>
                     )}
-                  </div> */}
-
-<div
-      className={`flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg ${
-        isDragging ? 'bg-gray-200' : ''
-      }`}
-      onDragEnter={handleDragEnter}
-      onDragLeave={handleDragLeave}
-      onDragOver={handleDragOver}
-      onDrop={handleDrop}
-    >
-      {formData.imageUrl ? (
-        <div className="relative">
-          <img
-            src={
-              typeof formData.imageUrl === 'object'
-                ? URL.createObjectURL(formData.imageUrl)
-                : formData.imageUrl
-            }
-            alt="Selected"
-            className="w-64 h-64 object-cover rounded-md"
-          />
-          <button
-            onClick={handleRemoveImage}
-            className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full focus:outline-none"
-          >
-            &times;
-          </button>
-        </div>
-      ) : (
-        <label
-          htmlFor="imageUpload"
-          className={`flex flex-col justify-center items-center w-full h-32 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200 ${
-            isDragging ? 'bg-gray-200 border-gray-400' : ''
-          }`}
-        >
-          <span className="text-gray-500 text-center">
-            Click here or drag and drop image
-          </span>
-          <input
-            type="file"
-            id="imageUpload"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="hidden"
-          />
-        </label>
-      )}
-    </div>
+                  </div>
 
                   {/* Conditionally render error message */}
                   {errorMessage && (
@@ -1867,7 +1799,7 @@ function EditProductAdmin() {
                 <div className="flex items-center gap-8 ">
                   <div className=" flex flex-col">
                     <label className="font-semibold">
-                      Amount in Stock:<span className="text-red-600">*</span>
+                      Product in Stock:<span className="text-red-600">*</span>
                     </label>
                     {/* <label className="font-semibold">Amount in Stock:</label> */}
                     <input
@@ -1909,7 +1841,40 @@ function EditProductAdmin() {
                       <option value="1">Yes</option>
                     </select>
                   </div>
+                  <div className=" flex flex-col">
+                    <label className="font-semibold">
+                      Minimum Order Qunatity:
+                    </label>
+                    {/* <label className="font-semibold">Amount in Stock:</label> */}
+                    <input
+                      name="minOrderQuantity"
+                      type="phone"
+                      className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.minOrderQuantity === 0
+                          ? ""
+                          : formData.minOrderQuantity
+                      }
+                    />
+                    
+                  </div>
                 </div>
+
+                <div className="flex flex-col mt-2">
+                    <label className="text-sm font-semibold">
+                       Maximum Order  Quantity :
+                    </label>
+                    <input
+                      name="maxOrderQuantity"
+                      type="phone"
+                      className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.maxOrderQuantity === 0
+                          ? ""
+                          : formData.maxOrderQuantity
+                      }
+                    />
+                  </div>
               </div>
             </div>
             <div className="my-4">
@@ -1952,7 +1917,6 @@ function EditProductAdmin() {
                   </div>
                 </Box>
               </div> */}
-              <div className=" ">
               <div className="flex items-center">
                 <label className="font-semibold">
                   Price includes the shipping cost
@@ -1984,16 +1948,17 @@ function EditProductAdmin() {
                 </label>
               </div>
 
-              <div className="flex items-center  my-4">
+             
+              <div className="flex items-center mt-4">
                 <label className="font-semibold">
                  Is this product returnable
                 </label>
                 <input
                   type="radio"
                   id="yes"
-                  name="product returnable"
+                  name="isReturnable"
                   value="1"
-                  checked={formData.productReturnable === true}
+                  checked={formData.isReturnable === true}
                   onChange={handleInputChange}
                   className="ml-2"
                 />
@@ -2004,9 +1969,9 @@ function EditProductAdmin() {
                 <input
                   type="radio"
                   id="no"
-                  name="productReturnable"
+                  name="isReturnable"
                   value="0"
-                  checked={formData.productReturnable === false}
+                  checked={formData.isReturnable === false}
                   onChange={handleInputChange}
                   className="ml-2"
                 />
@@ -2014,7 +1979,7 @@ function EditProductAdmin() {
                   No
                 </label>
               </div>
-              </div>
+
             </div>
 
             {/* section5 start */}
@@ -2338,7 +2303,7 @@ function EditProductAdmin() {
             </p>
 
             <div className="flex w-full gap-4 justify-between">
-              {/* <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
+              <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
                 {selectedImage || formData.imageUrl ? (
                   <div className="relative">
                     <img
@@ -2371,54 +2336,7 @@ function EditProductAdmin() {
                     />
                   </label>
                 )}
-              </div> */}
-               <div
-      className={`flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg ${
-        isDragging ? 'bg-gray-200' : ''
-      }`}
-      onDragEnter={handleDragEnter}
-      onDragLeave={handleDragLeave}
-      onDragOver={handleDragOver}
-      onDrop={handleDrop}
-    >
-      {formData.imageUrl ? (
-        <div className="relative">
-          <img
-            src={
-              typeof formData.imageUrl === 'object'
-                ? URL.createObjectURL(formData.imageUrl)
-                : formData.imageUrl
-            }
-            alt="Selected"
-            className="w-64 h-64 object-cover rounded-md"
-          />
-          <button
-            onClick={handleRemoveImage}
-            className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full focus:outline-none"
-          >
-            &times;
-          </button>
-        </div>
-      ) : (
-        <label
-          htmlFor="imageUpload"
-          className={`flex flex-col justify-center items-center w-full h-32 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200 ${
-            isDragging ? 'bg-gray-200 border-gray-400' : ''
-          }`}
-        >
-          <span className="text-gray-500 text-center">
-            Click here or drag and drop image
-          </span>
-          <input
-            type="file"
-            id="imageUpload"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="hidden"
-          />
-        </label>
-      )}
-    </div>
+              </div>
 
               <div className="flex flex-col w-full p-4 border rounded-lg shadow-md">
                 <h1 className="text-xl font-bold mb-4 text-justify">
@@ -2611,4 +2529,4 @@ function EditProductAdmin() {
   );
 }
 
-export default EditProductAdmin;
+export default EditProductAdmin; 

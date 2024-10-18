@@ -64,7 +64,7 @@ const LayoutPostingProducts = () => {
 
   const stats = [
     {
-      label: "Total Product",
+      label: "Total No. of Product",
       value: sellerDashboard?.totalProducts || 0, // Fallback to 0 if undefined or null
       percentage: 100, // Since it's the total, it represents 100%
     },
@@ -78,7 +78,7 @@ const LayoutPostingProducts = () => {
     },
     {
       label: "Price",
-      value: sellerDashboard?.totalSaleValue || 0,
+      value: `$${(sellerDashboard?.totalSaleValue || 0).toFixed(2)}`,
       percentage: calculatePercentage(
         sellerDashboard?.totalSaleValue,
         sellerDashboard?.totalProducts
@@ -351,7 +351,7 @@ const LayoutPostingProducts = () => {
             >
               <div className="w-full">
                 <div className="flex justify-between items-center">
-                  <div className="text-[15px] text-gray-700 font-normal">
+                  <div className="text-[16px] text-gray-700 font-semibold">
                     {stat.label}
                   </div>
                   <div className="menu-icon">
@@ -359,7 +359,7 @@ const LayoutPostingProducts = () => {
                   </div>
                 </div>
                 <div className="flex justify-between mt-2 items-center">
-                  <div className="text-2xl font-semibold">{stat.value}</div>
+                  <div className="text-xl font-semibold">{stat.value}</div>
                   {/* <div
                     className={`text-sm p-1 rounded-lg ${
                       stat.percentage > 0 ? "bg-green-400" : "bg-red-400"
@@ -399,7 +399,7 @@ const LayoutPostingProducts = () => {
                     <th className="px-4 py-2 text-left">Thumbnail</th>
                     <th className=" px-4 py-2 text-left">Product Name</th>
                     <th className="px-4 py-2 text-left">Created Date</th>
-                    <th className="px-4 py-2 text-left">Unit Price</th>
+                    <th className="px-4 py-2 text-right">Unit Price</th>
                     <th className="px-4 py-2 text-left">Saleprice Start</th>
                     <th className="px-4 py-2 text-left">Saleprice End</th>
                     <th className="px-4 py-2 ">Action</th>
@@ -426,7 +426,7 @@ const LayoutPostingProducts = () => {
                         </td>
                         <td className="px-4 py-2">{product.productName}</td>
                         <td className="px-4 py-2">{}</td>
-                        <td className="px-4 py-2">{product.unitPrice.toFixed(2)}</td>
+                        <td className="px-4 py-2 text-right">${product.unitPrice.toFixed(2)}</td>
                         <td className="px-4 py-2">{new Date(product.salePriceValidFrom).toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "2-digit",

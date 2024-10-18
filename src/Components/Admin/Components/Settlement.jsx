@@ -130,7 +130,7 @@ function Settlement() {
 
   };
   return (
-    <div className='w-[95%]  p-4 h-full overflow-y-scroll'>
+    <div className='w-[95%]  p-4 h-full overflow-y-scroll '>
 
       <div>
         <h1 className='text-blue-900 text-2xl font-semibold ml-5'>Payment Settlements</h1>
@@ -140,7 +140,7 @@ function Settlement() {
 
 
 
-        <div className=' bg-white rounded-md p-2  mb-2 w-[50%]  ml-5  h-full '>
+        <div className=' bg-white rounded-md p-2  mb-2 w-[50%] border ml-5  h-full '>
          
 
          
@@ -280,7 +280,7 @@ function Settlement() {
 
 <div className='flex justify-center ml-4 '>
                 <button
-                  className='rounded-md bg-blue-900 text-white w-28 p-2 font-semibold flex justify-center items-center'
+                  className='rounded-md bg-blue-900 text-white w-28 h-10 p-2 font-semibold flex justify-center items-center'
 
                 >
                   Show Balance
@@ -314,15 +314,16 @@ function Settlement() {
               <TextField type='text'
                 label="Payable To"
                 size='small'
-                className='border rounded-md ml-4 '
+                className='border rounded-md ml-8 '
                />
             </div>
 
             <div className='flex gap-2 my-2'>
               <label className='font-semibold  flex items-center ml-4'>Save Cheque Image :</label>
-              <TextField type='file'
+              <input type='file'
+               accept="image/*"
                 size='small'
-                className='w-52  ' />
+                className='w-52 border p-1 border-gray-300 rounded-md  ' />
                 </div><div className='flex'>
 
               <label className='font-semibold flex items-center mr-12 ml-4'>Payment Date:</label>
@@ -354,7 +355,7 @@ function Settlement() {
                 className=''/>
                 </div>
               <div className='flex'>
-              <label className='font-semibold flex items-center mr-5 ml-4'>Check Mailed On  :</label>
+              <label className='font-semibold flex items-center mr-5 ml-4'>Cheque Mailed On  :</label>
               <TextField type='date'
                 className='border rounded-md w-52 h-5'
                 size='small'

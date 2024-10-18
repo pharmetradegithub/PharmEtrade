@@ -396,6 +396,21 @@ function LayoutaddProduct() {
     setButtonClicked(false);
   };
 
+  const handleDragOver = (event) => {
+    event.preventDefault(); // Prevent default behavior
+    event.stopPropagation(); // Stop the event from bubbling up
+  };
+
+  const handleDrop = (event) => {
+    event.preventDefault(); // Prevent default behavior
+    event.stopPropagation(); // Stop the event from bubbling up
+
+    const file = event.dataTransfer.files[0];
+    if (file) {
+      setFormData({ ...formData, imageUrl: file });
+    }
+  };
+
   // video
   const [selectedVideos, setSelectedVideos] = useState([]);
   const [videoPreviews, setVideoPreviews] = useState([]);
@@ -1534,6 +1549,8 @@ function LayoutaddProduct() {
                     ) : (
                       <label
                         htmlFor="imageUpload"
+                        onDragOver={handleDragOver}
+                        onDrop={handleDrop}
                         className="flex flex-col justify-center items-center w-full h-32 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200"
                       >
                         <span className="text-gray-500 text-center">
@@ -2303,7 +2320,7 @@ function LayoutaddProduct() {
             </p>
 
             <div className="flex w-full gap-4 justify-between">
-              <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
+              {/* <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
                 {selectedImage || formData.imageUrl ? (
                   <div className="relative">
                     <img
@@ -2336,7 +2353,43 @@ function LayoutaddProduct() {
                     />
                   </label>
                 )}
-              </div>
+              </div> */}
+                <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
+      {selectedImage || formData.imageUrl ? (
+        <div className="relative">
+          <img
+            src={selectedImage || URL.createObjectURL(formData.imageUrl)}
+            alt="Selected"
+            className="w-64 h-64 object-cover rounded-md"
+          />
+          <button
+            onClick={handleRemoveImage}
+            className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full focus:outline-none"
+          >
+            &times;
+          </button>
+        </div>
+      ) : (
+        <label
+          htmlFor="imageUpload"
+          className="flex flex-col justify-center items-center w-full h-32 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200"
+          onDragOver={handleDragOver} // Add drag over event
+          onDrop={handleDrop} // Add drop event
+        >
+          <span className="text-gray-500 text-center">
+            Click here or drag and drop image
+          </span>
+          <input
+            type="file"
+            id="imageUpload"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="hidden"
+          />
+        </label>
+      )}
+    </div>
+
 
               <div className="flex flex-col w-full p-4 border rounded-lg shadow-md">
                 <h1 className="text-xl font-bold mb-4 text-justify">
