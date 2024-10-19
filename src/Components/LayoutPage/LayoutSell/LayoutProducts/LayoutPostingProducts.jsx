@@ -354,9 +354,9 @@ const LayoutPostingProducts = () => {
                   <div className="text-[16px] text-gray-700 font-semibold">
                     {stat.label}
                   </div>
-                  <div className="menu-icon">
+                  {/* <div className="menu-icon">
                     <CiMenuKebab />
-                  </div>
+                  </div> */}
                 </div>
                 <div className="flex justify-between mt-2 items-center">
                   <div className="text-xl font-semibold">{stat.value}</div>

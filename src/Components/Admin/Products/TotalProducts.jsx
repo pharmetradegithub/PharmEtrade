@@ -304,7 +304,7 @@ const TotalProducts = () => {
             <div className="flex  mb-4">
               <input
                 className="rounded-lg p-1"
-                placeholder="Search..."
+                placeholder="Search Product..."
                 name="productName"
                 onChange={(e) => handleInputChange(e)}
                 onKeyDown={handleKeyDown}

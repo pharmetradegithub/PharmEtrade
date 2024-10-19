@@ -245,9 +245,9 @@ const LayoutSellReturn = () => {
                   <div className="text-[17px] text-gray-700 font-normal">
                     {stat.label}
                   </div>
-                  <div className="menu-icon">
+                  {/* <div className="menu-icon">
                     <CiMenuKebab />
-                  </div>
+                  </div> */}
                 </div>
                 <div className="flex justify-between mt-2 items-center">
                   <div className="text-2xl font-semibold">{stat.value}</div>
