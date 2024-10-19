@@ -8,7 +8,7 @@ import Notification from "../../../Components/Notification"; // Import Notificat
 
 import comp from "../../../assets/CompareNav2.png";
 import nature from "../../../assets/img1.png";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { addCartApi } from "../../../Api/CartApi";
 import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
@@ -38,7 +38,7 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
   const totalStars = 5;
 
   const carouselContainer = useRef(null);
-  const naviagte = useNavigate();
+  const navigate = useNavigate();
   const navigation = (dir) => {
     const container = carouselContainer.current;
 
@@ -58,6 +58,7 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
   });
   const handleCart = async (index) => {
     if (user == null) {
+      navigate("/login")
       console.log("login to add");
       return;
     }
@@ -92,6 +93,10 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
   };
 
   const handleClick = async (productID) => {
+    if (user == null) {
+      navigate("/login");
+      return;
+    }
     if (wishlistProductIDs.includes(productID)) {
       setWishlistProductIDs(
         wishlistProductIDs.filter((id) => id !== productID)
@@ -113,7 +118,7 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
   //   naviagte(`/detailspage/${productID}`);
   // };
   const handleProductDetails = (productID) => {
-    naviagte(`/detailspage/${productID}`);
+    navigate(`/detailspage/${productID}`);
   };
 
   const Star = ({ filled, onClick }) => (

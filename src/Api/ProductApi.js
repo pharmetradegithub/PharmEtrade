@@ -17,7 +17,7 @@ const SET_Criteria_Products = 'product/setCriteriaProducts'
 export const fetchAllProductsApi = async () => {
   try {
     const customerId = localStorage.getItem('userId');
-    let response = customerId!=null? await axios.get('/api/Product/GetAll') : await axios.get(`/api/Product/GetAll?CustomerId=${customerId}`);
+    let response = customerId==null? await axios.get('/api/Product/GetAll') : await axios.get(`/api/Product/GetAll?CustomerId=${customerId}`);
     if (response.status === 200) {
       const cartItems = store.getState().cart.cart;
       const cartItemsMap = new Map(cartItems.map(item => [item.product.productID, item.quantity]));

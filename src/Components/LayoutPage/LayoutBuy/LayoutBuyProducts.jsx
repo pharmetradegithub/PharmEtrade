@@ -363,6 +363,9 @@ function LayoutBuy({
                           handleProductDetails1(product.productID, product)
                         }
                       />
+                         <p className=" w-36 text-[15px] mt-2 text-black ">
+                        {product.productCategory.categoryName}
+                      </p>
                     </div>
 
                     <div className="flex flex-col w-[200px] mx-3">

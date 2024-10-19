@@ -565,7 +565,7 @@ function LayoutaddProduct() {
       {
         setFormData((prevData) => ({
           ...prevData,
-          [name]: value === "1" ? true : false, // Set to true for "1" (Yes), false for "0" (No)
+          [name]: value == "1" ? true : false, // Set to true for "1" (Yes), false for "0" (No)
         }));
       }
     } else if (type === "checkbox") {
@@ -814,6 +814,7 @@ function LayoutaddProduct() {
       taxable: formData.taxable == 1 ? true : false,
       shippingCostApplicable:
         formData.shippingCostApplicable == 1 ? true : false,
+      isReturnable: formData.isReturnable ==1?true:false,
       shippingCost: 20,
       amountInStock: formData.amountInStock,
       minOrderQuantity: formData.minOrderQuantity,
@@ -1681,13 +1682,29 @@ function LayoutaddProduct() {
                       name="salePrice"
                       type="phone"
                       className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                  
+                        // Regex to allow only valid numbers and two decimal places
+                        const formattedValue = value.match(/^\d*\.?\d{0,2}$/) ? value : formData.salePrice;
+                  
+                        // Update formData with the formatted value
+                        handleInputChange({
+                          target: {
+                            name: e.target.name,
+                            value: formattedValue,
+                          },
+                        });
+                      }}
                       onKeyDown={(e) => {
                         e.preventDefault();
                       }}
                       value={
-                        formData.salePrice === "" ? "" : formData.salePrice
+                        formData.salePrice
+                          ? Number(formData.salePrice).toFixed(2) // Ensure the value is always formatted with 2 decimal places
+                          : ""
                       }
+                  
                     />
                     {formErrors.salePrice && (
                       <span className="text-red-500 text-sm">

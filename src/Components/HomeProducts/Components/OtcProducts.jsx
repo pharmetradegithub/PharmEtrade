@@ -4,7 +4,7 @@ import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
 import emptyHeart from "../../../assets/Wishlist1_icon.png";
 import filledHeart from "../../../assets/wishlist2_icon.png";
 import other from "../../../assets/CompareNav2.png";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import nature from "../../../assets/img1.png";
 import previous from "../../../assets/Previous_icon.png";
 import next from "../../../assets/Next_icon.png";
@@ -25,7 +25,7 @@ const OtcProducts = () => {
     message: "one",
   });
   const { pop, setPop } = useNavbarContext();
-
+const navigate = useNavigate()
   const OTCProducts = useSelector((state) => state.product.otcProducts);
   const user = useSelector((state) => state.user.user);
   const wishlist = useSelector((state) => state.wishlist.wishlist);
@@ -49,6 +49,10 @@ const OtcProducts = () => {
   );
 
   const handleClick = async (productID) => {
+    if(user == null){
+      navigate("/login")
+      return
+    }
     if (wishlistProductIDs.includes(productID)) {
       setwishlistProductIDs(
         wishlistProductIDs.filter((id) => id !== productID)
@@ -68,6 +72,7 @@ const OtcProducts = () => {
 
   const handleCart = async (productID) => {
     if (user == null) {
+      navigate("/login")
       console.log("login to add");
       return;
     }
