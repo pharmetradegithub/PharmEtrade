@@ -1142,8 +1142,8 @@ function LayoutaddProduct() {
                       value={formData.strength}
                     />
                   </div>
-                  <div className="font-semibold  ml-0 flex flex-col">
-                    <label>Brand Name:</label>
+                  <div className="  ml-0 flex flex-col">
+                    <label className="font-semibold">Brand Name:</label>
                     <input
                       name="brandName"
                       type="text"

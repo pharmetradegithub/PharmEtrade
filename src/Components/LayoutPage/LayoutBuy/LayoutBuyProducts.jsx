@@ -389,7 +389,7 @@ function LayoutBuy({
                         <div className="flex w-full mt-1 gap-1">
                           <img src={Expicon} className="w-6 h-6" />
                           <div className="flex">
-                            <p>Exp.Date : &nbsp;</p>
+                            <p className="mr-1">Exp.Date : &nbsp;</p>
                             <p className="font-semibold">
                               {/* {product.expiryDate} */}
                               {new Date(product.expiryDate)

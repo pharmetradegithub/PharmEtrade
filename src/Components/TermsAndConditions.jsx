@@ -12,10 +12,10 @@ function TermsAndConditions({ topMargin, setActiveStep }) {
                 <h1 className='text-3xl font-medium text-blue-900 text-start py-6 underline'>
                     Terms & Conditions
                 </h1>
-                <button onClick={() => setActiveStep(3)} className=' flex text-red-500 text-xl hover:under  gap-1'>
+                {/* <button onClick={() => setActiveStep(3)} className=' flex text-red-500 text-xl hover:under  gap-1'>
                     <img src={back} className='w-4 h-4' />
                     <p className='-mt-1 hover:text-red-500'> Back</p>
-                </button>
+                </button> */}
                 <div className='   ' >
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error tenetur ea enim, ut laboriosam commodi veniam repellendus voluptates fugiat excepturi dignissimos delectus ipsam odio nobis earum itaque aliquid tempora temporibus.
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente nobis ratione sunt earum, sequi vel facere natus dicta a quidem magnam nisi perferendis molestias optio fugiat dolor aspernatur numquam recusandae!

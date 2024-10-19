@@ -96,15 +96,14 @@ function Faqs() {
     ]
 
   return (
-    <div className='w-screen h-full flex flex-col  '>
+    <div className='w-full h-full flex flex-col  overflow-y-scroll '>
          
-        <div className='flex justify-center items-center overflow-y-auto'>
-       
-            <div className='flex flex-col justify-center items-center rounded-md shadow-lg bg-gray-50  w-[85%] h-full'>
+        <div className='flex flex-col  bg-white justify-center items-center overflow-y-auto'>
+            <div className='flex flex-col mt-60 justify-center  items-center  mb-4   w-[85%] h-full'>
                 {questions.map((question) => (
                     <div
                         key={question.id}
-                        className='bg-slate-300 w-[85%] flex justify-start gap-6 p-4 border shadow-md rounded-md items-start my-2'
+                        className=' w-[85%] bg-gray-300 h-full flex justify-start gap-6 p-4 border shadow-md rounded-md items-start my-2'
                     >
                         <div className='flex flex-col w-full h-full'>
                             <div className='flex justify-between items-center'>
