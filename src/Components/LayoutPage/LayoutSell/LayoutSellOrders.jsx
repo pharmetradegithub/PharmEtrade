@@ -218,12 +218,12 @@ function LayoutSellOrders() {
               {/* <FaFilter className="m-2" /> */}
               {/* <button className='text-2xl'>Filter</button> */}
             </div>
-            <div className="flex bg-white h-9 p-2 items-center w-48 justify-evenly border rounded-md">
+            {/* <div className="flex bg-white h-9 p-2 items-center w-48 justify-evenly border rounded-md">
      
               <select className="">
                 <option>-Select Group-</option>
               </select>
-            </div>
+            </div> */}
           </div>
         </div>
 
