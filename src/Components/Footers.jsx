@@ -257,7 +257,7 @@ function Footers({ topMargin}) {
                  
                 </li>
                 <li>
-                <Link to="/faqs" className="underline">
+                <Link to="/layout/faqs" className="underline">
                     FAQ
                   </Link>
                  
