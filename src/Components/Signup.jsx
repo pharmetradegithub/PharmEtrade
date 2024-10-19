@@ -2670,13 +2670,22 @@ console.log(formData)
           newErrors.Business_Fax = "Business Fax must be exactly 10 digits";
         }
       }
-      if (!formData.Business_Email && userType != "Retail Customer")
-        newErrors.Business_Email = " Business Email is required";
+
+      const businessEmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!formData.Business_Email && userType !== "Retail Customer") {
+        newErrors.Business_Email = "Business Email is required";
+      } else if (formData.Business_Email && !businessEmailRegex.test(formData.Business_Email)) {
+        newErrors.Business_Email = "Please enter a valid Business Email address";
+      }
+      // if (!formData.Business_Email && userType != "Retail Customer")
+      //   newErrors.Business_Email = " Business Email is required";
 
       // if (!formData.companyWebsite && userType != "Retail Customer")
       //   newErrors.companyWebsite = "company Website is required";
 
-      const websiteRegex = /^www\.[a-zA-Z0-9-]+\.com$/;
+      // const websiteRegex = /^www\.[a-zA-Z0-9-]+\.com$/;
+      const websiteRegex = /^www\.[a-zA-Z-]+\.com$/;
+
       if (userType !== "Retail Customer") {
         // Only validate for non-retail customers
         if (!formData.companyWebsite) {
@@ -2689,11 +2698,11 @@ console.log(formData)
 
       // setErrors(newErrors);
       // return Object.keys(newErrors).length === 0;
-      else if (
-        !formData.Business_Email.match(regexp) &&
-        userType != "Retail Customer"
-      )
-        newErrors.Business_Email = " Business Email is required";
+      // else if (
+      //   !formData.Business_Email.match(regexp) &&
+      //   userType != "Retail Customer"
+      // )
+      //   newErrors.Business_Email = " Business Email is required";
 
       // if (!formData.zip) newErrors.zip = "Zip is required";
       // Zip validation
@@ -3640,7 +3649,7 @@ console.log(formData)
               className={`${userType === "Retail Customer" ? "hidden" : ""}`}
             >
               <div>
-                <TextField
+                {/* <TextField
                   label="Business Email"
                   id="outlined-size-small"
                   name="Business_Email"
@@ -3650,7 +3659,18 @@ console.log(formData)
                   helperText={errors.Business_Email}
                   size="small"
                   className="w-[92%]"
-                />
+                /> */}
+                <TextField
+  label="Business Email"
+  id="outlined-size-small"
+  name="Business_Email"
+  value={formData.Business_Email}
+  onChange={handleInputChange}
+  error={!!errors.Business_Email}
+  helperText={errors.Business_Email}
+  size="small"
+  className="w-[92%]"
+/>
               </div>
             </div>
             <div
@@ -3835,7 +3855,8 @@ console.log(formData)
                   type="file"
                   onChange={handleInputChange}
                   name="Pharmacy_License_Copy"
-                  accept="image/*"
+                  // accept="image/*"
+                  accept="image/jpeg, image/jpg, image/png"
                   className="file-input"
                   style={{
                     display: "block",
@@ -4054,7 +4075,7 @@ console.log(formData)
                 </p>
                 <p>Please allow up to 48 hours for the process. </p>
                 If you have any question please contact us.{" "}
-                <span className="hover:text-green-500 hover:font-semibold text-blue-900 underline">
+                <span className=" cursor-pointer hover:text-green-500 hover:font-semibold text-blue-900 underline">
                   help@pharmetrade.com{" "}
                 </span>
               </p>

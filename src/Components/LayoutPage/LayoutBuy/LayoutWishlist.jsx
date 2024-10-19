@@ -399,7 +399,7 @@ function LayoutWishlist({ addCart }) {
               Your wishlist is currently empty.
             </h2>
             <Link
-              to="/layout"
+              to="/layout/layoutbuy"
               className="mt-5 px-8 py-3 font-bold text-white text-xl bg-blue-900 border-2 rounded-full"
             >
               RETURN TO SHOP

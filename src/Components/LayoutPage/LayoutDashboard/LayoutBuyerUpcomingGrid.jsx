@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import image from '../../../assets/offers_3.png';
 import image1 from '../../../assets/offers_2.png'
 import next from '../../../assets/Next_icon.png'
 import previous from "../../../assets/Previous_icon.png";
 import { useNavigate } from 'react-router-dom';
 import { CiSearch, CiMenuKebab } from "react-icons/ci";
+import Pagination from '../../Pagination';
 
 const LayoutBuyerUpcomingGrid = () => {
+    const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
+  const [currentPage, setCurrentPage] = useState(1);
     const Buyergrids = [
         {
             src: image,
@@ -116,8 +119,20 @@ const LayoutBuyerUpcomingGrid = () => {
         // Add more items...
     ];
 
-    const itemsPerPage = 5; // Set the number of items per page
-    const [currentPage, setCurrentPage] = useState(1);
+    const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  // const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
+  const [currentItems, setcurrentItems] = useState(
+    Buyergrids.slice(indexOfFirstItem, indexOfLastItem)
+  );
+  useEffect(() => {
+    if (Buyergrids) {
+      const indexOfLastItem = currentPage * itemsPerPage;
+      const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+      setcurrentItems(Buyergrids.slice(indexOfFirstItem, indexOfLastItem));
+    }
+  }, [currentPage, Buyergrids]);
     const [expandedItemIndex, setExpandedItemIndex] = useState(null);
 
     // Calculate the total number of pages
@@ -168,7 +183,7 @@ const LayoutBuyerUpcomingGrid = () => {
                 </div>
                 {/* search end */}
                 <div className='w-full '>
-                    {displayedItems.map((Buyergrid, index) => (
+                    {currentItems.map((Buyergrid, index) => (
                         <div key={index} className='pb-4 border rounded-lg shadow-lg  justify-around mb-4 flex'>
                             <div>
                                 <img src={Buyergrid.src} alt={Buyergrid.itemName} className='w-36 h-28 p-2 cursor-pointer' onClick={handleclick} />
@@ -202,8 +217,17 @@ const LayoutBuyerUpcomingGrid = () => {
                     ))}
                 </div>
 
+                <Pagination
+              indexOfFirstItem={indexOfFirstItem}
+              indexOfLastItem={indexOfLastItem}
+              productList={Buyergrids}
+              itemsPerPage={itemsPerPage}
+              setItemsPerPage={setItemsPerPage}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
                 {/* Pagination controls with Next and Previous */}
-                <div className='flex justify-end mt-4 space-x-2 my-4'>
+                {/* <div className='flex justify-end mt-4 space-x-2 my-4'>
                     <button
                         onClick={() => handlePageChange(currentPage - 1)}
                         className={`px-3 py-1 rounded ${currentPage === 1 ? 'bg-gray-300' : 'bg-blue-500 text-white'}`}
@@ -221,7 +245,7 @@ const LayoutBuyerUpcomingGrid = () => {
                         >
                             {i + 1}
                         </button>
-                    ))} */}
+                    ))} 
                     <span className="mx-2 px-4 flex items-center bg-white text-black rounded-lg">
                         {currentPage} of {totalPages}
                     </span>
@@ -233,7 +257,7 @@ const LayoutBuyerUpcomingGrid = () => {
                     >
                         <img src={next} className='w-4 h-4' />
                     </button>
-                </div>
+                </div> */}
             </div>
         </div>
     );
