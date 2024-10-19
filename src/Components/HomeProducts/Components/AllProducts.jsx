@@ -28,6 +28,15 @@ import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
 import bottontotop from "../../../Components/ScrollToTop";
 import Pagination from "../../Pagination";
 function AllProducts({ Title, topMargin, addCart, wishList }) {
+  const [showMore, setShowMore] = useState({});
+
+ const toggleShowMore = (index) => {
+    setShowMore((prevState) => ({
+      ...prevState,
+      [index]: !prevState[index],
+    }));
+  };
+
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const searchInput = queryParams.get("Search");
@@ -270,7 +279,20 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 <h1 className="text-fonts font-semibold">${item.salePrice?.toFixed(2)}</h1>
               </div> */}
               <div className="w-full py-1">
-                <h2 className="text-fonts h-12">{item.productName}</h2>
+              <h2 className="text-fonts h-12">
+                  {showMore[index]
+                    ? item.productName
+                    : `${item.productName.slice(0, 40)}`}
+                  {item.productName.length > 40 && (
+                    <button
+                      className="text-blue-500 ml-1"
+                      onClick={() => toggleShowMore(index)}
+                    >
+                      {showMore[index] ? "See Less" : " ..."}
+                    </button>
+                  )}
+                </h2>
+                {/* <h2 className="text-fonts h-12">{item.productName}</h2> */}
                 {/* {item.salePrice > 0 ? (
                   <div className="flex items-center gap-1">
                     <h1 className="text-fonts font-semibold">
@@ -296,7 +318,7 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                     </span>
                   </div>
                 ) : (
-                  <h1 className="text-fonts font-semibold">
+                  <h1 className="text-fonts font-semibold mt-4">
                     ${item.unitPrice?.toFixed(2)}
                   </h1>
                 )}

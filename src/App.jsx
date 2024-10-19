@@ -410,7 +410,7 @@ function App() {
             path="/layout/requestedquote"
             element={<LayoutAllrequestedQuote />}
           />
-                    {/* <Route path="/layout/faqs" element={<Faqs />} /> */}
+                    <Route path="/layout/faqs" element={<Faqs />} />
 
           <Route
             path="/layout/quotedproducts"

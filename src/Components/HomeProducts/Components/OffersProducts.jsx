@@ -11,15 +11,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addCartApi } from "../../../Api/CartApi";
 import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
+import Pagination from "../../Pagination";
+import Notification from '../../Notification'
 // import { fetchGetProductOffer } from "../Api/ProductApi";
 
 const OffersProducts = ({ topMargin, addCart, wishList }) => {
-  const itemsPerPage = 10;
-
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "one",
+  });
   const dispatch = useDispatch()
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
   const [favoriteItems, setFavoriteItems] = useState({});
-  const [currentItems, setCurrentItems] = useState([]);
+  // const [currentItems, setCurrentItems] = useState([]);
   
   const productOffer = useSelector((state) => state.product.getProductSpecialOffer);
   // const carts = useSelector((state) => state.cart.cart);
@@ -42,24 +46,39 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
 
   const navigate = useNavigate();
 
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
+  const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const [currentItems, setcurrentItems] = useState(
+    productOffer.slice(indexOfFirstItem, indexOfLastItem)
+  );
+  useEffect(() => {
+    if (productOffer) {
+      const indexOfLastItem = currentPage * itemsPerPage;
+      const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+      setcurrentItems(productOffer.slice(indexOfFirstItem, indexOfLastItem));
+    }
+  }, [productOffer, indexOfFirstItem, indexOfLastItem]);	
+
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const totalPages = Math.ceil((productOffer?.length || 0) / itemsPerPage);
 
   
-  useEffect(() => {
-    if (productOffer) {
-      setCurrentItems(productOffer.slice(indexOfFirstItem, indexOfLastItem));
-    }
-  }, [productOffer, indexOfFirstItem, indexOfLastItem]);
+  // useEffect(() => {
+  //   if (productOffer) {
+  //     setCurrentItems(productOffer.slice(indexOfFirstItem, indexOfLastItem));
+  //   }
+  // }, [productOffer, indexOfFirstItem, indexOfLastItem]);
 
-  const handleNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  };
+  // const handleNextPage = () => {
+  //   setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  // };
 
-  const handlePreviousPage = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
-  };
+  // const handlePreviousPage = () => {
+  //   setCurrentPage((prev) => Math.max(prev - 1, 1));
+  // };
 
   // const handleCart = (index) => {
   //   console.log("Adding to cart:", index);
@@ -75,16 +94,29 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
   // };
 
   const handleCart = async (productID) => {
+    if(user == null){
+      navigate("/login")
+      return
+    }
     const cartData = {
       customerId: user.customerId,
       productId: productID,
       quantity: 1,
       isActive: 1,
     };
+    // try {
+    //   await addCartApi(cartData);
+
+    // }
     try {
       await addCartApi(cartData);
-
-    } catch (error) {
+      setNotification({
+        show: true,
+        message: "Item Added To Cart Successfully!",
+      });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    }
+     catch (error) {
       console.error("Error adding product to cart:", error);
     }
   };
@@ -106,6 +138,10 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
   //   wishList(prolist);
   // };
   const handleClick = async (productID) => {
+    if(user == null){
+      navigate("/login")
+      return
+    }
     if (wishlistProductIDs.includes(productID)) {
       setwishlistProductIDs(
         wishlistProductIDs.filter((id) => id !== productID)
@@ -126,11 +162,20 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
 
   return (
     <div
-      className="w-full flex flex-col justify-center items-center overflow-y-auto  bg-gray-200"
+      className="w-full flex flex-col mt-1 justify-center items-center overflow-y-auto  bg-gray-200"
       style={{
         marginTop: `${topMargin}px`,
       }}
     >
+       {notification.show && (
+          <Notification
+            show={notification.show}
+            message={notification.message}
+          />
+        )}
+
+      <h1 className="bg-blue-900 w-full p-1 mx-1 text-white font-semibold text-xl rounded-md mt-1">Offer Products</h1>
+
       <div className="w-full h-full bg-gray-200 mb-5 mt-8">
         <div className="h-full p-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
@@ -200,24 +245,16 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
         </div>
       </div>
 
-      <div className="flex justify-end my-2">
-        <button
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-          className="mx-2 px-4 border p-2 text-white rounded-lg"
-        >
-          <img src={previous} className="w-2" alt="Previous Page" />
-        </button>
-        <span className="mx-2 px-4 flex items-center bg-white text-black rounded-lg">
-          {currentPage} of {totalPages}
-        </span>
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-          className="mx-2 px-4 border p-2 text-white rounded-lg"
-        >
-          <img src={next} className="w-2" alt="Next Page" />
-        </button>
+      <div className="bg-gray-200 w-full">
+        <Pagination
+          indexOfFirstItem={indexOfFirstItem}
+          indexOfLastItem={indexOfLastItem}
+          productList={productOffer}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
     </div>
   );

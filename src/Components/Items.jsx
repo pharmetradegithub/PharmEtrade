@@ -64,8 +64,8 @@ import { fetchGetOrder, fetchOrderApi, fetchOrderPlace } from "../Api/OrderApi";
 import { Tooltip } from "@mui/material";
 // import { orderApi, orderGetApi } from "../Api/CustomerOrderList";
 // import { customerOrderApi, customerOrderGetApi } from "../Api/CustomerOrderList";
-import filledHeart from '../assets/wishlist2_icon.png'
-import emptyHeart from '../assets/Wishlist1_icon.png'
+import filledHeart from "../assets/wishlist2_icon.png";
+import emptyHeart from "../assets/Wishlist1_icon.png";
 function Items({
   onClose,
   topMargin,
@@ -139,7 +139,7 @@ function Items({
       }
     };
     NewProductsAPI();
-  }, []);
+  }, [id]);
 
   console.log("prod--->", prod);
   // useEffect(() => {
@@ -436,21 +436,25 @@ function Items({
                   </div>
                 );
               })} */}
-
-              <div
-                className={` w-16 h-16 ${isHovered ? "bg-gray-200" : ""}`}
-                onMouseEnter={() => {
-                  setimg(videoSample);
-                  setIsHovered(true);
-                }}
-                onMouseLeave={() => setIsHovered(false)}
-              >
-                <iframe
-                  src={prod?.productGallery.videoUrl}
-                  type="video/mp4"
-                  className="w-full h-full rounded-lg border"
-                />
-              </div>
+              {prod?.productGallery.videoUrl!= null &&
+                prod?.productGallery.videoUrl != "" && prod?.productGallery.videoUrl != "null" && (
+                  <div
+                    className={` w-16 h-16 ${isHovered ? "bg-gray-200" : ""}`}
+                    onMouseEnter={() => {
+                      setimg(videoSample);
+                      setIsHovered(true);
+                    }}
+                    onMouseLeave={() => setIsHovered(false)}
+                  >
+                    <iframe
+                    
+                      src={prod?.productGallery.videoUrl}
+                      type="video/mp4"
+                      className={` w-full h-full rounded-lg border`}
+                    />
+                  </div>
+                )}
+                
             </div>
 
             <div className="relative bg-gray-200 border flex-col rounded-lg w-68 h-[400px] flex justify-center items-center">

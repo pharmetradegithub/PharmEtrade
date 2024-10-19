@@ -29,6 +29,14 @@ import Notification from "../../Notification";
 import Pagination from "../../Pagination";
 
 function CategoryProducts({ Title, topMargin, addCart, wishList }) {
+  const [showMore, setShowMore] = useState({});
+
+  const toggleShowMore = (index) => {
+    setShowMore((prevState) => ({
+      ...prevState,
+      [index]: !prevState[index],
+    }));
+  };
   const queryParams = new URLSearchParams(location.search);
   const CategoryId = queryParams.get("CategoryName");
 
@@ -46,6 +54,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
   }, [CategoryId]);
 
   const { pop, setPop } = useNavbarContext();
+  
   const [notification, setNotification] = useState({
     show: false,
     message: "",
@@ -95,6 +104,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
 
   const handleCart = async (productID) => {
     if (user == null) {
+      navigate("/login")
       console.log("login to add");
       return;
     }
@@ -117,6 +127,10 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
   };
 
   const handleClick = async (productID) => {
+    if(user == null) {
+      navigate("/login")
+      return;
+    }
     if (wishlistProductIDs.includes(productID)) {
       setWishlistProductIDs(
         wishlistProductIDs.filter((id) => id !== productID)
@@ -327,7 +341,20 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                 </div> */}
 
                 <div className="w-full py-1">
-                  <h2 className="text-fonts h-12">{item.productName}</h2>
+                  {/* <h2 className="text-fonts h-12">{item.productName}</h2> */}
+                  <h2 className="text-fonts h-12">
+                    {showMore[index]
+                      ? item.productName
+                      : `${item.productName.slice(0, 40)}`}
+                    {item.productName.length > 40 && (
+                      <button
+                        className="text-blue-500 ml-1"
+                        onClick={() => toggleShowMore(index)}
+                      >
+                        {showMore[index] ? "See Less" : " ..."}
+                      </button>
+                    )}
+                  </h2>
                   {new Date() >= new Date(item?.salePriceValidFrom) &&
                   new Date() <= new Date(item?.salePriceValidTo) ? (
                     <div className="flex items-center gap-1">

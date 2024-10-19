@@ -2364,7 +2364,7 @@ const Signup = () => {
     const day = String(today.getDate()).padStart(2, "0"); // Add leading zero to day
     return `${year}-${month}-${day}`; // Return today's date in 'YYYY-MM-DD' format
   };
-
+console.log(formData)
   const handleInputChange = async (e) => {
     const { name, value, type, files, checked } = e.target;
     setErrors((prevErrors) => ({
@@ -2886,6 +2886,7 @@ const Signup = () => {
       city: formData.city,
       state: formData.State,
       zip: formData.zip,
+      dba:formData.dbaName,
       businessPhone: formData.BusinessPhone,
       businessFax: formData.Business_Fax,
       businessEmail: formData.Business_Email,
@@ -2898,6 +2899,7 @@ const Signup = () => {
       pharmacyLicenseCopy: formData.Pharmacy_License_Copy,
       npi: formData.NPI,
       ncpdp: formData.NCPDP,
+      companyWebsite: formData.companyWebsite
     };
     console.log(requestBody, "h,");
     try {

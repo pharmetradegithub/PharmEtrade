@@ -16,7 +16,7 @@ import { addToWishlistApi, removeFromWishlistApi } from "../../../Api/WishList";
 import emptyHeart from "../../../assets/Wishlist1_icon.png";
 import filledHeart from "../../../assets/wishlist2_icon.png";
 import other from "../../../assets/CompareNav2.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import nature from "../../../assets/img1.png";
 import previous from "../../../assets/Previous_icon.png";
 import next from "../../../assets/Next_icon.png";
@@ -38,6 +38,7 @@ const RxProducts = () => {
     message: "one",
   });
   const { pop, setPop } = useNavbarContext();
+  const navigate = useNavigate();
 
   const RXProducts = useSelector((state) => state.product.rxProducts);
   const user = useSelector((state) => state.user.user);
@@ -62,6 +63,10 @@ const RxProducts = () => {
   );
 
   const handleClick = async (productID) => {
+    if(user == null){
+      navigate("/login")
+      return ;
+    }
     if (wishlistProductIDs.includes(productID)) {
       setwishlistProductIDs(
         wishlistProductIDs.filter((id) => id !== productID)
@@ -81,6 +86,7 @@ const RxProducts = () => {
 
   const handleCart = async (productID) => {
     if (user == null) {
+      navigate("/login");
       console.log("login to add");
       return;
     }
