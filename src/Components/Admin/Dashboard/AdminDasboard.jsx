@@ -280,11 +280,33 @@ const AdminDasboard = () => {
       grid: "customersOrdered",
     },
     {
+      label: " No. of Cancelled Orders",
+      percentage: adminData?.totalProducts,
+      color: "red",
+      grid: "customersOrdered",
+      // to: "/pharmEtradeadmin/products",
+    },
+    {
       label: "Total No. of Products",
       percentage: adminData?.totalProducts,
       color: "green",
       grid: "customersOrdered",
       to: "/pharmEtradeadmin/products",
+    },
+  
+    {
+      label: " No. of Products Active",
+      percentage: adminData?.totalProducts,
+      color: "green",
+      grid: "customersOrdered",
+      // to: "/pharmEtradeadmin/products",
+    },
+    {
+      label: "No. of Products Inactive",
+      percentage: adminData?.totalProducts,
+      color: "red",
+      grid: "customersOrdered",
+      // to: "/pharmEtradeadmin/products",
     },
 
     // {
@@ -470,7 +492,7 @@ const AdminDasboard = () => {
             {detailsGrids.map((detailgrid) => (
               <div className="flex ">
                 <div
-                  className="bg-white w-44 rounded-lg shadow-xl cursor-pointer  h-28 p-2 flex flex-col justify-between"
+                  className="bg-white w-40 rounded-lg shadow-xl cursor-pointer  h-28 p-2 flex flex-col justify-between"
                   style={{ borderBottom: `4px solid ${detailgrid.color}` }}
                   onClick={() => handleNavigation(detailgrid.to)}
                 >
