@@ -72,11 +72,11 @@ const Bid = ({ topMargin }) => {
       style={{ marginTop: `${topMargin}px` }}
     >
       <div className="w-[70%] bg-slate-100 px-20 py-8 h-full">
-        <h2 className="text-2xl mb-4">Request For Quote</h2>
+        <h2 className="text-2xl font-semibold mb-4">Request For Quote</h2>
         <form onSubmit={handleSubmit}>
           <div className="gap-4 ">
             <div>
-              <label className="block text-base font-medium text-gray-700">
+              <label className="block text-base font-semibold text-gray-700">
                 Product Name
               </label>
               <input
@@ -90,7 +90,7 @@ const Bid = ({ topMargin }) => {
             </div>
             <div className="grid grid-cols-1 gap-4 my-4 md:grid-cols-2">
               <div>
-                <label className="block text-base font-medium text-gray-700">
+                <label className="block text-base font-semibold text-gray-700">
                   Price
                 </label>
                 <input
@@ -103,7 +103,7 @@ const Bid = ({ topMargin }) => {
                 />
               </div>
               <div>
-                <label className="block text-base font-medium text-gray-700">
+                <label className="block text-base font-semibold text-gray-700">
                   Quantity
                 </label>
                 <input
@@ -116,7 +116,7 @@ const Bid = ({ topMargin }) => {
               </div>
             </div>
             <div>
-              <label className="block text-base font-medium text-gray-700">
+              <label className="block text-base font-semibold text-gray-700">
                 Comments
               </label>
               <textarea
@@ -133,7 +133,7 @@ const Bid = ({ topMargin }) => {
             </h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
-                <label className="block text-base font-medium text-gray-700">
+                <label className="block text-base font-semibold text-gray-700">
                   First Name
                 </label>
                 <input
@@ -145,7 +145,7 @@ const Bid = ({ topMargin }) => {
                 />
               </div>
               <div>
-                <label className="block text-base font-medium text-gray-700">
+                <label className="block text-base font-semibold text-gray-700">
                   Last Name
                 </label>
                 <input
@@ -157,7 +157,7 @@ const Bid = ({ topMargin }) => {
                 />
               </div>
               <div>
-                <label className="block text-base font-medium text-gray-700">
+                <label className="block text-base font-semibold text-gray-700">
                   Email
                 </label>
                 <input
@@ -169,7 +169,7 @@ const Bid = ({ topMargin }) => {
                 />
               </div>
               <div>
-                <label className="block text-base font-medium text-gray-700">
+                <label className="block font-semibold text-base text-gray-700">
                   Phone
                 </label>
                 <input
@@ -181,7 +181,7 @@ const Bid = ({ topMargin }) => {
                 />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-base font-medium text-gray-700">
+                <label className="block text-base font-semibold text-gray-700">
                   Strength
                 </label>
                 <input
@@ -209,13 +209,15 @@ const Bid = ({ topMargin }) => {
               <option value="general">General Merchandise Seller</option>
             </select>
           </div> */}
+          <div className="flex justify-end">
           <button
             type="submit"
             onClick={(e) => handleSubmit(e)}
-            className="mt-6 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            className="mt-6 font-semibold px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-700"
           >
             Request For Quote
           </button>
+          </div>
         </form>
       </div>
     </div>

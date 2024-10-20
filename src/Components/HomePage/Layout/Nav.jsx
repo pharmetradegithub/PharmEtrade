@@ -1322,7 +1322,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
       <ul onClick={() => handleCriteria(items)} key={index}>
         <li>
           <a
-            className="hover:text-black cursor-pointer text-sm font-medium text-blue-900"
+            className="hover:text-black ml-2 cursor-pointer text-sm font-medium text-blue-900"
             onClick={() => handleItemClick(items.categoryName)}
             onMouseLeave={handleCatMouseLeave}
           >
