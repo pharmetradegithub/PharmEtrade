@@ -296,7 +296,7 @@ const AdminDasboard = () => {
   
     {
       label: " No. of Products Active",
-      percentage: adminData?.totalProducts,
+      percentage: adminData?.totalActiveProducts,
       color: "green",
       grid: "customersOrdered",
       // to: "/pharmEtradeadmin/products",
