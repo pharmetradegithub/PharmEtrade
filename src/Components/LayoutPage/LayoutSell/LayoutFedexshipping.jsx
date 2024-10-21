@@ -142,7 +142,6 @@ function LayoutFedexshipping() {
     } else {
       // Check if shipping details already exist for typeId 4 (FedEx)
       const existingShipment = getshipingDetails?.find(shipment => shipment.shipmentTypeId === 4);
-      console.log("esss--", existingShipment)
   
       if (!existingShipment) {
         // If no existing shipment, call shipmentAddApi
