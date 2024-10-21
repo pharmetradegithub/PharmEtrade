@@ -213,7 +213,7 @@ const Login = () => {
                   </button>
                 </div>
 
-                <div className="flex justify-center w-96">
+                {/* <div className="flex justify-center w-96">
                   <label className="text-[18px] text-blue-900">
                     <Link to="/password">Forgot Password </Link>
                   </label>
@@ -225,7 +225,7 @@ const Login = () => {
                       Sign Up
                     </Link>
                   </label>
-                </div>
+                </div> */}
               </div>
             </form>
           </div>
