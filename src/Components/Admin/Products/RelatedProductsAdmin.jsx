@@ -541,7 +541,7 @@ const RelatedProductsAdmin = () => {
                     {/* <td className=" p-2">
                 <input className=" h-6 w-4" type="checkbox" />
               </td> */}
-                    <td className="text-sm p-2 "> {index + 1}</td>
+                    <td className="text-sm p-2 "> {indexOfFirstItem + index + 1}</td>
                     <td className="text-sm p-2">
                       <img
                         src={
