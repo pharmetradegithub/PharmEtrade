@@ -179,7 +179,7 @@ const LayoutSellerDashboard = () => {
       label: "Total No.of Products Active", percentage: 180, color: "green", grid: "customersOrdered", to: '/layout/postingproducts'
     },
     {
-      label: "Total No.of Products Inactive", percentage: 25, color: "green", grid: "customersOrdered", to: '/layout/postingproducts'
+      label: "Total No.of Products Inactive", percentage: 25, color: "red", grid: "customersOrdered", to: '/layout/postingproducts'
     },
   ]
 

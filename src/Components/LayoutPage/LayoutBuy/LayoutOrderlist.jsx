@@ -1083,10 +1083,10 @@ function LayoutOrderList() {
     const data = async () => {
       await dispatch(fetchGetOrder(user?.customerId))
     }
-    if (orderId && user?.customerId) {
+    if (user?.customerId) {
       data();
     }
-  }, [orderId, user?.customerId])
+  }, [ user?.customerId])
 
   // useEffect(() => {
   //   if (orderList.length > 0) {

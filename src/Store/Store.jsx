@@ -394,6 +394,25 @@ const adminSlice = createSlice({
   }
 })
 
+const shipmentSlice = createSlice({
+  name: 'shipment',
+  initialState: { EditShipping: [],getShipment: [], addShipping: [] },
+  reducers: {
+    setGetShiping(state, action) {
+      state.getShipment = action.payload
+    },
+    setEditShipping(state, action) {
+      state.EditShipping = action.payload
+    },
+    setAddShipping(state, action) {
+      state.addShipping = action.payload
+    }
+  }
+})
+
+export const { setAddShipping } = shipmentSlice.actions
+export const { setEditShipping } = shipmentSlice.actions
+export const {setGetShiping} = shipmentSlice.actions
 
 export const { setSpecialOffer } = productsSlice.actions;
 export const { setGetProductSpecialOffer } = productsSlice.actions
@@ -441,6 +460,7 @@ const store = configureStore({
     address: addressSlice.reducer,
     admin: adminSlice.reducer,
     bid:bidSlice.reducer,
+    shipment: shipmentSlice.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });

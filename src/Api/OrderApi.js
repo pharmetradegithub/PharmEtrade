@@ -210,3 +210,21 @@ export const fetchOrderDownloadInvoice = (orderId) => {
     }
   };
 };
+
+
+// export const orderGetById = (orderId) => {
+//   return async (dispatch) => {
+//     try {
+//       const response = await axios.get(`/api/Orders/GetById?orderid=${orderId}`)
+//       console.log("orderByIdApi-->", response)
+//       if (response.status === 200) {
+//         const getById = response.data.result
+//         dispatch(setGetById(getById))
+//       } else {
+//         console.error('Failed to get order action:', response.data.message);
+//       }
+//     } catch (error) {
+//       console.error('Error get order action:', error);
+//     }
+//   }
+// }
