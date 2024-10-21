@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { FiPlus } from "react-icons/fi";
 // import ProductFields from "../Components/ProductFields";
@@ -9,7 +9,17 @@ import edit from "../../../assets/Edit.png";
 import Bin from "../../../assets/Bin.png";
 import Deactivate from "../../../assets/Deactivate.png";
 import { Tooltip } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { GetBidsBySeller } from "../../../Api/BidApi";
 const LayoutAllrequestedQuote = () => {
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user.user)
+  const request = useSelector((state) => state.bid.bidRequestedQuoted)
+  console.log("requestedd", request)
+  
+   useEffect(() => {
+    dispatch(GetBidsBySeller(user?.customerId))
+  }, [user?.customerId])
   const stats = [
     { label: "Return Requested", value: 150, percentage: 75 },
     { label: "Return Approved", value: 120, percentage: 60 },
@@ -65,26 +75,18 @@ const LayoutAllrequestedQuote = () => {
                   <div className="text-[15px] text-gray-700 font-normal">
                     {stat.label}
                   </div>
-                  {/* <div className="menu-icon">
-                    <CiMenuKebab />
-                  </div> */}
+               
                 </div>
                 <div className="flex justify-between mt-2 items-center">
                   <div className="text-2xl font-semibold">{stat.value}</div>
-                  <div
-                    className={`text-sm p-1 rounded-lg ${
-                      stat.percentage > 0 ? "bg-green-400" : "bg-red-400"
-                    }`}
-                  >
-                    {stat.percentage > 0 ? "↑" : "↓"} {Math.abs(stat.percentage)}%
-                  </div>
+                  
                 </div>
               </div>
             </div>
           ))}
         </div>
         <div className="w-full">
-          <div className="flex justify-end">
+          {/* <div className="flex justify-end">
           <button className="bg-green-300 p-2 h-7 rounded-md flex items-center">
               <img src={filter} className="w-6 h-6" />
               Filter
@@ -92,20 +94,20 @@ const LayoutAllrequestedQuote = () => {
             <select className="ml-2">
               <option>Columns</option>
             </select>
-          </div>
+          </div> */}
 
           <div className="overflow-x-scroll text-[15px] w-full mt-4 font-sans">
             <table className="rounded-lg bg-white w-full">
               <thead className="bg-blue-900 text-white">
                 <tr>
-                  <th className="border-b-2 py-4 min-w-36 pl-4 text-left">
+                  <th className="border-b-2 py-2 min-w-36 pl-4 text-left">
                     Customer Name
                   </th>
                   <th className="border-b-2 min-w-36 text-left">
-                    Requested Quote For Product
+                     Product Name
                   </th>
                   <th className="border-b-2 min-w-36 text-left">Status</th>
-                  <th className="border-b-2 min-w-36 text-left">Created At</th>
+                  <th className="border-b-2 min-w-36 text-left">Created Date</th>
                   <th className="border-b-2 min-w-36 text-left">Action</th>
                 </tr>
               </thead>

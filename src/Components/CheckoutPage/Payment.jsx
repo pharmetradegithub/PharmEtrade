@@ -149,10 +149,24 @@ const Payment = () => {
   //   } catch (error) {
   //     console.log("error", error);
     //   }
+    // try {
+    //   await dispatch(fetchOrderPayment(payload));
+    //   setIsCardPopup(false);
+    //   setNotification({ show: true, message: "Payment processed successfully!" });
+    //   setTimeout(() => {
+    //     setNotification({ show: false, message: "" });
+    //     navigate('/layout/layoutorderlist');
+    //   }, 5000); // Navigate after 3 seconds
+    // } catch (error) {
+    //   console.log("error", error);
+    // }
     try {
       await dispatch(fetchOrderPayment(payload));
       setIsCardPopup(false);
-      setNotification({ show: true, message: "Payment processed successfully!" });
+      setTimeout(() => {
+        setNotification({ show: true, message: "Payment processed successfully!" });
+      }, 3000)
+      await getCartItemsApi()
       setTimeout(() => {
         setNotification({ show: false, message: "" });
         navigate('/layout/layoutorderlist');
@@ -160,21 +174,22 @@ const Payment = () => {
     } catch (error) {
       console.log("error", error);
     }
+
   
   };
 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await getCartItemsApi()
-      } catch (error) {
-        console.log("error", error);
-      }
-    }
-    fetchData()
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       await getCartItemsApi()
+  //     } catch (error) {
+  //       console.log("error", error);
+  //     }
+  //   }
+  //   fetchData()
 
-  }, [dispatch])
+  // }, [dispatch])
 
 
   const handleProceedCodPayment = () => {

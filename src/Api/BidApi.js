@@ -1,5 +1,5 @@
 import axios from "axios"
-import store from "../Store/Store"
+import store, { setGetBidsBySeller } from "../Store/Store"
 
 
 export const fetchCustomer = (customerId) => {
@@ -17,6 +17,26 @@ export const fetchCustomer = (customerId) => {
     }
   }
 }
+export const GetBidsBySeller = (customerId) => {
+  return async (dispatch) => {
+    try {
+      console.log("Fetching bids for seller:", customerId);
+      const response = await axios.get(`/api/Bid/GetBidsBySeller?sellerId=${customerId}`);
+      console.log("Response received:", response);
+
+      if (response.status === 200) {
+        const data = response.data.result; // Adjust this based on your API structure
+        console.log("Bid customer data:", data);
+        dispatch(setGetBidsBySeller(data));
+      } else {
+        console.log("Unexpected response status:", response.status);
+      }
+    } catch (error) {
+      console.error("Error fetching bids:", error);
+    }
+  };
+};
+
 
 export const AddBidAPI = async (obj) => {
   try {

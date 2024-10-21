@@ -111,12 +111,12 @@ function LayoutCustomers() {
             <CiSearch className="absolute right-0 top-4 text-gray-400 mr-2" />
           </div>
           <div className="flex">
-            <div className="flex p-1">
+            {/* <div className="flex p-1">
               <button className="bg-green-300 p-2 rounded-md h-7 flex items-center">
                 <img src={filter} className="w-6 h-6 " alt="Filter" />
                 Filter
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
 

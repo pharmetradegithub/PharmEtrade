@@ -239,13 +239,16 @@ const AdminDasboard = () => {
       label: "Retail Pharmacy",
       percentage: retailPhar.length,
       color: "red",
+      // active: retailphar.activeCount,
       grid: "totalProducts",
       to: "/pharmEtradeadmin/RetailPharmacyList",
     },
+    
     {
       label: "General Merchandise Seller",
       percentage: generalMar.length,
       color: "green",
+      
       grid: "customersOrdered",
       to: "/pharmEtradeadmin/GeneralMerchandiseSellerList",
     },
@@ -259,11 +262,13 @@ const AdminDasboard = () => {
     {
       label: "Retail Customer",
       percentage: customer.length,
+      active:customer.activeCount,
       color: "orange",
       grid: "productsOrdered",
       to: "/pharmEtradeadmin/customerList",
     },
   ];
+  console.log('retailedddd',retailPhar)
 
   const detailsGrids = [
     {
@@ -469,7 +474,7 @@ const AdminDasboard = () => {
 
                         <p className="text-green-700">Active</p>
                       </div>
-                      <p>230</p>
+                      <p>251</p>
                     </div>
 
                     <div className="flex flex-col">

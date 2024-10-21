@@ -32,7 +32,7 @@
 //     setShowSuccessMessage(true); // Show success message
 //   };
 
- 
+
 
 //   return (
 //     <div className='w-[90%]'>
@@ -77,12 +77,12 @@
 //         </button>
 //       </div>
 
-     
+
 //     </div>
-   
+
 
 //     <div className="overflow-x-auto ml-5">
- 
+
 
 // <table className="min-w-full text-left table-auto border-collapse">
 //   <thead className="bg-gray-200">
@@ -99,9 +99,9 @@
 //     </tr>
 //   </thead>
 //   <tbody>
-   
+
 //      {addedEntries.map((entry, index) => (
-             
+
 //               <tr key={index} className="bg-white hover:bg-gray-100 transition-colors">
 //               <td className="px-6  border-b border-gray-200 text-sm">{entry.stateName}</td>
 //               <td className="px-6  border-b border-gray-200 text-sm">{entry.categorySpecificationID}</td>
@@ -177,7 +177,7 @@ const TaxInformation = () => {
 
   return (
     <div className="w-[90%]">
-            {showSuccessMessage && <p className=" mt-4 flex justify-end  text-green-600 font-semibold text-xl">Entry saved successfully!</p>}
+      {showSuccessMessage && <p className=" mt-4 flex justify-end  text-green-600 font-semibold text-xl">Entry saved successfully!</p>}
 
       <div className="bg-white w-[90%] border border-black rounded-lg px-8 mx-6 py-5 mt-8 relative my-6">
         <div className="flex justify-between">
@@ -225,9 +225,9 @@ const TaxInformation = () => {
         <table className="min-w-full text-left table-auto border-collapse">
           <thead className="bg-gray-200">
             <tr className="bg-blue-900 text-white">
-            <th className="px-6 py-3 text-base font-bold">S NO. </th>
+              <th className="px-6 py-3 text-base font-bold">S NO. </th>
 
-            <th className="px-6 py-3 text-base font-bold">State </th>
+              <th className="px-6 py-3 text-base font-bold">State </th>
 
               <th className="px-6 py-3 text-base font-bold">Category Name</th>
               <th className="px-6 py-3 text-base font-bold">Tax Percentage</th>
@@ -241,7 +241,9 @@ const TaxInformation = () => {
           <tbody>
             {addedEntries.map((entry, index) => (
               <tr key={index} className="bg-white hover:bg-gray-100 transition-colors">
-                                <td className="px-6 border-b border-gray-200 text-sm">{entry.stateName}</td>
+                <td className="px-6 border-b border-gray-200 text-sm">{ }</td>
+
+                <td className="px-6 border-b border-gray-200 text-sm">{entry.stateName}</td>
 
                 <td className="px-6 border-b border-gray-200 text-sm">{entry.category}</td>
                 <td className="px-6 border-b border-gray-200 text-sm">{entry.taxPercentage}%</td>

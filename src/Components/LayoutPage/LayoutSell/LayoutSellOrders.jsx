@@ -211,10 +211,10 @@ function LayoutSellOrders() {
           {/* search end */}
           <div className="flex gap-2">
             <div className="flex  ">
-            <button className="bg-green-300 p-2 h-8 rounded-md flex items-center">
+            {/* <button className="bg-green-300 p-2 h-8 rounded-md flex items-center">
               <img src={filter} className="w-6 h-6" />
               Filter
-            </button>
+            </button> */}
               {/* <FaFilter className="m-2" /> */}
               {/* <button className='text-2xl'>Filter</button> */}
             </div>
