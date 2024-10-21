@@ -220,11 +220,11 @@ const AdminDasboard = () => {
   const adminData = useSelector((state) => state.admin.admin);
   console.log("adminData-->", adminData);
 
-  const [retailPhar, setretailPhar] = useState([])
-  const [pharmacy, setPharmacy] = useState([])
-  const [generalMar, setGeneralMer] = useState([])
-  const [customer, setCustomer] = useState([])
-
+  const [retailPhar, setretailPhar] = useState([]);
+  const [pharmacy, setPharmacy] = useState([]);
+  const [generalMar, setGeneralMer] = useState([]);
+  const [customer, setCustomer] = useState([]);
+  console.log("check", retailPhar);
 
   const details = [
     {
@@ -232,6 +232,8 @@ const AdminDasboard = () => {
       percentage: adminData?.totalCustomers,
       color: "blue",
       grid: "customersOrdered",
+      active: adminData.totalActiveCustomers,
+      inActive: adminData.totalInActiveCustomers,
       // to: "/pharmEtradeadmin/customerList",
     },
     {
@@ -239,18 +241,19 @@ const AdminDasboard = () => {
       label: "Retail Pharmacy",
       percentage: retailPhar.length,
       color: "red",
-      // active: retailphar.activeCount,
       grid: "totalProducts",
       to: "/pharmEtradeadmin/RetailPharmacyList",
+      active: adminData?.customersCounts?.[0]?.activeCount || 0,
+      inActive: adminData?.customersCounts?.[0]?.inActiveCount ||0,
     },
-    
     {
       label: "General Merchandise Seller",
       percentage: generalMar.length,
       color: "green",
-      
       grid: "customersOrdered",
       to: "/pharmEtradeadmin/GeneralMerchandiseSellerList",
+      active: adminData?.customersCounts?.[1]?.activeCount || 0,
+      inActive: adminData?.customersCounts?.[1]?.inActiveCount || 0,
     },
     {
       label: "Pharmacy Distributor",
@@ -258,57 +261,60 @@ const AdminDasboard = () => {
       color: "purple",
       grid: "customersOrdered",
       to: "/pharmEtradeadmin/PharmacyDistributorList",
+      active: adminData?.customersCounts?.[2]?.activeCount||0,
+      inActive: adminData?.customersCounts?.[2]?.inActiveCount ||0,
     },
     {
       label: "Retail Customer",
       percentage: customer.length,
-      active:customer.activeCount,
       color: "orange",
       grid: "productsOrdered",
       to: "/pharmEtradeadmin/customerList",
+      active: adminData?.customersCounts?.[3]?.activeCount||0,
+      inActive: adminData?.customersCounts?.[3]?.inActiveCount||0,
     },
   ];
-  console.log('retailedddd',retailPhar)
 
   const detailsGrids = [
     {
       totalOrder: 65,
       label: "Total Sales Amount",
-      percentage: "$100.00",
+      amount: adminData?.totalSaleValue,
       color: "red",
       grid: "totalProducts",
+      money: "$",
     },
     {
       label: "Total No. of Orders",
-      percentage: adminData?.totalOrders,
+      amount: adminData?.totalOrders,
       color: "purple",
       grid: "customersOrdered",
     },
     {
       label: " No. of Cancelled Orders",
-      percentage: adminData?.totalProducts,
+      amount: adminData?.totalCancelledOrders,
       color: "red",
       grid: "customersOrdered",
       // to: "/pharmEtradeadmin/products",
     },
     {
       label: "Total No. of Products",
-      percentage: adminData?.totalProducts,
+      amount: adminData?.totalProducts,
       color: "green",
       grid: "customersOrdered",
       to: "/pharmEtradeadmin/products",
     },
-  
+
     {
       label: " No. of Products Active",
-      percentage: adminData?.totalActiveProducts,
+      amount: adminData?.totalActiveProducts,
       color: "green",
       grid: "customersOrdered",
       // to: "/pharmEtradeadmin/products",
     },
     {
       label: "No. of Products Inactive",
-      percentage: adminData?.totalProducts,
+      amount: adminData?.totalInActiveProducts,
       color: "red",
       grid: "customersOrdered",
       // to: "/pharmEtradeadmin/products",
@@ -340,17 +346,16 @@ const AdminDasboard = () => {
     dispatch(fetchAdminLogin("1b8ec36a-6549-11ef-8a1f-0affd374995f"));
   }, []);
 
-
   useEffect(() => {
     const data = async () => {
       const res = await GetCustomers();
       const filteredCustomers = res.filter((customer) =>
         [1].includes(customer.customerTypeId)
       );
-      setretailPhar(filteredCustomers)
-    }
-    data()
-  }, [])
+      setretailPhar(filteredCustomers);
+    };
+    data();
+  }, []);
 
   useEffect(() => {
     const data = async () => {
@@ -358,31 +363,31 @@ const AdminDasboard = () => {
       const filteredCustomers = res.filter((customer) =>
         [2].includes(customer.customerTypeId)
       );
-      setGeneralMer(filteredCustomers)
-    }
-    data()
-  }, [])
+      setGeneralMer(filteredCustomers);
+    };
+    data();
+  }, []);
   useEffect(() => {
     const data = async () => {
       const res = await GetCustomers();
       const filteredCustomers = res.filter((customer) =>
         [3].includes(customer.customerTypeId)
       );
-      setPharmacy(filteredCustomers)
-    }
-    data()
-  }, [])
+      setPharmacy(filteredCustomers);
+    };
+    data();
+  }, []);
   useEffect(() => {
     const data = async () => {
       const res = await GetCustomers();
       const filteredCustomers = res.filter((customer) =>
         [4].includes(customer.customerTypeId)
       );
-      setCustomer(filteredCustomers)
-    }
-    data()
-  }, [])
-  console.log("customerAdminDash-->", customer.length)
+      setCustomer(filteredCustomers);
+    };
+    data();
+  }, []);
+  console.log("customerAdminDash-->", customer.length);
   // const CircleProgress = ({ percentage, color }) => {
   //   const radius = 20;
   //   const strokeWidth = 4;
@@ -431,14 +436,14 @@ const AdminDasboard = () => {
       <div className="w-[95%] h-full mt-8">
         <div className="flex justify-between">
           <h1 className="text-[22px] text-blue-900  font-semibold">
-             Dashboard
+            Dashboard
           </h1>
         </div>
 
         <div className="flex justify-normal flex-wrap  gap-6 w-full mt-8 border  p-4 rounded-lg shadow-lg">
           <div className="flex  gap-3  ">
             {details.map((detail, index) => (
-              <div className="flex ">
+              <div className="flex " key={index}>
                 <div
                   className="bg-white w-44 rounded-lg shadow-xl cursor-pointer  h-auto p-2 flex flex-col justify-between"
                   style={{ borderBottom: `4px solid ${detail.color}` }}
@@ -474,16 +479,15 @@ const AdminDasboard = () => {
 
                         <p className="text-green-700">Active</p>
                       </div>
-                      <p>251</p>
+                      <p>{detail.active}</p>
                     </div>
 
                     <div className="flex flex-col">
                       <div className="flex">
                         <div className="h-2.5 w-2.5 rounded-full bg-red-500  mt-2 mr-1"></div>
-
-                        <p className="text-red-700">Inactive</p>
+                        <p className="text-green-700">Inactive</p>
                       </div>
-                      <p>54</p>
+                      <p>{detail.inActive}</p>
                     </div>
                   </div>
                 </div>
@@ -494,8 +498,8 @@ const AdminDasboard = () => {
 
         <div className="flex justify-normal flex-wrap  gap-6 w-full mt-8 border p-4 rounded-lg shadow-lg">
           <div className="flex  gap-3  ">
-            {detailsGrids.map((detailgrid) => (
-              <div className="flex ">
+            {detailsGrids.map((detailgrid, index) => (
+              <div className="flex " key={index}>
                 <div
                   className="bg-white w-40 rounded-lg shadow-xl cursor-pointer  h-28 p-2 flex flex-col justify-between"
                   style={{ borderBottom: `4px solid ${detailgrid.color}` }}
@@ -508,7 +512,8 @@ const AdminDasboard = () => {
                   </div>
                   <div className="flex justify-between">
                     <p className="items-center flex justify-center text-3xl mt-4 font-semibold">
-                      {detailgrid.percentage}
+                      {detailgrid.money}
+                      {detailgrid.amount}
                     </p>
                     {/* <CircleProgress
                       percentage={detail.percentage}
