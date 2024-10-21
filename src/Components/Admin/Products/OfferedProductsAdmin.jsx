@@ -141,7 +141,7 @@ const OfferedProductsAdmin = () => {
       setLoading(true); // Set loading state before the request
   
       try {
-        await dispatch(fetchGetProductOffer(1)); // Dispatch the API call
+        await dispatch(fetchGetProductOffer(0)); // Dispatch the API call
       } catch (error) {
         setError(error); // Handle and store error
       } finally {
