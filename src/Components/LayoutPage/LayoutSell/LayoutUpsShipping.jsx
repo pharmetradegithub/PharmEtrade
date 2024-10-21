@@ -139,10 +139,10 @@ function LayoutUpsShipping() {
       
       </div>
 <div className="w-[60%]  border rounded-md shadow-md flex flex-col justify-center">
-      <div className='w-full flex flex-col justify-center ml-4'>
-        <div className="w-[80%] flex justify-between text-gray-600 my-4">
+      <div className='w-full flex flex-col justify-center ml-6 mt-4'>
+        <div className="w-[80%] flex justify-between text-gray-600 my-4 m">
           <div className="flex flex-col ">
-            <label className="text-base mb-1 font-semibold">Access License Number:<span className="text-red-600 text-xl">*</span></label>
+            {/* <label className="text-base mb-1 font-semibold">Access License Number:<span className="text-red-600 text-xl">*</span></label> */}
               <TextField
                 label="Access License Number"
                 size="small"
@@ -154,7 +154,7 @@ function LayoutUpsShipping() {
             />
           </div>
           <div className="flex flex-col">
-            <label className="text-base  mb-1 font-semibold">User Id:<span className="text-red-600 text-2xl">*</span></label>
+            {/* <label className="text-base  mb-1 font-semibold">User Id:<span className="text-red-600 text-2xl">*</span></label> */}
             <TextField
                 type="text"
                 label="UserId"
@@ -169,7 +169,7 @@ function LayoutUpsShipping() {
 
         <div className="w-[80%] flex justify-between text-gray-600 my-4">
           <div className="flex flex-col">
-            <label className="text-base  mb-1 font-semibold">Password:<span className="text-red-600 text-xl font-semibold">*</span></label>
+            {/* <label className="text-base  mb-1 font-semibold">Password:<span className="text-red-600 text-xl font-semibold">*</span></label> */}
             <TextField
                 type="text"
                 label="Password"
@@ -181,7 +181,7 @@ function LayoutUpsShipping() {
             />
           </div>
           <div className="flex flex-col">
-            <label className="text-base  mb-1 font-semibold">Shipper Number:<span className="text-red-600 text-xl">*</span></label>
+            {/* <label className="text-base  mb-1 font-semibold">Shipper Number:<span className="text-red-600 text-xl">*</span></label> */}
               <TextField
                 label="Shipper Number"
                 size="small"

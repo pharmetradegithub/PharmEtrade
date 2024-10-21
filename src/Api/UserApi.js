@@ -215,6 +215,46 @@ export const fetchGetBeneficiary = (customerId) => {
   }
 }
 
+
+export const ActivateUserAPI =async ( customerId,comments=null)=>
+  {
+      try {
+        let url = `/api/Customer/Activate?customerId=${customerId}`;
+        if(comments!=null)
+        {
+          url = url + `&comments=${comments}`;
+        }
+        const response = await axios.post(url);
+        if (response.status === 200) {
+          return "Activated";
+        } else {
+          console.error('Failed to fetch beneficiary:', response.data.message);
+        }
+      } catch (error) {
+        console.log("failed to fetch beneficiary", error)
+
+      }
+  }
+
+export const DeactivateUserAPI =async ( customerId,comments=null)=>
+{
+    try {
+      let url = `/api/Customer/Deactivate?customerId=${customerId}`;
+      if(comments!=null)
+      {
+        url = url + `&comments=${comments}`;
+      }
+      const response = await axios.post(url);
+      if (response.status === 200) {
+        return "Deactivated";
+      } else {
+        console.error('Failed to fetch beneficiary:', response.data.message);
+      }
+    } catch (error) {
+      console.log("failed to fetch beneficiary", error)
+
+    }
+}
 // export const customerRegister = async (payload) => {
 //   try {
 //     const response = await axios.post('/api/Customer/Register', payload)

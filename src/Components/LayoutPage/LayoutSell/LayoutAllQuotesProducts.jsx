@@ -25,18 +25,18 @@ const LayoutAllQuotesProducts = () => {
     {
       id: 234,
       thumbnail: "Metrogyl",
-      name: "Product A3",
+      price: "67",
       status: "Sent to Seller",
-      bulk: "4",
+      quantity: "4",
       created: "22-08-12",
       updated: "22-08-12",
     },
     {
       id: 430,
       thumbnail: "Metrogyl",
-      name: "Product A4",
+      price: "89",
       status: "Sent to Seller",
-      bulk: "6",
+      quantity: "6",
       created: "22-08-12",
       updated: "22-08-12",
     },
@@ -78,21 +78,21 @@ const LayoutAllQuotesProducts = () => {
                 </div>
                 <div className="flex justify-between mt-2 items-center">
                   <div className="text-2xl font-semibold">{stat.value}</div>
-                  <div
+                  {/* <div
                     className={`text-sm p-1 rounded-lg ${
                       stat.percentage > 0 ? "bg-green-400" : "bg-red-400"
                     }`}
                   >
                     {stat.percentage > 0 ? "↑" : "↓"}{" "}
                     {Math.abs(stat.percentage)}%
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
           ))}
         </div>
         <div className="w-full">
-          <div className="flex justify-end">
+          {/* <div className="flex justify-end">
             <button className="bg-green-300 p-2 h-7 rounded-md flex items-center">
               <img src={filter} className="w-6 h-6" />
               Filter
@@ -100,23 +100,30 @@ const LayoutAllQuotesProducts = () => {
             <select className="ml-2">
               <option>Columns</option>
             </select>
-          </div>
+          </div> */}
 
           <div className="overflow-x-scroll text-[15px] w-full mt-4 font-sans">
             <table className="rounded-lg bg-white w-full">
               <thead className="bg-blue-900 text-white">
                 <tr>
-                  <th className="border-b-2 py-4 min-w-36 pl-4 text-left">
+                  {/* <th className="border-b-2 py-4 min-w-36 pl-4 text-left">
                     Product Id
-                  </th>
-                  <th className="border-b-2 min-w-36 text-left">Thumbnail</th>
-                  <th className="border-b-2 min-w-36 text-left">Name</th>
+                  </th> */}
+                  {/* <th className="border-b-2 min-w-36 text-left">Thumbnail</th> */}
+                  <th className="border-b-2 py-2 min-w-36 pl-4 text-left">Product Name</th>
+                  <th className="border-b-2 min-w-36 text-left">Price</th>
+                  <th className="border-b-2 min-w-36 text-left">Quantity</th>
+
+
+
+                  <th className="border-b-2 min-w-36 text-left">Created Date</th>
+                  <th className="border-b-2 min-w-36 text-left">Customer Name</th>
+
                   <th className="border-b-2 min-w-36 text-left">Status</th>
-                  <th className="border-b-2 min-w-36 text-left">
+                  {/* <th className="border-b-2 min-w-36 text-left">
                     Bulk Order Quantity
-                  </th>
-                  <th className="border-b-2 min-w-36 text-left">Created At</th>
-                  <th className="border-b-2 min-w-36 text-left">Updated At</th>
+                  </th> */}
+                  <th className="border-b-2 min-w-36 text-left">Updated On</th>
                 </tr>
               </thead>
               <tbody>
@@ -129,24 +136,29 @@ const LayoutAllQuotesProducts = () => {
                 ) : (
                   quotes.map((quoted, index) => (
                     <tr key={index}>
-                      <td className="border-b-2 py-2 min-w-36 pl-4 text-left">
+                      {/* <td className="border-b-2 py-2 min-w-36 pl-4 text-left">
                         {quoted.id}
-                      </td>
-                      <td className="border-b-2 min-w-36 text-left">
+                      </td> */}
+                      <td className="border-b-2 py-2 min-w-36 pl-4 text-left">
                         {quoted.thumbnail}
                       </td>
                       <td className="border-b-2 min-w-36 text-left">
-                        {quoted.name}
-                      </td>
-                      <td className="border-b-2 min-w-36 text-left">
-                        {quoted.status}
+                      $ {quoted.price ? Number(quoted.price).toFixed(2) : "0.00"}
                       </td>
                       <td className="border-b-2 min-w-36 text-left cursor-pointer">
-                        {quoted.bulk}
+                        {quoted.quantity}
                       </td>
                       <td className="border-b-2 min-w-36 text-left cursor-pointer">
                         {quoted.created}
                       </td>
+                      <td className="border-b-2 min-w-36 text-left cursor-pointer">
+                        {quoted.created}
+                      </td>
+                      <td className="border-b-2 min-w-36 text-left">
+                        {quoted.status}
+                      </td>
+                     
+                     
                       <td className="border-b-2 min-w-36 text-left cursor-pointer">
                         {quoted.updated}
                       </td>

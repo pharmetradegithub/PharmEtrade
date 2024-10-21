@@ -25,10 +25,18 @@ function AdminSidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isDashboardDropdownOpen, setIsDashboardDropdownOpen] = useState(false);
   const [isBannerDropdownOpen, setIsBannerDropdownOpen] = useState(false);
+  const user = useSelector((state) => state.user.user);
+
+  console.log("aaaaa", user)
+
 
   const handleClick = (path) => {
     setActiveLink(path);
     navigate(path);
+  };
+
+  const handleLogout = () => {
+    navigate("/PharmetradeLogin");
   };
 
   const toggleSellerDropdown = () => {
@@ -201,6 +209,7 @@ function AdminSidebar() {
               alt="Profile"
             />
             <p className="text-base text-red-500 font-semibold my-1">Admin</p>
+            <p>{user?.email}</p>
           </div>
         </div>
       </div>
@@ -287,7 +296,7 @@ function AdminSidebar() {
 
         <button
           className="text-white bg-red-600 mt-2 p-2 rounded-lg font-semibold"
-        // onClick={handleLogout}
+        onClick={handleLogout}
         >
           Logout
         </button>

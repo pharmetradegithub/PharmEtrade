@@ -113,7 +113,9 @@ const userSlice = createSlice({
 // });
 
 const initialBidState = {
-  bidQuotedProduct : []
+  bidQuotedProduct : [],
+  bidRequestedQuoted: []
+  
 }
 
 const bidSlice = createSlice({
@@ -122,7 +124,12 @@ const bidSlice = createSlice({
   reducers: {
     SetBidQuotedProduct(state, action) {
       state.bidQuotedProduct = action.payload
+    },
+    setGetBidsBySeller(state, action) {
+      console.log("errrStore", action.payload)
+      state.bidRequestedQuoted = action.payload
     }
+    
   }
 })
 
@@ -443,6 +450,7 @@ export const { setAddAddress } = addressSlice.actions
 export const { setAdmin } = adminSlice.actions
 export const { setAddBeneficiary } = userSlice.actions
 export const { setGetBeneficiary } = userSlice.actions
+export const { setGetBidsBySeller } = bidSlice.actions
 
 const store = configureStore({
   reducer: {

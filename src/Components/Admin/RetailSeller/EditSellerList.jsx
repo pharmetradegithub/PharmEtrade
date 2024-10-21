@@ -4,7 +4,8 @@ import edit from "../../../assets/Edit.png";
 import { useSelector } from "react-redux";
 import { Box, Radio } from "@mui/material";
 import { Button, Textarea } from "@material-tailwind/react";
-import { getUserByCustomerIdApi } from "../../../Api/UserApi";
+import { ActivateUserAPI, DeactivateUserAPI, getUserByCustomerIdApi } from "../../../Api/UserApi";
+import Notification from "../../Notification";
 // import BankInformation from "./BankInformation";
 // import LayoutProfileAddress from "./LayoutProfileAddress";
 const EditSellerList = () => {
@@ -12,6 +13,8 @@ const EditSellerList = () => {
   const CustomerId = searchParams.get("CustomerId");
   const [userdata, setuserdata] = useState(null);
   const [businessInfo, setbusinessInfo] = useState(null);
+
+  const [notification, setNotification] = useState({ show: false, message: "" });
 
   useEffect(() => {
     const FetchUserDetails = async () => {
@@ -25,6 +28,26 @@ const EditSellerList = () => {
       FetchUserDetails();
     }
   }, [CustomerId]);
+
+  console.log("wwwww", userdata)
+  const DeactivateCustomer = async (customerId) => {
+    await DeactivateUserAPI(customerId);
+    setNotification({
+      show: true,
+      message: "User Deactivated Successfully!",
+    });
+    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  };
+
+  const ActivateCustomer = async (customerId) => {
+    await ActivateUserAPI(customerId);
+    setNotification({
+      show: true,
+      message: "User Activated Successfully!",
+    });
+    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  };
+
   console.log(userdata);
   const [confirmPassword, setConfirmPassword] = useState(""); // State to track user input
 
@@ -175,6 +198,9 @@ const EditSellerList = () => {
 
   return (
     <div className="w-full h-full flex-col bg-slate-200 flex justify-center overflow-y-scroll">
+      {notification.show && (
+          <Notification show={notification.show} message={notification.message} />
+        )}
       <div className="w-[95%] mt-8 h-full flex flex-col justify-normal">
         {/* Render Profile Buttons */}
         <div className="flex">
@@ -808,18 +834,14 @@ const EditSellerList = () => {
             <div className="flex justify-between flex-col  rounded-lg  px-8  w-[95%] mt-4">
               <div className="button-group">
                 <Button
-                  // variant="filled" // Replaced "contained" with "filled" (or you can use "outlined", "gradient", or "text")
-                  // color="primary"
-                  // onClick={handleActivate} // Function to handle activation
+                  onClick={() => ActivateCustomer(CustomerId)}
                   className="mr-2 bg-green-500 text-white"
                 >
                   Activate
                 </Button>
 
                 <Button
-                  // variant="filled" // Replaced "contained" with "filled"
-                  // color="secondary"
-                  // onClick={handleDeactivate} // Function to handle deactivation
+                  onClick={() => DeactivateCustomer(CustomerId)}
                   className="mr-2  bg-red-500 text-white"
                 >
                   Deactivate

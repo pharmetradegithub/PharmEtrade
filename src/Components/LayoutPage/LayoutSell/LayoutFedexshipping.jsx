@@ -226,13 +226,13 @@ function LayoutFedexshipping() {
         <h1 className='text-xl text-blue-900 font-semibold'>Manage Fedex Configuration</h1>
       </div>
       <div className='w-[60%] border rounded-md shadow-md flex flex-col justify-center'>
-      <div className='w-full ml-8 flex flex-col justify-center'>
+      <div className='w-full ml-8 flex flex-col justify-center mt-4'>
 
-      <div className="w-[80%] flex justify-between text-gray-600 my-4">
+      <div className="w-[80%] flex justify-between text-gray-600 my-4 ">
         <div className="flex flex-col">
-          <label className="text-base  mb-1 font-semibold">
+          {/* <label className="text-base  mb-1 font-semibold">
             Account ID:<span className="text-red-600 text-xl">*</span>
-          </label>
+          </label> */}
             <TextField
               label="  Account ID"
               size='small'
@@ -244,9 +244,9 @@ function LayoutFedexshipping() {
           />
         </div>
         <div className="flex flex-col">
-          <label className="text-base  mb-1 font-semibold">
+          {/* <label className="text-base  mb-1 font-semibold">
             Meter Number<span className="text-red-600 text-xl">*</span>
-          </label>
+          </label> */}
           <TextField
               type="text"
               label=" Meter Number"
@@ -261,9 +261,9 @@ function LayoutFedexshipping() {
 
       <div className="w-[80%] flex justify-between text-gray-600 my-4">
         <div className="flex flex-col">
-          <label className="text-base  mb-1 font-semibold">
+          {/* <label className="text-base  mb-1 font-semibold">
             Key<span className="text-red-600 text-xl">*</span>
-          </label>
+          </label> */}
           <TextField
               type="text"
               label="Key"
@@ -275,9 +275,9 @@ function LayoutFedexshipping() {
           />
         </div>
         <div className="flex flex-col">
-          <label className="text-base  mb-1 font-semibold">
+          {/* <label className="text-base  mb-1 font-semibold">
             Password:<span className="text-red-600 text-xl">*</span>
-          </label>
+          </label> */}
           <TextField
               type="text"
               label="Password"

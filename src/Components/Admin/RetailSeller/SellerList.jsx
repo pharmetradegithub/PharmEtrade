@@ -1,110 +1,3 @@
-// import React, { useEffect, useState } from 'react';
-// import { GetCustomers } from '../../../Api/AdminApi';
-// import edit from "../../../assets/Edit.png";
-// import Bin from "../../../assets/Bin.png";
-// import Deactivate from "../../../assets/Deactivate.png";
-// import { Tooltip } from "@mui/material";
-
-
-
-
-// const SellerList = () => {
-//   const [customers,setcustomers]=useState([]);
-//   useEffect(() => {
-//     const fetchcustomers =async ()=>{
-//       const res  = await GetCustomers();
-//       const filteredCustomers = res.filter(customer => 
-//         [1, 2, 3].includes(customer.customerTypeId)
-//       );
-//       setcustomers(filteredCustomers);    
-//     }
-//       fetchcustomers();
-//   }, [])
-  
-//   return (
-//     <div className="bg-gray-100 w-full h-full flex items-center justify-center">
-//       <div className="w-[95%] h-full mt-8">
-//         <h1 className="text-xl text-blue-900 font-semibold mb-4">Seller List</h1>
-//         <div className="overflow-y-auto h-full">
-//           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-//             <thead className=" text-white text-lg bg-blue-900 dark:bg-gray-700 dark:text-gray-400">
-//               <tr>
-//                 <th className="px-6 py-3 text-center">ID</th>
-//                 <th className="px-6 py-3">User Profile</th>
-//                 <th className="px-6 py-3 text-center">Status</th>
-//                 <th className="px-6 py-3 text-center">Phone</th>
-//                 <th className="px-6 py-3 text-center">Actions</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {customers?.map((customer, index) => (
-//                 <tr
-//                   key={index}
-//                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-//                 >
-//                   <td className="px-6  text-center">{index+1}</td>
-//                   <th
-//                     scope="row"
-//                     className="flex items-center px-6  text-gray-900 whitespace-nowrap dark:text-white"
-//                   >
-//                     {/* <img
-//                       className="w-10 h-10 rounded-full"
-//                       src={customer.profileImage}
-//                       alt={`${customer.name} profile`}
-//                     /> */}
-//                     <div className="">
-//                       <div className="text-base items-center font-semibold">{customer.firstName}{""}{customer.lastName}</div>
-//                       <div className="font-normal text-gray-500">{customer.email}</div>
-//                     </div>
-//                   </th>
-//                   {/* <td className="px-6 py-4 text-center">{customer.country}</td> */}
-//                   <td className="px-6  text-center">
-//                     <div className="flex justify-center items-center">
-//                       <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
-//                       {customer.status} Active
-//                     </div>
-//                   </td>
-//                   <td className="px-6  text-center">{customer.mobile}</td>
-                 
-//                       <td className="px-4  cursor-pointer text-center justify-center  flex items-center space-x-2">
-//                           <Tooltip title="Edit" placement="top">
-//                             <img
-//                               src={edit}
-//                               alt="Edit"
-//                               className="cursor-pointer w-7 h-7 -mb-5"
-//                               onClick={() => handleEditProduct(product)}
-//                             />
-//                           </Tooltip>
-//                           <Tooltip placement="top" title="Delete">
-//                             <img
-//                               src={Bin}
-//                               alt="Delete"
-//                               className="cursor-pointer w-4 h-4 -mb-5"
-//                               onClick={() => DeleteProduct(product.productID)}
-//                             />
-//                           </Tooltip>
-//                           <Tooltip title="Deactivate" placement="top">
-//                             <img
-//                               src={Deactivate}
-//                               alt="Deactivate" 
-//                               className="cursor-pointer w-4 h-4 -mb-5"
-//                               onClick={() => deactivatePopUp(product.productID)}
-//                             />
-//                           </Tooltip>
-//                         </td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SellerList;
-
-
 import React, { useEffect, useState } from "react";
 import { GetByAdminCriteriaAPI, GetCustomers } from "../../../Api/AdminApi";
 import edit from "../../../assets/Edit.png";
@@ -113,8 +6,11 @@ import Deactivate from "../../../assets/Deactivate.png";
 import { Tooltip } from "@mui/material";
 import Pagination from "../../Pagination";
 import { useNavigate } from "react-router-dom";
-import { getUserByCustomerIdApi } from "../../../Api/UserApi";
+import { DeactivateUserAPI, getUserByCustomerIdApi } from "../../../Api/UserApi";
 import Loading from "../../Loading";
+import wrong from '../../../assets/Icons/wrongred.png'
+import Notification from "../../Notification";
+
 
 const SellerList = () => {
   const [customers, setCustomers] = useState([]);
@@ -129,6 +25,29 @@ const SellerList = () => {
   });
 
   const navigate = useNavigate();
+
+  const [openPop, setOpenPop] = useState(false);
+  const [customerId, setCustomerId] = useState(null); // To store the ID of the customer being deactivated
+
+  const closeButton = () => {
+    setOpenPop(false);
+  };
+
+  const cancelButton = () => {
+    closeButton();
+  };
+
+  // const successButton = () => {
+  //   // Call your deactivate function here
+  //   DeactivateCustomer(customerId);
+  //   closeButton();
+  // };
+
+  // const handleDeactivateClick = (id) => {
+  //   setCustomerId(id); // Store the customer ID
+  //   setOpenPop(true); // Open the popup
+  // };
+
 
   // Fetch and filter customers
   // useEffect(() => {
@@ -238,10 +157,91 @@ const SellerList = () => {
       console.log("error", error);
     }
   };
+  // const DeactivateCustomer = async (customerId)=>{
+  //     await DeactivateUserAPI(customerId);
+  // }
+
+
+
+  // const [customerId, setCustomerId] = useState(null);
+  const [deactivatedProducts, setDeactivatedProducts] = useState([]); // State to track deactivated products
+  const [notification, setNotification] = useState({ show: false, message: "" });
+
+  // const closeButton = () => {
+  //   setOpenPop(false);
+  // };
+
+  // const cancelButton = () => {
+  //   closeButton();
+  // };
+
+  const successButton = async () => {
+    await DeactivateCustomer(customerId);
+    setDeactivatedProducts((prev) => [...prev, customerId]); // Add the deactivated product ID
+    closeButton(); // Close the popup
+    setNotification({
+      show: true,
+      message: "User Deactivated Successfully!",
+    });
+    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  };
+
+  const handleDeactivateClick = (id) => {
+    setCustomerId(id);
+    setOpenPop(true);
+  };
+
+  const DeactivateCustomer = async (customerId) => {
+    try {
+      await DeactivateUserAPI(customerId);
+      // Optionally, return a success response or perform other logic here
+    } catch (error) {
+      console.error("Error deactivating user:", error);
+      // Optionally handle errors, such as showing an error notification
+    }
+  };
+
+
+
 
   return (
     <>
       <div className="bg-gray-100 w-full h-full flex overflow-y-scroll items-center justify-center">
+      {notification.show && (
+          <Notification show={notification.show} message={notification.message} />
+        )}
+      {openPop && (
+          <div
+            className="fixed top-0 left-25 w-4/5 h-full flex justify-center items-center bg-slate-900 bg-opacity-20"
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
+              <div className="flex justify-end  ">
+                <button className="w-5 p-1 -mt-8 mx-2" onClick={closeButton}>
+                  <img src={wrong} className="w-6 h-4" />
+                </button>
+              </div>
+              <h1 className="text-black text-center mt-2">
+                Are you sure you want to deactivate this product ?
+              </h1>
+              <div className="flex justify-around mt-6">
+                <button
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={cancelButton}
+                >
+                  No
+                </button>
+                <button
+                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={successButton}
+                >
+                  Yes
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="w-[95%] h-full mt-8">
           <div className="flex justify-between">
             <h1 className="text-xl text-blue-900 font-semibold mb-4">
@@ -342,12 +342,21 @@ const SellerList = () => {
                           day: "2-digit",
                         }).replace(/\//g, "-")}
                       </td>
-                      <td className="px-6 text-center">
+                      {/* <td className="px-6 text-center">
                         <div className="flex justify-center items-center">
                           <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
                           {customer.status} Active
                         </div>
-                      </td>
+                      </td> */}
+                      <td className="px-6 text-center">
+  <div className="flex justify-center items-center">
+    <div
+      className={`h-2.5 w-2.5 rounded-full mr-2 ${customer.isActive === 1 ? 'bg-green-500' : 'bg-red-500'}`}
+    ></div>
+    {customer.isActive === 1 ? 'Active' : 'InActive'}
+  </div>
+</td>
+
                       <td className="px-6 text-center">{customer.mobile}</td>
                       <td className="px-4 cursor-pointer text-center flex justify-center items-center space-x-2">
                         <Tooltip title="Edit" placement="top">
@@ -371,7 +380,8 @@ const SellerList = () => {
                             src={Deactivate}
                             alt="Deactivate"
                             className="cursor-pointer w-4 h-4 -mb-5"
-                            onClick={() => DeactivateCustomer(customer.customerId)}
+                            // onClick={() => DeactivateCustomer(customer.customerId)}
+                            onClick={() => handleDeactivateClick(customer.customerId)}
                           />
                         </Tooltip>
                       </td>

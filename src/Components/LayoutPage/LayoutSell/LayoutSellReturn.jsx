@@ -264,14 +264,14 @@ const LayoutSellReturn = () => {
           ))}
         </div>
         <div className="w-full">
-          <div className="flex justify-end">
+          {/* <div className="flex justify-end">
           <button className="bg-green-300 p-2 h-7 rounded-md flex items-center">
               <img src={filter} className="w-6 h-6" />
               Filter
             </button>            <select className="ml-2">
               <option>Columns</option>
             </select>
-          </div>
+          </div> */}
 
           <div className="overflow-x-scroll text-[15px] w-full mt-4 font-sans">
             <table className="rounded-lg bg-white w-full">

@@ -135,13 +135,13 @@ function LayoutPaymentHistory() {
             </div>
 
             <div className="flex gap-2">
-              <button className="bg-green-300 p-2 h-8 rounded-md flex items-center">
+              {/* <button className="bg-green-300 p-2 h-8 rounded-md flex items-center">
                 <img src={filter} className="w-6 h-6" alt="Filter" />
                 Filter
               </button>
               <select className="">
                 <option>Columns</option>
-              </select>
+              </select> */}
               <div className="relative">
                 <button
                   onClick={handleDropdownToggle}
