@@ -79,7 +79,7 @@ function LayoutUpsShipping() {
           } else {
             // If all required fields are filled, call shipmentEditApi
             const payloadEdit = {
-              shipmentID: getshipingDetails[1]?.shipmentID, // Use existing shipment ID for updating
+              shipmentID: existingShipment?.shipmentID, // Use existing shipment ID for updating
               shipmentTypeId: 5, // UPS shipment type
               customerId: user.customerId,
               accessLicenseNumber: formData.accessLicenseNumber,
@@ -89,7 +89,7 @@ function LayoutUpsShipping() {
               accountID: "string", // Placeholder for accountID
               meterNumber: "string", // Placeholder for meterNumber
               isActive: true, // Mark shipment as active
-              createdDate: getshipingDetails[1]?.createdDate, // Preserve original created date
+              createdDate: existingShipment?.createdDate, // Preserve original created date
               key: "string" // Placeholder for key
             };
             console.log("Editing shipment with payload:", payloadEdit);
