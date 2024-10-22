@@ -352,12 +352,12 @@ function LayoutBuy({
                 currentItems.map((product, index) => (
                   <div
                     key={index}
-                    className="flex p-4 border w-full justify-around shadow-lg rounded-md mb-4"
+                    className="flex p-4  h-auto border w-auto justify-around shadow-lg rounded-md mb-4"
                   >
                     <div className="flex flex-col mx-2">
                       <img
                         src={product.productGallery.imageUrl}
-                        className="w-36 p-2 hover:cursor-pointer rounded-lg h-28 bg-slate-200"
+                        className="w-32 p-2 hover:cursor-pointer rounded-lg h-28 bg-slate-200"
                         alt="Product"
                         onClick={() =>
                           handleProductDetails1(product.productID, product)
@@ -368,12 +368,12 @@ function LayoutBuy({
                       </p>
                     </div>
 
-                    <div className="flex flex-col w-[200px] mx-3">
+                    <div className="flex flex-col w-[170px] ">
                       <p className="font-semibold">Item Details</p>
                       <div className="mt-2">
-                        <p className="font-semibold">{product.productName}</p>
+                        <p className="font-semibold w-40">{product.productName}</p>
 
-                        <p className="text-xs mt-1 w-60">
+                        <p className="text-xs mt-1 w-40">
                           {showMore[index]
                             ? product.aboutTheProduct
                             : `${product.aboutTheProduct.slice(0, 50)}...`}
@@ -388,7 +388,7 @@ function LayoutBuy({
                         </p>
                         <div className="flex w-full mt-1 gap-1">
                           <img src={Expicon} className="w-6 h-6" />
-                          <div className="flex">
+                          <div className="flex flex-col">
                             <p className="mr-1">Exp.Date : &nbsp;</p>
                             <p className="font-semibold">
                               {/* {product.expiryDate} */}
@@ -404,7 +404,7 @@ function LayoutBuy({
                         </div>
                         <p className="mt-1">
                           Product returnable:{" "}
-                          {product.returnable ? "Yes" : "NA"}
+                          {product.isReturnable ? "Yes" : "No"}
                         </p>
                       </div>
                     </div>
@@ -420,8 +420,8 @@ function LayoutBuy({
                         </p>
                       </div>
                     </div> */}
-                    <div className="flex flex-col mx-3 justify-between">
-                      <div className="">
+                    <div className="flex flex-col mx-1 justify-between">
+                      <div className=" mx-2">
                         <h2 className="font-semibold">Package Details</h2>
                         <p className="text-base mt-1">
                           {product.packCondition}
@@ -444,10 +444,10 @@ function LayoutBuy({
                       </div>
                     </div>
 
-                    <div className="flex flex-col mx-3">
-                      <p className="font-semibold">Unit Price</p>
-                      <div className="mt-2">
-                        <p className="font-semibold">
+                    <div className="flex flex-col ">
+                      <p className="font-semibold ml-5">Unit Price</p>
+                      <div className="mt-2 text-right">
+                        <p className="font-semibold  ml-6 ">
                           ${product.unitPrice?.toFixed(2)}
                         </p>
                         {/* <p
@@ -460,6 +460,29 @@ function LayoutBuy({
                         </p> */}
                       </div>
                     </div>
+                    <div className="flex flex-col mx-3">
+                    <p className="font-semibold">UPN Member Price</p>
+                    <div className="mt-2 text-right">
+                        <p className="font-semibold ">
+                          ${product.upnMemberPrice?.toFixed(2)}
+                        </p>
+                       
+                      </div>
+
+
+</div>
+
+<div className="flex flex-col -mr-3">
+                    <p className="font-semibold">Sale Price</p>
+                    <div className="mt-2 text-right">
+                        <p className="font-semibold">
+                          ${product.salePrice?.toFixed(2)}
+                        </p>
+                       
+                      </div>
+
+
+</div>
 
                     {/* <div className="flex flex-col mx-3">
                       <p className="font-semibold">Quantity</p>
@@ -594,12 +617,12 @@ function LayoutBuy({
                         </p>
                       )}
                     </div> */}
-                       <div className="flex flex-col mx-3">
+                       <div className="flex flex-col ml-9 -mr-9">
                       <p className="font-semibold">Quantity</p>
                       <div className="mt-2 flex items-center">
                         {/* Decrease quantity button */}
                         <button
-                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                          className="px-1 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
                           onClick={() => {
                             const newQuantity = Math.max(
                               1,
@@ -625,7 +648,7 @@ function LayoutBuy({
                         <input
                           type="text"
                           value={product.CartQuantity}
-                          className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
+                          className="w-10 mx-2 border font-bold rounded-md text-center bg-white"
                           onChange={(e) => {
                             const value = e.target.value;
                             const numericValue =
@@ -650,7 +673,7 @@ function LayoutBuy({
 
                         {/* Increase quantity button */}
                         <button
-                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                          className="px-1 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
                           onClick={() => {
                             const newQuantity = product.CartQuantity + 1;
 
@@ -679,8 +702,9 @@ function LayoutBuy({
                     </div>
 
                     {/* Wishlist */}
-                    <div className="flex flex-col items-center justify-between">
-                      <div className="mt-2">
+                    <div className="flex flex-col items-center justify-between -mr-6">
+                    <div className="flex flex-col ">
+                      <div className="mt-2 ml-2">
                         <Tooltip title="Wishlist" placement="top">
                           <img
                             src={
@@ -720,7 +744,7 @@ function LayoutBuy({
                           />
                         </Tooltip> */}
                       </div>
-                      <div className="relative inline-block">
+                      <div className="relative inline-block mt-4">
                         <Tooltip title="Share" placement="right">
                           <img
                             src={share}
@@ -745,6 +769,7 @@ function LayoutBuy({
                             }
                           />
                         </Tooltip> */}
+                      </div>
                       </div>
                       {isShowPopup && (
                         <div

@@ -7,11 +7,14 @@ import { FiPlus } from "react-icons/fi";
 import filter from "../../../assets/Filter_icon.png";
 import edit from "../../../assets/Edit.png";
 import Bin from "../../../assets/Bin.png";
+import Pagination from "../../Pagination";
 import Deactivate from "../../../assets/Deactivate.png";
 import { Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { GetBidsBySeller } from "../../../Api/BidApi";
 const LayoutAllrequestedQuote = () => {
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
+  const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user.user)
   const request = useSelector((state) => state.bid.bidRequestedQuoted)
@@ -29,7 +32,20 @@ const LayoutAllrequestedQuote = () => {
 
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
+  // const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
+  const [currentItems, setcurrentItems] = useState(
+    request.slice(indexOfFirstItem, indexOfLastItem)
+  );
+  useEffect(() => {
+    if (request) {
+      const indexOfLastItem = currentPage * itemsPerPage;
+      const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+      setcurrentItems(request.slice(indexOfFirstItem, indexOfLastItem));
+    }
+  }, [currentPage, request]);
   const handleEditProduct = (request) => {
     setSelectedRequest(request);
     setShowEditPopup(true);
@@ -55,7 +71,7 @@ const LayoutAllrequestedQuote = () => {
   ];
 
   return (
-    <div className="relative bg-gray-100  w-full h-full flex justify-center items-center ">
+    <div className="relative bg-gray-100  w-full h-full flex justify-center items-center overflow-y-auto ">
       <div className=" w-[95%] h-full mt-8">
         <div className=" flex justify-between">
           <p className="text-[22px] text-blue-900 font-semibold">
@@ -101,6 +117,9 @@ const LayoutAllrequestedQuote = () => {
               <thead className="bg-blue-900 text-white">
                 <tr>
                   <th className="border-b-2 py-2 min-w-36 pl-4 text-left">
+                    S.NO
+                  </th>
+                  <th className="border-b-2 py-2 min-w-36 pl-4 text-left">
                     Customer Name
                   </th>
                   <th className="border-b-2 min-w-36 text-left">
@@ -112,26 +131,42 @@ const LayoutAllrequestedQuote = () => {
                 </tr>
               </thead>
               <tbody>
-                {requests.length === 0 ? (
+                {currentItems.length === 0 ? (
                   <tr>
                     <td colSpan="9" className="text-gray-600 text-lg py-4 px-2">
                       We couldn't find any records
                     </td>
                   </tr>
                 ) : (
-                  requests.map((request, index) => (
+                    currentItems.map((request, index) => (
                     <tr key={index}>
                       <td className="border-b-2 py-2 min-w-36 pl-4 text-left">
-                        {request.customer}
+                        {indexOfFirstItem + index + 1}
+                      </td>
+                      <td className="border-b-2 py-2 min-w-36 pl-4 text-left">
+                        {request.customerName}
+                      </td>
+                      {/* <td className="border-b-2 min-w-36 text-left">
+                        {request.productName}
+                      </td> */}
+                      <td className="border-b-2 min-w-36 text-left">
+                         <Tooltip title={request.productName} placement="right">
+                          <span className="truncate block w-24 cursor-pointer"> {/* Truncate and make clickable */}
+                            {request.productName}
+                          </span>
+                        </Tooltip>
+                        </td>
+                      <td className="border-b-2 min-w-36 text-left">
+                        {request.isActive ? "Active" : "Inactive"}
                       </td>
                       <td className="border-b-2 min-w-36 text-left">
-                        {request.quote}
-                      </td>
-                      <td className="border-b-2 min-w-36 text-left">
-                        {request.status}
-                      </td>
-                      <td className="border-b-2 min-w-36 text-left">
-                        {request.created}
+                          {new Date(request.createdOn)
+                            .toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "2-digit",
+                              day: "2-digit",
+                            })
+                            .replace(/\//g, "-")}
                       </td>
                       <td
                         className="border-b-2 min-w-36 text-left cursor-pointer"
@@ -139,30 +174,30 @@ const LayoutAllrequestedQuote = () => {
                       >
                         {/* {request.action} */}
                         <td className="-ml-2 py-2 cursor-pointer flex items-center space-x-2">
-                          <Tooltip title="Edit" placement="top">
+                          {/* <Tooltip title="Edit" placement="top">
                             <img
                               src={edit}
                               alt="Edit"
                               className="cursor-pointer w-7 h-7"
                               // onClick={() => handleEditProduct(product)}
                             />
-                          </Tooltip>
+                          </Tooltip> */}
                           <Tooltip placement="top" title="Delete">
                             <img
                               src={Bin}
                               alt="Delete"
-                              className="cursor-pointer w-4 h-4"
+                              className="cursor-pointer w-4 h-4 ml-4"
                               // onClick={() => DeleteProduct(product.productID)}
                             />
                           </Tooltip>
-                          <Tooltip title="Deactivate" placement="top">
+                          {/* <Tooltip title="Deactivate" placement="top">
                             <img
                               src={Deactivate}
                               alt="Deactivate"
                               className="cursor-pointer w-4 h-4"
                               // onClick={() => deactivatePopUp(product.productID)}
                             />
-                          </Tooltip>
+                          </Tooltip> */}
                         </td>
                       </td>
                     </tr>
@@ -172,6 +207,15 @@ const LayoutAllrequestedQuote = () => {
             </table>
           </div>
         </div>
+        <Pagination
+          indexOfFirstItem={indexOfFirstItem}
+          indexOfLastItem={indexOfLastItem}
+          productList={request}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
       {/* {showEditPopup && selectedRequest && (
         <div className="w-full absolute h-full  inset-0 flex overflow-scroll bg-gray-100 ">

@@ -952,6 +952,13 @@ function Items({
           strength={prod?.strength}
           brand={prod?.brandName}
           product={prod?.productName}
+          Form={prod?.form}
+          Strength={prod?.strength}
+          Brand={prod?.brandName}
+          Height={prod?.height}
+          Weight={prod?.weight}
+          Width={prod?.width}
+          Length={prod?.length}
         />
 
         <div className="w-[92%] flex flex-col md:flex-row border-t-2 shadow-inner justify-start gap-8 p-4">

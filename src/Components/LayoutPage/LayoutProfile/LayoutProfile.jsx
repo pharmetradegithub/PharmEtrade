@@ -1,2289 +1,3 @@
-// // import React, { useState } from "react";
-// // // import myaccount from 'Pharmetrade-Dev-Pharma-Etrade\src\assets\My Account.png';
-// // import { FaEnvelope, FaPhone } from "react-icons/fa";
-// // import MyOrders from "../../LayoutPage/LayoutProfile/MyOrders"
-// // // import cell from '../../../assets/telephone-call.png'
-// // import email from '../../../assets/useremail.png'
-// // import edit from '../../../assets/Edit.png'
-// // import { TextField } from "@mui/material";
-// // import LayoutProfileAddress from "./LayoutProfileAddress";
-// // import BankInformation from "./BankInformation";
-
-// // const LayoutProfile = () => {
-
-// //   const  profiles =[
-// //     {
-// //       label:"Primary",
-// //       grid:"primary"
-// //     },
-// //     {
-// //       label:"Bank Information",
-// //       grid:'bank'
-// //     },
-// //     {
-// //       label:"Address",
-// //       grid:'address'
-// //     }
-// //   ]
-
-// //   const [visibleGrid, setVisibleGrid] = useState("primary"); // To track which grid is visible
-// //   const toggleGrid = (grid) => {
-// //     setVisibleGrid((prev) => (prev === grid ? null : grid)); // Toggle the grid visibility
-// //   };
-// //   return (
-
-// //     <div className=" w-full h-full flex-col bg-slate-200 flex justify-center overflow-y-scroll">
-// //       <div className="w-[95%] mt-8 h-full flex flex-col justify-normal  ">
-// // {/* {profiles.map((profile)=>(
-// //   <div className=" flex  ml-6">
-// //     <div className="w-44  bg-white rounded-lg flex items-center justify-center">
-// //             <h1 className="text-lg text-blue-900  font-semibold cursor-pointer">{profile.label}</h1>
-
-// //           </div>
-// //     </div>
-
-// // ))} */}
-// // <div className="flex">
-// // {profiles.map((profile) => (
-// //   <div key={profile.grid} className="flex ml-6">
-// //     <div
-// //       className="w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer"
-// //       onClick={() => toggleGrid(profile.grid)}
-// //     >
-// //       <h1 className="text-lg text-blue-900 font-semibold">{profile.label}</h1>
-// //     </div>
-// //   </div>
-// // ))}
-// // </div>
-
-// //         <div>
-// //           <h1 className="text-xl text-blue-900 font-semibold mt-4 ml-6 ">Primary</h1>
-// //           <div className="bg-white border  border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4 ">
-
-// //             <div className="flex justify-between">
-// //               <div className="py-4 flex flex-col  gap-4">
-// //                 <TextField
-// //                   label="First Name"
-// //                   id="outlined-size-small"
-// //                   name="First Name"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                   className="w-full"
-// //                 />
-// //                 <TextField
-// //                   label="Email ID"
-// //                   id="outlined-size-small"
-// //                   name="Email ID"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                   className="w-full"
-// //                 />
-
-// //               </div>
-// //               <div className="py-4 gap-4 flex-col flex">
-// //                 <TextField
-// //                   label="Last Name"
-// //                   id="outlined-size-small"
-// //                   name="Last Name"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                   className="w-full"
-// //                 />
-// //                 <TextField
-// //                   label="Phone Number"
-// //                   id="outlined-size-small"
-// //                   name="Phone Number"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                   className="w-full"
-// //                 />
-// //               </div>
-
-// //               <div className="flex flex-col justify-between py-2">
-// //                 <img src={edit} className="w-6 h-6 ml-4" />
-// //                 <button className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold" >Save</button>
-// //               </div>
-// //             </div>
-// //           </div>
-// //           <div className="bg-white border  flex justify-between flex-col border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4">
-// //             <div className="flex justify-between">
-// //               <div className="flex-col flex py-4">
-// //                 <div className="flex gap-5">
-// //                   <p>User Type :</p>
-// //                   <p className="text-lg">Retail Pharmacy</p>
-// //                 </div>
-// //                 <div className="flex gap-7">
-
-// //                   <p> UPN member</p>
-// //                   <p className="text-lg">(Yes)</p>
-// //                 </div>
-// //               </div>
-// //               <div className="flex flex-col justify-between py-2">
-// //                 <img src={edit} className="w-6 h-6 ml-4" />
-// //                 <button className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold" >Save</button>
-// //               </div>
-// //             </div>
-// //           </div>
-// //           <div className="bg-white border border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4">
-// //             <div className="flex justify-between py-4">
-
-// //               <div className="flex flex-col gap-3">
-// //                 <TextField
-// //                   label="Shop Name"
-// //                   id="outlined-size-small"
-// //                   name="Last Name"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                 // className="w-full"
-// //                 />
-// //                 <TextField
-// //                   label="DBA Name"
-// //                   id="outlined-size-small"
-// //                   name="Last Name"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                 // className="w-full"
-// //                 />
-// //                 <TextField
-// //                   label="City"
-// //                   id="outlined-size-small"
-// //                   name="City"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                 // className="w-full"
-// //                 />
-// //                 <TextField
-// //                   label="Zip"
-// //                   id="outlined-size-small"
-// //                   name="Zip"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                 // className="w-full"
-// //                 />
-// //                 <TextField
-// //                   label="Business Fax"
-// //                   id="outlined-size-small"
-// //                   name="Business Fax"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                 // className="w-full"
-// //                 />
-// //                 <TextField
-// //                   label="Company Website"
-// //                   id="outlined-size-small"
-// //                   name="Compant Website"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                 // className="w-full"
-// //                 />
-// //               </div>
-// //               <div className="flex flex-col gap-3">
-// //                 <TextField
-// //                   label="Legal Business Name"
-// //                   id="outlined-size-small"
-// //                   name="Legal Business Name"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                 // className="w-full"
-// //                 />
-// //                 <TextField
-// //                   label="Address"
-// //                   id="outlined-size-small"
-// //                   name="Last Name"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                 // className="w-full"
-// //                 />
-// //                 <TextField
-// //                   label="State"
-// //                   id="outlined-size-small"
-// //                   name="Last Name"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                 // className="w-full"
-// //                 />
-// //                 <TextField
-// //                   label="Business Phone "
-// //                   id="outlined-size-small"
-// //                   name="Last Name"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                 // className="w-full"
-// //                 />
-// //                 <TextField
-// //                   label="Business Email"
-// //                   id="outlined-size-small"
-// //                   name="Last Name"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                 // className="w-full"
-// //                 />
-// //               </div>
-
-// //               <div className="flex flex-col justify-between py-2">
-// //                 <img src={edit} className="w-6 h-6 ml-4" />
-// //                 <button className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold" >Save</button>
-// //               </div>
-// //             </div>
-// //           </div>
-// //           <div className="bg-white border border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4">
-// //             <div className="flex justify-between py-4">
-
-// //               <div className="flex flex-col gap-3">
-// //                 <TextField
-// //                   label="DEA"
-// //                   id="outlined-size-small"
-// //                   name="Last Name"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                className="w-[60%]"
-// //                 />
-// //                 <TextField
-// //                   label=""
-// //                    type="date"
-// //                   id="outlined-size-small"
-// //                   name="Last Name"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                className="w-[60%]"
-// //                 />
-// //                 <TextField
-// //                   label=""
-// //                    type="file"
-// //                   id="outlined-size-small"
-// //                   name="City"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                 className="w-[60%]"
-// //                 />
-// //                 <TextField
-// //                   label="NPI"
-// //                   id="outlined-size-small"
-// //                   name="Zip"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                className="w-[60%]"
-// //                 />
-// //                 <TextField
-// //                   label="Federal Tax"
-// //                   id="outlined-size-small"
-// //                   name="Business Fax"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                className="w-[60%]"
-// //                 />
-
-// //               </div>
-// //               <div className="flex flex-col gap-3">
-// //                 <TextField
-// //                   label="Pharmacy License"
-// //                   id="outlined-size-small"
-// //                   name="Legal Business Name"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //               className="w-[60%]"
-// //                 />
-// //                 <TextField
-// //                   label=""
-// //                    type="date"
-// //                   id="outlined-size-small"
-// //                   name="Last Name"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //               className="w-[60%]"
-// //                 />
-// //                 <TextField
-// //                   label=""
-// //                   type="file"
-// //                   id="outlined-size-small"
-// //                   name="Last Name"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                 className="w-[60%]"
-// //                 />
-// //                 <TextField
-// //                   label="NCPDP "
-// //                   id="outlined-size-small"
-// //                   name="Last Name"
-// //                   // value={formData.First_Name}
-// //                   // onChange={handleInputChange}
-// //                   // error={!!errors.First_Name}
-// //                   // helperText={errors.First_Name}
-
-// //                   size="small"
-// //                 className="w-[60%]"
-// //                 />
-
-// //               </div>
-
-// //               <div className="flex flex-col justify-between py-2">
-// //                 <img src={edit} className="w-6 h-6 ml-4" />
-// //                 <button className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold" >Save</button>
-// //               </div>
-// //             </div>
-// //           </div>
-// //         </div>
-
-// //       </div>
-
-// //       <div>
-// //       {visibleGrid === "bank" && (
-// //   <div className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
-// //    <BankInformation/>
-// //   </div>
-// // )}
-// //         </div>
-// //         <div>
-// //         {visibleGrid === "address" && (
-// //   <div className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
-// //    <LayoutProfileAddress/>
-// //   </div>
-// // )}        </div>
-
-// //     </div>
-
-// //   );
-// // };
-
-// // export default LayoutProfile;
-
-// import React, { useState } from "react";
-// import { TextField } from "@mui/material";
-// import edit from '../../../assets/Edit.png';
-// import { useSelector } from "react-redux";
-// import { Box, Radio, }
-//   from "@mui/material";
-// const LayoutProfile = () => {
-//   const userdata = useSelector((state) => state.user.user)
-//   console.log("profile", userdata)
-
-//   const businessInfo = useSelector((state) => state.user.businessInfo)
-//   console.log("business", businessInfo)
-
-//   const profiles = [
-//     {
-//       label: "Primary",
-//       grid: "primary"
-//     },
-//     {
-//       label: "Bank Information",
-//       grid: "bank"
-//     },
-//     {
-//       label: "Address",
-//       grid: "address"
-//     }
-//   ];
-
-//   const userTypes = ["Retail Pharmacy", "Wholesale Pharmacy", "Hospital", "Other"];
-
-//   const [userType, setUserType] = useState("");
-//   const [selectedValue, setSelectedValue] = React.useState("");
-
-//   const handleUserTypeChange = (e) => {
-//     setUserType(e.target.value);
-//     setSelectedValue(""); // Reset UPN Member selection on User Type change
-//   };
-
-//   const handleChange = (e) => {
-//     setSelectedValue(e.target.value);
-//   };
-//   const [visibleGrid, setVisibleGrid] = useState("primary"); // Default to Primary
-
-//   const toggleGrid = (grid) => {
-//     setVisibleGrid(grid); // Set the visible grid to the selected one
-//   };
-
-//   // bussiness phone
-//   const [businessPhone, setBusinessPhone] = useState("");
-
-//   const handleBusinessPhoneChange = (e) => {
-//     const input = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
-//     let formattedBusinessPhone = input;
-
-//     if (input.length > 3 && input.length <= 6) {
-//       formattedBusinessPhone = `${input.slice(0, 3)}-${input.slice(3)}`;
-//     } else if (input.length > 6) {
-//       formattedBusinessPhone = `${input.slice(0, 3)}-${input.slice(3, 6)}-${input.slice(6, 10)}`;
-//     }
-
-//     setBusinessPhone(formattedBusinessPhone);
-//   };
-//   // federal tax
-
-//   const [federalTax, setFederalTax] = useState("");
-
-//   const handleFederalTaxChange = (e) => {
-//     const input = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
-//     let formattedFederalTax = input;
-
-//     // Format the input to 77-7777777
-//     if (input.length > 2) {
-//       formattedFederalTax = `${input.slice(0, 2)}-${input.slice(2)}`;
-//     }
-
-//     setFederalTax(formattedFederalTax);
-//   };
-//   // phone number
-//   const [phoneNumber, setPhoneNumber] = useState("");
-
-//   const handlePhoneNumberChange = (e) => {
-//     const input = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
-//     let formattedPhoneNumber = input;
-
-//     if (input.length > 3 && input.length <= 6) {
-//       formattedPhoneNumber = `${input.slice(0, 3)}-${input.slice(3)}`;
-//     } else if (input.length > 6) {
-//       formattedPhoneNumber = `${input.slice(0, 3)}-${input.slice(3, 6)}-${input.slice(6, 10)}`;
-//     }
-
-//     setPhoneNumber(formattedPhoneNumber);
-//   };
-
-//   // tab1
-//   const [isEditable, setIsEditable] = useState(false);
-
-//   // Function to handle the edit button click
-//   // const handleEditClick = () => {
-//   //   setIsEditable(true); // Enable editing when edit icon is clicked
-//   // };
-//   const handleEditClick = () => {
-//     setIsEditable((prev) => !prev); // Toggle edit mode
-//   };
-//   // Handle save button click
-//   const handleSaveClick = () => {
-//     setIsEditable(false);
-//     alert("Data saved successfully!"); // Show notification (can replace with your own notification system)
-//   };
-
-//   // tab2
-//   const [isselectable, setIsselectable] = useState(false);
-//   const handleselectClick = () => {
-//     setIsselectable((prev) => !prev); // Toggle edit mode
-//   };
-//   // Handle save button click
-//   const handleSelectClick = () => {
-//     setIsselectable(false);
-//     alert("Data saved successfully!"); // Show notification (can replace with your own notification system)
-//   };
-
-//   // tab3
-
-//   const [istabable, setIstabable] = useState(false);
-
-//   // Function to handle the edit button click
-//   const handleEdittabClick = () => {
-//     setIstabable(true); // Enable editing when edit icon is clicked
-//   };
-//   // Handle save button click
-//   const handletabSaveClick = () => {
-//     setIstabable(false);
-//     alert("Data saved successfully!"); // Show notification (can replace with your own notification system)
-//   };
-
-//   // tab4
-//   const [istabedit, setIstabedit] = useState(false);
-
-//   const handletabclick = () => {
-//     setIstabedit(true)
-//   }
-//   const handletabesave = () => {
-//     setIstabedit(false)
-//   }
-
-//   const handleInputChange = (e) => {
-//     const { name, value } = e.target;
-//     // Dispatch an action to update the Redux state here if necessary
-//     // dispatch(updateUserData({ ...userdata, [name]: value }));
-
-//     // For example:
-//     // dispatch(updateUser({ ...userdata, [name]: value }));
-//   };
-
-//   return (
-//     <div className="w-full h-full flex-col bg-slate-200 flex justify-center overflow-y-scroll">
-//       <div className="w-[95%] mt-8 h-full flex flex-col justify-normal">
-//         {/* Render Profile Buttons */}
-//         <div className="flex">
-//           {profiles.map((profile) => (
-//             <div key={profile.grid} className="flex ml-6">
-//               <div
-//                 className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${visibleGrid === profile.grid ? 'border-b-4 border-blue-500' : ''}`}
-//                 onClick={() => toggleGrid(profile.grid)}
-//               >
-//                 <h1 className="text-lg text-blue-900 font-semibold">{profile.label}</h1>
-//               </div>
-//             </div>
-//           ))}
-//         </div>
-
-//         {/* Primary Grid */}
-//         {visibleGrid === "primary" && (
-//           // <div className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
-//           //   <div className="flex justify-between">
-//           //     <div className="py-4 flex flex-col gap-4">
-//           //       <TextField label="First Name" size="small" className="w-full" />
-//           //       <TextField label="Email ID" size="small" className="w-full" />
-//           //     </div>
-//           //     <div className="py-4 flex flex-col gap-4">
-//           //       <TextField label="Last Name" size="small" className="w-full" />
-//           //       <TextField label="Phone Number" size="small" className="w-full" />
-//           //     </div>
-//           //     <div className="flex flex-col justify-between py-2">
-//           //       <img src={edit} className="w-6 h-6 ml-4" alt="edit" />
-//           //       <button className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold">Save</button>
-//           //     </div>
-//           //   </div>
-//           // </div>
-
-//           <div>
-//             <h1 className="text-xl text-blue-900 font-semibold mt-4 ml-6 ">Primary</h1>
-//             {/* <div className="bg-white border  border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4 ">
-
-//             <div className="flex justify-between">
-//               <div className="py-4 flex flex-col  gap-4">
-//                 <TextField
-//                   label="First Name"
-//                   id="outlined-size-small"
-//                   name="First Name"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                   className="w-full"
-//                 />
-//                 <TextField
-//                   label="Email ID"
-//                   id="outlined-size-small"
-//                   name="Email ID"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                   className="w-full"
-//                 />
-
-//               </div>
-//               <div className="py-4 gap-4 flex-col flex">
-//                 <TextField
-//                   label="Last Name"
-//                   id="outlined-size-small"
-//                   name="Last Name"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                   className="w-full"
-//                 />
-//                 <TextField
-//                   label="Phone Number"
-//                   id="outlined-size-small"
-//                   name="Phone Number"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                   className="w-full"
-//                 />
-//               </div>
-
-//               <div className="flex flex-col justify-between py-2">
-//                 <img src={edit} className="w-6 h-6 ml-4" />
-//                 <button className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold" >Save</button>
-//               </div>
-//             </div>
-//           </div> */}
-
-//             <div className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
-//               <div className="flex justify-between">
-//                 <div className="py-4 flex flex-col gap-4">
-//                   {/* <TextField
-//                     label="First Name"
-//                     id="outlined-size-small"
-//                     value={userdata?.firstName}
-//                     name="First Name"
-//                     disabled={!isEditable} // Disable field unless in edit mode
-//                     size="small"
-//                     className="w-full"
-//                   /> */}
-//                   <TextField
-//                     label="First Name"
-//                     id="outlined-size-small"
-//                     value={userdata?.firstName || ""} // Ensure it handles null or undefined
-//                     name="firstName" // Use camelCase for the name
-//                     onChange={handleInputChange} // Handle input change
-//                     disabled={!isEditable} // Disable field unless in edit mode
-//                     size="small"
-//                     className="w-full"
-//                   />
-//                   <TextField
-//                     label="Email ID"
-//                     id="outlined-size-small"
-//                     value={userdata?.
-//                       email
-//                       || ""} // Ensure it handles null or undefined
-//                     name="email" // Use camelCase for the name
-//                     onChange={handleInputChange} // Handle input change
-//                     disabled={!isEditable} // Disable field unless in edit mode
-//                     size="small"
-//                     className="w-full"
-//                   />
-//                   <TextField
-//                     label="Password"
-//                     id="outlined-size-small"
-//                     value={userdata?.
-//                       password
-//                       || ""} // Ensure it handles null or undefined
-//                     name="password" // Use camelCase for the name
-//                     onChange={handleInputChange} // Handle input change
-//                     disabled={!isEditable} // Disable field unless in edit mode
-//                     size="small"
-//                     className="w-full"
-//                   />
-//                 </div>
-//                 <div className="py-4 gap-4 flex-col flex">
-//                   <TextField
-//                     label="Last Name"
-//                     id="outlined-size-small"
-//                     value={userdata?.lastName || ""} // Ensure it handles null or undefined
-//                     name="Last Name" // Use camelCase for the name
-//                     onChange={handleInputChange} // Handle input change
-//                     disabled={!isEditable} // Disable field unless in edit mode
-//                     size="small"
-//                     className="w-full"
-//                   />
-//                   <TextField
-//                     label="Phone Number"
-//                     name="phoneNumber"
-//                     value={phoneNumber}
-//                     onChange={handlePhoneNumberChange}
-//                     size="small"
-//                     className="w-full"
-//                     disabled={!isEditable} // Disable unless in edit mode
-//                     inputProps={{ maxLength: 12 }} // Limit the max length to 12 (including dashes)
-//                   />
-//                   <TextField
-//                     label="Confirm Password"
-//                     id="outlined-size-small"
-//                     name="Confirm password"
-//                     disabled={!isEditable} // Disable field unless in edit mode
-//                     size="small"
-//                     className="w-full"
-//                   />
-//                 </div>
-//                 <div className="flex flex-col justify-between py-2">
-//                   <img
-//                     src={edit}
-//                     className="w-6 h-6 ml-4 cursor-pointer"
-//                     onClick={handleEditClick} // Handle edit icon click
-//                     alt="Edit" // Add alt text for accessibility
-//                   />
-//                   <button
-//                     className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isEditable ? "opacity-50 cursor-not-allowed" : ""}`}
-//                     onClick={handleSaveClick}
-//                     disabled={!isEditable} // Disable button when not editable/ Save button is disabled if not editable
-//                   >
-//                     Save
-//                   </button>
-//                 </div>
-//               </div>
-//             </div>
-//             <div className="bg-white border  flex justify-between flex-col border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4">
-//               <div className="flex justify-between">
-//                 <div className="flex-col flex py-4">
-
-//                   <div className="mb-4">
-//                     <label className="flex gap-2 text-gray-700 text-sm font-bold mb-2" htmlFor="userType">
-//                       User Type
-//                       {/* <div className="text-red-400">
-//               {errors.userType && <div>{errors.userType}</div>}
-//             </div> */}
-//                     </label>
-//                     <select
-//                       id="userType"
-//                       value={userType}
-//                       disabled={!isselectable}
-//                       onChange={handleUserTypeChange}
-//                       className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-//                     >
-//                       <option value="">Select User Type</option>
-//                       {userTypes.map((type) => (
-//                         <option key={type} value={type}>
-//                           {type}
-//                         </option>
-//                       ))}
-//                     </select>
-//                   </div>
-//                   {userType === "Retail Pharmacy" && (
-//                     <div className="flex items-center">
-//                       <label className="text-gray-700">
-//                         <span className="text-red-500">*</span>Are you a UPN Member
-//                       </label>
-//                       <Box sx={{ display: "flex", gap: 2 }}>
-//                         <div>
-//                           <Radio
-//                             checked={selectedValue === "a"}
-//                             onChange={handleChange}
-//                             value="a"
-//                             name="radio-buttons"
-//                             size="small"
-//                             inputProps={{ "aria-label": "A" }}
-//                           />
-//                           <span>YES</span>
-//                         </div>
-//                         <div>
-//                           <Radio
-//                             checked={selectedValue === "b"}
-//                             onChange={handleChange}
-//                             value="b"
-//                             name="radio-buttons"
-//                             size="small"
-//                             inputProps={{ "aria-label": "B" }}
-//                           />
-//                           <span>NO</span>
-//                         </div>
-//                       </Box>
-//                     </div>
-//                   )}
-//                 </div>
-//                 <div className="flex flex-col justify-between py-2">
-//                   <img src={edit} className="w-6 h-6 ml-4"
-//                     onClick={handleselectClick} />
-//                   <button
-//                     // className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold"
-//                     className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isselectable ? "opacity-50 cursor-not-allowed" : ""}`}
-
-//                     onClick={handleSelectClick} >Save</button>
-//                 </div>
-//               </div>
-//             </div>
-//             <div className="bg-white border border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4">
-//               <div className="flex justify-between py-4">
-
-//                 <div className="flex flex-col gap-3">
-//                   {/* <TextField
-//                     label="Shop Name"
-//                     id="outlined-size-small"
-//                     name="Last Name"
-//                     disabled={!istabable}
-//                     value={businessInfo.shopName || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                   // className="w-full"
-//                   /> */}
-//                   <TextField
-//                     label="Shop Name"
-//                     id="outlined-size-small"
-//                     name="Shop Name"  // Make sure the name is correct if it's used elsewhere
-//                     disabled={!istabable}
-//                     value={businessInfo?.shopName || ""} // Use optional chaining to avoid errors
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-//                     size="small"
-//                     className="w-full" // Uncomment or modify this line as needed
-//                   />
-//                   <TextField
-//                     label="DBA Name"
-//                     id="outlined-size-small"
-//                     name="Last Name"
-//                     disabled={!istabable}
-//                     value={businessInfo?.dba || ""
-//                     }
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                   // className="w-full"
-//                   />
-//                   <TextField
-//                     label="City"
-//                     id="outlined-size-small"
-//                     name="City"
-//                     disabled={!istabable}
-
-//                     value={businessInfo?.city || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                   // className="w-full"
-//                   />
-//                   <TextField
-//                     label="Zip"
-//                     id="outlined-size-small"
-//                     name="Zip"
-//                     disabled={!istabable}
-//                     value={businessInfo?.
-//                       zip || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                   // className="w-full"
-//                   />
-//                   <TextField
-//                     label="Business Fax"
-//                     id="outlined-size-small"
-//                     name="Business Fax"
-//                     disabled={!istabable}
-//                     value={businessInfo?.businessFax || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                   // className="w-full"
-//                   />
-//                   <TextField
-//                     label="Company Website"
-//                     id="outlined-size-small"
-//                     name="Compant Website"
-//                     disabled={!istabable}
-//                     value={businessInfo?.companyWebsite || ""
-//                     }
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                   // className="w-full"
-//                   />
-//                 </div>
-//                 <div className="flex flex-col gap-3">
-//                   <TextField
-//                     label="Legal Business Name"
-//                     id="outlined-size-small"
-//                     name="Legal Business Name"
-//                     disabled={!istabable}
-//                     value={businessInfo?.
-//                       legalBusinessName || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                   // className="w-full"
-//                   />
-//                   <TextField
-//                     label="Address"
-//                     id="outlined-size-small"
-//                     name="Last Name"
-//                     disabled={!istabable}
-//                     value={businessInfo?.address || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                   // className="w-full"
-//                   />
-//                   <TextField
-//                     label="State"
-//                     id="outlined-size-small"
-//                     name="Last Name"
-//                     disabled={!istabable}
-//                     value={businessInfo?.state || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                   // className="w-full"
-//                   />
-//                   <TextField
-//                     label="Business Phone"
-//                     id="outlined-size-small"
-//                     name="businessPhone"
-//                     value={businessPhone}
-//                     onChange={handleBusinessPhoneChange}
-//                     size="small"
-//                     className="w-full"
-//                     disabled={!istabable} // Disable unless in edit mode
-//                     inputProps={{ maxLength: 12 }} // Limit max length to 12 (including dashes)
-//                   />
-//                   <TextField
-//                     label="Business Email"
-//                     id="outlined-size-small"
-//                     name="Last Name"
-//                     disabled={!istabable}
-//                     value={businessInfo?.businessEmail || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                   // className="w-full"
-//                   />
-//                 </div>
-
-//                 <div className="flex flex-col justify-between py-2">
-//                   <img
-//                     src={edit}
-//                     className="w-6 h-6 ml-4 cursor-pointer"
-//                     onClick={handleEdittabClick} // Handle edit icon click
-//                   />
-//                   <button
-//                     className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!istabable ? "opacity-50 cursor-not-allowed" : ""}`}
-//                     onClick={handletabSaveClick}
-//                     disabled={!istabable} // Disable button when not editable// Save button is disabled if not editable
-//                   >
-//                     Save
-//                   </button>
-//                 </div>
-//               </div>
-//             </div>
-//             <div className="bg-white border border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4">
-//               <div className="flex justify-between py-4">
-
-//                 <div className="flex flex-col gap-3">
-//                   <TextField
-//                     label="DEA"
-//                     id="outlined-size-small"
-//                     name="Last Name"
-//                     value={businessInfo?.
-//                       dea
-//                       || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-//                     disabled={!istabedit}
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <TextField
-//                     label=""
-//                     type="date"
-//                     id="outlined-size-small"
-//                     name="Last Name"
-//                     value={businessInfo?.
-//                       deaExpirationDate || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-//                     disabled={!istabedit}
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <TextField
-//                     label=""
-//                     type="file"
-//                     id="outlined-size-small"
-//                     name="City"
-//                     disabled={!istabedit}
-//                     value={businessInfo?.
-//                       deaLicenseCopy || ""
-//                     }
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <TextField
-//                     label="NPI"
-//                     id="outlined-size-small"
-//                     name="Zip"
-//                     disabled={!istabedit}
-//                     value={businessInfo?.
-//                       npi
-//                       || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <TextField
-//                     label="Federal Tax"
-//                     id="outlined-size-small"
-//                     name="federalTax"
-//                     value={federalTax}
-//                     onChange={handleFederalTaxChange}
-//                     size="small"
-//                     className="w-[60%]"
-//                     disabled={!istabedit} // Disable unless in edit mode
-//                     inputProps={{ maxLength: 10 }} // Limit max length to 10 (including the dash)
-//                   />
-
-//                 </div>
-//                 <div className="flex flex-col gap-3">
-//                   <TextField
-//                     label="Pharmacy License"
-//                     id="outlined-size-small"
-//                     name="Legal Business Name"
-//                     disabled={!istabedit}
-//                     value={businessInfo?.
-//                       pharmacyLicence || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <TextField
-//                     label=""
-//                     type="date"
-//                     id="outlined-size-small"
-//                     name="Last Name"
-//                     disabled={!istabedit}
-//                     value={businessInfo?.
-//                       pharmacyLicenseExpirationDate || ""
-//                     }
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <TextField
-//                     label=""
-//                     type="file"
-//                     id="outlined-size-small"
-//                     name="Last Name"
-//                     disabled={!istabedit}
-//                     value={businessInfo?.
-//                       pharmacyLicenseCopy
-//                       || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <TextField
-//                     label="NCPDP "
-//                     id="outlined-size-small"
-//                     name="Last Name"
-//                     disabled={!istabedit}
-//                     value={businessInfo?.ncpdp || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-
-//                 </div>
-
-//                 <div className="flex flex-col justify-between py-2">
-//                   <img src={edit} className="w-6 h-6 ml-4"
-//                     onClick={handletabclick} />
-//                   <button
-//                     // className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold"
-//                     className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!istabedit ? "opacity-50 cursor-not-allowed" : ""}`}
-//                     // Disable button when not editable
-//                     onClick={handletabesave} >Save</button>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         )}
-
-//         {/* Bank Information Grid */}
-//         {visibleGrid === "bank" && (
-//           <div className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
-//             {/* Your bank information grid details here */}
-//             <p>Bank Information content goes here...</p>
-//           </div>
-//         )}
-
-//         {/* Address Grid */}
-//         {visibleGrid === "address" && (
-//           <div className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
-//             {/* Your address details grid here */}
-//             <p>Address content goes here...</p>
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default LayoutProfile;
-
-// import React, { useState } from "react";
-// // import myaccount from 'Pharmetrade-Dev-Pharma-Etrade\src\assets\My Account.png';
-// import { FaEnvelope, FaPhone } from "react-icons/fa";
-// import MyOrders from "../../LayoutPage/LayoutProfile/MyOrders"
-// // import cell from '../../../assets/telephone-call.png'
-// import email from '../../../assets/useremail.png'
-// import edit from '../../../assets/Edit.png'
-// import { TextField } from "@mui/material";
-// import LayoutProfileAddress from "./LayoutProfileAddress";
-// import BankInformation from "./BankInformation";
-
-// const LayoutProfile = () => {
-
-//   const  profiles =[
-//     {
-//       label:"Primary",
-//       grid:"primary"
-//     },
-//     {
-//       label:"Bank Information",
-//       grid:'bank'
-//     },
-//     {
-//       label:"Address",
-//       grid:'address'
-//     }
-//   ]
-
-//   const [visibleGrid, setVisibleGrid] = useState("primary"); // To track which grid is visible
-//   const toggleGrid = (grid) => {
-//     setVisibleGrid((prev) => (prev === grid ? null : grid)); // Toggle the grid visibility
-//   };
-//   return (
-
-//     <div className=" w-full h-full flex-col bg-slate-200 flex justify-center overflow-y-scroll">
-//       <div className="w-[95%] mt-8 h-full flex flex-col justify-normal  ">
-// {/* {profiles.map((profile)=>(
-//   <div className=" flex  ml-6">
-//     <div className="w-44  bg-white rounded-lg flex items-center justify-center">
-//             <h1 className="text-lg text-blue-900  font-semibold cursor-pointer">{profile.label}</h1>
-
-//           </div>
-//     </div>
-
-// ))} */}
-// <div className="flex">
-// {profiles.map((profile) => (
-//   <div key={profile.grid} className="flex ml-6">
-//     <div
-//       className="w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer"
-//       onClick={() => toggleGrid(profile.grid)}
-//     >
-//       <h1 className="text-lg text-blue-900 font-semibold">{profile.label}</h1>
-//     </div>
-//   </div>
-// ))}
-// </div>
-
-//         <div>
-//           <h1 className="text-xl text-blue-900 font-semibold mt-4 ml-6 ">Primary</h1>
-//           <div className="bg-white border  border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4 ">
-
-//             <div className="flex justify-between">
-//               <div className="py-4 flex flex-col  gap-4">
-//                 <TextField
-//                   label="First Name"
-//                   id="outlined-size-small"
-//                   name="First Name"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                   className="w-full"
-//                 />
-//                 <TextField
-//                   label="Email ID"
-//                   id="outlined-size-small"
-//                   name="Email ID"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                   className="w-full"
-//                 />
-
-//               </div>
-//               <div className="py-4 gap-4 flex-col flex">
-//                 <TextField
-//                   label="Last Name"
-//                   id="outlined-size-small"
-//                   name="Last Name"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                   className="w-full"
-//                 />
-//                 <TextField
-//                   label="Phone Number"
-//                   id="outlined-size-small"
-//                   name="Phone Number"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                   className="w-full"
-//                 />
-//               </div>
-
-//               <div className="flex flex-col justify-between py-2">
-//                 <img src={edit} className="w-6 h-6 ml-4" />
-//                 <button className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold" >Save</button>
-//               </div>
-//             </div>
-//           </div>
-//           <div className="bg-white border  flex justify-between flex-col border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4">
-//             <div className="flex justify-between">
-//               <div className="flex-col flex py-4">
-//                 <div className="flex gap-5">
-//                   <p>User Type :</p>
-//                   <p className="text-lg">Retail Pharmacy</p>
-//                 </div>
-//                 <div className="flex gap-7">
-
-//                   <p> UPN member</p>
-//                   <p className="text-lg">(Yes)</p>
-//                 </div>
-//               </div>
-//               <div className="flex flex-col justify-between py-2">
-//                 <img src={edit} className="w-6 h-6 ml-4" />
-//                 <button className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold" >Save</button>
-//               </div>
-//             </div>
-//           </div>
-//           <div className="bg-white border border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4">
-//             <div className="flex justify-between py-4">
-
-//               <div className="flex flex-col gap-3">
-//                 <TextField
-//                   label="Shop Name"
-//                   id="outlined-size-small"
-//                   name="Last Name"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                 // className="w-full"
-//                 />
-//                 <TextField
-//                   label="DBA Name"
-//                   id="outlined-size-small"
-//                   name="Last Name"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                 // className="w-full"
-//                 />
-//                 <TextField
-//                   label="City"
-//                   id="outlined-size-small"
-//                   name="City"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                 // className="w-full"
-//                 />
-//                 <TextField
-//                   label="Zip"
-//                   id="outlined-size-small"
-//                   name="Zip"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                 // className="w-full"
-//                 />
-//                 <TextField
-//                   label="Business Fax"
-//                   id="outlined-size-small"
-//                   name="Business Fax"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                 // className="w-full"
-//                 />
-//                 <TextField
-//                   label="Company Website"
-//                   id="outlined-size-small"
-//                   name="Compant Website"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                 // className="w-full"
-//                 />
-//               </div>
-//               <div className="flex flex-col gap-3">
-//                 <TextField
-//                   label="Legal Business Name"
-//                   id="outlined-size-small"
-//                   name="Legal Business Name"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                 // className="w-full"
-//                 />
-//                 <TextField
-//                   label="Address"
-//                   id="outlined-size-small"
-//                   name="Last Name"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                 // className="w-full"
-//                 />
-//                 <TextField
-//                   label="State"
-//                   id="outlined-size-small"
-//                   name="Last Name"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                 // className="w-full"
-//                 />
-//                 <TextField
-//                   label="Business Phone "
-//                   id="outlined-size-small"
-//                   name="Last Name"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                 // className="w-full"
-//                 />
-//                 <TextField
-//                   label="Business Email"
-//                   id="outlined-size-small"
-//                   name="Last Name"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                 // className="w-full"
-//                 />
-//               </div>
-
-//               <div className="flex flex-col justify-between py-2">
-//                 <img src={edit} className="w-6 h-6 ml-4" />
-//                 <button className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold" >Save</button>
-//               </div>
-//             </div>
-//           </div>
-//           <div className="bg-white border border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4">
-//             <div className="flex justify-between py-4">
-
-//               <div className="flex flex-col gap-3">
-//                 <TextField
-//                   label="DEA"
-//                   id="outlined-size-small"
-//                   name="Last Name"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                className="w-[60%]"
-//                 />
-//                 <TextField
-//                   label=""
-//                    type="date"
-//                   id="outlined-size-small"
-//                   name="Last Name"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                className="w-[60%]"
-//                 />
-//                 <TextField
-//                   label=""
-//                    type="file"
-//                   id="outlined-size-small"
-//                   name="City"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                 className="w-[60%]"
-//                 />
-//                 <TextField
-//                   label="NPI"
-//                   id="outlined-size-small"
-//                   name="Zip"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                className="w-[60%]"
-//                 />
-//                 <TextField
-//                   label="Federal Tax"
-//                   id="outlined-size-small"
-//                   name="Business Fax"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                className="w-[60%]"
-//                 />
-
-//               </div>
-//               <div className="flex flex-col gap-3">
-//                 <TextField
-//                   label="Pharmacy License"
-//                   id="outlined-size-small"
-//                   name="Legal Business Name"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//               className="w-[60%]"
-//                 />
-//                 <TextField
-//                   label=""
-//                    type="date"
-//                   id="outlined-size-small"
-//                   name="Last Name"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//               className="w-[60%]"
-//                 />
-//                 <TextField
-//                   label=""
-//                   type="file"
-//                   id="outlined-size-small"
-//                   name="Last Name"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                 className="w-[60%]"
-//                 />
-//                 <TextField
-//                   label="NCPDP "
-//                   id="outlined-size-small"
-//                   name="Last Name"
-//                   // value={formData.First_Name}
-//                   // onChange={handleInputChange}
-//                   // error={!!errors.First_Name}
-//                   // helperText={errors.First_Name}
-
-//                   size="small"
-//                 className="w-[60%]"
-//                 />
-
-//               </div>
-
-//               <div className="flex flex-col justify-between py-2">
-//                 <img src={edit} className="w-6 h-6 ml-4" />
-//                 <button className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold" >Save</button>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-
-//       </div>
-
-//       <div>
-//       {visibleGrid === "bank" && (
-//   <div className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
-//    <BankInformation/>
-//   </div>
-// )}
-//         </div>
-//         <div>
-//         {visibleGrid === "address" && (
-//   <div className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
-//    <LayoutProfileAddress/>
-//   </div>
-// )}        </div>
-
-//     </div>
-
-//   );
-// };
-
-// export default LayoutProfile;
-
-// import React, { useState } from "react";
-// import { TextField } from "@mui/material";
-// import edit from "../../../assets/Edit.png";
-// import { useSelector } from "react-redux";
-// import { Box, Radio } from "@mui/material";
-// import BankInformation from "./BankInformation";
-// const LayoutProfile = () => {
-//   const userdata = useSelector((state) => state.user.user);
-//   console.log("profile", userdata);
-
-//   const businessInfo = useSelector((state) => state.user.businessInfo);
-//   console.log("business", businessInfo);
-
-//   const profiles = [
-//     {
-//       label: "Primary",
-//       grid: "primary",
-//     },
-//     {
-//       label: "Bank Information",
-//       grid: "bank",
-//     },
-//   ];
-
-//   const userTypes = [
-//     "Retail Pharmacy",
-//     "Wholesale Pharmacy",
-//     "Hospital",
-//     "Other",
-//   ];
-
-//   const [userType, setUserType] = useState("");
-//   const [selectedValue, setSelectedValue] = React.useState("");
-
-//   const handleUserTypeChange = (e) => {
-//     setUserType(e.target.value);
-//     setSelectedValue(""); // Reset UPN Member selection on User Type change
-//   };
-
-//   const handleChange = (e) => {
-//     setSelectedValue(e.target.value);
-//   };
-//   const [visibleGrid, setVisibleGrid] = useState("primary"); // Default to Primary
-
-//   const toggleGrid = (grid) => {
-//     setVisibleGrid(grid); // Set the visible grid to the selected one
-//   };
-
-//   // bussiness phone
-//   const [businessPhone, setBusinessPhone] = useState("");
-
-//   const handleBusinessPhoneChange = (e) => {
-//     const input = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
-//     let formattedBusinessPhone = input;
-
-//     if (input.length > 3 && input.length <= 6) {
-//       formattedBusinessPhone = `${input.slice(0, 3)}-${input.slice(3)}`;
-//     } else if (input.length > 6) {
-//       formattedBusinessPhone = `${input.slice(0, 3)}-${input.slice(
-//         3,
-//         6
-//       )}-${input.slice(6, 10)}`;
-//     }
-
-//     setBusinessPhone(formattedBusinessPhone);
-//   };
-//   // federal tax
-
-//   const [federalTax, setFederalTax] = useState("");
-
-//   const handleFederalTaxChange = (e) => {
-//     const input = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
-//     let formattedFederalTax = input;
-
-//     // Format the input to 77-7777777
-//     if (input.length > 2) {
-//       formattedFederalTax = `${input.slice(0, 2)}-${input.slice(2)}`;
-//     }
-
-//     setFederalTax(formattedFederalTax);
-//   };
-//   // phone number
-//   const [phoneNumber, setPhoneNumber] = useState("");
-
-//   const handlePhoneNumberChange = (e) => {
-//     const input = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
-//     let formattedPhoneNumber = input;
-
-//     if (input.length > 3 && input.length <= 6) {
-//       formattedPhoneNumber = `${input.slice(0, 3)}-${input.slice(3)}`;
-//     } else if (input.length > 6) {
-//       formattedPhoneNumber = `${input.slice(0, 3)}-${input.slice(
-//         3,
-//         6
-//       )}-${input.slice(6, 10)}`;
-//     }
-
-//     setPhoneNumber(formattedPhoneNumber);
-//   };
-
-//   // tab1
-//   const [isEditable, setIsEditable] = useState(false);
-
-//   // Function to handle the edit button click
-//   // const handleEditClick = () => {
-//   //   setIsEditable(true); // Enable editing when edit icon is clicked
-//   // };
-//   const handleEditClick = () => {
-//     setIsEditable((prev) => !prev); // Toggle edit mode
-//   };
-//   // Handle save button click
-//   const handleSaveClick = () => {
-//     setIsEditable(false);
-//     alert("Data saved successfully!"); // Show notification (can replace with your own notification system)
-//   };
-
-//   // tab2
-//   const [isselectable, setIsselectable] = useState(false);
-//   const handleselectClick = () => {
-//     setIsselectable((prev) => !prev); // Toggle edit mode
-//   };
-//   // Handle save button click
-//   const handleSelectClick = () => {
-//     setIsselectable(false);
-//     alert("Data saved successfully!"); // Show notification (can replace with your own notification system)
-//   };
-
-//   // tab3
-
-//   const [istabable, setIstabable] = useState(false);
-
-//   // Function to handle the edit button click
-//   const handleEdittabClick = () => {
-//     setIstabable(true); // Enable editing when edit icon is clicked
-//   };
-//   // Handle save button click
-//   const handletabSaveClick = () => {
-//     setIstabable(false);
-//     alert("Data saved successfully!"); // Show notification (can replace with your own notification system)
-//   };
-
-//   // tab4
-//   const [istabedit, setIstabedit] = useState(false);
-
-//   const handletabclick = () => {
-//     setIstabedit(true);
-//   };
-//   const handletabesave = () => {
-//     setIstabedit(false);
-//   };
-
-//   const handleInputChange = (e) => {
-//     const { name, value } = e.target;
-//     // Dispatch an action to update the Redux state here if necessary
-//     // dispatch(updateUserData({ ...userdata, [name]: value }));
-
-//     // For example:
-//     // dispatch(updateUser({ ...userdata, [name]: value }));
-//   };
-
-//   return (
-//     <div className="w-full h-full flex-col bg-slate-200 flex justify-center overflow-y-scroll">
-//       <div className="w-[95%] mt-8 h-full flex flex-col justify-normal">
-//         {/* Render Profile Buttons */}
-//         <div className="flex">
-//           {profiles.map((profile) => (
-//             <div key={profile.grid} className="flex ml-6">
-//               <div
-//                 className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${
-//                   visibleGrid === profile.grid
-//                     ? "border-b-4 border-blue-900"
-//                     : ""
-//                 }`}
-//                 onClick={() => toggleGrid(profile.grid)}
-//               >
-//                 <h1 className="text-lg text-blue-900 font-semibold">
-//                   {profile.label}
-//                 </h1>
-//               </div>
-//             </div>
-//           ))}
-//         </div>
-
-//         {/* Primary Grid */}
-//         {visibleGrid === "primary" && (
-//           <div>
-//             <h1 className="text-xl text-blue-900 font-semibold mt-4 ml-6 ">
-//               Primary
-//             </h1>
-
-//             <div
-//               className={`bg-white border  ${
-//                 isEditable ? "border-blue-900" : "border-gray-400"
-//               } rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}
-//             >
-//               {/* Conditionally display heading on the border */}
-//               {isEditable && (
-//                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
-//                   User Information
-//                 </h1>
-//               )}{" "}
-//               {/* <h1 className="text-xl font-semibold text-blue-900 my-2">Address Information</h1> */}
-//               <h1
-//                 className={`text-xl font-semibold my-2 ${
-//                   isEditable ? "invisible" : "text-blue-900"
-//                 }`}
-//               >
-//                 User Information
-//               </h1>
-//               <div className="flex justify-between">
-//                 <div className="py-4 flex flex-col gap-4">
-//                   <TextField
-//                     label="First Name"
-//                     id="outlined-size-small"
-//                     value={userdata?.firstName || ""} // Ensure it handles null or undefined
-//                     name="firstName" // Use camelCase for the name
-//                     onChange={handleInputChange} // Handle input change
-//                     disabled={!isEditable} // Disable field unless in edit mode
-//                     size="small"
-//                     className="w-full"
-//                   />
-//                   <TextField
-//                     label="Email ID"
-//                     id="outlined-size-small"
-//                     value={userdata?.email || ""} // Ensure it handles null or undefined
-//                     name="email" // Use camelCase for the name
-//                     onChange={handleInputChange} // Handle input change
-//                     disabled={!isEditable} // Disable field unless in edit mode
-//                     size="small"
-//                     className="w-full"
-//                   />
-//                   <TextField
-//                     label="Password"
-//                     id="outlined-size-small"
-//                     value={userdata?.password || ""} // Ensure it handles null or undefined
-//                     name="password" // Use camelCase for the name
-//                     onChange={handleInputChange} // Handle input change
-//                     disabled={!isEditable} // Disable field unless in edit mode
-//                     size="small"
-//                     className="w-full"
-//                   />
-//                 </div>
-//                 <div className="py-4 gap-4 flex-col flex">
-//                   <TextField
-//                     label="Last Name"
-//                     id="outlined-size-small"
-//                     value={userdata?.lastName || ""} // Ensure it handles null or undefined
-//                     name="Last Name" // Use camelCase for the name
-//                     onChange={handleInputChange} // Handle input change
-//                     disabled={!isEditable} // Disable field unless in edit mode
-//                     size="small"
-//                     className="w-full"
-//                   />
-//                   <TextField
-//                     label="Phone Number"
-//                     name="phoneNumber"
-//                     value={phoneNumber}
-//                     onChange={handlePhoneNumberChange}
-//                     size="small"
-//                     className="w-full"
-//                     disabled={!isEditable} // Disable unless in edit mode
-//                     inputProps={{ maxLength: 12 }} // Limit the max length to 12 (including dashes)
-//                   />
-//                   <TextField
-//                     label="Confirm Password"
-//                     id="outlined-size-small"
-//                     name="Confirm password"
-//                     disabled={!isEditable} // Disable field unless in edit mode
-//                     size="small"
-//                     className="w-full"
-//                   />
-//                 </div>
-//                 <div className="flex flex-col justify-between py-2">
-//                   <img
-//                     src={edit}
-//                     className="w-6 h-6 ml-4 cursor-pointer"
-//                     onClick={handleEditClick} // Handle edit icon click
-//                     alt="Edit" // Add alt text for accessibility
-//                   />
-//                   <button
-//                     className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-//                       !isEditable ? "opacity-50 cursor-not-allowed" : ""
-//                     }`}
-//                     onClick={handleSaveClick}
-//                     disabled={!isEditable} // Disable button when not editable/ Save button is disabled if not editable
-//                   >
-//                     Save
-//                   </button>
-//                 </div>
-//               </div>
-//             </div>
-//             {/* <div className="bg-white border  flex justify-between flex-col border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4">
-//             <h1 className="text-xl font-semibold text-blue-900 my-2">Account Type</h1> */}
-
-//             <div
-//               className={`bg-white border  ${
-//                 istabable ? "border-blue-900" : "border-gray-400"
-//               } rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}
-//             >
-//               {/* Conditionally display heading on the border */}
-//               {istabable && (
-//                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
-//                   Address Information
-//                 </h1>
-//               )}{" "}
-//               {/* <h1 className="text-xl font-semibold text-blue-900 my-2">Address Information</h1> */}
-//               <h1
-//                 className={`text-xl font-semibold my-2 ${
-//                   istabable ? "invisible" : "text-blue-900"
-//                 }`}
-//               >
-//                 Address Information
-//               </h1>
-//               <div className="flex justify-between py-4">
-//                 <div className="flex flex-col gap-3">
-//                   <TextField
-//                     label="Shop Name"
-//                     id="outlined-size-small"
-//                     name="Shop Name" // Make sure the name is correct if it's used elsewhere
-//                     disabled={!istabable}
-//                     value={businessInfo?.shopName || ""} // Use optional chaining to avoid errors
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-//                     size="small"
-//                     className="w-full" // Uncomment or modify this line as needed
-//                   />
-//                   <TextField
-//                     label="DBA Name"
-//                     id="outlined-size-small"
-//                     name="Last Name"
-//                     disabled={!istabable}
-//                     value={businessInfo?.dba || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                     // className="w-full"
-//                   />
-//                   <TextField
-//                     label="City"
-//                     id="outlined-size-small"
-//                     name="City"
-//                     disabled={!istabable}
-//                     value={businessInfo?.city || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                     // className="w-full"
-//                   />
-//                   <TextField
-//                     label="Zip"
-//                     id="outlined-size-small"
-//                     name="Zip"
-//                     disabled={!istabable}
-//                     value={businessInfo?.zip || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                     // className="w-full"
-//                   />
-//                   <TextField
-//                     label="Business Fax"
-//                     id="outlined-size-small"
-//                     name="Business Fax"
-//                     disabled={!istabable}
-//                     value={businessInfo?.businessFax || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                     // className="w-full"
-//                   />
-//                   <TextField
-//                     label="Company Website"
-//                     id="outlined-size-small"
-//                     name="Compant Website"
-//                     disabled={!istabable}
-//                     value={businessInfo?.companyWebsite || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                     // className="w-full"
-//                   />
-//                 </div>
-//                 <div className="flex flex-col gap-3">
-//                   <TextField
-//                     label="Legal Business Name"
-//                     id="outlined-size-small"
-//                     name="Legal Business Name"
-//                     disabled={!istabable}
-//                     value={businessInfo?.legalBusinessName || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                     // className="w-full"
-//                   />
-//                   <TextField
-//                     label="Address"
-//                     id="outlined-size-small"
-//                     name="Last Name"
-//                     disabled={!istabable}
-//                     value={businessInfo?.address || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                     // className="w-full"
-//                   />
-//                   <TextField
-//                     label="State"
-//                     id="outlined-size-small"
-//                     name="Last Name"
-//                     disabled={!istabable}
-//                     value={businessInfo?.state || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                     // className="w-full"
-//                   />
-//                   <TextField
-//                     label="Business Phone"
-//                     id="outlined-size-small"
-//                     name="businessPhone"
-//                     value={businessPhone}
-//                     onChange={handleBusinessPhoneChange}
-//                     size="small"
-//                     className="w-full"
-//                     disabled={!istabable} // Disable unless in edit mode
-//                     inputProps={{ maxLength: 12 }} // Limit max length to 12 (including dashes)
-//                   />
-//                   <TextField
-//                     label="Business Email"
-//                     id="outlined-size-small"
-//                     name="Last Name"
-//                     disabled={!istabable}
-//                     value={businessInfo?.businessEmail || ""}
-//                     // onChange={handleInputChange}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                     // className="w-full"
-//                   />
-//                 </div>
-
-//                 <div className="flex flex-col justify-between py-2">
-//                   <img
-//                     src={edit}
-//                     className="w-6 h-6 ml-4 cursor-pointer"
-//                     onClick={handleEdittabClick} // Handle edit icon click
-//                   />
-//                   <button
-//                     className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-//                       !istabable ? "opacity-50 cursor-not-allowed" : ""
-//                     }`}
-//                     onClick={handletabSaveClick}
-//                     disabled={!istabable} // Disable button when not editable// Save button is disabled if not editable
-//                   >
-//                     Save
-//                   </button>
-//                 </div>
-//               </div>
-//             </div>
-
-//             <div
-//               className={`bg-white border  ${
-//                 istabedit ? "border-blue-900" : "border-gray-400"
-//               } rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}
-//             >
-//               {/* Conditionally display heading on the border */}
-//               {istabedit && (
-//                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
-//                   Account Information
-//                 </h1>
-//               )}
-
-//               <h1
-//                 className={`text-xl font-semibold my-2 ${
-//                   istabedit ? "invisible" : "text-blue-900"
-//                 }`}
-//               >
-//                 Account Information
-//               </h1>
-
-//               <div className="flex justify-between py-4">
-//                 <div className="flex flex-col gap-3">
-//                   <TextField
-//                     label="DEA"
-//                     id="outlined-size-small"
-//                     name="dea"
-//                     value={businessInfo?.dea || ""}
-//                     disabled={!istabedit}
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <TextField
-//                     label=""
-//                     type="date"
-//                     id="outlined-size-small"
-//                     name="deaExpirationDate"
-//                     value={businessInfo?.deaExpirationDate || ""}
-//                     disabled={!istabedit}
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <TextField
-//                     label=""
-//                     type="file"
-//                     id="outlined-size-small"
-//                     name="deaLicenseCopy"
-//                     disabled={!istabedit}
-//                     value={businessInfo?.deaLicenseCopy || ""}
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <TextField
-//                     label="NPI"
-//                     id="outlined-size-small"
-//                     name="npi"
-//                     disabled={!istabedit}
-//                     value={businessInfo?.npi || ""}
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <TextField
-//                     label="Federal Tax"
-//                     id="outlined-size-small"
-//                     name="federalTax"
-//                     value={federalTax}
-//                     onChange={handleFederalTaxChange}
-//                     size="small"
-//                     className="w-[60%]"
-//                     disabled={!istabedit}
-//                     inputProps={{ maxLength: 10 }}
-//                   />
-//                 </div>
-//                 <div className="flex flex-col gap-3">
-//                   <TextField
-//                     label="Pharmacy License"
-//                     id="outlined-size-small"
-//                     name="pharmacyLicence"
-//                     disabled={!istabedit}
-//                     value={businessInfo?.pharmacyLicence || ""}
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <TextField
-//                     label=""
-//                     type="date"
-//                     id="outlined-size-small"
-//                     name="pharmacyLicenseExpirationDate"
-//                     disabled={!istabedit}
-//                     value={businessInfo?.pharmacyLicenseExpirationDate || ""}
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <TextField
-//                     label=""
-//                     type="file"
-//                     id="outlined-size-small"
-//                     name="pharmacyLicenseCopy"
-//                     disabled={!istabedit}
-//                     value={businessInfo?.pharmacyLicenseCopy || ""}
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <TextField
-//                     label="NCPDP"
-//                     id="outlined-size-small"
-//                     name="ncpdp"
-//                     disabled={!istabedit}
-//                     value={businessInfo?.ncpdp || ""}
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                 </div>
-
-//                 <div className="flex flex-col justify-between py-2">
-//                   <img
-//                     src={edit}
-//                     className="w-6 h-6 ml-4 cursor-pointer"
-//                     onClick={handletabclick}
-//                   />
-//                   <button
-//                     className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-//                       !istabedit ? "opacity-50 cursor-not-allowed" : ""
-//                     }`}
-//                     onClick={handletabesave}
-//                   >
-//                     Save
-//                   </button>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         )}
-
-//         {/* Bank Information Grid */}
-//         {visibleGrid === "bank" && (
-//           <div
-//           //  className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4"
-//           >
-//             {/* Your bank information grid details here */}
-//             <BankInformation />
-//           </div>
-//         )}
-
-//         {/* Address Grid */}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default LayoutProfile;
-
 import { useEffect, useState } from "react";
 import {
   FormControl,
@@ -2295,15 +9,28 @@ import {
 // import editIcon from "../../../assets/Edit.png"; // Renamed for clarity
 import edit from "../../../assets/Edit.png";
 import BankInformation from "./BankInformation";
-
+import ChargesInformation from "../../../Components/LayoutPage/LayoutProfile/ChargesInformation";
 import { useSelector } from "react-redux";
 import { useStates } from "react-us-states";
 import TaxInformation from "./TaxInformation";
+import {
+  BusinessInfoUpdate,
+  getUserByCustomerIdApi,
+  UserInfoUpdate,
+} from "../../../Api/UserApi";
+import Notification from "../../Notification";
 const LayoutProfile = () => {
   const userdata = useSelector((state) => state.user.user); // Get user data from redux
+  const businessInfo = useSelector((state) => state.user.businessInfo);
+
   console.log("rrrrrrrrrrrrrrrrr", userdata);
   const [isEditable, setIsEditable] = useState(false); // State to toggle edit mode
   // State to handle user data (controlled inputs)
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+  });
+
   const [userDetails, setUserDetails] = useState({
     firstName: userdata?.firstName || "",
     lastName: userdata?.lastName || "",
@@ -2312,6 +39,18 @@ const LayoutProfile = () => {
     // phoneNumber: userdata?.phoneNumber || "",
     mobile: userdata?.mobile || "",
   });
+
+  useEffect(() => {
+    setUserDetails({
+      firstName: userdata?.firstName || "",
+      lastName: userdata?.lastName || "",
+      email: userdata?.email || "",
+      password: userdata?.password || "",
+      // phoneNumber: userdata?.phoneNumber || "",
+      mobile: userdata?.mobile || "",
+    });
+  }, [userdata]);
+
   console.log("uuuuuuu", userdata);
 
   // Handle changes to input fields
@@ -2333,15 +72,37 @@ const LayoutProfile = () => {
   const handleEditClick = () => {
     setIsEditable((prev) => !prev);
   };
-
+  const RefreshUser = async () => {
+    await getUserByCustomerIdApi(userdata.customerId);
+  };
   // Handle save action
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
     setIsEditable(false);
+    const userinfo = {
+      customerId: userdata.customerId,
+      firstName: userDetails.firstName,
+      lastName: userDetails.lastName,
+      email: userDetails.email,
+      mobile: userDetails.mobile,
+      password: userDetails.password,
+      customerTypeId: userdata.customerTypeId,
+      accountTypeId: userdata.accountTypeId,
+      isUPNMember: userdata.isUPNMember,
+    };
+    if (userinfo) {
+      await UserInfoUpdate(userinfo);
+      await RefreshUser();
+    }
+
     console.log("Data saved:", userDetails); // You can dispatch this to Redux or send it to the backend
-    alert("Data saved successfully!"); // Show notification
+    // alert("Data saved successfully!"); // Show notification
+    setNotification({
+      show: true,
+      message: "User Information saved Successfully!",
+    });
+    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
   };
 
-  const businessInfo = useSelector((state) => state.user.businessInfo);
   console.log("business", businessInfo);
   // State for editing Address Information
   const [isAddressEdit, setIsAddressEdit] = useState(false);
@@ -2363,6 +124,57 @@ const LayoutProfile = () => {
     pharmacyLicenseExpirationDate:
       businessInfo?.pharmacyLicenseExpirationDate || "",
   });
+  const [accountData, setAccountData] = useState({
+    dea: businessInfo?.dea || "",
+    deaExpirationDate: businessInfo?.deaExpirationDate || "",
+    npi: businessInfo?.npi || "",
+    ncpdp: businessInfo?.ncpdp || "",
+    federalTax: businessInfo?.federalTax || "",
+    pharmacyLicense: businessInfo?.pharmacyLicense || "",
+    pharmacyLicenseExpirationDate:
+      businessInfo?.pharmacyLicenseExpirationDate || "",
+    federalTaxId: businessInfo?.federalTaxId || "",
+    pharmacyLicence: businessInfo?.pharmacyLicence || "",
+    deaLicenseCopy: businessInfo?.deaLicenseCopy || "",
+    pharmacyLicenseCopy:businessInfo?.pharmacyLicenseCopy|| "",
+  });
+  useEffect(() => {
+    setAddressData({
+      shopName: businessInfo?.shopName || "",
+      dba: businessInfo?.dba || "",
+      city: businessInfo?.city || "",
+      zip: businessInfo?.zip || "",
+      legalBusinessName: businessInfo?.legalBusinessName || "",
+      address: businessInfo?.address || "",
+      state: businessInfo?.state || "",
+      businessPhone: businessInfo?.businessPhone || "",
+      businessFax: businessInfo?.businessFax || "",
+      deaExpirationDate: businessInfo?.deaExpirationDate || "",
+      businessEmail: businessInfo?.businessEmail || "",
+
+      companyWebsite: businessInfo?.companyWebsite || "",
+
+      pharmacyLicenseExpirationDate:
+        businessInfo?.pharmacyLicenseExpirationDate || "",
+        deaLicenseCopy: businessInfo?.deaLicenseCopy || "",
+        pharmacyLicenseCopy:businessInfo?.pharmacyLicenseCopy|| "",
+    });
+    setAccountData({
+      dea: businessInfo?.dea || "",
+      deaExpirationDate: businessInfo?.deaExpirationDate || "",
+      npi: businessInfo?.npi || "",
+      ncpdp: businessInfo?.ncpdp || "",
+      federalTax: businessInfo?.federalTax || "",
+      pharmacyLicense: businessInfo?.pharmacyLicense || "",
+      pharmacyLicenseExpirationDate:
+        businessInfo?.pharmacyLicenseExpirationDate || "",
+      federalTaxId: businessInfo?.federalTaxId || "",
+      pharmacyLicence: businessInfo?.pharmacyLicence || "",
+      deaLicenseCopy: businessInfo?.deaLicenseCopy || "",
+      pharmacyLicenseCopy:businessInfo?.pharmacyLicenseCopy|| "",
+    });
+  }, [businessInfo]);
+
   const profiles = [
     {
       label: "Primary",
@@ -2376,6 +188,10 @@ const LayoutProfile = () => {
       label: "Tax Information",
       grid: "Tax",
     },
+    // {
+    //   label: "Charges Information",
+    //   grid: "charges",
+    // },
   ];
   const [visibleGrid, setVisibleGrid] = useState("account"); // Default to Account Information
   const toggleGrid = (grid) => {
@@ -2400,27 +216,50 @@ const LayoutProfile = () => {
     setIsAddressEdit(true);
   };
 
-  const handleAddressSaveClick = () => {
+  const handleAddressSaveClick = async () => {
     setIsAddressEdit(false);
+    const businessInfoObj = {
+      customerBusinessInfoId: businessInfo.customerBusinessInfoId,
+      customerId: userdata.customerId,
+      shopName: addressData.shopName,
+      dba: addressData.dba,
+      legalBusinessName: addressData.legalBusinessName,
+      address: addressData.address,
+      city: addressData.city,
+      state: addressData.state,
+      zip: addressData.zip,
+      businessPhone: addressData.businessPhone,
+      businessFax: addressData.businessFax,
+      businessEmail: addressData.businessEmail,
+      federalTaxId: businessInfo.federalTaxId,
+      dea: businessInfo.dea,
+      pharmacyLicence: businessInfo.pharmacyLicence,
+      deaExpirationDate: addressData.deaExpirationDate,
+      pharmacyLicenseExpirationDate: addressData.pharmacyLicenseExpirationDate,
+      deaLicenseCopy: businessInfo.deaLicenseCopy,
+      pharmacyLicenseCopy: businessInfo.pharmacyLicenseCopy,
+      npi: businessInfo.npi,
+      ncpdp: businessInfo.ncpdp,
+      companyWebsite: addressData.companyWebsite,
+    };
+    if (businessInfo) {
+      console.log("before sbubmit", businessInfoObj);
+      await BusinessInfoUpdate(businessInfoObj);
+      await RefreshUser();
+    }
     // Here you would typically dispatch an action to save the updated address
     console.log("Address saved:", addressData);
-    alert("Address information saved successfully!");
+    // alert("Address information saved successfully!");
+    setNotification({
+      show: true,
+      message: "Address information saved Successfully!",
+    });
+    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+
   };
 
   // State for editing Account Information
   const [isAccountEdit, setIsAccountEdit] = useState(false);
-  const [accountData, setAccountData] = useState({
-    dea: businessInfo?.dea || "",
-    deaExpirationDate: businessInfo?.deaExpirationDate || "",
-    npi: businessInfo?.npi || "",
-    ncpdp: businessInfo?.ncpdp || "",
-    federalTax: businessInfo?.federalTax || "",
-    pharmacyLicense: businessInfo?.pharmacyLicense || "",
-    pharmacyLicenseExpirationDate:
-      businessInfo?.pharmacyLicenseExpirationDate || "",
-    federalTaxId: businessInfo?.federalTaxId || "",
-    pharmacyLicence: businessInfo?.pharmacyLicence || "",
-  });
 
   const handleAccountChange = (e) => {
     const { name, value } = e.target;
@@ -2431,11 +270,77 @@ const LayoutProfile = () => {
     setIsAccountEdit(true);
   };
 
-  const handleAccountSaveClick = () => {
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]; // Get the selected file
+    if (file) {
+      // Handle the file (e.g., store in state, upload it, etc.)
+      setAccountData((prevState) => ({
+        ...prevState,
+        deaLicenseCopy: file, // Update state with the selected file
+      }));
+    }
+  };
+
+  const handleFileChangePharma = (event) => {
+    const file = event.target.files[0]; // Get the selected file
+    if (file) {
+      // Update the state with the selected file for pharmacy license
+      setAccountData((prevState) => ({
+        ...prevState,
+        pharmacyLicenseCopy: file, // Store the selected file object
+      }));
+    }
+  };
+  
+
+  const handleAccountSaveClick =async () => {
     setIsAccountEdit(false);
+    console.log("acc",accountData);
+    const businessInfoObj = {
+      customerBusinessInfoId: businessInfo.customerBusinessInfoId,
+      customerId: userdata.customerId,
+      shopName: businessInfo.shopName,
+      dba: businessInfo.dba,
+      legalBusinessName: businessInfo.legalBusinessName,
+      address: businessInfo.address,
+      city: businessInfo.city,
+      state: businessInfo.state,
+      zip: businessInfo.zip,
+      businessPhone: businessInfo.businessPhone,
+      businessFax: businessInfo.businessFax,
+      businessEmail: businessInfo.businessEmail,
+      federalTaxId: accountData.federalTaxId,
+      dea: accountData.dea,
+      pharmacyLicence: accountData.pharmacyLicence,
+      deaExpirationDate: accountData.deaExpirationDate,
+      pharmacyLicenseExpirationDate: accountData.pharmacyLicenseExpirationDate,
+      deaLicenseCopy: businessInfo.deaLicenseCopy,
+      pharmacyLicenseCopy: businessInfo.pharmacyLicenseCopy,
+      npi: accountData.npi,
+      ncpdp: accountData.ncpdp,
+      companyWebsite: businessInfo.companyWebsite,
+    };
+    if (businessInfo) {
+      console.log("before sbubmit", businessInfoObj);
+      await BusinessInfoUpdate(businessInfoObj);
+      await RefreshUser();
+    }
     // Here you would typically dispatch an action to save the updated account information
     console.log("Account saved:", accountData);
-    alert("Account information saved successfully!");
+    // alert("Account information saved successfully!");
+    setNotification({
+      show: true,
+      message: "Account information saved Successfully!",
+    });
+    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
   };
 
   const [states, setStates] = useState([]);
@@ -2464,6 +369,9 @@ const LayoutProfile = () => {
 
   return (
     <div className="w-full h-full flex-col bg-slate-200 flex justify-center overflow-y-scroll">
+      {notification.show && (
+        <Notification show={notification.show} message={notification.message} />
+      )}
       <div className="w-[95%] mt-8 h-full flex flex-col justify-normal">
         {/* Render Profile Buttons */}
         <div className="flex">
@@ -2597,29 +505,29 @@ const LayoutProfile = () => {
               </h1>
               <div className="flex justify-between py-4">
                 <div className="flex flex-col gap-3">
-                {userdata.customerTypeId !== 4 && (
-                  <TextField
-                    label="Shop Name"
-                    id="shopName"
-                    name="shopName"
-                    value={addressData.shopName}
-                    onChange={handleAddressChange}
-                    disabled={!isAddressEdit}
-                    size="small"
-                  />
-                )}
-                {userdata.customerTypeId !== 4 && (
-                  <TextField
-                    label="DBA Name"
-                    id="dba"
-                    name="dba"
-                    value={addressData.dba}
-                    onChange={handleAddressChange}
-                    disabled={!isAddressEdit}
-                    size="small"
-                  />
-                )}
-                
+                  {userdata?.customerTypeId !== 4 && (
+                    <TextField
+                      label="Shop Name"
+                      id="shopName"
+                      name="shopName"
+                      value={addressData.shopName}
+                      onChange={handleAddressChange}
+                      disabled={!isAddressEdit}
+                      size="small"
+                    />
+                  )}
+                  {userdata?.customerTypeId !== 4 && (
+                    <TextField
+                      label="DBA Name"
+                      id="dba"
+                      name="dba"
+                      value={addressData.dba}
+                      onChange={handleAddressChange}
+                      disabled={!isAddressEdit}
+                      size="small"
+                    />
+                  )}
+
                   <TextField
                     label="City"
                     id="city"
@@ -2639,41 +547,41 @@ const LayoutProfile = () => {
                     size="small"
                     inputProps={{ maxLength: 10 }}
                   />
-                  {userdata.customerTypeId !== 4 && (
-                  <TextField
-                    label=" Business Fax"
-                    id="businessFax"
-                    name="businessFax"
-                    value={addressData.businessFax}
-                    onChange={handleAddressChange}
-                    disabled={!isAddressEdit}
-                    size="small"
-                  />
+                  {userdata?.customerTypeId !== 4 && (
+                    <TextField
+                      label=" Business Fax"
+                      id="businessFax"
+                      name="businessFax"
+                      value={addressData.businessFax}
+                      onChange={handleAddressChange}
+                      disabled={!isAddressEdit}
+                      size="small"
+                    />
                   )}
-                  {userdata.customerTypeId !== 4 && (
-                  <TextField
-                    label=" Company Website"
-                    id="companyWebsite"
-                    name="companyWebsite"
-                    value={addressData.companyWebsite}
-                    onChange={handleAddressChange}
-                    disabled={!isAddressEdit}
-                    size="small"
-                  />
+                  {userdata?.customerTypeId !== 4 && (
+                    <TextField
+                      label=" Company Website"
+                      id="companyWebsite"
+                      name="companyWebsite"
+                      value={addressData.companyWebsite}
+                      onChange={handleAddressChange}
+                      disabled={!isAddressEdit}
+                      size="small"
+                    />
                   )}
                 </div>
                 <div className="flex flex-col gap-3">
-                {userdata.customerTypeId !== 4 && (
-                  <TextField
-                    label="Legal Business Name"
-                    id="legalBusinessName"
-                    name="legalBusinessName"
-                    value={addressData.legalBusinessName}
-                    onChange={handleAddressChange}
-                    disabled={!isAddressEdit}
-                    size="small"
-                  />
-                )}
+                  {userdata?.customerTypeId !== 4 && (
+                    <TextField
+                      label="Legal Business Name"
+                      id="legalBusinessName"
+                      name="legalBusinessName"
+                      value={addressData.legalBusinessName}
+                      onChange={handleAddressChange}
+                      disabled={!isAddressEdit}
+                      size="small"
+                    />
+                  )}
                   <TextField
                     label="Address"
                     id="address"
@@ -2693,66 +601,62 @@ const LayoutProfile = () => {
                     size="small"
                   /> */}
                   <FormControl
-                    size="small"
-                    disabled={!isAddressEdit}
+  size="small"
+  disabled={!isAddressEdit}
+>
+  <InputLabel id="state-select-label">State</InputLabel>
+  <Select
+    id="state-select"
+    label="State"
+    value={addressData.state || ""} // Ensure a default value
+    name="state" // Ensure the name matches the key in addressData
+    onChange={handleAddressChange}
+    MenuProps={{
+      PaperProps: {
+        style: {
+          maxHeight: 200, // Set the maximum height of the dropdown
+        },
+      },
+    }}
+  >
+    <MenuItem value="">
+      <em>None</em>
+    </MenuItem>
+    {states.map((state) => (
+      <MenuItem
+        key={state.abbreviation}
+        value={state.name} // Match this value to what you want to save in addressData
+      >
+        {state.name}
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl>
 
-                    // error={!!errors.States}
-                    // sx={{ minWidth: 550, whiteSpace: 'initial' }}
-                  >
-                    <InputLabel id="state-select-label">State</InputLabel>
-                    <Select
-                      id="state-select"
-                      label="State"
-                      value={addressData.state}
-                      name="States" // Ensure name matches the key in addressForm
-                      onChange={handleAddressChange}
-                      MenuProps={{
-                        PaperProps: {
-                          style: {
-                            maxHeight: 200, // Set the maximum height of the dropdown
-                          },
-                        },
-                      }}
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      {states.map((state) => (
-                        <MenuItem
-                          key={state.abbreviation}
-                          value={state.abbreviation}
-                        >
-                          {state.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  {userdata.customerTypeId !== 4 && (
-                  <TextField
-                    label="Business Phone"
-                    id="businessPhone"
-                    name="businessPhone"
-                    value={addressData.businessPhone}
-                    onChange={handlePhoneChange}
-                    disabled={!isAddressEdit}
-                    size="small"
-                    inputProps={{ maxLength: 12 }}
-                  />
+                  {userdata?.customerTypeId !== 4 && (
+                    <TextField
+                      label="Business Phone"
+                      id="businessPhone"
+                      name="businessPhone"
+                      value={addressData.businessPhone}
+                      onChange={handlePhoneChange}
+                      disabled={!isAddressEdit}
+                      size="small"
+                      inputProps={{ maxLength: 12 }}
+                    />
                   )}
-                  {userdata.customerTypeId !== 4 && (
-                  <TextField
-                    label=" Business Email"
-                    id="businessEmail
-"
-                    name="businessEmail
-"
+                  {userdata?.customerTypeId !== 4 && (
+                    <TextField
+                    label="Business Email"
+                    id="businessEmail"
+                    name="businessEmail"
                     value={addressData.businessEmail}
                     onChange={handleAddressChange}
                     disabled={!isAddressEdit}
                     size="small"
                   />
-                  )}
                   
+                  )}
                 </div>
                 <div className="flex flex-col justify-between py-2">
                   <img
@@ -2921,144 +825,170 @@ const LayoutProfile = () => {
                 </div>
               </div>
             </div> */}
-            {userdata.customerTypeId !== 4 && (
-  <div
-    className={`bg-white border ${isAccountEdit ? "border-blue-900" : "border-gray-400"} rounded-lg px-8 w-full mt-8 relative mb-4`}
-  >
-    {isAccountEdit && (
-      <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
-        Account Information
-      </h1>
-    )}
-    <h1
-      className={`text-xl font-semibold my-2 ${
-        isAccountEdit ? "invisible" : "text-blue-900"
-      }`}
-    >
-      Account Information
-    </h1>
-    <div className="flex justify-between py-4">
-      <div className="flex flex-col gap-3">
-        <TextField
-          label="DEA"
-          id="dea"
-          name="dea"
-          value={accountData.dea}
-          onChange={handleAccountChange}
-          disabled={!isAccountEdit}
-          size="small"
-          className="w-[60%]"
-        />
-        <label> DEA Expiration Date </label>
-        <TextField
-          label=""
-          type="date"
-          id="deaExpirationDate"
-          name="deaExpirationDate"
-          value={accountData.deaExpirationDate}
-          onChange={handleAccountChange}
-          disabled={!isAccountEdit}
-          size="small"
-          className="w-[60%]"
-        />
-        <label> DEA Expiration File </label>
-        <TextField
-          label=""
-          type="file"
-          id="outlined-size-small"
-          name="Last Name"
-          value={accountData.First_Name}
-          onChange={handleAccountChange}
-          disabled={!isAccountEdit}
-          size="small"
-          className="w-[60%]"
-        />
-        <TextField
-          label="NPI"
-          id="npi"
-          name="npi"
-          value={accountData.npi}
-          onChange={handleAccountChange}
-          disabled={!isAccountEdit}
-          size="small"
-          className="w-[60%]"
-        />
-        <TextField
-          label="Federal Tax"
-          id="federalTaxId"
-          name="federalTaxId"
-          value={accountData.federalTaxId}
-          onChange={handleAccountChange}
-          disabled={!isAccountEdit}
-          size="small"
-          className="w-[60%]"
-        />
-      </div>
-      <div className="flex flex-col gap-3">
-        <TextField
-          label="Pharmacy License"
-          id="pharmacyLicence"
-          name="pharmacyLicence"
-          value={accountData.pharmacyLicence}
-          onChange={handleAccountChange}
-          disabled={!isAccountEdit}
-          size="small"
-          className="w-[60%]"
-        />
-        <label> Pharmacy License Expiration Date </label>
-        <TextField
-          label=""
-          type="date"
-          id="pharmacyLicenseExpirationDate"
-          name="pharmacyLicenseExpirationDate"
-          value={accountData.pharmacyLicenseExpirationDate}
-          onChange={handleAccountChange}
-          disabled={!isAccountEdit}
-          size="small"
-          className="w-[60%]"
-        />
-        <label>Pharmacy License Expiration File</label>
-        <TextField
-          label=""
-          type="file"
-          id="outlined-size-small"
-          name="Last Name"
-          onChange={handleAccountChange}
-          disabled={!isAccountEdit}
-          size="small"
-          className="w-[60%]"
-        />
-        <TextField
-          label="NCPDP"
-          id="ncpdp"
-          name="ncpdp"
-          onChange={handleAccountChange}
-          disabled={!isAccountEdit}
-          value={accountData.ncpdp}
-          size="small"
-          className="w-[60%]"
-        />
-      </div>
-      <div className="flex flex-col justify-between py-2">
-        <img
-          src={edit}
-          className="w-6 h-6 cursor-pointer"
-          onClick={handleAccountEditClick}
-        />
-        <button
-          className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-            !isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-          onClick={handleAccountSaveClick}
-          disabled={!isAccountEdit}
-        >
-          Save
-        </button>
-      </div>
-    </div>
-  </div>
+            {userdata?.customerTypeId !== 4 && (
+              <div
+                className={`bg-white border ${
+                  isAccountEdit ? "border-blue-900" : "border-gray-400"
+                } rounded-lg px-8 w-full mt-8 relative mb-4`}
+              >
+                {isAccountEdit && (
+                  <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+                    Account Information
+                  </h1>
+                )}
+                <h1
+                  className={`text-xl font-semibold my-2 ${
+                    isAccountEdit ? "invisible" : "text-blue-900"
+                  }`}
+                >
+                  Account Information
+                </h1>
+                <div className="flex justify-between py-4">
+                  <div className="flex flex-col gap-3">
+                    <TextField
+                      label="DEA"
+                      id="dea"
+                      name="dea"
+                      value={accountData.dea}
+                      onChange={handleAccountChange}
+                      disabled={!isAccountEdit}
+                      size="small"
+                      className="w-[60%]"
+                    />
+                    <label> DEA Expiration Date </label>
+                    <TextField
+  label=""
+  type="date"
+  id="deaExpirationDate"
+  name="deaExpirationDate"
+  value={accountData.deaExpirationDate ? formatDate(accountData.deaExpirationDate) : ""}
+  onChange={handleAccountChange}
+  disabled={!isAccountEdit}
+  size="small"
+  className="w-[60%]"
+/>
+
+                    <label> DEA Expiration File </label>
+                    <TextField
+  label=""
+  type="file"
+  id="outlined-size-small"
+  name="deaLicenseCopy"
+  onChange={handleFileChange} // Separate handler for file selection
+  disabled={!isAccountEdit}
+  size="small"
+  className="w-[60%]"
+/>
+{accountData.deaLicenseCopy && (
+  <a href={accountData.deaLicenseCopy} target="_blank" rel="noopener noreferrer">
+    View DEA License Copy
+  </a>
 )}
 
+
+                    <TextField
+                      label="NPI"
+                      id="npi"
+                      name="npi"
+                      value={accountData.npi}
+                      onChange={handleAccountChange}
+                      disabled={!isAccountEdit}
+                      size="small"
+                      className="w-[60%]"
+                    />
+                    <TextField
+                      label="Federal Tax"
+                      id="federalTaxId"
+                      name="federalTaxId"
+                      value={accountData.federalTaxId}
+                      onChange={handleAccountChange}
+                      disabled={!isAccountEdit}
+                      size="small"
+                      className="w-[60%]"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-3">
+                    <TextField
+                      label="Pharmacy License"
+                      id="pharmacyLicence"
+                      name="pharmacyLicence"
+                      value={accountData.pharmacyLicence}
+                      onChange={handleAccountChange}
+                      disabled={!isAccountEdit}
+                      size="small"
+                      className="w-[60%]"
+                    />
+                    <label> Pharmacy License Expiration Date </label>
+                    {/* <TextField
+                      label=""
+                      type="date"
+                      id="pharmacyLicenseExpirationDate"
+                      name="pharmacyLicenseExpirationDate"
+                      value={accountData.pharmacyLicenseExpirationDate}
+                      onChange={handleAccountChange}
+                      disabled={!isAccountEdit}
+                      size="small"
+                      className="w-[60%]"
+                    /> */}
+                    <TextField
+  label=""
+  type="date"
+  id="pharmacyLicenseExpirationDate"
+  name="pharmacyLicenseExpirationDate"
+  value={accountData.pharmacyLicenseExpirationDate ? formatDate(accountData.pharmacyLicenseExpirationDate) : ""}
+  onChange={handleAccountChange}
+  disabled={!isAccountEdit}
+  size="small"
+  className="w-[60%]"
+/>
+
+                    <label>Pharmacy License Expiration File</label>
+                    <TextField
+  label=""
+  type="file"
+  id="outlined-size-small"
+  name="pharmacyLicenseCopy"
+  onChange={handleFileChangePharma} // Separate handler for file input
+  disabled={!isAccountEdit}
+  size="small"
+  className="w-[60%]"
+/>
+{accountData.pharmacyLicenseCopy && (
+  <a href={accountData.pharmacyLicenseCopy} target="_blank" rel="noopener noreferrer">
+    View Pharmacy License Copy
+  </a>
+)}
+
+                    <TextField
+                      label="NCPDP"
+                      id="ncpdp"
+                      name="ncpdp"
+                      onChange={handleAccountChange}
+                      disabled={!isAccountEdit}
+                      value={accountData.ncpdp}
+                      size="small"
+                      className="w-[60%]"
+                    />
+                  </div>
+                  <div className="flex flex-col justify-between py-2">
+                    <img
+                      src={edit}
+                      className="w-6 h-6 cursor-pointer"
+                      onClick={handleAccountEditClick}
+                    />
+                    <button
+                      className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                        !isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                      onClick={handleAccountSaveClick}
+                      disabled={!isAccountEdit}
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
         {visibleGrid === "bank" && (

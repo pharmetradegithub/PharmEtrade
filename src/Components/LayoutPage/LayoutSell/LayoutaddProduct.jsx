@@ -277,6 +277,7 @@ function LayoutaddProduct() {
       Width: 0,
       states: [],
       shippingCostApplicable: false,
+      isReturnable:true,
       upnMemberPrice: 0,
       salePrice: 0,
       salePriceForm: null,
@@ -538,11 +539,38 @@ function LayoutaddProduct() {
         [name]: Number(value),
       });
     } else if (type === "phone") {
-      setFormData({
-        ...formData,
-        [name]: value === "" ? "" : Number(value),
-      });
-    } else if (type === "radio") {
+      if (name === "amountInStock") {
+        setFormData({
+          ...formData,
+          [name]: value === "" ? "" : Number(value),
+        });
+      } else if (name === "maxOrderQuantity") {
+        const amountInStock = formData.amountInStock || 0;
+        setFormData({
+          ...formData,
+          [name]: Number(value) > amountInStock ? amountInStock : Number(value),
+        });
+      }else if (name === "price") {
+        // Limit price to 2 decimal places
+        const roundedValue = parseFloat(value).toFixed(2);
+        setFormData({
+          ...formData,
+          [name]: value === "" ? "" : roundedValue,
+        });
+      }else {
+        setFormData({
+          ...formData,
+          [name]: value === "" ? "" : Number(value),
+        });
+      }
+    }
+    // else if (type === "phone") {
+    //   setFormData({
+    //     ...formData,
+    //     [name]: value === "" ? "" : Number(value),
+    //   });
+    // }
+     else if (type === "radio") {
       // Handle radio buttons for packQuantity and packType
       if (name === "option") {
         setFormData({
@@ -1885,7 +1913,7 @@ function LayoutaddProduct() {
                   </div>
                   <div className=" flex flex-col">
                     <label className="font-semibold">
-                      Minimum Order Qunatity:
+                      Minimum Order Quantity:
                     </label>
                     {/* <label className="font-semibold">Amount in Stock:</label> */}
                     <input
@@ -1916,6 +1944,11 @@ function LayoutaddProduct() {
                           : formData.maxOrderQuantity
                       }
                     />
+                    {formData.maxOrderQuantity > formData.amountInStock && (
+    <span className="text-red-600 text-sm mt-1">
+      You need to select a quantity below the product in stock.
+    </span>
+  )}
                   </div>
               </div>
             </div>

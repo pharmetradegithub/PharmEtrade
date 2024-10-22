@@ -209,6 +209,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fedexShippingGetApi, shipmentAddApi, shipmentEditApi } from "../../../Api/ShipmentApi";
 import { TextField } from "@mui/material";
 import edit from '../../../assets/Edit.png';
+import Notification from "../../Notification";
 
 function LayoutUpsShipping() {
   const [formData, setFormData] = useState({
@@ -218,6 +219,10 @@ function LayoutUpsShipping() {
     shipperNumber: '',
   });
 
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+  });
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   const getshipingDetails = useSelector((state) => state.shipment.getShipment);
@@ -261,7 +266,12 @@ function LayoutUpsShipping() {
         };
         console.log("Adding new shipment with payload:", payloadAdd);
         await dispatch(shipmentAddApi(payloadAdd));
-        setMessage('UPS Shipping details added successfully.');
+        // setMessage('UPS Shipping details added successfully.');
+        setNotification({
+          show: true,
+          message: "UPS Shipping details added Successfully!",
+        });
+        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
         setIsError(false);
       } else {
         const payloadEdit = {
@@ -280,7 +290,12 @@ function LayoutUpsShipping() {
         };
         console.log("Editing shipment with payload:", payloadEdit);
         await dispatch(shipmentEditApi(payloadEdit));
-        setMessage('UPS Shipping details updated successfully.');
+        // setMessage('UPS Shipping details updated successfully.');
+        setNotification({
+          show: true,
+          message: "UPS Shipping details updated Successfully!",
+        });
+        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
         setIsError(false);
       }
       setIsEditable(false); // Disable editing after saving
@@ -310,10 +325,13 @@ function LayoutUpsShipping() {
 
   return (
     <div className='w-full px-4'>
-      {message && (
+      {/* {message && (
         <div className={`my-4 p-1 text-lg ${isError ? 'text-red-800 bg-red-200' : 'text-green-800 bg-green-200'}`}>
           {message}
         </div>
+      )} */}
+      {notification.show && (
+        <Notification show={notification.show} message={notification.message} />
       )}
       <div className='flex justify-between border-b border-black my-5 p-4'>
         <h1 className='text-xl text-blue-900 font-semibold'>MARKETPLACE UPS CONFIGURATION</h1>

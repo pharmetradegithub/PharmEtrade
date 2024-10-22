@@ -21,7 +21,7 @@ const SellerList = () => {
 
   const [searchInput, setSearchInput] = useState({
     customerName: '',
-    customerTypeId: 0,
+    customerTypeId: 1,
   });
 
   const navigate = useNavigate();
@@ -49,36 +49,19 @@ const SellerList = () => {
   // };
 
 
-  // Fetch and filter customers
-  // useEffect(() => {
-  //   const fetchCustomers = async () => {
-  //     const res = await GetCustomers();
-  //     const filteredCustomers = res.filter((customer) =>
-  //       [1].includes(customer.customerTypeId)
-  //     );
-
-  //     // Sort by createdDate in descending order
-  //     filteredCustomers.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
-  //     setCustomers(filteredCustomers);
-  //   };
-
-  //   fetchCustomers();
-  // }, []);
-
-
   useEffect(() => {
     const fetchCustomers = async () => {
       setLoading(true); // Set loading state before the request
   
       try {
         const res = await GetCustomers();
-        const filteredCustomers = res.filter((customer) =>
-          [1].includes(customer.customerTypeId)
-        );
-  
-        // Sort by createdDate in descending order
-        filteredCustomers.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
-        setCustomers(filteredCustomers);
+        
+        // Filter and sort in a single step
+        const filteredAndSortedCustomers = res
+          .filter((customer) => [1].includes(customer.customerTypeId))
+          .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
+        
+        setCustomers(filteredAndSortedCustomers);
       } catch (error) {
         setError(error); // Handle and store error
       } finally {
@@ -88,6 +71,10 @@ const SellerList = () => {
   
     fetchCustomers();
   }, []);
+  
+
+
+ 
   
 
   // Sorting configuration
@@ -105,25 +92,24 @@ const SellerList = () => {
     }
     setSortConfig({ key, direction });
   };
-
   // Sorting logic
-  const sortedItems = React.useMemo(() => {
-    let items = [...customers];
-    if (sortConfig.key) {
-      items.sort((a, b) => {
-        if (sortConfig.direction === "ascending") {
-          return a[sortConfig.key] > b[sortConfig.key] ? 1 : -1;
-        }
-        return a[sortConfig.key] < b[sortConfig.key] ? 1 : -1;
-      });
-    }
-    return items;
-  }, [customers, sortConfig]);
+  // const sortedItems = React.useMemo(() => {
+  //   let items = [...customers];
+  //   if (sortConfig.key) {
+  //     items.sort((a, b) => {
+  //       if (sortConfig.direction === "ascending") {
+  //         return a[sortConfig.key] > b[sortConfig.key] ? 1 : -1;
+  //       }
+  //       return a[sortConfig.key] < b[sortConfig.key] ? 1 : -1;
+  //     });
+  //   }
+  //   return items;
+  // }, [customers, sortConfig]);
 
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = (Array.isArray(sortedItems) ? sortedItems : []).slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = (Array.isArray(customers) ? customers : []).slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil((customers?.length || 0) / itemsPerPage);
 
   const handleInputChange = (e) => {

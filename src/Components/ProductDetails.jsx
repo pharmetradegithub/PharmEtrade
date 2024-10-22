@@ -180,9 +180,15 @@ const ProductDetails = ({
   manufacturer,
   size,
   UOM,
-  strength,
   brand,
   product,
+  Form,
+  Strength,
+  Brand,
+  Height,
+  Weight,
+  Width,
+  Length
 }) => {
   // const { pop, setPop } = useNavbarContext();
   const navigate = useNavigate();
@@ -255,11 +261,11 @@ const ProductDetails = ({
                         </tr>
                         <tr className="grid grid-cols-2 border-b">
                           <th className="p-2 text-left bg-slate-100">Size:</th>
-                          <td className="p-2">{detailsTable.Size}</td>
+                          <td className="p-2">{size}</td>
                         </tr>
                         <tr className="grid grid-cols-2 border-b">
                           <th className="p-2 text-left bg-slate-100">Form:</th>
-                          <td className="p-2">{detailsTable.Form}</td>
+                          <td className="p-2">{Form}</td>
                         </tr>
                         <tr className="grid grid-cols-2 border-b">
                           <th className="p-2 text-left bg-slate-100">UOM:</th>
@@ -269,35 +275,35 @@ const ProductDetails = ({
                           <th className="p-2 text-left bg-slate-100">
                             Strength:
                           </th>
-                          <td className="p-2">{strength}</td>
+                          <td className="p-2">{Strength}</td>
                         </tr>
                         <tr className="grid grid-cols-2 border-b">
                           <th className="p-2 text-left bg-slate-100">
                             Brand Name:
                           </th>
-                          <td className="p-2">{brand}</td>
+                          <td className="p-2">{Brand}</td>
                         </tr>
                         <tr className="grid grid-cols-2 border-b">
                           <th className="p-2 text-left bg-slate-100">
                             Height:
                           </th>
-                          <td className="p-2">{detailsTable.Height } </td>
+                          <td className="p-2">{Height } </td>
                         </tr>
                         <tr className="grid grid-cols-2 border-b">
                           <th className="p-2 text-left bg-slate-100">
                             Weight:
                           </th>
-                          <td className="p-2">{detailsTable.Weight} </td>
+                          <td className="p-2">{Weight} </td>
                         </tr>
                         <tr className="grid grid-cols-2 border-b">
                           <th className="p-2 text-left bg-slate-100">Width:</th>
-                          <td className="p-2">{detailsTable.Width}  </td>
+                          <td className="p-2">{Width}  </td>
                         </tr>
                         <tr className="grid grid-cols-2">
                           <th className="p-2 text-left bg-slate-100">
                             Length:
                           </th>
-                          <td className="p-2">{detailsTable.Length}  </td>
+                          <td className="p-2">{Length}  </td>
                         </tr>
                       </tbody>
                     </table>
