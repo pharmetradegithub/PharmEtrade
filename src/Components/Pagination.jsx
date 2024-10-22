@@ -149,7 +149,7 @@ const Pagination = ({
   };
 
   return (
-    <div className="flex justify-between items-center mt-4">
+    <div className="flex justify-around items-center mt-4">
       {productList?.length > 0 ? (
         <div>
           <span className="font-semibold">Items per page: </span>

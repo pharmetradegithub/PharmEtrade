@@ -146,7 +146,8 @@ console.log(date)
               If you order in the next 10 hours and 50 minutes (Details)
             </p>
             <p className="text-base flex flex-wrap">
-              Items dispatched by Pharmetrade
+              Items  shipped by {
+} 
             </p>
 
             <div className="flex justify-around">

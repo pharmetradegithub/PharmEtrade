@@ -279,7 +279,9 @@ const AdminDasboard = () => {
     {
       totalOrder: 65,
       label: "Total Sales Amount",
-      amount: adminData?.totalSaleValue,
+      // amount: adminData?.totalSaleValue,
+      amount: adminData?.totalSaleValue?.toFixed(2),
+
       color: "red",
       grid: "totalProducts",
       money: "$",
@@ -464,7 +466,7 @@ const AdminDasboard = () => {
                     </h1>
                   </div>
                   <div className="flex justify-between -mt-2">
-                    <p className="items-center flex justify-center text-3xl  font-semibold">
+                    <p className="items-center flex justify-center text-xl  font-semibold">
                       {detail.percentage}
                     </p>
                     {/* <CircleProgress
@@ -511,7 +513,7 @@ const AdminDasboard = () => {
                     </h1>
                   </div>
                   <div className="flex justify-between">
-                    <p className="items-center flex justify-center text-3xl mt-4 font-semibold">
+                    <p className="items-center  justify-center text-lg flex flex-wrap mt-4 font-semibold">
                       {detailgrid.money}
                       {detailgrid.amount}
                     </p>

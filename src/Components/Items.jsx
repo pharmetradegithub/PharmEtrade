@@ -436,7 +436,7 @@ function Items({
                   </div>
                 );
               })} */}
-              {prod?.productGallery.videoUrl!= null &&
+              {prod?.productGallery.videoUrl != null &&
                 prod?.productGallery.videoUrl != "" && prod?.productGallery.videoUrl != "null" && (
                   <div
                     className={` w-16 h-16 ${isHovered ? "bg-gray-200" : ""}`}
@@ -447,14 +447,14 @@ function Items({
                     onMouseLeave={() => setIsHovered(false)}
                   >
                     <iframe
-                    
+
                       src={prod?.productGallery.videoUrl}
                       type="video/mp4"
                       className={` w-full h-full rounded-lg border`}
                     />
                   </div>
                 )}
-                
+
             </div>
 
             <div className="relative bg-gray-200 border flex-col rounded-lg w-68 h-[400px] flex justify-center items-center">
@@ -607,7 +607,7 @@ function Items({
 
               <div className="flex items-center">
                 {new Date() >= new Date(prod?.salePriceValidFrom) &&
-                new Date() <= new Date(prod?.salePriceValidTo) ? (
+                  new Date() <= new Date(prod?.salePriceValidTo) ? (
                   <>
                     <span className="text-sky-500 font-semibold text-[18px]">
                       ${prod?.salePrice?.toFixed(2)}
@@ -749,7 +749,7 @@ function Items({
                   <p className="text-black text-[22px]">
                     $
                     {new Date() >= new Date(prod?.salePriceValidFrom) &&
-                    new Date() <= new Date(prod?.salePriceValidTo)
+                      new Date() <= new Date(prod?.salePriceValidTo)
                       ? prod?.salePrice?.toFixed(2)
                       : prod?.unitPrice?.toFixed(2)}
                   </p>
@@ -871,11 +871,10 @@ function Items({
                 </button> */}
                 <button
                   className={`w-40 flex rounded-lg justify-center items-center py-1 
-    ${
-      prod?.amountInStock <= 0
-        ? "bg-gray-400 cursor-not-allowed"
-        : "bg-blue-900 cursor-pointer"
-    }`}
+    ${prod?.amountInStock <= 0
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-blue-900 cursor-pointer"
+                    }`}
                   disabled={prod?.amountInStock <= 0}
                   onClick={() => {
                     if (prod?.amountInStock > 0) {
@@ -894,11 +893,10 @@ function Items({
                   Buy Now
                 </button> */}
                 <button
-                  className={`w-40 text-white font-semibold text-lg border rounded-lg items-center flex justify-center ${
-                    prod?.amountInStock === 0
-                      ? "bg-orange-200 cursor-not-allowed"
-                      : "bg-orange-400"
-                  }`}
+                  className={`w-40 text-white font-semibold text-lg border rounded-lg items-center flex justify-center ${prod?.amountInStock === 0
+                    ? "bg-orange-200 cursor-not-allowed"
+                    : "bg-orange-400"
+                    }`}
                   onClick={handleOrder}
                   disabled={prod?.amountInStock === 0}
                 >
@@ -917,14 +915,18 @@ function Items({
               <div className="p-2 bg-gray-100 rounded-lg mr-4">
                 <p className="font-semibold text-gray-600">SOLD BY</p>
                 <p className="text-red-600">
+                  <Link to='/layout/layoutprofile'>
                   {" "}
                   {prod?.sellerFirstName} {prod?.sellerLastName}
+                  </Link>
                 </p>
                 <p className="hover:text-red-600">Company Website</p>
                 <div className="flex flex-col">
                   <div className="flex  items-center space-x-2 hover:text-red-500">
                     <img src={product} className="w-fit h-10" />
+                    <Link to="/layout/layoutbuy">
                     <span className=" font-semibold">17 PRODUCTS</span>
+                    </Link>
                   </div>
                   <div className="flex items-center space-x-2 hover:text-red-500">
                     <img src={phone} className="w-fit h-10" />

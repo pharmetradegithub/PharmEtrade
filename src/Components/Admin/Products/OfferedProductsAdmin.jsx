@@ -615,7 +615,7 @@ const OfferedProductsAdmin = () => {
           </div>
         </div>
       </div>
-      <div className="bg-gray-100 flex items-center justify-center">
+      {/* <div className="bg-gray-100 flex items-center justify-center"> */}
         {" "}
         <Pagination
           indexOfFirstItem={indexOfFirstItem}
@@ -626,7 +626,7 @@ const OfferedProductsAdmin = () => {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
-      </div>
+      {/* </div> */}
     </>
   );
 };
