@@ -48,6 +48,10 @@ const RxProductsAdmin = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const [data, setData] = useState(products)
+  useEffect(() => {
+    if(products)
+      setData(products)
+  }, [products])
   const [SearchInput, setSearchInput] = useState({
     productName: null,
   });

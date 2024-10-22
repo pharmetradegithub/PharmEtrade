@@ -363,6 +363,9 @@ function LayoutOtcProducts({
                           handleProductDetails1(product.productID, product)
                         }
                       />
+                         <p className=" w-36 text-[15px] mt-2 text-black ">
+                        {product.productCategory.categoryName}
+                      </p>
                     </div>
 
                     <div className="flex flex-col w-[200px] mx-3">
@@ -386,7 +389,7 @@ function LayoutOtcProducts({
                         <div className="flex w-full mt-1 gap-1">
                           <img src={Expicon} className="w-6 h-6" />
                           <div className="flex">
-                            <p>Exp.Date : &nbsp;</p>
+                            <p className="mr-1">Exp.Date : &nbsp;</p>
                             <p className="font-semibold">
                               {/* {product.expiryDate} */}
                               {new Date(product.expiryDate)
@@ -401,7 +404,7 @@ function LayoutOtcProducts({
                         </div>
                         <p className="mt-1">
                           Product returnable:{" "}
-                          {product.returnable ? "Yes" : "NA"}
+                          {product.isReturnable ?  "Yes" : "No"}
                         </p>
                       </div>
                     </div>
@@ -507,7 +510,7 @@ function LayoutOtcProducts({
                         </button>
                       </div>
                     </div> */}
-                    <div className="flex flex-col mx-3">
+                    {/* <div className="flex flex-col mx-3">
                       <p className="font-semibold">Quantity</p>
                       <div className="mt-2 flex items-center">
                         <button
@@ -554,33 +557,7 @@ function LayoutOtcProducts({
                             handleQuantityChange(index, numericValue);
                           }}
                         />
-                        {/* <button
-                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
-                          onClick={() => {
-                            if (
-                              product.CartQuantity + 1 >
-                              product.amountInStock
-                            ) {
-                              // Set the stock warning message for the specific product
-                              setStockWarning({
-                                productId: product.productID,
-                                message: `Only ${product.amountInStock} items available in stock.`,
-                              });
-                            } else {
-                              handleQuantityChange(
-                                index,
-                                product.CartQuantity + 1
-                              );
-                              // Clear the message if the product is within stock
-                              setStockWarning({ productId: null, message: "" });
-                            }
-                          }}
-                          disabled={cart.some(
-                            (item) => item.productID === product.productID
-                          )}
-                        >
-                          +
-                        </button> */}
+                       
                         <button
                           className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
                           onClick={() => {
@@ -611,6 +588,88 @@ function LayoutOtcProducts({
                           +
                         </button>
                       </div>
+                      {stockWarning.productId === product.productID && (
+                        <p className="text-red-500 text-sm mt-2">
+                          {stockWarning.message}
+                        </p>
+                      )}
+                    </div> */}
+                       <div className="flex flex-col mx-3">
+                      <p className="font-semibold">Quantity</p>
+                      <div className="mt-2 flex items-center">
+                        {/* Decrease quantity button */}
+                        <button
+                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                          onClick={() => {
+                            const newQuantity = Math.max(
+                              1,
+                              product.CartQuantity - 1
+                            );
+
+                            // Clear stock warning if the new quantity is within the stock
+                            if (newQuantity <= product.amountInStock) {
+                              setStockWarning({ productId: null, message: "" });
+                            }
+
+                            handleQuantityChange(index, newQuantity);
+                          }}
+                          disabled={
+                            product.CartQuantity <= 1 ||
+                            product.amountInStock <= 0
+                          }
+                        >
+                          -
+                        </button>
+
+                        {/* Input for quantity */}
+                        <input
+                          type="text"
+                          value={product.CartQuantity}
+                          className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            const numericValue =
+                              value === ""
+                                ? ""
+                                : Math.max(1, parseInt(value, 10));
+
+                            // Check if the input value exceeds the stock
+                            if (numericValue > product.amountInStock) {
+                              setStockWarning({
+                                productId: product.productID,
+                                message: `Only ${product.amountInStock} items available.`,
+                              });
+                            } else {
+                              // Clear stock warning if the input is valid
+                              setStockWarning({ productId: null, message: "" });
+                            }
+
+                            handleQuantityChange(index, numericValue);
+                          }}
+                        />
+
+                        {/* Increase quantity button */}
+                        <button
+                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                          onClick={() => {
+                            const newQuantity = product.CartQuantity + 1;
+
+                            // Check if quantity exceeds stock
+                            if (newQuantity > product.amountInStock) {
+                              setStockWarning({
+                                productId: product.productID,
+                                message: `Only ${product.amountInStock} items available in stock.`,
+                              });
+                            } else {
+                              handleQuantityChange(index, newQuantity);
+                              setStockWarning({ productId: null, message: "" }); // Clear warning if within stock
+                            }
+                          }}
+                        >
+                          +
+                        </button>
+                      </div>
+
                       {/* Display the stock message for the product */}
                       {stockWarning.productId === product.productID && (
                         <p className="text-red-500 text-sm mt-2">

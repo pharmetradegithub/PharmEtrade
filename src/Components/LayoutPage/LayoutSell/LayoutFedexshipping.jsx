@@ -221,11 +221,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fedexShippingGetApi, shipmentAddApi, shipmentEditApi } from '../../../Api/ShipmentApi';
 import { TextField } from '@mui/material';
 import edit from '../../../assets/Edit.png';
+import Notification from '../../Notification';
 
 function LayoutFedexshipping() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
   const getshipingDetails = useSelector((state) => state.shipment.getShipment);
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+  });
 
   const [formData, setFormData] = useState({
     accountid: '',
@@ -272,7 +277,12 @@ function LayoutFedexshipping() {
           key: formData.key,
         };
         await dispatch(shipmentAddApi(payloadAdd));
-        setMessage('FedEx Shipping details added successfully.');
+        // setMessage('FedEx Shipping details added successfully.');
+        setNotification({
+          show: true,
+          message: "FedEx Shipping details added Successfully!",
+        });
+        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
         setIsError(false);
       } else {
         const payloadEdit = {
@@ -290,7 +300,12 @@ function LayoutFedexshipping() {
           key: formData.key,
         };
         await dispatch(shipmentEditApi(payloadEdit));
-        setMessage('FedEx Shipping details updated successfully.');
+        // setMessage('FedEx Shipping details updated successfully.');
+        setNotification({
+          show: true,
+          message: "FedEx Shipping details updated Successfully!",
+        });
+        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
         setIsError(false);
       }
       setIsEditable(false); // Disable editing after save
@@ -317,10 +332,13 @@ function LayoutFedexshipping() {
 
   return (
     <div className="w-full px-4">
-      {message && (
+      {/* {message && (
         <div className={`my-4 p-1 text-lg ${isError ? 'text-red-800 bg-red-200' : 'text-green-800 bg-green-200'}`}>
           {message}
         </div>
+      )} */}
+      {notification.show && (
+        <Notification show={notification.show} message={notification.message} />
       )}
       <div className="flex justify-between border-b border-black my-5 p-4">
         <h1 className="text-xl text-blue-900 font-semibold">Manage Fedex Configuration</h1>

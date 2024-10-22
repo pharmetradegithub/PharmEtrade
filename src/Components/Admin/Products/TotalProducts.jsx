@@ -36,6 +36,10 @@ const TotalProducts = () => {
 
 
   const [data, setData] = useState(products)
+  useEffect(() => {
+    if(products)
+      setData(products)
+  }, [products])
   const [SearchInput, setSearchInput] = useState({
     productName: null,
   });

@@ -164,6 +164,53 @@ export const getUserByCustomerIdApi = async (customerId) => {
     return null;
   }
 };
+
+export const UserInfoUpdate = async(obj)=>{
+  try {
+    const response = await axios.post(
+      "/api/Customer/Edit",
+      obj,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response.status === 200) {
+      return "Edited";
+    } else {
+      console.error('Failed to edit :', response.data.message);
+    }
+
+  } catch (error) {
+    console.log("failed to edit ", error)
+
+  }
+}
+export const BusinessInfoUpdate = async(obj)=>{
+  try {
+    const response = await axios.post(
+      "/api/Customer/BusinessInfo",
+      obj,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    
+    );
+    console.log(response,obj ,"Response and obj");
+    if (response.status === 200) {
+      return "Edited";
+    } else {
+      console.error('Failed to edit :', response.data.message);
+    }
+
+  } catch (error) {
+    console.log("failed to edit ", error)
+
+  }}
+
 export const UserMenuItemsApi = async(accountTypeId)=>{
   try {
    

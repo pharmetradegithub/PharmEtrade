@@ -21,7 +21,7 @@ export const GetBidsBySeller = (customerId) => {
   return async (dispatch) => {
     try {
       console.log("Fetching bids for seller:", customerId);
-      const response = await axios.get(`/api/Bid/GetBidsBySeller?sellerId=${customerId}`);
+      const response = await axios.get(`/api/Bid/GetBidsByBuyer?buyerId=${customerId}`);
       console.log("Response received:", response);
 
       if (response.status === 200) {

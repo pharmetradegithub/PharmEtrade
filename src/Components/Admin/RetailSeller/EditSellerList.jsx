@@ -6,6 +6,7 @@ import { Box, Radio } from "@mui/material";
 import { Button, Textarea } from "@material-tailwind/react";
 import { ActivateUserAPI, DeactivateUserAPI, getUserByCustomerIdApi } from "../../../Api/UserApi";
 import Notification from "../../Notification";
+// import ChargesInformation from "../../LayoutPage/LayoutProfile/ChargesInformation";
 // import BankInformation from "./BankInformation";
 // import LayoutProfileAddress from "./LayoutProfileAddress";
 const EditSellerList = () => {
@@ -56,6 +57,10 @@ const EditSellerList = () => {
       label: "User Details",
       grid: "primary",
     },
+    // {
+    //   label: "Charges Information",
+    //   grid: "charges",
+    // },
   ];
 
   const userTypes = [
@@ -893,15 +898,14 @@ const EditSellerList = () => {
           </div>
         )}
 
-        {/* Bank Information Grid
-        {visibleGrid === "bank" && (
+        {/* * Bank Information Grid */}
+       {/* {visibleGrid === "bank" && (
           <div
           //  className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4"
           >
-            {/* Your bank information grid details here */}
-        {/* <BankInformation /> */}
-        {/* </div> */}
-        {/* )}  */}
+        <ChargesInformation />
+        </div>
+        )}  */}
 
         {/* Address Grid */}
         {/* {visibleGrid === "address" && (

@@ -1083,10 +1083,11 @@ function LayoutOrderList() {
     const data = async () => {
       await dispatch(fetchGetOrder(user?.customerId))
     }
-    if (user?.customerId) {
-      data();
-    }
-  }, [ user?.customerId])
+    // if (user?.customerId) {
+    //   data();
+    // }
+    data();
+  }, [])
 
   // useEffect(() => {
   //   if (orderList.length > 0) {
@@ -1324,7 +1325,7 @@ const currentItems = sortedOrders.slice(indexOfFirstItem, indexOfLastItem);
                 <div>
                   <h1>Order ID</h1>
                   <p className="text-blue-900 flex">
-                    <Link to="/"> View Order Details | </Link>
+                    {/* <Link to="/"> View Order Details | </Link> */}
                     <span className="ml-2 cursor-pointer" onClick={() => handleClickView(order?.orderId)}>Invoice</span>
                   </p>
                 </div>

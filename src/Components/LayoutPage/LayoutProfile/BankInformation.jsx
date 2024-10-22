@@ -421,12 +421,17 @@ import { Select, MenuItem, FormControl, InputLabel, FormHelperText } from '@mui/
 import { useStates } from 'react-us-states';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBeneficiaryAdd, fetchGetBeneficiary } from '../../../Api/UserApi';
+import Notification from '../../Notification';
 
 const BankInformation = () => {
   const user = useSelector((state) => state.user.user);
   const getBeneficiaryDetails = useSelector((state) => state.user.getBeneficiary);
   console.log("----> Beneficiary Details:", getBeneficiaryDetails);
   const dispatch = useDispatch();
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+  });
 
   const [formData, setFormData] = useState({
     bankName: '',
@@ -546,7 +551,12 @@ const BankInformation = () => {
     await dispatch(fetchBeneficiaryAdd(payload));
   
     // Show an alert message after saving
-    alert("Beneficiary details saved successfully!");
+    // alert("Beneficiary details saved successfully!"); 
+    setNotification({
+      show: true,
+      message: "Beneficiary details saved Successfully!",
+    });
+    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
   };
 
   const accountTypes = ['Savings', 'Checking', 'Current']; // Example account types
@@ -596,6 +606,9 @@ const BankInformation = () => {
   }, [user.customerId, dispatch]);
   return (
     <div>
+      {notification.show && (
+        <Notification show={notification.show} message={notification.message} />
+      )}
       <h1 className="text-xl text-blue-900 font-semibold mx-6 py-4">Bank Information</h1>
       <div className={`bg-white border ${isTabEdit ? 'border-blue-900' : 'border-gray-400'} rounded-lg px-8 mx-6 w-[80%] mt-8 relative`}>
         {isTabEdit && (
@@ -608,7 +621,7 @@ const BankInformation = () => {
           <h1 className={`text-xl font-semibold my-2 ${isTabEdit ? 'invisible' : 'text-blue-900'}`}>
             Beneficiary Bank Details
           </h1>
-          <img src={edit} className="w-6 h-6 ml-4" onClick={handleTabClick} alt="Edit" />
+          <img src={edit} className="w-6 h-6 ml-4 cursor-pointer" onClick={handleTabClick} alt="Edit" />
         </div>
         <form onSubmit={handleSubmit}>
           <div className="flex mb-4">
