@@ -201,8 +201,15 @@ function Wishlist({ topMargin, addCart }) {
                   <p>Quantity: 1</p>
                   <div className="flex flex-col">
                     <span className="text-lg">Expires on or after :</span>
-                    <p>Dec-24</p>
-                  </div>
+                    <p>
+  {new Date(item.product.expiryDate)
+    .toLocaleDateString('en-US', {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric'
+    })
+    .replace(/\//g, '-')}
+</p>                    </div>
                 </div>
                 <div className="flex flex-col items-center justify-center">
                   <button className="text-lg font-semibold text-white bg-blue-900 w-36 h-9  justify-center flex items-center  rounded-full" onClick={() => handleCart(item.product.productID)}>

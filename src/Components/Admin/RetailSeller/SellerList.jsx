@@ -392,7 +392,7 @@ const SellerList = () => {
             </table>
             )}
           </div>
-           <div className="bg-gray-100  flex items-center justify-center ">
+           {/* <div className="bg-gray-100  flex items-center justify-center "> */}
         {" "}
         <Pagination
            indexOfFirstItem={indexOfFirstItem}
@@ -403,7 +403,7 @@ const SellerList = () => {
            currentPage={currentPage}
            setCurrentPage={setCurrentPage}
          />
-       </div>
+       {/* </div> */}
         </div>
       </div>
     </>

@@ -617,7 +617,7 @@ const RxProductsAdmin = () => {
             </div>
         </div>
       </div>
-      <div className="bg-gray-100 flex items-center justify-center">
+      {/* <div className="bg-gray-100 flex items-center justify-center"> */}
         {" "}
         <Pagination
           indexOfFirstItem={indexOfFirstItem}
@@ -628,7 +628,7 @@ const RxProductsAdmin = () => {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
-      </div>
+      {/* </div> */}
     </>
   );
 };

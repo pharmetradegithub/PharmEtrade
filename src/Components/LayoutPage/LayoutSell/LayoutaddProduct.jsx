@@ -971,9 +971,17 @@ function LayoutaddProduct() {
                       name="ndcUpc"
                       type="text"
                       className="w-80 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
+                      // onChange={handleInputChange}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        // Allow only numeric values
+                        if (/^\d*$/.test(value)) {
+                          handleInputChange(e);
+                        }
+                      }}
                       onBlur={() => handleNdcUpc(formData.ndcUpc)}
                       value={formData.ndcUpc}
+                      maxLength={11} 
                     />
                     {formErrors.ndcUpc && (
                       <span className="text-red-500 text-sm">
@@ -2375,7 +2383,14 @@ function LayoutaddProduct() {
       {selectedImage || formData.imageUrl ? (
         <div className="relative">
           <img
-            src={selectedImage || URL.createObjectURL(formData.imageUrl)}
+            // src={selectedImage || URL.createObjectURL(formData.imageUrl)}
+            src={
+              selectedImage // Check if selectedImage exists first
+                ? selectedImage
+                : formData.imageUrl instanceof File // Check if formData.imageUrl is a File
+                ? URL.createObjectURL(formData.imageUrl) // Generate URL if it's a file
+                : formData.imageUrl // Otherwise, treat it as a direct image URL
+            }
             alt="Selected"
             className="w-64 h-64 object-cover rounded-md"
           />

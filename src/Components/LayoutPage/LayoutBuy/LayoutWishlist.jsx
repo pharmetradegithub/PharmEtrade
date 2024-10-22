@@ -226,7 +226,16 @@ function LayoutWishlist({ addCart }) {
 
                    Expires on or after :
                     </p>
-                    <p>Dec 24</p>
+                    <p>
+  {new Date(item.product.expiryDate)
+    .toLocaleDateString('en-US', {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric'
+    })
+    .replace(/\//g, '-')}
+</p>
+                    {/* <p>Dec 24</p> */}
                     </div>
                 </div>
                 <div className="flex flex-col items-center justify-center">

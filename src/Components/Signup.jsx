@@ -2374,7 +2374,9 @@ console.log(formData)
 
     if (files) {
       const file = files[0]; // Assuming only one file is uploaded
-      const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+      // const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+      const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "application/pdf"];
+
 
       if (!allowedTypes.includes(file.type)) {
         // Set error for incorrect file type
@@ -2684,17 +2686,17 @@ console.log(formData)
       //   newErrors.companyWebsite = "company Website is required";
 
       // const websiteRegex = /^www\.[a-zA-Z0-9-]+\.com$/;
-      const websiteRegex = /^www\.[a-zA-Z-]+\.com$/;
+      // const websiteRegex = /^www\.[a-zA-Z-]+\.com$/;
 
-      if (userType !== "Retail Customer") {
-        // Only validate for non-retail customers
-        if (!formData.companyWebsite) {
-          newErrors.companyWebsite = "Company website is required";
-        } else if (!websiteRegex.test(formData.companyWebsite)) {
-          newErrors.companyWebsite =
-            "Invalid company website format. Use www.example.com";
-        }
-      }
+      // if (userType !== "Retail Customer") {
+      //   // Only validate for non-retail customers
+      //   if (!formData.companyWebsite) {
+      //     newErrors.companyWebsite = "Company website is required";
+      //   } else if (!websiteRegex.test(formData.companyWebsite)) {
+      //     newErrors.companyWebsite =
+      //       "Invalid company website format. Use www.example.com";
+      //   }
+      // }
 
       // setErrors(newErrors);
       // return Object.keys(newErrors).length === 0;
@@ -3682,8 +3684,8 @@ console.log(formData)
                 name="companyWebsite"
                 value={formData.companyWebsite}
                 onChange={handleInputChange}
-                error={!!errors.companyWebsite}
-                helperText={errors.companyWebsite}
+                // error={!!errors.companyWebsite}
+                // helperText={errors.companyWebsite}
                 size="small"
                 className="w-[92%]"
               />
@@ -3796,7 +3798,7 @@ console.log(formData)
             <div className="flex flex-row w-full -mb-2 justify-between">
               <div className="w-[45%]">
                 <span className="text-xs">
-                  DEA License Copy (jpg, png, jpeg)
+                  DEA License Copy (jpg, png, jpeg,pdf)
                 </span>
                 {/* <TextField
                   label=""
@@ -3849,14 +3851,14 @@ console.log(formData)
 
               <div className="w-[45%]">
                 <span className="text-xs">
-                  Pharmacy License Copy (jpeg, jpg, png)
+                  Pharmacy License Copy (jpeg, jpg, png,pdf)
                 </span>
                 <input
                   type="file"
                   onChange={handleInputChange}
                   name="Pharmacy_License_Copy"
-                  // accept="image/*"
-                  accept="image/jpeg, image/jpg, image/png"
+                  accept="image/*,pdf"
+                  // accept="image/jpeg, image/jpg, image/png"
                   className="file-input"
                   style={{
                     display: "block",
@@ -4147,7 +4149,8 @@ console.log(formData)
                     activeStep === 4 ? "hidden" : ""
                   } bg-blue-900 w-24 p-2 flex justify-center text-white h-10 cursor-pointer font-semibold border rounded-lg my-4 `}
                 >
-                  <img src={back} className="w-6" />
+                  {/* <img src={back} className="w-6" /> */}
+                  <div className="text-lg font-semibold text-white">BACK</div>
                 </button>
 
                 <button
@@ -4157,7 +4160,8 @@ console.log(formData)
                   {activeStep === 4 ? (
                     <div className="text-white font-bold">Go To Home</div>
                   ) : (
-                    <img src={next} alt="Next" className="w-6" />
+                    // <img src={next} alt="Next" className="w-6" />
+                    <div className="text-white font-semibold text-lg">NEXT</div>
                   )}
                 </button>
               </div>
