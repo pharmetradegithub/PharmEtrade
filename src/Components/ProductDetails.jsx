@@ -287,23 +287,23 @@ const ProductDetails = ({
                           <th className="p-2 text-left bg-slate-100">
                             Height:
                           </th>
-                          <td className="p-2">{Height } </td>
+                          <td className="p-2">{Height }(Inches) </td>
                         </tr>
                         <tr className="grid grid-cols-2 border-b">
                           <th className="p-2 text-left bg-slate-100">
                             Weight:
                           </th>
-                          <td className="p-2">{Weight} </td>
+                          <td className="p-2">{Weight}(Grams) </td>
                         </tr>
                         <tr className="grid grid-cols-2 border-b">
                           <th className="p-2 text-left bg-slate-100">Width:</th>
-                          <td className="p-2">{Width}  </td>
+                          <td className="p-2">{Width}(Cm)  </td>
                         </tr>
                         <tr className="grid grid-cols-2">
                           <th className="p-2 text-left bg-slate-100">
                             Length:
                           </th>
-                          <td className="p-2">{Length}  </td>
+                          <td className="p-2">{Length}(Cm)  </td>
                         </tr>
                       </tbody>
                     </table>
