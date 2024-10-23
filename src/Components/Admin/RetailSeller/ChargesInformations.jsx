@@ -545,7 +545,7 @@ import Notification from "../../Notification";
 //   }
 //   dispatch(TaxInfoEdit(payloadEdit))
 // };
-const ChargesInformation = () => {
+const ChargesInformations = () => {
   const getproductSpecialOffer = useSelector(
     (state) => state.product.productSpecialOffer
   );
@@ -561,7 +561,7 @@ const ChargesInformation = () => {
   });
   const businessInfo = useSelector((state) => state.user.businessInfo);
   const dispatch = useDispatch();
-  const stateNameData = useSelector((state) => state.tax.stateName);
+//   const stateNameData = useSelector((state) => state.tax.stateName);
 
   const [editingEntry, setEditingEntry] = useState({}); // Store current entry being edited
 
@@ -569,117 +569,117 @@ const ChargesInformation = () => {
 
   let selectedCategory;
 
-  // const handleAddOrSave = async () => {
-  //   selectedCategory = getproductSpecialOffer.find(
-  //     (item) => item.categorySpecificationId === category
-  //   );
+//   const handleAddOrSave = async () => {
+//     selectedCategory = getproductSpecialOffer.find(
+//       (item) => item.categorySpecificationId === category
+//     );
 
-  //   if (editingIndex !== null) {
-  //     // Update the existing entry in stateNameData (editing case)
-  //     const updatedEntries = [...stateNameData];
-  //     updatedEntries[editingIndex] = {
-  //       ...updatedEntries[editingIndex],
-  //       category: selectedCategory,
-  //       taxPercentage: taxPercentage,
-  //     };
-  //     setAddedEntries(updatedEntries);
-  //     setEditingIndex(null); // Reset the editing index after saving
-  //   } else {
-  //     // Add a new entry (if no editingIndex is set)
-  //     setAddedEntries([
-  //       ...addedEntries,
-  //       { category: selectedCategory, taxPercentage },
-  //     ]);
-  //   }
+//     if (editingIndex !== null) {
+//       // Update the existing entry in stateNameData (editing case)
+//       const updatedEntries = [...stateNameData];
+//       updatedEntries[editingIndex] = {
+//         ...updatedEntries[editingIndex],
+//         category: selectedCategory,
+//         taxPercentage: taxPercentage,
+//       };
+//       setAddedEntries(updatedEntries);
+//       setEditingIndex(null); // Reset the editing index after saving
+//     } else {
+//       // Add a new entry (if no editingIndex is set)
+//       setAddedEntries([
+//         ...addedEntries,
+//         { category: selectedCategory, taxPercentage },
+//       ]);
+//     }
 
-  //   // Determine whether to call add or edit API based on filled fields
-  //   if (
-  //     !editingEntry.taxInformationId ||
-  //     !editingEntry.categorySpecificationId
-  //   ) {
-  //     // If the fields are empty, call add API
-  //     const payloadAdd = {
-  //       taxInformationID: "",
-  //       stateName: businessInfo?.state,
-  //       categorySpecificationID: selectedCategory?.categorySpecificationId,
-  //       taxPercentage: taxPercentage,
-  //       createdDate: new Date().toISOString(),
-  //       modifiedDate: new Date().toISOString(),
-  //       isActive: 1,
-  //     };
-  //     await dispatch(taxAddInformationApi(payloadAdd));
-  //     setNotification({
-  //       show: true,
-  //       message: "Added Item Successfully!",
-  //     });
-  //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-  //   } else {
-  //     // If the fields are filled, call edit API
-  //     const payloadEdit = {
-  //       taxInformationID: editingEntry.taxInformationId,
-  //       stateName: editingEntry.stateName,
-  //       // categorySpecificationID: category, // Use updated category
-  //       categorySpecificationID: category, // Use updated category
-  //       taxPercentage: taxPercentage,
-  //       createdDate: editingEntry.createdDate,
-  //       modifiedDate: new Date().toISOString(), // Update modified date
-  //       isActive: 1,
-  //     };
-  //     await dispatch(TaxInfoEdit(payloadEdit));
-  //     setNotification({
-  //       show: true,
-  //       message: "Edit Item Successfully!",
-  //     });
-  //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-  //   }
+//     // Determine whether to call add or edit API based on filled fields
+//     if (
+//       !editingEntry.taxInformationId ||
+//       !editingEntry.categorySpecificationId
+//     ) {
+//       // If the fields are empty, call add API
+//       const payloadAdd = {
+//         taxInformationID: "",
+//         stateName: businessInfo?.state,
+//         categorySpecificationID: selectedCategory?.categorySpecificationId,
+//         taxPercentage: taxPercentage,
+//         createdDate: new Date().toISOString(),
+//         modifiedDate: new Date().toISOString(),
+//         isActive: 1,
+//       };
+//       await dispatch(taxAddInformationApi(payloadAdd));
+//       setNotification({
+//         show: true,
+//         message: "Added Item Successfully!",
+//       });
+//       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+//     } else {
+//       // If the fields are filled, call edit API
+//       const payloadEdit = {
+//         taxInformationID: editingEntry.taxInformationId,
+//         stateName: editingEntry.stateName,
+//         // categorySpecificationID: category, // Use updated category
+//         categorySpecificationID: category, // Use updated category
+//         taxPercentage: taxPercentage,
+//         createdDate: editingEntry.createdDate,
+//         modifiedDate: new Date().toISOString(), // Update modified date
+//         isActive: 1,
+//       };
+//       await dispatch(TaxInfoEdit(payloadEdit));
+//       setNotification({
+//         show: true,
+//         message: "Edit Item Successfully!",
+//       });
+//       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+//     }
 
-  //   // Fetch updated tax data
-  //   await dispatch(TaxGetByStateNameApi(businessInfo?.state));
+//     // Fetch updated tax data
+//     await dispatch(TaxGetByStateNameApi(businessInfo?.state));
 
-  //   // Reset form fields after adding or editing
-  //   setCategory("");
-  //   setTaxPercentage("");
-  //   setIsEditable(false);
-  //   setShowSuccessMessage(true);
-  // };
+//     // Reset form fields after adding or editing
+//     setCategory("");
+//     setTaxPercentage("");
+//     setIsEditable(false);
+//     setShowSuccessMessage(true);
+//   };
 
   // Handle edit icon click: populate the form with the selected row data
-  // const handleEditClick = (
-  //   index,
-  //   taxInformationId,
-  //   categorySpecificationId,
-  //   taxPercentage,
-  //   stateName,
-  //   createdDate,
-  //   modifiedDate
-  // ) => {
-  //   const entryToEdit = stateNameData[index]; // Get the selected entry
+//   const handleEditClick = (
+//     index,
+//     taxInformationId,
+//     categorySpecificationId,
+//     taxPercentage,
+//     stateName,
+//     createdDate,
+//     modifiedDate
+//   ) => {
+//     const entryToEdit = stateNameData[index]; // Get the selected entry
 
-  //   if (entryToEdit && entryToEdit.categorySpecificationID) {
-  //     setCategory(entryToEdit.categorySpecificationID); // Set the category in the form
-  //     setTaxPercentage(entryToEdit.taxPercentage); // Set the tax percentage in the form
-  //     setEditingIndex(index); // Set the index of the row being edited
-  //     setIsEditable(true); // Make form editable
-  //     setShowSuccessMessage(false); // Hide success message while editing
-  //     setEditingEntry({
-  //       taxInformationId,
-  //       categorySpecificationId,
-  //       taxPercentage,
-  //       stateName,
-  //       createdDate,
-  //       modifiedDate,
-  //     }); // Store the editing entry data
-  //   } else {
-  //     console.error("Category is undefined for the selected entry.");
-  //   }
-  // };
-  // useEffect(() => {
-  //   dispatch(TaxGetByStateNameApi(businessInfo?.state));
-  // }, [dispatch, businessInfo?.state]);
+//     if (entryToEdit && entryToEdit.categorySpecificationID) {
+//       setCategory(entryToEdit.categorySpecificationID); // Set the category in the form
+//       setTaxPercentage(entryToEdit.taxPercentage); // Set the tax percentage in the form
+//       setEditingIndex(index); // Set the index of the row being edited
+//       setIsEditable(true); // Make form editable
+//       setShowSuccessMessage(false); // Hide success message while editing
+//       setEditingEntry({
+//         taxInformationId,
+//         categorySpecificationId,
+//         taxPercentage,
+//         stateName,
+//         createdDate,
+//         modifiedDate,
+//       }); // Store the editing entry data
+//     } else {
+//       console.error("Category is undefined for the selected entry.");
+//     }
+//   };
+//   useEffect(() => {
+//     dispatch(TaxGetByStateNameApi(businessInfo?.state));
+//   }, [dispatch, businessInfo?.state]);
 
-  // useEffect(() => {
-  //   dispatch(fetchProductOffer());
-  // }, [dispatch]);
+//   useEffect(() => {
+//     dispatch(fetchProductOffer());
+//   }, [dispatch]);
 
   return (
     <div className="w-[90%]">
@@ -691,19 +691,19 @@ const ChargesInformation = () => {
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
-      <div className=" w-[25%] bg-grey border  rounded-lg  mx-6 py-4 mt-3 relative my-2">
+      <div className="bg-white w-[90%] border border-black rounded-lg px-8 mx-6 py-5 mt-8 relative my-6">
         <div className="flex justify-between">
-          <h1 className="text-blue-900 text-xl font-bold p-1 rounded-md">
+          <h1 className="text-blue-900 text-xl font-semibold p-1 rounded-md">
             Charges Information
           </h1>
-          {/* <img
+          <img
             src={edit}
             className="w-6 h-6 cursor-pointer"
             onClick={() => setIsEditable(true)}
-          /> */}
+          />
         </div>
 
-        {/* <div className="flex justify-around my-4">
+        <div className="flex justify-around my-4">
           <div>
             <select
               className="border rounded-md h-11"
@@ -736,12 +736,12 @@ const ChargesInformation = () => {
 
           <button
             className="bg-blue-900 text-white w-16 rounded-lg h-8"
-            onClick={handleAddOrSave}
+            // onClick={handleAddOrSave}
             disabled={!isEditable} // Disable if not in edit mode
           >
             {editingIndex !== null ? "Save" : "ADD"}
           </button>
-        </div> */}
+        </div>
       </div>
 
       <div className="overflow-x-auto ml-5">
@@ -759,7 +759,7 @@ const ChargesInformation = () => {
               <th className="px-6 py-3 text-base font-bold">Action</th>
             </tr>
           </thead>
-          <tbody>
+          {/* <tbody>
             {stateNameData.map((entry, index) => {
               const matchedCategory = getproductSpecialOffer.find(
                 (item) =>
@@ -823,7 +823,7 @@ const ChargesInformation = () => {
                 </tr>
               );
             })}
-          </tbody>
+          </tbody> */}
         </table>
       </div>
     </div>
@@ -992,4 +992,4 @@ const ChargesInformation = () => {
 //   );
 // };
 
-export default ChargesInformation;
+export default ChargesInformations;

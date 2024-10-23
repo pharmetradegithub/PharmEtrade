@@ -1021,6 +1021,7 @@ import { fetchCriteriaProductsApi } from "../../../Api/ProductApi";
 import LayoutBuyerCancelledgrid from "../LayoutDashboard/LayoutBuyerCancelledgrid";
 import LayoutBuyerReceiversgrid from "../LayoutDashboard/LayoutBuyerReceiversgrid";
 import LayoutBuyerUpcomingGrid from "../LayoutDashboard/LayoutBuyerUpcomingGrid";
+import TrackingOrder from '../../../Components/TermsAndConditions'
 function LayoutOrderList() {
   // const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   // const [currentPage, setCurrentPage] = useState(1);
@@ -1337,11 +1338,18 @@ const currentItems = sortedOrders.slice(indexOfFirstItem, indexOfLastItem);
                     <p>Package was handed to resident</p>
                   </div>
                   <div className="flex flex-col">
-                    <button className="border rounded-lg p-2 w-60 shadow-md">
+                  <button className="border rounded-lg p-2 hover:bg-gray-400 w-60 shadow-md">
+                      <Link to="/layout/trackingorder">
+                     Track Package
+                      </Link>
+                    </button>
+                    <button className="border rounded-lg hover:bg-gray-400 p-2 w-60 shadow-md">
+                      {/* <Link to="/layout/trackingorder"> */}
                       Leave Seller Feedback
+                      {/* </Link> */}
                     </button>
                     <button
-                      className="border rounded-lg p-2 my-2 shadow-md"
+                      className="border rounded-lg p-2 hover:bg-gray-400 my-2 shadow-md"
                       onClick={() => setIsOpen(true)}
                     >
                       Write a product review
