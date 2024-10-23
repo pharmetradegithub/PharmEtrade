@@ -1023,6 +1023,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
       setIsContainerFocused(false);
     } else if (e.target.className.includes("button-focus")) {
       setIsButtonFocused(false);
+      setDropdownOpen(false)
     }
   };
 
@@ -1037,8 +1038,11 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   console.log(SearchInput, "search");
   const handleSearch = async (e) => {
     setSearchInput(e.target.value);
+    setDropdownOpen(false)
   };
+ 
   const handleSearchAPI = async () => {
+    setDropdownOpen(false)
     let Criteria = {
       // productName: SearchInput,
       productCategoryId: selectedItemId,

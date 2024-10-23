@@ -107,6 +107,14 @@ const AdminBanners = () => {
   const BannerData = useSelector((state) => state.banner.banner);
   console.log("bbbbbb", BannerData);
 
+  const handleRemoveNewBanner = (index) => {
+    setNewBanners((prevBanners) => prevBanners.filter((_, i) => i !== index));
+  };
+  
+  
+   
+  
+
   return (
     <div className="p-6 bg-gray-100 overflow-y-scroll">
       <h1 className="flex items-center text-3xl font-bold mb-6">
@@ -151,6 +159,12 @@ const AdminBanners = () => {
                 alt={`New Banner ${index + 1}`}
                 className="w-full h-40 object-cover"
               />
+                <button
+                onClick={() => handleRemoveNewBanner(index)}
+                className="absolute top-2 right-2  p-1 rounded-full"
+              >
+                <img src={trash} alt="Remove" className="w-5 h-5" />
+              </button>
             </div>
           ))}
         </div>

@@ -54,6 +54,7 @@ const OtcProductsAdmin = () => {
   }, [products])
   const [SearchInput, setSearchInput] = useState({
     productName: null,
+    categorySpecificationId:2
   });
   const handleInputChange = (e) => {
     console.log(e.target.name);
