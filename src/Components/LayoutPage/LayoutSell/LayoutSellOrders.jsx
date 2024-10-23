@@ -237,7 +237,7 @@ function LayoutSellOrders() {
                 <th className="px-4 py-2 text-left">Purchased On</th>
                 <th className="px-4 py-2 text-right">Amount</th>
                 <th className="px-4 py-2 text-left">Customer</th>
-                <th className="px-4 py-2 text-left">Status</th>
+                <th className="px-4 py-2 text-left"> Order Status</th>
                 <th className="px-4 py-2 text-left">Action</th>
               </tr>
             </thead>
@@ -274,7 +274,16 @@ function LayoutSellOrders() {
                               }).replace(/\//g, '-')}</td>
                     <td className="text-right px-4 py-2">${product?.totalAmount.toFixed(2)}</td>
                     <td className="px-4 py-2">{product?.customerName}</td>
-                    <td className="px-4 py-2">{product?.status}</td>
+                    <td className="px-4 py-2"><select>
+                        <option value="approve">Accepted</option>
+                        <option value="Reject">Rejected</option>
+                        <option value="Shipped">Ready to Ship</option>
+                        <option value="Shipped"> Shipped</option>
+
+                        <option value="Delivered">Delivered</option>
+                      </select>
+
+                    </td>
                     <td className="px-4 py-2 cursor-pointer flex gap-1">
                       <Tooltip title="ViewInvoice" placement="top">
                         <img src={eye} className="w-5 h-5" onClick={() => handleClickView(product?.orderId)} />

@@ -1162,7 +1162,7 @@ function LayoutaddProduct() {
                     />
                   </div>
                   <div className="flex flex-col mx-2">
-                    <label className="text-sm font-semibold">Form:</label>
+                    <label className="text-sm font-semibold"> Medication Form:</label>
                     {/* <input
                       name="form"
                       type="text"
@@ -1960,7 +1960,8 @@ function LayoutaddProduct() {
                             ? formData.salePriceTo.split("T")[0]
                             : ""
                         }
-                        min={MinDate}
+                        // min={MinDate}
+                        min={formData.salePriceForm ? formData.salePriceForm.split("T")[0] : new Date().toISOString().split("T")[0]} // Min date is the Sale Price From date
                         onKeyDown={(e) => {
                           e.preventDefault();
                         }}

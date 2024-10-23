@@ -189,7 +189,7 @@
 //       label: "Tax Information",
 //       grid: "Tax",
 //     },
-    
+
 //  {
 //   label: "Charges Information",
 //   grid: "charges",
@@ -301,7 +301,7 @@
 //       }));
 //     }
 //   };
-  
+
 
 //   const handleAccountSaveClick =async () => {
 //     setIsAccountEdit(false);
@@ -657,7 +657,7 @@
 //                     disabled={!isAddressEdit}
 //                     size="small"
 //                   />
-                  
+
 //                   )}
 //                 </div>
 //                 <div className="flex flex-col justify-between py-2">
@@ -1280,7 +1280,7 @@ const LayoutProfile = () => {
       [name]: value,
     }));
   };
-  
+
   const handlePhoneChange = (e) => {
     const formattedPhone = formatPhoneNumber(e.target.value);
     handleAddressChange({
@@ -1313,9 +1313,9 @@ const LayoutProfile = () => {
       federalTaxId: businessInfo.federalTaxId,
       dea: businessInfo.dea,
       pharmacyLicence: businessInfo.pharmacyLicence,
-      deaExpirationDate: businessInfo.deaExpirationDate =="" ? null:businessInfo.deaExpirationDate  ,
+      deaExpirationDate: businessInfo.deaExpirationDate == "" ? null : businessInfo.deaExpirationDate,
       pharmacyLicenseExpirationDate:
-      businessInfo.pharmacyLicenseExpirationDate =="" ? null:businessInfo.pharmacyLicenseExpirationDate ,
+        businessInfo.pharmacyLicenseExpirationDate == "" ? null : businessInfo.pharmacyLicenseExpirationDate,
       deaLicenseCopy: businessInfo.deaLicenseCopy,
       pharmacyLicenseCopy: businessInfo.pharmacyLicenseCopy,
       npi: businessInfo.npi,
@@ -1398,9 +1398,9 @@ const LayoutProfile = () => {
       federalTaxId: accountData.federalTaxId,
       dea: accountData.dea,
       pharmacyLicence: accountData.pharmacyLicence,
-      deaExpirationDate: accountData.deaExpirationDate == ""? null:accountData.deaExpirationDate,
+      deaExpirationDate: accountData.deaExpirationDate == "" ? null : accountData.deaExpirationDate,
       pharmacyLicenseExpirationDate:
-        accountData.pharmacyLicenseExpirationDate ==""? null: accountData.pharmacyLicenseExpirationDate,
+        accountData.pharmacyLicenseExpirationDate == "" ? null : accountData.pharmacyLicenseExpirationDate,
       deaLicenseCopy: businessInfo.deaLicenseCopy,
       pharmacyLicenseCopy: businessInfo.pharmacyLicenseCopy,
       npi: accountData.npi,
@@ -1457,14 +1457,13 @@ const LayoutProfile = () => {
           {profiles.map((profile, index) =>
             // Hide index 1 if user.customerTypeId is 4
             userdata?.customerTypeId === 4 &&
-            (index === 1 || index === 2) ? null : (
+              (index === 1 || index === 2) ? null : (
               <div key={profile.grid} className="flex ml-6">
                 <div
-                  className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${
-                    visibleGrid === profile.grid
-                      ? "border-b-4 border-blue-900"
-                      : ""
-                  }`}
+                  className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${visibleGrid === profile.grid
+                    ? "border-b-4 border-blue-900"
+                    : ""
+                    }`}
                   onClick={() => toggleGrid(profile.grid)}
                 >
                   <h1 className="text-lg text-blue-900 font-semibold">
@@ -1482,9 +1481,8 @@ const LayoutProfile = () => {
               Primary
             </h1>
             <div
-              className={`bg-white border ${
-                isEditable ? "border-blue-900" : "border-gray-400"
-              } rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}
+              className={`bg-white border ${isEditable ? "border-blue-900" : "border-gray-400"
+                } rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}
             >
               <h1 className={`text-xl font-semibold my-2 text-blue-900`}>
                 User Information
@@ -1549,9 +1547,8 @@ const LayoutProfile = () => {
                     alt="Edit"
                   />
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-                      !isEditable ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isEditable ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                     onClick={handleSaveClick}
                     disabled={!isEditable}
                   >
@@ -1566,9 +1563,8 @@ const LayoutProfile = () => {
           <div className="flex flex-col bg-slate-200 p-6 w-full h-full">
             {/* Address Information Section */}
             <div
-              className={`bg-white border ${
-                isAddressEdit ? "border-blue-900" : "border-gray-400"
-              } rounded-lg px-8 w-full mt-8 relative`}
+              className={`bg-white border ${isAddressEdit ? "border-blue-900" : "border-gray-400"
+                } rounded-lg px-8 w-full mt-8 relative`}
             >
               {isAddressEdit && (
                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -1576,9 +1572,8 @@ const LayoutProfile = () => {
                 </h1>
               )}
               <h1
-                className={`text-xl font-semibold my-2 ${
-                  isAddressEdit ? "invisible" : "text-blue-900"
-                }`}
+                className={`text-xl font-semibold my-2 ${isAddressEdit ? "invisible" : "text-blue-900"
+                  }`}
               >
                 Address Information
               </h1>
@@ -1740,9 +1735,8 @@ const LayoutProfile = () => {
                     onClick={handleAddressEditClick}
                   />
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-                      !isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                     onClick={handleAddressSaveClick}
                     disabled={!isAddressEdit}
                   >
@@ -1756,9 +1750,8 @@ const LayoutProfile = () => {
 
             {userdata?.customerTypeId !== 4 && (
               <div
-                className={`bg-white border ${
-                  isAccountEdit ? "border-blue-900" : "border-gray-400"
-                } rounded-lg px-8 w-full mt-8 relative mb-4`}
+                className={`bg-white border ${isAccountEdit ? "border-blue-900" : "border-gray-400"
+                  } rounded-lg px-8 w-full mt-8 relative mb-4`}
               >
                 {isAccountEdit && (
                   <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -1766,9 +1759,8 @@ const LayoutProfile = () => {
                   </h1>
                 )}
                 <h1
-                  className={`text-xl font-semibold my-2 ${
-                    isAccountEdit ? "invisible" : "text-blue-900"
-                  }`}
+                  className={`text-xl font-semibold my-2 ${isAccountEdit ? "invisible" : "text-blue-900"
+                    }`}
                 >
                   Account Information
                 </h1>
@@ -1874,8 +1866,8 @@ const LayoutProfile = () => {
                       value={
                         accountData.pharmacyLicenseExpirationDate
                           ? formatDate(
-                              accountData.pharmacyLicenseExpirationDate
-                            )
+                            accountData.pharmacyLicenseExpirationDate
+                          )
                           : ""
                       }
                       onChange={handleAccountChange}
@@ -1923,9 +1915,8 @@ const LayoutProfile = () => {
                       onClick={handleAccountEditClick}
                     />
                     <button
-                      className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-                        !isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
+                      className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
                       onClick={handleAccountSaveClick}
                       disabled={!isAccountEdit}
                     >
@@ -1955,7 +1946,7 @@ const LayoutProfile = () => {
           </div>
         )}
 
-{visibleGrid === "charges" && (
+        {visibleGrid === "charges" && (
           <div
           //  className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4"
           >
