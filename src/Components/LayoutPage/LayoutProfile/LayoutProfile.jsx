@@ -9,10 +9,11 @@ import {
 // import editIcon from "../../../assets/Edit.png"; // Renamed for clarity
 import edit from "../../../assets/Edit.png";
 import BankInformation from "./BankInformation";
-import ChargesInformation from "../../../Components/LayoutPage/LayoutProfile/ChargesInformation";
 import { useSelector } from "react-redux";
 import { useStates } from "react-us-states";
 import TaxInformation from "./TaxInformation";
+import Chargesinformation from "./ChargesInformation";
+
 import {
   BusinessInfoUpdate,
   getUserByCustomerIdApi,
@@ -188,10 +189,11 @@ const LayoutProfile = () => {
       label: "Tax Information",
       grid: "Tax",
     },
-    // {
-    //   label: "Charges Information",
-    //   grid: "charges",
-    // },
+    
+ {
+  label: "Charges Information",
+  grid: "charges",
+},
   ];
   const [visibleGrid, setVisibleGrid] = useState("account"); // Default to Account Information
   const toggleGrid = (grid) => {
@@ -1006,6 +1008,15 @@ const LayoutProfile = () => {
           >
             {/* Your bank information grid details here */}
             <TaxInformation />
+          </div>
+        )}
+
+          {visibleGrid === "charges" && (
+          <div
+          //  className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4"
+          >
+            {/* Your bank information grid details here */}
+            <Chargesinformation />
           </div>
         )}
       </div>

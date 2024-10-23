@@ -172,23 +172,23 @@ console.log(selectedItem);
   const user = useSelector((state) => state.user.user);
   const [errorMessage, setErrorMessage] = useState("");
 
-  // const handleItemclick = (item) => {
-  //   if (user?.accountTypeId == 1 && item.text === "SELL") {
-  //     setErrorMessage(
-  //       // "You have login as buyer contact us help@pharmetrade.com"
-  //       <>
-  //       You have login as buyer contact us {" "}
-
-  //       <a href="  " className="text-blue-900 underline ">help@pharmetrade.com</a></>
-  //     );
-  //   } else {
-  //     navigate(item.path);
-  //   }
-  // };
-
   const handleItemclick = (item) => {
-    navigate(item.path);
+    if (user?.accountTypeId == 1 && item.text === "SELL") {
+      setErrorMessage(
+        // "You have login as buyer contact us help@pharmetrade.com"
+        <>
+        You have login as buyer contact us {" "}
+
+        <a href="  " className="text-blue-900 underline ">help@pharmetrade.com</a></>
+      );
+    } else {
+      navigate(item.path);
+    }
   };
+
+  // const handleItemclick = (item) => {
+  //   navigate(item.path);
+  // };
 
   const navItems = [
     { image: buy, text: "BUY", path: "/layout/layoutbuy" },
@@ -267,7 +267,7 @@ console.log(selectedItem);
         </div>
 
         {errorMessage && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="fixed inset-0 flex items-center justify-center bg-transparent bg-black bg-opacity-50 z-50">
             <div className="bg-gray-100 p-4 rounded-md shadow-md text-center">
               <div className="flex justify-start items-center border-b border-black">
                 <img src={warning} className=" w-12 h-12" />

@@ -146,6 +146,7 @@ import EditProductAdmin from "./Components/Admin/Products/EditProductAdmin";
 import EditSellerList from "./Components/Admin/RetailSeller/EditSellerList";
 import GeneralMerchandiseSeller from "./Components/Admin/GeneralMerchandiseSeller/GeneralMerchandiseSeller";
 import PharmacyDistributor from "./Components/Admin/PharmacyDistributor/PharmacyDistributor";
+import TrackingOrder from "./Components/TrackingOrder";
 import { fetchProductCategoriesGetAll } from "./Api/MasterDataApi";
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
@@ -379,6 +380,10 @@ function App() {
           <Route
             path="/layout/layoutcustomerdashboard"
             element={<LayoutCustomerDashboard />}
+          />
+           <Route
+            path="/layout/trackingorder"
+            element={<TrackingOrder />}
           />
 
           <Route path="/layout/layoutbuyerupcominggrid" element={<LayoutBuyerUpcomingGrid />} />

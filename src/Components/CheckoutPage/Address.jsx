@@ -35,7 +35,8 @@ function Address({ topMargin, totalAmount }) {
   // const fetchData = useSelector((state) => state.product.Products);
   const [searchParams] = useSearchParams();
   const total = searchParams.get("total");
-
+  const [deletePop, setDeletePop] = useState(false);
+  const [deleteProduct, setDeleteProduct] = useState(null);
   // console.log("ffffffff--->", totalAmount)
   const [isActive, setIsActive] = useState(true);
   const [ischeck, setIsCheck] = useState(false);
@@ -853,7 +854,7 @@ function Address({ topMargin, totalAmount }) {
 
   useEffect(() => {
     dispatch(fetchGetByCustomerId(user?.customerId));
-  }, [dispatch, user?.customerId]);
+  }, [dispatch, user?.customerId,deleteProduct]);
 
   // })
 
@@ -939,8 +940,7 @@ function Address({ topMargin, totalAmount }) {
   //   }
   // };
 
-  const [deletePop, setDeletePop] = useState(false);
-  const [deleteProduct, setDeleteProduct] = useState(null);
+  
   // const [notification, setNotification] = useState({ show: false, message: "" });
 
   // Delete Address Handler
