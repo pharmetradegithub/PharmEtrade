@@ -122,8 +122,8 @@ function LayoutaddProduct() {
     mainImageUrl: null,
     price: 0,
     amountInStock: 0,
-    minOrderQuantity:1,
-    maxOrderQuantity:0,
+    minOrderQuantity: 1,
+    maxOrderQuantity: 0,
     taxable: false,
     productDetails: "",
     aboutProduct: "",
@@ -136,7 +136,7 @@ function LayoutaddProduct() {
     Width: 0,
     states: [],
     shippingCostApplicable: false,
-    isReturnable : "",
+    isReturnable: "",
     upnMemberPrice: 0,
     salePrice: 0,
     salePriceForm: null,
@@ -194,8 +194,9 @@ function LayoutaddProduct() {
       price: product.unitPrice,
       sku: product.sku,
       amountInStock: product.amountInStock,
-      minOrderQuantity:product.minOrderQuantity==0? 1 : product.minOrderQuantity,
-      maxOrderQuantity:product.maxOrderQuantity,
+      minOrderQuantity:
+        product.minOrderQuantity == 0 ? 1 : product.minOrderQuantity,
+      maxOrderQuantity: product.maxOrderQuantity,
       taxable: product.taxable,
       productDetails: product.productDescription,
       aboutProduct: product.aboutTheProduct,
@@ -203,7 +204,7 @@ function LayoutaddProduct() {
       size: product.size,
       form: product.form,
       isReturnable: product.isReturnable,
-      shippingCostApplicable:product.shippingCostApplicable,
+      shippingCostApplicable: product.shippingCostApplicable,
       unitOfMeasurement: product.unitOfMeasure,
       upnMemberPrice: product.upnMemberPrice,
       salePrice: product.salePrice,
@@ -264,8 +265,8 @@ function LayoutaddProduct() {
       mainImageUrl: null,
       price: 0,
       amountInStock: 0,
-      minOrderQuantity:1,
-      maxOrderQuantity:0,
+      minOrderQuantity: 1,
+      maxOrderQuantity: 0,
       taxable: false,
       productDetails: "",
       aboutProduct: "",
@@ -277,7 +278,7 @@ function LayoutaddProduct() {
       Width: 0,
       states: [],
       shippingCostApplicable: false,
-      isReturnable:true,
+      isReturnable: true,
       upnMemberPrice: 0,
       salePrice: 0,
       salePriceForm: null,
@@ -534,6 +535,14 @@ function LayoutaddProduct() {
         [name]: selectedOptions,
       });
     } else if (type === "select-one") {
+      if(name=="form")
+      {
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+      }
+      else
       setFormData({
         ...formData,
         [name]: Number(value),
@@ -550,14 +559,21 @@ function LayoutaddProduct() {
           ...formData,
           [name]: Number(value) > amountInStock ? amountInStock : Number(value),
         });
-      }else if (name === "price") {
+        
+      }else if (name === "minOrderQuantity") {
+        const amountInStock = formData.amountInStock || 0;
+        setFormData({
+          ...formData,
+          [name]: Number(value) > amountInStock ? amountInStock : Number(value),
+        })}
+         else if (name === "price") {
         // Limit price to 2 decimal places
         const roundedValue = parseFloat(value).toFixed(2);
         setFormData({
           ...formData,
           [name]: value === "" ? "" : roundedValue,
         });
-      }else {
+      } else {
         setFormData({
           ...formData,
           [name]: value === "" ? "" : Number(value),
@@ -570,7 +586,7 @@ function LayoutaddProduct() {
     //     [name]: value === "" ? "" : Number(value),
     //   });
     // }
-     else if (type === "radio") {
+    else if (type === "radio") {
       // Handle radio buttons for packQuantity and packType
       if (name === "option") {
         setFormData({
@@ -589,8 +605,7 @@ function LayoutaddProduct() {
           [name]: value === "1" ? true : false, // Set to true for "1" (Yes), false for "0" (No)
         }));
       }
-      if(name === "isReturnable")
-      {
+      if (name === "isReturnable") {
         setFormData((prevData) => ({
           ...prevData,
           [name]: value == "1" ? true : false, // Set to true for "1" (Yes), false for "0" (No)
@@ -610,8 +625,8 @@ function LayoutaddProduct() {
           const isSelected = formData.states.includes(value);
           const updatedStates = isSelected
             ? formData.states.filter(
-              (state) => state !== value && state !== "all"
-            )
+                (state) => state !== value && state !== "all"
+              )
             : [...formData.states, value];
 
           setFormData({
@@ -644,7 +659,6 @@ function LayoutaddProduct() {
       });
     }
     settriggerValidation((prev) => prev + 1);
-
   };
   const checkValidationOnchange = () => {
     setFormErrors({});
@@ -670,10 +684,10 @@ function LayoutaddProduct() {
 
   useEffect(() => {
     checkValidationOnchange();
-  }, [triggerValidation])
+  }, [triggerValidation]);
   useEffect(() => {
     setfirstValidation(false);
-  }, [activeTab])
+  }, [activeTab]);
 
   console.log(firstValidation, formErrors);
   const [selectedValue, setSelectedValue] = React.useState("");
@@ -723,8 +737,8 @@ function LayoutaddProduct() {
       formData.mainImageUrl == null
         ? defaultImageUrl
         : typeof formData.mainImageUrl === "string"
-          ? formData.mainImageUrl
-          : await uploadImageApi(
+        ? formData.mainImageUrl
+        : await uploadImageApi(
             user.customerId,
             productId,
             formData.mainImageUrl
@@ -734,65 +748,65 @@ function LayoutaddProduct() {
       formData.imageUrl == null
         ? defaultImageUrl
         : typeof formData.imageUrl === "string"
-          ? formData.imageUrl
-          : await uploadImageApi(user.customerId, productId, formData.imageUrl);
+        ? formData.imageUrl
+        : await uploadImageApi(user.customerId, productId, formData.imageUrl);
 
     const thumbnail1 =
       formData.thumbnail1 == null
         ? "null"
         : typeof formData.thumbnail1 === "string"
-          ? formData.thumbnail1
-          : await uploadImageApi(user.customerId, productId, formData.thumbnail1);
+        ? formData.thumbnail1
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail1);
 
     const thumbnail2 =
       formData.thumbnail2 == null
         ? "null"
         : typeof formData.thumbnail2 === "string"
-          ? formData.thumbnail2
-          : await uploadImageApi(user.customerId, productId, formData.thumbnail2);
+        ? formData.thumbnail2
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail2);
 
     const thumbnail3 =
       formData.thumbnail3 == null
         ? "null"
         : typeof formData.thumbnail3 === "string"
-          ? formData.thumbnail3
-          : await uploadImageApi(user.customerId, productId, formData.thumbnail3);
+        ? formData.thumbnail3
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail3);
 
     const thumbnail4 =
       formData.thumbnail4 == null
         ? "null"
         : typeof formData.thumbnail4 === "string"
-          ? formData.thumbnail4
-          : await uploadImageApi(user.customerId, productId, formData.thumbnail4);
+        ? formData.thumbnail4
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail4);
 
     const thumbnail5 =
       formData.thumbnail5 == null
         ? "null"
         : typeof formData.thumbnail5 === "string"
-          ? formData.thumbnail5
-          : await uploadImageApi(user.customerId, productId, formData.thumbnail5);
+        ? formData.thumbnail5
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail5);
 
     const thumbnail6 =
       formData.thumbnail6 == null
         ? "null"
         : typeof formData.thumbnail6 === "string"
-          ? formData.thumbnail6
-          : await uploadImageApi(user.customerId, productId, formData.thumbnail6);
+        ? formData.thumbnail6
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail6);
 
     const videoUrl =
       formData.videoUrl == null
         ? "null"
         : typeof formData.videoUrl === "string"
-          ? formData.videoUrl
-          : await uploadImageApi(user.customerId, productId, formData.videoUrl);
+        ? formData.videoUrl
+        : await uploadImageApi(user.customerId, productId, formData.videoUrl);
 
     const tab1 = {
       productID:
         queryProductId != null
           ? queryProductId
           : productId != null
-            ? productId
-            : "String",
+          ? productId
+          : "String",
       productCategoryId: formData.productCategory,
       productName: formData.productName,
       ndCorUPC: formData.ndcUpc,
@@ -842,7 +856,7 @@ function LayoutaddProduct() {
       taxable: formData.taxable == 1 ? true : false,
       shippingCostApplicable:
         formData.shippingCostApplicable == 1 ? true : false,
-      isReturnable: formData.isReturnable ==1?true:false,
+      isReturnable: formData.isReturnable == 1 ? true : false,
       shippingCost: 20,
       amountInStock: formData.amountInStock,
       minOrderQuantity: formData.minOrderQuantity,
@@ -884,14 +898,16 @@ function LayoutaddProduct() {
         setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1)); // Enable Tab 2
         setNotification({
           show: true,
-          message: `Product Info ${queryProductId != null ? "Edited" : "Added"
-            } Successfully!`,
+          message: `Product Info ${
+            queryProductId != null ? "Edited" : "Added"
+          } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
           setActiveTab(1); // Move to the next tab
         }, 3000);
       } else if (activeTab == 1) {
+        console.log(tab2)
         const response = await AddProductPriceApi(tab2, user.customerId);
         localStorage.setItem("productPriceId", response);
         setFormErrors({});
@@ -900,8 +916,9 @@ function LayoutaddProduct() {
         ); // Enable Tabs 2 and 3
         setNotification({
           show: true,
-          message: `Price Details ${queryProductId != null ? "Edited" : "Added"
-            } Successfully!`,
+          message: `Price Details ${
+            queryProductId != null ? "Edited" : "Added"
+          } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -911,8 +928,9 @@ function LayoutaddProduct() {
         setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 3)); // Enable Tab 3
         setNotification({
           show: true,
-          message: `Related Products ${queryProductId != null ? "Edited" : "Added"
-            } Successfully!`,
+          message: `Related Products ${
+            queryProductId != null ? "Edited" : "Added"
+          } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -930,8 +948,9 @@ function LayoutaddProduct() {
         console.log("Product Data", response);
         setNotification({
           show: true,
-          message: `Product ${queryProductId != null ? "Edited" : "Added"
-            } Successfully!`,
+          message: `Product ${
+            queryProductId != null ? "Edited" : "Added"
+          } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -1009,7 +1028,7 @@ function LayoutaddProduct() {
                       }}
                       onBlur={() => handleNdcUpc(formData.ndcUpc)}
                       value={formData.ndcUpc}
-                      maxLength={11} 
+                      maxLength={11}
                     />
                     {formErrors.ndcUpc && (
                       <span className="text-red-500 text-sm">
@@ -1144,13 +1163,33 @@ function LayoutaddProduct() {
                   </div>
                   <div className="flex flex-col mx-2">
                     <label className="text-sm font-semibold">Form:</label>
-                    <input
+                    {/* <input
                       name="form"
                       type="text"
                       className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       onChange={handleInputChange}
                       value={formData.form}
-                    />
+                    /> */}
+                    <select
+                      name="form"
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.form || ""}
+                    >
+                      <option value="">Select a form</option>{" "}
+                      {/* Default option */}
+                      <option value="CAPSULE">CAPSULE</option>
+                      <option value="CREAM">CREAM</option>
+                      <option value="INHALER">INHALER</option>
+                      <option value="INJECTION">INJECTION</option>
+                      <option value="LIQUID">LIQUID</option>
+                      <option value="LOTION">LOTION</option>
+                      <option value="OINTMENT">OINTMENT</option>
+                      <option value="OTHER">OTHER</option>
+                      <option value="PATCH">PATCH</option>
+                      <option value="POWDER">POWDER</option>
+                      <option value="TABLET">TABLET</option>
+                    </select>
                   </div>
                 </div>
 
@@ -1664,7 +1703,17 @@ function LayoutaddProduct() {
                       name="price"
                       type="phone"
                       className="w-56 h-8 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
+                      onChange={(e) => {
+                        let value = e.target.value;
+
+                        // Allow only numbers and decimals, limit to 2 decimal places
+                        const validPrice = /^\d*(\.\d{0,2})?$/;
+
+                        // Check if the input value is a valid number with up to 2 decimal places
+                        if (validPrice.test(value)) {
+                          handleInputChange(e); // Update the state only with valid input
+                        }
+                      }}
                       value={formData.price === 0 ? "" : formData.price}
                     />
                     {formErrors.price && (
@@ -1720,10 +1769,12 @@ function LayoutaddProduct() {
                       className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       onChange={(e) => {
                         const value = e.target.value;
-                  
+
                         // Regex to allow only valid numbers and two decimal places
-                        const formattedValue = value.match(/^\d*\.?\d{0,2}$/) ? value : formData.salePrice;
-                  
+                        const formattedValue = value.match(/^\d*\.?\d{0,2}$/)
+                          ? value
+                          : formData.salePrice;
+
                         // Update formData with the formatted value
                         handleInputChange({
                           target: {
@@ -1740,7 +1791,6 @@ function LayoutaddProduct() {
                           ? Number(formData.salePrice).toFixed(2) // Ensure the value is always formatted with 2 decimal places
                           : ""
                       }
-                  
                     />
                     {formErrors.salePrice && (
                       <span className="text-red-500 text-sm">
@@ -1902,8 +1952,8 @@ function LayoutaddProduct() {
                         formData.taxable == null
                           ? ""
                           : formData.taxable == true
-                            ? 1
-                            : 0
+                          ? 1
+                          : 0
                       }
                     >
                       <option value="">Select an option</option>
@@ -1921,35 +1971,36 @@ function LayoutaddProduct() {
                       type="phone"
                       className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       onChange={handleInputChange}
-                      value={formData.minOrderQuantity === 0
+                      value={
+                        formData.minOrderQuantity === 0
                           ? ""
                           : formData.minOrderQuantity
                       }
                     />
-                    
                   </div>
                 </div>
 
                 <div className="flex flex-col mt-2">
-                    <label className="text-sm font-semibold">
-                       Maximum Order  Quantity :
-                    </label>
-                    <input
-                      name="maxOrderQuantity"
-                      type="phone"
-                      className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={formData.maxOrderQuantity === 0
-                          ? ""
-                          : formData.maxOrderQuantity
-                      }
-                    />
-                    {formData.maxOrderQuantity > formData.amountInStock && (
-    <span className="text-red-600 text-sm mt-1">
-      You need to select a quantity below the product in stock.
-    </span>
-  )}
-                  </div>
+                  <label className="text-sm font-semibold">
+                    Maximum Order Quantity :
+                  </label>
+                  <input
+                    name="maxOrderQuantity"
+                    type="phone"
+                    className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                    onChange={handleInputChange}
+                    value={
+                      formData.maxOrderQuantity === 0
+                        ? ""
+                        : formData.maxOrderQuantity
+                    }
+                  />
+                  {formData.maxOrderQuantity > formData.amountInStock && (
+                    <span className="text-red-600 text-sm mt-1">
+                      You need to select a quantity below the product in stock.
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
             <div className="my-4">
@@ -2023,10 +2074,9 @@ function LayoutaddProduct() {
                 </label>
               </div>
 
-             
               <div className="flex items-center mt-4">
                 <label className="font-semibold">
-                 Is this product returnable
+                  Is this product returnable
                 </label>
                 <input
                   type="radio"
@@ -2054,7 +2104,6 @@ function LayoutaddProduct() {
                   No
                 </label>
               </div>
-
             </div>
 
             {/* section5 start */}
@@ -2412,49 +2461,48 @@ function LayoutaddProduct() {
                   </label>
                 )}
               </div> */}
-                <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
-      {selectedImage || formData.imageUrl ? (
-        <div className="relative">
-          <img
-            // src={selectedImage || URL.createObjectURL(formData.imageUrl)}
-            src={
-              selectedImage // Check if selectedImage exists first
-                ? selectedImage
-                : formData.imageUrl instanceof File // Check if formData.imageUrl is a File
-                ? URL.createObjectURL(formData.imageUrl) // Generate URL if it's a file
-                : formData.imageUrl // Otherwise, treat it as a direct image URL
-            }
-            alt="Selected"
-            className="w-64 h-64 object-cover rounded-md"
-          />
-          <button
-            onClick={handleRemoveImage}
-            className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full focus:outline-none"
-          >
-            &times;
-          </button>
-        </div>
-      ) : (
-        <label
-          htmlFor="imageUpload"
-          className="flex flex-col justify-center items-center w-full h-32 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200"
-          onDragOver={handleDragOver} // Add drag over event
-          onDrop={handleDrop} // Add drop event
-        >
-          <span className="text-gray-500 text-center">
-            Click here or drag and drop image
-          </span>
-          <input
-            type="file"
-            id="imageUpload"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="hidden"
-          />
-        </label>
-      )}
-    </div>
-
+              <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
+                {selectedImage || formData.imageUrl ? (
+                  <div className="relative">
+                    <img
+                      // src={selectedImage || URL.createObjectURL(formData.imageUrl)}
+                      src={
+                        selectedImage // Check if selectedImage exists first
+                          ? selectedImage
+                          : formData.imageUrl instanceof File // Check if formData.imageUrl is a File
+                          ? URL.createObjectURL(formData.imageUrl) // Generate URL if it's a file
+                          : formData.imageUrl // Otherwise, treat it as a direct image URL
+                      }
+                      alt="Selected"
+                      className="w-64 h-64 object-cover rounded-md"
+                    />
+                    <button
+                      onClick={handleRemoveImage}
+                      className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full focus:outline-none"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                ) : (
+                  <label
+                    htmlFor="imageUpload"
+                    className="flex flex-col justify-center items-center w-full h-32 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200"
+                    onDragOver={handleDragOver} // Add drag over event
+                    onDrop={handleDrop} // Add drop event
+                  >
+                    <span className="text-gray-500 text-center">
+                      Click here or drag and drop image
+                    </span>
+                    <input
+                      type="file"
+                      id="imageUpload"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="hidden"
+                    />
+                  </label>
+                )}
+              </div>
 
               <div className="flex flex-col w-full p-4 border rounded-lg shadow-md">
                 <h1 className="text-xl font-bold mb-4 text-justify">
@@ -2483,8 +2531,8 @@ function LayoutaddProduct() {
                           typeof image === "string"
                             ? image
                             : image != null
-                              ? URL.createObjectURL(image)
-                              : ""
+                            ? URL.createObjectURL(image)
+                            : ""
                         } // Check if `image` is a string (URL) or a File object
                         alt={`Preview ${image}`}
                         className="w-full h-40 object-cover"
@@ -2603,13 +2651,15 @@ function LayoutaddProduct() {
                 disabled={
                   queryProductId != null ? false : showTab.includes(index)
                 } // Corrected to 'disabled'
-                className={`w-full flex justify-center items-center px-2 p-3 py-1 mt-7 shadow-md ${activeTab === index
+                className={`w-full flex justify-center items-center px-2 p-3 py-1 mt-7 shadow-md ${
+                  activeTab === index
                     ? "text-white bg-blue-900 rounded-t-xl font-semibold"
                     : "text-blue-900 shadow-none rounded-t-xl bg-white"
-                  } ${showTab.includes(index) && queryProductId == null
+                } ${
+                  showTab.includes(index) && queryProductId == null
                     ? "opacity-50 cursor-not-allowed"
                     : ""
-                  }`} // Style changes for disabled state
+                }`} // Style changes for disabled state
                 onClick={() => setActiveTab(index)}
               >
                 {tab}
@@ -2635,16 +2685,16 @@ function LayoutaddProduct() {
           {activeTab === 0
             ? "Save and Continue to Price Details"
             : activeTab === 1
-              ? "Save and Continue to Related Products"
-              : activeTab === 2
-                ? "Save and Continue to Additional Images"
-                : activeTab === 3
-                  ? "Save and Close"
-                  : ""}
+            ? "Save and Continue to Related Products"
+            : activeTab === 2
+            ? "Save and Continue to Additional Images"
+            : activeTab === 3
+            ? "Save and Close"
+            : ""}
         </button>
       </div>
     </div>
   );
 }
 
-export default LayoutaddProduct; 
+export default LayoutaddProduct;
