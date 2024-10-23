@@ -54,6 +54,7 @@ const RxProductsAdmin = () => {
   }, [products])
   const [SearchInput, setSearchInput] = useState({
     productName: null,
+    categorySpecificationId:1
   });
   const handleInputChange = (e) => {
     console.log(e.target.name);

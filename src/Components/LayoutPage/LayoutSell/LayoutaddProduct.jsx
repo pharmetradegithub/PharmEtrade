@@ -1703,15 +1703,35 @@ function LayoutaddProduct() {
                       name="price"
                       type="phone"
                       className="w-56 h-8 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      // onChange={(e) => {
+                      //   let value = e.target.value;
+
+                      //   // Allow only numbers and decimals, limit to 2 decimal places
+                      //   const validPrice = /^\d*(\.\d{0,2})?$/;
+
+                      //   // Check if the input value is a valid number with up to 2 decimal places
+                      //   if (validPrice.test(value)) {
+                      //     handleInputChange(e); // Update the state only with valid input
+                      //   }
+                      // }}
                       onChange={(e) => {
                         let value = e.target.value;
-
+                    
                         // Allow only numbers and decimals, limit to 2 decimal places
                         const validPrice = /^\d*(\.\d{0,2})?$/;
-
+                    
                         // Check if the input value is a valid number with up to 2 decimal places
                         if (validPrice.test(value)) {
                           handleInputChange(e); // Update the state only with valid input
+                        }
+                      }}
+                      onBlur={(e) => {
+                        let value = parseFloat(e.target.value);
+                    
+                        // If the value is a valid number, format it to 2 decimal places
+                        if (!isNaN(value)) {
+                          value = value.toFixed(2); // Ensure 2 decimal places
+                          handleInputChange({ target: { name: e.target.name, value } }); // Update state with formatted value
                         }
                       }}
                       value={formData.price === 0 ? "" : formData.price}
@@ -1745,17 +1765,55 @@ function LayoutaddProduct() {
                     <label className="text-sm font-semibold">
                       UPN Member Price ($):
                     </label>
-                    <input
+                    {/* <input
                       name="upnMemberPrice"
                       type="phone"
                       className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
+                      // onChange={handleInputChange}
+                      onChange={(e) => {
+                        let value = e.target.value;
+
+                        // Allow only numbers and decimals, limit to 2 decimal places
+                        const validPrice = /^\d*(\.\d{0,2})?$/;
+
+                        // Check if the input value is a valid number with up to 2 decimal places
+                        if (validPrice.test(value)) {
+                          handleInputChange(e); // Update the state only with valid input
+                        }
+                      }}
                       value={
                         formData.upnMemberPrice === ""
                           ? ""
                           : formData.upnMemberPrice
                       }
-                    />
+                    /> */}
+                    <input
+  name="upnMemberPrice"
+  type="text"
+  className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+  onChange={(e) => {
+    let value = e.target.value;
+
+    // Allow only numbers and decimals, limit to 2 decimal places
+    const validPrice = /^\d*(\.\d{0,2})?$/;
+
+    // Check if the input value is a valid number with up to 2 decimal places
+    if (validPrice.test(value)) {
+      handleInputChange(e); // Update the state only with valid input
+    }
+  }}
+  onBlur={(e) => {
+    let value = parseFloat(e.target.value);
+
+    // If the value is a valid number, format it to 2 decimal places
+    if (!isNaN(value)) {
+      value = value.toFixed(2); // Ensure 2 decimal places
+      handleInputChange({ target: { name: e.target.name, value } }); // Update state with formatted value
+    }
+  }}
+  value={formData.upnMemberPrice !== "" ? formData.upnMemberPrice : ""}
+/>
+
                   </div>
                 </div>
                 <div className="flex items-center gap-8">

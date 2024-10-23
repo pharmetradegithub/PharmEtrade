@@ -839,16 +839,38 @@ const EditSellerList = () => {
             </div> */}
             <div className="flex justify-between flex-col  rounded-lg  px-8  w-[95%] mt-4">
               <div className="button-group">
-                <Button
+                {/* <Button
                   onClick={() => ActivateCustomer(CustomerId)}
                   className="mr-2 bg-green-500 text-white"
                 >
                   Activate
+                </Button> */}
+                 <Button
+                  onClick={() => ActivateCustomer(CustomerId)}
+                  className={`mr-2 text-white ${
+                    userdata?.isActive === 1
+                      ? "bg-green-500 cursor-not-allowed opacity-50"
+                      : "bg-green-500"
+                  }`}
+                  disabled={userdata?.isActive === 1} // Disable the button if isActive is 1
+                >
+                  Activate
                 </Button>
 
-                <Button
+                {/* <Button
                   onClick={() => DeactivateCustomer(CustomerId)}
                   className="mr-2  bg-red-500 text-white"
+                >
+                  Deactivate
+                </Button> */}
+                 <Button
+                  onClick={() => DeactivateCustomer(CustomerId)}
+                  className={`mr-2 text-white ${
+                    userdata?.isActive === 0
+                      ? "bg-red-500 cursor-not-allowed opacity-50"
+                      : "bg-red-500"
+                  }`}
+                  disabled={userdata?.isActive === 0} // Disable the button if isActive is 0
                 >
                   Deactivate
                 </Button>
