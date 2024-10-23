@@ -43,8 +43,6 @@ const LayoutNav = ({ Form_Data }) => {
       setIsContainerFocused(false);
     } else if (e.target.className.includes("button-focus")) {
       setIsButtonFocused(false);
-      setDropdownOpen(false)
- 
     }
   };
 
@@ -108,20 +106,18 @@ const LayoutNav = ({ Form_Data }) => {
     if (event.key === "Enter") {
       event.preventDefault(); // Prevent the default behavior
       handleSearchAPI(); // Call submit function when Enter is pressed
-      setDropdownOpen(false)
     }
   };
   const [selectedItem, setSelectedItem] = useState("All");
   const [SearchInput, setSearchInput] = useState("");
   const handleSearch = async (e) => {
     setSearchInput(e.target.value);
-    setDropdownOpen(false)
   };
 
   console.log(SearchInput, "search");
   const handleSearchAPI = async () => {
  
-    setDropdownOpen(false);
+
       
       let Criteria = {
         productCategoryId: selectedItemId,
@@ -138,21 +134,9 @@ const LayoutNav = ({ Form_Data }) => {
   
       console.log("g--->", Criteria);
   
-      // await fetchCriteriaProductsApi(Criteria);
-      // navigate(`/layout/layoutCategoryProducts?CategoryName=${selectedItemId}`);
-      // setSearchInput("");
-      try {
-        // Call the API with the search criteria
-        await fetchCriteriaProductsApi(Criteria);
-    
-        // Navigate to the allProducts page with the search input as a query parameter
-        navigate(`/allProducts?Search=${encodeURIComponent(SearchInput)}`);
-    
-        // Clear the search input after navigation
-        setSearchInput("");
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
+      await fetchCriteriaProductsApi(Criteria);
+      navigate(`/layout/layoutCategoryProducts?CategoryName=${selectedItemId}`);
+      setSearchInput("");
     
     
     
