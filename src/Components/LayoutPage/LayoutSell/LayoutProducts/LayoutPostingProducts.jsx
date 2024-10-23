@@ -131,13 +131,23 @@ const LayoutPostingProducts = () => {
             return res.json();
           });
 
-          const dashboardPromise = dispatch(fetchSellerDashboard(user?.customerId));
+          const dashboardPromise = dispatch(
+            fetchSellerDashboard(user?.customerId)
+          );
 
           // Wait for both to resolve
-          const [productData] = await Promise.all([productPromise, dashboardPromise]);
+          const [productData] = await Promise.all([
+            productPromise,
+            dashboardPromise,
+          ]);
+
+          // Sort products by createdDate (or the relevant date property)
+          const sortedProducts = productData.result.sort((a, b) => {
+            return new Date(b.createdDate) - new Date(a.createdDate); // Adjust 'createdDate' to your actual date property
+          });
 
           // Set product data
-          setProducts(productData.result);
+          setProducts(sortedProducts);
         }
       } catch (error) {
         setError(error); // Handle and store error
@@ -426,20 +436,27 @@ const LayoutPostingProducts = () => {
                         </td>
                         <td className="px-4 py-2">{product.productName}</td>
                         <td className="px-4 py-2">{}</td>
-                        <td className="px-4 py-2 text-right">${product.unitPrice.toFixed(2)}</td>
-                        <td className="px-4 py-2">{new Date(product.salePriceValidFrom).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "2-digit",
-                          day: "2-digit",
-                        })
-                          .replace(/\//g, "-")}</td>
-                        <td className="px-4 py-2">{new Date(product.salePriceValidTo).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "2-digit",
-                          day: "2-digit",
-                        })
-                          .replace(/\//g, "-")}</td>
-
+                        <td className="px-4 py-2 text-right">
+                          ${product.unitPrice.toFixed(2)}
+                        </td>
+                        <td className="px-4 py-2">
+                          {new Date(product.salePriceValidFrom)
+                            .toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "2-digit",
+                              day: "2-digit",
+                            })
+                            .replace(/\//g, "-")}
+                        </td>
+                        <td className="px-4 py-2">
+                          {new Date(product.salePriceValidTo)
+                            .toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "2-digit",
+                              day: "2-digit",
+                            })
+                            .replace(/\//g, "-")}
+                        </td>
 
                         <td className="px-4 py-2 cursor-pointer flex items-center space-x-2">
                           <Tooltip title="Edit" placement="top">

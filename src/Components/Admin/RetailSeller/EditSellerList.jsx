@@ -53,6 +53,13 @@ const EditSellerList = () => {
   console.log(userdata);
   const [confirmPassword, setConfirmPassword] = useState(""); // State to track user input
 
+
+  const [notes, setNotes] = useState('');
+  const [submittedNotes, setSubmittedNotes] = useState(null);
+  const handleSend = () => {
+    setSubmittedNotes(notes); // Save the notes to display below
+    setNotes(''); // Clear the TextField after submission
+  };
   const profiles = [
     {
       label: "User Details",
@@ -192,6 +199,8 @@ const EditSellerList = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    setNotes(e.target.value); // Update notes state with input value
+
     setConfirmPassword(e.target.value); // Update state with user input
 
     // Dispatch an action to update the Redux state here if necessary
@@ -205,19 +214,18 @@ const EditSellerList = () => {
   return (
     <div className="w-full h-full flex-col bg-slate-200 flex justify-center overflow-y-scroll">
       {notification.show && (
-          <Notification show={notification.show} message={notification.message} />
-        )}
+        <Notification show={notification.show} message={notification.message} />
+      )}
       <div className="w-[95%] mt-8 h-full flex flex-col justify-normal">
         {/* Render Profile Buttons */}
         <div className="flex">
           {profiles.map((profile) => (
             <div key={profile.grid} className="flex ml-6">
               <div
-                className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${
-                  visibleGrid === profile.grid
+                className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${visibleGrid === profile.grid
                     ? "border-b-4 border-blue-900"
                     : ""
-                }`}
+                  }`}
                 onClick={() => toggleGrid(profile.grid)}
               >
                 <h1 className="text-lg text-blue-900 font-semibold">
@@ -484,7 +492,7 @@ const EditSellerList = () => {
                     // helperText={errors.First_Name}
 
                     size="small"
-                    // className="w-full"
+                  // className="w-full"
                   />
                   <TextField
                     label="City"
@@ -497,7 +505,7 @@ const EditSellerList = () => {
                     // helperText={errors.First_Name}
 
                     size="small"
-                    // className="w-full"
+                  // className="w-full"
                   />
                   <TextField
                     label="Zip"
@@ -510,7 +518,7 @@ const EditSellerList = () => {
                     // helperText={errors.First_Name}
 
                     size="small"
-                    // className="w-full"
+                  // className="w-full"
                   />
                   <TextField
                     label="Business Fax"
@@ -523,7 +531,7 @@ const EditSellerList = () => {
                     // helperText={errors.First_Name}
 
                     size="small"
-                    // className="w-full"
+                  // className="w-full"
                   />
                   <TextField
                     label="Company Website"
@@ -536,7 +544,7 @@ const EditSellerList = () => {
                     // helperText={errors.First_Name}
 
                     size="small"
-                    // className="w-full"
+                  // className="w-full"
                   />
                 </div>
                 <div className="flex flex-col gap-3">
@@ -551,7 +559,7 @@ const EditSellerList = () => {
                     // helperText={errors.First_Name}
 
                     size="small"
-                    // className="w-full"
+                  // className="w-full"
                   />
                   <TextField
                     label="Address"
@@ -564,7 +572,7 @@ const EditSellerList = () => {
                     // helperText={errors.First_Name}
 
                     size="small"
-                    // className="w-full"
+                  // className="w-full"
                   />
                   <TextField
                     label="State"
@@ -577,7 +585,7 @@ const EditSellerList = () => {
                     // helperText={errors.First_Name}
 
                     size="small"
-                    // className="w-full"
+                  // className="w-full"
                   />
                   <TextField
                     label="Business Phone"
@@ -601,7 +609,7 @@ const EditSellerList = () => {
                     // helperText={errors.First_Name}
 
                     size="small"
-                    // className="w-full"
+                  // className="w-full"
                   />
                 </div>
 
@@ -719,8 +727,8 @@ const EditSellerList = () => {
                     value={
                       businessInfo?.pharmacyLicenseExpirationDate
                         ? businessInfo.pharmacyLicenseExpirationDate.split(
-                            "T"
-                          )[0]
+                          "T"
+                        )[0]
                         : ""
                     } // Extracts the "YYYY-MM-DD" portion
                     onChange={handleInputChange}
@@ -766,9 +774,8 @@ const EditSellerList = () => {
                   />
                   <button
                     // className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold"
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-                      !istabedit ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!istabedit ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                     // Disable button when not editable
                     onClick={handletabesave}
                   >
@@ -778,7 +785,7 @@ const EditSellerList = () => {
               </div>
             </div>
 
-            <div className="flex justify-between flex-col  rounded-lg  px-8  w-[95%] mt-4">
+            {/* <div className="flex justify-between bg-white border  flex-col  rounded-lg  mx-8  w-[90%] mt-4">
               <TextField
                 label="Add Notes"
                 id="outlined-size-small"
@@ -787,11 +794,37 @@ const EditSellerList = () => {
                 onChange={handleInputChange} // Handles input change
                 // disabled={!isEditable} // Disable unless in edit mode
                 size="small"
-                className="w-full bg-white border m-2"
+                className="w-full  m-2"
                 multiline // Makes it a TextArea
                 rows={4} // Number of rows for the TextArea
               />
+
+              <button>Send</button>
+            </div> */}
+
+
+            <div className="flex flex-col justify-between  rounded-lg mx-8 w-[90%] mt-4">
+              {/* TextField for input */}
+              <TextField
+                label="Add Notes"
+                id="outlined-size-small"
+                value={notes} // Set input value from state
+                name="comments"
+                onChange={handleInputChange} // Handles input change
+                size="small"
+                className="w-full m-2 bg-white border"
+                multiline
+                rows={4}
+              />
+              {/* Button to submit the notes */}
+              <div className="flex justify-end">
+                <button onClick={handleSend} className="m-2 p-2 w-28 bg-blue-900 font-semibold text-white rounded">
+                  Send
+                </button>
+              </div>
+
             </div>
+
             {/* </div> */}
             {/* <div className="flex justify-between flex-col  rounded-lg  px-8  w-[95%] mt-4">
               <div className="button-group">
@@ -845,13 +878,12 @@ const EditSellerList = () => {
                 >
                   Activate
                 </Button> */}
-                 <Button
+                <Button
                   onClick={() => ActivateCustomer(CustomerId)}
-                  className={`mr-2 text-white ${
-                    userdata?.isActive === 1
+                  className={`mr-2 text-white ${userdata?.isActive === 1
                       ? "bg-green-500 cursor-not-allowed opacity-50"
                       : "bg-green-500"
-                  }`}
+                    }`}
                   disabled={userdata?.isActive === 1} // Disable the button if isActive is 1
                 >
                   Activate
@@ -863,13 +895,12 @@ const EditSellerList = () => {
                 >
                   Deactivate
                 </Button> */}
-                 <Button
+                <Button
                   onClick={() => DeactivateCustomer(CustomerId)}
-                  className={`mr-2 text-white ${
-                    userdata?.isActive === 0
+                  className={`mr-2 text-white ${userdata?.isActive === 0
                       ? "bg-red-500 cursor-not-allowed opacity-50"
                       : "bg-red-500"
-                  }`}
+                    }`}
                   disabled={userdata?.isActive === 0} // Disable the button if isActive is 0
                 >
                   Deactivate
@@ -879,7 +910,7 @@ const EditSellerList = () => {
                   // variant="filled" // Replaced "contained" with "filled"
                   // color="default"
                   className="mr-2  bg-blue-900 text-white"
-                  // onClick={handleSendEmail} // Function to handle sending email
+                // onClick={handleSendEmail} // Function to handle sending email
                 >
                   Send Email
                 </Button>
@@ -894,41 +925,44 @@ const EditSellerList = () => {
                   <input
                     type="file"
                     hidden // Hide the default input element
-                    // onChange={handleFileUpload} // Function to handle file upload
+                  // onChange={handleFileUpload} // Function to handle file upload
                   />
                 </Button>
               </div>
             </div>
+            {submittedNotes && (
 
-            <div className=" flex justify-between flex-col  rounded-lg  px-8  w-[90%]  my-4">
-              <div className="data-group bg-white p-4 rounded-lg">
-                <div className="data-item">
+              <div className=" flex justify-between flex-col  rounded-lg  px-8  w-[90%]  my-4">
+                <div className="data-group bg-white p-4 rounded-lg">
+                  {/* <div className="data-item">
                   <label>Email 1 :</label>
-                  <span>John Doe</span> {/* Replace with dynamic data */}
+                  <span>John Doe</span> 
                 </div>
 
                 <div className="data-item">
                   <label>Email 2 :</label> <span>johndoe@example.com</span>{" "}
-                  {/* Replace with dynamic data */}
-                </div>
+                </div> */}
 
-                <div className="data-item">
-                  <label>Status:</label>
-                  <span>Active</span> {/* Replace with dynamic data */}
+                  {submittedNotes}
+
+                  <div className="data-item">
+                    <label>Status:</label>
+                    <span>Active</span> {/* Replace with dynamic data */}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         )}
 
         {/* * Bank Information Grid */}
-       {visibleGrid === "charges" && (
+        {visibleGrid === "charges" && (
           <div
           //  className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4"
           >
-        <ChargesInformations />
-        </div>
-        )} 
+            <ChargesInformations />
+          </div>
+        )}
 
         {/* Address Grid */}
         {/* {visibleGrid === "address" && (

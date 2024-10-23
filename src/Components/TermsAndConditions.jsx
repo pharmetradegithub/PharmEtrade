@@ -3,12 +3,18 @@ import mobile from '../assets/Mobile app.png'
 import playstore from '../assets/googleplay.png'
 import appstore from '../assets/apple[1].png'
 import back from '../assets/Previous_icon.png'
+import logo from '../assets/logo2.png'
 function TermsAndConditions({ topMargin, setActiveStep }) {
     return (
         <div
-            className='w-full  flex  flex-col justify-center items-center bg-slate-100'
+            className='w-full  flex  flex-col  bg-slate-100'
             style={{ marginTop: `${topMargin}px ` }}>
-            <div className='w-[80%]  px-20 py-8 h-full border-b'>
+                <div className='flex justify-start m-2'>
+
+                <img src={logo} className='w-56 h-12'/>
+                </div>
+                <div className='flex justify-center items-center w-full flex-col'>
+            <div className='w-[80%]  px-20 py-2 h-full border-b '>
                 <h1 className='text-3xl font-medium text-blue-900 text-start py-6 underline'>
                     Terms & Conditions
                 </h1>
@@ -121,6 +127,7 @@ function TermsAndConditions({ topMargin, setActiveStep }) {
                             App Store</button>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     )
