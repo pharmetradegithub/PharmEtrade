@@ -1043,6 +1043,11 @@ function LayoutOrderList() {
   const part = pathname.split('/')
   const orderId = part[2]
 
+  useEffect(() =>{
+    if(getOrders)
+      setGetOrder(getOrders)
+  },[getOrders])
+
 
 
   
