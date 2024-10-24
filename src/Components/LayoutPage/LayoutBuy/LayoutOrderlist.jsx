@@ -1093,7 +1093,7 @@ function LayoutOrderList() {
     //   data();
     // }
     data();
-  }, [])
+  }, [user, dispatch])
 
   // useEffect(() => {
   //   if (orderList.length > 0) {

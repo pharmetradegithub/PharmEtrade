@@ -133,6 +133,8 @@ const bidSlice = createSlice({
   }
 })
 
+
+
 const initialOrderState = {
   orders: [],
   OrderBySellerId: [],
@@ -141,7 +143,9 @@ const initialOrderState = {
   orderPlace: [],
   orderInvoice: [],
   orderDownloadInvoice: [],
-  orderView: []
+  orderView: [],
+  orderDeliveryAddress: [],
+  getById: []
 }
 
 const orderSlice = createSlice({
@@ -175,9 +179,16 @@ const orderSlice = createSlice({
     },
     setOrderViewInvoice(state, action) {
       state.orderView = action.payload
+    },
+    setOrderDeliveryAddress(state, action) {
+      state.orderDeliveryAddress = action.payload
+    },
+    setGetById(state, action) {
+      state.getById = action.payload
     }
   },                                                                          
 });
+
 
 const initialDashboardState = {
   getSellerId: [],
@@ -433,6 +444,20 @@ const taxInfoSlice = createSlice({
   }
 })
 
+
+const trackNumberSlice = createSlice({
+  name: 'trackNumber',
+  initialState: { trackNumber: [] },
+  reducers: {
+    setTrackNumber(state, action) {
+      state.trackNumber = action.payload
+    }
+  }
+})
+
+export const { setGetById } = orderSlice.actions
+export const { setTrackNumber } = trackNumberSlice.actions
+
 export const { setTaxEdit } = taxInfoSlice.actions
 export const { setStateName } = taxInfoSlice.actions
 export const { setTaxAdd } = taxInfoSlice.actions
@@ -471,6 +496,9 @@ export const { setAdmin } = adminSlice.actions
 export const { setAddBeneficiary } = userSlice.actions
 export const { setGetBeneficiary } = userSlice.actions
 export const { setGetBidsBySeller } = bidSlice.actions
+export const { deleteBanner, addBanner, editBanner, setBanner, clearBanner } = bannerSlice.actions;
+export const {setOrderDeliveryAddress} = orderSlice.actions
+
 
 const store = configureStore({
   reducer: {
@@ -489,7 +517,8 @@ const store = configureStore({
     admin: adminSlice.reducer,
     bid:bidSlice.reducer,
     shipment: shipmentSlice.reducer,
-    tax: taxInfoSlice.reducer
+    tax: taxInfoSlice.reducer,
+    trackNumber: trackNumberSlice.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });

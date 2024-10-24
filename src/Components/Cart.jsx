@@ -51,6 +51,7 @@ function Cart() {
       console.error("There was a problem with the fetch operation:", error);
     }
   };
+  console.log(cartItems,"cart")
   const handleCart = async (productID, Quantity) => {
     const cartData = {
       customerId: user.customerId,
@@ -58,7 +59,7 @@ function Cart() {
       quantity: Quantity,
       isActive: 1,
     };
-
+    console.log(cartData)
     try {
       await addCartApi(cartData);
     } catch (error) {
@@ -83,7 +84,7 @@ function Cart() {
   // };
   const handleQuantityChange = (index, newQuantity) => {
     // Ensure the new quantity is at least 1
-    if (newQuantity >= 1) {
+    if (newQuantity >= 0) {
       setcartItems((prev) => {
         const updatedList = [...prev];
         updatedList[index] = {
@@ -209,75 +210,62 @@ function Cart() {
                         />
                       </td> */}
                       <td>
-                        <div className="flex flex-col mx-3">
-                          {/* <p className="font-semibold">Quantity</p> */}
+                      <div className="mt-2 flex items-center">
+  <button
+    className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+    onClick={() =>
+      handleQuantityChange(index, Math.max(item.product.maximumOrderQuantity, item.updateQuantity - 1))
+    }
+    disabled={item.updateQuantity === item.product.minimumOrderQuantity} // Disable button if quantity is at maxOrderQuantity
+  >
+    -
+  </button>
 
-                          {/* <div className="mt-2 flex items-center">
-                            <button
-                              className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
-                              onClick={() =>
-                                handleQuantityChange(
-                                  index,
-                                  item.updateQuantity - 1
-                                )
-                              }
-                            >
-                              -
-                            </button>
+  <input
+  type="text"
+  value={item.updateQuantity}
+  onChange={(e) => {
+    const value = e.target.value;
 
-                            <input
-                              type="text"
-                              value={item.updateQuantity}
-                              disabled={true}
-                              className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
-                            />
+    // Allow the user to clear the input while typing
+    handleQuantityChange(index, value); 
+  }}
+  onBlur={(e) => {
+    const value = parseInt(e.target.value, 10);
+    
+    if (!isNaN(value)) {
+      if (value < item.product.minimumOrderQuantity) {
+        alert(`Minimum order quantity is ${item.product.minimumOrderQuantity}`);
+        handleQuantityChange(index, item.product.minimumOrderQuantity); // Reset to min
+      } else if (value > item.product.maximumOrderQuantity) {
+        alert(`Max order quantity is ${item.product.maximumOrderQuantity}`);
+        handleQuantityChange(index, item.product.maximumOrderQuantity); // Reset to max
+      }
+    }
+  }}
+  className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
+/>
 
-                            <button
-                              className="px-2 py-1 border rounded-md  bg-gray-200 text-gray-700 font-bold"
-                              onClick={() =>
-                                handleQuantityChange(
-                                  index,
-                                  item.updateQuantity + 1
-                                )
-                              }
-                            >
-                              +
-                            </button>
-                          </div> */}
-                          <div className="mt-2 flex items-center">
-                            <button
-                              className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
-                              onClick={() =>
-                                handleQuantityChange(
-                                  index,
-                                  Math.max(1, item.updateQuantity - 1)
-                                )
-                              }
-                              disabled={item.updateQuantity === 1} // Disable button if quantity is 1
-                            >
-                              -
-                            </button>
 
-                            <input
-                              type="text"
-                              value={item.updateQuantity}
-                              disabled={true}
-                              className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
-                            />
 
-                            <button
-                              className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
-                              onClick={() =>
-                                handleQuantityChange(
-                                  index,
-                                  item.updateQuantity + 1
-                                )
-                              }
-                            >
-                              +
-                            </button>
-                          </div>
-                        </div>
+  <button
+    className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+    onClick={() => {
+      console.log("clicked")
+      if (item.updateQuantity < item.product.maximumOrderQuantity
+
+      ) {
+        handleQuantityChange(index, item.updateQuantity + 1);
+      } else {
+        alert(`Minimum order quantity is only ${item.product.minimumOrderQuantity}`);
+      }
+    }}
+    disabled={item.updateQuantity >= item.product.maximumOrderQuantity} // Disable button if quantity reaches minimumOrderQuantity
+  >
+    +
+  </button>
+</div>
+
                       </td>
 
                       <td className="px-2 md:px-4 text-right py-3 ">

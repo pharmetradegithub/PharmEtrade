@@ -1,5 +1,5 @@
 import axios from "axios";
-import { addOrder, setGetOrder, setGetOrderBySellerId, setOrderDownloadInvoice, setOrderInvoice, setOrderPlace, setOrdersPayment, setOrderViewInvoice, setSellerGetAll } from "../Store/Store";
+import { addOrder, setGetById, setGetOrder, setGetOrderBySellerId, setOrderDownloadInvoice, setOrderInvoice, setOrderPlace, setOrdersPayment, setOrderViewInvoice, setSellerGetAll } from "../Store/Store";
 
 axios.defaults.baseURL = 'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/';
 
@@ -42,7 +42,7 @@ export const fetchOrderApi = (payLoad) => {
 export const fetchGetOrderBySellerId = (customerId) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`/api/Orders/Buyer/GetAll?customerId=${customerId}`);
+      const response = await axios.get(`/api/Orders/Seller/GetAll?vendorId=${customerId}`);
       if (response.status === 200) {
         const OrderBySellerId = response.data.result;
         console.log('Dispatching setSpecialOffer action:', OrderBySellerId); // Log before dispatch
@@ -212,19 +212,19 @@ export const fetchOrderDownloadInvoice = (orderId) => {
 };
 
 
-// export const orderGetById = (orderId) => {
-//   return async (dispatch) => {
-//     try {
-//       const response = await axios.get(`/api/Orders/GetById?orderid=${orderId}`)
-//       console.log("orderByIdApi-->", response)
-//       if (response.status === 200) {
-//         const getById = response.data.result
-//         dispatch(setGetById(getById))
-//       } else {
-//         console.error('Failed to get order action:', response.data.message);
-//       }
-//     } catch (error) {
-//       console.error('Error get order action:', error);
-//     }
-//   }
-// }
+export const orderGetByIdApi = (orderId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/api/Orders/GetById?orderid=${orderId}`)
+      console.log("orderByIdApi-->", response)
+      if (response.status === 200) {
+        const getById = response.data.result
+        dispatch(setGetById(getById))
+      } else {
+        console.error('Failed to get order action:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error get order action:', error);
+    }
+  }
+}

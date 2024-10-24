@@ -94,18 +94,36 @@ const TotalProducts = () => {
   };
   
   
+  // const sortedItems = React.useMemo(() => {
+  //   if (sortConfig.key) {
+  //     return [...data].sort((a, b) => {
+  //       if (sortConfig.direction === "ascending") {
+  //         return a[sortConfig.key] > b[sortConfig.key] ? 1 : -1;
+  //       }
+  //       return a[sortConfig.key] < b[sortConfig.key] ? 1 : -1;
+  //     });
+  //   }
+  //   return data;
+  // }, [data, sortConfig]);
+
+
   const sortedItems = React.useMemo(() => {
     if (sortConfig.key) {
       return [...data].sort((a, b) => {
-        if (sortConfig.direction === "ascending") {
+        if (sortConfig.key === "createdDate") {
+          // Sort by createdDate in descending order
+          return new Date(b.createdDate) - new Date(a.createdDate);
+        } else if (sortConfig.direction === "ascending") {
           return a[sortConfig.key] > b[sortConfig.key] ? 1 : -1;
         }
         return a[sortConfig.key] < b[sortConfig.key] ? 1 : -1;
       });
     }
-    return data;
+    // Default sorting by createdDate in descending order
+    return [...data].sort(
+      (a, b) => new Date(b.createdDate) - new Date(a.createdDate)
+    );
   }, [data, sortConfig]);
-
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = sortedItems.slice(indexOfFirstItem, indexOfLastItem);

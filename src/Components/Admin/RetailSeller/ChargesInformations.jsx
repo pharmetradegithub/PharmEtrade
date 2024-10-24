@@ -712,14 +712,17 @@ const ChargesInformations = () => {
               disabled={!isEditable} // Enable/disable based on edit mode
             >
               <option value="">Select a category</option>
-              {getproductSpecialOffer.map((item) => (
+              <option value="credit card charges">Credit card charges</option>
+              <option value="pharmetrade charges">PharmEtrade charges</option>
+
+              {/* {getproductSpecialOffer.map((item) => (
                 <option
                   key={item.categorySpecificationId}
                   value={item.categorySpecificationId}
                 >
                   {item.specificationName}
                 </option>
-              ))}
+              ))} */}
             </select>
           </div>
 

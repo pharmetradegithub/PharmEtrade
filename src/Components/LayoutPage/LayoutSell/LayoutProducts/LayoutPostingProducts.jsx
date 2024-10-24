@@ -435,11 +435,23 @@ const LayoutPostingProducts = () => {
                           />
                         </td>
                         <td className="px-4 py-2">{product.productName}</td>
-                        <td className="px-4 py-2">{}</td>
+                        {/* <td className="px-4 py-2">{}</td> */}
+                        <td className="px-4 py-2">
+                          {(() => {
+                            const date = new Date(product.createdDate);
+                            const month = String(date.getMonth() + 1).padStart(
+                              2,
+                              "0"
+                            ); // Get month and pad with zero if necessary
+                            const day = String(date.getDate()).padStart(2, "0"); // Get day and pad with zero if necessary
+                            const year = date.getFullYear(); // Get full year
+                            return `${month}-${day}-${year}`; // Format MM-DD-YYYY
+                          })()}
+                        </td>
                         <td className="px-4 py-2 text-right">
                           ${product.unitPrice.toFixed(2)}
                         </td>
-                        <td className="px-4 py-2">
+                        <td className="px-4 py-2 text-center">
                           {new Date(product.salePriceValidFrom)
                             .toLocaleDateString("en-US", {
                               year: "numeric",
@@ -448,7 +460,7 @@ const LayoutPostingProducts = () => {
                             })
                             .replace(/\//g, "-")}
                         </td>
-                        <td className="px-4 py-2">
+                        <td className="px-4 py-2 text-center">
                           {new Date(product.salePriceValidTo)
                             .toLocaleDateString("en-US", {
                               year: "numeric",

@@ -88,7 +88,10 @@ function LayoutPaymentHistory() {
   }, [user?.customerId])
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = paymentHistory.slice(indexOfFirstItem, indexOfLastItem);
+  // const currentItems = paymentHistory.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = Array.isArray(paymentHistory)
+  ? paymentHistory.slice(indexOfFirstItem, indexOfLastItem)
+  : [];
   const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
   return (
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
