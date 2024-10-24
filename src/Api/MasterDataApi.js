@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setCategorySpecificationsGetAll, setProductCategoryGetAll } from '../Store/Store';
+import { setCategorySpecificationsGetAll, setOrderStatusGetAll, setProductCategoryGetAll } from '../Store/Store';
 
 axios.defaults.baseURL = 'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/';
 
@@ -60,3 +60,20 @@ export const fetchCategorySpecificationsGetAll = () => {
   };
 }
 
+
+export const MasterOrderStatusGetAll = () => {
+  return async (dispatch) => {
+    try {
+
+      const statusGetAllResponse = await axios.get('/api/Masters/OrderStatus/GetAll')
+      if (statusGetAllResponse.status === 200) {
+        const response = statusGetAllResponse.data.result
+        dispatch(setOrderStatusGetAll(response))
+      } else {
+        console.error('Failed to get all Order Status:', statusGetAllResponse.data.message)
+      }
+    } catch (error) {
+      console.log("error order get all status", error)
+    }
+  }
+}

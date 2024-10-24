@@ -16,6 +16,7 @@ import Invoice from '../../../assets/Icons/Invoice.png'
 import download from '../../../assets/Icons/download.png'
 import wrong from "../../../assets/Icons/wrongred.png";
 import Pagination from "../../Pagination";
+import { MasterOrderStatusGetAll } from "../../../Api/MasterDataApi";
 
 function LayoutSellOrders() {
   const dispatch = useDispatch()
@@ -27,6 +28,12 @@ function LayoutSellOrders() {
   const [currentPage, setCurrentPage] = useState(1);
   const ordered = useSelector((state) => state.order.orderView)
   console.log("orderedview-->", ordered) 
+  const orderStatusGetAll = useSelector((state) => state.master.orderStatusGetAll)
+  console.log("statusGetAll", orderStatusGetAll)
+  useEffect(() => {
+    dispatch(MasterOrderStatusGetAll())
+  }, [dispatch])
+  
   const localData = localStorage.getItem("userId")
   const products = [
     {
@@ -274,13 +281,26 @@ function LayoutSellOrders() {
                               }).replace(/\//g, '-')}</td>
                     <td className="text-right px-4 py-2">${product?.totalAmount.toFixed(2)}</td>
                     <td className="px-4 py-2">{product?.customerName}</td>
-                    <td className="px-4 py-2"><select>
+                    <td className="px-4 py-2">
+                      {/* <select>
                         <option value="approve">Accepted</option>
                         <option value="Reject">Rejected</option>
                         <option value="Shipped">Ready to Ship</option>
                         <option value="Shipped"> Shipped</option>
 
                         <option value="Delivered">Delivered</option>
+                      </select> */}
+                      <select disabled={!Array.isArray(orderStatusGetAll) || orderStatusGetAll.length === 0}>
+    {Array.isArray(orderStatusGetAll) && orderStatusGetAll.length > 0 && 
+      orderStatusGetAll.map((item) => (
+        <option key={item.statusId} value={item.statusId}>
+          {item.statusDescription}
+        </option>
+      ))
+    }
+  
+                      
+                      
                       </select>
 
                     </td>

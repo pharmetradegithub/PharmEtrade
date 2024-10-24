@@ -405,14 +405,18 @@ const LayoutPostingProducts = () => {
               <table className="w-full">
                 <thead className="bg-blue-900 text-white">
                   <tr className="border-b-2">
-                    <th className="px-4 py-2 text-left">S.No</th>
-                    <th className="px-4 py-2 text-left">Thumbnail</th>
-                    <th className=" px-4 py-2 text-left">Product Name</th>
-                    <th className="px-4 py-2 text-left">Created Date</th>
-                    <th className="px-4 py-2 text-right">Unit Price</th>
-                    <th className="px-4 py-2 text-left">Saleprice Start</th>
-                    <th className="px-4 py-2 text-left">Saleprice End</th>
-                    <th className="px-4 py-2 ">Action</th>
+                    <th className="px-2 py-2 text-left">S.No</th>
+                    <th className="px-2 py-2 text-left">Thumbnail</th>
+                    <th className=" px-2 py-2 text-left">Product Name</th>
+                    <th className="px-2 py-2 text-left">Created Date</th>
+                    <th className="px-2 py-2 text-right">Unit Price</th>
+                    <th className="px-2 py-2 text-right">UPN Member Price</th>
+                    <th className="px- py-2 text-right">Sale Price</th>
+
+                    <th className="px-2 py-2 text-left">Saleprice Start</th>
+                    <th className="px-2 py-2 text-left">Saleprice End</th>
+
+                    <th className="px-2 py-2 ">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -428,15 +432,22 @@ const LayoutPostingProducts = () => {
                         <td className="px-4 py-2">
                           {indexOfFirstItem + index + 1}
                         </td>
-                        <td className="px-4 py-2">
+                        <td className="px-2 py-2">
                           <img
                             src={product?.productGallery?.imageUrl}
-                            className="w-14 object-cover"
+                            className="w-12 object-cover"
                           />
                         </td>
-                        <td className="px-4 py-2">{product.productName}</td>
+                        <td className=" py-2">
+      <Tooltip title={product.productName} placement="top">
+        <div className="truncate max-w-[150px] cursor-pointer">
+          {product.productName}
+        </div>
+      </Tooltip>
+    </td>
+                        {/* <td className="px-2 py-2">{product.productName}</td> */}
                         {/* <td className="px-4 py-2">{}</td> */}
-                        <td className="px-4 py-2">
+                        <td className="px-2 py-2">
                           {(() => {
                             const date = new Date(product.createdDate);
                             const month = String(date.getMonth() + 1).padStart(
@@ -448,9 +459,11 @@ const LayoutPostingProducts = () => {
                             return `${month}-${day}-${year}`; // Format MM-DD-YYYY
                           })()}
                         </td>
-                        <td className="px-4 py-2 text-right">
+                        <td className="px-2 py-2 text-right">
                           ${product.unitPrice.toFixed(2)}
                         </td>
+                        <td className="px-4 py-2 text-right">${product.upnMemberPrice.toFixed(2)}</td>
+                        <td className="px-5 py-2 text-right">${product.salePrice.toFixed(2)}</td>
                         <td className="px-4 py-2 text-center">
                           {new Date(product.salePriceValidFrom)
                             .toLocaleDateString("en-US", {
@@ -460,7 +473,7 @@ const LayoutPostingProducts = () => {
                             })
                             .replace(/\//g, "-")}
                         </td>
-                        <td className="px-4 py-2 text-center">
+                        <td className="px-2 py-2 text-center">
                           {new Date(product.salePriceValidTo)
                             .toLocaleDateString("en-US", {
                               year: "numeric",
@@ -470,7 +483,7 @@ const LayoutPostingProducts = () => {
                             .replace(/\//g, "-")}
                         </td>
 
-                        <td className="px-4 py-2 cursor-pointer flex items-center space-x-2">
+                        <td className=" py-2 cursor-pointer flex items-center space-x-2">
                           <Tooltip title="Edit" placement="top">
                             <img
                               src={edit}

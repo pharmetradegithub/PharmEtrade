@@ -700,8 +700,6 @@
 
 
 
-
-
 import React from "react";
 
 import Logo from "../../../assets/logo2.png";
@@ -861,15 +859,18 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleItemclick = (item) => {
-    if (user?.accountTypeId == 1 && item.label === "SELL") {
+    // Check if the user is of customerTypeId 4 and trying to click on "SELL"
+    if (user?.customerTypeId === 4 && item.label === "SELL") {
       setErrorMessage(
-        // "You have login as buyer contact us help@pharmetrade.com"
         <>
-        You have login as buyer contact us {" "}
-
-        <a href="  " className="text-blue-900 underline ">help@pharmetrade.com</a></>
+          You have logged in as a buyer. Please contact us at{" "}
+          <a href="mailto:help@pharmetrade.com" className="text-blue-900 underline">
+            help@pharmetrade.com
+          </a>
+        </>
       );
     } else {
+      // Navigate to the path if the condition doesn't match
       navigate(item.path);
     }
   };
@@ -1230,47 +1231,44 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
            items-center text-black  border-grey-500 shadow-lg "
         >
           <div className="flex gap-5 items-center justify-around text-blue-900 text-xs p-4 w-full md:w-fit">
-            {downDivItems.map((item, index) => (
-              <li
-                key={index}
-                onClick={() => handleItemclick(item)}
-                className={`flex gap-1 items-center justify-center cursor-pointer font-semibold hover:text-black
-                   ${
-                     //  item.label === "SELL" &&
-                     Form_Data?.userType === "Retail Customer" ? "hidden" : ""
-                   }`}
-              >
-                <img
-                  src={item.icon}
-                  className="max-w-8 max-h-8"
-                  alt={item.label}
-                />
-                <div className="text-[15px] ml-1 ">{item.label}</div>
-              </li>
-            ))}
-          </div>
+        {downDivItems.map((item, index) => (
+          <li
+            key={index}
+            className={`flex gap-1 items-center justify-center cursor-pointer font-semibold hover:text-black
+              ${Form_Data?.userType === 4 && item.label === "SELL" ? "hidden" : ""}`}
+            onClick={() => handleItemclick(item)} // Use the handleItemClick function
+          >
+            <img
+              src={item.icon}
+              className="max-w-8 max-h-8"
+              alt={item.label}
+            />
+            <div className="text-[15px] ml-1">{item.label}</div>
+          </li>
+        ))}
+      </div>
 
-          {errorMessage && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-              <div className="bg-gray-100 p-4 rounded-md shadow-md text-center">
-                <div className="flex justify-start items-center border-b border-black">
-                  <img src={warning} className=" w-12 h-12" />
-                  <p className="text-red-600 text-xl font-semibold mt-2">
-                    Warning !
-                  </p>
-                </div>
-                <div className="mt-4">
-                  <p className="text-black mb-4">{errorMessage}</p>
-                  <button
-                    onClick={() => setErrorMessage("")}
-                    className="bg-red-500 text-white px-4 py-2 rounded mb-2"
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
+      {/* Error message modal */}
+      {errorMessage && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-gray-100 p-4 rounded-md shadow-md text-center">
+            <div className="flex justify-start items-center border-b border-black">
+              <img src={warning} className="w-12 h-12" alt="Warning" />
+              <p className="text-red-600 text-xl font-semibold mt-2">Warning!</p>
             </div>
-          )}
+            <div className="mt-4">
+              <p className="text-black mb-4">{errorMessage}</p>
+              <button
+                onClick={() => setErrorMessage("")}
+                className="bg-red-500 text-white px-4 py-2 rounded mb-2"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
 
           <div className="flex bg-whit rounded-md items-center w-[50%] lg:gap-10">
             <div
@@ -1410,3 +1408,4 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
 }
 
 export default Nav;
+

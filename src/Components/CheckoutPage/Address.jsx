@@ -2843,84 +2843,74 @@ function Address({ topMargin, totalAmount }) {
                           ) : (
                             getAddress.map((item) => (
                               <div
-                                key={item.addressId}
-                                className="border flex-col rounded-md flex my-2 p-2 px-6 bg-pink-50 border-orange-200"
-                              >
-                                <div className="flex flex-col">
-                                  <div className="flex text-base w-full">
-                                    <div className="flex items-center w-full">
-                                      <div className="flex flex-wrap">
-                                        <div className="flex">
-                                          <input
-                                            type="radio"
-                                            checked={
-                                              selectedAddressId ===
-                                              item.addressId
-                                            }
-                                            onChange={() =>
-                                              handleChangeAddress(
-                                                item.addressId
-                                              )
-                                            }
-                                            className="mr-3"
-                                          />
-                                        </div>
+          key={item.addressId}
+          className="border flex-col rounded-md flex my-2 p-2 px-6 bg-pink-50 border-orange-200"
+        >
+          <div className="flex flex-col">
+            <div className="flex text-base w-full">
+              <div className="flex items-center w-full">
+                <div className="flex flex-wrap">
+                  <div className="flex">
+                    <input
+                      type="radio"
+                      checked={selectedAddressId === item.addressId} // Check if the current item is selected
+                      onChange={() => handleChangeAddress(item.addressId)} // Change the selected address when clicked
+                      onClick={() => {
+                        if (selectedAddressId) {
+                          handleUseAddress(); // Proceed with navigation
+                        } else {
+                          alert(
+                            "Please select an address before continuing."
+                          ); // Or display error message
+                        }
+                      }}
+                      className="mr-3"
+                    />
+                  </div>
+                  
+                  {/* Address display */}
+                  <h1 className="font-semibold">
+                    {item.firstName} {item.lastName || ""}, 
+                  </h1>
+                  {item.address2 && <p className="mr-1">{item.address2},</p>}
+                  <p className="mr-1">{item.address1},</p>
+                  <p className="mr-1">{item.city},</p>
+                  <p className="mr-1">{item.state}</p>
+                  <p className="mr-1">{item.pincode},</p>
+                  <p>{item.phoneNumber}</p>
 
-                                        <h1 className="font-semibold">
-                                          {item.firstName} {item.lastName || ""}
-                                          ,
-                                        </h1>
-                                        {item.address2 && (
-                                          <p className="mr-1">
-                                            {item.address2},
-                                          </p>
-                                        )}
-                                        <p className="mr-1">{item.address1},</p>
-                                        <p className="mr-1">{item.city},</p>
-                                        <p className="mr-1">{item.state}</p>
-                                        <p className="mr-1">{item.pincode},</p>
-                                        <p>{item.phoneNumber}</p>
-                                        <p
-                                          className="ml-2 items-center flex justify-center text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
-                                          onClick={() =>
-                                            handleEditAddress(
-                                              item.addressId,
-                                              item
-                                            )
-                                          }
-                                        >
-                                          <Tooltip title="Edit" placement="top">
-                                            <img
-                                              src={edit}
-                                              alt="Edit"
-                                              className="cursor-pointer w-7 h-7"
-                                            // onClick={() => handleEditProduct(product)}
-                                            />
-                                          </Tooltip>
-                                        </p>
-                                        <p
-                                          className="flex items-center justify-center ml-2 text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
-                                          onClick={() =>
-                                            handleDeleteAddress(item.addressId)
-                                          }
-                                        >
-                                          <Tooltip
-                                            placement="top"
-                                            title="Delete"
-                                          >
-                                            <img
-                                              src={Bin}
-                                              alt="Delete"
-                                              className="cursor-pointer w-4 h-4"
-                                            // onClick={() => DeleteProduct(product.productID)}
-                                            />
-                                          </Tooltip>
-                                        </p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
+                  {/* Edit button */}
+                  <p
+                    className="ml-2 items-center flex justify-center text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
+                    onClick={() => handleEditAddress(item.addressId, item)}
+                  >
+                    <Tooltip title="Edit" placement="top">
+                      <img
+                        src={edit}
+                        alt="Edit"
+                        className="cursor-pointer w-7 h-7"
+                      />
+                    </Tooltip>
+                  </p>
+
+                  {/* Delete button */}
+                  <p
+                    className="flex items-center justify-center ml-2 text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
+                    onClick={() => handleDeleteAddress(item.addressId)}
+                  >
+                    <Tooltip placement="top" title="Delete">
+                      <img
+                        src={Bin}
+                        alt="Delete"
+                        className="cursor-pointer w-4 h-4"
+                      />
+                    </Tooltip>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
                             ))
                           )}
                         </div>
@@ -2936,20 +2926,21 @@ function Address({ topMargin, totalAmount }) {
 
                         {/* Conditionally show the "Use this address" button if there are addresses */}
                         {getAddress.length > 0 && (
-                          <button
-                            className="border rounded-full h-8 text-sm w-32 bg-blue-900 text-white "
-                            onClick={() => {
-                              if (selectedAddressId) {
-                                handleUseAddress(); // Proceed with navigation
-                              } else {
-                                alert(
-                                  "Please select an address before continuing."
-                                ); // Or display error message
-                              }
-                            }}
-                          >
-                            Use this address
-                          </button>
+                          <div></div>
+                          // <button
+                          //   className="border rounded-full h-8 text-sm w-32 bg-blue-900 text-white "
+                          //   onClick={() => {
+                          //     if (selectedAddressId) {
+                          //       handleUseAddress(); // Proceed with navigation
+                          //     } else {
+                          //       alert(
+                          //         "Please select an address before continuing."
+                          //       ); // Or display error message
+                          //     }
+                          //   }}
+                          // >
+                          //   Use this address
+                          // </button>
                         )}
                       </div>
                     </div>

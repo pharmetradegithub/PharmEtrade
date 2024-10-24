@@ -171,20 +171,38 @@ console.log(selectedItem);
 
   const user = useSelector((state) => state.user.user);
   const [errorMessage, setErrorMessage] = useState("");
-
   const handleItemclick = (item) => {
-    if (user?.accountTypeId == 1 && item.text === "SELL") {
+    // Check if user is of customerTypeId 4 and tries to click on "SELL"
+    if (user?.customerTypeId === 4 && item.text === "SELL") {
       setErrorMessage(
-        // "You have login as buyer contact us help@pharmetrade.com"
         <>
-        You have login as buyer contact us {" "}
-
-        <a href="  " className="text-blue-900 underline ">help@pharmetrade.com</a></>
+          You have logged in as a buyer. Please contact us at{" "}
+          <a href="mailto:help@pharmetrade.com" className="text-blue-900 underline">
+            help@pharmetrade.com
+          </a>
+        </>
       );
     } else {
+      // Navigate to the path for other user types
       navigate(item.path);
     }
   };
+
+
+
+  // const handleItemclick = (item) => {
+  //   if (user?.accountTypeId == 1 && item.text === "SELL") {
+  //     setErrorMessage(
+  //       // "You have login as buyer contact us help@pharmetrade.com"
+  //       <>
+  //       You have login as buyer contact us {" "}
+
+  //       <a href="  " className="text-blue-900 underline ">help@pharmetrade.com</a></>
+  //     );
+  //   } else {
+  //     navigate(item.path);
+  //   }
+  // };
 
   // const handleItemclick = (item) => {
   //   navigate(item.path);
@@ -248,16 +266,12 @@ console.log(selectedItem);
       <div className="flex justify-around items-center">
         <div className="flex">
           {navItems.map((item, index) => (
-            <div
-              key={index}
-              className={`flex items-center ml-2 cursor-pointer
-              ${
-                //  item.text === "SELL" &&
-                Form_Data?.userType === "Retail Customer" ? "hidden" : ""
-              }`}
-              // onClick={() => navigate(item.path)}
-              onClick={() => handleItemclick(item)}
-            >
+             <div
+             key={index}
+             className={`flex items-center ml-2 cursor-pointer
+               ${Form_Data?.userType === 4 ? "hidden" : ""}`}
+             onClick={() => handleItemclick(item)} // Use the handleItemClick function
+           >
               <img
                 src={item.image}
                 className="w-8 h-8 mr-[2px]"

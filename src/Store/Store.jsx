@@ -350,7 +350,8 @@ const bannerSlice = createSlice({
 });
 const initialMasterState = {
   productCategoryGetAll: [],
-  setCategorySpecificationsGetAll: []
+  setCategorySpecificationsGetAll: [],
+  orderStatusGetAll: []
 }
 const mastersSlice = createSlice({
   name: 'master',
@@ -361,7 +362,10 @@ const mastersSlice = createSlice({
     },
     setCategorySpecificationsGetAll(state, action) {
       state.setCategorySpecificationsGetAll = action.payload
-  }
+    },
+    setOrderStatusGetAll(state, action) {
+      state.orderStatusGetAll = action.payload
+    }
   }
 })
 
@@ -454,6 +458,7 @@ const trackNumberSlice = createSlice({
     }
   }
 })
+export const { setOrderStatusGetAll } = mastersSlice.actions
 
 export const { setGetById } = orderSlice.actions
 export const { setTrackNumber } = trackNumberSlice.actions
