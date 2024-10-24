@@ -1,5 +1,5 @@
 import axios from "axios";
-import { addOrder, setGetById, setGetOrder, setGetOrderBySellerId, setOrderDownloadInvoice, setOrderInvoice, setOrderPlace, setOrdersPayment, setOrderViewInvoice, setSellerGetAll } from "../Store/Store";
+import { addOrder, setGetById, setGetOrder, setGetOrderBySellerId, setOrderDownloadInvoice, setOrderInvoice, setOrderPlace, setOrdersPayment, setOrderStatusUpdate, setOrderViewInvoice, setSellerGetAll } from "../Store/Store";
 
 axios.defaults.baseURL = 'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/';
 
@@ -228,3 +228,21 @@ export const orderGetByIdApi = (orderId) => {
     }
   }
 }
+
+export const orderStatusUpdateApi = (orderId, statusId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`/api/Orders/UpdateOrderStatus?orderId=${orderId}&statusId=${statusId}`);
+      console.log("orderStatusUpdateApi-->", response);
+
+      if (response.status === 200) {
+        const updateStatus = response.data.result;
+        dispatch(setOrderStatusUpdate(updateStatus)); // Dispatch the updated status to the Redux store
+      } else {
+        console.error('Failed to update order status:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error updating order status:', error);
+    }
+  };
+};

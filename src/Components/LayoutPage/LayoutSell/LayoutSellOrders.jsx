@@ -8,7 +8,7 @@ import { IoIosArrowRoundDown } from "react-icons/io";
 import { CiSearch, CiMenuKebab } from "react-icons/ci";
 import filter from "../../../assets/Filter_icon.png";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGetOrderBySellerId, fetchOrderDownloadInvoice, fetchOrderInvoice, fetchOrderView } from "../../../Api/OrderApi";
+import { fetchGetOrderBySellerId, fetchOrderDownloadInvoice, fetchOrderInvoice, fetchOrderView, orderStatusUpdateApi } from "../../../Api/OrderApi";
 import { FaFileInvoice } from "react-icons/fa";
 import { Tooltip } from "@mui/material";
 import eye from '../../../assets/eye.png'
@@ -125,7 +125,15 @@ function LayoutSellOrders() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   // const currentItems = SellerOrder.slice(indexOfFirstItem, indexOfLastItem);
   const currentItems = SellerOrder ? SellerOrder.slice(indexOfFirstItem, indexOfLastItem) : [];
+  
   const totalPages = Math.ceil((SellerOrder?.length || 0) / itemsPerPage);
+
+  const handleStatus = async (orderId, statusId) => {
+    if (orderId && statusId) {
+      await dispatch(orderStatusUpdateApi(orderId, statusId));
+    }
+  };
+
   return (
     
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
@@ -290,18 +298,19 @@ function LayoutSellOrders() {
 
                         <option value="Delivered">Delivered</option>
                       </select> */}
-                      <select disabled={!Array.isArray(orderStatusGetAll) || orderStatusGetAll.length === 0}>
-    {Array.isArray(orderStatusGetAll) && orderStatusGetAll.length > 0 && 
-      orderStatusGetAll.map((item) => (
-        <option key={item.statusId} value={item.statusId}>
-          {item.statusDescription}
-        </option>
-      ))
-    }
-  
-                      
-                      
-                      </select>
+                        <select
+                          disabled={!Array.isArray(orderStatusGetAll) || orderStatusGetAll.length === 0}
+                          onChange={(e) => handleStatus(product?.orderId, e.target.value)} // Trigger handleStatus on change
+                        >
+                          {Array.isArray(orderStatusGetAll) && orderStatusGetAll.length > 0 &&
+                            orderStatusGetAll.map((item) => (
+                              <option key={item.statusId} value={item.statusId}>
+                                {item.statusDescription}
+                              </option>
+                            ))
+                          }
+                        </select>
+
 
                     </td>
                     <td className="px-4 py-2 cursor-pointer flex gap-1">
