@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import trash from "../../../assets/trash.png";
 import { useDropzone } from "react-dropzone";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import edit from "../../../assets/Edit.png";
+import { deleteBannerApi } from "../../../Api/BannerApi";
+import { deleteBanner } from '../../../Store/Store';
 
 const AdminBanners = () => {
   const [banners, setBanners] = useState([]);
@@ -110,6 +112,19 @@ const AdminBanners = () => {
   const handleRemoveNewBanner = (index) => {
     setNewBanners((prevBanners) => prevBanners.filter((_, i) => i !== index));
   };
+
+  const dispatch = useDispatch();
+  // const banners = useSelector((state) => state.banner.banner); // Accessing the banner state from Redux
+
+  // Function to handle the delete action
+  const handleDelete = async (bannerId) => {
+    try {
+      await deleteBannerApi(bannerId); // Call the API to delete the banner
+      dispatch(deleteBanner(bannerId)); // Update the Redux store after successful deletion
+    } catch (error) {
+      console.error('Error deleting banner:', error);
+    }
+  };
   
   
    
@@ -194,7 +209,9 @@ const AdminBanners = () => {
                         <img src={edit} className="w-8 h-8" />
                       </button>
                       <button
-                        onClick={() => handleDeleteBanner(index)}
+                      onClick={() => handleDelete(item.bannerId)}
+
+                        // onClick={() => handleDeleteBanner(index)}
                         className="bg-white text-white px-4 py-2 rounded"
                       >
                         <img src={trash} className="w-5 h-5" />

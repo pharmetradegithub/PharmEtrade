@@ -180,7 +180,7 @@ const LayoutBid = () => {
     //     </form>
     //   </div>
     // </div>
-    <div>
+    <div className="h-full overflow-y-scroll">
       <Bid/>
     </div>
   );

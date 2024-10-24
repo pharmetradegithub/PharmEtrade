@@ -193,6 +193,8 @@ console.log(selectedItem);
   const navItems = [
     { image: buy, text: "BUY", path: "/layout/layoutbuy" },
     { image: sell, text: "SELL", path: "/layout/addproduct" },
+        { image: bid, text: "BID", path: "/layout/layoutbid" },
+
   ];
 
   const iconItems = [
@@ -362,8 +364,8 @@ console.log(selectedItem);
               className="flex items-center "
               onClick={() => navigate(item.path)}
             >
-              <img src={item.icon} className="w-8 h-8 mr-[2px]" />
-              <span className="text-base font-semibold mr-4">{item.text}</span>
+              <img src={item.icon} className="w-8 h-8 " />
+              <span className="text-sm font-semibold mr-2">{item.text}</span>
             </div>
           ))}
           <div>

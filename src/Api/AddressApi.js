@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setAddAddress, setAddress } from "../Store/Store";
+import { setAddAddress, setAddress, setOrderDeliveryAddress } from "../Store/Store";
 
 axios.defaults.baseURL = "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/"
 
@@ -84,5 +84,22 @@ export const fetchDeleteAddressApi = async (addressID) => {
   } catch (error) {
     console.error('Error fetching Address delete:', error);
 
+  }
+}
+
+export const orderDeliveryAddress = (customerId, orderId, addressId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`/api/Orders/UpdateDeliveryAddress?customerId=${customerId}&orderId=${orderId}&addressId=${addressId}`)
+      console.log("cuordadd", response)
+      if (response.status === 200) {
+        const addAddress = response.data
+        dispatch(setOrderDeliveryAddress(addAddress))
+      } else {
+        console.error('Failed to add address action:', response.data.message);
+      }
+    } catch (error) {
+      console.log("error", error)
+    }
   }
 }

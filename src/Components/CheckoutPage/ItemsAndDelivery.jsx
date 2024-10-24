@@ -12,7 +12,7 @@ const ItemsAndDelivery = () => {
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
 
-  const getOrder = useSelector((state) => state.order.getOrder)
+  const getOrder = useSelector((state) => state.order.getById)
   console.log("getOrder-->", getOrder) 
   const date = new Date()
   const month = String(date.getMonth() + 1).padStart(2, '0'); // getMonth() is 0-indexed, so add 1

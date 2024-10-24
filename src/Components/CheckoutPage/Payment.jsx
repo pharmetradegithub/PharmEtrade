@@ -491,12 +491,10 @@ const Payment = () => {
 
 
 
-          <div>
-            {/* Display notification if show is true */}
+          {/* <div>
             {notification.show && <div>{notification.message}</div>}
 
             <div className="flex flex-col">
-              {/* Cash on Delivery Option */}
               <div
                 className={`flex w-[95%] items-center p-2 cursor-pointer mt-2 border-b ${selectedPayment === "cod"
                   ? "bg-pink-50 border border-black rounded-md"
@@ -513,7 +511,6 @@ const Payment = () => {
                 <span className="ml-2">Cash on Delivery</span>
               </div>
 
-              {/* Proceed Payment Button */}
               {isButtonVisible && (
                 <button
                   onClick={handleProceedCodPayment}
@@ -524,8 +521,7 @@ const Payment = () => {
               )}
             </div>
 
-            {/* Show ItemsAndDelivery component when the button is clicked */}
-          </div>
+          </div> */}
         </div>
 
 
@@ -535,7 +531,9 @@ const Payment = () => {
       <div className="my-2 border-b">
         <h1> 3 Offers</h1>
       </div>
-      {showItemsAndDelivery && <ItemsAndDelivery />}
+      {/* {showItemsAndDelivery &&  */}
+      <ItemsAndDelivery />
+      {/* } */}
 
     </div>
   );
