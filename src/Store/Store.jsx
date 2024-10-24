@@ -145,7 +145,8 @@ const initialOrderState = {
   orderDownloadInvoice: [],
   orderView: [],
   orderDeliveryAddress: [],
-  getById: []
+  getById: [],
+  updateStatusOrder: []
 }
 
 const orderSlice = createSlice({
@@ -185,6 +186,9 @@ const orderSlice = createSlice({
     },
     setGetById(state, action) {
       state.getById = action.payload
+    },
+    setOrderStatusUpdate(state, action) {
+      state.updateStatusOrder = action.payload
     }
   },                                                                          
 });
@@ -459,7 +463,7 @@ const trackNumberSlice = createSlice({
   }
 })
 export const { setOrderStatusGetAll } = mastersSlice.actions
-
+export const { setOrderStatusUpdate } = orderSlice.actions
 export const { setGetById } = orderSlice.actions
 export const { setTrackNumber } = trackNumberSlice.actions
 

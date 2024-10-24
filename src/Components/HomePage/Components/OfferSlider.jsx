@@ -130,7 +130,7 @@ const OfferSlider = ({ images, Title }) => {
   const specialOffers = useSelector((state) => state.product.productSpecialOffer);
   console.log("offer-->", specialOffers)
   newoffer = [];
-  specialOffers.map((element, index) => {
+  specialOffers?.map((element, index) => {
     const newObject = {...element, image: images[index]};
     newoffer.push(newObject);
     return newObject

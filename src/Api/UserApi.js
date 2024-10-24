@@ -99,30 +99,72 @@ import { TryOutlined } from '@mui/icons-material';
 
 axios.defaults.baseURL = 'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/';
 
+// export const loginUserApi = async (username, password) => {
+//   try {
+//     const response = await axios.post(
+//       `/api/Customer/Login?UserName=${encodeURIComponent(username)}&Password=${encodeURIComponent(password)}`
+//     );
+
+//     if (response.status === 200) {
+
+//       localStorage.setItem('userId', response.data.userId);
+//       localStorage.setItem('token', response.data.token);
+//       const userDetails = await axios.get(`/api/Customer/GetByCustomerId?customerId=${response.data.userId}`);
+//       if (response.status === 200) {
+//         store.dispatch({ type: 'user/setUser', payload: userDetails.data.result[0] });
+//       } else {
+//         console.error('Failed to fetch user data:', response.data.message);
+//       }
+//       return response.data.userId;
+//     } else {
+//       console.error('Login failed:', response.data.message);
+//     }
+//   } catch (error) {
+//     console.error('Failed to log in:', error);
+//   }
+// };
+
+
+
 export const loginUserApi = async (username, password) => {
   try {
     const response = await axios.post(
       `/api/Customer/Login?UserName=${encodeURIComponent(username)}&Password=${encodeURIComponent(password)}`
     );
 
+    console.log("eeee", response);
+
     if (response.status === 200) {
 
       localStorage.setItem('userId', response.data.userId);
       localStorage.setItem('token', response.data.token);
       const userDetails = await axios.get(`/api/Customer/GetByCustomerId?customerId=${response.data.userId}`);
+
       if (response.status === 200) {
+        if (response?.data?.statusCode == 400) {
+          return response.data.message;
+        }
         store.dispatch({ type: 'user/setUser', payload: userDetails.data.result[0] });
-      } else {
-        console.error('Failed to fetch user data:', response.data.message);
+        return;
       }
-      return response.data.userId;
+      else {
+        return "Incorrect EmailId and Password ";
+      }
+
     } else {
       console.error('Login failed:', response.data.message);
+      return "Incorrect EmailId and Password ";
+
     }
   } catch (error) {
     console.error('Failed to log in:', error);
+    return "Incorrect EmailId and Password ";
+
   }
 };
+
+
+
 export const loginAdminUserApi = async (username, password) => {
   try {
     const response = await axios.post(
