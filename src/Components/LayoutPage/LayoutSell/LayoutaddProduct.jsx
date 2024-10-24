@@ -535,18 +535,16 @@ function LayoutaddProduct() {
         [name]: selectedOptions,
       });
     } else if (type === "select-one") {
-      if(name=="form")
-      {
+      if (name == "form") {
         setFormData({
           ...formData,
           [name]: value,
         });
-      }
-      else
-      setFormData({
-        ...formData,
-        [name]: Number(value),
-      });
+      } else
+        setFormData({
+          ...formData,
+          [name]: Number(value),
+        });
     } else if (type === "phone") {
       if (name === "amountInStock") {
         setFormData({
@@ -559,14 +557,13 @@ function LayoutaddProduct() {
           ...formData,
           [name]: Number(value) > amountInStock ? amountInStock : Number(value),
         });
-        
-      }else if (name === "minOrderQuantity") {
+      } else if (name === "minOrderQuantity") {
         const amountInStock = formData.amountInStock || 0;
         setFormData({
           ...formData,
           [name]: Number(value) > amountInStock ? amountInStock : Number(value),
-        })}
-         else if (name === "price") {
+        });
+      } else if (name === "price") {
         // Limit price to 2 decimal places
         const roundedValue = parseFloat(value).toFixed(2);
         setFormData({
@@ -907,7 +904,7 @@ function LayoutaddProduct() {
           setActiveTab(1); // Move to the next tab
         }, 3000);
       } else if (activeTab == 1) {
-        console.log(tab2)
+        console.log(tab2);
         const response = await AddProductPriceApi(tab2, user.customerId);
         localStorage.setItem("productPriceId", response);
         setFormErrors({});
@@ -1162,7 +1159,10 @@ function LayoutaddProduct() {
                     />
                   </div>
                   <div className="flex flex-col mx-2">
-                    <label className="text-sm font-semibold"> Medication Form:</label>
+                    <label className="text-sm font-semibold">
+                      {" "}
+                      Medication Form:
+                    </label>
                     {/* <input
                       name="form"
                       type="text"
@@ -1716,10 +1716,10 @@ function LayoutaddProduct() {
                       // }}
                       onChange={(e) => {
                         let value = e.target.value;
-                    
+
                         // Allow only numbers and decimals, limit to 2 decimal places
                         const validPrice = /^\d*(\.\d{0,2})?$/;
-                    
+
                         // Check if the input value is a valid number with up to 2 decimal places
                         if (validPrice.test(value)) {
                           handleInputChange(e); // Update the state only with valid input
@@ -1727,11 +1727,13 @@ function LayoutaddProduct() {
                       }}
                       onBlur={(e) => {
                         let value = parseFloat(e.target.value);
-                    
+
                         // If the value is a valid number, format it to 2 decimal places
                         if (!isNaN(value)) {
                           value = value.toFixed(2); // Ensure 2 decimal places
-                          handleInputChange({ target: { name: e.target.name, value } }); // Update state with formatted value
+                          handleInputChange({
+                            target: { name: e.target.name, value },
+                          }); // Update state with formatted value
                         }
                       }}
                       value={formData.price === 0 ? "" : formData.price}
@@ -1788,32 +1790,37 @@ function LayoutaddProduct() {
                       }
                     /> */}
                     <input
-  name="upnMemberPrice"
-  type="text"
-  className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-  onChange={(e) => {
-    let value = e.target.value;
+                      name="upnMemberPrice"
+                      type="text"
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={(e) => {
+                        let value = e.target.value;
 
-    // Allow only numbers and decimals, limit to 2 decimal places
-    const validPrice = /^\d*(\.\d{0,2})?$/;
+                        // Allow only numbers and decimals, limit to 2 decimal places
+                        const validPrice = /^\d*(\.\d{0,2})?$/;
 
-    // Check if the input value is a valid number with up to 2 decimal places
-    if (validPrice.test(value)) {
-      handleInputChange(e); // Update the state only with valid input
-    }
-  }}
-  onBlur={(e) => {
-    let value = parseFloat(e.target.value);
+                        // Check if the input value is a valid number with up to 2 decimal places
+                        if (validPrice.test(value)) {
+                          handleInputChange(e); // Update the state only with valid input
+                        }
+                      }}
+                      onBlur={(e) => {
+                        let value = parseFloat(e.target.value);
 
-    // If the value is a valid number, format it to 2 decimal places
-    if (!isNaN(value)) {
-      value = value.toFixed(2); // Ensure 2 decimal places
-      handleInputChange({ target: { name: e.target.name, value } }); // Update state with formatted value
-    }
-  }}
-  value={formData.upnMemberPrice !== "" ? formData.upnMemberPrice : ""}
-/>
-
+                        // If the value is a valid number, format it to 2 decimal places
+                        if (!isNaN(value)) {
+                          value = value.toFixed(2); // Ensure 2 decimal places
+                          handleInputChange({
+                            target: { name: e.target.name, value },
+                          }); // Update state with formatted value
+                        }
+                      }}
+                      value={
+                        formData.upnMemberPrice !== ""
+                          ? formData.upnMemberPrice
+                          : ""
+                      }
+                    />
                   </div>
                 </div>
                 <div className="flex items-center gap-8">
@@ -1841,9 +1848,21 @@ function LayoutaddProduct() {
                           },
                         });
                       }}
+                      // onKeyDown={(e) => {
+                      //   e.preventDefault();
+                      // }}
                       onKeyDown={(e) => {
-                        e.preventDefault();
+                        // Allow Tab navigation and Backspace/Delete keys
+                        if (
+                          e.key !== "Tab" &&
+                          e.key !== "Delete" &&
+                          e.key !== "ArrowLeft" &&
+                          e.key !== "ArrowRight"
+                        ) {
+                          e.preventDefault(); // Prevent any other keypresses
+                        }
                       }}
+                     
                       value={
                         formData.salePrice
                           ? Number(formData.salePrice).toFixed(2) // Ensure the value is always formatted with 2 decimal places
@@ -1893,9 +1912,21 @@ function LayoutaddProduct() {
                           : ""
                       }
                       min={new Date().toISOString().split("T")[0]} // This disables past dates
+                      // onKeyDown={(e) => {
+                      //   e.preventDefault();
+                      // }}
                       onKeyDown={(e) => {
-                        e.preventDefault();
+                        // Allow Tab navigation and Backspace/Delete keys
+                        if (
+                          e.key !== "Tab" &&
+                          e.key !== "Delete" &&
+                          e.key !== "ArrowLeft" &&
+                          e.key !== "ArrowRight"
+                        ) {
+                          e.preventDefault(); // Prevent any other keypresses
+                        }
                       }}
+                     
                     />
 
                     {formErrors.salePriceForm && (
@@ -1961,10 +1992,26 @@ function LayoutaddProduct() {
                             : ""
                         }
                         // min={MinDate}
-                        min={formData.salePriceForm ? formData.salePriceForm.split("T")[0] : new Date().toISOString().split("T")[0]} // Min date is the Sale Price From date
+                        min={
+                          formData.salePriceForm
+                            ? formData.salePriceForm.split("T")[0]
+                            : new Date().toISOString().split("T")[0]
+                        } // Min date is the Sale Price From date
+                        // onKeyDown={(e) => {
+                        //   e.preventDefault();
+                        // }}
                         onKeyDown={(e) => {
-                          e.preventDefault();
+                          // Allow Tab navigation and Backspace/Delete keys
+                          if (
+                            e.key !== "Tab" &&
+                            e.key !== "Delete" &&
+                            e.key !== "ArrowLeft" &&
+                            e.key !== "ArrowRight"
+                          ) {
+                            e.preventDefault(); // Prevent any other keypresses
+                          }
                         }}
+                       
                       />
                       {formErrors.salePriceTo && (
                         <span className="text-red-500 text-sm">
