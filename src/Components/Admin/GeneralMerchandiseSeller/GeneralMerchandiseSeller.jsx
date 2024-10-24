@@ -232,7 +232,7 @@ const GeneralMerchandiseSeller = () => {
                 </button>
               </div>
               <h1 className="text-black text-center mt-2">
-                Are you sure you want to deactivate this product ?
+                Are you sure you want to deactivate this user ?
               </h1>
               <div className="flex justify-around mt-6">
                 <button
