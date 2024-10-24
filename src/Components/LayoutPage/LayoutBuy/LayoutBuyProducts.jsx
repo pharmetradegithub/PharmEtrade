@@ -363,7 +363,7 @@ function LayoutBuy({
                           handleProductDetails1(product.productID, product)
                         }
                       />
-                         <p className=" w-36 text-[15px] mt-2 text-black ">
+                      <p className=" w-36 text-[15px] mt-2 text-black ">
                         {product.productCategory.categoryName}
                       </p>
                     </div>
@@ -461,28 +461,28 @@ function LayoutBuy({
                       </div>
                     </div>
                     <div className="flex flex-col mx-3">
-                    <p className="font-semibold">UPN Member Price</p>
-                    <div className="mt-2 text-right">
+                      <p className="font-semibold">UPN Member Price</p>
+                      <div className="mt-2 text-right">
                         <p className="font-semibold ">
                           ${product.upnMemberPrice?.toFixed(2)}
                         </p>
-                       
+
                       </div>
 
 
-</div>
+                    </div>
 
-<div className="flex flex-col -mr-3">
-                    <p className="font-semibold">Sale Price</p>
-                    <div className="mt-2 text-right">
+                    <div className="flex flex-col -mr-3">
+                      <p className="font-semibold">Sale Price</p>
+                      <div className="mt-2 text-right">
                         <p className="font-semibold">
                           ${product.salePrice?.toFixed(2)}
                         </p>
-                       
+
                       </div>
 
 
-</div>
+                    </div>
 
                     {/* <div className="flex flex-col mx-3">
                       <p className="font-semibold">Quantity</p>
@@ -617,7 +617,7 @@ function LayoutBuy({
                         </p>
                       )}
                     </div> */}
-                       <div className="flex flex-col ml-9 -mr-9">
+                    <div className="flex flex-col ml-9 -mr-9">
                       <p className="font-semibold">Quantity</p>
                       <div className="mt-2 flex items-center">
                         {/* Decrease quantity button */}
@@ -703,22 +703,22 @@ function LayoutBuy({
 
                     {/* Wishlist */}
                     <div className="flex flex-col items-center justify-between -mr-6">
-                    <div className="flex flex-col ">
-                      <div className="mt-2 ml-2">
-                        <Tooltip title="Wishlist" placement="top">
-                          <img
-                            src={
-                              wishlistProductIDs.includes(product.productID)
-                                ? filledHeart
-                                : emptyHeart
-                            }
-                            className="w-6 h-6 cursor-pointer"
-                            onClick={() => handleClick(product.productID)}
-                            alt="Wishlist Icon"
-                          />
-                        </Tooltip>
+                      <div className="flex flex-col ">
+                        <div className="mt-2 ml-2">
+                          <Tooltip title="Wishlist" placement="top">
+                            <img
+                              src={
+                                wishlistProductIDs.includes(product.productID)
+                                  ? filledHeart
+                                  : emptyHeart
+                              }
+                              className="w-6 h-6 cursor-pointer"
+                              onClick={() => handleClick(product.productID)}
+                              alt="Wishlist Icon"
+                            />
+                          </Tooltip>
 
-                        {/* <Tooltip title="Wishlist" placement="top">
+                          {/* <Tooltip title="Wishlist" placement="top">
                           <img
                             src={
                               wishlistProductIDs.includes(product.productID)
@@ -743,16 +743,16 @@ function LayoutBuy({
                             alt="Wishlist Icon"
                           />
                         </Tooltip> */}
-                      </div>
-                      <div className="relative inline-block mt-4">
-                        <Tooltip title="Share" placement="right">
-                          <img
-                            src={share}
-                            className="w-6 mx-3 "
-                            onClick={() => handleShare(product.productID)}
-                          />
-                        </Tooltip>
-                        {/* <Tooltip title="Share" placement="right">
+                        </div>
+                        <div className="relative inline-block mt-4">
+                          <Tooltip title="Share" placement="right">
+                            <img
+                              src={share}
+                              className="w-6 mx-3 "
+                              onClick={() => handleShare(product.productID)}
+                            />
+                          </Tooltip>
+                          {/* <Tooltip title="Share" placement="right">
                           <img
                             src={share}
                             // className="w-6 mx-3 "
@@ -769,7 +769,7 @@ function LayoutBuy({
                             }
                           />
                         </Tooltip> */}
-                      </div>
+                        </div>
                       </div>
                       {isShowPopup && (
                         <div
@@ -887,27 +887,24 @@ function LayoutBuy({
                             }
                           }
                         }}
-                        className={`flex text-white h-[40px] px-2 rounded-lg mx-3 justify-center items-center ${
-                          product.amountInStock <= 0
+                        className={`flex text-white h-[40px] px-2 rounded-lg mx-3 justify-center items-center ${product.amountInStock <= 0
                             ? "bg-gray-400 cursor-not-allowed"
                             : "bg-blue-900 cursor-pointer"
-                        }`}
+                          }`}
                       >
                         <div className="mr-1">
                           <img
                             src={addcart}
-                            className={`w-6 h-6 ${
-                              product.amountInStock <= 0
+                            className={`w-6 h-6 ${product.amountInStock <= 0
                                 ? "opacity-50"
                                 : "cursor-pointer"
-                            }`}
+                              }`}
                             alt="Add to Cart Icon"
                           />
                         </div>
                         <p
-                          className={`font-semibold ${
-                            product.amountInStock <= 0 ? "opacity-50" : ""
-                          }`}
+                          className={`font-semibold ${product.amountInStock <= 0 ? "opacity-50" : ""
+                            }`}
                         >
                           {"Add to Cart"}
                         </p>

@@ -1329,10 +1329,11 @@ const currentItems = sortedOrders.slice(indexOfFirstItem, indexOfLastItem);
                   <p className="text-blue-900">{order.customerName}</p>
                 </div>
                 <div>
-                  <h1>Order ID</h1>
-                  <p className="text-blue-900 flex">
+                  <h1 className="text-center">Order ID</h1>
+                  <p>{order.orderId}</p>
+                  <p className="text-blue-900  text-center">
                     {/* <Link to="/"> View Order Details | </Link> */}
-                    <span className="ml-2 cursor-pointer" onClick={() => handleClickView(order?.orderId)}>Invoice</span>
+                    <span className="ml-2 cursor-pointer " onClick={() => handleClickView(order?.orderId)}>Invoice</span>
                   </p>
                 </div>
               </div>
