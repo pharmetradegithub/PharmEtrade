@@ -351,586 +351,599 @@ function LayoutOtcProducts({
               {productList.length > 0 ? (
                 currentItems.map((product, index) => (
                   <div
-                    key={index}
-                    className="flex p-4  h-auto border w-auto justify-around shadow-lg rounded-md mb-4"
-                  >
-                    <div className="flex justify-center items-center mr-1 -ml-2 ">
-                      <img
-                        src={product.productGallery.imageUrl}
-                        className="w-32 p-2 hover:cursor-pointer rounded-lg h-28 bg-slate-200"
-                        alt="Product"
-                        onClick={() =>
-                          handleProductDetails1(product.productID, product)
-                        }
-                      />
-                      {/* <p className=" w-36 text-[15px] mt-2 text-black ">
-                        {product.productCategory.categoryName}
-                      </p> */}
-                    </div>
+                  key={index}
+                  className="flex p-4  h-auto border w-auto justify-around shadow-lg rounded-md mb-4"
+                >
+                  <div className="flex flex-col ">
+                    <img
+                      src={product.productGallery.imageUrl}
+                      className="w-32 p-2 hover:cursor-pointer rounded-lg h-28 bg-slate-200"
+                      alt="Product"
+                      onClick={() =>
+                        handleProductDetails1(product.productID, product)
+                      }
+                    />
+                    <p className=" w-36 text-[15px] mt-2 text-black ">
+                      {product.productCategory.categoryName}
+                    </p>
 
-                    <div className="flex flex-col w-[170px] ">
-                      <p className="font-semibold text-sm">Item Details</p>
-                      <div className="mt-2">
-                        <p className="font-bold text-blue-900  w-32 text-sm">{product.productName}</p>
+                    <div>
 
-                        <p className="text-xs mt-1 w-32">
-                          {showMore[index]
-                            ? product.aboutTheProduct
-                            : `${product.aboutTheProduct.slice(0, 50)}...`}
-                          {product.aboutTheProduct.length > 50 && (
-                            <button
-                              className="text-blue-500 ml-1"
-                              onClick={() => toggleShowMore(index)}
-                            >
-                              {showMore[index] ? "See Less" : " More details"}
-                            </button>
-                          )}
-                        </p>
-                        <div className="flex w-full mt-1 gap-1">
-                          <img src={Expicon} className="w-5 h-5" />
-                          <div className="flex ">
-                            <p className=" text-xs font-semibold">Exp.Date :</p>
-                            <p className="font-bold text-xs">
-                              {/* {product.expiryDate} */}
-                              &nbsp; {new Date(product.expiryDate)
-                                .toLocaleDateString("en-US", {
-                                  year: "numeric",
-                                  month: "2-digit",
-                                  day: "2-digit",
-                                })
-                                .replace(/\//g, "-")}
-                            </p>
-                          </div>
-                        </div>
-                        <p className="mt-1 text-sm">
-                          Product returnable:{" "}
-                          {product.isReturnable ? "Yes" : "No"}
-                        </p>
-                        <div className="flex">
-                          <h2 className="  text-sm mr-1">Package Details :</h2>
-
-                          <p className=" text-sm">
-                            {product.packCondition}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* <div className="flex flex-col mx-3">
-                      <p className="font-semibold">Package Details</p>
-                      <div className="mt-2">
-                        <p className="text-red-500 font-semibold">
-                          {product.package}
-                        </p>
-                        <p className="text-base mt-1">
-                          {product.packCondition}
-                        </p>
-                      </div>
-                    </div> */}
-                    <div className="flex flex-col  justify-between">
-                      {/* <div className=" mx-2">
-                        <h2 className="font-semibold  text-sm">Package Details</h2>
-                        <p className=" mt-1 text-sm">
-                          {product.packCondition}
-                        </p>
-                      </div> */}
-                      <div className="flex flex-col mx-3">
-                        <p className="font-semibold   text-sm">Unit Price</p>
-                        <div className="mt-2 text-right text-xs font-bold">
-                          <p className="font-semibold   ">
-                            ${product.unitPrice?.toFixed(2)}
-                          </p>
-
-                        </div>
-                      </div>
-
-
-                    </div>
-
-
-                    <div className="flex flex-col justify-between mx-3">
-                      <div>
-                        <p className="font-semibold  text-sm">UPN Member Price</p>
-                        <div className="mt-2 text-right text-xs font-bold">
-                          <p className="font-semiboldm -ml-5 ">
-                            ${product.upnMemberPrice?.toFixed(2)}
-                          </p>
-
-                        </div>
-                      </div>
-                      <div className="text-sm">
-                        {product.amountInStock <= 0 ? (
-                          <p className="text-red-500 font-semibold">
-                            Out Of Stock
-                          </p>
-                        ) : (
-                          <p className="text-white p-1 w-28 flex flex-wrap text-xs bg-green-600 rounded-lg ">
-                            Stock Available -{" "}
-                            <span className="font-semibold text-xs">
-                              {product.amountInStock}
-                            </span>
-                          </p>
-                        )}
-                      </div>
-
-
-                    </div>
-
-                    <div className="flex flex-col mx-3">
-                      <p className="font-semibold text-sm">Sale Price</p>
-                      <div className="mt-2 text-right text-xs font-bold">
-                        <p className="font-semibold">
-                          ${product.salePrice?.toFixed(2)}
-                        </p>
-
-                      </div>
-
-
-                    </div>
-                    
-                    <div className="flex flex-col mx-4">
-                      <p className="font-semibold text-sm">Sale Price Range</p>
-                      <div className="mt-2 text-right text-xs font-bold">
-                        <div className="flex">
-                        <p className="font-semibold ml-1">
-                          {new Date(product.salePriceValidFrom)
-                            .toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "2-digit",
-                              day: "2-digit",
-                            })
-                            .replace(/\//g, "-")}
-                        </p>
-                          </div>
-                          <p className="text-center -ml-8">to </p> 
-
-                          <div className="flex">
-
-                        <p className="ml-1">
-                          {new Date(product.
-                            salePriceValidTo
-                          )
-                            .toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "2-digit",
-                              day: "2-digit",
-                            })
-                            .replace(/\//g, "-")}
-                        </p>
-                            </div>
-
-                      </div>
-
-
-                    </div>
-
-                    {/* <div className="flex flex-col mx-3">
-                      <p className="font-semibold">Quantity</p>
-
-                      <div className="mt-2 flex items-center">
-                        <button
-                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
-                          onClick={() =>
-                            handleQuantityChange(
-                              index,
-                              product.CartQuantity - 1
-                            )
-                          }
-                          disabled={
-                            product.CartQuantity <= 1 ||
-                            cart.some(
-                              (item) =>
-                                item.product.productID === product.productID
-                            ) === 1
-                          }
-                        >
-                          -
-                        </button>
-
-                        <input
-                          type="text"
-                          value={product.CartQuantity}
-                          disabled={true}
-                          className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
-                        />
-
-                        <button
-                          className="px-2 py-1 border rounded-md  bg-gray-200 text-gray-700 font-bold"
-                          onClick={() =>
-                            handleQuantityChange(
-                              index,
-                              product.CartQuantity + 1
-                            )
-                          }
-                          disabled={
-                            cart.some(
-                              (item) =>
-                                item.product.productID === product.productID
-                            ) === 1
-                          }
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div> */}
-                    <div className="flex flex-col mx-3">
-                      <p className="font-semibold ml-4">Quantity</p>
-                      <div className="mt-2 flex  justify-start items-center ">
-                        {/* <button
-                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
-                          onClick={() =>
-                            handleQuantityChange(
-                              index,
-                              Math.max(1, product.CartQuantity - 1)
-                            )
-                          }
-                          disabled={
-                            product.CartQuantity <= 1 ||
-                            product.amountInStock <= 0
-                            // cart.some(
-                            //   (item) =>
-                            //     item.product.productID === product.productID
-                            // )
-                          }
-                        >
-                          -
-                        </button> */}
-                         <button
-                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
-                          onClick={() => {
-                            const newQuantity = Math.max(
-                              1,
-                              product.CartQuantity - 1
-                            );
-
-                            // Clear stock warning if the new quantity is within the stock
-                            if (newQuantity <= product.amountInStock) {
-                              setStockWarning({ productId: null, message: "" });
-                            }
-
-                            handleQuantityChange(index, newQuantity);
-                          }}
-                          disabled={
-                            product.CartQuantity <= 1 ||
-                            product.amountInStock <= 0
-                          }
-                        >
-                          -
-                        </button>
-
-
-                        <input
-                          type="text"
-                          value={product.CartQuantity}
-                          className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
-                          onChange={(e) => {
-                            const value = e.target.value;
-                            const numericValue =
-                              value === ""
-                                ? ""
-                                : Math.max(1, parseInt(value, 10));
-                            // Check if the input value exceeds the stock
-                            if (numericValue > product.amountInStock) {
-                              setStockWarning({
-                                productId: product.productID,
-                                message: `Only ${product.amountInStock} items available.`,
-                              });
-                            } else {
-                              // Clear stock warning if the input is valid
-                              setStockWarning({ productId: null, message: "" });
-                            }
-
-                            handleQuantityChange(index, numericValue);
-                          }}
-                        />
-                       
-                        {/* <button
-                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
-                          onClick={() => {
-                            if (
-                              product.CartQuantity + 1 >
-                              product.amountInStock
-                            ) {
-                              setStockWarning({
-                                productId: product.productID,
-                                message: `Only ${product.amountInStock} items available .`,
-                              });
-                            } else {
-                              handleQuantityChange(
-                                index,
-                                product.CartQuantity + 1
-                              );
-                              setStockWarning({ productId: null, message: "" });
-                            }
-                          }}
-                          disabled={
-                            product.CartQuantity >= product.amountInStock ||
-                            product.amountInStock <= 0 ||
-                            cart.some(
-                              (item) => item.productID === product.productID
-                            )
-                          }
-                        >
-                          +
-                        </button> */}
-                         <button
-                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
-                          onClick={() => {
-                            const newQuantity = product.CartQuantity + 1;
-
-                            // Check if quantity exceeds stock
-                            if (newQuantity > product.amountInStock) {
-                              setStockWarning({
-                                productId: product.productID,
-                                message: `Only ${product.amountInStock} items available in stock.`,
-                              });
-                            } else {
-                              handleQuantityChange(index, newQuantity);
-                              setStockWarning({ productId: null, message: "" }); // Clear warning if within stock
-                            }
-                          }}
-                        >
-                          +
-                        </button>
-                      </div>
-                      {stockWarning.productId === product.productID && (
-                        <p className="text-red-500 text-sm mt-2">
-                          {stockWarning.message}
-                        </p>
-                      )}
-                    </div>
-                   
-
-                    {/* Wishlist */}
-                    <div className="flex flex-col items-center justify-between -mr-6">
-                      <div className="flex flex-col ">
-                        <div className="mt-2 ml-2">
-                          <Tooltip title="Wishlist" placement="top">
-                            <img
-                              src={
-                                wishlistProductIDs.includes(product.productID)
-                                  ? filledHeart
-                                  : emptyHeart
-                              }
-                              className="w-6 h-6 cursor-pointer"
-                              onClick={() => handleClick(product.productID)}
-                              alt="Wishlist Icon"
-                            />
-                          </Tooltip>
-
-                          {/* <Tooltip title="Wishlist" placement="top">
+                    <div className="flex justify-center  ">
+                      <div className="mt-2 ">
+                        <Tooltip title="Wishlist" placement="top">
                           <img
                             src={
                               wishlistProductIDs.includes(product.productID)
                                 ? filledHeart
                                 : emptyHeart
                             }
-
-                            className={`w-6 h-6 ${product.amountInStock === 0
-                              ? "opacity-50"
-                              : "cursor-pointer"
-                              }`}
-                            // // className={` w-6 h-6 cursor-pointer ${product.amountInStock === 0 ? "opacity-50" : ""
-                            // }`}
-                            // className="w-6 h-6 cursor-pointer"
-                            onClick={() => {
-                              if (product.amountInStock !== 0) {
-                                handleClick(product.productID, product.CartQuantity);
-                              }
-                            }
-                              // handleClick(product.productID)
-                            }
+                            className="w-6 h-6 cursor-pointer"
+                            onClick={() => handleClick(product.productID)}
                             alt="Wishlist Icon"
                           />
-                        </Tooltip> */}
-                        </div>
-                        <div className="relative inline-block mt-4">
-                          <Tooltip title="Share" placement="right">
-                            <img
-                              src={share}
-                              className="w-6 mx-3 "
-                              onClick={() => handleShare(product.productID)}
-                            />
-                          </Tooltip>
-                          {/* <Tooltip title="Share" placement="right">
-                          <img
-                            src={share}
-                            // className="w-6 mx-3 "
-                            className={`w-6 mx-3 ${product.amountInStock === 0
-                              ? "opacity-50"
-                              : "cursor-pointer"
-                              }`}
-                            onClick={() => {
-                              if (product.amountInStock !== 0) {
-                                handleShare(product.productID, product.CartQuantity);
-                              }
-                            }
-                              // handleShare(product.productID)
-                            }
-                          />
-                        </Tooltip> */}
-                        </div>
-                      </div>
-                      {isShowPopup && (
-                        <div
-                          className="flex flex-column  items-center absolute z-auto"
-                          style={{
-                            top: `${popupPosition.top}px`,
-                            left: `${popupPosition.left}px`,
-                            transform: "translate(-130%,-45%)",
-                            // transform: "translateX(-500%)",
-                            // Optional: to position above the button
-                          }}
-                        >
-                          <div className=" rounded-lg bg-gray-100">
-                            <div className="flex border-b justify-between p-2 ml-2">
-                              <div className="flex items-center">
-                                <a
-                                  href="mailto:example@example.com"
-                                  className="flex items-center"
-                                >
-                                  <img
-                                    src={email}
-                                    className="text-blue-400 w-6"
-                                  />
-                                  <p className="ml-3">Email</p>
-                                </a>
-                              </div>
-                              <img
-                                src={wrong}
-                                onClick={handleSharePopupToggle}
-                                className="w-3 h-3"
-                              />
-                            </div>
-                            {/* Other links... */}
-                            <div className="flex border-b p-2 ml-2">
-                              <a
-                                href="https://www.pinterest.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center"
-                              >
-                                <img
-                                  src={Pintrist}
-                                  className="text-blue-400 w-6"
-                                />
-                                <p className="ml-3">Pinterest</p>
-                              </a>
-                            </div>{" "}
-                            <div className="flex border-b p-2 ml-2">
-                              <a
-                                href="https://www.pinterest.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center"
-                              >
-                                <img
-                                  src={Whatsapp}
-                                  className="text-blue-400 w-6"
-                                />
-                                <p className="ml-3">Whatsapp</p>
-                              </a>
-                            </div>
-                            <div className="flex border-b p-2 ml-2">
-                              <a
-                                href="https://www.pinterest.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center"
-                              >
-                                <img
-                                  src={Facebook}
-                                  className="text-blue-400 w-6"
-                                />
-                                <p className="ml-3">Facebook</p>
-                              </a>
-                            </div>
-                            {/* Additional social links... */}
-                          </div>
-                        </div>
-                      )}
+                        </Tooltip>
 
-                      {/* Add to Cart */}
-                      {/* {cart.some(
-                        (item) => item.product.productID == product.productID
-                      ) == 0 ? ( */}
-                      {/* <div
-                        onClick={() =>
-                          handleCart(product.productID, product.CartQuantity)
-                        }
-                        className="flex text-white h-[40px] cursor-pointer px-2 rounded-lg bg-blue-900 mx-3 justify-center items-center"
-                      >
-                        <div className="mr-1">
-                          <img
-                            src={addcart}
-                            className="w-6 h-6 cursor-pointer"
-                            alt="Add to Cart Icon"
-                          />
-                        </div>
-                        <p className="font-semibold">{"Add to Cart"}</p>
-                      </div> */}
+                        {/* <Tooltip title="Wishlist" placement="top">
+                        <img
+                          src={
+                            wishlistProductIDs.includes(product.productID)
+                              ? filledHeart
+                              : emptyHeart
+                          }
 
-                      <div
-                        onClick={() => {
-                          if (product.amountInStock > 0) {
-                            if (product.CartQuantity > product.amountInStock) {
-                              setStockWarning({
-                                productId: product.productID,
-                                message: `Only ${product.amountInStock} items available.`,
-                              });
-                            } else {
-                              handleCart(
-                                product.productID,
-                                product.CartQuantity
-                              );
-                              setStockWarning({ productId: null, message: "" });
+                          className={`w-6 h-6 ${product.amountInStock === 0
+                            ? "opacity-50"
+                            : "cursor-pointer"
+                            }`}
+                          // // className={` w-6 h-6 cursor-pointer ${product.amountInStock === 0 ? "opacity-50" : ""
+                          // }`}
+                          // className="w-6 h-6 cursor-pointer"
+                          onClick={() => {
+                            if (product.amountInStock !== 0) {
+                              handleClick(product.productID, product.CartQuantity);
                             }
                           }
+                            // handleClick(product.productID)
+                          }
+                          alt="Wishlist Icon"
+                        />
+                      </Tooltip> */}
+                      </div>
+                      <div className="relative inline-block mt-2">
+                        <Tooltip title="Share" placement="right">
+                          <img
+                            src={share}
+                            className="w-6 mx-3 "
+                            onClick={() => handleShare(product.productID)}
+                          />
+                        </Tooltip>
+                        {/* <Tooltip title="Share" placement="right">
+                        <img
+                          src={share}
+                          // className="w-6 mx-3 "
+                          className={`w-6 mx-3 ${product.amountInStock === 0
+                            ? "opacity-50"
+                            : "cursor-pointer"
+                            }`}
+                          onClick={() => {
+                            if (product.amountInStock !== 0) {
+                              handleShare(product.productID, product.CartQuantity);
+                            }
+                          }
+                            // handleShare(product.productID)
+                          }
+                        />
+                      </Tooltip> */}
+                      </div>
+                    </div>
+                      </div>
+                  </div>
+
+                  <div className="flex flex-col w-[170px] ">
+                    <p className="font-semibold text-sm">Item Details</p>
+                    <div className="mt-2">
+                      <p className="font-bold text-blue-900  w-32 text-sm">{product.productName}</p>
+
+                      <p className="text-xs mt-1 w-32">
+                        {showMore[index]
+                          ? product.aboutTheProduct
+                          : `${product.aboutTheProduct.slice(0, 50)}...`}
+                        {product.aboutTheProduct.length > 50 && (
+                          <button
+                            className="text-blue-500 ml-1"
+                            onClick={() => toggleShowMore(index)}
+                          >
+                            {showMore[index] ? "See Less" : " More details"}
+                          </button>
+                        )}
+                      </p>
+                      <div className="flex w-full mt-1 gap-1">
+                        <img src={Expicon} className="w-5 h-5" />
+                        <div className="flex ">
+                          <p className=" text-xs font-semibold">Exp.Date :</p>
+                          <p className="font-bold text-xs">
+                            {/* {product.expiryDate} */}
+                            &nbsp; {new Date(product.expiryDate)
+                              .toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "2-digit",
+                                day: "2-digit",
+                              })
+                              .replace(/\//g, "-")}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex">
+                      <p className="mt-1 text-sm">
+                        Product Returnable:{" "}
+                      </p>
+                      <p className="font-semibold ml-1">
+
+                        {product.isReturnable ? "Yes" : "No"}
+                      </p>
+                      </div>
+                      <div className="flex">
+                        <h2 className="  text-sm mr-1">Package Details :</h2>
+
+                        <p className=" text-sm font-semibold">
+                          {product.packCondition}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* <div className="flex flex-col mx-3">
+                    <p className="font-semibold">Package Details</p>
+                    <div className="mt-2">
+                      <p className="text-red-500 font-semibold">
+                        {product.package}
+                      </p>
+                      <p className="text-base mt-1">
+                        {product.packCondition}
+                      </p>
+                    </div>
+                  </div> */}
+                  <div className="flex flex-col  justify-between">
+                    {/* <div className=" mx-2">
+                      <h2 className="font-semibold  text-sm">Package Details</h2>
+                      <p className=" mt-1 text-sm">
+                        {product.packCondition}
+                      </p>
+                    </div> */}
+                    <div className="flex flex-col mx-3">
+                      <p className="font-semibold   text-sm">Unit Price</p>
+                      <div className="mt-2 text-right text-xs font-bold">
+                        <p className="font-semibold   ">
+                          ${product.unitPrice?.toFixed(2)}
+                        </p>
+
+                      </div>
+                    </div>
+
+
+                  </div>
+
+
+                  <div className="flex flex-col justify-between mx-3">
+                    <div>
+                      <p className="font-semibold  text-sm">UPN Member Price</p>
+                      <div className="mt-2 text-right text-xs font-bold">
+                        <p className="font-semiboldm -ml-5 ">
+                          ${product.upnMemberPrice?.toFixed(2)}
+                        </p>
+
+                      </div>
+                    </div>
+                    <div className="text-sm">
+                      {product.amountInStock <= 0 ? (
+                        <p className="text-red-500 font-semibold">
+                          Out Of Stock
+                        </p>
+                      ) : (
+                        <p className="text-white p-1 w-28 text-center text-xs bg-green-600 rounded-lg ">
+                          Stock Available {" "}
+                          <span className="font-semibold text-center text-xs">
+                            {product.amountInStock}
+                          </span>
+                        </p>
+                      )}
+                    </div>
+
+
+                  </div>
+
+                  <div className="flex flex-col mx-3">
+                    <p className="font-semibold text-sm">Sale Price</p>
+                    <div className="mt-2 text-right text-xs font-bold">
+                      <p className="font-semibold">
+                        ${product.salePrice?.toFixed(2)}
+                      </p>
+
+                    </div>
+
+
+                  </div>
+                  
+                  <div className="flex flex-col mx-4">
+                    <p className="font-semibold text-sm">Sale Price Range</p>
+                    <div className="mt-2 text-right text-xs font-bold">
+                      <div className="flex">
+                      <p className="font-semibold ml-1">
+                        {new Date(product.salePriceValidFrom)
+                          .toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                          })
+                          .replace(/\//g, "-")}
+                      </p>
+                        </div>
+                        <p className="text-center -ml-8">to </p> 
+
+                        <div className="flex">
+
+                      <p className="ml-1">
+                        {new Date(product.
+                          salePriceValidTo
+                        )
+                          .toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                          })
+                          .replace(/\//g, "-")}
+                      </p>
+                          </div>
+
+                    </div>
+
+
+                  </div>
+
+                  {/* <div className="flex flex-col mx-3">
+                    <p className="font-semibold">Quantity</p>
+
+                    <div className="mt-2 flex items-center">
+                      <button
+                        className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                        onClick={() =>
+                          handleQuantityChange(
+                            index,
+                            product.CartQuantity - 1
+                          )
+                        }
+                        disabled={
+                          product.CartQuantity <= 1 ||
+                          cart.some(
+                            (item) =>
+                              item.product.productID === product.productID
+                          ) === 1
+                        }
+                      >
+                        -
+                      </button>
+
+                      <input
+                        type="text"
+                        value={product.CartQuantity}
+                        disabled={true}
+                        className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
+                      />
+
+                      <button
+                        className="px-2 py-1 border rounded-md  bg-gray-200 text-gray-700 font-bold"
+                        onClick={() =>
+                          handleQuantityChange(
+                            index,
+                            product.CartQuantity + 1
+                          )
+                        }
+                        disabled={
+                          cart.some(
+                            (item) =>
+                              item.product.productID === product.productID
+                          ) === 1
+                        }
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div> */}
+                  <div className="flex flex-col mx-3">
+
+                    <p className="font-semibold ml-4">Quantity</p>
+                    <div className="mt-2 flex  justify-start items-center ">
+                      {/* <button
+                        className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                        onClick={() =>
+                          handleQuantityChange(
+                            index,
+                            Math.max(1, product.CartQuantity - 1)
+                          )
+                        }
+                        disabled={
+                          product.CartQuantity <= 1 ||
+                          product.amountInStock <= 0
+                          // cart.some(
+                          //   (item) =>
+                          //     item.product.productID === product.productID
+                          // )
+                        }
+                      >
+                        -
+                      </button> */}
+                       <button
+                        className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                        onClick={() => {
+                          const newQuantity = Math.max(
+                            1,
+                            product.CartQuantity - 1
+                          );
+
+                          // Clear stock warning if the new quantity is within the stock
+                          if (newQuantity <= product.amountInStock) {
+                            setStockWarning({ productId: null, message: "" });
+                          }
+
+                          handleQuantityChange(index, newQuantity);
                         }}
-                        className={`flex text-white h-[32px] px-2 rounded-lg mx-2 justify-center items-center ${product.amountInStock <= 0
-                          ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-blue-900 cursor-pointer"
+                        disabled={
+                          product.CartQuantity <= 1 ||
+                          product.amountInStock <= 0
+                        }
+                      >
+                        -
+                      </button>
+
+
+                      <input
+                        type="text"
+                        value={product.CartQuantity}
+                        className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          const numericValue =
+                            value === ""
+                              ? ""
+                              : Math.max(1, parseInt(value, 10));
+                          // Check if the input value exceeds the stock
+                          if (numericValue > product.amountInStock) {
+                            setStockWarning({
+                              productId: product.productID,
+                              message: `Only ${product.amountInStock} items available.`,
+                            });
+                          } else {
+                            // Clear stock warning if the input is valid
+                            setStockWarning({ productId: null, message: "" });
+                          }
+
+                          handleQuantityChange(index, numericValue);
+                        }}
+                      />
+                     
+                      {/* <button
+                        className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                        onClick={() => {
+                          if (
+                            product.CartQuantity + 1 >
+                            product.amountInStock
+                          ) {
+                            setStockWarning({
+                              productId: product.productID,
+                              message: `Only ${product.amountInStock} items available .`,
+                            });
+                          } else {
+                            handleQuantityChange(
+                              index,
+                              product.CartQuantity + 1
+                            );
+                            setStockWarning({ productId: null, message: "" });
+                          }
+                        }}
+                        disabled={
+                          product.CartQuantity >= product.amountInStock ||
+                          product.amountInStock <= 0 ||
+                          cart.some(
+                            (item) => item.productID === product.productID
+                          )
+                        }
+                      >
+                        +
+                      </button> */}
+                       <button
+                        className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                        onClick={() => {
+                          const newQuantity = product.CartQuantity + 1;
+
+                          // Check if quantity exceeds stock
+                          if (newQuantity > product.amountInStock) {
+                            setStockWarning({
+                              productId: product.productID,
+                              message: `Only ${product.amountInStock} items available in stock.`,
+                            });
+                          } else {
+                            handleQuantityChange(index, newQuantity);
+                            setStockWarning({ productId: null, message: "" }); // Clear warning if within stock
+                          }
+                        }}
+                      >
+                        +
+                      </button>
+                    </div>
+                    {stockWarning.productId === product.productID && (
+                      <p className="text-red-500 text-sm mt-2">
+                        {stockWarning.message}
+                      </p>
+                    )}
+
+<div
+                      onClick={() => {
+                        if (product.amountInStock > 0) {
+                          if (product.CartQuantity > product.amountInStock) {
+                            setStockWarning({
+                              productId: product.productID,
+                              message: `Only ${product.amountInStock} items available.`,
+                            });
+                          } else {
+                            handleCart(
+                              product.productID,
+                              product.CartQuantity
+                            );
+                            setStockWarning({ productId: null, message: "" });
+                          }
+                        }
+                      }}
+                      className={`flex text-white h-[32px] px-2 rounded-lg mt-28 mx-2 justify-center items-center ${product.amountInStock <= 0
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-blue-900 cursor-pointer"
+                        }`}
+                    >
+                      <div className="mr-1">
+                        <img
+                          src={addcart}
+                          className={`w-5 h-5 ${product.amountInStock <= 0
+                            ? "opacity-50"
+                            : "cursor-pointer"
+                            }`}
+                          alt="Add to Cart Icon"
+                        />
+                      </div>
+                      <p
+                        className={`font-semibold text-sm ${product.amountInStock <= 0 ? "opacity-50" : ""
                           }`}
                       >
+                        {"Add to Cart"}
+                      </p>
+                    </div>
+                  </div>
+                 
+
+                  {/* Wishlist */}
+                  <div className="flex flex-col items-center justify-between -mr-6">
+                  
+                    {isShowPopup && (
+                      <div
+                        className="flex flex-column  items-center absolute z-auto"
+                        style={{
+                          top: `${popupPosition.top}px`,
+                          left: `${popupPosition.left}px`,
+                          transform: "translate(-130%,-45%)",
+                          // transform: "translateX(-500%)",
+                          // Optional: to position above the button
+                        }}
+                      >
+                        <div className=" rounded-lg bg-gray-100">
+                          <div className="flex border-b justify-between p-2 ml-2">
+                            <div className="flex items-center">
+                              <a
+                                href="mailto:example@example.com"
+                                className="flex items-center"
+                              >
+                                <img
+                                  src={email}
+                                  className="text-blue-400 w-6"
+                                />
+                                <p className="ml-3">Email</p>
+                              </a>
+                            </div>
+                            <img
+                              src={wrong}
+                              onClick={handleSharePopupToggle}
+                              className="w-3 h-3"
+                            />
+                          </div>
+                          {/* Other links... */}
+                          <div className="flex border-b p-2 ml-2">
+                            <a
+                              href="https://www.pinterest.com"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center"
+                            >
+                              <img
+                                src={Pintrist}
+                                className="text-blue-400 w-6"
+                              />
+                              <p className="ml-3">Pinterest</p>
+                            </a>
+                          </div>{" "}
+                          <div className="flex border-b p-2 ml-2">
+                            <a
+                              href="https://www.pinterest.com"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center"
+                            >
+                              <img
+                                src={Whatsapp}
+                                className="text-blue-400 w-6"
+                              />
+                              <p className="ml-3">Whatsapp</p>
+                            </a>
+                          </div>
+                          <div className="flex border-b p-2 ml-2">
+                            <a
+                              href="https://www.pinterest.com"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center"
+                            >
+                              <img
+                                src={Facebook}
+                                className="text-blue-400 w-6"
+                              />
+                              <p className="ml-3">Facebook</p>
+                            </a>
+                          </div>
+                          {/* Additional social links... */}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Add to Cart */}
+                    {/* {cart.some(
+                      (item) => item.product.productID == product.productID
+                    ) == 0 ? ( */}
+                    {/* <div
+                      onClick={() =>
+                        handleCart(product.productID, product.CartQuantity)
+                      }
+                      className="flex text-white h-[40px] cursor-pointer px-2 rounded-lg bg-blue-900 mx-3 justify-center items-center"
+                    >
+                      <div className="mr-1">
+                        <img
+                          src={addcart}
+                          className="w-6 h-6 cursor-pointer"
+                          alt="Add to Cart Icon"
+                        />
+                      </div>
+                      <p className="font-semibold">{"Add to Cart"}</p>
+                    </div> */}
+
+                  
+
+                    {/* Display the stock warning message */}
+                    {/* {stockWarning.productId === product.productID && (
+                      <p className="text-red-500 text-sm mt-2">
+                        {stockWarning.message}
+                      </p>
+                    )} */}
+
+                    {/* ) : ( */}
+                    {/* <div className="flex text-white cursor-pointer h-[40px] px-2 rounded-lg bg-sky-600 mx-3 justify-center items-center">
                         <div className="mr-1">
                           <img
                             src={addcart}
-                            className={`w-5 h-5 ${product.amountInStock <= 0
-                              ? "opacity-50"
-                              : "cursor-pointer"
-                              }`}
+                            className="w-6 h-6 "
                             alt="Add to Cart Icon"
                           />
                         </div>
-                        <p
-                          className={`font-semibold text-sm ${product.amountInStock <= 0 ? "opacity-50" : ""
-                            }`}
-                        >
-                          {"Add to Cart"}
-                        </p>
-                      </div>
-
-                      {/* Display the stock warning message */}
-                      {/* {stockWarning.productId === product.productID && (
-                        <p className="text-red-500 text-sm mt-2">
-                          {stockWarning.message}
-                        </p>
-                      )} */}
-
-                      {/* ) : ( */}
-                      {/* <div className="flex text-white cursor-pointer h-[40px] px-2 rounded-lg bg-sky-600 mx-3 justify-center items-center">
-                          <div className="mr-1">
-                            <img
-                              src={addcart}
-                              className="w-6 h-6 "
-                              alt="Add to Cart Icon"
-                            />
-                          </div>
-                          <p className="font-semibold">{"Added Cart"}</p>
-                        </div> */}
-                      {/* )} */}
-                    </div>
+                        <p className="font-semibold">{"Added Cart"}</p>
+                      </div> */}
+                    {/* )} */}
                   </div>
+                </div>
                 ))
               ) : (
                 <p>No products available</p>

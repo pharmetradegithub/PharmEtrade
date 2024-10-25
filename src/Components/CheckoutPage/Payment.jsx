@@ -313,10 +313,56 @@ const Payment = () => {
   // const handleCardRemove = () => {
   //   setIsCardPopup(false);
   // };
+
+  // const DeliveryOptions = () => {
+    const [selectedOption, setSelectedOption] = useState("");
+  
+    const handleChange = (e) => {
+      setSelectedOption(e.target.value);
+    };
   return (
     <div>
       {notification.show && <Notification show={notification.show} message={notification.message} />}
-      <h2 className="text-orange-500">2 Select a payment method</h2>
+
+
+
+      <div className="my-2 flex flex-col">
+        <div className="my-2">
+
+        
+      <label htmlFor="delivery-options" className=" text-orange-500"> 2.Select Delivery Option:</label>
+      </div>
+      <div>
+
+     
+      <select id="delivery-options" value={selectedOption} onChange={handleChange} className="bg-gray-100 border rounded-md">
+        <option value="" disabled className=" ">Select an option</option>
+        <optgroup label="Same-day delivery">
+          <option value="sameDay">FedEx SameDay®</option>
+        </optgroup>
+        <optgroup label="Overnight delivery">
+          <option value="firstOvernight">FedEx First Overnight® (by 8 AM or 10 AM)</option>
+          <option value="priorityOvernight">FedEx Priority Overnight® (by 10:30 AM, 12 PM, or 4:30 PM)</option>
+          <option value="standardOvernight">FedEx Standard Overnight® (by 3 PM or 8 PM)</option>
+        </optgroup>
+        <optgroup label="2-day delivery">
+          <option value="twoDay">FedEx 2Day® (by 4:30 PM or 8 PM)</option>
+        </optgroup>
+        <optgroup label="3-day delivery">
+          <option value="threeDay">FedEx Express Saver® (by 4:30 PM or 8 PM)</option>
+        </optgroup>
+        <optgroup label="Ground services">
+          <option value="groundBusiness">FedEx Ground® (to businesses, Monday to Friday)</option>
+          <option value="homeDelivery">FedEx Home Delivery® (to residences, every day)</option>
+        </optgroup>
+      </select>
+      </div>
+
+      {selectedOption && <p>You selected: {selectedOption}</p>}
+    </div>
+
+
+      <h2 className="text-orange-500">3 Select a payment method</h2>
 
       <div className="border rounded-md p-4">
 
@@ -324,21 +370,21 @@ const Payment = () => {
         <div>
           <div className="flex flex-col">
             <div
-              className={`flex w-[95%] cursor-pointer items-center p-2 ${selectedPayment === "card"
-                ? "bg-pink-50 border border-black rounded-md"
-                : ""
-                }`}
+              className={`flex w-[95%] cursor-pointer bg-pink-50 border border-black rounded-md items-center p-2
+                `}
               onClick={() => handlePaymentSelection("card")}
             >
               <input
                 type="radio"
-                checked={selectedPayment === "card"}
+                checked
+                // ={selectedPayment === "card"}
                 readOnly
+                // defaultChecked
                 className="cursor-pointer"
               />
               <span className="ml-2">Credit or debit card</span>
             </div>
-            {selectedPayment === "card" && (
+            {/* {selectedPayment === "card" && ( */}
               <div className="flex mt-2">
                 <img src={AmericanExpress} className="w-12 h-9 mr-2" />
                 <img src={visa} className="w-12 h-9 mr-2" />
@@ -346,12 +392,12 @@ const Payment = () => {
                 <img src={dotspaymenticon} className="w-12 h-9 mr-2" />
                 <img src={net} className="w-12 h-9" />
               </div>
-            )}
+            {/* )} */}
 
 
 
 
-            {isPopupShow && (
+            {/* {isPopupShow && ( */}
 
 
 
@@ -467,7 +513,7 @@ const Payment = () => {
                   </div>
                 </div>
               </div>
-            )}
+            {/* )} */}
 
 
 
