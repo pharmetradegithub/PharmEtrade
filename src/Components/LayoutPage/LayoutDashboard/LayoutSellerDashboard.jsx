@@ -158,16 +158,16 @@ const LayoutSellerDashboard = () => {
     {
       label: "Outgoing Orders", percentage: sellerDashboard?.outgoingOrdersCount, color: "orange", grid: "productsOrdered"
     }, // Yellow
-    {
-      label: "Total No.of Products ", percentage: sellerDashboard?.totalProducts, color: "green", grid: "customersOrdered", to: '/layout/postingproducts'
-    }, // Green
-
+    
     {
       label: "Total Incoming Order Value", percentage:    `$${(sellerDashboard?.totalPurchaseValue || 0).toFixed(2)}`, color: "blue", grid: "customersOrdered"
     },
     {
       label: "Total Outgoing Order Value", percentage: `$${(sellerDashboard?.totalSaleValue || 0).toFixed(2)}`, color: "purple", grid: "customersOrdered"
     },
+    // {
+    //   label: "Total No.of Products ", percentage: sellerDashboard?.totalProducts, color: "green", grid: "customersOrdered", to: '/layout/postingproducts'
+    // }, // Green
   ];
 
 
@@ -281,7 +281,7 @@ const LayoutSellerDashboard = () => {
         </div>
 
         <div className="flex flex-col ">
-          <div className='flex justify-center flex-wrap  gap-2 w-auto mt-8 border p-4 rounded-lg shadow-lg'>
+          <div className='flex  flex-wrap  gap-2 w-auto mt-8 border p-4 rounded-lg shadow-lg'>
 
             {/* <div className='flex flex-col items-center justify-center ml-7'>
               <h1 className='text-xl font-semibold'>Order(s)</h1>

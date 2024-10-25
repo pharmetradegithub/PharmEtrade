@@ -786,7 +786,7 @@ function LayoutCategory({
     }
   }, [modifiedComponents, CategoryId]);
 
-  console.log("cart--->", cart);
+  console.log("cartssssssss--->", cart);
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
   //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
@@ -880,7 +880,6 @@ function LayoutCategory({
     const quantity = Math.max(1, newQuantity);
     setcurrentItems((prev) => {
       const updatedList = [...prev];
-
       updatedList[index] = {
         ...updatedList[index],
         CartQuantity: quantity,
@@ -1106,13 +1105,13 @@ function LayoutCategory({
                 currentItems.map((product, index) => (
                   <div
                     key={index}
-                    className="flex p-4 border w-full justify-around shadow-lg rounded-md mb-4"
+                    className="flex p-4 border h-auto w-full justify-around shadow-lg rounded-md mb-4"
                   >
                     <div className="flex flex-col mx-2">
                       <img
                         // src={product.mainImageUrl}
                         src={product.productGallery.imageUrl}
-                        className="w-36 p-2 hover:cursor-pointer rounded-lg h-28 bg-slate-200"
+                        className="w-32 p-2 hover:cursor-pointer rounded-lg h-28 bg-slate-200"
                         alt="Product"
                         onClick={() =>
                           handleProductDetails(product.productID, product)
@@ -1120,12 +1119,12 @@ function LayoutCategory({
                       />
                     </div>
 
-                    <div className="flex flex-col w-[200px] mx-3">
-                      <p className="font-semibold">Item Details</p>
+                    <div className="flex flex-col w-[170px] ">
+                      <p className="font-semibold text-sm">Item Details</p>
                       <div className="mt-2">
-                        <p className="font-semibold">{product.productName}</p>
+                        <p className="font-semibold text-blue-900  w-32 text-sm">{product.productName}</p>
 
-                        <p className="text-xs mt-1 w-60">
+                        <p className="text-xs mt-1 w-32">
                           {showMore[index]
                             ? product.aboutTheProduct
                             : `${product.aboutTheProduct.slice(0, 50)}...`}
@@ -1139,10 +1138,10 @@ function LayoutCategory({
                           )}
                         </p>
                         <div className="flex w-full mt-1 gap-1">
-                          <img src={Expicon} className="w-6 h-6" />
+                          <img src={Expicon} className="w-5 h-5" />
                           <div className="flex ">
-                            <p className="mr-1">Exp.Date :</p>
-                            <p className="font-semibold">
+                            <p className=" text-xs font-semibold">Exp.Date :</p>
+                            <p className="font-semibold  text-xs">
                               {/* {product.expiryDate} */}
                               {new Date(product.expiryDate)
                                 .toLocaleDateString("en-US", {
@@ -1154,6 +1153,16 @@ function LayoutCategory({
                             </p>
                           </div>
                         </div>
+                        <p className="mt-1 text-sm">
+                          Product returnable:{" "}
+                          {product.isReturnable ? "Yes" : "No"}
+                        </p>
+                        <div className=" flex">
+                        <h2 className="text-sm  mr-1">Package Details :</h2>
+                        <p className="text-sm">
+                        &nbsp; {product.packCondition}
+                        </p>
+                      </div>
                       </div>
                     </div>
 
@@ -1169,33 +1178,11 @@ function LayoutCategory({
                       </div>
                     </div> */}
 
-                    <div className="flex flex-col mx-3 justify-between">
-                      <div className="">
-                        <h2 className="font-semibold">Package Details</h2>
-                        <p className="text-base mt-1">
-                          {product.packCondition}
-                        </p>
-                      </div>
-
-                      <div className="text-sm">
-                        {product.amountInStock <= 0 ? (
-                          <p className="text-red-500 font-semibold">
-                            Out Of Stock
-                          </p>
-                        ) : (
-                          <p className="text-white p-1 bg-green-600 rounded-lg ">
-                            Stock Available -{" "}
-                            <span className="font-semibold">
-                              {product.amountInStock}
-                            </span>
-                          </p>
-                        )}
-                      </div>
-                    </div>
+                    
 
                     <div className="flex flex-col mx-3">
-                      <p className="font-semibold">Unit Price</p>
-                      <div className="mt-2">
+                      <p className="font-semibold text-sm">Unit Price</p>
+                      <div className="mt-2 text-right text-xs font-bold">
                         <p className="font-semibold">
                           ${product.unitPrice?.toFixed(2)}
                         </p>
@@ -1279,8 +1266,85 @@ function LayoutCategory({
                         />
                       </div> 
                     </div> */}
+                     <div className="flex flex-col justify-between mx-3">
+                      <div>
+                        <p className="font-semibold  text-sm">UPN Member Price</p>
+                        <div className="mt-2 text-right text-xs font-bold">
+                          <p className="font-semiboldm -ml-5 ">
+                            ${product.upnMemberPrice?.toFixed(2)}
+                          </p>
+
+                        </div>
+                      </div>
+                      <div className="text-sm">
+                        {product.amountInStock <= 0 ? (
+                          <p className="text-red-500 font-semibold">
+                            Out Of Stock
+                          </p>
+                        ) : (
+                          <p className="text-white  flex flex-wrap w-28 p-1 text-xs bg-green-600 rounded-lg ">
+                            Stock Available -{" "}
+                            <span className="font-semibold text-xs">
+                              {product.amountInStock}
+                            </span>
+                          </p>
+                        )}
+                      </div>
+
+
+                    </div>
+
+                    <div className="flex flex-col mx-3">
+                      <p className="font-semibold text-sm">Sale Price</p>
+                      <div className="mt-2 text-right text-xs font-bold">
+                        <p className="font-semibold">
+                          ${product.salePrice?.toFixed(2)}
+                        </p>
+
+                      </div>
+
+
+                    </div>
+
+
+                    <div className="flex flex-col mx-4">
+                      <p className="font-semibold text-sm">Sale Price Range</p>
+                      <div className="mt-2 text-right text-xs font-bold">
+                        <div className="flex">
+                        <p className="font-semibold ml-1">
+                          {new Date(product.salePriceValidFrom)
+                            .toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "2-digit",
+                              day: "2-digit",
+                            })
+                            .replace(/\//g, "-")}
+                        </p>
+                          </div>
+                          <p className="text-center -ml-8">to </p> 
+
+                          <div className="flex">
+
+                        <p className="ml-1">
+                          {new Date(product.
+                            salePriceValidTo
+                          )
+                            .toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "2-digit",
+                              day: "2-digit",
+                            })
+                            .replace(/\//g, "-")}
+                        </p>
+                            </div>
+
+                      </div>
+
+
+                    </div>
+
                      <div className="flex flex-col mx-3">
-                      <p className="font-semibold">Quantity</p>
+                      <p className="font-semibold ml-4">Quantity</p>
                       <div className="mt-2 flex items-center">
                         {/* Decrease quantity button */}
                         <button
@@ -1365,7 +1429,9 @@ function LayoutCategory({
 
                     {/* Wishlist */}
                     <div className="flex flex-col items-center justify-between">
-                      <div className="mt-2">
+                     <div className="flex flex-col ">
+                      
+                      <div className="mt-2 ml-2">
                         <Tooltip title="Wishlist" placement="top">
                           <img
                             src={
@@ -1379,7 +1445,7 @@ function LayoutCategory({
                           />
                         </Tooltip>
                       </div>
-                      <div className="relative">
+                      <div className="relative mt-4">
                         <Tooltip title="Share" placement="right">
                           <img
                             src={share}
@@ -1387,6 +1453,7 @@ function LayoutCategory({
                             onClick={() => handleShare(product.productID)}
                           />
                         </Tooltip>
+                      </div>
                       </div>
 
                       {/* Add to Cart */}
@@ -1415,7 +1482,7 @@ function LayoutCategory({
                             handleCart(product.productID, product.CartQuantity);
                           }
                         }}
-                        className={`flex text-white h-[40px] px-2 rounded-lg mx-3 justify-center items-center
+                        className={`flex text-white h-[32px] px-2 rounded-lg  justify-center items-center
                                   ${
                                     product.amountInStock === 0
                                       ? "bg-gray-400 cursor-not-allowed"
@@ -1425,7 +1492,7 @@ function LayoutCategory({
                         <div className="mr-1">
                           <img
                             src={addcart}
-                            className={`w-6 h-6 ${
+                            className={`w-5 h-5 ${
                               product.amountInStock === 0
                                 ? "opacity-50"
                                 : "cursor-pointer"
@@ -1434,7 +1501,7 @@ function LayoutCategory({
                           />
                         </div>
                         <p
-                          className={`font-semibold ${
+                          className={`font-semibold text-sm ${
                             product.amountInStock === 0 ? "opacity-50" : ""
                           }`}
                         >

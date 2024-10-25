@@ -1023,8 +1023,11 @@ import LayoutBuyerReceiversgrid from "../LayoutDashboard/LayoutBuyerReceiversgri
 import LayoutBuyerUpcomingGrid from "../LayoutDashboard/LayoutBuyerUpcomingGrid";
 import TrackingOrder from '../../../Components/TermsAndConditions'
 function LayoutOrderList() {
-  // const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
-  // const [currentPage, setCurrentPage] = useState(1);
+
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
+  const [currentPage, setCurrentPage] = useState(1);
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [orders, setOrders] = useState([]);
   // const localData = localStorage.getItem("userId")
@@ -1047,6 +1050,43 @@ function LayoutOrderList() {
     if(getOrders)
       setGetOrder(getOrders)
   },[getOrders])
+
+  //YEAR  SORTING
+
+  
+  useEffect(() => {
+    const data = async () => {
+      await dispatch(fetchGetOrder(user?.customerId));
+    };
+    data();
+  }, [dispatch, user?.customerId]);
+
+  // Sorting orders by date
+  const sortedOrders = Array.isArray(getOrder)
+    ? [...getOrder].sort(
+        (a, b) => new Date(b.orderDate) - new Date(a.orderDate)
+      )
+    : [];
+
+  // Filter orders by selected year
+  const filteredOrders = sortedOrders.filter(
+    (order) => new Date(order.orderDate).getFullYear() === selectedYear
+  );
+
+  const handleYearChange = (e) => {
+    setSelectedYear(Number(e.target.value));
+  };
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredOrders.slice(indexOfFirstItem, indexOfLastItem);
+
+  const generateYears = (startYear, endYear) => {
+    let years = [];
+    for (let year = startYear; year <= endYear; year++) {
+      years.push(year);
+    }
+    return years;
+  };
 
 
 
@@ -1100,20 +1140,18 @@ function LayoutOrderList() {
   //     setOrders(orderList);
   //     }
   // }, [])
-  const generateYears = (startYear, endYear) => {
-    let years = [];
-    for (let year = startYear; year <= endYear; year++) {
-      years.push(year);
-    }
-    return years;
-  };
+ 
 
   const YearDropdown = () => {
     const currentYear = new Date().getFullYear();
-    const years = generateYears( currentYear,currentYear+5);
+    const years = generateYears(currentYear, currentYear + 5);
 
     return (
-      <select className="border  rounded-md mx-2 shadow-md bg-slate-200">
+      <select
+        value={selectedYear}
+        onChange={handleYearChange}
+        className="border rounded-md mx-2 shadow-md bg-slate-200"
+      >
         {years.map((year) => (
           <option key={year} value={year}>
             {year}
@@ -1129,18 +1167,14 @@ function LayoutOrderList() {
 
 
   // const [orders, setOrders] = useState([]);
-  const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
-  const [currentPage, setCurrentPage] = useState(1);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = getOrder.slice(indexOfFirstItem, indexOfLastItem);
+  
+
   const totalPages = Math.ceil((getOrder?.length || 0) / itemsPerPage);
 
-  const sortedOrders = Array.isArray(getOrder)
-  ? [...getOrder].sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate)) // Sort by date
-  : [];
+  // const sortedOrders = Array.isArray(getOrder)
+  // ? [...getOrder].sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate)) // Sort by date
+  // : [];
 
-const currentItems = sortedOrders.slice(indexOfFirstItem, indexOfLastItem);
 
 
   const [isOpen, setIsOpen] = useState(false);
@@ -1462,6 +1496,10 @@ const currentItems = sortedOrders.slice(indexOfFirstItem, indexOfLastItem);
                             year: 'numeric'
                           }).replace(/\//g, '-')}
                         </p>
+                        <div className="flex">
+                          <p>Quantity :</p>
+                          <p>{order.quantity}</p>
+                          </div>
                       </div>
                       <div className="flex my-2 cursor-pointer" onClick={() => handleNav(order.productId)}>
                         <button className="border rounded-lg p-2 bg-blue-900 text-white w-48 shadow-md">

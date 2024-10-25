@@ -1,12 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { TextField } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import edit from "../../../assets/Edit.png";
 import { useSelector } from "react-redux";
 import { Box, Radio } from "@mui/material";
 import { Button, Textarea } from "@material-tailwind/react";
-import { ActivateUserAPI, DeactivateUserAPI, getUserByCustomerIdApi } from "../../../Api/UserApi";
+import {
+  ActivateUserAPI,
+  BusinessInfoUpdate,
+  DeactivateUserAPI,
+  getUserByCustomerIdApi,
+  UserInfoUpdate,
+} from "../../../Api/UserApi";
 import Notification from "../../Notification";
 import ChargesInformations from "./ChargesInformations";
+import { useStates } from "react-us-states";
 // import ChargesInformation from "../../LayoutPage/LayoutProfile/ChargesInformation";
 // import BankInformation from "./BankInformation";
 // import LayoutProfileAddress from "./LayoutProfileAddress";
@@ -16,7 +29,10 @@ const EditSellerList = () => {
   const [userdata, setuserdata] = useState(null);
   const [businessInfo, setbusinessInfo] = useState(null);
 
-  const [notification, setNotification] = useState({ show: false, message: "" });
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+  });
 
   useEffect(() => {
     const FetchUserDetails = async () => {
@@ -31,7 +47,7 @@ const EditSellerList = () => {
     }
   }, [CustomerId]);
 
-  console.log("wwwww", userdata)
+  console.log("wwwww", userdata);
   const DeactivateCustomer = async (customerId) => {
     await DeactivateUserAPI(customerId);
     setNotification({
@@ -53,12 +69,11 @@ const EditSellerList = () => {
   console.log(userdata);
   const [confirmPassword, setConfirmPassword] = useState(""); // State to track user input
 
-
-  const [notes, setNotes] = useState('');
+  const [notes, setNotes] = useState("");
   const [submittedNotes, setSubmittedNotes] = useState(null);
   const handleSend = () => {
     setSubmittedNotes(notes); // Save the notes to display below
-    setNotes(''); // Clear the TextField after submission
+    setNotes(""); // Clear the TextField after submission
   };
   const profiles = [
     {
@@ -98,6 +113,26 @@ const EditSellerList = () => {
   // bussiness phone
   const [businessPhone, setBusinessPhone] = useState("");
 
+  const [userDetails, setUserDetails] = useState({
+    firstName: userdata?.firstName || "",
+    lastName: userdata?.lastName || "",
+    email: userdata?.email || "",
+    password: userdata?.password || "",
+    // phoneNumber: userdata?.phoneNumber || "",
+    mobile: userdata?.mobile || "",
+  });
+
+  useEffect(() => {
+    setUserDetails({
+      firstName: userdata?.firstName || "",
+      lastName: userdata?.lastName || "",
+      email: userdata?.email || "",
+      password: userdata?.password || "",
+      // phoneNumber: userdata?.phoneNumber || "",
+      mobile: userdata?.mobile || "",
+    });
+  }, [userdata]);
+
   const handleBusinessPhoneChange = (e) => {
     const input = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
     let formattedBusinessPhone = input;
@@ -131,35 +166,324 @@ const EditSellerList = () => {
   // phone number
   const [phoneNumber, setPhoneNumber] = useState("");
 
-  const handlePhoneNumberChange = (e) => {
-    const input = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
-    let formattedPhoneNumber = input;
+  // const handlePhoneNumberChange = (e) => {
+  //   const input = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+  //   let formattedPhoneNumber = input;
 
-    if (input.length > 3 && input.length <= 6) {
-      formattedPhoneNumber = `${input.slice(0, 3)}-${input.slice(3)}`;
-    } else if (input.length > 6) {
-      formattedPhoneNumber = `${input.slice(0, 3)}-${input.slice(
-        3,
-        6
-      )}-${input.slice(6, 10)}`;
+  //   if (input.length > 3 && input.length <= 6) {
+  //     formattedPhoneNumber = `${input.slice(0, 3)}-${input.slice(3)}`;
+  //   } else if (input.length > 6) {
+  //     formattedPhoneNumber = `${input.slice(0, 3)}-${input.slice(
+  //       3,
+  //       6
+  //     )}-${input.slice(6, 10)}`;
+  //   }
+  //   setPhoneNumber(formattedPhoneNumber);
+  // };
+
+  const formatPhoneNumber = (value) => {
+    // Remove all non-numeric characters
+    const cleaned = ("" + value).replace(/\D/g, "");
+
+    // Match the cleaned input with a pattern and format it as 777-777-7777
+    const match = cleaned.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
+
+    if (match) {
+      const part1 = match[1] ? match[1] : "";
+      const part2 = match[2] ? `-${match[2]}` : "";
+      const part3 = match[3] ? `-${match[3]}` : "";
+      return `${part1}${part2}${part3}`;
     }
-    setPhoneNumber(formattedPhoneNumber);
+
+    return value;
+  };
+
+  const handlePhoneNumberChange = (e) => {
+    const formattedPhone = formatPhoneNumber(e.target.value);
+    handleInputChange({
+      target: {
+        name: e.target.name,
+        value: formattedPhone,
+      },
+    });
+  };
+
+  const handlePhoneChange = (e) => {
+    const formattedPhone = formatPhoneNumber(e.target.value);
+    handleAddressChange({
+      target: {
+        name: e.target.name,
+        value: formattedPhone,
+      },
+    });
   };
 
   // tab1
   const [isEditable, setIsEditable] = useState(false);
 
-  // Function to handle the edit button click
-  // const handleEditClick = () => {
-  //   setIsEditable(true); // Enable editing when edit icon is clicked
-  // };
   const handleEditClick = () => {
     setIsEditable((prev) => !prev); // Toggle edit mode
   };
   // Handle save button click
-  const handleSaveClick = () => {
+  // const handleSaveClick = () => {
+  //   setIsEditable(false);
+  //   alert("Data saved successfully!"); // Show notification (can replace with your own notification system)
+  // };
+
+  const RefreshUser = async () => {
+    await getUserByCustomerIdApi(userdata.customerId);
+  };
+
+  const handleSaveClick = async () => {
     setIsEditable(false);
-    alert("Data saved successfully!"); // Show notification (can replace with your own notification system)
+    const userinfo = {
+      customerId: userdata.customerId,
+      firstName: userDetails.firstName,
+      lastName: userDetails.lastName,
+      email: userDetails.email,
+      mobile: userDetails.mobile,
+      password: userDetails.password,
+      customerTypeId: userdata.customerTypeId,
+      accountTypeId: userdata.accountTypeId,
+      isUPNMember: userdata.isUPNMember,
+    };
+    if (userinfo) {
+      await UserInfoUpdate(userinfo);
+      await RefreshUser();
+    }
+
+    console.log("Data saved:", userDetails); // You can dispatch this to Redux or send it to the backend
+    // alert("Data saved successfully!"); // Show notification
+    setNotification({
+      show: true,
+      message: "User Information saved Successfully!",
+    });
+    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  };
+
+  const handleAddressEditClick = () => {
+    setIsAddressEdit(true);
+  };
+
+  const handleAddressSaveClick = async () => {
+    setIsAddressEdit(false);
+    const businessInfoObj = {
+      customerBusinessInfoId: businessInfo.customerBusinessInfoId,
+      customerId: userdata.customerId,
+      shopName: addressData.shopName,
+      dba: addressData.dba,
+      legalBusinessName: addressData.legalBusinessName,
+      address: addressData.address,
+      city: addressData.city,
+      state: addressData.state,
+      zip: addressData.zip,
+      businessPhone: addressData.businessPhone,
+      businessFax: addressData.businessFax,
+      businessEmail: addressData.businessEmail,
+      federalTaxId: businessInfo.federalTaxId,
+      dea: businessInfo.dea,
+      pharmacyLicence: businessInfo.pharmacyLicence,
+      deaExpirationDate:
+        businessInfo.deaExpirationDate == ""
+          ? null
+          : businessInfo.deaExpirationDate,
+      pharmacyLicenseExpirationDate:
+        businessInfo.pharmacyLicenseExpirationDate == ""
+          ? null
+          : businessInfo.pharmacyLicenseExpirationDate,
+      deaLicenseCopy: businessInfo.deaLicenseCopy,
+      pharmacyLicenseCopy: businessInfo.pharmacyLicenseCopy,
+      npi: businessInfo.npi,
+      ncpdp: businessInfo.ncpdp,
+      companyWebsite: addressData.companyWebsite,
+    };
+    if (businessInfo) {
+      console.log("before sbubmit", businessInfoObj);
+      await BusinessInfoUpdate(businessInfoObj);
+      await RefreshUser();
+    }
+    // Here you would typically dispatch an action to save the updated address
+    console.log("Address saved:", addressData);
+    // alert("Address information saved successfully!");
+    setNotification({
+      show: true,
+      message: "Address information saved Successfully!",
+    });
+    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  };
+
+  const handleAddressChange = (e) => {
+    console.log("Field changed:", e.target.name, e.target.value);
+    const { name, value } = e.target;
+    setAddressData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]; // Get the selected file
+    if (file) {
+      // Handle the file (e.g., store in state, upload it, etc.)
+      setAccountData((prevState) => ({
+        ...prevState,
+        deaLicenseCopy: file, // Update state with the selected file
+      }));
+    }
+  };
+
+  const handleFileChangePharma = (event) => {
+    const file = event.target.files[0]; // Get the selected file
+    if (file) {
+      // Update the state with the selected file for pharmacy license
+      setAccountData((prevState) => ({
+        ...prevState,
+        pharmacyLicenseCopy: file, // Store the selected file object
+      }));
+    }
+  };
+  const [isAddressEdit, setIsAddressEdit] = useState(false);
+  const [addressData, setAddressData] = useState({
+    shopName: businessInfo?.shopName || "",
+    dba: businessInfo?.dba || "",
+    city: businessInfo?.city || "",
+    zip: businessInfo?.zip || "",
+    legalBusinessName: businessInfo?.legalBusinessName || "",
+    address: businessInfo?.address || "",
+    state: businessInfo?.state || "",
+    businessPhone: businessInfo?.businessPhone || "",
+    businessFax: businessInfo?.businessFax || "",
+    deaExpirationDate: businessInfo?.deaExpirationDate || "",
+    businessEmail: businessInfo?.businessEmail || "",
+
+    companyWebsite: businessInfo?.companyWebsite || "",
+
+    pharmacyLicenseExpirationDate:
+      businessInfo?.pharmacyLicenseExpirationDate || "",
+  });
+
+  const [accountData, setAccountData] = useState({
+    dea: businessInfo?.dea || "",
+    deaExpirationDate: businessInfo?.deaExpirationDate || "",
+    npi: businessInfo?.npi || "",
+    ncpdp: businessInfo?.ncpdp || "",
+    federalTax: businessInfo?.federalTax || "",
+    pharmacyLicense: businessInfo?.pharmacyLicense || "",
+    pharmacyLicenseExpirationDate:
+      businessInfo?.pharmacyLicenseExpirationDate || "",
+    federalTaxId: businessInfo?.federalTaxId || "",
+    pharmacyLicence: businessInfo?.pharmacyLicence || "",
+    deaLicenseCopy: businessInfo?.deaLicenseCopy || "",
+    pharmacyLicenseCopy: businessInfo?.pharmacyLicenseCopy || "",
+  });
+  useEffect(() => {
+    setAddressData({
+      shopName: businessInfo?.shopName || "",
+      dba: businessInfo?.dba || "",
+      city: businessInfo?.city || "",
+      zip: businessInfo?.zip || "",
+      legalBusinessName: businessInfo?.legalBusinessName || "",
+      address: businessInfo?.address || "",
+      state: businessInfo?.state || "",
+      businessPhone: businessInfo?.businessPhone || "",
+      businessFax: businessInfo?.businessFax || "",
+      deaExpirationDate: businessInfo?.deaExpirationDate || "",
+      businessEmail: businessInfo?.businessEmail || "",
+
+      companyWebsite: businessInfo?.companyWebsite || "",
+
+      pharmacyLicenseExpirationDate:
+        businessInfo?.pharmacyLicenseExpirationDate || "",
+      deaLicenseCopy: businessInfo?.deaLicenseCopy || "",
+      pharmacyLicenseCopy: businessInfo?.pharmacyLicenseCopy || "",
+    });
+    setAccountData({
+      dea: businessInfo?.dea || "",
+      deaExpirationDate: businessInfo?.deaExpirationDate || "",
+      npi: businessInfo?.npi || "",
+      ncpdp: businessInfo?.ncpdp || "",
+      federalTax: businessInfo?.federalTax || "",
+      pharmacyLicense: businessInfo?.pharmacyLicense || "",
+      pharmacyLicenseExpirationDate:
+        businessInfo?.pharmacyLicenseExpirationDate || "",
+      federalTaxId: businessInfo?.federalTaxId || "",
+      pharmacyLicence: businessInfo?.pharmacyLicence || "",
+      deaLicenseCopy: businessInfo?.deaLicenseCopy || "",
+      pharmacyLicenseCopy: businessInfo?.pharmacyLicenseCopy || "",
+    });
+  }, [businessInfo]);
+
+  useEffect(() => {
+    if (businessInfo) {
+      setAddressData({
+        shopName: businessInfo.shopName || "",
+        dba: businessInfo.dba || "",
+        city: businessInfo.city || "",
+        zip: businessInfo.zip || "",
+        legalBusinessName: businessInfo.legalBusinessName || "",
+        address: businessInfo.address || "",
+        state: businessInfo.state || "",
+        businessPhone: businessInfo.businessPhone || "",
+        businessFax: businessInfo.businessFax || "",
+        deaExpirationDate: businessInfo.deaExpirationDate || "",
+        businessEmail: businessInfo.businessEmail || "",
+        companyWebsite: businessInfo.companyWebsite || "",
+        pharmacyLicenseExpirationDate:
+          businessInfo.pharmacyLicenseExpirationDate || "",
+      });
+    }
+  }, [businessInfo]);
+
+  const [isAccountEdit, setIsAccountEdit] = useState(false);
+
+ 
+
+  const handleAccountEditClick = () => {
+    setIsAccountEdit(true);
+  };
+
+  const handleAccountSaveClick = async () => {
+    setIsAccountEdit(false);
+    console.log("acc", accountData);
+    const businessInfoObj = {
+      customerBusinessInfoId: businessInfo.customerBusinessInfoId,
+      customerId: userdata.customerId,
+      shopName: businessInfo.shopName,
+      dba: businessInfo.dba,
+      legalBusinessName: businessInfo.legalBusinessName,
+      address: businessInfo.address,
+      city: businessInfo.city,
+      state: businessInfo.state,
+      zip: businessInfo.zip,
+      businessPhone: businessInfo.businessPhone,
+      businessFax: businessInfo.businessFax,
+      businessEmail: businessInfo.businessEmail,
+      federalTaxId: accountData.federalTaxId,
+      dea: accountData.dea,
+      pharmacyLicence: accountData.pharmacyLicence,
+      deaExpirationDate: accountData.deaExpirationDate == "" ? null : accountData.deaExpirationDate,
+      pharmacyLicenseExpirationDate:
+        accountData.pharmacyLicenseExpirationDate == "" ? null : accountData.pharmacyLicenseExpirationDate,
+      deaLicenseCopy: businessInfo.deaLicenseCopy,
+      pharmacyLicenseCopy: businessInfo.pharmacyLicenseCopy,
+      npi: accountData.npi,
+      ncpdp: accountData.ncpdp,
+      companyWebsite: businessInfo.companyWebsite,
+    };
+    if (businessInfo) {
+      console.log("before sbubmit", businessInfoObj);
+      await BusinessInfoUpdate(businessInfoObj);
+      await RefreshUser();
+    }
+    // Here you would typically dispatch an action to save the updated account information
+    console.log("Account saved:", accountData);
+    // alert("Account information saved successfully!");
+    setNotification({
+      show: true,
+      message: "Account information saved Successfully!",
+    });
+    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
   };
 
   // tab2
@@ -171,6 +495,12 @@ const EditSellerList = () => {
   const handleSelectClick = () => {
     setIsselectable(false);
     alert("Data saved successfully!"); // Show notification (can replace with your own notification system)
+  };
+
+
+  const handleAccountChange = (e) => {
+    const { name, value } = e.target;
+    setAccountData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   // tab3
@@ -197,8 +527,16 @@ const EditSellerList = () => {
     setIstabedit(false);
   };
 
+  const [states, setStates] = useState([]);
+
+  useEffect(() => {
+    // Set the states data
+    setStates(useStates); // Adjust based on actual structure
+  }, []);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    setUserDetails({ ...userDetails, [name]: value });
     setNotes(e.target.value); // Update notes state with input value
 
     setConfirmPassword(e.target.value); // Update state with user input
@@ -211,6 +549,14 @@ const EditSellerList = () => {
   };
   // const [confirmPassword, setConfirmPassword] = useState(""); // State to track user input
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   return (
     <div className="w-full h-full flex-col bg-slate-200 flex justify-center overflow-y-scroll">
       {notification.show && (
@@ -222,10 +568,11 @@ const EditSellerList = () => {
           {profiles.map((profile) => (
             <div key={profile.grid} className="flex ml-6">
               <div
-                className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${visibleGrid === profile.grid
+                className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${
+                  visibleGrid === profile.grid
                     ? "border-b-4 border-blue-900"
                     : ""
-                  }`}
+                }`}
                 onClick={() => toggleGrid(profile.grid)}
               >
                 <h1 className="text-lg text-blue-900 font-semibold">
@@ -238,111 +585,41 @@ const EditSellerList = () => {
 
         {/* Primary Grid */}
         {visibleGrid === "primary" && (
-          // <div className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
-          //   <div className="flex justify-between">
-          //     <div className="py-4 flex flex-col gap-4">
-          //       <TextField label="First Name" size="small" className="w-full" />
-          //       <TextField label="Email ID" size="small" className="w-full" />
-          //     </div>
-          //     <div className="py-4 flex flex-col gap-4">
-          //       <TextField label="Last Name" size="small" className="w-full" />
-          //       <TextField label="Phone Number" size="small" className="w-full" />
-          //     </div>
-          //     <div className="flex flex-col justify-between py-2">
-          //       <img src={edit} className="w-6 h-6 ml-4" alt="edit" />
-          //       <button className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold">Save</button>
-          //     </div>
-          //   </div>
-          // </div>
-
           <div>
             <h1 className="text-xl text-blue-900 font-semibold mt-4 ml-6 ">
               Primary
             </h1>
-            {/* <div className="bg-white border  border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4 ">
 
-            <div className="flex justify-between">
-              <div className="py-4 flex flex-col  gap-4">
-                <TextField
-                  label="First Name"
-                  id="outlined-size-small"
-                  name="First Name"
-                  // value={formData.First_Name}
-                  // onChange={handleInputChange}
-                  // error={!!errors.First_Name}
-                  // helperText={errors.First_Name}
-
-                  size="small"
-                  className="w-full"
-                />
-                <TextField
-                  label="Email ID"
-                  id="outlined-size-small"
-                  name="Email ID"
-                  // value={formData.First_Name}
-                  // onChange={handleInputChange}
-                  // error={!!errors.First_Name}
-                  // helperText={errors.First_Name}
-
-                  size="small"
-                  className="w-full"
-                />
-
-              </div>
-              <div className="py-4 gap-4 flex-col flex">
-                <TextField
-                  label="Last Name"
-                  id="outlined-size-small"
-                  name="Last Name"
-                  // value={formData.First_Name}
-                  // onChange={handleInputChange}
-                  // error={!!errors.First_Name}
-                  // helperText={errors.First_Name}
-
-                  size="small"
-                  className="w-full"
-                />
-                <TextField
-                  label="Phone Number"
-                  id="outlined-size-small"
-                  name="Phone Number"
-                  // value={formData.First_Name}
-                  // onChange={handleInputChange}
-                  // error={!!errors.First_Name}
-                  // helperText={errors.First_Name}
-
-                  size="small"
-                  className="w-full"
-                />
-              </div>
-
-
-              <div className="flex flex-col justify-between py-2">
-                <img src={edit} className="w-6 h-6 ml-4" />
-                <button className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold" >Save</button>
-              </div>
-            </div>
-          </div> */}
-
-            <div className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
+            {/* <div className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
               <h1 className="text-xl font-semibold text-blue-900 my-2">
+                User Information
+              </h1> */}
+               <div
+              className={`bg-white border  mx-6 ${
+                isEditable ? "border-blue-900" : "border-gray-400"
+              } rounded-lg px-8 w-[90%] mt-8 relative`}
+            >
+              {isEditable && (
+                <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+                  User Information
+                </h1>
+              )}
+              {/* <h1 className="text-xl font-semibold text-blue-900 my-2">
+                Address Information
+              </h1> */}
+              <h1
+                className={`text-xl font-semibold my-2 ${
+                  isEditable ? "invisible" : "text-blue-900"
+                }`}
+              >
                 User Information
               </h1>
               <div className="flex justify-between">
                 <div className="py-4 flex flex-col gap-4">
-                  {/* <TextField
-                    label="First Name"
-                    id="outlined-size-small"
-                    value={userdata?.firstName}
-                    name="First Name"
-                    disabled={!isEditable} // Disable field unless in edit mode
-                    size="small"
-                    className="w-full"
-                  /> */}
                   <TextField
                     label="First Name"
-                    id="outlined-size-small"
-                    value={userdata?.firstName || ""} // Ensure it handles null or undefined
+                    // id="outlined-size-small"
+                    value={userDetails?.firstName} // Ensure it handles null or undefined
                     name="firstName" // Use camelCase for the name
                     onChange={handleInputChange} // Handle input change
                     disabled={!isEditable} // Disable field unless in edit mode
@@ -351,8 +628,8 @@ const EditSellerList = () => {
                   />
                   <TextField
                     label="Email ID"
-                    id="outlined-size-small"
-                    value={userdata?.email || ""} // Ensure it handles null or undefined
+                    // id="outlined-size-small"
+                    value={userDetails?.email} // Ensure it handles null or undefined
                     name="email" // Use camelCase for the name
                     onChange={handleInputChange} // Handle input change
                     disabled={!isEditable} // Disable field unless in edit mode
@@ -361,8 +638,8 @@ const EditSellerList = () => {
                   />
                   <TextField
                     label="Password"
-                    id="outlined-size-small"
-                    value={userdata?.password || ""} // Ensure it handles null or undefined
+                    // id="outlined-size-small"
+                    value={userDetails?.password} // Ensure it handles null or undefined
                     name="password" // Use camelCase for the name
                     onChange={handleInputChange} // Handle input change
                     disabled={!isEditable} // Disable field unless in edit mode
@@ -373,61 +650,43 @@ const EditSellerList = () => {
                 <div className="py-4 gap-4 flex-col flex">
                   <TextField
                     label="Last Name"
-                    id="outlined-size-small"
-                    value={userdata?.lastName || ""} // Ensure it handles null or undefined
-                    name="Last Name" // Use camelCase for the name
+                    // id="outlined-size-small"
+                    value={userDetails?.lastName} // Ensure it handles null or undefined
+                    name="lastName" // Use camelCase for the name
                     onChange={handleInputChange} // Handle input change
                     disabled={!isEditable} // Disable field unless in edit mode
                     size="small"
                     className="w-full"
                   />
-                  {/* <TextField
-                    label="Phone Number"
-                    id="outlined-size-small"
-                    name="phoneNumber"
-                    value={userdata?.mobile}
-                    onChange={handlePhoneNumberChange}
-                    size="small"
-                    className="w-full"
-                    disabled={!isEditable} // Disable unless in edit mode
-                    inputProps={{ maxLength: 12 }} // Limit the max length to 12 (including dashes)
-                  /> */}
+
                   <TextField
                     label="Phone Number"
-                    name="phoneNumber"
-                    value={userdata?.mobile || ""} // Ensure value is not undefined
+                    name="mobile"
+                    value={userDetails?.mobile} // Ensure value is not undefined
                     onChange={handlePhoneNumberChange}
                     size="small"
                     className="w-full"
                     disabled={!isEditable} // Disable unless in edit mode
                     inputProps={{ maxLength: 12 }} // Limit the max length to 12 (including dashes)
-                    InputLabelProps={{
-                      shrink: !!userdata?.mobile, // Shrink the label if there is a value
-                    }}
+                    // InputLabelProps={{
+                    //   shrink: !!userDetails?.mobile, // Shrink the label if there is a value
+                    // }}
                   />
+
                   {/* <TextField
                     label="Confirm Password"
-                    id="outlined-size-small"
-                    name="Confirm password"
-                    value={userdata?.password || ""}
-                    disabled={!isEditable} // Disable field unless in edit mode
-                    size="small"
-                    className="w-full"
-                  /> */}
-                  <TextField
-                    label="Confirm Password"
-                    id="outlined-size-small"
-                    value={userdata?.password || ""} // Ensure it handles null or undefined
-                    name="Confirm password" // Use camelCase for the name
+                    // id="outlined-size-small"
+                    value={userDetails?.password} // Ensure it handles null or undefined
+                    name="password" // Use camelCase for the name
                     onChange={handleInputChange} // Handle input change
                     disabled={!isEditable} // Disable field unless in edit mode
                     size="small"
                     className="w-full"
-                  />
+                  /> */}
                 </div>
 
                 <div className="flex flex-col justify-between py-2">
-                  {/* <img
+                  <img
                     src={edit}
                     className="w-6 h-6 ml-4 cursor-pointer"
                     onClick={handleEditClick} // Handle edit icon click
@@ -441,198 +700,250 @@ const EditSellerList = () => {
                     disabled={!isEditable} // Disable button when not editable/ Save button is disabled if not editable
                   >
                     Save
-                  </button> */}
+                  </button>
                 </div>
               </div>
             </div>
             {/* <div className="bg-white border  flex justify-between flex-col border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4"> */}
 
-            <div className="button-group"></div>
+            {/* <div className="button-group"></div> */}
 
-            <div className="bg-white border border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4">
-              <h1 className="text-xl font-semibold text-blue-900 my-2">
+            <div
+              className={`bg-white border  mx-6 ${
+                isAddressEdit ? "border-blue-900" : "border-gray-400"
+              } rounded-lg px-8 w-[90%] mt-8 relative`}
+            >
+              {isAddressEdit && (
+                <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+                  Address Information
+                </h1>
+              )}
+              {/* <h1 className="text-xl font-semibold text-blue-900 my-2">
+                Address Information
+              </h1> */}
+              <h1
+                className={`text-xl font-semibold my-2 ${
+                  isAddressEdit ? "invisible" : "text-blue-900"
+                }`}
+              >
                 Address Information
               </h1>
 
               <div className="flex justify-between py-4">
                 <div className="flex flex-col gap-3">
-                  {/* <TextField
-                    label="Shop Name"
-                    id="outlined-size-small"
-                    name="Last Name"
-                    disabled={!istabable}
-                    value={businessInfo.shopName || ""}
-                    // onChange={handleInputChange}
-                    // error={!!errors.First_Name}
-                    // helperText={errors.First_Name}
-
-                    size="small"
-                  // className="w-full"
-                  /> */}
                   <TextField
                     label="Shop Name"
-                    id="outlined-size-small"
-                    name="Shop Name" // Make sure the name is correct if it's used elsewhere
-                    disabled={!istabable}
-                    value={businessInfo?.shopName || ""} // Use optional chaining to avoid errors
-                    // onChange={handleInputChange}
-                    // error={!!errors.First_Name}
-                    // helperText={errors.First_Name}
+                    name="shopName" // Make sure the name is correct if it's used elsewhere
+                    // disabled={!istabable}
+                    value={addressData?.shopName || ""} // Use optional chaining to avoid errors
+                    disabled={!isAddressEdit}
+                    onChange={handleAddressChange}
                     size="small"
                     className="w-full" // Uncomment or modify this line as needed
                   />
                   <TextField
                     label="DBA Name"
-                    id="outlined-size-small"
-                    name="Last Name"
-                    disabled={!istabable}
-                    value={businessInfo?.dba || ""}
-                    // onChange={handleInputChange}
-                    // error={!!errors.First_Name}
-                    // helperText={errors.First_Name}
-
+                    name="dba"
+                    // disabled={!istabable}
+                    onChange={handleAddressChange}
+                    disabled={!isAddressEdit}
+                    value={addressData?.dba || ""}
                     size="small"
-                  // className="w-full"
                   />
                   <TextField
                     label="City"
-                    id="outlined-size-small"
-                    name="City"
-                    disabled={!istabable}
-                    value={businessInfo?.city || ""}
+                    // id="outlined-size-small"
+                    name="city"
+                    disabled={!isAddressEdit}
+                    onChange={handleAddressChange}
+                    value={addressData?.city || ""}
                     // onChange={handleInputChange}
                     // error={!!errors.First_Name}
                     // helperText={errors.First_Name}
 
                     size="small"
-                  // className="w-full"
+                    // className="w-full"
                   />
                   <TextField
                     label="Zip"
-                    id="outlined-size-small"
-                    name="Zip"
-                    disabled={!istabable}
-                    value={businessInfo?.zip || ""}
+                    // id="outlined-size-small"
+                    name="zip"
+                    disabled={!isAddressEdit}
+                    onChange={handleAddressChange}
+                    value={addressData?.zip || ""}
                     // onChange={handleInputChange}
                     // error={!!errors.First_Name}
                     // helperText={errors.First_Name}
 
                     size="small"
-                  // className="w-full"
+                    // className="w-full"
                   />
                   <TextField
                     label="Business Fax"
-                    id="outlined-size-small"
-                    name="Business Fax"
-                    disabled={!istabable}
-                    value={businessInfo?.businessFax || ""}
+                    // id="outlined-size-small"
+                    name="businessFax"
+                    disabled={!isAddressEdit}
+                    onChange={handleAddressChange}
+                    value={addressData?.businessFax || ""}
                     // onChange={handleInputChange}
                     // error={!!errors.First_Name}
                     // helperText={errors.First_Name}
 
                     size="small"
-                  // className="w-full"
+                    // className="w-full"
                   />
                   <TextField
                     label="Company Website"
                     id="outlined-size-small"
-                    name="Compant Website"
-                    disabled={!istabable}
-                    value={businessInfo?.companyWebsite || ""}
+                    name="companyWebsite"
+                    disabled={!isAddressEdit}
+                    onChange={handleAddressChange}
+                    value={addressData?.companyWebsite || ""}
                     // onChange={handleInputChange}
                     // error={!!errors.First_Name}
                     // helperText={errors.First_Name}
 
                     size="small"
-                  // className="w-full"
+                    // className="w-full"
                   />
                 </div>
                 <div className="flex flex-col gap-3">
                   <TextField
                     label="Legal Business Name"
                     id="outlined-size-small"
-                    name="Legal Business Name"
-                    disabled={!istabable}
-                    value={businessInfo?.legalBusinessName || ""}
+                    name="legalBusinessName"
+                    disabled={!isAddressEdit}
+                    onChange={handleAddressChange}
+                    value={addressData?.legalBusinessName || ""}
                     // onChange={handleInputChange}
                     // error={!!errors.First_Name}
                     // helperText={errors.First_Name}
 
                     size="small"
-                  // className="w-full"
+                    // className="w-full"
                   />
                   <TextField
                     label="Address"
                     id="outlined-size-small"
-                    name="Last Name"
-                    disabled={!istabable}
-                    value={businessInfo?.address || ""}
+                    name="address"
+                    disabled={!isAddressEdit}
+                    onChange={handleAddressChange}
+                    value={addressData?.address || ""}
                     // onChange={handleInputChange}
                     // error={!!errors.First_Name}
                     // helperText={errors.First_Name}
 
                     size="small"
-                  // className="w-full"
+                    // className="w-full"
                   />
-                  <TextField
+                  {/* <TextField
                     label="State"
                     id="outlined-size-small"
                     name="Last Name"
-                    disabled={!istabable}
-                    value={businessInfo?.state || ""}
+                    disabled={!isAddressEdit}
+                    onChange={handleAddressChange}
+                    value={addressData?.state || ""}
                     // onChange={handleInputChange}
                     // error={!!errors.First_Name}
                     // helperText={errors.First_Name}
 
                     size="small"
                   // className="w-full"
-                  />
-                  <TextField
+                  /> */}
+                  <FormControl size="small" disabled={!isAddressEdit}>
+                    <InputLabel id="state-select-label">State</InputLabel>
+                    <Select
+                      id="state-select"
+                      label="State"
+                      value={addressData.state || ""} // Ensure a default value
+                      name="state" // Ensure the name matches the key in addressData
+                      onChange={handleAddressChange}
+                      MenuProps={{
+                        PaperProps: {
+                          style: {
+                            maxHeight: 200, // Set the maximum height of the dropdown
+                          },
+                        },
+                      }}
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      {states.map((state) => (
+                        <MenuItem
+                          key={state.abbreviation}
+                          value={state.name} // Match this value to what you want to save in addressData
+                        >
+                          {state.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  {/* <TextField
                     label="Business Phone"
-                    id="outlined-size-small"
+                    // id="outlined-size-small"
                     name="businessPhone"
-                    value={businessInfo?.businessPhone || ""}
-                    onChange={handleBusinessPhoneChange}
+                    value={addressData?.businessPhone || ""}
+                    onChange={handlePhoneChange}
                     size="small"
                     className="w-full"
-                    disabled={!istabable} // Disable unless in edit mode
+                    disabled={!isAddressEdit} // Disable unless in edit mode
                     inputProps={{ maxLength: 12 }} // Limit max length to 12 (including dashes)
+                  /> */}
+                  <TextField
+                    label="Business Phone"
+                    id="businessPhone"
+                    name="businessPhone"
+                    value={addressData.businessPhone}
+                    onChange={handlePhoneChange}
+                    disabled={!isAddressEdit}
+                    size="small"
+                    inputProps={{ maxLength: 12 }}
                   />
                   <TextField
                     label="Business Email"
                     id="outlined-size-small"
-                    name="Last Name"
-                    disabled={!istabable}
-                    value={businessInfo?.businessEmail || ""}
-                    // onChange={handleInputChange}
-                    // error={!!errors.First_Name}
-                    // helperText={errors.First_Name}
-
+                    name="businessEmail"
+                    disabled={!isAddressEdit}
+                    onChange={handleAddressChange}
+                    value={addressData?.businessEmail || ""}
                     size="small"
-                  // className="w-full"
                   />
                 </div>
 
                 <div className="flex flex-col justify-between py-2">
-                  {/* <img
+                  <img
                     src={edit}
                     className="w-6 h-6 ml-4 cursor-pointer"
-                    onClick={handleEdittabClick} // Handle edit icon click
-                  /> */}
-                  {/* <button
+                    onClick={handleAddressEditClick} // Handle edit icon click
+                  />
+                  <button
                     className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-                      !istabable ? "opacity-50 cursor-not-allowed" : ""
+                      !isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
                     }`}
-                    onClick={handletabSaveClick}
-                    disabled={!istabable} // Disable button when not editable// Save button is disabled if not editable
+                    onClick={handleAddressSaveClick}
+                    disabled={!isAddressEdit} // Disable button when not editable// Save button is disabled if not editable
                   >
                     Save
-                  </button> */}
+                  </button>
                 </div>
               </div>
             </div>
-            <div className="bg-white border border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4">
-              <h1 className="text-xl font-semibold text-blue-900 my-2">
+            <div
+              className={`bg-white border mx-6 ${
+                isAccountEdit ? "border-blue-900" : "border-gray-400"
+              } rounded-lg px-8 w-[90%] mt-8 relative mb-4`}
+            >
+              {isAccountEdit && (
+                <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+                  Account Information
+                </h1>
+              )}
+              <h1
+                className={`text-xl font-semibold my-2 ${
+                  isAccountEdit ? "invisible" : "text-blue-900"
+                }`}
+              >
                 Account Information
               </h1>
 
@@ -641,17 +952,34 @@ const EditSellerList = () => {
                   <TextField
                     label="DEA"
                     id="outlined-size-small"
-                    name="Last Name"
-                    value={businessInfo?.dea || ""}
-                    // onChange={handleInputChange}
+                    name="dea"
+                    value={accountData?.dea || ""}
+                    onChange={handleAccountChange}
                     // error={!!errors.First_Name}
                     // helperText={errors.First_Name}
-                    disabled={!istabedit}
+                    disabled={!isAccountEdit}
                     size="small"
                     className="w-[60%]"
                   />
 
-                  <TextField
+                   <label> DEA Expiration Date </label>
+                    <TextField
+                      label=""
+                      type="date"
+                      id="deaExpirationDate"
+                      name="deaExpirationDate"
+                      value={
+                        accountData.deaExpirationDate
+                          ? formatDate(accountData.deaExpirationDate)
+                          : ""
+                      }
+                      onChange={handleAccountChange}
+                      disabled={!isAccountEdit}
+                      size="small"
+                      className="w-[60%]"
+                    />
+
+                  {/* <TextField
                     label=""
                     type="date"
                     id="outlined-size-small"
@@ -663,8 +991,9 @@ const EditSellerList = () => {
                     disabled={!istabedit}
                     size="small"
                     className="w-[60%]"
-                  />
-                  <input
+                  /> */}
+
+                  {/* <input
                     label=""
                     type="file"
                     accept="image/*"
@@ -678,14 +1007,35 @@ const EditSellerList = () => {
 
                     size="small"
                     className="w-[60%] border p-1 border-gray-400 rounded-md"
-                  />
+                  /> */}
+
+                    <label> DEA Expiration File </label>
+                    <TextField
+                      label=""
+                      type="file"
+                      id="outlined-size-small"
+                      name="deaLicenseCopy"
+                      onChange={handleFileChange} // Separate handler for file selection
+                      disabled={!isAccountEdit}
+                      size="small"
+                      className="w-[60%]"
+                    />
+                    {accountData.deaLicenseCopy && (
+                      <a
+                        href={accountData.deaLicenseCopy}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        View DEA License Copy
+                      </a>
+                    )}
                   <TextField
                     label="NPI"
-                    id="outlined-size-small"
-                    name="Zip"
-                    disabled={!istabedit}
-                    value={businessInfo?.npi || ""}
-                    // onChange={handleInputChange}
+                    // id="outlined-size-small"
+                    name="npi"
+                    disabled={!isAccountEdit}
+                    value={accountData?.npi || ""}
+                    onChange={handleAccountChange}
                     // error={!!errors.First_Name}
                     // helperText={errors.First_Name}
 
@@ -694,49 +1044,53 @@ const EditSellerList = () => {
                   />
                   <TextField
                     label="Federal Tax"
-                    id="outlined-size-small"
-                    name="federalTax"
-                    value={businessInfo?.federalTaxId || ""}
-                    onChange={handleFederalTaxChange}
+                    // id="outlined-size-small"
+                    name="federalTaxId"
+                    value={accountData?.federalTaxId || ""}
+                    // onChange={handleFederalTaxChange}
+                    onChange={handleAccountChange}
                     size="small"
                     className="w-[60%]"
-                    disabled={!istabedit} // Disable unless in edit mode
+                    disabled={!isAccountEdit} // Disable unless in edit mode
                     inputProps={{ maxLength: 10 }} // Limit max length to 10 (including the dash)
                   />
                 </div>
                 <div className="flex flex-col gap-3">
                   <TextField
                     label="Pharmacy License"
-                    id="outlined-size-small"
-                    name="Legal Business Name"
-                    disabled={!istabedit}
-                    value={businessInfo?.pharmacyLicence || ""}
-                    // onChange={handleInputChange}
+                    // id="outlined-size-small"
+                    name="pharmacyLicence"
+                    disabled={!isAccountEdit}
+                    value={accountData?.pharmacyLicence || ""}
+                    onChange={handleAccountChange}
                     // error={!!errors.First_Name}
                     // helperText={errors.First_Name}
 
                     size="small"
                     className="w-[60%]"
                   />
+                    <label> Pharmacy License Expiration Date </label>
+
                   <TextField
                     label=""
                     type="date"
-                    id="outlined-size-small"
+                    // id="outlined-size-small"
                     name="pharmacyLicenseExpirationDate"
-                    disabled={!istabedit}
+                    disabled={!isAccountEdit}
                     value={
-                      businessInfo?.pharmacyLicenseExpirationDate
-                        ? businessInfo.pharmacyLicenseExpirationDate.split(
-                          "T"
-                        )[0]
+                      accountData.pharmacyLicenseExpirationDate
+                        ? formatDate(
+                          accountData.pharmacyLicenseExpirationDate
+                        )
                         : ""
                     } // Extracts the "YYYY-MM-DD" portion
-                    onChange={handleInputChange}
+                    // onChange={handleInputChange}
+                    onChange={handleAccountChange}
                     size="small"
                     className="w-[60%]"
                   />
 
-                  <input
+                  {/* <input
                     label=""
                     type="file"
                     accept="image/*"
@@ -750,14 +1104,34 @@ const EditSellerList = () => {
 
                     size="small"
                     className="w-[60%] border rounded-md p-1 border-gray-400"
-                  />
+                  /> */}
+                    <label>Pharmacy License Expiration File</label>
+                    <TextField
+                      label=""
+                      type="file"
+                      id="outlined-size-small"
+                      name="pharmacyLicenseCopy"
+                      onChange={handleFileChangePharma} // Separate handler for file input
+                      disabled={!isAccountEdit}
+                      size="small"
+                      className="w-[60%]"
+                    />
+                    {accountData.pharmacyLicenseCopy && (
+                      <a
+                        href={accountData.pharmacyLicenseCopy}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        View Pharmacy License Copy
+                      </a>
+                    )}
                   <TextField
-                    label="NCPDP "
-                    id="outlined-size-small"
-                    name="Last Name"
-                    disabled={!istabedit}
-                    value={businessInfo?.ncpdp || ""}
-                    // onChange={handleInputChange}
+                    label="NCPDP"
+                    // id="outlined-size-small"
+                    name="ncpdp"
+                    disabled={!isAccountEdit}
+                    value={accountData?.ncpdp || ""}
+                    onChange={handleAccountChange}
                     // error={!!errors.First_Name}
                     // helperText={errors.First_Name}
 
@@ -770,14 +1144,16 @@ const EditSellerList = () => {
                   <img
                     src={edit}
                     className="w-6 h-6 ml-4"
-                    onClick={handletabclick}
+                    onClick={handleAccountEditClick}
                   />
                   <button
                     // className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold"
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!istabedit ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                      !isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                     // Disable button when not editable
-                    onClick={handletabesave}
+                    onClick={handleAccountSaveClick}
+                    disabled={!isAccountEdit}
                   >
                     Save
                   </button>
@@ -802,7 +1178,6 @@ const EditSellerList = () => {
               <button>Send</button>
             </div> */}
 
-
             <div className="flex flex-col justify-between  rounded-lg mx-8 w-[90%] mt-4">
               {/* TextField for input */}
               <TextField
@@ -818,47 +1193,56 @@ const EditSellerList = () => {
               />
               {/* Button to submit the notes */}
               <div className="flex justify-end">
-                <button onClick={handleSend} className="m-2 p-2 w-28 bg-blue-900 font-semibold text-white rounded">
+                <button
+                  onClick={handleSend}
+                  className="m-2 p-2 w-28 bg-blue-900 font-semibold text-white rounded"
+                >
                   Send
                 </button>
               </div>
-
             </div>
 
             {/* </div> */}
-            {/* <div className="flex justify-between flex-col  rounded-lg  px-8  w-[95%] mt-4">
+
+            <div className="flex justify-between flex-col  rounded-lg  px-8  w-[95%] mt-4">
               <div className="button-group">
                 <Button
-                
-                  variant="contained"
-                  color="primary"
-                  // onClick={handleActivate} // Function to handle activation
-                  className="mr-2 bg-green-500 text-white"
+                  onClick={() => ActivateCustomer(CustomerId)}
+                  className={`mr-2 text-white ${
+                    userdata?.isActive === 1
+                      ? "bg-green-500 cursor-not-allowed opacity-50"
+                      : "bg-green-500"
+                  }`}
+                  disabled={userdata?.isActive === 1} // Disable the button if isActive is 1
                 >
                   Activate
                 </Button>
 
                 <Button
-                  variant="contained"
-                  color="secondary"
-                  // onClick={handleDeactivate} // Function to handle deactivation
-                  className="mr-2  bg-red-500 text-white"
+                  onClick={() => DeactivateCustomer(CustomerId)}
+                  className={`mr-2 text-white ${
+                    userdata?.isActive === 0
+                      ? "bg-red-500 cursor-not-allowed opacity-50"
+                      : "bg-red-500"
+                  }`}
+                  disabled={userdata?.isActive === 0} // Disable the button if isActive is 0
                 >
                   Deactivate
                 </Button>
 
                 <Button
-                  variant="contained"
-                  color="default"
+                  // variant="filled" // Replaced "contained" with "filled"
+                  // color="default"
                   className="mr-2  bg-blue-900 text-white"
                   // onClick={handleSendEmail} // Function to handle sending email
                 >
                   Send Email
                 </Button>
+
                 <Button
-                  variant="contained"
+                  // variant="filled" // Replaced "contained" with "filled"
                   className="ml-2  bg-gray-400 text-white"
-                  color="default"
+                  // color="default"
                   component="label" // Allows the button to trigger a file upload
                 >
                   Load Supporting Documents
@@ -869,69 +1253,8 @@ const EditSellerList = () => {
                   />
                 </Button>
               </div>
-            </div> */}
-            <div className="flex justify-between flex-col  rounded-lg  px-8  w-[95%] mt-4">
-              <div className="button-group">
-                {/* <Button
-                  onClick={() => ActivateCustomer(CustomerId)}
-                  className="mr-2 bg-green-500 text-white"
-                >
-                  Activate
-                </Button> */}
-                <Button
-                  onClick={() => ActivateCustomer(CustomerId)}
-                  className={`mr-2 text-white ${userdata?.isActive === 1
-                      ? "bg-green-500 cursor-not-allowed opacity-50"
-                      : "bg-green-500"
-                    }`}
-                  disabled={userdata?.isActive === 1} // Disable the button if isActive is 1
-                >
-                  Activate
-                </Button>
-
-                {/* <Button
-                  onClick={() => DeactivateCustomer(CustomerId)}
-                  className="mr-2  bg-red-500 text-white"
-                >
-                  Deactivate
-                </Button> */}
-                <Button
-                  onClick={() => DeactivateCustomer(CustomerId)}
-                  className={`mr-2 text-white ${userdata?.isActive === 0
-                      ? "bg-red-500 cursor-not-allowed opacity-50"
-                      : "bg-red-500"
-                    }`}
-                  disabled={userdata?.isActive === 0} // Disable the button if isActive is 0
-                >
-                  Deactivate
-                </Button>
-
-                <Button
-                  // variant="filled" // Replaced "contained" with "filled"
-                  // color="default"
-                  className="mr-2  bg-blue-900 text-white"
-                // onClick={handleSendEmail} // Function to handle sending email
-                >
-                  Send Email
-                </Button>
-
-                <Button
-                  // variant="filled" // Replaced "contained" with "filled"
-                  className="ml-2  bg-gray-400 text-white"
-                  // color="default"
-                  component="label" // Allows the button to trigger a file upload
-                >
-                  Load Supporting Documents
-                  <input
-                    type="file"
-                    hidden // Hide the default input element
-                  // onChange={handleFileUpload} // Function to handle file upload
-                  />
-                </Button>
-              </div>
             </div>
             {submittedNotes && (
-
               <div className=" flex justify-between flex-col  rounded-lg  px-8  w-[90%]  my-4">
                 <div className="data-group bg-white p-4 rounded-lg">
                   {/* <div className="data-item">
@@ -979,3 +1302,6 @@ const EditSellerList = () => {
 };
 
 export default EditSellerList;
+
+
+

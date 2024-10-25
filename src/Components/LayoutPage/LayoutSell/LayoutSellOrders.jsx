@@ -124,8 +124,12 @@ function LayoutSellOrders() {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   // const currentItems = SellerOrder.slice(indexOfFirstItem, indexOfLastItem);
-  const currentItems = SellerOrder ? SellerOrder.slice(indexOfFirstItem, indexOfLastItem) : [];
-  
+  // const currentItems = SellerOrder ? SellerOrder.slice(indexOfFirstItem, indexOfLastItem) : [];
+  const currentItems = SellerOrder
+  ? SellerOrder.slice(indexOfFirstItem, indexOfLastItem).sort(
+      (a, b) => new Date(b.orderDate) - new Date(a.orderDate)
+    )
+  : [];
   const totalPages = Math.ceil((SellerOrder?.length || 0) / itemsPerPage);
 
   const handleStatus = async (orderId, statusId) => {
@@ -331,7 +335,7 @@ function LayoutSellOrders() {
               ) : (
                 <tr>
                   <td colSpan="7" className="text-center py-4">
-                    No Product available
+                    No Orders available
                   </td>
                 </tr>
               )}
