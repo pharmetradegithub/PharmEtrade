@@ -358,7 +358,7 @@ const Payment = () => {
       </select>
       </div>
 
-      {selectedOption && <p>You selected: {selectedOption}</p>}
+      {/* {selectedOption && <p>You selected: {selectedOption}</p>} */}
     </div>
 
 
