@@ -211,32 +211,80 @@ function LayoutBuy({
     });
     // }
   };
+
+
+  // new share 25/10/2024
+  
+  // to navigate
+  const handleProductDetails1 = (productID, product) => {
+    navigate(`/detailspage/${productID}`);
+  };
+
   // Function to handle sharing
   const handleProductDetailsShare = (productID) => {
     setCurrentProductID(productID); // Store the productID in state
     const productURL = `/detailspage/${productID}`;
     setProductLink(window.location.origin + productURL); // Store the complete URL
   };
-  // to navigate
-  const handleProductDetails1 = (productID, product) => {
-    navigate(`/detailspage/${productID}`);
-  };
+
   // Function to handle sharing
   const handleShare = (productID) => {
     handleProductDetailsShare(productID); // Ensure the product details are set
+
+    const productLink = window.location.origin + `/detailspage/${productID}`;
 
     if (navigator.share) {
       navigator
         .share({
           title: "Check out this product!",
-          url: window.location.origin + `/detailspage/${productID}`, // Construct the shareable URL
+          url: productLink,
         })
         .then(() => console.log("Successful share!"))
-        .catch((error) => console.log("Error sharing", error));
+        .catch((error) => {
+          console.log("Error sharing", error);
+          // Fallback to copying the link to clipboard
+          navigator.clipboard.writeText(productLink).then(() => {
+            alert("Link copied to clipboard");
+          });
+        });
     } else {
-      alert("Sharing is not supported in this browser.");
+      // Fallback to copying the link to clipboard if sharing is not supported
+      navigator.clipboard
+        .writeText(productLink)
+        .then(() => {
+          alert("Link copied to clipboard");
+        })
+        .catch((error) => {
+          console.error("Error copying text to clipboard:", error);
+        });
     }
   };
+  // const handleProductDetailsShare = (productID) => {
+  //   setCurrentProductID(productID); // Store the productID in state
+  //   const productURL = `/detailspage/${productID}`;
+  //   setProductLink(window.location.origin + productURL); // Store the complete URL
+  // };
+  
+  // const handleProductDetails1 = (productID, product) => {
+  //   navigate(`/detailspage/${productID}`);
+  // };
+  
+  // const handleShare = (productID) => {
+  //   handleProductDetailsShare(productID); // Ensure the product details are set
+
+  //   if (navigator.share) {
+  //     navigator
+  //       .share({
+  //         title: "Check out this product!",
+  //         url: window.location.origin + `/detailspage/${productID}`, // Construct the shareable URL
+  //       })
+  //       .then(() => console.log("Successful share!"))
+  //       .catch((error) => console.log("Error sharing", error));
+  //   } else {
+  //     alert("Sharing is not supported in this browser.");
+  //   }
+  // };
+
   const [isShowPopup, setIsShowPopup] = useState(false);
   // const handleSharePopupToggle = (event, product) => {
   //   const { top } = event.currentTarget.getBoundingClientRect();
@@ -366,6 +414,78 @@ function LayoutBuy({
                       <p className=" w-36 text-[15px] mt-2 text-black ">
                         {product.productCategory.categoryName}
                       </p>
+
+                      <div>
+
+                      <div className="flex  justify-center  ">
+                        <div className="mt-2 ">
+                          <Tooltip title="Wishlist" placement="top">
+                            <img
+                              src={
+                                wishlistProductIDs.includes(product.productID)
+                                  ? filledHeart
+                                  : emptyHeart
+                              }
+                              className="w-6 h-6 cursor-pointer"
+                              onClick={() => handleClick(product.productID)}
+                              alt="Wishlist Icon"
+                            />
+                          </Tooltip>
+
+                          {/* <Tooltip title="Wishlist" placement="top">
+                          <img
+                            src={
+                              wishlistProductIDs.includes(product.productID)
+                                ? filledHeart
+                                : emptyHeart
+                            }
+
+                            className={`w-6 h-6 ${product.amountInStock === 0
+                              ? "opacity-50"
+                              : "cursor-pointer"
+                              }`}
+                            // // className={` w-6 h-6 cursor-pointer ${product.amountInStock === 0 ? "opacity-50" : ""
+                            // }`}
+                            // className="w-6 h-6 cursor-pointer"
+                            onClick={() => {
+                              if (product.amountInStock !== 0) {
+                                handleClick(product.productID, product.CartQuantity);
+                              }
+                            }
+                              // handleClick(product.productID)
+                            }
+                            alt="Wishlist Icon"
+                          />
+                        </Tooltip> */}
+                        </div>
+                        <div className="relative inline-block mt-2">
+                          <Tooltip title="Share" placement="right">
+                            <img
+                              src={share}
+                              className="w-6 mx-3 "
+                              onClick={() => handleShare(product.productID)}
+                            />
+                          </Tooltip>
+                          {/* <Tooltip title="Share" placement="right">
+                          <img
+                            src={share}
+                            // className="w-6 mx-3 "
+                            className={`w-6 mx-3 ${product.amountInStock === 0
+                              ? "opacity-50"
+                              : "cursor-pointer"
+                              }`}
+                            onClick={() => {
+                              if (product.amountInStock !== 0) {
+                                handleShare(product.productID, product.CartQuantity);
+                              }
+                            }
+                              // handleShare(product.productID)
+                            }
+                          />
+                        </Tooltip> */}
+                        </div>
+                      </div>
+                        </div>
                     </div>
 
                     <div className="flex flex-col w-[170px] ">
@@ -402,14 +522,19 @@ function LayoutBuy({
                             </p>
                           </div>
                         </div>
+                        <div className="flex">
                         <p className="mt-1 text-sm">
-                          Product returnable:{" "}
+                          Product Returnable:{" "}
+                        </p>
+                        <p className="font-semibold ml-1">
+
                           {product.isReturnable ? "Yes" : "No"}
                         </p>
+                        </div>
                         <div className="flex">
                           <h2 className="  text-sm mr-1">Package Details :</h2>
 
-                          <p className=" text-sm">
+                          <p className=" text-sm font-semibold">
                             {product.packCondition}
                           </p>
                         </div>
@@ -464,9 +589,9 @@ function LayoutBuy({
                             Out Of Stock
                           </p>
                         ) : (
-                          <p className="text-white p-1 w-28 flex flex-wrap text-xs bg-green-600 rounded-lg ">
-                            Stock Available -{" "}
-                            <span className="font-semibold text-xs">
+                          <p className="text-white p-1 w-28 text-center text-xs bg-green-600 rounded-lg ">
+                            Stock Available {" "}
+                            <span className="font-semibold text-xs text-center">
                               {product.amountInStock}
                             </span>
                           </p>
@@ -574,6 +699,7 @@ function LayoutBuy({
                       </div>
                     </div> */}
                     <div className="flex flex-col mx-3">
+
                       <p className="font-semibold ml-4">Quantity</p>
                       <div className="mt-2 flex  justify-start items-center ">
                         {/* <button
@@ -698,79 +824,52 @@ function LayoutBuy({
                           {stockWarning.message}
                         </p>
                       )}
+
+<div
+                        onClick={() => {
+                          if (product.amountInStock > 0) {
+                            if (product.CartQuantity > product.amountInStock) {
+                              setStockWarning({
+                                productId: product.productID,
+                                message: `Only ${product.amountInStock} items available.`,
+                              });
+                            } else {
+                              handleCart(
+                                product.productID,
+                                product.CartQuantity
+                              );
+                              setStockWarning({ productId: null, message: "" });
+                            }
+                          }
+                        }}
+                        className={`flex text-white h-[32px] px-2 rounded-lg mt-28 mx-2 justify-center items-center ${product.amountInStock <= 0
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-blue-900 cursor-pointer"
+                          }`}
+                      >
+                        <div className="mr-1">
+                          <img
+                            src={addcart}
+                            className={`w-5 h-5 ${product.amountInStock <= 0
+                              ? "opacity-50"
+                              : "cursor-pointer"
+                              }`}
+                            alt="Add to Cart Icon"
+                          />
+                        </div>
+                        <p
+                          className={`font-semibold text-sm ${product.amountInStock <= 0 ? "opacity-50" : ""
+                            }`}
+                        >
+                          {"Add to Cart"}
+                        </p>
+                      </div>
                     </div>
                    
 
                     {/* Wishlist */}
                     <div className="flex flex-col items-center justify-between -mr-6">
-                      <div className="flex flex-col ">
-                        <div className="mt-2 ml-2">
-                          <Tooltip title="Wishlist" placement="top">
-                            <img
-                              src={
-                                wishlistProductIDs.includes(product.productID)
-                                  ? filledHeart
-                                  : emptyHeart
-                              }
-                              className="w-6 h-6 cursor-pointer"
-                              onClick={() => handleClick(product.productID)}
-                              alt="Wishlist Icon"
-                            />
-                          </Tooltip>
-
-                          {/* <Tooltip title="Wishlist" placement="top">
-                          <img
-                            src={
-                              wishlistProductIDs.includes(product.productID)
-                                ? filledHeart
-                                : emptyHeart
-                            }
-
-                            className={`w-6 h-6 ${product.amountInStock === 0
-                              ? "opacity-50"
-                              : "cursor-pointer"
-                              }`}
-                            // // className={` w-6 h-6 cursor-pointer ${product.amountInStock === 0 ? "opacity-50" : ""
-                            // }`}
-                            // className="w-6 h-6 cursor-pointer"
-                            onClick={() => {
-                              if (product.amountInStock !== 0) {
-                                handleClick(product.productID, product.CartQuantity);
-                              }
-                            }
-                              // handleClick(product.productID)
-                            }
-                            alt="Wishlist Icon"
-                          />
-                        </Tooltip> */}
-                        </div>
-                        <div className="relative inline-block mt-4">
-                          <Tooltip title="Share" placement="right">
-                            <img
-                              src={share}
-                              className="w-6 mx-3 "
-                              onClick={() => handleShare(product.productID)}
-                            />
-                          </Tooltip>
-                          {/* <Tooltip title="Share" placement="right">
-                          <img
-                            src={share}
-                            // className="w-6 mx-3 "
-                            className={`w-6 mx-3 ${product.amountInStock === 0
-                              ? "opacity-50"
-                              : "cursor-pointer"
-                              }`}
-                            onClick={() => {
-                              if (product.amountInStock !== 0) {
-                                handleShare(product.productID, product.CartQuantity);
-                              }
-                            }
-                              // handleShare(product.productID)
-                            }
-                          />
-                        </Tooltip> */}
-                        </div>
-                      </div>
+                    
                       {isShowPopup && (
                         <div
                           className="flex flex-column  items-center absolute z-auto"
@@ -870,45 +969,7 @@ function LayoutBuy({
                         <p className="font-semibold">{"Add to Cart"}</p>
                       </div> */}
 
-                      <div
-                        onClick={() => {
-                          if (product.amountInStock > 0) {
-                            if (product.CartQuantity > product.amountInStock) {
-                              setStockWarning({
-                                productId: product.productID,
-                                message: `Only ${product.amountInStock} items available.`,
-                              });
-                            } else {
-                              handleCart(
-                                product.productID,
-                                product.CartQuantity
-                              );
-                              setStockWarning({ productId: null, message: "" });
-                            }
-                          }
-                        }}
-                        className={`flex text-white h-[32px] px-2 rounded-lg mx-2 justify-center items-center ${product.amountInStock <= 0
-                          ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-blue-900 cursor-pointer"
-                          }`}
-                      >
-                        <div className="mr-1">
-                          <img
-                            src={addcart}
-                            className={`w-5 h-5 ${product.amountInStock <= 0
-                              ? "opacity-50"
-                              : "cursor-pointer"
-                              }`}
-                            alt="Add to Cart Icon"
-                          />
-                        </div>
-                        <p
-                          className={`font-semibold text-sm ${product.amountInStock <= 0 ? "opacity-50" : ""
-                            }`}
-                        >
-                          {"Add to Cart"}
-                        </p>
-                      </div>
+                    
 
                       {/* Display the stock warning message */}
                       {/* {stockWarning.productId === product.productID && (

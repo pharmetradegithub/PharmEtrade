@@ -1025,6 +1025,7 @@ const EditSellerList = () => {
                         href={accountData.deaLicenseCopy}
                         target="_blank"
                         rel="noopener noreferrer"
+                        className="text-blue-500 underline text-sm  -mt-3"
                       >
                         View DEA License Copy
                       </a>
@@ -1040,7 +1041,7 @@ const EditSellerList = () => {
                     // helperText={errors.First_Name}
 
                     size="small"
-                    className="w-[60%]"
+                    className="w-[60%] mt-3"
                   />
                   <TextField
                     label="Federal Tax"
@@ -1121,6 +1122,7 @@ const EditSellerList = () => {
                         href={accountData.pharmacyLicenseCopy}
                         target="_blank"
                         rel="noopener noreferrer"
+                         className="text-blue-500 underline text-sm -mt-3"
                       >
                         View Pharmacy License Copy
                       </a>
@@ -1136,7 +1138,7 @@ const EditSellerList = () => {
                     // helperText={errors.First_Name}
 
                     size="small"
-                    className="w-[60%]"
+                    className="w-[60%] mt-3"
                   />
                 </div>
 

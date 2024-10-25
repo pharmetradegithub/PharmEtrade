@@ -1823,6 +1823,7 @@ const LayoutProfile = () => {
                         href={accountData.deaLicenseCopy}
                         target="_blank"
                         rel="noopener noreferrer"
+                         className="text-blue-500 underline  -mt-3"
                       >
                         View DEA License Copy
                       </a>
@@ -1836,7 +1837,7 @@ const LayoutProfile = () => {
                       onChange={handleAccountChange}
                       disabled={!isAccountEdit}
                       size="small"
-                      className="w-[60%]"
+                      className="w-[60%] mt-3"
                     />
                     <TextField
                       label="Federal Tax"
@@ -1906,6 +1907,7 @@ const LayoutProfile = () => {
                         href={accountData.pharmacyLicenseCopy}
                         target="_blank"
                         rel="noopener noreferrer"
+                         className="text-blue-500 underline  -mt-3"
                       >
                         View Pharmacy License Copy
                       </a>
@@ -1919,7 +1921,7 @@ const LayoutProfile = () => {
                       disabled={!isAccountEdit}
                       value={accountData.ncpdp}
                       size="small"
-                      className="w-[60%]"
+                      className="w-[60%] mt-3"
                     />
                   </div>
                   <div className="flex flex-col justify-between py-2">

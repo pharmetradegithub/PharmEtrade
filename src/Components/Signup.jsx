@@ -3521,7 +3521,7 @@ const Signup = () => {
                 onChange={handleInputChange}
                 error={!!errors.shopName}
                 helperText={errors.shopName}
-                onKeyPress={handleKeyPress}
+                // onKeyPress={handleKeyPress}
                 size="small"
                 className="w-[92%]"
               />
@@ -3570,7 +3570,7 @@ const Signup = () => {
                 value={formData.dbaName}
                 onChange={handleInputChange}
                 error={!!errors.dbaName}
-                onKeyPress={handleKeyPress}
+                // onKeyPress={handleKeyPress}
                 helperText={errors.dbaName}
                 size="small"
                 className="w-[92%]"

@@ -694,9 +694,21 @@ const ChargesInformations = () => {
       )}
       <div className="bg-white w-[90%] border border-black rounded-lg px-8 mx-6 py-5 mt-8 relative my-6">
         <div className="flex justify-between">
-          <h1 className="text-blue-900 text-xl font-semibold p-1 rounded-md">
+          {/* <h1 className="text-blue-900 text-xl font-semibold p-1 rounded-md">
             Charges Information
-          </h1>
+          </h1> */}
+           {isEditable && (
+                <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+                  Charges Information
+                </h1>
+              )}
+              <h1
+                className={`text-xl font-semibold my-2 ${
+                  isEditable ? "invisible" : "text-blue-900"
+                }`}
+              >
+                Charges Information
+              </h1>
           <img
             src={edit}
             className="w-6 h-6 cursor-pointer"

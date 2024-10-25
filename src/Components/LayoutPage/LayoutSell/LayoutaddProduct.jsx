@@ -248,9 +248,11 @@ function LayoutaddProduct() {
           : product.productGallery.thumbnail6,
     });
   };
+  
   const searchParams = new URLSearchParams(location.search);
   const queryProductId = searchParams.get("productId");
   const ResetFormDate = () => {
+    setAllSelected(false);
     setFormData({
       // Reset form data fields
       categorySpecification: 0,
@@ -732,7 +734,7 @@ function LayoutaddProduct() {
 
     const mainImageUrl =
       formData.mainImageUrl == null
-        ? defaultImageUrl
+        ? null
         : typeof formData.mainImageUrl === "string"
         ? formData.mainImageUrl
         : await uploadImageApi(
@@ -743,7 +745,7 @@ function LayoutaddProduct() {
 
     const imageUrl =
       formData.imageUrl == null
-        ? defaultImageUrl
+        ? null
         : typeof formData.imageUrl === "string"
         ? formData.imageUrl
         : await uploadImageApi(user.customerId, productId, formData.imageUrl);
@@ -878,7 +880,7 @@ function LayoutaddProduct() {
       productGalleryId: productGalleryId == null ? "string" : productGalleryId,
       productId: queryProductId != null ? queryProductId : productId,
       caption: "Caption",
-      imageUrl: imageUrl,
+      imageUrl: imageUrl==null? defaultImageUrl:imageUrl,
       thumbnail1: thumbnail1,
       thumbnail2: thumbnail2,
       thumbnail3: thumbnail3,
@@ -2619,9 +2621,7 @@ function LayoutaddProduct() {
                   {...getRootProps()}
                   className="w-full p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400"
                 >
-                  <input {...getInputProps()}
-                  accept="image/*"
-                   />
+                  <input {...getInputProps()} />
                   <p className="text-gray-500 text-center">
                     Click here or drag and drop images
                   </p>
@@ -2643,7 +2643,6 @@ function LayoutaddProduct() {
                             : ""
                         } // Check if `image` is a string (URL) or a File object
                         alt={`Preview ${image}`}
-                        
                         className="w-full h-40 object-cover"
                       />
                       <button

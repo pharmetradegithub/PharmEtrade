@@ -1117,6 +1117,36 @@ function LayoutCategory({
                           handleProductDetails(product.productID, product)
                         }
                       />
+
+                      <div>
+
+                      <div className="flex mt-3 justify-center">
+                      
+                      <div className="mt-2 ">
+                        <Tooltip title="Wishlist" placement="top">
+                          <img
+                            src={
+                              wishlistProductIDs.includes(product.productID)
+                                ? filledHeart
+                                : emptyHeart
+                            }
+                            className="w-6 h-6 cursor-pointer"
+                            onClick={() => handleClick(product.productID)}
+                            alt="Wishlist Icon"
+                          />
+                        </Tooltip>
+                      </div>
+                      <div className="relative mt-2">
+                        <Tooltip title="Share" placement="right">
+                          <img
+                            src={share}
+                            className="w-6 mx-3 "
+                            onClick={() => handleShare(product.productID)}
+                          />
+                        </Tooltip>
+                      </div>
+                      </div>
+                        </div>
                     </div>
 
                     <div className="flex flex-col w-[170px] ">
@@ -1282,9 +1312,9 @@ function LayoutCategory({
                             Out Of Stock
                           </p>
                         ) : (
-                          <p className="text-white  flex flex-wrap w-28 p-1 text-xs bg-green-600 rounded-lg ">
-                            Stock Available -{" "}
-                            <span className="font-semibold text-xs">
+                          <p className="text-white  text-center w-28 p-1 text-xs bg-green-600 rounded-lg ">
+                            Stock Available {" "}
+                            <span className="font-semibold text-center text-xs">
                               {product.amountInStock}
                             </span>
                           </p>
@@ -1425,64 +1455,15 @@ function LayoutCategory({
                           {stockWarning.message}
                         </p>
                       )}
-                    </div>
 
-                    {/* Wishlist */}
-                    <div className="flex flex-col items-center justify-between">
-                     <div className="flex flex-col ">
-                      
-                      <div className="mt-2 ml-2">
-                        <Tooltip title="Wishlist" placement="top">
-                          <img
-                            src={
-                              wishlistProductIDs.includes(product.productID)
-                                ? filledHeart
-                                : emptyHeart
-                            }
-                            className="w-6 h-6 cursor-pointer"
-                            onClick={() => handleClick(product.productID)}
-                            alt="Wishlist Icon"
-                          />
-                        </Tooltip>
-                      </div>
-                      <div className="relative mt-4">
-                        <Tooltip title="Share" placement="right">
-                          <img
-                            src={share}
-                            className="w-6 mx-3 "
-                            onClick={() => handleShare(product.productID)}
-                          />
-                        </Tooltip>
-                      </div>
-                      </div>
 
-                      {/* Add to Cart */}
-                      {/* {cart.some(
-                        (item) => item.product.productID == product.productID
-                      ) == 0 ? ( */}
-                      {/* <div
-                        onClick={() =>
-                          handleCart(product.productID, product.CartQuantity)
-                        }
-                        className="flex text-white h-[40px] cursor-pointer px-2 rounded-lg bg-blue-900 mx-3 justify-center items-center"
-                      >
-                        <div className="mr-1">
-                          <img
-                            src={addcart}
-                            className="w-6 h-6 cursor-pointer"
-                            alt="Add to Cart Icon"
-                          />
-                        </div>
-                        <p className="font-semibold">{"Add to Cart"}</p>
-                      </div> */}
-
-                      <div
+<div
                         onClick={() => {
                           if (product.amountInStock !== 0) {
                             handleCart(product.productID, product.CartQuantity);
                           }
                         }}
-                        className={`flex text-white h-[32px] px-2 rounded-lg  justify-center items-center
+                        className={`flex text-white h-[32px] px-2 mt-24 rounded-lg  justify-center items-center
                                   ${
                                     product.amountInStock === 0
                                       ? "bg-gray-400 cursor-not-allowed"
@@ -1508,6 +1489,33 @@ function LayoutCategory({
                           {"Add to Cart"}
                         </p>
                       </div>
+                    </div>
+
+                    {/* Wishlist */}
+                    <div className="flex flex-col items-center justify-between">
+                     
+
+                      {/* Add to Cart */}
+                      {/* {cart.some(
+                        (item) => item.product.productID == product.productID
+                      ) == 0 ? ( */}
+                      {/* <div
+                        onClick={() =>
+                          handleCart(product.productID, product.CartQuantity)
+                        }
+                        className="flex text-white h-[40px] cursor-pointer px-2 rounded-lg bg-blue-900 mx-3 justify-center items-center"
+                      >
+                        <div className="mr-1">
+                          <img
+                            src={addcart}
+                            className="w-6 h-6 cursor-pointer"
+                            alt="Add to Cart Icon"
+                          />
+                        </div>
+                        <p className="font-semibold">{"Add to Cart"}</p>
+                      </div> */}
+
+                     
                       {/* ) : ( */}
                       {/* <div className="flex text-white cursor-pointer h-[40px] px-2 rounded-lg bg-sky-600 mx-3 justify-center items-center">
                           <div className="mr-1">
