@@ -1,3 +1,8 @@
+
+
+
+
+
 // import React, { useContext, useState, useEffect } from "react";
 // import { Link, useNavigate } from "react-router-dom";
 // import { styled, alpha } from "@mui/material/styles";
@@ -42,16 +47,30 @@
 //     setSelectedItemIndex(null);
 //   };
 
-//   const handleremove = async () => {
+//   // const handleremove = async () => {
+//   //   try {
+//   //     const cartId = cartItems[selectedItemIndex].cartId;
+//   //     await removeItemFromCartApi(cartId);
+//   //     handleDialogClose(); // Close dialog after deleting
+//   //   } catch (error) {
+//   //     console.error("There was a problem with the fetch operation:", error);
+//   //   }
+//   // };
+
+//   const handleremove = async (index) => {
 //     try {
-//       const cartId = cartItems[selectedItemIndex].cartId;
-//       await removeItemFromCartApi(cartId);
-//       handleDialogClose(); // Close dialog after deleting
+//       const cartId = cartItems[index].cartId; // Get cartId of the item to delete
+//       await removeItemFromCartApi(cartId); // API call to remove item from cart
+  
+//       // Remove item from local cart state after successful deletion
+//       const updatedCartItems = cartItems.filter((_, i) => i !== index);
+//       setCartItems(updatedCartItems); // Update state with remaining items
 //     } catch (error) {
 //       console.error("There was a problem with the fetch operation:", error);
 //     }
 //   };
-//   console.log(cartItems,"cart")
+  
+//   console.log(cartItems, "cart");
 //   const handleCart = async (productID, Quantity) => {
 //     const cartData = {
 //       customerId: user.customerId,
@@ -59,7 +78,7 @@
 //       quantity: Quantity,
 //       isActive: 1,
 //     };
-//     console.log(cartData)
+//     console.log(cartData);
 //     try {
 //       await addCartApi(cartData);
 //     } catch (error) {
@@ -210,36 +229,100 @@
 //                         />
 //                       </td> */}
 //                       <td>
-//                       <div className="mt-2 flex items-center">
-//   <button
-//     className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
-//     onClick={() =>
-//       handleQuantityChange(index, Math.max(item.product.maximumOrderQuantity, item.updateQuantity - 1))
-//     }
-//     disabled={item.updateQuantity === item.product.minimumOrderQuantity} // Disable button if quantity is at maxOrderQuantity
-//   >
-//     -
-//   </button>
+//                         <div className="mt-2 flex items-center">
+//                           {/* <button
+//                             className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+//                             onClick={() =>
+//                               handleQuantityChange(
+//                                 index,
+//                                 Math.max(
+//                                   item.product.maximumOrderQuantity,
+//                                   item.updateQuantity - 1
+//                                 )
+//                               )
+//                             }
+//                             disabled={
+//                               item.updateQuantity ===
+//                               item.product.minimumOrderQuantity
+//                             } // Disable button if quantity is at maxOrderQuantity
+//                           >
+//                             -
+//                           </button> */}
 
-//   <input
+// <button
+//   className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+//   onClick={() =>
+//     item.updateQuantity <= item.product.minimumOrderQuantity
+//       ? handleremove(index) // Call handleremove with index if at or below minimum
+//       : handleQuantityChange(
+//           index,
+//           Math.max(item.product.minimumOrderQuantity, item.updateQuantity - 1)
+//         )
+//   }
+// >
+//   {item.updateQuantity <= item.product.minimumOrderQuantity ? (
+//     <span className="material-icons">delete</span> // Replace with your delete icon
+//   ) : (
+//     "-"
+//   )}
+// </button>
+
+
+
+//                           {/* <input
+//                             type="text"
+//                             value={item.updateQuantity}
+//                             onChange={(e) => {
+//                               const value = e.target.value;
+
+//                               // Allow the user to clear the input while typing
+//                               handleQuantityChange(index, value);
+//                             }}
+//                             onBlur={(e) => {
+//                               const value = parseInt(e.target.value, 10);
+
+//                               if (!isNaN(value)) {
+//                                 if (value < item.product.minimumOrderQuantity) {
+//                                   alert(
+//                                     `Minimum order quantity is ${item.product.minimumOrderQuantity}`
+//                                   );
+//                                   handleQuantityChange(
+//                                     index,
+//                                     item.product.minimumOrderQuantity
+//                                   ); // Reset to min
+//                                 } else if (
+//                                   value > item.product.maximumOrderQuantity
+//                                 ) {
+//                                   alert(
+//                                     `Max order quantity is ${item.product.maximumOrderQuantity}`
+//                                   );
+//                                   handleQuantityChange(
+//                                     index,
+//                                     item.product.maximumOrderQuantity
+//                                   ); // Reset to max
+//                                 }
+//                               }
+//                             }}
+//                             className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
+//                           /> */}
+
+// <input
 //   type="text"
-//   value={item.updateQuantity}
+//   // value={ item?.product?.minimumOrderQuantity} // Default to minimumOrderQuantity
+//   value={item.updateQuantity ?? item.product.minimumOrderQuantity}
 //   onChange={(e) => {
 //     const value = e.target.value;
-
-//     // Allow the user to clear the input while typing
-//     handleQuantityChange(index, value); 
+//     handleQuantityChange(index, value); // Allow the user to clear the input while typing
 //   }}
 //   onBlur={(e) => {
 //     const value = parseInt(e.target.value, 10);
-    
 //     if (!isNaN(value)) {
 //       if (value < item.product.minimumOrderQuantity) {
 //         alert(`Minimum order quantity is ${item.product.minimumOrderQuantity}`);
-//         handleQuantityChange(index, item.product.minimumOrderQuantity); // Reset to min
+//         handleQuantityChange(index, item.product.minimumOrderQuantity); // Reset to minimum
 //       } else if (value > item.product.maximumOrderQuantity) {
 //         alert(`Max order quantity is ${item.product.maximumOrderQuantity}`);
-//         handleQuantityChange(index, item.product.maximumOrderQuantity); // Reset to max
+//         handleQuantityChange(index, item.product.maximumOrderQuantity); // Reset to maximum
 //       }
 //     }
 //   }}
@@ -247,25 +330,29 @@
 // />
 
 
-
-//   <button
-//     className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
-//     onClick={() => {
-//       console.log("clicked")
-//       if (item.updateQuantity < item.product.maximumOrderQuantity
-
-//       ) {
-//         handleQuantityChange(index, item.updateQuantity + 1);
-//       } else {
-//         alert(`Minimum order quantity is only ${item.product.minimumOrderQuantity}`);
-//       }
-//     }}
-//     disabled={item.updateQuantity >= item.product.maximumOrderQuantity} // Disable button if quantity reaches minimumOrderQuantity
-//   >
-//     +
-//   </button>
-// </div>
-
+//                           <button
+//                             className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+//                             onClick={() => {
+//                               console.log("clicked");
+//                               if (item.updateQuantity >item.product.maximumOrderQuantity) 
+//                                 {handleQuantityChange(
+//                                   index,
+//                                   item.updateQuantity + 1
+//                                 );
+//                               } else {
+//                                 alert(
+//                                   `Maximum order quantity is only ${item.product.maximumOrderQuantity}`
+//                                 );
+//                               }
+//                             }}
+//                             disabled={
+//                               item.updateQuantity <=
+//                               item.product.maximumOrderQuantity
+//                             } // Disable button if quantity reaches minimumOrderQuantity
+//                           >
+//                             +
+//                           </button>
+//                         </div>
 //                       </td>
 
 //                       <td className="px-2 md:px-4 text-right py-3 ">
@@ -293,6 +380,7 @@
 //                             />
 //                           </Tooltip>
 //                         </button>
+//                         {item.product.minimumOrderQuantity} {item.product.maximumOrderQuantity} 
 //                       </td>
 //                     </tr>
 //                   ))}
