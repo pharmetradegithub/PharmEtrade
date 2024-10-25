@@ -551,6 +551,7 @@ const ChargesInformations = () => {
   );
   const [category, setCategory] = useState(null); // Initialize as an empty string for selected category
   const [taxPercentage, setTaxPercentage] = useState("");
+  const[transactionfee, setTransactionfee] = useState("")
   const [addedEntries, setAddedEntries] = useState([]);
   const [isEditable, setIsEditable] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -733,6 +734,16 @@ const ChargesInformations = () => {
               size="small"
               value={taxPercentage} // Set the tax percentage in the input
               onChange={(e) => setTaxPercentage(e.target.value)} // Update when changed
+              disabled={!isEditable} // Enable/disable based on edit mode
+            />
+          </div>
+          <div>
+            <TextField
+              type="text"
+              label="Transaction fee"
+              size="small"
+              value={transactionfee} // Set the tax percentage in the input
+              onChange={(e) => setTransactionfee(e.target.value)} // Update when changed
               disabled={!isEditable} // Enable/disable based on edit mode
             />
           </div>

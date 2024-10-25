@@ -200,7 +200,7 @@ function LayoutOtcProducts({
 
   const handleQuantityChange = (index, newQuantity) => {
     // if (newQuantity) {
-    const quantity = Math.max(0, newQuantity);
+    const quantity = Math.max(1, newQuantity);
     setcurrentItems((prev) => {
       const updatedList = [...prev];
       updatedList[index] = {
@@ -354,7 +354,7 @@ function LayoutOtcProducts({
                     key={index}
                     className="flex p-4  h-auto border w-auto justify-around shadow-lg rounded-md mb-4"
                   >
-                    <div className="flex flex-col mx-2">
+                    <div className="flex justify-center items-center mr-1 -ml-2 ">
                       <img
                         src={product.productGallery.imageUrl}
                         className="w-32 p-2 hover:cursor-pointer rounded-lg h-28 bg-slate-200"
@@ -363,17 +363,17 @@ function LayoutOtcProducts({
                           handleProductDetails1(product.productID, product)
                         }
                       />
-                      <p className=" w-36 text-[15px] mt-2 text-black ">
+                      {/* <p className=" w-36 text-[15px] mt-2 text-black ">
                         {product.productCategory.categoryName}
-                      </p>
+                      </p> */}
                     </div>
 
                     <div className="flex flex-col w-[170px] ">
-                      <p className="font-semibold">Item Details</p>
+                      <p className="font-semibold text-sm">Item Details</p>
                       <div className="mt-2">
-                        <p className="font-semibold w-40">{product.productName}</p>
+                        <p className="font-bold text-blue-900  w-32 text-sm">{product.productName}</p>
 
-                        <p className="text-xs mt-1 w-40">
+                        <p className="text-xs mt-1 w-32">
                           {showMore[index]
                             ? product.aboutTheProduct
                             : `${product.aboutTheProduct.slice(0, 50)}...`}
@@ -387,12 +387,12 @@ function LayoutOtcProducts({
                           )}
                         </p>
                         <div className="flex w-full mt-1 gap-1">
-                          <img src={Expicon} className="w-6 h-6" />
-                          <div className="flex flex-col">
-                            <p className="mr-1">Exp.Date : &nbsp;</p>
-                            <p className="font-semibold">
+                          <img src={Expicon} className="w-5 h-5" />
+                          <div className="flex ">
+                            <p className=" text-xs font-semibold">Exp.Date :</p>
+                            <p className="font-bold text-xs">
                               {/* {product.expiryDate} */}
-                              {new Date(product.expiryDate)
+                              &nbsp; {new Date(product.expiryDate)
                                 .toLocaleDateString("en-US", {
                                   year: "numeric",
                                   month: "2-digit",
@@ -402,10 +402,17 @@ function LayoutOtcProducts({
                             </p>
                           </div>
                         </div>
-                        <p className="mt-1">
+                        <p className="mt-1 text-sm">
                           Product returnable:{" "}
                           {product.isReturnable ? "Yes" : "No"}
                         </p>
+                        <div className="flex">
+                          <h2 className="  text-sm mr-1">Package Details :</h2>
+
+                          <p className=" text-sm">
+                            {product.packCondition}
+                          </p>
+                        </div>
                       </div>
                     </div>
 
@@ -420,64 +427,97 @@ function LayoutOtcProducts({
                         </p>
                       </div>
                     </div> */}
-                    <div className="flex flex-col mx-1 justify-between">
-                      <div className=" mx-2">
-                        <h2 className="font-semibold">Package Details</h2>
-                        <p className="text-base mt-1">
+                    <div className="flex flex-col  justify-between">
+                      {/* <div className=" mx-2">
+                        <h2 className="font-semibold  text-sm">Package Details</h2>
+                        <p className=" mt-1 text-sm">
                           {product.packCondition}
                         </p>
+                      </div> */}
+                      <div className="flex flex-col mx-3">
+                        <p className="font-semibold   text-sm">Unit Price</p>
+                        <div className="mt-2 text-right text-xs font-bold">
+                          <p className="font-semibold   ">
+                            ${product.unitPrice?.toFixed(2)}
+                          </p>
+
+                        </div>
                       </div>
 
+
+                    </div>
+
+
+                    <div className="flex flex-col justify-between mx-3">
+                      <div>
+                        <p className="font-semibold  text-sm">UPN Member Price</p>
+                        <div className="mt-2 text-right text-xs font-bold">
+                          <p className="font-semiboldm -ml-5 ">
+                            ${product.upnMemberPrice?.toFixed(2)}
+                          </p>
+
+                        </div>
+                      </div>
                       <div className="text-sm">
                         {product.amountInStock <= 0 ? (
                           <p className="text-red-500 font-semibold">
                             Out Of Stock
                           </p>
                         ) : (
-                          <p className="text-white p-1 bg-green-600 rounded-lg ">
+                          <p className="text-white p-1 w-28 flex flex-wrap text-xs bg-green-600 rounded-lg ">
                             Stock Available -{" "}
-                            <span className="font-semibold">
+                            <span className="font-semibold text-xs">
                               {product.amountInStock}
                             </span>
                           </p>
                         )}
                       </div>
+
+
                     </div>
 
-                    <div className="flex flex-col ">
-                      <p className="font-semibold ml-5">Unit Price</p>
-                      <div className="mt-2 text-right">
-                        <p className="font-semibold  ml-6 ">
-                          ${product.unitPrice?.toFixed(2)}
-                        </p>
-                        {/* <p
-                          className={`font-semibold ${product.amountInStock === 0
-                            ? "opacity-50"
-                            : "cursor-pointer"
-                            }`}
-                        >
-                          ${product.unitPrice?.toFixed(2)}
-                        </p> */}
-                      </div>
-                    </div>
                     <div className="flex flex-col mx-3">
-                      <p className="font-semibold">UPN Member Price</p>
-                      <div className="mt-2 text-right">
-                        <p className="font-semibold ">
-                          ${product.upnMemberPrice?.toFixed(2)}
-                        </p>
-
-                      </div>
-
-
-                    </div>
-
-                    <div className="flex flex-col -mr-3">
-                      <p className="font-semibold">Sale Price</p>
-                      <div className="mt-2 text-right">
+                      <p className="font-semibold text-sm">Sale Price</p>
+                      <div className="mt-2 text-right text-xs font-bold">
                         <p className="font-semibold">
                           ${product.salePrice?.toFixed(2)}
                         </p>
+
+                      </div>
+
+
+                    </div>
+                    
+                    <div className="flex flex-col mx-4">
+                      <p className="font-semibold text-sm">Sale Price Range</p>
+                      <div className="mt-2 text-right text-xs font-bold">
+                        <div className="flex">
+                        <p className="font-semibold ml-1">
+                          {new Date(product.salePriceValidFrom)
+                            .toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "2-digit",
+                              day: "2-digit",
+                            })
+                            .replace(/\//g, "-")}
+                        </p>
+                          </div>
+                          <p className="text-center -ml-8">to </p> 
+
+                          <div className="flex">
+
+                        <p className="ml-1">
+                          {new Date(product.
+                            salePriceValidTo
+                          )
+                            .toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "2-digit",
+                              day: "2-digit",
+                            })
+                            .replace(/\//g, "-")}
+                        </p>
+                            </div>
 
                       </div>
 
@@ -533,10 +573,10 @@ function LayoutOtcProducts({
                         </button>
                       </div>
                     </div> */}
-                    {/* <div className="flex flex-col mx-3">
-                      <p className="font-semibold">Quantity</p>
-                      <div className="mt-2 flex items-center">
-                        <button
+                    <div className="flex flex-col mx-3">
+                      <p className="font-semibold ml-4">Quantity</p>
+                      <div className="mt-2 flex  justify-start items-center ">
+                        {/* <button
                           className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
                           onClick={() =>
                             handleQuantityChange(
@@ -554,7 +594,30 @@ function LayoutOtcProducts({
                           }
                         >
                           -
+                        </button> */}
+                         <button
+                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                          onClick={() => {
+                            const newQuantity = Math.max(
+                              1,
+                              product.CartQuantity - 1
+                            );
+
+                            // Clear stock warning if the new quantity is within the stock
+                            if (newQuantity <= product.amountInStock) {
+                              setStockWarning({ productId: null, message: "" });
+                            }
+
+                            handleQuantityChange(index, newQuantity);
+                          }}
+                          disabled={
+                            product.CartQuantity <= 1 ||
+                            product.amountInStock <= 0
+                          }
+                        >
+                          -
                         </button>
+
 
                         <input
                           type="text"
@@ -581,7 +644,7 @@ function LayoutOtcProducts({
                           }}
                         />
                        
-                        <button
+                        {/* <button
                           className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
                           onClick={() => {
                             if (
@@ -609,71 +672,9 @@ function LayoutOtcProducts({
                           }
                         >
                           +
-                        </button>
-                      </div>
-                      {stockWarning.productId === product.productID && (
-                        <p className="text-red-500 text-sm mt-2">
-                          {stockWarning.message}
-                        </p>
-                      )}
-                    </div> */}
-                    <div className="flex flex-col ml-9 -mr-9">
-                      <p className="font-semibold">Quantity</p>
-                      <div className="mt-2 flex items-center">
-                        {/* Decrease quantity button */}
-                        <button
-                          className="px-1 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
-                          onClick={() => {
-                            const newQuantity = Math.max(
-                              1,
-                              product.CartQuantity - 1
-                            );
-
-                            // Clear stock warning if the new quantity is within the stock
-                            if (newQuantity <= product.amountInStock) {
-                              setStockWarning({ productId: null, message: "" });
-                            }
-
-                            handleQuantityChange(index, newQuantity);
-                          }}
-                          disabled={
-                            product.CartQuantity <= 1 ||
-                            product.amountInStock <= 0
-                          }
-                        >
-                          -
-                        </button>
-
-                        {/* Input for quantity */}
-                        <input
-                          type="text"
-                          value={product.CartQuantity}
-                          className="w-10 mx-2 border font-bold rounded-md text-center bg-white"
-                          onChange={(e) => {
-                            const value = e.target.value;
-                            const numericValue =
-                              value === ""
-                                ? ""
-                                : Math.max(1, parseInt(value, 10));
-
-                            // Check if the input value exceeds the stock
-                            if (numericValue > product.amountInStock) {
-                              setStockWarning({
-                                productId: product.productID,
-                                message: `Only ${product.amountInStock} items available.`,
-                              });
-                            } else {
-                              // Clear stock warning if the input is valid
-                              setStockWarning({ productId: null, message: "" });
-                            }
-
-                            handleQuantityChange(index, numericValue);
-                          }}
-                        />
-
-                        {/* Increase quantity button */}
-                        <button
-                          className="px-1 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                        </button> */}
+                         <button
+                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
                           onClick={() => {
                             const newQuantity = product.CartQuantity + 1;
 
@@ -692,14 +693,13 @@ function LayoutOtcProducts({
                           +
                         </button>
                       </div>
-
-                      {/* Display the stock message for the product */}
                       {stockWarning.productId === product.productID && (
                         <p className="text-red-500 text-sm mt-2">
                           {stockWarning.message}
                         </p>
                       )}
                     </div>
+                   
 
                     {/* Wishlist */}
                     <div className="flex flex-col items-center justify-between -mr-6">
@@ -887,23 +887,23 @@ function LayoutOtcProducts({
                             }
                           }
                         }}
-                        className={`flex text-white h-[40px] px-2 rounded-lg mx-3 justify-center items-center ${product.amountInStock <= 0
-                            ? "bg-gray-400 cursor-not-allowed"
-                            : "bg-blue-900 cursor-pointer"
+                        className={`flex text-white h-[32px] px-2 rounded-lg mx-2 justify-center items-center ${product.amountInStock <= 0
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-blue-900 cursor-pointer"
                           }`}
                       >
                         <div className="mr-1">
                           <img
                             src={addcart}
-                            className={`w-6 h-6 ${product.amountInStock <= 0
-                                ? "opacity-50"
-                                : "cursor-pointer"
+                            className={`w-5 h-5 ${product.amountInStock <= 0
+                              ? "opacity-50"
+                              : "cursor-pointer"
                               }`}
                             alt="Add to Cart Icon"
                           />
                         </div>
                         <p
-                          className={`font-semibold ${product.amountInStock <= 0 ? "opacity-50" : ""
+                          className={`font-semibold text-sm ${product.amountInStock <= 0 ? "opacity-50" : ""
                             }`}
                         >
                           {"Add to Cart"}

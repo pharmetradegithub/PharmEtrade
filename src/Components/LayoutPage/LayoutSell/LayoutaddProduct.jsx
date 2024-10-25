@@ -2619,7 +2619,9 @@ function LayoutaddProduct() {
                   {...getRootProps()}
                   className="w-full p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400"
                 >
-                  <input {...getInputProps()} />
+                  <input {...getInputProps()}
+                  accept="image/*"
+                   />
                   <p className="text-gray-500 text-center">
                     Click here or drag and drop images
                   </p>
@@ -2641,6 +2643,7 @@ function LayoutaddProduct() {
                             : ""
                         } // Check if `image` is a string (URL) or a File object
                         alt={`Preview ${image}`}
+                        
                         className="w-full h-40 object-cover"
                       />
                       <button

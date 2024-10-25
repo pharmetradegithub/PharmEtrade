@@ -1484,9 +1484,23 @@ const LayoutProfile = () => {
               className={`bg-white border ${isEditable ? "border-blue-900" : "border-gray-400"
                 } rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}
             >
-              <h1 className={`text-xl font-semibold my-2 text-blue-900`}>
+              {/* <h1 className={`text-xl font-semibold my-2 text-blue-900`}>
+                User Information
+              </h1> */}
+
+{isEditable && (
+                <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+                  User Information
+                </h1>
+              )}
+              <h1
+                className={`text-xl font-semibold my-2 ${isEditable ? "invisible" : "text-blue-900"
+                  }`}
+              >
                 User Information
               </h1>
+
+              
               <div className="flex justify-between">
                 <div className="py-4 flex flex-col gap-4">
                   <TextField
@@ -1564,7 +1578,7 @@ const LayoutProfile = () => {
             {/* Address Information Section */}
             <div
               className={`bg-white border ${isAddressEdit ? "border-blue-900" : "border-gray-400"
-                } rounded-lg px-8 w-full mt-8 relative`}
+                } rounded-lg px-8  w-[95%] mt-8 relative`}
             >
               {isAddressEdit && (
                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -1751,7 +1765,7 @@ const LayoutProfile = () => {
             {userdata?.customerTypeId !== 4 && (
               <div
                 className={`bg-white border ${isAccountEdit ? "border-blue-900" : "border-gray-400"
-                  } rounded-lg px-8 w-full mt-8 relative mb-4`}
+                  } rounded-lg px-8 w-[95%]  mt-8 relative mb-6`}
               >
                 {isAccountEdit && (
                   <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
