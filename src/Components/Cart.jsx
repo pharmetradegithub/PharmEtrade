@@ -734,7 +734,7 @@ function Cart() {
                             </button>
                           </div>
                         </div>
-                        <div className="text-xs">Minimum Quantity Required:{item?.product?.minimumOrderQuantity}</div>
+                        {/* <div className="text-xs">Minimum Quantity Required:{item?.product?.minimumOrderQuantity}</div> */}
                       </td>
 
                       <td className="px-2 md:px-4 text-right py-3 ">
