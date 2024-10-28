@@ -3,10 +3,12 @@ import { FaFilter } from "react-icons/fa";
 import filter from "../../../assets/Filter_icon.png";
 import share from '../../../assets/upload1.png'
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPaymentHistory } from "../../../Api/PaymentHistoryApi";
+// import { fetchPaymentHistory } from "../../../Api/PaymentHistoryApi";
 import { Tooltip } from "@mui/material";
 import eye from '../../../assets/eye.png'
 import Pagination from "../../Pagination";
+// import { PaymentReceivedApi } from "../../../Api/AdminPayment";
+import { PaymentReceivedApi } from "../../../Api/AdminPaymentApi";
 // import { fetchPaymentHistory } from "../../../Api/PaymentHistory";
 
 
@@ -18,8 +20,9 @@ function LayoutPaymentHistory() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedFormat, setSelectedFormat] = useState("csv");
   const user = useSelector((state) => state.user.user)
-  const paymentHistory = useSelector((state) => state.dashboard.getPaymentHistory)
+  const paymentHistory = useSelector((state) => state.adminPayment.paymentReceive)
   console.log("payment-->", paymentHistory)
+
   const dispatch = useDispatch()
 
   const handleChange = (event) => {
@@ -84,8 +87,8 @@ function LayoutPaymentHistory() {
   );
 
   useEffect(() => {
-    dispatch(fetchPaymentHistory(user?.customerId))
-  }, [user?.customerId])
+    dispatch(PaymentReceivedApi())
+  }, [])
  
 
 // sorting
@@ -114,7 +117,9 @@ const sortedItems = React.useMemo(() => {
 
 const indexOfLastItem = currentPage * itemsPerPage;
 const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-const currentItems = sortedItems.slice(indexOfFirstItem, indexOfLastItem);
+  // const currentItems = sortedItems.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = sortedItems ? sortedItems.slice(indexOfFirstItem, indexOfLastItem) : [];
+
 const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
 
   return (
@@ -256,12 +261,9 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
                 currentItems.map((payout, index) => (
                   <tr key={index} className="border-b">
                     <td className="px-4 py-2">{indexOfFirstItem + index + 1}</td>
-                    <td className="px-4 py-2">{ }</td>
-                    <td className="px-4 py-2">{ }</td>
-
+                    <td className="px-4 py-2">{payout.invoiceNumber}</td>
                     <td className="px-4 py-2">
-                      {/* {payout.paymentDate} */}
-                      {new Date(payout.paymentDate)
+                      {new Date(payout.invoiceDate)
                         .toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "2-digit",
@@ -270,10 +272,29 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
                         .replace(/\//g, "-")}
                     </td>
 
-                    <td className="px-4 py-2">{payout.paymentAmount}</td>
-                    <td className="px-4 py-2">{ }</td>
-                    <td className="px-4 py-2">{ }</td>
-                    <td className="px-4 py-2">{payout.paymentStatus}</td>
+                    <td className="px-4 py-2">
+                      {payout.fromUser}
+                      {/* {new Date(payout.paymentDate)
+                        .toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                        })
+                        .replace(/\//g, "-")} */}
+                    </td>
+
+                    <td className="px-4 py-2">{}</td>
+                    <td className="px-4 py-2">
+                      {new Date(payout.paymentDate)
+                        .toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                        })
+                        .replace(/\//g, "-")}
+                    </td>
+                    <td className="px-4 py-2">{payout.paymentAmount }</td>
+                    <td className="px-4 py-2">{payout.paymentMethod}</td>
                     {/* <td className="px-4 py-2">{ }</td> */}
                     {/* <td className="px-4 py-2">{ }</td> */}
                     <td className="px-4 py-2">

@@ -136,6 +136,7 @@ function LayoutaddProduct() {
     Width: 0,
     states: [],
     shippingCostApplicable: false,
+    shippingCost:0,
     isReturnable: "",
     upnMemberPrice: 0,
     salePrice: 0,
@@ -599,11 +600,17 @@ function LayoutaddProduct() {
         });
       }
       if (name === "shippingCostApplicable") {
+        const isShippingCostApplicable = value === "1"; // Convert value to boolean
         setFormData((prevData) => ({
           ...prevData,
-          [name]: value === "1" ? true : false, // Set to true for "1" (Yes), false for "0" (No)
+          shippingCostApplicable: isShippingCostApplicable,
+          shippingCost: isShippingCostApplicable ? 20 : 0, // Set shipping cost based on selection
         }));
-      }
+      //   setFormData((prevData) => ({
+      //     ...prevData,
+      //     [name]: value === "1" ? true : false, // Set to true for "1" (Yes), false for "0" (No)
+      //   }));
+       }
       if (name === "isReturnable") {
         setFormData((prevData) => ({
           ...prevData,
@@ -856,7 +863,7 @@ function LayoutaddProduct() {
       shippingCostApplicable:
         formData.shippingCostApplicable == 1 ? true : false,
       isReturnable: formData.isReturnable == 1 ? true : false,
-      shippingCost: 20,
+      shippingCost: formData.shippingCost,
       amountInStock: formData.amountInStock,
       minOrderQuantity: formData.minOrderQuantity,
       maxOrderQuantity: formData.maxOrderQuantity,

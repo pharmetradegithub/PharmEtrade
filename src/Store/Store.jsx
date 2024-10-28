@@ -462,6 +462,18 @@ const trackNumberSlice = createSlice({
     }
   }
 })
+
+const adminPaymentSlice = createSlice({
+  name: 'adminPayment',
+  initialState: { paymentReceive: [] },
+  reducers: {
+    setPaymentReceived(state, action) {
+      state.paymentReceive = action.payload
+    }
+  }
+})
+
+export const { setPaymentReceived } = adminPaymentSlice.actions
 export const { setOrderStatusGetAll } = mastersSlice.actions
 export const { setOrderStatusUpdate } = orderSlice.actions
 export const { setGetById } = orderSlice.actions
@@ -527,7 +539,8 @@ const store = configureStore({
     bid:bidSlice.reducer,
     shipment: shipmentSlice.reducer,
     tax: taxInfoSlice.reducer,
-    trackNumber: trackNumberSlice.reducer
+    trackNumber: trackNumberSlice.reducer,
+    adminPayment: adminPaymentSlice.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });

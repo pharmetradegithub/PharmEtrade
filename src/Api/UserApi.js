@@ -344,6 +344,51 @@ export const DeactivateUserAPI =async ( customerId,comments=null)=>
 
     }
 }
+
+export const DeleteCustomerAPI = async (customerID) => {
+  try {
+    const response = await axios.post(`/api/Customer/Delete?customerId=${customerID}`);
+    if (response.status === 200) {
+      return response.data.result;
+    } else {
+      console.error('Failed to fetch Deactivate Customer:', response.data.message);
+    }
+  } catch (error) {
+    console.error('Error fetching Deactivate Customer:', error);
+  }
+};
+
+
+export const fetchCustomerActivateDeactivateById = async (customerId) => {
+  try {
+    const response = await axios.get(`/api/Customer/ActivateDeactivateHistoryByCustomerId?customerId=${customerId}`);
+    if (response.status === 200) {
+      return response.data.result;
+    } else {
+      console.error('Failed to fetch product by ID:', response.data.message);
+    }
+  } catch (error) {
+    console.error('Error fetching product by ID:', error);
+  }
+};
+
+
+
+
+
+// export const DeleteCustomerAPI = async (customerID) => {
+//   try {
+//     const response = await axios.post(`/api/Customer/DeleteCustomer?customerId=${customerID}`);
+//     if (response.status === 200) {
+//       return response.data.result;
+//     } else {
+//       console.error('Failed to fetch Deactivate Customer:', response.data.message);
+//     }
+//   } catch (error) {
+//     console.error('Error fetching Deactivate Customer:', error);
+//   }
+// };
+
 // export const customerRegister = async (payload) => {
 //   try {
 //     const response = await axios.post('/api/Customer/Register', payload)
