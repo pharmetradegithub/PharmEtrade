@@ -14,12 +14,14 @@ import {
   ActivateUserAPI,
   BusinessInfoUpdate,
   DeactivateUserAPI,
+  fetchCustomerActivateDeactivateById,
   getUserByCustomerIdApi,
   UserInfoUpdate,
 } from "../../../Api/UserApi";
 import Notification from "../../Notification";
 import ChargesInformations from "./ChargesInformations";
 import { useStates } from "react-us-states";
+import { useParams } from "react-router-dom";
 // import ChargesInformation from "../../LayoutPage/LayoutProfile/ChargesInformation";
 // import BankInformation from "./BankInformation";
 // import LayoutProfileAddress from "./LayoutProfileAddress";
@@ -48,8 +50,8 @@ const EditSellerList = () => {
   }, [CustomerId]);
 
   console.log("wwwww", userdata);
-  const DeactivateCustomer = async (customerId) => {
-    await DeactivateUserAPI(customerId);
+  const DeactivateCustomer = async (customerId, comments) => {
+    await DeactivateUserAPI(customerId, comments);
     setNotification({
       show: true,
       message: "User Deactivated Successfully!",
@@ -57,8 +59,8 @@ const EditSellerList = () => {
     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
   };
 
-  const ActivateCustomer = async (customerId) => {
-    await ActivateUserAPI(customerId);
+  const ActivateCustomer = async (customerId, comments) => {
+    await ActivateUserAPI(customerId, comments);
     setNotification({
       show: true,
       message: "User Activated Successfully!",
@@ -322,27 +324,40 @@ const EditSellerList = () => {
   };
 
   
+  // const handleFileChange = (event) => {
+  //   const file = event.target.files[0]; // Get the selected file
+  //   if (file) {
+  //     // Handle the file (e.g., store in state, upload it, etc.)
+  //     setAccountData((prevState) => ({
+  //       ...prevState,
+  //       deaLicenseCopy: file, // Update state with the selected file
+  //     }));
+  //   }
+  // };
+
   const handleFileChange = (event) => {
-    const file = event.target.files[0]; // Get the selected file
+    const file = event.target.files[0];
     if (file) {
-      // Handle the file (e.g., store in state, upload it, etc.)
-      setAccountData((prevState) => ({
-        ...prevState,
-        deaLicenseCopy: file, // Update state with the selected file
+      const fileUrl = URL.createObjectURL(file); // Create a temporary URL for preview
+      setAccountData((prevData) => ({
+        ...prevData,
+        deaLicenseCopy: fileUrl, // Update state with the selected file URL
       }));
     }
   };
 
   const handleFileChangePharma = (event) => {
-    const file = event.target.files[0]; // Get the selected file
-    if (file) {
-      // Update the state with the selected file for pharmacy license
-      setAccountData((prevState) => ({
-        ...prevState,
-        pharmacyLicenseCopy: file, // Store the selected file object
-      }));
-    }
-  };
+  const file = event.target.files[0];
+  if (file) {
+    const fileUrl = URL.createObjectURL(file); // Create a temporary URL for preview
+    setAccountData((prevData) => ({
+      ...prevData,
+      pharmacyLicenseCopy: fileUrl, // Update state with the selected file URL
+    }));
+  }
+};
+
+
   const [isAddressEdit, setIsAddressEdit] = useState(false);
   const [addressData, setAddressData] = useState({
     shopName: businessInfo?.shopName || "",
@@ -465,8 +480,8 @@ const EditSellerList = () => {
       deaExpirationDate: accountData.deaExpirationDate == "" ? null : accountData.deaExpirationDate,
       pharmacyLicenseExpirationDate:
         accountData.pharmacyLicenseExpirationDate == "" ? null : accountData.pharmacyLicenseExpirationDate,
-      deaLicenseCopy: businessInfo.deaLicenseCopy,
-      pharmacyLicenseCopy: businessInfo.pharmacyLicenseCopy,
+      deaLicenseCopy: accountData.deaLicenseCopy || businessInfo.deaLicenseCopy,
+      pharmacyLicenseCopy: accountData.pharmacyLicenseCopy || businessInfo.pharmacyLicenseCopy,
       npi: accountData.npi,
       ncpdp: accountData.ncpdp,
       companyWebsite: businessInfo.companyWebsite,
@@ -555,6 +570,33 @@ const EditSellerList = () => {
     const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
+  };
+
+
+
+  const [historyData, setHistoryData] = useState([]);
+
+useEffect(() => {
+  const CustomerActivateDeactivateAPI = async () => {
+    try {
+      const customer = await fetchCustomerActivateDeactivateById(CustomerId);
+      console.log("Fetched customer data:", customer);
+      setHistoryData(Array.isArray(customer) ? customer : []);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  CustomerActivateDeactivateAPI();
+}, [CustomerId]);
+
+  console.log("ppppp",historyData)
+
+
+  const [comments, setComments] = useState("");
+
+  // 2. Create the handleCommentsChange function
+  const handleCommentsChange = (event) => {
+    setComments(event.target.value); // Update comments state with input value
   };
 
   return (
@@ -1013,7 +1055,7 @@ const EditSellerList = () => {
                     <TextField
                       label=""
                       type="file"
-                      id="outlined-size-small"
+                      // id="outlined-size-small"
                       name="deaLicenseCopy"
                       onChange={handleFileChange} // Separate handler for file selection
                       disabled={!isAccountEdit}
@@ -1110,7 +1152,7 @@ const EditSellerList = () => {
                     <TextField
                       label=""
                       type="file"
-                      id="outlined-size-small"
+                      // id="outlined-size-small"
                       name="pharmacyLicenseCopy"
                       onChange={handleFileChangePharma} // Separate handler for file input
                       disabled={!isAccountEdit}
@@ -1182,17 +1224,28 @@ const EditSellerList = () => {
 
             <div className="flex flex-col justify-between  rounded-lg mx-8 w-[90%] mt-4">
               {/* TextField for input */}
-              <TextField
+              {/* <TextField
                 label="Add Notes"
                 id="outlined-size-small"
-                value={notes} // Set input value from state
+                value={comments} // Set input value from state
                 name="comments"
-                onChange={handleInputChange} // Handles input change
+                onChange={handleNotesChange} // Handles input change
                 size="small"
                 className="w-full m-2 bg-white border"
                 multiline
                 rows={4}
-              />
+              /> */}
+              <TextField
+  label="Add Comments" // Updated label to "Add Comments"
+  id="outlined-size-small"
+  value={comments} // Set input value from state
+  name="comments"
+  onChange={handleCommentsChange} // Handles input change
+  size="small"
+  className="w-full m-2 bg-white border"
+  multiline
+  rows={4}
+/>
               {/* Button to submit the notes */}
               <div className="flex justify-end">
                 <button
@@ -1209,7 +1262,7 @@ const EditSellerList = () => {
             <div className="flex justify-between flex-col  rounded-lg  px-8  w-[95%] mt-4">
               <div className="button-group">
                 <Button
-                  onClick={() => ActivateCustomer(CustomerId)}
+                  onClick={() => ActivateCustomer(CustomerId, comments)}
                   className={`mr-2 text-white ${
                     userdata?.isActive === 1
                       ? "bg-green-500 cursor-not-allowed opacity-50"
@@ -1221,7 +1274,7 @@ const EditSellerList = () => {
                 </Button>
 
                 <Button
-                  onClick={() => DeactivateCustomer(CustomerId)}
+                  onClick={() => DeactivateCustomer(CustomerId, comments)}
                   className={`mr-2 text-white ${
                     userdata?.isActive === 0
                       ? "bg-red-500 cursor-not-allowed opacity-50"
@@ -1256,7 +1309,7 @@ const EditSellerList = () => {
                 </Button>
               </div>
             </div>
-            {submittedNotes && (
+            {/* {submittedNotes && ( */}
               <div className=" flex justify-between flex-col  rounded-lg  px-8  w-[90%]  my-4">
                 <div className="data-group bg-white p-4 rounded-lg">
                   {/* <div className="data-item">
@@ -1268,15 +1321,25 @@ const EditSellerList = () => {
                   <label>Email 2 :</label> <span>johndoe@example.com</span>{" "}
                 </div> */}
 
-                  {submittedNotes}
+                  {/* {submittedNotes} */}
+                  {historyData.length > 0 ? (
+      historyData.map((item, index) => (
+        <div key={index} className="data-item">
+          <label>Status:</label>
+          <span>{item.action}</span>
+          <label>Date:</label>
+          <span>{item.auditDate}</span>
+          <label>Date:</label>
+          <span>{item.comments}</span>
+        </div>
+      ))
+    ) : (
+      <p>No history data available.</p>
+    )}
 
-                  <div className="data-item">
-                    <label>Status:</label>
-                    <span>Active</span> {/* Replace with dynamic data */}
-                  </div>
                 </div>
               </div>
-            )}
+            {/* )} */}
           </div>
         )}
 

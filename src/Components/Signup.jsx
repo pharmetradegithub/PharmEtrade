@@ -2319,6 +2319,7 @@ const Signup = () => {
     legalBusinessName: "",
     dbaName: "",
     address1: "",
+    customerTypeId:0,
     city: "",
     State: "",
     zip: "",

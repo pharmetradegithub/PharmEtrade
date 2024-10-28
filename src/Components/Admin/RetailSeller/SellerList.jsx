@@ -8,6 +8,7 @@ import Pagination from "../../Pagination";
 import { useNavigate } from "react-router-dom";
 import {
   DeactivateUserAPI,
+  DeleteCustomerAPI,
   getUserByCustomerIdApi,
 } from "../../../Api/UserApi";
 import Loading from "../../Loading";
@@ -28,11 +29,14 @@ const SellerList = () => {
 
   const navigate = useNavigate();
 
-  const [openPop, setOpenPop] = useState(false);
+  const [opendeactivatePop, setOpendeactivatePop] = useState(false);
+  const [opendeletePop, setOpendeletePop] = useState(false);
+
   const [customerId, setCustomerId] = useState(null); // To store the ID of the customer being deactivated
 
   const closeButton = () => {
-    setOpenPop(false);
+    setOpendeactivatePop(false);
+    setOpendeletePop(false);
   };
 
   const cancelButton = () => {
@@ -51,6 +55,10 @@ const SellerList = () => {
   // };
 
   // Fetch all customers again when search input is cleared
+  const [trigger, settrigger] = useState(1);
+  const [deactivatedProducts, setDeactivatedProducts] = useState([]); // State to track deactivated products
+
+
   useEffect(() => {
     if (searchInput.customerName === "") {
       const fetchAllCustomers = async () => {
@@ -72,7 +80,9 @@ const SellerList = () => {
 
       fetchAllCustomers();
     }
-  }, [searchInput.customerName]);
+  }, [searchInput.customerName, trigger, deactivatedProducts]);
+
+  
   // Sorting configuration
   const [sortConfig, setSortConfig] = useState({
     key: "",
@@ -170,7 +180,9 @@ const SellerList = () => {
   // }
 
   // const [customerId, setCustomerId] = useState(null);
-  const [deactivatedProducts, setDeactivatedProducts] = useState([]); // State to track deactivated products
+  // const [deactivatedProducts, setDeactivatedProducts] = useState([]); // State to track deactivated products
+  const [deletedProducts, setDeletedProducts] = useState([]); // State to track deactivated products
+
   const [notification, setNotification] = useState({
     show: false,
     message: "",
@@ -195,10 +207,41 @@ const SellerList = () => {
     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
   };
 
+  const successDeleteButton = async () => {
+    await DeleteCustomer(customerId);
+    settrigger((prev) => prev + 1);
+    setDeletedProducts((prev) => [...prev, customerId]); // Add the deactivated product ID
+    closeButton(); // Close the popup
+    setNotification({
+      show: true,
+      message: "User Deleted Successfully!",
+    });
+    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  };
+
   const handleDeactivateClick = (id) => {
     setCustomerId(id);
-    setOpenPop(true);
+    setOpendeactivatePop(true);
   };
+
+  const handleDeleteClick = (id) => {
+    setCustomerId(id);
+    setOpendeletePop(true);
+  };
+
+  
+  const DeleteCustomer = async (customerId) => {
+    try {
+      await DeleteCustomerAPI(customerId);
+      // Optionally, return a success response or perform other logic here
+    } catch (error) {
+      console.error("Error deactivating user:", error);
+      // Optionally handle errors, such as showing an error notification
+    }
+  };
+
+
+
 
   const DeactivateCustomer = async (customerId) => {
     try {
@@ -219,7 +262,7 @@ const SellerList = () => {
             message={notification.message}
           />
         )}
-        {openPop && (
+        {opendeactivatePop && (
           <div
             className="fixed top-0 left-25 w-4/5 h-full flex justify-center items-center bg-slate-900 bg-opacity-20"
             role="dialog"
@@ -244,6 +287,38 @@ const SellerList = () => {
                 <button
                   className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                   onClick={successButton}
+                >
+                  Yes
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+             {opendeletePop && (
+          <div
+            className="fixed top-0 left-25 w-4/5 h-full flex justify-center items-center bg-slate-900 bg-opacity-20"
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
+              <div className="flex justify-end  ">
+                <button className="w-5 p-1 -mt-8 mx-2" onClick={closeButton}>
+                  <img src={wrong} className="w-6 h-4" />
+                </button>
+              </div>
+              <h1 className="text-black text-center mt-2">
+                Are you sure you want to delete this user ?
+              </h1>
+              <div className="flex justify-around mt-6">
+                <button
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={cancelButton}
+                >
+                  No
+                </button>
+                <button
+                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={successDeleteButton}
                 >
                   Yes
                 </button>
@@ -423,7 +498,7 @@ const SellerList = () => {
                               src={Bin}
                               alt="Delete"
                               className="cursor-pointer w-4 h-4 -mb-5"
-                              onClick={() => DeleteProduct(customer.customerId)}
+                              onClick={() => handleDeleteClick(customer.customerId)}
                             />
                           </Tooltip>
                           <Tooltip placement="top" title="Deactivate">

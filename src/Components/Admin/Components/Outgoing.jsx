@@ -114,7 +114,8 @@ const sortedItems = React.useMemo(() => {
 
 const indexOfLastItem = currentPage * itemsPerPage;
 const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-const currentItems = sortedItems.slice(indexOfFirstItem, indexOfLastItem);
+// const currentItems = sortedItems.slice(indexOfFirstItem, indexOfLastItem);
+const currentItems = (sortedItems || []).slice(indexOfFirstItem, indexOfLastItem);
 const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
   return (
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">

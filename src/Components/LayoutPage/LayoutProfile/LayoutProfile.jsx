@@ -1357,27 +1357,49 @@ const LayoutProfile = () => {
     return `${year}-${month}-${day}`;
   };
 
+  // const handleFileChange = (event) => {
+  //   const file = event.target.files[0]; // Get the selected file
+  //   if (file) {
+  //     // Handle the file (e.g., store in state, upload it, etc.)
+  //     setAccountData((prevState) => ({
+  //       ...prevState,
+  //       deaLicenseCopy: file, // Update state with the selected file
+  //     }));
+  //   }
+  // };
+
+  // const handleFileChangePharma = (event) => {
+  //   const file = event.target.files[0]; // Get the selected file
+  //   if (file) {
+  //     // Update the state with the selected file for pharmacy license
+  //     setAccountData((prevState) => ({
+  //       ...prevState,
+  //       pharmacyLicenseCopy: file, // Store the selected file object
+  //     }));
+  //   }
+  // };
+
   const handleFileChange = (event) => {
-    const file = event.target.files[0]; // Get the selected file
+    const file = event.target.files[0];
     if (file) {
-      // Handle the file (e.g., store in state, upload it, etc.)
-      setAccountData((prevState) => ({
-        ...prevState,
-        deaLicenseCopy: file, // Update state with the selected file
+      const fileUrl = URL.createObjectURL(file); // Create a temporary URL for preview
+      setAccountData((prevData) => ({
+        ...prevData,
+        deaLicenseCopy: fileUrl, // Update state with the selected file URL
       }));
     }
   };
 
   const handleFileChangePharma = (event) => {
-    const file = event.target.files[0]; // Get the selected file
-    if (file) {
-      // Update the state with the selected file for pharmacy license
-      setAccountData((prevState) => ({
-        ...prevState,
-        pharmacyLicenseCopy: file, // Store the selected file object
-      }));
-    }
-  };
+  const file = event.target.files[0];
+  if (file) {
+    const fileUrl = URL.createObjectURL(file); // Create a temporary URL for preview
+    setAccountData((prevData) => ({
+      ...prevData,
+      pharmacyLicenseCopy: fileUrl, // Update state with the selected file URL
+    }));
+  }
+};
 
   const handleAccountSaveClick = async () => {
     setIsAccountEdit(false);
@@ -1401,8 +1423,10 @@ const LayoutProfile = () => {
       deaExpirationDate: accountData.deaExpirationDate == "" ? null : accountData.deaExpirationDate,
       pharmacyLicenseExpirationDate:
         accountData.pharmacyLicenseExpirationDate == "" ? null : accountData.pharmacyLicenseExpirationDate,
-      deaLicenseCopy: businessInfo.deaLicenseCopy,
-      pharmacyLicenseCopy: businessInfo.pharmacyLicenseCopy,
+      // deaLicenseCopy: businessInfo.deaLicenseCopy,
+      // pharmacyLicenseCopy: businessInfo.pharmacyLicenseCopy,
+      deaLicenseCopy: accountData.deaLicenseCopy || businessInfo.deaLicenseCopy,
+      pharmacyLicenseCopy: accountData.pharmacyLicenseCopy || businessInfo.pharmacyLicenseCopy,
       npi: accountData.npi,
       ncpdp: accountData.ncpdp,
       companyWebsite: businessInfo.companyWebsite,
