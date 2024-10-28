@@ -997,13 +997,6 @@
 
 
 
-
-
-
-
-
-
-
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import img from "../../../assets/img1.png";
@@ -1027,7 +1020,7 @@ function LayoutOrderList() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
-  
+
   const [searchQuery, setSearchQuery] = useState("");
   const [orders, setOrders] = useState([]);
   // const localData = localStorage.getItem("userId")
@@ -1046,14 +1039,14 @@ function LayoutOrderList() {
   const part = pathname.split('/')
   const orderId = part[2]
 
-  useEffect(() =>{
-    if(getOrders)
+  useEffect(() => {
+    if (getOrders)
       setGetOrder(getOrders)
-  },[getOrders])
+  }, [getOrders])
 
   //YEAR  SORTING
 
-  
+
   useEffect(() => {
     const data = async () => {
       await dispatch(fetchGetOrder(user?.customerId));
@@ -1064,8 +1057,8 @@ function LayoutOrderList() {
   // Sorting orders by date
   const sortedOrders = Array.isArray(getOrder)
     ? [...getOrder].sort(
-        (a, b) => new Date(b.orderDate) - new Date(a.orderDate)
-      )
+      (a, b) => new Date(b.orderDate) - new Date(a.orderDate)
+    )
     : [];
 
   // Filter orders by selected year
@@ -1090,7 +1083,7 @@ function LayoutOrderList() {
 
 
 
-  
+
   const [SearchInput, setSearchInput] = useState({
     productName: null,
   });
@@ -1125,22 +1118,22 @@ function LayoutOrderList() {
 
 
 
-  useEffect(() => {
-    const data = async () => {
-      await dispatch(fetchGetOrder(user?.customerId))
-    }
-    // if (user?.customerId) {
-    //   data();
-    // }
-    data();
-  }, [user, dispatch])
+  // useEffect(() => {
+  //   const data = async () => {
+  //     await dispatch(fetchGetOrder(user?.customerId))
+  //   }
+  //   // if (user?.customerId) {
+  //   //   data();
+  //   // }
+  //   data();
+  // }, [user, dispatch])
 
   // useEffect(() => {
   //   if (orderList.length > 0) {
   //     setOrders(orderList);
   //     }
   // }, [])
- 
+
 
   const YearDropdown = () => {
     const currentYear = new Date().getFullYear();
@@ -1161,13 +1154,13 @@ function LayoutOrderList() {
     );
   };
 
- 
 
-  
+
+
 
 
   // const [orders, setOrders] = useState([]);
-  
+
 
   const totalPages = Math.ceil((getOrder?.length || 0) / itemsPerPage);
 
@@ -1176,6 +1169,7 @@ function LayoutOrderList() {
   // : [];
 
 
+  const [showMore, setShowMore] = useState({});
 
   const [isOpen, setIsOpen] = useState(false);
   const [rating, setRating] = useState(0);
@@ -1243,6 +1237,14 @@ function LayoutOrderList() {
     setVisibleGrid(grid); // Set the visible grid to the selected one
   };
 
+
+  const toggleShowMore = (index) => {
+    setShowMore((prevState) => ({
+      ...prevState,
+      [index]: !prevState[index],
+    }));
+  };
+
   return (
     <div
       className="w-full h-full overflow-y-scroll "
@@ -1290,9 +1292,9 @@ function LayoutOrderList() {
           <h2 className="text-3xl font-semibold"> Your Orders</h2>
 
           <div className="flex   text-end justify-end items-center">
-          <div className="flex  mb-4">
+            <div className="flex  mb-4">
               <input
-                className="rounded-lg p-1"
+                className="rounded-lg p-1 border"
                 placeholder="Search Product..."
                 name="productName"
                 onChange={(e) => handleInputChange(e)}
@@ -1300,7 +1302,7 @@ function LayoutOrderList() {
                 value={SearchInput.productName}
               />
             </div>
-            
+
           </div>
         </div>
         {/* links start */}
@@ -1327,17 +1329,17 @@ function LayoutOrderList() {
           </button>
         </div> */}
 
-<div className="flex">
-        {profiles.map((profile) => (
-          <button
-            key={profile.grid}
-            className={`border-b ${visibleGrid === profile.grid ? 'border-red-500 text-blue-900' : 'hover:border-red-500 hover:text-blue-900'} text-black w-60 h-9 text-xl`}
-            onClick={() => toggleGrid(profile.grid)}
-          >
-            {profile.label}
-          </button>
-        ))}
-      </div>
+        <div className="flex">
+          {profiles.map((profile) => (
+            <button
+              key={profile.grid}
+              className={`border-b ${visibleGrid === profile.grid ? 'border-red-500 text-blue-900' : 'hover:border-red-500 hover:text-blue-900'} text-black w-60 h-9 text-xl`}
+              onClick={() => toggleGrid(profile.grid)}
+            >
+              {profile.label}
+            </button>
+          ))}
+        </div>
         {/* limks end */}
         <div className="flex my-4">
           <h1>Orders Placed In</h1>
@@ -1346,135 +1348,208 @@ function LayoutOrderList() {
         {/* section start */}
         {visibleGrid === "order" && (
           <div>
-        {Array.isArray(currentItems) && currentItems.length > 0 ? (
-          currentItems.map((order) => (
-           <div key={order.orderId} className="border my-6 rounded-lg shadow-md">
-              <div className="flex justify-between border-b pb-2 pt-2 pr-3 pl-3 bg-slate-200">
-                <div>
-                  <h1>Order Placed</h1>
-                  <p>{new Date(order.orderDate).toLocaleDateString()}</p>
-                </div>
-                <div>
-                  <h1>Total</h1>
-                  <p>${order?.totalAmount?.toFixed(2)}</p>
-                </div>
-                <div>
-                  <h1>Ship To</h1>
-                  <p className="text-blue-900">{order.customerName}</p>
-                </div>
-                <div>
-                  <h1 className="text-center">Order ID</h1>
-                  <p>{order.orderId}</p>
-                  <p className="text-blue-900  text-center">
-                    {/* <Link to="/"> View Order Details | </Link> */}
-                    <span className="ml-2 cursor-pointer " onClick={() => handleClickView(order?.orderId)}>Invoice</span>
-                  </p>
-                </div>
-              </div>
-              <div className="">
-                <div className="flex justify-between pt-3 pr-3 pl-3">
-                  <div className="">
-                    <h1 className="text-xl font-semibold">Delivery Date</h1>
-                    <p>Package was handed to resident</p>
-                  </div>
-                  <div className="flex flex-col">
-                  <button className="border rounded-lg p-2 mb-2 hover:bg-gray-400 w-60 shadow-md">
-                      <Link to="/layout/trackingorder">
-                     Track Package
-                      </Link>
-                    </button>
-                    <button className="border rounded-lg hover:bg-gray-400 p-2 w-60 shadow-md">
-                      {/* <Link to="/layout/trackingorder"> */}
-                      Leave Seller Feedback
-                      {/* </Link> */}
-                    </button>
-                    <button
-                      className="border rounded-lg p-2 hover:bg-gray-400 my-2 shadow-md"
-                      onClick={() => setIsOpen(true)}
-                    >
-                      Write a product review
-                    </button>
-                  </div>
+            {Array.isArray(currentItems) && currentItems.length > 0 ? (
+              currentItems.map((order, index) => (
+                <div key={order.orderId} className="border h-auto my-4 rounded-lg shadow-md">
+                  <div className="flex justify-between border-b pb-2 pt-2 pr-3 pl-3 bg-slate-200">
+                    <div>
+                      <h1>Order Placed</h1>
+                      <p className="text-sm">
+                        {new Date(order.orderDate)
+                          .toLocaleDateString('en-US', {
+                            month: '2-digit',
+                            day: '2-digit',
+                            year: 'numeric'
+                          })
+                          .replace(/\//g, '-')}
+                      </p>
+                    </div>
+                    <div>
+                      <h1>Total</h1>
+                      <p className="text-sm">${order?.pricePerProduct?.toFixed(2)}</p>
+                    </div>
+                    <div>
+                      <h1>Ship To</h1>
+                      <p className="text-blue-900 text-sm">{order.customerName}</p>
+                    </div>
+                    <div>
+                      <h1 className="text-center">Order ID</h1>
+                      <div className="flex">
+                        <p className="text-xs">{order.orderId}  </p>
 
-                  {/* review popup */}
-                  {isOpen && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                      <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
-                        <h2 className="text-xl font-semibold text-blue-900 mb-4">Write a Review</h2>
-
-                        {/* Text Area */}
-                        <textarea
-                          className="border rounded-lg w-full p-2 mb-4"
-                          rows="4"
-                          placeholder="Write your review..."
-                          value={reviewText}
-                          onChange={(e) => setReviewText(e.target.value)}
-                        ></textarea>
-
-                        {/* Rating Stars */}
-                        <div className="mb-4">
-                          <div className="flex">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <svg
-                                key={star}
-                                onClick={() => setRating(star)}
-                                className={`h-6 w-6 cursor-pointer ${rating >= star ? "text-yellow-500" : "text-gray-400"
-                                  }`}
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path d="M12 .587l3.668 7.568L24 9.423l-6 5.847L19.335 24 12 20.021 4.665 24l1.335-8.73L0 9.423l8.332-1.268L12 .587z" />
-                              </svg>
-                            ))}
-                          </div>
-                          <p className="text-gray-500 text-sm mt-1">Rate this product</p>
-                        </div>
-
-                        {/* Image Upload */}
-                        <div className="mb-4">
-                          <label className="block mb-1 text-gray-700">Upload Image:</label>
-                          <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageChange}
-                            className="block w-full text-sm text-gray-900 border rounded-lg cursor-pointer bg-gray-50"
-                          />
-                        </div>
-
-                        {/* Video Upload */}
-                        <div className="mb-4">
-                          <label className="block mb-1 text-gray-700">Upload Video:</label>
-                          <input
-                            type="file"
-                            accept="video/*"
-                            onChange={handleVideoChange}
-                            className="block w-full text-sm text-gray-900 border rounded-lg cursor-pointer bg-gray-50"
-                          />
-                        </div>
-
-                        {/* Buttons */}
-                        <div className="flex justify-end space-x-2">
-                          <button
-                            className="border rounded-lg px-4 py-2 bg-red-600 text-white"
-                            onClick={() => setIsOpen(false)}
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            className="bg-blue-900 text-white rounded-lg px-4 py-2"
-                            onClick={handleSubmit}
-                          >
-                            Save
-                          </button>
-                        </div>
+                        <p className="text-blue-900  text-center -mt-1">
+                          {/* <Link to="/"> View Order Details | </Link> */}
+                          <span className="ml-2 cursor-pointer  " onClick={() => handleClickView(order?.orderId)}>Invoice</span>
+                        </p>
                       </div>
                     </div>
-                  )}
+                  </div>
+                  < div className="  h-auto">
+                    <div className="flex justify-between pt-3 pr-3 pl-3 ">
+                      <div className="">
+                        <h1 className="text-xl font-semibold">Delivery Date</h1>
+                        <p>Package was handed to resident</p>
+                        <div className="flex ">
+                          <div className="flex m-0">
+                            <img
+                              src={order.imageUrl}
+                              className="w-40 justify-center flex  items-center m-3 h-40  p-2"
+                              alt="product"
+                            />
+                            <div className="flex flex-col ">
+                              <div>
+                                <p className="font-semibold mt-4">{order.productName}</p>
+                                <p className="w-[90%] text-sky-900 flex flex-wrap text-sm">
+                                  {/* {order.productDescription} */}
+                                  {showMore[index]
+                                    ? order.productDescription
+                                    : `${order.productDescription.slice(0, 30)}...`}
+                                  {order.productDescription.length > 30 && (
+                                    <button
+                                      className="text-blue-500 ml-1"
+                                      onClick={() => toggleShowMore(index)}
+                                    >
+                                      {showMore[index] ? "See Less" : " More details"}
+                                    </button>
+                                  )}
+                                </p>
+
+                                <p className="my-2 text-sm">
+                                  Return Window closed on{" "}
+                                  {/* {new Date(order.orderDate).toLocaleDateString()} */}
+                                  {new Date(order.orderDate).toLocaleDateString('en-US', {
+                                    month: '2-digit',
+                                    day: '2-digit',
+                                    year: 'numeric'
+                                  }).replace(/\//g, '-')}
+                                </p>
+                                <div className="flex">
+                                  <p>Quantity :</p>
+                                  <p>{order.quantity}</p>
+                                </div>
+                              </div>
+                              {/* <div className="flex my-2 cursor-pointer" onClick={() => handleNav(order.productId)}>
+                        <button className="border rounded-lg p-2 bg-blue-900 text-white w-48 shadow-md">
+                          Buy it again
+                        </button>
+                         <button className="border rounded-lg p-2 mx-3 shadow-md w-48">
+                        <Link to={`/detailspage/${order.productId}`}>
+                          View your item
+                        </Link>
+                      </button> 
+                      </div> */}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex flex-col">
+                        <button className="border rounded-lg p-2 mb-2 hover:bg-gray-400 w-60 shadow-md">
+                          <Link to="/layout/trackingorder">
+                            Track Package
+                          </Link>
+                        </button>
+                        <button className="border rounded-lg hover:bg-gray-400 p-2 w-60 shadow-md">
+                          {/* <Link to="/layout/trackingorder"> */}
+                          Leave Seller Feedback
+                          {/* </Link> */}
+                        </button>
+                        <button
+                          className="border rounded-lg p-2 hover:bg-gray-400 my-2 shadow-md"
+                          onClick={() => setIsOpen(true)}
+                        >
+                          Write a product review
+                        </button>
+                        <div className="flex  cursor-pointer" onClick={() => handleNav(order.productId)}>
+                          <button className="border rounded-lg p-2 bg-blue-900 text-white w-60 shadow-md">
+                            Buy it again
+                          </button>
+                          {/* <button className="border rounded-lg p-2 mx-3 shadow-md w-48">
+                        <Link to={`/detailspage/${order.productId}`}>
+                          View your item
+                        </Link>
+                      </button> */}
+                        </div>
+                      </div>
+
+                      {/* review popup */}
+                      {isOpen && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                          <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+                            <h2 className="text-xl font-semibold text-blue-900 mb-4">Write a Review</h2>
+
+                            {/* Text Area */}
+                            <textarea
+                              className="border rounded-lg w-full p-2 mb-4"
+                              rows="4"
+                              placeholder="Write your review..."
+                              value={reviewText}
+                              onChange={(e) => setReviewText(e.target.value)}
+                            ></textarea>
+
+                            {/* Rating Stars */}
+                            <div className="mb-4">
+                              <div className="flex">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                  <svg
+                                    key={star}
+                                    onClick={() => setRating(star)}
+                                    className={`h-6 w-6 cursor-pointer ${rating >= star ? "text-yellow-500" : "text-gray-400"
+                                      }`}
+                                    fill="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path d="M12 .587l3.668 7.568L24 9.423l-6 5.847L19.335 24 12 20.021 4.665 24l1.335-8.73L0 9.423l8.332-1.268L12 .587z" />
+                                  </svg>
+                                ))}
+                              </div>
+                              <p className="text-gray-500 text-sm mt-1">Rate this product</p>
+                            </div>
+
+                            {/* Image Upload */}
+                            <div className="mb-4">
+                              <label className="block mb-1 text-gray-700">Upload Image:</label>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                className="block w-full text-sm text-gray-900 border rounded-lg cursor-pointer bg-gray-50"
+                              />
+                            </div>
+
+                            {/* Video Upload */}
+                            <div className="mb-4">
+                              <label className="block mb-1 text-gray-700">Upload Video:</label>
+                              <input
+                                type="file"
+                                accept="video/*"
+                                onChange={handleVideoChange}
+                                className="block w-full text-sm text-gray-900 border rounded-lg cursor-pointer bg-gray-50"
+                              />
+                            </div>
+
+                            {/* Buttons */}
+                            <div className="flex justify-end space-x-2">
+                              <button
+                                className="border rounded-lg px-4 py-2 bg-red-600 text-white"
+                                onClick={() => setIsOpen(false)}
+                              >
+                                Cancel
+                              </button>
+                              <button
+                                className="bg-blue-900 text-white rounded-lg px-4 py-2"
+                                onClick={handleSubmit}
+                              >
+                                Save
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
 
 
-                </div>
+                    </div>
 
-                <div className="flex border-b">
+                    {/* <div className="flex border-b">
                   <div className="flex m-0">
                     <img
                       src={order.imageUrl}
@@ -1489,7 +1564,6 @@ function LayoutOrderList() {
                         </p>
                         <p className="my-2 text-sm">
                           Return Window closed on{" "}
-                          {/* {new Date(order.orderDate).toLocaleDateString()} */}
                           {new Date(order.orderDate).toLocaleDateString('en-US', {
                             month: '2-digit',
                             day: '2-digit',
@@ -1505,45 +1579,45 @@ function LayoutOrderList() {
                         <button className="border rounded-lg p-2 bg-blue-900 text-white w-48 shadow-md">
                           Buy it again
                         </button>
-                        {/* <button className="border rounded-lg p-2 mx-3 shadow-md w-48">
-                        <Link to={`/detailspage/${order.productId}`}>
-                          View your item
-                        </Link>
-                      </button> */}
+                      //    <button className="border rounded-lg p-2 mx-3 shadow-md w-48">
+                      //   <Link to={`/detailspage/${order.productId}`}>
+                      //     View your item
+                      //   </Link>
+                      // </button> 
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="p-2">
+                </div> */}
+                    {/* <div className="p-2 flex justify-end">
                   <button className="text-blue-900">Archive order</button>
+                </div> */}
+                  </div>
                 </div>
+
+              ))
+            ) : (
+              <div className="text-center my-4">
+                <p>No orders available</p>
               </div>
-            </div>
-                       
-          ))
-        ) : (
-          <div className="text-center my-4">
-            <p>No orders available</p>
+            )}
+
+
+
+
+
+            <Pagination
+              indexOfFirstItem={indexOfFirstItem}
+              indexOfLastItem={indexOfLastItem}
+              productList={getOrder}
+              itemsPerPage={itemsPerPage}
+              setItemsPerPage={setItemsPerPage}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
           </div>
         )}
-       
 
-
-
-
-        <Pagination
-          indexOfFirstItem={indexOfFirstItem}
-          indexOfLastItem={indexOfLastItem}
-          productList={getOrder}
-          itemsPerPage={itemsPerPage}
-          setItemsPerPage={setItemsPerPage}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-         </div>
-      )}
-
-{visibleGrid === "received" && (
+        {visibleGrid === "received" && (
           <div
           >
             {/* Your bank information grid details here */}

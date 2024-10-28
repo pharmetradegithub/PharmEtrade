@@ -287,6 +287,7 @@ import Deactivate from "../../../assets/Deactivate.png";
 import { useDispatch, useSelector } from "react-redux";
 // import { fetchSellCustomer } from "../../../Api/Dashboard";
 import { fetchGetOrderBySellerId } from "../../../Api/OrderApi";
+import Pagination from '../../Pagination'
 
 function LayoutCustomers() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -371,9 +372,17 @@ function LayoutCustomers() {
       customer.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = SellerOrder ?.slice(indexOfFirstItem, indexOfLastItem) || [];
+  const totalPages = Math.ceil((SellerOrder?.length || 0) / itemsPerPage);
+
   return (
-    <div className="bg-gray-100 w-full h-full flex items-center justify-center">
-      <div className="w-[95%] h-full mt-8">
+    <div className="bg-gray-100 w-full h-full flex overflow-y-scroll flex-col items-center justify-center">
+      <div className="w-[95%] h-full   mt-8 ">
         <div className="flex justify-between">
           <h1 className="text-[22px] text-blue-900 font-semibold">
             Marketplace Customers
@@ -409,6 +418,7 @@ function LayoutCustomers() {
           <table className="w-full">
             <thead className="bg-blue-900 text-white">
               <tr className="border-b-2">
+              <th className="px-2 py-2 text-left">S.No</th>
                 <th className="px-4 py-2 text-left">Customer Name</th>
                 <th className="px-4 py-2 text-left">Email</th>
                 <th className="px-4 py-2 text-left">Contact No</th>
@@ -418,9 +428,12 @@ function LayoutCustomers() {
               </tr>
             </thead>
             <tbody>
-              {SellerOrder.length > 0 ? (
-                SellerOrder.map((customer, i) => (
+              {currentItems?.length > 0 ? (
+                currentItems.map((customer, i) => (
                   <tr key={i} className="border-b">
+                    <td className="px-4 py-2">
+                          {indexOfFirstItem + i + 1}
+                        </td>
                     <td className="px-4 py-2">{customer.customerName}</td>
                     <td className="px-4 py-2">{customer.email}</td>
                     <td className="px-4 py-2">{customer.mobile}</td>
@@ -479,8 +492,22 @@ function LayoutCustomers() {
             </tbody>
           </table>
         </div>
+
+
+        <Pagination
+          indexOfFirstItem={indexOfFirstItem}
+          indexOfLastItem={indexOfLastItem}
+          productList={SellerOrder}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+
+       
       </div>
 
+     
       {/* Deactivate Popup */}
       {openPop && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
@@ -550,6 +577,8 @@ function LayoutCustomers() {
           </div>
         </div>
       )}
+
+
     </div>
   );
 }

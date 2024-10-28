@@ -773,6 +773,7 @@ useEffect(() => {
 
               <div className="flex justify-between py-4">
                 <div className="flex flex-col gap-3">
+                {userdata?.customerTypeId !== 4 && userdata?.customerTypeId !== 2 && userdata?.customerTypeId !== 3 && (
                   <TextField
                     label="Shop Name"
                     name="shopName" // Make sure the name is correct if it's used elsewhere
@@ -783,6 +784,8 @@ useEffect(() => {
                     size="small"
                     className="w-full" // Uncomment or modify this line as needed
                   />
+                )}
+                {userdata?.customerTypeId !== 4 &&  userdata?.customerTypeId !== 2 && userdata?.customerTypeId !== 3 && (
                   <TextField
                     label="DBA Name"
                     name="dba"
@@ -791,7 +794,8 @@ useEffect(() => {
                     disabled={!isAddressEdit}
                     value={addressData?.dba || ""}
                     size="small"
-                  />
+                  /> 
+                )}
                   <TextField
                     label="City"
                     // id="outlined-size-small"
@@ -820,6 +824,7 @@ useEffect(() => {
                     size="small"
                     // className="w-full"
                   />
+                  {userdata?.customerTypeId !== 4 && (
                   <TextField
                     label="Business Fax"
                     // id="outlined-size-small"
@@ -833,7 +838,9 @@ useEffect(() => {
 
                     size="small"
                     // className="w-full"
-                  />
+                  /> )}
+
+{userdata?.customerTypeId !== 4 && (
                   <TextField
                     label="Company Website"
                     id="outlined-size-small"
@@ -847,9 +854,11 @@ useEffect(() => {
 
                     size="small"
                     // className="w-full"
-                  />
+                  /> )}
+
                 </div>
                 <div className="flex flex-col gap-3">
+                {userdata?.customerTypeId !== 4 &&  (
                   <TextField
                     label="Legal Business Name"
                     id="outlined-size-small"
@@ -863,7 +872,7 @@ useEffect(() => {
 
                     size="small"
                     // className="w-full"
-                  />
+                  /> )}
                   <TextField
                     label="Address"
                     id="outlined-size-small"
@@ -932,6 +941,8 @@ useEffect(() => {
                     disabled={!isAddressEdit} // Disable unless in edit mode
                     inputProps={{ maxLength: 12 }} // Limit max length to 12 (including dashes)
                   /> */}
+
+{userdata?.customerTypeId !== 4 && (
                   <TextField
                     label="Business Phone"
                     id="businessPhone"
@@ -941,7 +952,8 @@ useEffect(() => {
                     disabled={!isAddressEdit}
                     size="small"
                     inputProps={{ maxLength: 12 }}
-                  />
+                  /> )}
+                  {userdata?.customerTypeId !== 4 && (
                   <TextField
                     label="Business Email"
                     id="outlined-size-small"
@@ -950,7 +962,7 @@ useEffect(() => {
                     onChange={handleAddressChange}
                     value={addressData?.businessEmail || ""}
                     size="small"
-                  />
+                  /> )}
                 </div>
 
                 <div className="flex flex-col justify-between py-2">
@@ -971,6 +983,7 @@ useEffect(() => {
                 </div>
               </div>
             </div>
+            {userdata?.customerTypeId !== 4 && (
             <div
               className={`bg-white border mx-6 ${
                 isAccountEdit ? "border-blue-900" : "border-gray-400"
@@ -1204,6 +1217,7 @@ useEffect(() => {
                 </div>
               </div>
             </div>
+            )}
 
             {/* <div className="flex justify-between bg-white border  flex-col  rounded-lg  mx-8  w-[90%] mt-4">
               <TextField

@@ -1617,7 +1617,7 @@ const LayoutProfile = () => {
               </h1>
               <div className="flex justify-between py-4">
                 <div className="flex flex-col gap-3">
-                  {userdata?.customerTypeId !== 4 && (
+                  {userdata?.customerTypeId !== 4 && userdata?.customerTypeId !== 2 && userdata?.customerTypeId !== 3 && (
                     <TextField
                       label="Shop Name"
                       id="shopName"
@@ -1628,7 +1628,7 @@ const LayoutProfile = () => {
                       size="small"
                     />
                   )}
-                  {userdata?.customerTypeId !== 4 && (
+                  {userdata?.customerTypeId !== 4 && userdata?.customerTypeId !== 3 && userdata?.customerTypeId !== 2 && (
                     <TextField
                       label="DBA Name"
                       id="dba"
