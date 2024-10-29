@@ -59,7 +59,7 @@ console.log(date)
 
   return (
     <div >
-    <h1>4 Review items and delivery</h1>
+    <h1 className='text-orange-400 font-semibold text-xl'>5 Review items and delivery</h1>
     {/* {getOrder.map((itemsdetail, index) => (
       <div  key={index}>
     <div className=" border rounded-md p-4 m-3 ">

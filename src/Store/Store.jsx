@@ -32,6 +32,22 @@ const cartSlice = createSlice({
   },
 });
 
+const ratingSlice = createSlice({
+  name: "rating",
+  initialState: { ratings: [] },
+  reducers: {
+    addRating(state, action) {
+      state.ratings.push(action.payload);
+    },
+    setRatings(state, action) {
+      state.ratings = action.payload;
+    },
+    clearRatings(state) {
+      state.ratings = [];
+    },
+  },
+});
+
 const wishlistSlice = createSlice({
   name: "wishlist",
   initialState: { wishlist: [] },
@@ -538,6 +554,7 @@ export const { setGetBeneficiary } = userSlice.actions
 export const { setGetBidsBySeller } = bidSlice.actions
 export const { deleteBanner, addBanner, editBanner, setBanner, clearBanner } = bannerSlice.actions;
 export const {setOrderDeliveryAddress} = orderSlice.actions
+export const { addRating, setRatings, clearRatings } = ratingSlice.actions;
 
 
 const store = configureStore({
@@ -559,7 +576,9 @@ const store = configureStore({
     shipment: shipmentSlice.reducer,
     tax: taxInfoSlice.reducer,
     trackNumber: trackNumberSlice.reducer,
-    adminPayment: adminPaymentSlice.reducer
+    adminPayment: adminPaymentSlice.reducer,
+    rating:ratingSlice.reducer,
+
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });

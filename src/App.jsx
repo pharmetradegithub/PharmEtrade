@@ -148,6 +148,7 @@ import GeneralMerchandiseSeller from "./Components/Admin/GeneralMerchandiseSelle
 import PharmacyDistributor from "./Components/Admin/PharmacyDistributor/PharmacyDistributor";
 import TrackingOrder from "./Components/TrackingOrder";
 import { fetchProductCategoriesGetAll } from "./Api/MasterDataApi";
+import ProccedtoShipment from "./Components/ProccedtoShipment";
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
@@ -312,6 +313,7 @@ function App() {
               <Wishlist wishItems={wishItems} setWishItems={setWishItems} />
             }
           />
+        <Route path="/proceedtoshipment" element={<ProccedtoShipment />} />
         </Route>
 
         <Route path="/checkout" element={<Address />} />

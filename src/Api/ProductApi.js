@@ -1,6 +1,8 @@
 
 import axios from 'axios';
-import store, { setSpecialOffer, setGetProductSpecialOffer, setDeactiveProduct, setDeleteProduct } from '../Store/Store';
+import store, { setSpecialOffer, setGetProductSpecialOffer, setDeactiveProduct, setDeleteProduct, addRating } from '../Store/Store';
+
+// import store, { setSpecialOffer, setGetProductSpecialOffer, setDeactiveProduct, setDeleteProduct } from '../Store/Store';
 // import store, { setGetProductSpecialOffer } from '../Store/Store';
 
 axios.defaults.baseURL = 'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/';
@@ -590,5 +592,39 @@ export const EditProductPriceApi = async (FormData, user) => {
   } catch (error) {
     console.error("There was a problem with the axios operation:", error);
     throw error;
+  }
+};
+
+
+export const fetchRatingWithProduct = async (productID) => {
+  try {
+    const response = await axios.get(`/api/Product/GetRatingWithProduct?productId=${productID}`);
+    if (response.status === 200) {
+      return response.data.result;
+    } else {
+      console.error('Failed to fetch product by ID:', response.data.message);
+    }
+  } catch (error) {
+    console.error('Error fetching product by ID:', error);
+  }
+};
+
+
+export const addRatingApi = async (ratingData) => {
+  try {
+    const response = await axios.post('/api/Product/AddRating', ratingData);
+    if (response.status === 200) {
+      const newRating = {
+        ...response.data.result,
+        // Add any additional data transformations if needed
+      };
+      
+      // Dispatch action to add the new rating to the Redux store
+      store.dispatch(addRating(newRating));
+    } else {
+      console.error('Failed to add rating:', response.data.message);
+    }
+  } catch (error) {
+    console.error('Error adding rating:', error);
   }
 };
