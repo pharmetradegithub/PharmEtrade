@@ -3541,7 +3541,7 @@ const Signup = () => {
                   onChange={(e) => {
                     const { value } = e.target;
                     // Allow only alphabets and spaces by replacing anything else
-                    const alphabeticValue = value.replace(/[^a-zA-Z\s]/g, "");
+                    const alphabeticValue = value.replace(/[^a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]/g, "");
                     handleInputChange({
                       target: {
                         name: "legalBusinessName",
@@ -3783,6 +3783,8 @@ const Signup = () => {
                 // helperText={errors.companyWebsite}
                 size="small"
                 className="w-[92%]"
+                placeholder="www.example.com" // Display example format
+
               />
             </div>
           </div>

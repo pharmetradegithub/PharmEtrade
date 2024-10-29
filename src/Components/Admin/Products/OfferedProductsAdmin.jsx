@@ -228,21 +228,42 @@ const OfferedProductsAdmin = () => {
     setDeletePop(false);
   };
 
+  
   useEffect(() => {
-    // Fetch product data from the server when 'trigger' updates
-    const fetchData = async () => {
-      try {
-        const response = await dispatch(fetchGetProductOffer(1)); // Replace with your actual fetch function
-        // setProductList(response.data); // Update the product list
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
+    if (!SearchInput.productName) {
+      // If search input is empty, fetch all products
+      const fetchGetProductOffers = async () => {
+        setLoading(true);
+        try {
+          const response = await dispatch(fetchGetProductOffer(1)); // Replace with your actual fetch function
+          // setData(response); // Set to all products
+        } catch (error) {
+          console.error("Error fetching products:", error);
+          setError(error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchGetProductOffers();
+    }
+  }, [SearchInput.productName, trigger, dispatch]);
+  // useEffect(() => {
+  //   // Fetch product data from the server when 'trigger' updates
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await dispatch(fetchGetProductOffer(1)); // Replace with your actual fetch function
+  //       // setProductList(response.data); // Update the product list
+  //     } catch (error) {
+  //       console.error("Error fetching products:", error);
+  //     }
+  //   };
 
-    fetchData();
-  }, [trigger, dispatch]); // This useEffect will run whenever 'trigger' changes
+  //   fetchData();
+  // }, [trigger, dispatch]); // This useEffect will run whenever 'trigger' changes
 
-
+  const clearSearch =()=>{
+    setSearchInput ({productName:''})
+  }
   return (
     <>
       <div className="bg-gray-100 w-full h-full flex overflow-y-scroll items-center justify-center">
@@ -321,7 +342,7 @@ const OfferedProductsAdmin = () => {
             <h1 className="text-blue-900 text-xl font-semibold my-3">
               Offered Products List
             </h1>
-            <div className="flex  mb-4">
+            <div className="flex relative mb-4">
               <input
                 className="rounded-lg p-1"
                 placeholder="Search Product..."
@@ -330,6 +351,14 @@ const OfferedProductsAdmin = () => {
                 onKeyDown={handleKeyDown}
                 value={SearchInput.productName}
               />
+              {SearchInput.productName &&(
+  <button
+  onClick={clearSearch}
+  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
+>
+  <img src={wrong} className="w-2 h-2" /> {/* This is the wrong (X) symbol */}
+</button>
+)}
               {/* <button onClick={() => handleSearchClick()}>Search</button> */}
             </div>
           </div>

@@ -1006,7 +1006,7 @@ const Payment = () => {
       {notification.show && <Notification show={notification.show} message={notification.message} />}
 
       {/* <p>Total Net Charge: {totalNetCharge ? `$${totalNetCharge}` : "N/A"}</p> */}
-      <div className="my-2 flex flex-col">
+      {/* <div className="my-2 flex flex-col">
         <div className="my-2">
 
         
@@ -1017,23 +1017,8 @@ const Payment = () => {
      
           <select id="delivery-options" value={selectedOption} onChange={handleChange}className="bg-gray-100 border rounded-md">
         <option value="" disabled className=" ">Select an option</option>
-        {/* <optgroup label="Same-day delivery">
-          <option value="sameDay">FedEx SameDay®</option>
-        </optgroup>
-        <optgroup label="Overnight delivery">
-          <option value="firstOvernight">FedEx First Overnight® (by 8 AM or 10 AM)</option>
-          <option value="priorityOvernight">FedEx Priority Overnight® (by 10:30 AM, 12 PM, or 4:30 PM)</option>
-          <option value="standardOvernight">FedEx Standard Overnight® (by 3 PM or 8 PM)</option>
-        </optgroup>
-        <optgroup label="2-day delivery">
-          <option value="twoDay">FedEx 2Day® (by 4:30 PM or 8 PM)</option>
-        </optgroup>
-        <optgroup label="3-day delivery">
-          <option value="threeDay">FedEx Express Saver® (by 4:30 PM or 8 PM)</option>
-        </optgroup> */}
+        
         <optgroup label="Delivery options">
-          {/* <option value="groundBusiness">FedEx Ground® (to businesses, Monday to Friday)</option> */}
-              {/* <option value="homeDelivery">FedEx Home Delivery® (to residences, every day)</option> */}
               {serviceName.map((item) => {
                 return (
                     <option key={item.serviceType} value={item.serviceName}>{item.serviceName}</option> 
@@ -1043,11 +1028,10 @@ const Payment = () => {
       </select>
       </div>
 
-      {/* {selectedOption && <p>You selected: {selectedOption}</p>} */}
-    </div>
+    </div> */}
 
 
-      <h2 className="text-orange-500">3 Select a payment method</h2>
+      <h2 className="text-orange-500 font-semibold">3 Select a payment method</h2>
 
       <div className="border rounded-md p-4">
 
@@ -1260,7 +1244,7 @@ const Payment = () => {
       </div>
 
       <div className="my-2 border-b">
-        <h1> 3 Offers</h1>
+        <h1> 4 Offers</h1>
       </div>
       {/* {showItemsAndDelivery &&  */}
       <ItemsAndDelivery />

@@ -3531,6 +3531,7 @@ import wrong from "../../assets/Icons/wrongred.png";
 import { fetchAddAddress, fetchDeleteAddressApi, fetchEditAddress, fetchGetByCustomerId, orderDeliveryAddress } from "../../Api/AddressApi";
 import { FedExRatesApi, serviceTypeApi } from "../../Api/TrackApi";
 // import { setAddress } from "../../Store/Store";
+import Proccedtoshipment from '../ProccedtoShipment'
 function Address({ topMargin, totalAmount }) {
   // const fetchData = useSelector((state) => state.product.Products);
   const [searchParams] = useSearchParams();
@@ -3586,7 +3587,7 @@ function Address({ topMargin, totalAmount }) {
   const handleUseAddress = async (state, pincode) => {
     setPincodes(pincode)
     setStateAdd(state)
-    setIsTotalHidden(true);
+    // setIsTotalHidden(true);
     await dispatch(orderDeliveryAddress(placeOrder.customerId, placeOrder.orderId, selectedAddressId))
 
 
@@ -4711,7 +4712,7 @@ function Address({ topMargin, totalAmount }) {
           <div className="flex flex-col">
             <div className="">
               {!isTotalHidden && (
-                <h1 className="text-orange-700 font-semibold text-lg my-2">
+                <h1 className="text-orange-400 font-semibold text-lg my-2">
                   1 Select a delivery and service address
                 </h1>
               )}
@@ -5238,107 +5239,6 @@ function Address({ topMargin, totalAmount }) {
                     )}
                     {/* </div> */}
                     <div className=" w-[30%]  mx-16  flex flex-col pt-2 items-center relative">
-                      <div className="border fixed shadow-md rounded-md p-7 py-5">
-                        <div className="flex items-center justify-center">
-                          {/* <button className="border rounded-full text-sm flex justify-center items-center w-32 h-8 bg-blue-900 text-white"  onClick={() => {
-          if (selectedAddressId) {
-            handleUseAddress(); // Proceed with navigation
-          } else {
-            alert('Please select an address before continuing.'); // Or display error message
-          }
-        }}>
-                            Use this address
-                          </button> */}
-                        </div>
-                        <div className="text-base flex items-center justify-center flex-col my-1 border-b">
-                          <p>Choose a shipping address and payment</p>
-                          <p>method to calculate shipping, handling and</p>
-                          <p>tax.</p>
-                        </div>
-                        <div>
-                          <h1 className="font-semibold text-xl my-2">
-                            Order Summary
-                          </h1>
-                        </div>
-                        <div className="flex justify-between text-sm mt-3">
-                          <p>Items :</p>
-                          <p>${total}</p>
-                        </div>
-                        <div className="flex justify-between text-sm border-b my-2">
-                          <p>Delivery :</p>
-                          <p>$0.00</p>
-                        </div>
-                        <div className="flex justify-between text-red-500 font-semibold">
-                          <p>Order Total:</p>
-                          <p>${total}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* other components start */}
-            {!isTotalHidden && (
-              <div className="w-[60%]">
-                <div className="border-b my-3">
-                  <h1>2 Payment method</h1>
-                </div>
-                <div className="border-b my-3">
-                  <h1>3 Offers</h1>
-                </div>
-                <div className="border-b my-3">
-                  <h1>4 Items and delivery</h1>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="flex justify-between w-full">
-            <div className="flex flex-col w-full">
-              {isTotalHidden && (
-                <div className="flex border-b w-full ">
-                  <div className="w-[60%]">
-                    {/* <div className=" ">  */}
-                    <div className="flex justify-between">
-                      <h1>1 Delivery address</h1>
-                      <div>
-                        {selectedAddress && (
-                          <div className="mt-4">
-                            <h2 className="font-bold">Selected Address:</h2>
-                            <p>{selectedAddress.firstName},</p>
-                            <p>{selectedAddress.address1},</p>
-                            <p>{selectedAddress.city},</p>
-                            <div className="flex">
-                              <p>{selectedAddress.state},</p>
-                              <p className="ml-2">{selectedAddress.pincode}.</p>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                      <div>
-                        <button
-                          onClick={handleOpenAddress}
-                          className="text-cyan-500"
-                        >
-                          Change
-                        </button>
-                      </div>
-                    </div>
-                    {/* </div>
-                  </div> */}
-                    <Payment />
-
-                    {/* <div>
-                      <div className="my-2 border-b">
-                        <h1> 3 Offers</h1>
-                      </div>
-
-                      <ItemsAndDelivery />
-                    </div> */}
-                  </div>
-                  <div className=" w-[30%] mx-16 flex flex-col pt-2 items-center">
                     <div className="border fixed shadow-md rounded-md p-7 py-5">
                       {/* <div className="flex items-center justify-center">
                         <button className="border rounded-full text-sm flex justify-center items-center px-4 py-2 bg-blue-900 text-white">
@@ -5376,11 +5276,123 @@ function Address({ topMargin, totalAmount }) {
                         <p>${(validTotal + validNetCharge).toFixed(2)}</p>
                       </div>
                     </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* other components start */}
+
+            {/* <div className="flex justify-between"> */}
+                      {/* <h1>1 Selected address</h1> */}
+                      <div>
+                        {selectedAddress && (
+                          <div className="mt-4 flex">
+                            <h2 className="font-bold mr-2 ">Selected Address:</h2>
+                            <p className="mr-1">{selectedAddress.firstName}, </p>
+                            <p className="mr-1">{selectedAddress.address1},</p>
+                            <p className="mr-1">{selectedAddress.city},</p>
+                            <div className="flex">
+                              <p className="mr-1">{selectedAddress.state},</p>
+                              <p className="ml-2">{selectedAddress.pincode}.</p>
+                            </div>
+                          </div>
+                         )} 
+                      </div>
+
+            {!isTotalHidden && (
+
+              <div className="">
+
+                <Proccedtoshipment/>
+                <div className="border-b my-3 w-[70%]">
+                 <Payment/>
+                </div>
+                {/* <div className="border-b my-3">
+                  <h1>3 Offers</h1>
+                </div>
+                <div className="border-b my-3">
+                  <h1>4 Items and delivery</h1>
+                </div> */}
+              </div>
+            )}
+          </div>
+
+          {/* <div className="flex justify-between w-full">
+            <div className="flex flex-col w-full">
+              {isTotalHidden && (
+                <div className="flex border-b w-full ">
+                  <div className="w-[60%]">
+                    <div className="flex justify-between">
+                      <h1>1 Delivery address</h1>
+                      <div>
+                        {selectedAddress && (
+                          <div className="mt-4">
+                            <h2 className="font-bold">Selected Address:</h2>
+                            <p>{selectedAddress.firstName},</p>
+                            <p>{selectedAddress.address1},</p>
+                            <p>{selectedAddress.city},</p>
+                            <div className="flex">
+                              <p>{selectedAddress.state},</p>
+                              <p className="ml-2">{selectedAddress.pincode}.</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        <button
+                          onClick={handleOpenAddress}
+                          className="text-cyan-500"
+                        >
+                          Change
+                        </button>
+                      </div>
+                    </div>
+                   
+                    <Payment />
+
+                   
+                  </div>
+                  <div className=" w-[30%] mx-16 flex flex-col pt-2 items-center">
+                    <div className="border fixed shadow-md rounded-md p-7 py-5">
+                 
+                      <div className="text-base flex items-center justify-center flex-col my-1 border-b">
+                        <p>Choose a payment method to continue</p>
+                        <p>checking out. You will still have a chance to</p>
+                        <p>review and edit your order before it is final.</p>
+                      </div>
+                      <div>
+                        <h1 className="font-semibold text-xl my-2">
+                          Order Summary
+                        </h1>
+                      </div>
+                      <div className="flex justify-between text-sm mt-3">
+                        <p>Items :</p>
+                        <p>${total}</p>
+                      </div>
+                      <div className="flex justify-between text-sm mt-3">
+                        <p>Shipment:</p>
+                        <p>${netCharge.toFixed(2)}</p>
+                      </div>
+                      <div className="flex justify-between text-sm mt-3">
+                        <p>Total:</p>
+                        <p>${(validTotal + validNetCharge).toFixed(2)}</p>
+                      </div>
+                      <div className="flex justify-between text-sm border-b my-2">
+                        <p>Promotion Applied :</p>
+                        <p>$0.00</p>
+                      </div>
+                      <div className="flex justify-between text-red-500 font-semibold">
+                        <p>Order Total:</p>
+                        <p>${(validTotal + validNetCharge).toFixed(2)}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -49,6 +49,8 @@ const TotalProducts = () => {
       ...SearchInput,
       [e.target.name]: e.target.value,
     });
+
+    
   };
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
@@ -212,6 +214,24 @@ const TotalProducts = () => {
     setDeletePop(false);
   };
 
+  useEffect(() => {
+    if (!SearchInput.productName) {
+      // If search input is empty, fetch all products
+      const fetchAllProducts = async () => {
+        setLoading(true);
+        try {
+          const response = await fetchAllProductsApi();
+          // setData(response); // Set to all products
+        } catch (error) {
+          console.error("Error fetching products:", error);
+          setError(error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchAllProducts();
+    }
+  }, [SearchInput.productName, trigger]);
   // useEffect(() => {
   //   // Fetch product data from the server when 'trigger' updates
   //   const fetchData = async () => {
@@ -226,24 +246,28 @@ const TotalProducts = () => {
   //   fetchData();
   // }, [trigger]); // This useEffect will run whenever 'trigger' changes
 
-  useEffect(() => {
-    // Fetch product data from the server when 'trigger' updates
-    const fetchData = async () => {
-      setLoading(true); // Set loading state before the request
+  // useEffect(() => {
+  //   // Fetch product data from the server when 'trigger' updates
+  //   const fetchData = async () => {
+  //     setLoading(true); // Set loading state before the request
   
-      try {
-        const response = await fetchAllProductsApi(); // Replace with your actual fetch function
-        // setProductList(response.data); // Update the product list
-      } catch (error) {
-        setError(error); // Handle and store error
-        console.error("Error fetching products:", error);
-      } finally {
-        setLoading(false); // Ensure loading is stopped
-      }
-    };
+  //     try {
+  //       const response = await fetchAllProductsApi(); // Replace with your actual fetch function
+  //       // setProductList(response.data); // Update the product list
+  //     } catch (error) {
+  //       setError(error); // Handle and store error
+  //       console.error("Error fetching products:", error);
+  //     } finally {
+  //       setLoading(false); // Ensure loading is stopped
+  //     }
+  //   };
   
-    fetchData();
-  }, [trigger]);
+  //   fetchData();
+  // }, [trigger]);
+
+  const clearSearch = ()=>{
+    setSearchInput ({ productName:""})
+  }
   
   return (
     <>
@@ -323,7 +347,7 @@ const TotalProducts = () => {
             <h1 className="text-blue-900 text-xl font-semibold my-3">
               Products List
             </h1>
-            <div className="flex  mb-4">
+            <div className="flex relative mb-4">
               <input
                 className="rounded-lg p-1"
                 placeholder="Search Product..."
@@ -332,12 +356,21 @@ const TotalProducts = () => {
                 onKeyDown={handleKeyDown}
                 value={SearchInput.productName}
               />
+
+{SearchInput.productName &&(
+  <button
+  onClick={clearSearch}
+  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
+>
+  <img src={wrong} className="w-2 h-2" /> {/* This is the wrong (X) symbol */}
+</button>
+)}
               {/* <button onClick={() => handleSearchClick()}>Search</button> */}
             </div>
           </div>
 
           
-          <div>
+          <div className="overflow-y-auto h-full clearfix">
           {loading && (
               <div>
                 <Loading />
