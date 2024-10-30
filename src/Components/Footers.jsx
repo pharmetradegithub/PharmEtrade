@@ -251,7 +251,7 @@ function Footers({ topMargin}) {
                   
                 </li>
                 <li>
-                <Link to="/termsandconditions" className="underline">
+                <Link to="/layoutterms" className="underline">
                     Terms & Conditions
                   </Link>
                  

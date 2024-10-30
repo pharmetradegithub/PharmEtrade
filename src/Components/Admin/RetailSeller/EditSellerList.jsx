@@ -1422,7 +1422,7 @@ export default UploadEmailButton;
                         <div className="flex gap-1">
                           <label className="font-bold"> User:</label>
                           <span>
-                            {user.firstName}&nbsp;{user.lastName}
+                            {user?.firstName}&nbsp;{user?.lastName}
                           </span>
                         </div>
                         <div className="flex gap-1">

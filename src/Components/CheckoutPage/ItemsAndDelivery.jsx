@@ -5,11 +5,12 @@ import { setGetOrder } from '../../Store/Store';
 import previous from '../../assets/Previous_icon.png'
 import next from '../../assets/Next_icon.png'
 import { useNavigate } from 'react-router-dom';
+import Pagination from '../Pagination';
 
 const ItemsAndDelivery = () => {
   const navigate = useNavigate()
 
-  const itemsPerPage = 10;
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 
   const getOrder = useSelector((state) => state.order.getById)
@@ -37,19 +38,13 @@ console.log(date)
         },
       ];
 
-      const indexOfLastItem = currentPage * itemsPerPage;
-      const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = getOrder.slice(indexOfFirstItem, indexOfLastItem);
-  const currentItems = getOrder ? getOrder.slice(indexOfFirstItem, indexOfLastItem) : [];
-      const totalPages = Math.ceil((getOrder?.length || 0) / itemsPerPage);
-    
-      const handleNextPage = () => {
-        setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-      };
-    
-      const handlePreviousPage = () => {
-        setCurrentPage((prev) => Math.max(prev - 1, 1));
-      };
+    // Pagination logic
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = (Array.isArray(getOrder) ? getOrder : []).slice(
+      indexOfFirstItem,
+      indexOfLastItem
+    );
 
       console.log("currrr", currentItems)
 
@@ -207,8 +202,16 @@ console.log(date)
       ))}
     </div>
 
-
-    <div className="flex justify-end my-2">
+    <Pagination
+            indexOfFirstItem={indexOfFirstItem}
+            indexOfLastItem={indexOfLastItem}
+            productList={getOrder}
+            itemsPerPage={itemsPerPage}
+            setItemsPerPage={setItemsPerPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+    {/* <div className="flex justify-end my-2">
           <button
             onClick={handlePreviousPage}
             disabled={currentPage === 1}
@@ -226,7 +229,7 @@ console.log(date)
           >
             <img src={next} className="w-2" alt="Next Page" />
           </button>
-        </div>
+        </div> */}
   </div>
   )
 }

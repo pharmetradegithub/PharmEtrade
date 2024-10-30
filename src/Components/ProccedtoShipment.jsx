@@ -5,7 +5,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FedExRatesApi, serviceTypeApi } from "../Api/TrackApi";
 
-const ProccedtoShipment = () => {
+const ProccedtoShipment = ({selectedOptions,setSelectedOptions,totalNetCharges,setTotalNetCharges}) => {
   const fedexRate = useSelector((state) => state.trackNumber.fedExRates);
   console.log("fedddddrate-->", fedexRate);
   const serviceName = useSelector((state) => state.trackNumber.serviceType);
@@ -97,13 +97,13 @@ const ProccedtoShipment = () => {
 
   // const [selectedOption, setSelectedOption] = useState("");
   // const [totalNetCharge, setTotalNetCharge] = useState(null) || 0; // Store totalNetCharge
-  const [selectedOptions, setSelectedOptions] = useState({
-    seller: ""
-  });
+  // const [selectedOptions, setSelectedOptions] = useState({
+  //   seller: ""
+  // });
   
-  const [totalNetCharges, setTotalNetCharges] = useState({
-    seller: 0
-  });
+  // const [totalNetCharges, setTotalNetCharges] = useState({
+  //   seller: 0
+  // });
   const [searchParams] = useSearchParams();
   const total = searchParams.get("total");
   const normalizeString = (str) =>
@@ -197,7 +197,7 @@ const ProccedtoShipment = () => {
   return (
     <div className="w-full h-full  p-4 ">
       <h1 className="text-xl font-semibold text-orange-400">
-        2. Select Shipment
+        2. Select shipment
       </h1>
       <div className="flex w-full">
         <div className="w-[70%]">
