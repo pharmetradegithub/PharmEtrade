@@ -1033,7 +1033,7 @@ const Payment = () => {
 
       <h2 className="text-orange-500 font-semibold">3 Select a payment method</h2>
 
-      <div className="border rounded-md p-4">
+      <div className="border rounded-md p-4 mx-4">
 
 
         <div>

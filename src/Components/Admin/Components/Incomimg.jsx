@@ -229,29 +229,71 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
 
         <div className="border text-[15px] rounded-md bg-white mt-4">
           <table className="w-full">
-          <thead className="bg-blue-900 text-white">
+          <thead className="bg-blue-900 text-white ">
         <tr className="border-b-2">
           <th className="px-4 py-2 text-left">S.NO</th>
-          <th className="px-4 py-2 text-left" onClick={() => handleSort('invoiceNumber')}>
-            Invoice Number {sortConfig.key === 'invoiceNumber' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+          <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('invoiceNumber')}>
+            Invoice Number 
+            {/* {sortConfig.key === "invoiceNumber"
+                        ? sortConfig.direction === "ascending"
+                          ? "▲"
+                          : "▼"
+                        : "▲"} */}
+            {/* {sortConfig.key === 'invoiceNumber' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} */}
           </th>
-          <th className="px-4 py-2 text-left" onClick={() => handleSort('purchaseDate')}>
-            Invoice Date {sortConfig.key === 'purchaseDate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+          <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('purchaseDate')}>
+            Invoice Date
+            {sortConfig.key === "purchaseDate"
+                        ? sortConfig.direction === "ascending"
+                          ? "▲"
+                          : "▼"
+                        : "▲"}
+             {/* {sortConfig.key === 'purchaseDate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} */}
           </th>
-          <th className="px-4 py-2 text-left" onClick={() => handleSort('paymentDate')}>
-            From User {sortConfig.key === 'paymentDate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+          <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('paymentDate')}>
+            From User
+            {sortConfig.key === "paymentDate"
+                        ? sortConfig.direction === "ascending"
+                          ? "▲"
+                          : "▼"
+                        : "▲"}
+             {/* {sortConfig.key === 'paymentDate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} */}
           </th>
-          <th className="px-4 py-2 text-left" onClick={() => handleSort('transactionid')}>
-            Transaction Id {sortConfig.key === 'transactionid' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+          <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('transactionid')}>
+            Transaction Id 
+            {sortConfig.key === "transactionid"
+                        ? sortConfig.direction === "ascending"
+                          ? "▲"
+                          : "▼"
+                        : "▲"}
+            {/* {sortConfig.key === 'transactionid' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} */}
           </th>
-          <th className="px-4 py-2 text-left" onClick={() => handleSort('transactionDate')}>
-            Transaction Date {sortConfig.key === 'transactionDate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+          <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('transactionDate')}>
+            Transaction Date 
+            {sortConfig.key === "transactionDate"
+                        ? sortConfig.direction === "ascending"
+                          ? "▲"
+                          : "▼"
+                        : "▲"}
+            {/* {sortConfig.key === 'transactionDate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} */}
           </th>
-          <th className="px-4 py-2 text-left" onClick={() => handleSort('paymentAmount')}>
-            Transaction Amount {sortConfig.key === 'paymentAmount' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+          <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('paymentAmount')}>
+            Transaction Amount 
+            {sortConfig.key === "paymentAmount"
+                        ? sortConfig.direction === "ascending"
+                          ? "▲"
+                          : "▼"
+                        : "▲"}
+            {/* {sortConfig.key === 'paymentAmount' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} */}
           </th>
-          <th className="px-4 py-2 text-left" onClick={() => handleSort('paymentStatus')}>
-            Payment mode {sortConfig.key === 'paymentStatus' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
+          <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('paymentStatus')}>
+            Payment mode 
+            {sortConfig.key === "paymentStatus"
+                        ? sortConfig.direction === "ascending"
+                          ? "▲"
+                          : "▼"
+                        : "▲"}
+            {/* {sortConfig.key === 'paymentStatus' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} */}
           </th>
           <th className="px-4 py-2 text-left">Action</th>
         </tr>

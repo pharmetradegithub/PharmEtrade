@@ -149,6 +149,7 @@ import PharmacyDistributor from "./Components/Admin/PharmacyDistributor/Pharmacy
 import TrackingOrder from "./Components/TrackingOrder";
 import { fetchProductCategoriesGetAll } from "./Api/MasterDataApi";
 import ProccedtoShipment from "./Components/ProccedtoShipment";
+import LayoutTerms from "./Components/LayoutTerms";
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
@@ -303,6 +304,8 @@ function App() {
           <Route path="/aboutus" element={<AboutUs />} />{" "}
           {/* <Route path="/contactus" element={<Contactus />} /> */}
           <Route path="/requestdemo" element={<RequestDemo />} />
+          <Route path="/layoutterms" element={<LayoutTerms />} />
+
           {/* <Route
             path="/offers"
             element={<Offers addCart={addCart} wishList={wishList} />}
