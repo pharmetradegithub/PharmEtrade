@@ -95,18 +95,27 @@ const ProccedtoShipment = () => {
     // }
   }, []);
 
-  const [selectedOption, setSelectedOption] = useState("");
-  const [totalNetCharge, setTotalNetCharge] = useState(null) || 0; // Store totalNetCharge
+  // const [selectedOption, setSelectedOption] = useState("");
+  // const [totalNetCharge, setTotalNetCharge] = useState(null) || 0; // Store totalNetCharge
+  const [selectedOptions, setSelectedOptions] = useState({
+    seller: ""
+  });
+  
+  const [totalNetCharges, setTotalNetCharges] = useState({
+    seller: 0
+  });
   const [searchParams] = useSearchParams();
   const total = searchParams.get("total");
   const normalizeString = (str) =>
     str.replace(/\s+/g, " ").trim().toLowerCase();
   const removeNonPrintableChars = (str) => str.replace(/[^\x20-\x7E]/g, "");
 
-  const handleChange = (e) => {
+  const handleChange = (seller,e) => {
     const selectedServiceType = e.target.value;
-    setSelectedOption(selectedServiceType);
-
+    setSelectedOptions(prevOptions => ({
+      ...prevOptions,
+      [seller]: selectedServiceType
+    }));
     console.log("Selected service type:", selectedServiceType);
     console.log("FedEx rates:", JSON.stringify(fedexRate, null, 2));
 
@@ -139,7 +148,10 @@ const ProccedtoShipment = () => {
         const netCharge = matchingRateDetails.reduce((total, rate) => {
           return total + (rate?.ratedShipmentDetails[0]?.totalNetCharge || 0);
         }, 0);
-        setTotalNetCharge(netCharge);
+        setTotalNetCharges(prevCharges => ({
+          ...prevCharges,
+          [seller]: netCharge
+        }));        
         console.log("Total Net Charge for matching services:", netCharge);
 
         // Next condition check can go here
@@ -160,15 +172,26 @@ const ProccedtoShipment = () => {
         }
       } else {
         console.log("No matching service type found.");
-        setTotalNetCharge(null);
+        setTotalNetCharges(prevCharges => ({
+          ...prevCharges,
+          [seller]: null
+        }));      
       }
     } else {
       console.log("fedexRate is not available or empty.");
-      setTotalNetCharge(null);
-    }
+      setTotalNetCharges(prevCharges => ({
+        ...prevCharges,
+        [seller]: null
+      }));    }
   };
 
   const calculateSubtotal = (price, quantity) => price * quantity;
+  const groupedProducts = cartList.reduce((acc, item) => {
+    const seller = item.product.sellerName;
+    if (!acc[seller]) acc[seller] = [];
+    acc[seller].push(item);
+    return acc;
+  }, {});
 
 
   return (
@@ -178,8 +201,11 @@ const ProccedtoShipment = () => {
       </h1>
       <div className="flex w-full">
         <div className="w-[70%]">
-          {cartList.map((tabledetail) => (
-            <div>
+          {Object.entries(groupedProducts).map(([seller, products]) => (
+
+          <div key={seller}>
+              <h2 className="font-bold text-lg mt-4">Seller: {seller}</h2>
+
               <div className="border p-4 my-4 rounded-md shadow-lg bg-white">
                 <table className="min-w-full border shadow-md rounded-lg">
                   <thead>
@@ -207,9 +233,11 @@ const ProccedtoShipment = () => {
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
+                  {products.map((tabledetail) => (
+
+                  <tbody key={tabledetail.product.id}>
                     <tr className="text-sm">
-                      <td className="text-center">{tabledetail.sellername}</td>
+                      <td className="text-center">{tabledetail.product.sellerName}</td>
                       <td><img
                             className="h-16 w-16 rounded-lg"
                             src={tabledetail.product.imageUrl}
@@ -246,6 +274,8 @@ const ProccedtoShipment = () => {
                       </td>
                     </tr>
                   </tbody>
+                   ))}
+
                 </table>
 
                 <div className="h-auto p-3 border  flex  rounded-md mt-3  ">
@@ -255,8 +285,8 @@ const ProccedtoShipment = () => {
                   <div className="mx-5">
                     <select
                       id="delivery-options"
-                      value={selectedOption}
-                      onChange={handleChange}
+                      value={selectedOptions[seller]}
+                      onChange={(e) => handleChange(seller, e)}
                       className="bg-gray-100 border rounded-md"
                     >
                       <option value="" disabled className=" ">
@@ -285,7 +315,7 @@ const ProccedtoShipment = () => {
                       label="amount"
                       size="small"
                       className="w-40 rounded-md h-4 border "
-                      value={(totalNetCharge || 0).toFixed(2)}
+                      value={(totalNetCharges[seller] || 0).toFixed(2)}
                       onChange={(e) =>
                         setAmount(parseFloat(e.target.value) || 0)
                       }
@@ -298,6 +328,7 @@ const ProccedtoShipment = () => {
                   </div>
                 </div>
               </div>
+              {/* // ))} */}
             </div>
           ))}
         </div>
