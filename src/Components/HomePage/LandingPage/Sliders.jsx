@@ -184,7 +184,9 @@ function Sliders({wishList,addCart}) {
           <div className="w-[48%]">
             <ProductSection
              addCart={addCart} wishList={wishList}
-              products={RXProducts.slice(0, 3)}
+              // products={RXProducts.slice(0, 3)}
+              products={Array.isArray(RXProducts) ? RXProducts.slice(0, 3) : []}
+
               heading="Rx Items"
               // path={`/products?header=${"Rx Items"}`}
               path={"/allProducts/RxProducts"}
@@ -193,7 +195,9 @@ function Sliders({wishList,addCart}) {
           <div className="w-[48%]">
             <ProductSection
              addCart={addCart} wishList={wishList}
-              products={OTCProducts.slice(0, 3)}
+              // products={OTCProducts.slice(0, 3)}
+              products={Array.isArray(OTCProducts) ? OTCProducts.slice(0, 3) : []}
+
               heading="OTC Items"
               // path={`/products?header=${"OTC Items"}`}
               path={"/allProducts/OtcProducts"}
