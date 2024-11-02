@@ -1,11 +1,12 @@
 
-import axios from 'axios';
+// import axios from 'axios';
+import axios from './api'; 
 import store, { setSpecialOffer, setGetProductSpecialOffer, setDeactiveProduct, setDeleteProduct, addRating } from '../Store/Store';
 
 // import store, { setSpecialOffer, setGetProductSpecialOffer, setDeactiveProduct, setDeleteProduct } from '../Store/Store';
 // import store, { setGetProductSpecialOffer } from '../Store/Store';
 
-axios.defaults.baseURL = 'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/';
+// axios.defaults.baseURL = 'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/';
 
 const SET_PRODUCTS = 'product/setProducts';
 const SET_PRODUCT_BY_ID = 'product/setProductById';

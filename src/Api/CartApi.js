@@ -1,7 +1,7 @@
-import axios from 'axios';
 import store from '../Store/Store';
+import axios from './api'; 
 
-axios.defaults.baseURL = 'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/';
+
 
 export const getCartItemsApi = async (customerId) => {
     try {

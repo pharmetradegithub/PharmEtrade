@@ -1,6 +1,5 @@
-import axios from "axios"
+import axios from './api'; 
 import {setCustomerDashboardId, setCustomerOrder, setSellCustomer, setSellerDashboardId, setTotalProductDashboard } from '../Store/Store'
-axios.defaults.baseURL = 'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/';
 
 export const fetchSellerDashboard = (customerId) => {
   return async (dispatch) => {

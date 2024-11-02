@@ -1,8 +1,7 @@
 
-import axios from 'axios';
+import axios from './api'; 
 import store from '../Store/Store';
 
-axios.defaults.baseURL = 'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/';
 
 
 // Action types for banner
