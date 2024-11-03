@@ -17,6 +17,7 @@ import previous from "../../../../assets/Previous_icon.png";
 import {
   DeleteProductAPI,
   fetchDeactiveProduct,
+  fetchProductsBySellerApi,
 } from "../../../../Api/ProductApi";
 import Notification from "../../../Notification";
 import Pagination from "../../../Pagination";
@@ -124,30 +125,15 @@ const LayoutPostingProducts = () => {
 
       try {
         if (listed && user?.customerId) {
-          const productPromise = fetch(
-            `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Product/GetBySeller?sellerId=${user?.customerId}`
-          ).then((res) => {
-            if (!res.ok) throw new Error("Network response was not ok");
-            return res.json();
-          });
-
-          const dashboardPromise = dispatch(
-            fetchSellerDashboard(user?.customerId)
-          );
-
-          // Wait for both to resolve
-          const [productData] = await Promise.all([
-            productPromise,
-            dashboardPromise,
-          ]);
-
+          const productPromise = await fetchProductsBySellerApi(user?.customerId);
           // Sort products by createdDate (or the relevant date property)
-          const sortedProducts = productData.result.sort((a, b) => {
-            return new Date(b.createdDate) - new Date(a.createdDate); // Adjust 'createdDate' to your actual date property
-          });
+          // const sortedProducts = productPromise.sort((a, b) => {
+          //   return new Date(b.createdDate) - new Date(a.createdDate); // Adjust 'createdDate' to your actual date property
+          // });
 
           // Set product data
-          setProducts(sortedProducts);
+          setProducts(productPromise);
+          // console.log("sorted",sortedProducts);
         }
       } catch (error) {
         setError(error); // Handle and store error

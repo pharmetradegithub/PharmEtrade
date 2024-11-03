@@ -367,6 +367,7 @@ export const fetchProductsBySellerApi = async (sellerId) => {
     if (response.status === 200) {
       console.log(response);
       store.dispatch({ type: SET_PRODUCTS_BY_SELLER, payload: { sellerId, products: response.data.result } });
+      return response.data.result;
     } else {
       console.error('Failed to fetch products by seller:', response.data.message);
     }

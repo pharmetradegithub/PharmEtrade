@@ -136,7 +136,7 @@ function LayoutaddProduct() {
     Width: 0,
     states: [],
     shippingCostApplicable: false,
-    shippingCost:0,
+    shippingCost: 0,
     isReturnable: "",
     upnMemberPrice: 0,
     salePrice: 0,
@@ -218,7 +218,7 @@ function LayoutaddProduct() {
       packQuantity: product.packQuantity,
       packType: product.packType,
       packCondition: {
-        tornLabel: true,
+        tornLabel: product.packCondition=="torn",
         otherCondition: "",
       },
       imageUrl: product?.productGallery?.imageUrl,
@@ -249,7 +249,7 @@ function LayoutaddProduct() {
           : product.productGallery.thumbnail6,
     });
   };
-  
+
   const searchParams = new URLSearchParams(location.search);
   const queryProductId = searchParams.get("productId");
   const ResetFormDate = () => {
@@ -606,11 +606,11 @@ function LayoutaddProduct() {
           shippingCostApplicable: isShippingCostApplicable,
           shippingCost: isShippingCostApplicable ? 20 : 0, // Set shipping cost based on selection
         }));
-      //   setFormData((prevData) => ({
-      //     ...prevData,
-      //     [name]: value === "1" ? true : false, // Set to true for "1" (Yes), false for "0" (No)
-      //   }));
-       }
+        //   setFormData((prevData) => ({
+        //     ...prevData,
+        //     [name]: value === "1" ? true : false, // Set to true for "1" (Yes), false for "0" (No)
+        //   }));
+      }
       if (name === "isReturnable") {
         setFormData((prevData) => ({
           ...prevData,
@@ -887,7 +887,7 @@ function LayoutaddProduct() {
       productGalleryId: productGalleryId == null ? "string" : productGalleryId,
       productId: queryProductId != null ? queryProductId : productId,
       caption: "Caption",
-      imageUrl: imageUrl==null? defaultImageUrl:imageUrl,
+      imageUrl: imageUrl == null ? defaultImageUrl : imageUrl,
       thumbnail1: thumbnail1,
       thumbnail2: thumbnail2,
       thumbnail3: thumbnail3,
@@ -947,9 +947,14 @@ function LayoutaddProduct() {
 
         const response = await AddProductGallery(tab4, user.customerId);
         localStorage.setItem("productGalleryId", response);
-        localStorage.removeItem("productPriceId");
-        localStorage.removeItem("productGalleryId");
-        localStorage.removeItem("productId");
+        if(queryProductId==null)
+        {
+          localStorage.removeItem("productPriceId");
+          localStorage.removeItem("productGalleryId");
+          localStorage.removeItem("productId");
+
+        }
+
 
         console.log("Product Data", response);
         setNotification({
@@ -1871,7 +1876,6 @@ function LayoutaddProduct() {
                           e.preventDefault(); // Prevent any other keypresses
                         }
                       }}
-                     
                       value={
                         formData.salePrice
                           ? Number(formData.salePrice).toFixed(2) // Ensure the value is always formatted with 2 decimal places
@@ -1935,7 +1939,6 @@ function LayoutaddProduct() {
                           e.preventDefault(); // Prevent any other keypresses
                         }
                       }}
-                     
                     />
 
                     {formErrors.salePriceForm && (
@@ -2020,7 +2023,6 @@ function LayoutaddProduct() {
                             e.preventDefault(); // Prevent any other keypresses
                           }
                         }}
-                       
                       />
                       {formErrors.salePriceTo && (
                         <span className="text-red-500 text-sm">
@@ -2110,7 +2112,8 @@ function LayoutaddProduct() {
                         : formData.maxOrderQuantity
                     }
                   />
-                  {formData.maxOrderQuantity > formData.amountInStock && (
+                  {parseInt(formData.maxOrderQuantity, 10) >
+                    parseInt(formData.amountInStock, 10) && (
                     <span className="text-red-600 text-sm mt-1">
                       You need to select a quantity below the product in stock.
                     </span>
