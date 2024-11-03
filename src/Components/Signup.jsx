@@ -2249,10 +2249,6 @@ const Signup = () => {
     "Retail Customer",
   ];
 
-  const handleUserTypeChange = (e) => {
-    setUserType(e.target.value);
-    setSelectedValue(""); // Reset UPN Member selection on User Type change
-  };
 
 
 
@@ -2346,6 +2342,12 @@ const Signup = () => {
     sendRegistrationMail: true
     // customerId: "",
   });
+  
+  const handleUserTypeChange = (e) => {
+    setFormData({...formData,["customerTypeId"]:e.target.value})
+    setUserType(e.target.value);
+    setSelectedValue(""); // Reset UPN Member selection on User Type change
+  };
   const [errors, setErrors] = useState({});
   const steps = getSteps();
   const [uploadedFile, setUploadedFile] = useState("");
@@ -3326,114 +3328,6 @@ const Signup = () => {
         );
       case 1:
         return (
-          // <div>
-          //   <div className="p-4">
-          //     <div className="mb-4">
-          //       <label
-          //         className=" flex gap-2 text-gray-700 text-sm font-bold mb-2"
-          //         htmlFor="userType"
-          //       >
-          //         User Type
-          //         <div className="text-red-400">
-          //           {errors.userType && <div>{errors.userType}</div>}
-          //         </div>
-          //       </label>
-          //       <select
-          //         id="userType"
-          //         value={userType}
-          //         onChange={handleUserTypeChange}
-          //         className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          //       >
-          //         <option value="">Select User Type</option>
-          //         {userTypes.map((type, index) => (
-          //           <option key={type} value={type}>
-          //             {type}
-          //           </option>
-          //         ))}
-          //       </select>
-          //     </div>
-
-          //     <div className="mb-4  ">
-          //       <label className=" flex gap-2 text-gray-700 text-sm font-bold mb-2">
-          //         Account Type
-          //         <div className="text-red-400">
-          //           {errors.accountType && <div>{errors.accountType}</div>}
-          //         </div>
-          //       </label>
-          //       {getAccountTypes().map((type) => (
-          //         <div key={type} className="flex ml-4 items-center mb-2">
-          //           <input
-          //             type="radio"
-          //             id={type}
-          //             name="accountType"
-          //             value={type}
-          //             checked={accountType === type}
-          //             onChange={(e) =>
-          //               setAccountType(e.target.value) &&
-          //               handleusertypechange(e.target.value)
-          //             }
-          //             className="mr-2 leading-tight flex"
-          //           />
-          //           <label htmlFor={type} className="text-gray-700">
-          //             {type}
-          //           </label>
-          //         </div>
-          //       ))}
-          //     </div>
-
-          //     {/* <div className={${userType === "Pharmacy Distributor" ? "" :""}}>
-          //     <input type="checkbox" className="mr-2 leading-tight ml-4" />
-          //     <label className= "text-gray-700 "> Are you a UPN Member</label>
-          //   </div> */}
-
-          //     <div
-          //       className={`${
-          //         userType === "General Merchandise Seller"
-          //           ? " opacity-50 pointer-events-none"
-          //           : ""
-          //       } flex items-center`}
-          //     >
-          //       <label className="text-gray-700">
-          //         <span className="text-red-500">*</span>Are you a UPN Member
-          //       </label>
-          //       <Box sx={{ display: "flex", gap: 2 }}>
-          //         <div>
-          //           <Radio
-          //             checked={selectedValue === "a"}
-          //             onChange={handleChange}
-          //             value="a"
-          //             name="radio-buttons"
-          //             size="small"
-          //             slotProps={{ input: { "aria-label": "A" } }}
-          //           />
-          //           <span>YES</span>
-          //         </div>
-          //         <div>
-          //           <Radio
-          //             checked={selectedValue === "b"}
-          //             onChange={handleChange}
-          //             value="b"
-          //             name="radio-buttons"
-          //             size="small"
-          //             slotProps={{ input: { "aria-label": "B" } }}
-          //           />
-          //           <span>NO</span>
-          //         </div>
-          //       </Box>
-          //     </div>
-          //     <span>
-          //       {errors.upnMember && (
-          //         <span
-          //           className={`${
-          //             userType === "General Merchandise Seller" ? " hidden" : ""
-          //           } text-red-500`}
-          //         >
-          //           {errors.upnMember}
-          //         </span>
-          //       )}
-          //     </span>
-          //   </div>
-          // </div>
 
           <div>
             <div className="p-4">
@@ -3455,8 +3349,8 @@ const Signup = () => {
                   className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 >
                   <option value="">Select User Type</option>
-                  {userTypes.map((type) => (
-                    <option key={type} value={type}>
+                  {userTypes.map((type,index) => (
+                    <option key={type} value={index}>
                       {type}
                     </option>
                   ))}

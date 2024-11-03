@@ -3,8 +3,12 @@ import trash from "../../../assets/trash.png";
 import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import edit from "../../../assets/Edit.png";
-import { deleteBannerApi } from "../../../Api/BannerApi";
-import { deleteBanner } from '../../../Store/Store';
+import {
+  addBannerApi,
+  deleteBannerApi,
+  uploadCustomerImageApi,
+} from "../../../Api/BannerApi";
+import { deleteBanner } from "../../../Store/Store";
 
 const AdminBanners = () => {
   const [banners, setBanners] = useState([]);
@@ -12,9 +16,9 @@ const AdminBanners = () => {
   const [editingIndex, setEditingIndex] = useState(null);
   const [editBanner, setEditBanner] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [fileName, setFileName] = useState('');
+  const [fileName, setFileName] = useState("");
   const [bannerImage, setBannerImage] = useState(null); // State to store the uploaded image
-  const [isDragOver, setIsDragOver] = useState(false); 
+  const [isDragOver, setIsDragOver] = useState(false);
   const MAX_WIDTH = 7680;
   const MAX_HEIGHT = 2200;
 
@@ -30,44 +34,64 @@ const AdminBanners = () => {
             `Please upload a banner with dimensions less than or equal to ${MAX_WIDTH}px width and ${MAX_HEIGHT}px height.`
           );
         } else {
-          // If valid, clear error and add banner
+          // Clear error and add the file itself if valid
           setErrorMessage(null);
-          setNewBanners((prevBanners) => [...prevBanners, img.src]);
+          setNewBanners((prevBanners) => [...prevBanners, file]);
         }
       };
     });
   };
 
+  const handleDrop = (event) => {
+    event.preventDefault(); // Prevent default behavior (Prevent file from being opened)
+    const file = event.dataTransfer.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file); // Create a URL for the dropped image
+      setBannerImage(imageUrl); // Set the image URL for display
+      // Add any further processing logic here (e.g., uploading the file)
+    }
+    setIsDragOver(false); // Reset drag state after drop
+  };
 
- 
-  
-    const handleDrop = (event) => {
-      event.preventDefault(); // Prevent default behavior (Prevent file from being opened)
-      const file = event.dataTransfer.files[0];
-      if (file) {
-        const imageUrl = URL.createObjectURL(file); // Create a URL for the dropped image
-        setBannerImage(imageUrl); // Set the image URL for display
-        // Add any further processing logic here (e.g., uploading the file)
-      }
-      setIsDragOver(false); // Reset drag state after drop
-    };
-  
-    const handleDragOver = (event) => {
-      event.preventDefault(); // Prevent default behavior to allow dropping
-      setIsDragOver(true); // Set drag state to true
-    };
-  
-    const handleDragLeave = () => {
-      setIsDragOver(false); // Reset drag state when the file leaves the drop area
-    };
+  const handleDragOver = (event) => {
+    event.preventDefault(); // Prevent default behavior to allow dropping
+    setIsDragOver(true); // Set drag state to true
+  };
+
+  const handleDragLeave = () => {
+    setIsDragOver(false); // Reset drag state when the file leaves the drop area
+  };
   // Handle adding new banners
-  const handleAddBanners = () => {
+  const handleAddBanners = async () => {
     if (newBanners.length > 0) {
-      setBanners((prevBanners) => [...prevBanners, ...newBanners]);
+      // setBanners((prevBanners) => [...prevBanners, ...newBanners]);
+
+      // Upload each file in newBanners
+      newBanners.forEach(async (banner) => {
+        const formData = new FormData();
+        formData.append("image", banner); // Append the file to FormData
+
+        try {
+          const imageUrl = await uploadCustomerImageApi(formData);
+          const bannerObj = {
+            bannerId: 0,
+            imageUrl: imageUrl,
+            bannerText: "string",
+            orderSequence: 0,
+            uploadedOn: "2024-11-03T18:15:55.037Z",
+            isActive: 1,
+          };
+          const response = await addBannerApi(bannerObj);
+        } catch (error) {
+          console.error("Error uploading banner:", error);
+        }
+      });
+
       setNewBanners([]); // Clear the newBanners after adding
     }
   };
 
+  console.log(banners, "banners");
   // Handle editing banner
   const handleEditBanner = (index) => {
     setEditingIndex(index);
@@ -122,13 +146,9 @@ const AdminBanners = () => {
       await deleteBannerApi(bannerId); // Call the API to delete the banner
       dispatch(deleteBanner(bannerId)); // Update the Redux store after successful deletion
     } catch (error) {
-      console.error('Error deleting banner:', error);
+      console.error("Error deleting banner:", error);
     }
   };
-  
-  
-   
-  
 
   return (
     <div className="p-6 bg-gray-100 overflow-y-scroll">
@@ -138,11 +158,13 @@ const AdminBanners = () => {
           (Banner Size Should be in Width: 7680px , Height: 2200px ,
           Resolution:300)
         </p> */}
-
         <p className="flex text-lg mt-2 ml-2 items-center justify-center">
           (
-          <p className="text-lg   text-red-500"> Banner Size Should be in Width: 7680px , Height: 2200px ,
-            Resolution:300 </p>
+          <p className="text-lg   text-red-500">
+            {" "}
+            Banner Size Should be in Width: 7680px , Height: 2200px ,
+            Resolution:300{" "}
+          </p>
           )
         </p>
       </h1>
@@ -170,13 +192,13 @@ const AdminBanners = () => {
           {newBanners.map((banner, index) => (
             <div key={index} className="relative">
               <img
-                src={banner}
+                src={URL.createObjectURL(banner)} // Convert file to URL for display
                 alt={`New Banner ${index + 1}`}
                 className="w-full h-40 object-cover"
               />
-                <button
+              <button
                 onClick={() => handleRemoveNewBanner(index)}
-                className="absolute top-2 right-2  p-1 rounded-full"
+                className="absolute top-2 right-2 p-1 rounded-full"
               >
                 <img src={trash} alt="Remove" className="w-5 h-5" />
               </button>
@@ -209,8 +231,7 @@ const AdminBanners = () => {
                         <img src={edit} className="w-8 h-8" />
                       </button>
                       <button
-                      onClick={() => handleDelete(item.bannerId)}
-
+                        onClick={() => handleDelete(item.bannerId)}
                         // onClick={() => handleDeleteBanner(index)}
                         className="bg-white text-white px-4 py-2 rounded"
                       >
@@ -244,32 +265,32 @@ const AdminBanners = () => {
               </p>
             </div> */}
 
-<div
-      className={`relative w-96 p-4 border-2 rounded-lg cursor-pointer hover:border-gray-400 ${
-        isDragOver ? 'border-blue-500' : 'border-dashed border-gray-300' // Change border color if dragging
-      }`}
-      onDragOver={handleDragOver}
-      onDrop={handleDrop}
-      onDragLeave={handleDragLeave}
-    >
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleEditBannerChange}
-        className="absolute inset-0 opacity-0 cursor-pointer"
-      />
-      {bannerImage ? ( // Conditionally render the image if it exists
-        <img
-          src={bannerImage}
-          alt="Banner Preview"
-          className="w-full h-auto rounded-lg object-cover" // Add styling for the image
-        />
-      ) : (
-        <p className="text-gray-500 text-center">
-          Click here or drag and drop images
-        </p>
-      )}
-    </div>
+            <div
+              className={`relative w-96 p-4 border-2 rounded-lg cursor-pointer hover:border-gray-400 ${
+                isDragOver ? "border-blue-500" : "border-dashed border-gray-300" // Change border color if dragging
+              }`}
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+              onDragLeave={handleDragLeave}
+            >
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleEditBannerChange}
+                className="absolute inset-0 opacity-0 cursor-pointer"
+              />
+              {bannerImage ? ( // Conditionally render the image if it exists
+                <img
+                  src={bannerImage}
+                  alt="Banner Preview"
+                  className="w-full h-auto rounded-lg object-cover" // Add styling for the image
+                />
+              ) : (
+                <p className="text-gray-500 text-center">
+                  Click here or drag and drop images
+                </p>
+              )}
+            </div>
             {editBanner && (
               <img
                 src={editBanner}
@@ -296,4 +317,4 @@ const AdminBanners = () => {
   );
 };
 
-export default AdminBanners
+export default AdminBanners;
