@@ -38,7 +38,20 @@ import { fetchAddAddress, fetchDeleteAddressApi, fetchEditAddress, fetchGetByCus
 import { FedExRatesApi, serviceTypeApi } from "../../Api/TrackApi";
 // import { setAddress } from "../../Store/Store";
 import Proccedtoshipment from '../ProccedtoShipment'
+import SquarePaymentForm from "../SquarePaymentForm";
 function Address({ topMargin, totalAmount }) {
+
+  const applicationId = 'sandbox-sq0idb-vXdVdM6tMjTG6Zi2XCoE-A';
+  const locationId = 'L0599WY5GGG3W';
+  const Payment_Amnount = 500;
+  const handlePaymentSuccess = (token, amount) => {
+    console.log("Payment Successful, Token:", token);
+    console.log("Payment Successful, amount:", amount);
+  };
+
+  const handlePaymentError = (error) => {
+    console.error("Payment Error:", error);
+  };
 
   const [selectedOptions, setSelectedOptions] = useState({
     seller: ""
@@ -1826,7 +1839,13 @@ function Address({ topMargin, totalAmount }) {
 
                 <Proccedtoshipment selectedOptions = {selectedOptions} setSelectedOptions = {setSelectedOptions} totalNetCharges = {totalNetCharges} setTotalNetCharges = {setTotalNetCharges} />
                 <div className="border-b my-3 w-[70%]">
-                 <Payment/>
+                  {/* <Payment /> */}
+                  <SquarePaymentForm
+                    applicationId={applicationId}
+                    locationId={locationId} amount={Payment_Amnount}
+                    onPaymentSuccess={handlePaymentSuccess}
+                    onPaymentError={handlePaymentError}
+                  />
                 </div>
                 {/* <div className="border-b my-3">
                   <h1>3 Offers</h1>

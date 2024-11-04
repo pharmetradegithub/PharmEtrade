@@ -128,7 +128,7 @@ import { TrackNumberApi } from '../Api/TrackApi';
 //   //   if (trackdata?.trackResults[0].eventType === "OC") {
 //   //     // orderStatus.find((status) => status.label === trackdata?.trackResults[0].eventType
 //   //     //   }
-        
+
 //   // }
 //   const eventTypeMap = {
 //     'OC': 0.5, // Order Proceeded
@@ -197,7 +197,7 @@ import { TrackNumberApi } from '../Api/TrackApi';
 // <div className='border rounded-md p-4 w-80 ml-2 shadow-md mt-4 h-auto'>
 //     <h1 className='font-semibold text-xl'> Shipping Address</h1>
 //     <div>
-                       
+
 //                           <div className="mt-4">
 //                             <p>Umesh Kumar</p>
 //                             <p>Plot No 25,</p>
@@ -207,7 +207,7 @@ import { TrackNumberApi } from '../Api/TrackApi';
 //                               <p className="ml-2">500081.</p>
 //                             </div>
 //                           </div>
-                       
+
 //                       </div>
 // </div>
 // <div className='border rounded-md h-auto p-4 shadow-md gap-5 mt-4 w-80 items-center flex flex-col'>
@@ -252,6 +252,7 @@ const TrackingOrder = () => {
     ? eventTypeMap[trackdata.trackResults[0].eventType]
     : 0; // Default to 'Order Proceeded' if no event type is found
 
+  console.log("curr status", currentStatus);
   useEffect(() => {
     dispatch(TrackNumberApi(794843185271)); // Replace with your actual tracking number
   }, [dispatch]);
@@ -279,12 +280,13 @@ const TrackingOrder = () => {
 
             {/* Line Progress */}
             <div className="absolute top-5 left-0 w-full h-1 flex items-center justify-between">
-              {orderStatus.map((_, index) => (
+              <div
+                className="h-1 w-full bg-gray-300 relative">
                 <div
-                  key={index}
-                  className={`h-1 w-full ${index < Math.floor(currentStatus) ? 'bg-green-500' : 'bg-gray-300'} ${index === orderStatus.length - 1 ? 'hidden' : ''}`}
-                ></div>
-              ))}
+                  className="h-1 bg-green-500 absolute top-0 left-0"
+                  style={{ width: `${(currentStatus / (orderStatus.length - 1)) * 100}%` }}>
+                </div>
+              </div>
             </div>
           </div>
         </div>
