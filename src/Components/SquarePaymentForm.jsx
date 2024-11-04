@@ -138,6 +138,8 @@ const SquarePaymentForm = ({ applicationId, locationId, amount, onPaymentSuccess
   const isInitialized = useRef(false);
 
   useEffect(() => {
+    console.log("squarePyamentform------->")
+    alert("effect-->squarepaymentForm")
     const initializeSquarePayment = async () => {
       if (isInitialized.current) return;  // Prevent multiple initializations
 
@@ -183,13 +185,13 @@ const SquarePaymentForm = ({ applicationId, locationId, amount, onPaymentSuccess
     };
   }, [applicationId, locationId]);
 
-  const clearCardInput = async () => {
-    if (cardRef.current) {
-      await cardRef.current.cardInput.clear();
-      // await cardRef.current.expirationDateInput.clear();
-      // await cardRef.current.cvvInput.clear();
-    }
-  };
+  // const clearCardInput = async () => {
+  //   if (cardRef.current) {
+  //     await cardRef.current.cardInput.clear();
+  //     // await cardRef.current.expirationDateInput.clear();
+  //     // await cardRef.current.cvvInput.clear();
+  //   }
+  // };
 
   const handlePayment = async () => {
     if (cardRef.current) {
