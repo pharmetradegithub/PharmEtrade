@@ -1842,7 +1842,7 @@ function Address({ topMargin, totalAmount }) {
                   {/* <Payment /> */}
                   <SquarePaymentForm
                     applicationId={applicationId}
-                    locationId={locationId} amount={Payment_Amnount}
+                    locationId={locationId} amount={(validTotal + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}
                     onPaymentSuccess={handlePaymentSuccess}
                     onPaymentError={handlePaymentError}
                   />
