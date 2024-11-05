@@ -49,3 +49,15 @@ export const shipmentAddApi = (payload) => {
     }
   }
 }
+
+export const paymentProcessApi = async (payload) => {
+    try {
+      const response = await axios.post('/api/Orders/ProcessPayment', payload);
+      console.log(">", response);
+      if (response.status === 200) {
+        return response.data.result;
+      }
+    } catch (error) {
+      console.log("error api from shipping", error.response?.data?.message || error.message);
+    }
+  }
