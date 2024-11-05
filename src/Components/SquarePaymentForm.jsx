@@ -14,7 +14,7 @@ const SquarePaymentForm = ({
 
   return (
     <PaymentForm
-      applicationId="sandbox-sq0idb-vXdVdM6tMjTG6Zi2XCoE-A"
+      applicationId="sq0idp-gB46fswzI1EYbiQKJqemGA"
       cardTokenizeResponseReceived={async (token, verifiedBuyer) => {
         console.log("token:", token);
         console.log("verifiedBuyer:", verifiedBuyer);
