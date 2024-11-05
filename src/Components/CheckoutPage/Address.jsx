@@ -1839,13 +1839,13 @@ function Address({ topMargin, totalAmount }) {
 
                 <Proccedtoshipment selectedOptions = {selectedOptions} setSelectedOptions = {setSelectedOptions} totalNetCharges = {totalNetCharges} setTotalNetCharges = {setTotalNetCharges} />
                 <div className="border-b my-3 w-[70%]">
-                  <Payment />
-                  {/* <SquarePaymentForm
+                  {/* <Payment /> */}
+                  <SquarePaymentForm
                     applicationId={applicationId}
                     locationId={locationId} amount={(validTotal + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}
                     onPaymentSuccess={handlePaymentSuccess}
                     onPaymentError={handlePaymentError}
-                  /> */}
+                  />
                 </div>
                 {/* <div className="border-b my-3">
                   <h1>3 Offers</h1>
