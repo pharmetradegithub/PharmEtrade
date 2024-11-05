@@ -33,6 +33,7 @@
     "react-router-dom": "^6.23.1",
     "react-scripts": "^5.0.1",
     "react-slick": "^0.30.2",
+    "react-square-web-payments-sdk": "^3.2.1",
     "react-us-states": "^1.0.2",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
