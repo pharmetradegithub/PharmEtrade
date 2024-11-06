@@ -2360,7 +2360,7 @@ const Signup = () => {
 
     try {
       const response = await fetch(
-        "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Upload",
+        "https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Customer/Upload",
         {
           method: "POST",
           body: formData1,
@@ -2651,12 +2651,12 @@ const Signup = () => {
         try {
           console.log(formData.Email_id, formData.Phone_number);
           const responseEmail = await fetch(
-            `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/GetCustomers?email=${encodeURIComponent(
+            `https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Customer/GetCustomers?email=${encodeURIComponent(
               formData.Email_id
             )}`
           );
           const responsePhone = await fetch(
-            `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/GetCustomers?mobile=${formData.Phone_number}`
+            `https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Customer/GetCustomers?mobile=${formData.Phone_number}`
           );
           if (responsePhone.ok) {
             const data = await responsePhone.json(); // Convert response to JSON
@@ -2991,7 +2991,7 @@ const Signup = () => {
     console.log(requestBody, "h,");
     try {
       const response = await fetch(
-        "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/BusinessInfo",
+        "https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Customer/BusinessInfo",
         {
           method: "POST",
           headers: {
@@ -3059,7 +3059,7 @@ const Signup = () => {
       console.log("goingto regsiters");
 
       const response = await fetch(
-        "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Register",
+        "https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Customer/Register",
         {
           method: "POST",
           headers: {

@@ -23,7 +23,8 @@
 
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/';
+// axios.defaults.baseURL = 'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/';
+axios.defaults.baseURL = 'https://ec2-100-29-38-82.compute-1.amazonaws.com';
 
 // Set up request interceptor to add Authorization header
 axios.interceptors.request.use(
