@@ -211,7 +211,7 @@ function App() {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Product/GetAll"
+          "https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Product/GetAll"
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
