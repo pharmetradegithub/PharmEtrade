@@ -5,12 +5,17 @@ import { Link, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FedExRatesApi, serviceTypeApi } from "../Api/TrackApi";
 
-const ProccedtoShipment = ({selectedOptions,setSelectedOptions,totalNetCharges,setTotalNetCharges}) => {
+const ProccedtoShipment = ({
+  selectedOptions,
+  setSelectedOptions,
+  totalNetCharges,
+  setTotalNetCharges,
+}) => {
   const fedexRate = useSelector((state) => state.trackNumber.fedExRates);
   console.log("fedddddrate-->", fedexRate);
   const serviceName = useSelector((state) => state.trackNumber.serviceType);
   const cartList = useSelector((state) => state.cart.cart);
-  console.log("cartList checkout", cartList)
+  console.log("cartList checkout", cartList);
   // const [cartItems, setcartItems] = useState(cartList);
   console.log("service-->", serviceName);
   const [amount, setAmount] = useState(200);
@@ -100,7 +105,7 @@ const ProccedtoShipment = ({selectedOptions,setSelectedOptions,totalNetCharges,s
   // const [selectedOptions, setSelectedOptions] = useState({
   //   seller: ""
   // });
-  
+
   // const [totalNetCharges, setTotalNetCharges] = useState({
   //   seller: 0
   // });
@@ -110,11 +115,11 @@ const ProccedtoShipment = ({selectedOptions,setSelectedOptions,totalNetCharges,s
     str.replace(/\s+/g, " ").trim().toLowerCase();
   const removeNonPrintableChars = (str) => str.replace(/[^\x20-\x7E]/g, "");
 
-  const handleChange = (seller,e) => {
+  const handleChange = (seller, e) => {
     const selectedServiceType = e.target.value;
-    setSelectedOptions(prevOptions => ({
+    setSelectedOptions((prevOptions) => ({
       ...prevOptions,
-      [seller]: selectedServiceType
+      [seller]: selectedServiceType,
     }));
     console.log("Selected service type:", selectedServiceType);
     console.log("FedEx rates:", JSON.stringify(fedexRate, null, 2));
@@ -148,10 +153,10 @@ const ProccedtoShipment = ({selectedOptions,setSelectedOptions,totalNetCharges,s
         const netCharge = matchingRateDetails.reduce((total, rate) => {
           return total + (rate?.ratedShipmentDetails[0]?.totalNetCharge || 0);
         }, 0);
-        setTotalNetCharges(prevCharges => ({
+        setTotalNetCharges((prevCharges) => ({
           ...prevCharges,
-          [seller]: netCharge
-        }));        
+          [seller]: netCharge,
+        }));
         console.log("Total Net Charge for matching services:", netCharge);
 
         // Next condition check can go here
@@ -172,17 +177,18 @@ const ProccedtoShipment = ({selectedOptions,setSelectedOptions,totalNetCharges,s
         }
       } else {
         console.log("No matching service type found.");
-        setTotalNetCharges(prevCharges => ({
+        setTotalNetCharges((prevCharges) => ({
           ...prevCharges,
-          [seller]: null
-        }));      
+          [seller]: null,
+        }));
       }
     } else {
       console.log("fedexRate is not available or empty.");
-      setTotalNetCharges(prevCharges => ({
+      setTotalNetCharges((prevCharges) => ({
         ...prevCharges,
-        [seller]: null
-      }));    }
+        [seller]: null,
+      }));
+    }
   };
 
   const calculateSubtotal = (price, quantity) => price * quantity;
@@ -193,7 +199,6 @@ const ProccedtoShipment = ({selectedOptions,setSelectedOptions,totalNetCharges,s
     return acc;
   }, {});
 
-
   return (
     <div className="w-full h-full  p-4 ">
       <h1 className="text-xl font-semibold text-orange-400">
@@ -202,8 +207,7 @@ const ProccedtoShipment = ({selectedOptions,setSelectedOptions,totalNetCharges,s
       <div className="flex w-full">
         <div className="w-[70%]">
           {Object.entries(groupedProducts).map(([seller, products]) => (
-
-          <div key={seller}>
+            <div key={seller}>
               <h2 className="font-bold text-lg mt-4">Seller: {seller}</h2>
 
               <div className="border p-4 my-4 rounded-md shadow-lg bg-white">
@@ -234,48 +238,51 @@ const ProccedtoShipment = ({selectedOptions,setSelectedOptions,totalNetCharges,s
                     </tr>
                   </thead>
                   {products.map((tabledetail) => (
-
-                  <tbody key={tabledetail.product.id}>
-                    <tr className="text-sm">
-                      <td className="text-center">{tabledetail.product.sellerName}</td>
-                      <td><img
+                    <tbody key={tabledetail.product.id}>
+                      <tr className="text-sm">
+                        <td className="text-center">
+                          {tabledetail.product.sellerName}
+                        </td>
+                        <td>
+                          <img
                             className="h-16 w-16 rounded-lg"
                             src={tabledetail.product.imageUrl}
                             alt={tabledetail.product.id}
-                          /></td>
-                      <td className="px-2 md:px-4 py-2 p-2 flex flex-wrap">
-                        {tabledetail.product.productName}
-                      </td>
-                      <td className="text-center">
-                        ${tabledetail.product?.salePrice > 0
-                          ? tabledetail.product.salePrice.toFixed(2)
-                          : tabledetail.product.unitPrice?.toFixed(2)}
-                      </td>
-                      <td className="text-center">{tabledetail.quantity}</td>
-                      <td className="text-center">
-                        {" "}
-                        {/* ${tabledetail?.Subtotal?.toFixed(2)} */}
-                        <strong>
+                          />
+                        </td>
+                        <td className="px-2 md:px-4 py-2 p-2 flex flex-wrap">
+                          {tabledetail.product.productName}
+                        </td>
+                        <td className="text-center">
                           $
-                          {calculateSubtotal(
-                            tabledetail.product?.salePrice > 0
-                              ? tabledetail.product.salePrice.toFixed(2)
-                              : tabledetail.product.unitPrice?.toFixed(2),
+                          {tabledetail.product?.salePrice > 0
+                            ? tabledetail.product.salePrice.toFixed(2)
+                            : tabledetail.product.unitPrice?.toFixed(2)}
+                        </td>
+                        <td className="text-center">{tabledetail.quantity}</td>
+                        <td className="text-center">
+                          {" "}
+                          {/* ${tabledetail?.Subtotal?.toFixed(2)} */}
+                          <strong>
+                            $
+                            {calculateSubtotal(
+                              tabledetail.product?.salePrice > 0
+                                ? tabledetail.product.salePrice.toFixed(2)
+                                : tabledetail.product.unitPrice?.toFixed(2),
                               tabledetail.quantity
-                          )?.toFixed(2)}
-                        </strong>
-                      </td>
-                      <td className="text-center">
-                        {" "}
-                        <img
-                          src={deleteicon}
-                          className="h-5 w-5 rounded-lg flex justify-center items-center ml-6"
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                   ))}
-
+                            )?.toFixed(2)}
+                          </strong>
+                        </td>
+                        <td className="text-center">
+                          {" "}
+                          <img
+                            src={deleteicon}
+                            className="h-5 w-5 rounded-lg flex justify-center items-center ml-6"
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  ))}
                 </table>
 
                 <div className="h-auto p-3 border  flex  rounded-md mt-3  ">
@@ -296,13 +303,31 @@ const ProccedtoShipment = ({selectedOptions,setSelectedOptions,totalNetCharges,s
                       <optgroup label="Delivery options">
                         {/* <option value="groundBusiness">FedEx Ground® (to businesses, Monday to Friday)</option> */}
                         {/* <option value="homeDelivery">FedEx Home Delivery® (to residences, every day)</option> */}
-                        {serviceName.map((item) => {
+                        {/* {serviceName.map((item) => {
                           return (
                             <option
                               key={item.serviceType}
                               value={item.serviceName}
                             >
                               {item.serviceName}
+                            </option>
+                          );
+                        })} */}
+                        {serviceName.map((item) => {
+                          // Find the matching rate for the current serviceName
+                          const matchingRate = fedexRate.find(
+                            (fed) => item.serviceName === fed.serviceName
+                          );
+
+                          return (
+                            <option
+                              key={item.serviceType}
+                              value={item.serviceName}
+                            >
+                              {item.serviceName}
+                              {matchingRate
+                                ? ` (${matchingRate.ratedShipmentDetails[0].totalNetCharge})`
+                                : ""}
                             </option>
                           );
                         })}

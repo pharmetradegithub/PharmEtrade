@@ -35,3 +35,19 @@ export const fetchGetOrderBySellerId = (customerId) => {
     }
   };
 };
+
+
+export const processpaymentApi = async (payload) => {
+  try {
+    const response = await axios.post("/api/Orders/ProcessPayment", payload);
+    console.log("paymentsapi-->", response);
+    if (response.status === 200) {
+      return response.data.result;
+    }
+  } catch (error) {
+    console.log(
+      "error api from payment",
+      error.response?.data?.message || error.message
+    );
+  }
+};

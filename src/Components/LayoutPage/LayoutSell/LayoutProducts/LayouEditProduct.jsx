@@ -8,7 +8,7 @@ const LayoutEditProduct = () => {
     const GetProductById = async () => {
       try {
         const response = await fetch(
-          `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Product/GetById?productId=${productID}`,
+          `https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Product/GetById?productId=${productID}`,
           {
             method: "GET",
           }

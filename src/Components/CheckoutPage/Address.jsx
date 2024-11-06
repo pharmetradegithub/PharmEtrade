@@ -39,9 +39,14 @@ import { FedExRatesApi, serviceTypeApi } from "../../Api/TrackApi";
 // import { setAddress } from "../../Store/Store";
 import Proccedtoshipment from '../ProccedtoShipment'
 import SquarePaymentForm from "../SquarePaymentForm";
+<<<<<<< HEAD
 import { paymentProcessApi } from "../../Api/ShipmentApi";
 function Address({ topMargin, totalAmount }) {
   const dispatch = useDispatch();
+=======
+function Address({ topMargin, totalAmount, amount }) {
+
+>>>>>>> 72bd200a1eaeb756322a6a05c19928376a6d7386
   const applicationId = 'sandbox-sq0idb-vXdVdM6tMjTG6Zi2XCoE-A';
   const locationId = 'L0599WY5GGG3W';
   // const Payment_Amnount = 500;
@@ -1852,7 +1857,8 @@ function Address({ topMargin, totalAmount }) {
                   {/* <Payment /> */}
                   <SquarePaymentForm
                     applicationId={applicationId}
-                    locationId={locationId} amount={(validTotal + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}
+                    locationId={locationId} 
+                    amount={(validTotal + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}
                     onPaymentSuccess={handlePaymentSuccess}
                     onPaymentError={handlePaymentError}
                   />

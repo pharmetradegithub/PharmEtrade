@@ -150,6 +150,8 @@ import TrackingOrder from "./Components/TrackingOrder";
 import { fetchProductCategoriesGetAll } from "./Api/MasterDataApi";
 import ProccedtoShipment from "./Components/ProccedtoShipment";
 import LayoutTerms from "./Components/LayoutTerms";
+import Reports from "./Components/Admin/Reports/Reports";
+import LayoutBuyReturn from "./Components/LayoutPage/LayoutBuy/LayoutReturn";
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
@@ -211,7 +213,7 @@ function App() {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Product/GetAll"
+          "https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Product/GetAll"
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -441,6 +443,8 @@ function App() {
             element={<LayoutRequestForQuote />}
           />
           <Route path="/layout/saleshistory" element={<LayoutSalesHistory />} />
+          <Route path="/layout/purchasereturns" element={<LayoutBuyReturn />} />
+
           <Route path="/layout/layoutsetting" element={<LayoutSetting />} />
           <Route
             path="/layout/layoutbuy"
@@ -501,6 +505,8 @@ function App() {
           <Route path="/pharmEtradeadmin/Settlement" element={<Settlement />} />
           <Route path="/pharmEtradeadmin/Incoming" element={<Incomimg />} />
           <Route path="/pharmEtradeadmin/Outgoing" element={<Outgoing />} />
+          <Route path="/pharmEtradeadmin/reports" element={<Reports/>}/>
+
         </Route>
 
         <Route element={<AccountPanel topMargin={topMargin} />}>
