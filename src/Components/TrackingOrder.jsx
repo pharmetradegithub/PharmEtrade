@@ -260,39 +260,59 @@ const TrackingOrder = () => {
   return (
     <div className="flex flex-col w-full py-8">
       <div className="w-[85%]">
+        <div></div>
         <div className="flex flex-col items-center">
           <h1 className="text-2xl text-blue-900 font-semibold mb-6">Order Delivery Tracking</h1>
-          <div className="w-full my-4 max-w-3xl flex items-center justify-between relative">
+          </div>
+          <div className='flex justify-around'>
+          <div className="w-full my-4  ml-20 relative  ">
             {orderStatus.map((status, index) => (
-              <div key={index} className="flex flex-col items-center">
+              <div key={index} className="flex flex-col ">
                 {/* Progress Circle */}
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center 
+                <div className='flex'>
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center
                   ${index <= Math.floor(currentStatus) ? 'bg-green-500 z-20 text-white' : 'bg-gray-300 z-20 text-gray-600'}`}>
                   <status.icon />
+                  
                 </div>
-                {/* Status Text */}
-                <p className={`mt-2 text-center text-sm 
+               
+                <p className={`my-9 ml-2  text-sm 
                   ${index <= Math.floor(currentStatus) ? 'text-green-600 font-medium' : 'text-gray-600'}`}>
                   {status.label}
                 </p>
+                  
+                </div>
+                {/* Status Text */}
+                
               </div>
             ))}
 
             {/* Line Progress */}
-            <div className="absolute top-5 left-0 w-full h-1 flex items-center justify-between">
+            <div className="absolute top-0  left-5 w-1 h-full flex items-center justify-between">
               <div
-                className="h-1 w-full bg-gray-300 relative">
+                className="h-[90%] w-1 bg-gray-300 relative">
                 <div
-                  className="h-1 bg-green-500 absolute top-0 left-0"
+                  className="h-1 bg-green-500 absolute  left-0"
                   style={{ width: `${(currentStatus / (orderStatus.length - 1)) * 100}%` }}>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        
 
         {/* Display tracking ID */}
-        <div className="my-2 flex flex-col ml-20">
+        {/* <div className="my-2 flex flex-col">
+          <h1 className="text-xl font-semibold">Delivery by PharmEtrade</h1>
+          <div className="flex">
+            <p>Tracking ID :</p>
+            <p>{trackdata?.trackingNumber}</p>
+          </div>
+        </div> */}
+
+        {/* Additional details like Shipping Address and Order Info */}
+        <div className="flex flex-col ">
+
+        <div className="my-2 flex flex-col ml-2">
           <h1 className="text-xl font-semibold">Delivery by PharmEtrade</h1>
           <div className="flex">
             <p>Tracking ID :</p>
@@ -300,9 +320,7 @@ const TrackingOrder = () => {
           </div>
         </div>
 
-        {/* Additional details like Shipping Address and Order Info */}
-        <div className="flex justify-around gap-4">
-          <div className="border rounded-md p-4 w-80 ml-2 shadow-md mt-4 h-auto">
+          <div className="border rounded-md p-4  w-80 ml-2 shadow-md mt-4 h-auto">
             <h1 className="font-semibold text-xl">Shipping Address</h1>
             <div className="mt-4">
               <p>Umesh Kumar</p>
@@ -315,12 +333,13 @@ const TrackingOrder = () => {
             </div>
           </div>
 
-          <div className="border rounded-md h-auto p-4 shadow-md gap-5 mt-4 w-80 items-center flex flex-col">
+          <div className="border rounded-md h-auto p-4 shadow-md ml-2 mt-4 w-80 items-center flex flex-col">
             <h1 className="font-semibold text-xl">Order Info</h1>
             <h1 className="text-blue-700 text-xl hover:underline">
               <Link to="/layout/layoutorderlist">View Order Details</Link>
             </h1>
           </div>
+        </div>
         </div>
       </div>
     </div>

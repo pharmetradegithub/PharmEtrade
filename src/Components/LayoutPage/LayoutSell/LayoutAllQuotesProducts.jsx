@@ -12,6 +12,8 @@ import Pagination from "../../Pagination";
 const LayoutAllQuotesProducts = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortConfig, setSortConfig] = useState({ key: 'productName', direction: 'asc' }); // Add sorting state
+
   const bidQuotedProduct = useSelector((state) => state.bid.bidQuotedProduct)
   console.log("bidquotedProduct", bidQuotedProduct)
   const stats = [
@@ -49,18 +51,35 @@ const LayoutAllQuotesProducts = () => {
   ];
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const [currentItems, setCurrentItems] = useState([]);
 
   // const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
   const [currentItems, setcurrentItems] = useState(
     bidQuotedProduct.slice(indexOfFirstItem, indexOfLastItem)
   );
+  // useEffect(() => {
+  //   if (bidQuotedProduct) {
+  //     const indexOfLastItem = currentPage * itemsPerPage;
+  //     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  //     setcurrentItems(bidQuotedProduct.slice(indexOfFirstItem, indexOfLastItem));
+  //   }
+  // }, [currentPage,bidQuotedProduct]);
   useEffect(() => {
     if (bidQuotedProduct) {
-      const indexOfLastItem = currentPage * itemsPerPage;
-      const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-      setcurrentItems(bidQuotedProduct.slice(indexOfFirstItem, indexOfLastItem));
+      const sortedProducts = [...bidQuotedProduct].sort((a, b) => {
+        const isAsc = sortConfig.direction === 'asc';
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return isAsc ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return isAsc ? 1 : -1;
+        }
+        return 0;
+      });
+      setcurrentItems(sortedProducts.slice(indexOfFirstItem, indexOfLastItem));
     }
-  }, [currentPage,bidQuotedProduct]);
+  }, [currentPage, bidQuotedProduct, sortConfig]);
+
   const user = useSelector((state) => state.user.user)
   useEffect(() => {
     console.log("useEffect called")
@@ -69,6 +88,13 @@ const LayoutAllQuotesProducts = () => {
     }
     product()
   }, [])
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
 
   return (
     <div className="relative bg-gray-100 w-full h-full flex justify-center items-center overflow-y-auto">
@@ -130,11 +156,21 @@ const LayoutAllQuotesProducts = () => {
                   </th> */}
                   {/* <th className="border-b-2 min-w-36 text-left">Thumbnail</th> */}
                   <th className="border-b-2 py-2  pl-4 text-left">S.NO</th>
-                  <th className="border-b-2 py-2  pl-4 text-left">Product Name</th>
-                  <th className="border-b-2  text-left">Price</th>
-                  <th className="border-b-2  text-left">Quantity</th>
-                  <th className="border-b-2  text-left">Created Date</th>
-                  <th className="border-b-2  text-left">Customer Name</th>
+                  <th className="border-b-2 py-2  pl-4 text-left cursor-pointer"  onClick={() => handleSort('productName')}>
+                    Product Name{sortConfig.key === 'productName' ? (sortConfig.direction === 'asc' ?  "▲" : "▼") : "▲" }
+                    </th>
+                  <th className="border-b-2  text-left cursor-pointer"  onClick={() => handleSort('price')}>
+                    Price{sortConfig.key === 'price' ? (sortConfig.direction === 'asc' ?  "▲" : "▼") : "▲"}
+                    </th>
+                  <th className="border-b-2  text-left cursor-pointer"  onClick={() => handleSort('quantity')}>
+                    Quantity{sortConfig.key === 'quantity' ? (sortConfig.direction === 'asc' ?  "▲" : "▼") : "▲"}
+                    </th>
+                  <th className="border-b-2  text-left cursor-pointer"  onClick={() => handleSort('createdOn')}>
+                    Created Date{sortConfig.key === 'createdOn' ? (sortConfig.direction === 'asc' ?  "▲" : "▼") : "▲"}
+                    </th>
+                  <th className="border-b-2  text-left cursor-pointer"  onClick={() => handleSort('customerName')}>
+                    Customer Name{sortConfig.key === 'customerName' ? (sortConfig.direction === 'asc' ?  "▲" : "▼") : "▲"}
+                    </th>
                   <th className="border-b-2 text-left">Status</th>
                   <th className="border-b-2  text-left">Action</th>
 
