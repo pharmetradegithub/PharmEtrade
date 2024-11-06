@@ -850,7 +850,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   const MenuItems = [
     "Home",
     "Products",
-    "Why PharmaEtrade",
+    "Why PharmEtrade",
     "About Us",
     // "Contact Us",
     "Request Demo",
