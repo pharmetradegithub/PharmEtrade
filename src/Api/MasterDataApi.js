@@ -26,10 +26,8 @@ export const fetchProductCategoriesGetAll = () => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`/api/Masters/ProductCategories/GetAll`);
-      console.log('API response:', response.data); // Log API response
       if (response.status === 200) {
         const ProductCategoryGetAll = response.data.result;
-        console.log('Dispatching  action:', ProductCategoryGetAll); // Log before dispatch
         dispatch(setProductCategoryGetAll(ProductCategoryGetAll)); // Dispatch action
       } else {
         console.error('Failed to category get all Product:', response.data.message);
@@ -45,10 +43,8 @@ export const fetchCategorySpecificationsGetAll = () => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`/api/Masters/CategorySpecifications/GetAll`);
-      console.log('API response:', response.data); // Log API response
       if (response.status === 200) {
         const CategorySpecificationsGetAll = response.data.result;
-        console.log('Dispatching  action:', CategorySpecificationsGetAll); // Log before dispatch
         dispatch(setCategorySpecificationsGetAll(CategorySpecificationsGetAll)); // Dispatch action
       } else {
         console.error('Failed to category get all Product:', response.data.message);

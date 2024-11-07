@@ -142,22 +142,20 @@ import MobileView from "../Components/MobileView";
 import OffersSlider from "../Components/OfferBannerSlider";
 import { useSelector } from "react-redux";
 
-function Sliders({wishList,addCart}) {
+function Sliders({ wishList, addCart }) {
   const searchBarRef = useRef(null);
 
   const OTCProducts = useSelector((state) => state.product.otcProducts);
   const RXProducts = useSelector((state) => state.product.rxProducts);
-
-
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('visible'); // Add your class here
+            entry.target.classList.add("visible"); // Add your class here
           } else {
-            entry.target.classList.remove('visible'); // Remove your class here
+            entry.target.classList.remove("visible"); // Remove your class here
           }
         });
       },
@@ -183,10 +181,10 @@ function Sliders({wishList,addCart}) {
         <div className="w-full flex justify-between items-center ">
           <div className="w-[48%]">
             <ProductSection
-             addCart={addCart} wishList={wishList}
+              addCart={addCart}
+              wishList={wishList}
               // products={RXProducts.slice(0, 3)}
               products={Array.isArray(RXProducts) ? RXProducts.slice(0, 3) : []}
-
               heading="Rx Items"
               // path={`/products?header=${"Rx Items"}`}
               path={"/allProducts/RxProducts"}
@@ -194,10 +192,12 @@ function Sliders({wishList,addCart}) {
           </div>
           <div className="w-[48%]">
             <ProductSection
-             addCart={addCart} wishList={wishList}
+              addCart={addCart}
+              wishList={wishList}
               // products={OTCProducts.slice(0, 3)}
-              products={Array.isArray(OTCProducts) ? OTCProducts.slice(0, 3) : []}
-
+              products={
+                Array.isArray(OTCProducts) ? OTCProducts.slice(0, 3) : []
+              }
               heading="OTC Items"
               // path={`/products?header=${"OTC Items"}`}
               path={"/allProducts/OtcProducts"}
@@ -207,68 +207,116 @@ function Sliders({wishList,addCart}) {
         {/* <div>
           <ProductSlider Title={"New Products"} data={newProducts} />
         </div> */}
-        
+
         <div className="mt-8">
           <OffersSlider />
         </div>
 
         <div className=" w-full flex justify-center pt-4 ">
-          <MobileView/>
+          <MobileView />
         </div>
-
+        {/* 
         <div className="  pb-6">
-
+          <div
+            className={
+              pop
+                ? " getTouchs  xl:w-80% relative h-5% md:mt-24 xl:mt-48 xl:mx-8 rounded-md xl:p-10 xl:flex xl:flex-col xl:justify-center"
+                : " getTouchs md:ml-0  md:w-80% md:h-5% xl:w-80% relative h-15% md:mt-6 xl:mt-12 xl:mx-8 rounded-md xl:p-5 xl:flex xl:flex-col xl:justify-center"
+            }
+          >
+            <div className="border-2  md:p-0 border-white w-auto md:h-5% md:w-auto xl:w-auto xl:h-5% lg:ml-4 xl:flex xl:justify-center lg:mr-4 lg:mt-4 lg:mb-4 xl:ml-12 rounded-md">
+              <p className="absolute xl:top-4 z-5 right-1/2  h-5% bg-box-blue text-white px-4 py-2 rounded-md  text-2xl">
+                Get In Touch{" "}
+              </p>
+              <div className="ml-10 md:flex md:flex-row md:gap-10 lg:gap-20 xl:flex xl:flex-row xl:gap-50 ">
+                <div className="flex items-center justify-center lg:pb-4 lg:pl-4 xl:pr-4">
+                  <div
+                    ref={searchBarRef}
+                    className="relative flex items-center w-full max-w-md"
+                  >
+                    <div className="md:w-screen xl:w-fit xl:pl-8 sm:w-screen ">
+                      <ul className="md:text-xl xl:text-2xl text-white font-light  bounce-in-top  w-96">
+                        <li className="w-96 ">Manage Inventory</li>
+                        <li className="">Increase cash flow </li>
+                        <li className="">Grow you business</li>
+                        <li className="">Promote products and deals</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-5 pr-36 mt-7  justify-start items-center">
+                  <input
+                    type="text"
+                    placeholder="Enter Your Name"
+                    className="w-72 h-10 px-5 "
+                  />
+                  <input
+                    type="text"
+                    placeholder="Enter Your Contact"
+                    className="w-72 h-10 px-5"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Enter Your Email"
+                    className="w-72 h-10 px-5"
+                  />
+                  <button className="bg-box-blue text-white rounded-lg w-fit p-2 my-2">
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> */}
         <div
-          className={
+          className={`getTouchs ${
             pop
-              ? " getTouchs  xl:w-80% relative h-5% md:mt-24 xl:mt-48 xl:mx-8 rounded-md xl:p-10 xl:flex xl:flex-col xl:justify-center"
-              : " getTouchs md:ml-0  md:w-80% md:h-5% xl:w-80% relative h-15% md:mt-6 xl:mt-12 xl:mx-8 rounded-md xl:p-5 xl:flex xl:flex-col xl:justify-center"
-          }
+              ? "xl:w-4/5 relative h-auto mt-6 xl:mt-48 xl:mx-8 rounded-md xl:p-10 flex flex-col justify-center"
+              : "w-full h-auto mt-6 xl:mt-12 mx-auto rounded-md p-4 flex flex-col justify-center"
+          }`}
         >
-          <div className="border-2  md:p-0 border-white w-auto md:h-5% md:w-auto xl:w-auto xl:h-5% lg:ml-4 xl:flex xl:justify-center lg:mr-4 lg:mt-4 lg:mb-4 xl:ml-12 rounded-md">
-            <p className="absolute xl:top-4 z-5 right-1/2  h-5% bg-box-blue text-white px-4 py-2 rounded-md  text-2xl">
-              Get In Touch{" "}
+          <div className="border-2 p-4 border-white w-full xl:w-auto rounded-md flex flex-col items-center">
+            <p className="text-center h-auto bg-box-blue text-white px-4 py-2 rounded-md text-lg md:text-2xl">
+              Get In Touch
             </p>
-            <div className="ml-10 md:flex md:flex-row md:gap-10 lg:gap-20 xl:flex xl:flex-row xl:gap-50 ">
+            <div className="flex flex-col md:flex-row md:gap-10 lg:gap-20 mt-4">
               <div className="flex items-center justify-center lg:pb-4 lg:pl-4 xl:pr-4">
                 <div
                   ref={searchBarRef}
                   className="relative flex items-center w-full max-w-md"
                 >
-                  <div className="md:w-screen xl:w-fit xl:pl-8 ">
-                    <ul className="md:text-xl xl:text-2xl text-white font-light  bounce-in-top  w-96">
-                      <li className="w-96 ">Manage Inventory</li>
-                      <li className="">Increase cash flow </li>
-                      <li className="">Grow you business</li>
-                      <li className="">Promote products and deals</li>
+                  <div className="w-full px-4 md:px-8">
+                    <ul className="text-base md:text-xl xl:text-2xl text-white font-light space-y-2 md:space-y-4">
+                      <li>Manage Inventory</li>
+                      <li>Increase cash flow</li>
+                      <li>Grow your business</li>
+                      <li>Promote products and deals</li>
                     </ul>
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col gap-5 pr-36 mt-7  justify-start items-center">
+              <div className="flex flex-col gap-3 mt-5 md:mt-0 items-center md:items-start">
                 <input
                   type="text"
                   placeholder="Enter Your Name"
-                  className="w-72 h-10 px-5 "
+                  className="w-full md:w-72 h-10 px-3 rounded-md"
                 />
                 <input
                   type="text"
                   placeholder="Enter Your Contact"
-                  className="w-72 h-10 px-5"
+                  className="w-full md:w-72 h-10 px-3 rounded-md"
                 />
                 <input
-                  type="text"
+                  type="email"
                   placeholder="Enter Your Email"
-                  className="w-72 h-10 px-5"
+                  className="w-full md:w-72 h-10 px-3 rounded-md"
                 />
-                <button className="bg-box-blue text-white rounded-lg w-fit p-2 my-2">
+                <button className="bg-box-blue text-white rounded-lg w-full md:w-fit px-5 py-2 mt-2">
                   Submit
                 </button>
               </div>
             </div>
           </div>
-        </div>
-
         </div>
       </div>
     </>

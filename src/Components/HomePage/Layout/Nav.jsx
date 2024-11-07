@@ -1097,14 +1097,12 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 >
                   <div
                     className="flex  items-center cursor-pointer"
-                    // onClick={handleredirect}
                     onClick={() => setIsPopupVisible(prevState => !prevState)}
                   >
                     <img
                       src={add}
                       className="w-4 md:w-6 lg:w-8 h-8"
                       alt="clickable"
-                      // onClick={handleredirect}
                     />
                     <div className="text-blue-900 hover:cursor-pointer ">
                       {user ? (
@@ -1133,7 +1131,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                           {user ? (
                             <li
                               className="cursor-pointer "
-                              onClick={handleLogout}
+                              onClick={()=>handleLogout()}
                             >
                               <Link
                                 to="/login"
@@ -1145,7 +1143,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                           ) : (
                             <a
                               className="bg-blue-900 text-white py-1 hover:cursor-pointer px-2 rounded block text-center "
-                              onClick={handleRedirect}
+                              onClick={()=>handleRedirect()}
                             >
                               Sign In
                             </a>

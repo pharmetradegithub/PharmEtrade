@@ -79,9 +79,7 @@ function Items({
 }) {
   const user = useSelector((state) => state.user.user);
   const wishlist = useSelector((state) => state.wishlist.wishlist);
-  // const [wishlistProductIDs, setwishlistProductIDs] = useState(
-  //   wishlist.map((wishItem) => wishItem.product.productID)
-  // );
+  const cartList = useSelector((state) => state.cart.cart);
   const [productLink, setProductLink] = useState("");
   const [currentProductID, setCurrentProductID] = useState("");
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
@@ -118,7 +116,6 @@ function Items({
   const [selectedMl, setSelectedMl] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   // const [showViewCart, setShowViewCart] = useState(false);
-  const [isItemAdded, setIsItemAdded] = useState(false);
   const [prod, setprod] = useState(null);
   const [thumnailList, setthumnailList] = useState([]);
   const newProducts = useSelector((state) => state.product.recentSoldProducts);
@@ -130,12 +127,13 @@ function Items({
   const crossSellProducts = useSelector(
     (state) => state.product.CrossSellProducts
   );
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     const NewProductsAPI = async () => {
       try {
         const product = await fetchProductByIdApi(id);
-        console.log(product);
+        setQuantity(product.minOrderQuantity);
         setprod(product);
       } catch (error) {
         console.log(error);
@@ -177,11 +175,6 @@ function Items({
     }
   }, [prod]);
 
-  const handleAddToCart = () => {
-    // setShowViewCart(true);
-    setIsItemAdded(true);
-  };
-
   useEffect(() => {
     fetchCrossSellProductApi(id);
   }, [id]);
@@ -194,23 +187,36 @@ function Items({
     fetchUpsellProductApi(id);
   }, [id]);
 
-  const mlOptions = [250, 350, 500];
-  const colorOptions = [
-    { color: "sky-500", textColor: "text-sky-500" },
-    { color: "green-500", textColor: "text-green-500" },
-    { color: "orange-400", textColor: "text-orange-400" },
-  ];
-
   const clearSelection = () => {
     setSelectedMl(null);
     setSelectedColor(null);
   };
+  const [Errors,setErrors] = useState({});
 
   const handleCart = async (index) => {
     if (user == null) {
       console.log("login to add");
       return;
     }
+    const existingCartItem = cartList.find(
+      (item) => item.product.productID === id
+    );
+    console.log(
+      "unna ra babu ",
+      existingCartItem,
+      Math.min(prod.maxOrderQuantity, prod.amountInStock)
+    );
+    if (
+      existingCartItem != null &&
+      existingCartItem.quantity + quantity >
+        Math.min(prod.maxOrderQuantity, prod.amountInStock)
+    ) {
+      setErrors({
+        quantity : `The maximum quantity allowed to add is ${Math.min(prod.maxOrderQuantity, prod.amountInStock)}.`
+      })
+      return;
+    }
+
     const cartData = {
       customerId: user.customerId,
       productId: id,
@@ -326,14 +332,13 @@ function Items({
     SetPopup(false);
   };
 
-  const [quantity, setQuantity] = useState(1);
-
   const handleIncrease = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+    if (quantity < prod.amountInStock && quantity < prod.maxOrderQuantity)
+      setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
   const handleDecrease = () => {
-    if (quantity > 1) {
+    if (quantity > 1 && quantity > prod.minOrderQuantity) {
       setQuantity((prevQuantity) => prevQuantity - 1);
     }
   };
@@ -941,37 +946,18 @@ function Items({
                   +
                 </button>
               </div>
+              {Errors?.quantity!=null && (
+                <span>{Errors.quantity}</span>
+              )}
 
               <div className="flex gap-2 mx-2">
-                {/* <button
-                  className={`bg-blue-900 w-40 flex  rounded-lg justify-center  items-center py-1 cursor-pointer
-                     `}
-                  onClick={() => handleCart(id)}
-                > */}
-                {/* <button
-                  className={`bg-blue-900 w-40 flex  rounded-lg justify-center  items-center py-1 cursor-pointer
-                     ${
-                       prod?.amountInStock <= 0
-                         ? "bg-gray-400 cursor-not-allowed"
-                         : "cursor-pointer"
-                     } `}
-                  // onClick={() => handleCart(id)}
-                  onClick={() => {
-                    if (prod?.amountInStock !== 0) {
-                      handleCart(id.CartQuantity);
-                    }
-                  }}
-                >
-                  <img src={addcart} className="h-7 p-1" />
-                  <p className="text-white font-semibold">ADD</p>
-                </button> */}
                 <button
                   className={`w-40 flex rounded-lg justify-center items-center py-1 
-    ${
-      prod?.amountInStock <= 0
-        ? "bg-gray-400 cursor-not-allowed"
-        : "bg-blue-900 cursor-pointer"
-    }`}
+                  ${
+                    prod?.amountInStock <= 0
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-blue-900 cursor-pointer"
+                  }`}
                   disabled={prod?.amountInStock <= 0}
                   onClick={() => {
                     if (prod?.amountInStock > 0) {
