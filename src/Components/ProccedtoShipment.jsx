@@ -290,7 +290,7 @@ const ProccedtoShipment = ({
                     Shipment :
                   </h1>
                   <div className="mx-5">
-                    <select
+                    {/* <select
                       id="delivery-options"
                       value={selectedOptions[seller]}
                       onChange={(e) => handleChange(seller, e)}
@@ -300,7 +300,7 @@ const ProccedtoShipment = ({
                         Select an option
                       </option>
 
-                      <optgroup label="Delivery options">
+                      <optgroup label="Delivery options"> */}
                         {/* <option value="groundBusiness">FedEx Ground® (to businesses, Monday to Friday)</option> */}
                         {/* <option value="homeDelivery">FedEx Home Delivery® (to residences, every day)</option> */}
                         {/* {serviceName.map((item) => {
@@ -313,11 +313,29 @@ const ProccedtoShipment = ({
                             </option>
                           );
                         })} */}
-                        {serviceName.map((item) => {
+                        {/* {serviceName.map((item) => {
                           // Find the matching rate for the current serviceName
                           const matchingRate = fedexRate.find(
                             (fed) => item.serviceName === fed.serviceName
+                          ); */}
+                          <select
+                      id="delivery-options"
+                      value={selectedOptions[seller] || ""}
+                      onChange={(e) => handleChange(seller, e)}
+                      className="bg-gray-100 border rounded-md"
+                    >
+                      <option value="" disabled>
+                        {/* {selectedOptions[seller] ? 'Select an option' : 'Please choose a delivery option'} */}
+                        {selectedOptions[seller] ? 'Please choose a delivery option' : 'Select an option'}
+
+                      </option>
+
+                      <optgroup label="Delivery options">
+                        {serviceName.map((item) => {
+                          const matchingRate = fedexRate.find(
+                            (fed) => item.serviceName === fed.serviceName
                           );
+
 
                           return (
                             <option

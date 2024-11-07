@@ -166,13 +166,19 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const skipRoutes = [ "/termsandconditions"];
     const LoadAll = async (userId) => {
       LoadingApi(true);
-      if (userId) {
+      if (userId &&  !skipRoutes.includes(location.pathname)) {
+       
+
         const userDetails = await getUserByCustomerIdApi(userId);
-        await UserMenuItemsApi(userDetails.customerDetails.customerTypeId);
-        await getCartItemsApi(userId);
-        await fetchWishlistItemsApi(userId);
+        if(userDetails!=null)
+        {
+          await UserMenuItemsApi(userDetails.customerDetails.customerTypeId);
+          await getCartItemsApi(userId);
+          await fetchWishlistItemsApi(userId);
+        } 
       }
       await fetchAllBannersApi();
       await fetchRecentSoldProductsApi(10);
@@ -197,9 +203,6 @@ function App() {
   // Ref for the top fixed div
 
   const [cartItems, setCartItems] = useState([]);
-  useEffect(() => {
-    console.log(cartItems);
-  }, [cartItems]);
 
   function addCart(prolist) {
     setCartItems([...cartItems, prolist]);

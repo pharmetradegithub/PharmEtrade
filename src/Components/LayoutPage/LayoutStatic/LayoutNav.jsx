@@ -88,6 +88,7 @@ const LayoutNav = ({ Form_Data }) => {
   const handleCriteria = async (obj) => {
     handleItemClick(obj.categoryName,obj.productCategoryId)
     let Criteria = {
+      customerId: user.customerId,
       productCategoryId: obj.productCategoryId,
     };
 
@@ -120,12 +121,14 @@ const LayoutNav = ({ Form_Data }) => {
 
       
       let Criteria = {
+        customerId: user.customerId,
         productCategoryId: selectedItemId,
         productName: SearchInput,
       };
       if(selectedItemId==-1)
       {
         Criteria = {
+          customerId: user.customerId,
           productName: SearchInput,
 
 
@@ -233,6 +236,7 @@ console.log(selectedItem);
   };
   const handleCriteriaLoad = async (id)=>{
     let Criteria = {
+      customerId: user.customerId,
       productCategoryId: id,
     };
 

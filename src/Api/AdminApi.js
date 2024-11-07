@@ -20,7 +20,6 @@ export const GetByAdminCriteriaAPI = async (obj) => {
   try {
     const response = await axios.post('/api/Customer/GetByCriteria', obj);
     if (response.status === 200) {
-      console.log(response);
       return response.data.result;
     }
   } catch (error) {
@@ -33,7 +32,6 @@ export const fetchAdminLogin = (userId) => {
   return async (dispatch) => {
     try {
       const responseLogin = await axios.get(`/api/Dashboard/GetAdminDashboard?adminId=${userId}`)
-      console.log('responseLogin-->', responseLogin)
       if (responseLogin.status === 200) {
         const response = responseLogin.data;
         dispatch(setAdmin(response))

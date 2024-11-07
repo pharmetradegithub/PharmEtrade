@@ -6,10 +6,8 @@ export const fetchSellerDashboard = (customerId) => {
     try {
       // console.log(`Fetching data for sellerId: ${customerId}`);
       const response = await axios.get(`/api/Dashboard/GetSellerDashboard?sellerId=${customerId}`);
-      console.log('API Response:', response);
       if (response.status === 200) {
         const sellerData = response.data;
-        // console.log('fetchSellerDashboard-->', sellerData);
         dispatch(setSellerDashboardId(sellerData));
       } else {
         console.log('Failed to fetch dashboard:', response.message);
@@ -23,9 +21,7 @@ export const fetchSellerDashboard = (customerId) => {
 export const fetchCustomerDashboard = (customerId) => {
   return async (dispatch) => {
     try {
-      console.log('Fetching data for customer dashboard');
       const response = await axios.get(`/api/Dashboard/GetBuyerDashboard?buyerId=${customerId}`)
-      // console.log('API Response:', response);
       if (response.status === 200) {
         const customerData = response.data;
         dispatch(setCustomerDashboardId(customerData))
@@ -41,12 +37,9 @@ export const fetchCustomerDashboard = (customerId) => {
 export const fetchTotalProductDashboard = (customerId) => {
   return async (dispatch) => {
     try {
-      console.log('Fetching data for total dashboard');
       const response = await axios.get(`/api/Orders/Seller/Products?vendorId=${customerId}`)
-      console.log('API total Response -->', response);
       if (response.status === 200) {
         const ProductData = response.data.result;
-        console.log("productTotal-->", ProductData)
         dispatch(setTotalProductDashboard(ProductData))
       } else {
         console.log('Failed to fetch dashboard:', response.message);
@@ -60,12 +53,9 @@ export const fetchTotalProductDashboard = (customerId) => {
 export const fetchCustomerOrered = (customerId) => {
   return async (dispatch) => {
     try {
-      console.log('Fetching data for total dashboard');
       const response = await axios.get(`/api/Orders/Seller/Customers?vendorId=${customerId}`)
-      console.log('API total Response -->', response);
       if (response.status === 200) {
         const ProductData = response.data.result;
-        console.log("customer-->", ProductData)
         dispatch(setCustomerOrder(ProductData))
       } else {
         console.log('Failed to fetch dashboard:', response.message);
@@ -80,9 +70,7 @@ export const fetchCustomerOrered = (customerId) => {
 export const fetchSellCustomer = (customerId) => {
   return async (dispatch) => {
     try {
-      // console.log('Fetching data for customer dashboard');
       const response = await axios.get(`/api/Orders/Seller/Customers?vendorId=${customerId}`)
-      console.log('API sell customer Response:', response);
       if (response.status === 200) {
         const customerData = response.data;
         dispatch(setSellCustomer(customerData))

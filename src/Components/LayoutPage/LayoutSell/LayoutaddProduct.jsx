@@ -866,7 +866,7 @@ function LayoutaddProduct() {
       shippingCost: formData.shippingCost,
       amountInStock: formData.amountInStock,
       minOrderQuantity: formData.minOrderQuantity,
-      maxOrderQuantity: formData.maxOrderQuantity,
+      maxOrderQuantity: (formData.maxOrderQuantity == null || formData.maxOrderQuantity =="") ?formData.amountInStock :formData.maxOrderQuantity ,
     };
     if (formData.discount == null || formData.discount == "")
       setFormData({ ...formData, ["discount"]: 0 });
