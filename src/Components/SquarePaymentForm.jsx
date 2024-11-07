@@ -47,6 +47,7 @@ const SquarePaymentForm = ({
       // locationId="L0599WY5GGG3W"
       locationId="LY0VX9YHK6X93"
     >
+    <h2 className="text-orange-500 font-semibold mb-2">3 Select a payment method</h2>
       <CreditCard />
     </PaymentForm>
   );

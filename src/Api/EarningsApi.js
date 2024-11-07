@@ -6,7 +6,6 @@ export const fetchEarningsAPi = (customerId) => {
   return async (dispatch) => {
     try {
       const earningResponse = await axios.get(`/api/Dashboard/Seller/Earnings?sellerId=${customerId}`)
-      console.log("earning--->", earningResponse)
       if (earningResponse.status === 200) {
         const earningData = earningResponse.data
         dispatch(setEarning(earningData))
