@@ -40,7 +40,7 @@ import { FedExRatesApi, serviceTypeApi } from "../../Api/TrackApi";
 import Proccedtoshipment from '../ProccedtoShipment'
 import SquarePaymentForm from "../SquarePaymentForm";
 function Address({ topMargin, totalAmount, amount }) {
-
+  const dispatch = useDispatch()
   const applicationId = 'sandbox-sq0idb-vXdVdM6tMjTG6Zi2XCoE-A';
   const locationId = 'L0599WY5GGG3W';
   // const Payment_Amnount = 500;
