@@ -1,20 +1,99 @@
-import React, { useState } from "react";
+// import React, { useEffect, useState } from "react";
+// import dropdown from "../../../assets/Icons/dropdown.png";
+// import dropdownup from "../../../assets/Icons/dropdownUp.png";
+// import { useSelector } from "react-redux";
+// import { useLocation } from "react-router-dom";
+
+// const categories = [
+//   // "All categories",
+//   { id: 1, name: "Prescription Medications" },
+//   { id: 2, name: "Baby & Child Care Products" },
+//   { id: 4, name: "Health care products" },
+//   { id: 5, name: "Household Suppliers" },
+//   { id: 6, name: "Oral Care Products" },
+//   { id: 7, name: "Stationery & Gift Wrapping Supplies" },
+//   { id: 8, name: "Vision Products" },
+//   { id: 9, name: "Diet & Sports Nutrition" },
+//   { id: 10, name: "Vitamins, Minerals & Supplements" },
+//   { id: 11, name: "Personal Care Products" },
+// ];
+
+// const allCategoriesSubItems = [
+//   { name: "Prescription_drug", checked: false },
+//   // { name1: "(EA)", checked1: false },
+//   // { name: "Cough Cold & Flu", checked: false },
+//   // { name: "Digestive Health", checked: false },
+// ];
+
+// function ProductSideBar({ handleChange }) {
+//   // const [dropdownOpen, setDropdownOpen] = useState({
+//   //   allCategories: false,
+//   //   deals: false,
+//   //   brands: false,
+//   //   packing: false,
+//   // });
+//   const productCriteria = useSelector(
+//     (state) => state.product.productsByCriteria
+//   );
+//   const location = useLocation();
+//   const [categoryName, setCategoryName] = useState("");
+
+//   useEffect(() => {
+//     const searchParams = new URLSearchParams(location.search);
+//     const category = searchParams.get("CategoryName");
+
+//     if (category) {
+//       setCategoryName(category);
+//     }
+//   }, [location.search]);
+
+//   const toggleDropdown = (category) => {
+//     setDropdownOpen((prevState) => ({
+//       ...prevState,
+//       [category]: !prevState[category],
+//     }));
+//   };
+
+//   return (
+//     <div className="w-full overflow-y-scroll h-full bg-slate-50 text-lg py-4 pl-4">
+//       {categories.map((category, index) => (
+//         // <div
+//         //   key={index}
+//         //   className="w-[90%] mb-2 rounded-md bg-blue-900 text-white"
+//         // >
+//         //   <div className={`border-1 ${categoryName.split(" ")[0] === category.split(" ")[0]?"bg-gray-400":"bg-blue-900"} px-4 py-1 rounded-md text-base flex justify-between items-center cursor-pointer text-white hover:bg-gray-400 hover:text-black `}>
+//         //     <p>{category}</p>
+//         //   </div>
+//         // </div>
+//         <div
+//         key={category.id}
+//         className={`w-[90%] mb-2 rounded-md ${categoryName === category.name ? "bg-gray-400" : "bg-blue-900"
+//           } text-white`}
+//       >
+//         <div
+//           className={`border-1 ${categoryName.split(" ")[0] === category.name.split(" ")[0] ? "bg-gray-400" : "bg-blue-900"} px-4 py-1 rounded-md text-base flex justify-between items-center cursor-pointer text-white hover:bg-gray-400 hover:text-black `}
+//           onClick={() => handleChange(category)}
+//         >
+//           <p>{category.name}</p>
+//         </div>
+//       </div>
+//       ))}
+//     </div>
+//   );
+// }
+
+// export default ProductSideBar;
+
+
+
+
+import React, { useEffect, useState } from "react";
 import dropdown from "../../../assets/Icons/dropdown.png";
 import dropdownup from "../../../assets/Icons/dropdownUp.png";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
-const categories = [
-  "All categories",
-  "Pharmacy Items",
-  "Prescription drugs",
-  "OTC Products",
-  "Brands",
-  "Deals",
-  "Packing",
-  "Generics",
-  "Top Selling Products",
-  "Whole saler",
-  "Buy Again",
-];
+
 
 const allCategoriesSubItems = [
   { name: "Prescription_drug", checked: false },
@@ -23,14 +102,24 @@ const allCategoriesSubItems = [
   // { name: "Digestive Health", checked: false },
 ];
 
-function ProductSideBar() {
-  const [dropdownOpen, setDropdownOpen] = useState({
-    allCategories: false,
-    deals: false,
-    brands: false,
-    packing: false, 
-  });
+function ProductSideBar({ handleChange }) {
+  // const [dropdownOpen, setDropdownOpen] = useState({
+  //   allCategories: false,
+  //   deals: false,
+  //   brands: false,
+  //   packing: false,
+  // });
+  const components = useSelector((state) => state.master.productCategoryGetAll)
+  const productCriteria = useSelector(
+    (state) => state.product.productsByCriteria
+  );
+  const location = useLocation();
+  const [categoryName, setCategoryName] = useState("");
 
+  const searchParams = new URLSearchParams(location.search);
+  const categoryId = searchParams.get("CategoryName");
+  
+  console.log(categoryId ,"number");
   const toggleDropdown = (category) => {
     setDropdownOpen((prevState) => ({
       ...prevState,
@@ -39,111 +128,20 @@ function ProductSideBar() {
   };
 
   return (
-    <div className="w-full overflow-y-scroll h-full bg-slate-50 text-lg py-4 pl-4">
-      {categories.map((category, index) => (
+    <div className="w-full z-[-10]  bg-slate-50 text-lg py-4 pl-4">
+      {components?.map((category, index) => (
         <div
-          key={index}
-          className="w-[90%] mb-2 rounded-md bg-blue-900 text-white"
+        key={category.productCategoryId}
+        className={`w-[90%] mb-2 rounded-md ${categoryId == category.productCategoryId ? "bg-gray-400" : "bg-blue-900"
+          } text-white`}
+      >
+        <div
+          className={`border-1 ${categoryId == category.productCategoryId ? "bg-gray-400" : "bg-blue-900"} px-4 py-1 rounded-md text-base flex justify-between items-center cursor-pointer text-white hover:bg-gray-400 hover:text-black `}
+          onClick={() => handleChange(category)}
         >
-          <div
-            className={`border-1 bg-blue-900 px-4 py-1 rounded-md flex justify-between items-center cursor-pointer text-white hover:bg-red-100 hover:text-black ${
-              dropdownOpen.allCategories && category === "All categories"
-                ? " "
-                : ""
-            }`}
-            onClick={() =>
-              toggleDropdown(
-                category === "All categories"
-                  ? "allCategories"
-                  : category.toLowerCase()
-              )
-            }
-          >
-            <p>{category}</p>
-            {["All categories", "Deals", "Brands", "Packing"].includes(category) && (
-              <span className="ml-2">
-                {dropdownOpen[
-                  category === "All categories"
-                    ? "allCategories"
-                    : category.toLowerCase()
-                ] ? (
-                  <img src={dropdownup} className="w-5" />
-                ) : (
-                  <img src={dropdown} className="w-5" />
-                )}
-              </span>
-            )}
-          </div>
-          <div className={`pl-4 mt-2 ${dropdownOpen.allCategories && category === "All categories" ? "hover:bg-red-100 hover:text-black rounded-md" : ""}`}>
-            {dropdownOpen.allCategories && category === "All categories" && (
-              <div>
-                {allCategoriesSubItems.map((item, subIndex) => (
-                  <div
-                    key={subIndex}
-                    className="flex items-center mb-2 rounded-md p-2"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={item.checked}
-                      onChange={() => {}}
-                      className="mr-2 pr-2 hover:bg-red-100 hover:text-black"
-                    />
-                    <label>{item.name}</label>
-                  </div>
-                ))}
-              </div>
-            )}
-            {dropdownOpen.deals && category === "Deals" && (
-              <div className="text-sm gap-4 pr-4 cursor-pointer">
-                <p className="hover:bg-red-100 rounded-md p-2 hover:text-black">
-                  Discount 75%
-                </p>
-                <p className="hover:bg-red-100 rounded-md p-2 hover:text-black">
-                  Discount 50%
-                </p>
-                <p className="hover:bg-red-100 rounded-md p-2 hover:text-black">
-                  Discount 25%
-                </p>
-                <p className="hover:bg-red-100 hover:text-black rounded-md p-2">
-                  Expiring within 3 months
-                </p>
-                <p className="hover:bg-red-100 hover:text-black rounded-md p-2">
-                  Expiring within 6 months
-                </p>
-                <p className="hover:bg-red-100 hover:text-black rounded-md p-2">
-                  Expiring within 12 months
-                </p>
-                <p className="hover:bg-red-100 hover:text-black rounded-md p-2">
-                  Wholesaler items
-                </p>
-                <p className="hover:bg-red-100 hover:text-black rounded-md p-2">
-                  Top Selling Products
-                </p>
-              </div>
-            )}
-            {dropdownOpen.brands && category === "Brands" && (
-              <div className="text-sm pr-4 mt-2 mb-2 cursor-pointer">
-                <p className="hover:bg-red-100 hover:text-black rounded-md p-2">
-                  Brands Subcategory 1
-                </p>
-                <p className="hover:bg-red-100 hover:text-black rounded-md p-2">
-                  Brands Subcategory 2
-                </p>
-              </div>
-            )}
-            {dropdownOpen.packing && category === "Packing" && (
-              <div className="text-sm pr-6 mt-2 mr-4 cursor-pointer hover:bg-red-100 hover:text-black rounded-md p-2">
-                <input
-                  type="checkbox"
-                  // checked={allCategoriesSubItems[1].checked1} 
-                  // onChange={() => {}}
-                  className="mr-2 pr-2 hover:bg-red-100 hover:text-black"
-                />
-                <label className="pr-4 ">(EA)</label>
-              </div>
-            )}
-          </div>
+          <p>{category.categoryName}</p>
         </div>
+      </div>
       ))}
     </div>
   );

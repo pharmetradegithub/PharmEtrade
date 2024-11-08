@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import img from "../assets/img1.png";
+import LayoutOrderList from "./LayoutPage/LayoutBuy/LayoutOrderlist";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchGetOrder } from "../Api/OrderApi";
 function OrderHistory({ topMargin }) {
   const [searchQuery, setSearchQuery] = useState("");
+  const user = useSelector((state) => state.user.user)
   const generateYears = (startYear, endYear) => {
     let years = [];
     for (let year = startYear; year <= endYear; year++) {
@@ -13,7 +17,7 @@ function OrderHistory({ topMargin }) {
 
   const YearDropdown = () => {
     const currentYear = new Date().getFullYear();
-    const years = generateYears(2000, currentYear);
+    const years = generateYears( currentYear, currentYear+5);
 
     return (
       <select className="border  rounded-md mx-2 shadow-md bg-slate-200">
@@ -25,6 +29,11 @@ function OrderHistory({ topMargin }) {
       </select>
     );
   };
+
+  const dispatch = useDispatch()
+  useEffect(() => {
+     dispatch(fetchGetOrder(user?.customerId))
+  })
 
   return (
     <div
@@ -42,7 +51,7 @@ function OrderHistory({ topMargin }) {
         </p>
       </div> */}
 
-      <div className="flex justify-between items-center ">
+      {/* <div className="flex justify-between items-center ">
         <h2 className="text-3xl font-semibold"> Your Orders</h2>
 
         <div className="flex   text-end justify-end items-center">
@@ -59,9 +68,9 @@ function OrderHistory({ topMargin }) {
             Search order
           </button>
         </div>
-      </div>
+      </div> */}
       {/* links start */}
-      <div className="flex   ">
+      {/* <div className="flex   ">
         <button className=" border-b border-red-500  hover:text-blue-900 text-black w-60   h-9  text-xl">
           Orders
         </button>
@@ -69,28 +78,28 @@ function OrderHistory({ topMargin }) {
         <button className="  border-b hover:border-red-500 hover:text-blue-900 text-black w-60   h-9 text-xl">
           {" "}
           {""}
-          <Link to="/products"> Buy Again</Link>
+          <Link to="/layout/layoutbuyerreceivedgrid"> Received Orders</Link>
         </button>
         <button className="  border-b hover:border-red-500 hover:text-blue-900 text-black w-60   h-9 text-xl">
           {" "}
           {""}
-          <Link to="/products"> Not Yet Shipped</Link>
+          <Link to="/layout/layoutbuyerupcominggrid"> Upcoming Orders</Link>
         </button>
 
         <button className="  border-b hover:border-red-500 hover:text-red-500 text-black w-60 h-9 text-xl">
           {" "}
           {""}
-          <Link to="/cancelledpage"> Cancelled Orders</Link>
+          <Link to="/layout/layoutbuyercancelledgrid"> Cancelled Orders</Link>
         </button>
-      </div>
+      </div> */}
       {/* limks end */}
-      <div className="flex my-4">
+      {/* <div className="flex my-4">
         <h1>Orders Placed In</h1>
         <YearDropdown className="border rounded-lg" />
-      </div>
+      </div> */}
       {/* section start */}
 
-      <div className="border my-6 rounded-lg shadow-md">
+      {/* <div className="border my-6 rounded-lg shadow-md">
         <div className="flex justify-between border-b pb-2 pt-2 pr-3 pl-3 bg-slate-200">
           <div>
             <h1 className="">Order Placed</h1>
@@ -144,7 +153,7 @@ function OrderHistory({ topMargin }) {
                 </p>
                 <div className=" flex my-2">
                   <button className="border rounded-lg p-2 bg-blue-900 text-white w-48 shadow-md">
-                    <Link to="/products"> Buy it again</Link>
+                    <Link to="/allProducts"> Buy it again</Link>
                   </button>
                   <button className="border rounded-lg p-2 mx-3 shadow-md w-48">
                   <Link to='/detailspage/:id'>View your item</Link>  
@@ -157,8 +166,9 @@ function OrderHistory({ topMargin }) {
             <button className="text-blue-900">Archieve order</button>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* section end */}
+      <LayoutOrderList />
     </div>
 
     // </div>

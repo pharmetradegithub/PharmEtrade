@@ -1,136 +1,169 @@
-// import React, { useContext, useState } from "react";
+// import React, { useContext, useState, useEffect } from "react";
 // import { Link, useNavigate } from "react-router-dom";
 // import { styled, alpha } from "@mui/material/styles";
 // import InputBase from "@mui/material/InputBase";
-// import searchimg from '../assets/search1.png';
-// import deleteicon from '../assets/trash.png';
-// import { AppContext } from "../context";
+// import searchimg from "../assets/search1.png";
+// import deleteicon from "../assets/trash.png";
+// import { useDispatch, useSelector } from "react-redux";
+// import { addCartApi, removeItemFromCartApi } from "../Api/CartApi";
+// import { fetchOrderPlace } from "../Api/OrderApi";
 
-// function Cart({ topMargin }) {
-//   const { cartItems, setCartItems } = useContext(AppContext);
+// import {
+//   Tooltip,
+//   Dialog,
+//   DialogTitle,
+//   DialogContent,
+//   DialogActions,
+//   Button,
+// } from "@mui/material";
+// import wrong from "../assets/Icons/wrongred.png";
 
-//   // Initialize quantities with default value of 1
-//   const [quantities, setQuantities] = useState(cartItems.map(() => 1));
-//   let navigate = useNavigate();
+// function Cart() {
+//   const user = useSelector((state) => state.user.user);
+//   const cartList = useSelector((state) => state.cart.cart);
+//   const [cartItems, setcartItems] = useState(cartList);
+//   // const { cartItems, setCartItems } = useContext(AppContext);
+//   const [quantities, setQuantities] = useState([]);
+//   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+//   const [openDialog, setOpenDialog] = useState(false);
+//   const navigate = useNavigate();
 
-//   const  handleremove =  async (index) => {
-//     // const filtered = cartItems.filter((_, i) => i !== index);
-//     // setCartItems(filtered);
+//   useEffect(() => {
+//     if (cartList) setcartItems(cartList);
+//   }, [cartList]);
 
-//     // const updatedQuantities = quantities.filter((_, i) => i !== index);
-//     // setQuantities(updatedQuantities);
+//   const handleDeleteClick = (index) => {
+//     setSelectedItemIndex(index);
+//     setOpenDialog(true);
+//   };
 
+//   const handleDialogClose = () => {
+//     setOpenDialog(false);
+//     setSelectedItemIndex(null);
+//   };
+
+//   // const handleremove = async () => {
+//   //   try {
+//   //     const cartId = cartItems[selectedItemIndex].cartId;
+//   //     await removeItemFromCartApi(cartId);
+//   //     handleDialogClose(); // Close dialog after deleting
+//   //   } catch (error) {
+//   //     console.error("There was a problem with the fetch operation:", error);
+//   //   }
+//   // };
+
+//   const handleremove = async (index) => {
 //     try {
-//       const response = await fetch(`http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Cart/Delete?CartId=${cartItems[index].cartId}`, {
-//         method: "POST",
-//       }
-//     )
+//       const cartId = cartItems[index].cartId; // Get cartId of the item to delete
+//       await removeItemFromCartApi(cartId); // API call to remove item from cart
 
-//         if (!response.ok) {
-//           const errorDetails = await response.json();
-//           throw new Error(
-//             `Error: ${response.status} ${response.statusText
-//             } - ${JSON.stringify(errorDetails)}`
-//           );
-//         }
+//       // Remove item from local cart state after successful deletion
+//       const updatedCartItems = cartItems.filter((_, i) => i !== index);
+//       setCartItems(updatedCartItems); // Update state with remaining items
+//     } catch (error) {
+//       console.error("There was a problem with the fetch operation:", error);
+//     }
+//   };
 
-//       const result = await response.json();
-//         console.log("deleteresult----", result);
-//       // setCartItems(result?.result || []);
-//       // window.location.reload()
-//       const updatedWishItems = cartItems.filter((_, i) => i !== index);
-//       setCartItems(updatedWishItems);
-
-//       } catch (error) {
-//         // console.error("There was a problem with the fetch operation:", error);
-//         throw error;
-//       }
-//   }
-
+//   console.log(cartItems, "cart");
+//   const handleCart = async (productID, Quantity) => {
+//     const cartData = {
+//       customerId: user.customerId,
+//       productId: productID,
+//       quantity: Quantity,
+//       isActive: 1,
+//     };
+//     console.log(cartData);
+//     try {
+//       await addCartApi(cartData);
+//     } catch (error) {
+//       console.error("Error adding product to cart:", error);
+//     }
+//   };
+//   // const handleQuantityChange = (index, newQuantity) => {
+//   //   if (newQuantity) {
+//   //     setcartItems((prev) => {
+//   //       const updatedList = [...prev];
+//   //       updatedList[index] = {
+//   //         ...updatedList[index],
+//   //         updateQuantity: newQuantity,
+//   //       };
+//   //       return updatedList;
+//   //     });
+//   //     handleCart(
+//   //       cartItems[index].product.productID,
+//   //       newQuantity - cartItems[index].quantity
+//   //     );
+//   //   }
+//   // };
 //   const handleQuantityChange = (index, newQuantity) => {
-//     const updatedQuantities = [...quantities];
-//     updatedQuantities[index] = newQuantity;
-//     setQuantities(updatedQuantities);
+//     // Ensure the new quantity is at least 1
+//     if (newQuantity >= 0) {
+//       setcartItems((prev) => {
+//         const updatedList = [...prev];
+//         updatedList[index] = {
+//           ...updatedList[index],
+//           updateQuantity: newQuantity,
+//         };
+//         return updatedList;
+//       });
+//       handleCart(
+//         cartItems[index].product.productID,
+//         newQuantity - cartItems[index].quantity
+//       );
+//     }
 //   };
 
 //   const calculateSubtotal = (price, quantity) => price * quantity;
 
-//   // Calculate total dynamically based on updated quantities
-//   const total = cartItems.reduce(
-//     (acc, item, index) =>
-//       acc + calculateSubtotal(item.product.salePrice, quantities[index]),
-//     0
-//   );
+//   const total = cartItems.reduce((acc, item) => {
+//     const price =
+//       item.product?.salePrice > 0
+//         ? item.product.salePrice.toFixed(2)
+//         : item.product.unitPrice?.toFixed(2);
 
+//     return acc + calculateSubtotal(price, item.quantity);
+//   }, 0);
+
+//   const dispatch = useDispatch();
 //   const handleProceed = () => {
-//     navigate("/checkout");
+//     const currentDate = new Date();
+//     const payload = {
+//       orderId: "",
+//       customerId: user.customerId,
+//       totalAmount: total?.toFixed(2),
+//       orderDate: currentDate.toISOString(),
+//       shippingMethodId: 1,
+//       orderStatusId: 1,
+//       trackingNumber: "",
+//       products: cartItems.map((items) => {
+//         return {
+//           productId: items.product.productID,
+//           quantity: items.quantity,
+//           pricePerProduct: items.product.salePrice,
+//           sellerId: user.customerId,
+//           imageUrl: items.product.imageUrl,
+//         };
+//       }),
+//     };
+//     dispatch(fetchOrderPlace(payload));
+//     navigate(`/checkout?total=${total?.toFixed(2)}`);
 //   };
 
 //   const handlemove = () => {
 //     navigate("/detailspage/0");
 //   };
 
-//   const Search = styled("div")(({ theme }) => ({
-//     position: "relative",
-//     borderRadius: theme.shape.borderRadius,
-//     backgroundColor: alpha(theme.palette.common.white, 0.15),
-//     "&:hover": {
-//       backgroundColor: alpha(theme.palette.common.white, 0.25),
-//     },
-//     marginLeft: 0,
-//     width: "100%",
-//     [theme.breakpoints.up("sm")]: {
-//       marginLeft: theme.spacing(1),
-//       width: "auto",
-//     },
-//   }));
-
-//   const SearchIconWrapper = styled("div")(({ theme }) => ({
-//     padding: theme.spacing(0, 2),
-//     height: "100%",
-//     position: "absolute",
-//     pointerEvents: "none",
-//     display: "flex",
-//     alignItems: "center",
-//     justifyContent: "center",
-//     color: 'black',
-//     zIndex: "1"
-//   }));
-
-//   const StyledInputBase = styled(InputBase)(({ theme }) => ({
-//     border: '1px solid gray',
-//     borderRadius: '5px',
-//     color: "black",
-//     width: "100%",
-//     "& .MuiInputBase-input": {
-//       padding: theme.spacing(1, 1, 1, 0),
-//       paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-//       transition: theme.transitions.create("width"),
-//       [theme.breakpoints.up("sm")]: {
-//         width: "12ch",
-//         "&:focus": {
-//           width: "20ch",
-//         },
-//       },
-//     },
-//   }));
-
 //   return (
-//     <div className="flex flex-col justify-center font-sans bg-gray-200 p-8" style={{ marginTop: `${topMargin}px` }}>
+//     <div className="flex flex-col justify-center font-sans bg-gray-200 p-8">
 //       <p className="text-lg md:text-2xl mb-2 text-blue-900 flex font-semibold">
 //         PharmEtrade {`>`} Cart
 //       </p>
 //       <div className="w-full bg-white rounded-lg shadow-lg p-5">
 //         <div className="flex justify-between">
-//           <h2 className="text-xl md:text-2xl mb-4 font-semibold">Cart</h2>
-//           <div className='flex bg-white m-5'>
-//             <Search>
-//               <SearchIconWrapper>
-//                 <img src={searchimg} className="w-6 absolute" alt="search-icon" />
-//               </SearchIconWrapper>
-//               <StyledInputBase placeholder="Search..." inputProps={{ "aria-label": "search" }} />
-//             </Search>
-//           </div>
+//           <h2 className="text-xl md:text-2xl m-5 text-blue-900 font-semibold">
+//             Cart
+//           </h2>
 //         </div>
 //         {cartItems.length > 0 ? (
 //           <div className="flex flex-col lg:flex-row gap-2">
@@ -138,46 +171,172 @@
 //               <table className="min-w-full border shadow-lg rounded-lg">
 //                 <thead>
 //                   <tr className="border-b">
-//                     <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">Image</th>
-//                     <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">Product Name</th>
-//                     <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">Price</th>
-//                     <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">Quantity</th>
-//                     <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">Subtotal</th>
-//                     <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">Action</th>
+//                     <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">
+//                       Image
+//                     </th>
+//                     <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">
+//                       Product Name
+//                     </th>
+//                     <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">
+//                       Price
+//                     </th>
+//                     <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">
+//                       Quantity
+//                     </th>
+//                     <th className="px-2 md:px-5 -mr-2 py-2 md:py-3 text-right font-semibold text-blue-950 tracking-wider">
+//                       Subtotal
+//                     </th>
+//                     <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">
+//                       Action
+//                     </th>
 //                   </tr>
 //                 </thead>
 //                 <tbody className="bg-white divide-y divide-gray-200">
 //                   {cartItems.map((item, index) => (
 //                     <tr key={index}>
-//                       <td className="px-2 md:px-3 py-2 whitespace-nowrap">
-//                         <img
-//                           className="h-16 w-16 rounded-lg"
-//                           onClick={handlemove}
-//                           src={item.product.imageUrl}
-//                           alt={item.product.id}
-//                         />
+//                       <td className="px-2 md:px-3 py-2 ">
+//                         <Link to={`/detailspage/${item.product.productID}`}>
+//                           <img
+//                             className="h-16 w-16 rounded-lg"
+//                             src={item.product.imageUrl}
+//                             alt={item.product.id}
+//                           />
+//                         </Link>
 //                       </td>
-//                       <td className="px-2 md:px-4 py-3 whitespace-nowrap">{item.product.productName}</td>
-//                       <td className="px-2 md:px-4 py-3 whitespace-nowrap">${item.product.salePrice}</td>
-//                       <td className="px-2 md:px-4 py-3 whitespace-nowrap">
-//                         <input
-//                           type="number"
-//                           value={quantities[index]}
-//                           onChange={(e) => handleQuantityChange(index, Number(e.target.value))}
-//                           className="text-xl border rounded-lg p-1 w-16"
-//                           min="1"
-//                         />
+//                       <td className="px-2 md:px-4 py-3 p-2 flex flex-wrap">
+//                         {item.product.productName}
 //                       </td>
-//                       <td className="px-2 md:px-4 py-3 whitespace-nowrap">
-//                         <strong>${calculateSubtotal(item.product.salePrice, quantities[index])}</strong>
+//                       <td className=" md:px-4 py-3 text-center ">
+//                         {/* ${item.product.unitPrice?.toFixed(2)} */}$
+//                         {item.product?.salePrice > 0
+//                           ? item.product.salePrice.toFixed(2)
+//                           : item.product.unitPrice?.toFixed(2)}
+//                       </td>
+                      
+//                       <td>
+//                         <div className="mt-2 flex items-center">
+                  
+
+//                           <button
+//                             className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+//                             onClick={() =>
+//                               item.updateQuantity <=
+//                               item.product.minimumOrderQuantity
+//                                 ? handleremove(index) // Call handleremove with index if at or below minimum
+//                                 : handleQuantityChange(
+//                                     index,
+//                                     Math.max(
+//                                       item.product.minimumOrderQuantity,
+//                                       item.updateQuantity - 1
+//                                     )
+//                                   )
+//                             }
+//                           >
+//                             {item.updateQuantity <=
+//                             item.product.minimumOrderQuantity ? (
+//                               <span className="material-icons">delete</span> // Replace with your delete icon
+//                             ) : (
+//                               "-"
+//                             )}
+//                           </button>
+
+//                           <input
+//                             type="text"
+//                             // value={ item?.product?.minimumOrderQuantity} // Default to minimumOrderQuantity
+//                             value={
+//                               item.updateQuantity ??
+//                               item.product.minimumOrderQuantity
+//                             }
+//                             onChange={(e) => {
+//                               const value = e.target.value;
+//                               handleQuantityChange(index, value); // Allow the user to clear the input while typing
+//                             }}
+//                             onBlur={(e) => {
+//                               const value = parseInt(e.target.value, 10);
+//                               if (!isNaN(value)) {
+//                                 if (value < item.product.minimumOrderQuantity) {
+//                                   alert(
+//                                     `Minimum order quantity is ${item.product.minimumOrderQuantity}`
+//                                   );
+//                                   handleQuantityChange(
+//                                     index,
+//                                     item.product.minimumOrderQuantity
+//                                   ); // Reset to minimum
+//                                 } else if (
+//                                   value > item.product.maximumOrderQuantity
+//                                 ) {
+//                                   alert(
+//                                     `Max order quantity is ${item.product.maximumOrderQuantity}`
+//                                   );
+//                                   handleQuantityChange(
+//                                     index,
+//                                     item.product.maximumOrderQuantity
+//                                   ); // Reset to maximum
+//                                 }
+//                               }
+//                             }}
+//                             className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
+//                           />
+
+//                           <button
+//                             className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+//                             onClick={() => {
+//                               console.log("clicked");
+//                               if (
+//                                 item.updateQuantity <
+//                                 item.product.maximumOrderQuantity
+//                               ) {
+//                                 handleQuantityChange(
+//                                   index,
+//                                   item.updateQuantity + 1
+//                                 );
+//                               } else {
+//                                 alert(
+//                                   `Maximum order quantity is only ${item.product.maximumOrderQuantity}`
+//                                 );
+//                               }
+//                             }}
+//                             // disabled={
+//                             //   item.updateQuantity <=
+//                             //   item.product.maximumOrderQuantity
+//                             // } // Disable button if quantity reaches minimumOrderQuantity
+//                           >
+//                             +
+//                           </button>
+//                         </div>
+//                         <div className="text-xs">
+//                           Minimum Quantity Required:
+//                           {item?.product?.minimumOrderQuantity}
+//                         </div>
+//                       </td>
+
+//                       <td className="px-2 md:px-4 text-right py-3 ">
+//                         <strong>
+//                           $
+//                           {calculateSubtotal(
+//                             item.product?.salePrice > 0
+//                               ? item.product.salePrice.toFixed(2)
+//                               : item.product.unitPrice?.toFixed(2),
+//                             item.quantity
+//                           )?.toFixed(2)}
+//                         </strong>
 //                       </td>
 //                       <td className="px-2 md:px-4 py-8 whitespace-nowrap flex items-center justify-center">
 //                         <button
 //                           className="text-red-600 w-4 h-3"
-//                           onClick={() => handleremove(index)}
+//                           // onClick={() => handleremove(index)}
+//                           onClick={() => handleDeleteClick(index)}
 //                         >
-//                           <img src={deleteicon} className="w-6" alt="delete-icon"/>
+//                           <Tooltip placement="top" title="Delete">
+//                             <img
+//                               src={deleteicon}
+//                               className="w-6"
+//                               alt="delete-icon"
+//                             />
+//                           </Tooltip>
 //                         </button>
+//                         {item.product.minimumOrderQuantity}{" "}
+//                         {item.product.maximumOrderQuantity}
 //                       </td>
 //                     </tr>
 //                   ))}
@@ -192,24 +351,30 @@
 //                   <button className="px-6 py-2 font-bold text-white text-lg bg-blue-900 rounded-full">
 //                     Apply Coupon
 //                   </button>
-//                   <button className="px-6 py-2 font-bold text-white text-lg bg-blue-900 rounded-full">
+//                   {/* <button className="px-6 py-2 font-bold text-white text-lg bg-blue-900 rounded-full">
 //                     Update Cart
-//                   </button>
+//                   </button> */}
 //                 </div>
 //               </div>
 //             </div>
 //             <div className="w-full lg:w-1/3 mt-4 lg:mt-0">
 //               <div className="bg-white border rounded-lg shadow-lg p-5">
-//                 <h2 className="text-xl md:text-2xl mb-4 text-center font-semibold">Cart Totals</h2>
+//                 <h2 className="text-xl md:text-2xl mb-4  text-blue-900 text-center font-semibold">
+//                   Cart Totals
+//                 </h2>
 //                 <table className="w-full">
 //                   <tbody>
 //                     <tr>
 //                       <td className="px-4 py-2 font-semibold">Subtotal</td>
-//                       <td className="px-4 py-2 text-right">${total}</td>
+//                       <td className="px-4 py-2 text-right">
+//                         ${total?.toFixed(2)}
+//                       </td>
 //                     </tr>
 //                     <tr>
 //                       <td className="px-4 py-2 font-semibold">Total</td>
-//                       <td className="px-4 py-2 text-right">${total}</td>
+//                       <td className="px-4 py-2 text-right">
+//                         ${total?.toFixed(2)}
+//                       </td>
 //                     </tr>
 //                   </tbody>
 //                 </table>
@@ -220,7 +385,7 @@
 //                   Proceed to checkout
 //                 </button>
 //                 <button className="w-full mt-2 px-4 py-2 font-bold text-black text-lg bg-slate-300 rounded-full">
-//                   <Link to="/products">Continue Shopping</Link>
+//                   <Link to="/allProducts">Continue Shopping</Link>
 //                 </button>
 //               </div>
 //             </div>
@@ -230,20 +395,64 @@
 //             <h2 className="text-xl font-semibold text-gray-700">
 //               Your cart is currently empty.
 //             </h2>
-//             <Link
-//               to="/products"
-//               className="mt-5 px-8 py-2 font-semibold text-white text-lg bg-blue-900 rounded-full"
-//             >
-//               RETURN TO SHOP
-//             </Link>
+
+//             <img src={searchimg} className="w-24 h-24 mt-4" alt="empty-cart" />
+//             <button className="bg-blue-900 text-white px-4 py-2 mt-6 rounded-lg">
+//               <Link to="/allProducts">Continue Shopping</Link>
+//             </button>
 //           </div>
 //         )}
 //       </div>
+//       {/* Confirmation Dialog */}
+//       <Dialog open={openDialog} onClose={handleDialogClose}>
+//         <div className="flex  justify-end p-2">
+//           <img
+//             onClick={handleDialogClose}
+//             src={wrong}
+//             className="w-5 h-5 cursor-pointer flex justify-end"
+//           />
+//         </div>
+//         <DialogContent>
+//           Are you sure you want to delete this item from your cart?
+//         </DialogContent>
+//         <div>
+//           <DialogActions
+//             sx={{
+//               display: "flex",
+//               justifyContent: "space-around",
+//             }}
+//           >
+//             <Button
+//               onClick={handleDialogClose}
+//               sx={{
+//                 color: "white",
+//                 backgroundColor: "red",
+//                 "&:hover": { backgroundColor: "#cc0000" },
+//               }}
+//             >
+//               Cancel
+//             </Button>
+//             <Button
+//               onClick={handleremove}
+//               sx={{
+//                 color: "white",
+//                 backgroundColor: "green",
+//                 "&:hover": { backgroundColor: "#006400" },
+//               }}
+//             >
+//               Delete
+//             </Button>
+//           </DialogActions>
+//         </div>
+//       </Dialog>
 //     </div>
 //   );
 // }
 
 // export default Cart;
+
+
+
 
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -251,30 +460,55 @@ import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import searchimg from "../assets/search1.png";
 import deleteicon from "../assets/trash.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addCartApi, removeItemFromCartApi } from "../Api/CartApi";
+import { fetchOrderPlace } from "../Api/OrderApi";
+
+import {
+  Tooltip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+} from "@mui/material";
+import wrong from "../assets/Icons/wrongred.png";
 
 function Cart() {
-  const user = useSelector((state)=>state.user.user);
+  const user = useSelector((state) => state.user.user);
   const cartList = useSelector((state) => state.cart.cart);
+  console.log("cartList---->", cartList)
   const [cartItems, setcartItems] = useState(cartList);
   // const { cartItems, setCartItems } = useContext(AppContext);
   const [quantities, setQuantities] = useState([]);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (cartList) setcartItems(cartList);
   }, [cartList]);
 
-  const handleremove = async (index) => {
+  const handleDeleteClick = (index) => {
+    setSelectedItemIndex(index);
+    setOpenDialog(true);
+  };
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+    setSelectedItemIndex(null);
+  };
+
+  const handleremove = async () => {
     try {
-      const cartId = cartItems[index].cartId;
+      const cartId = cartItems[selectedItemIndex].cartId;
       await removeItemFromCartApi(cartId);
+      handleDialogClose(); // Close dialog after deleting
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
   };
-  const handleCart = async (productID,Quantity) => {
+  const handleCart = async (productID, Quantity) => {
     const cartData = {
       customerId: user.customerId,
       productId: productID,
@@ -284,13 +518,29 @@ function Cart() {
 
     try {
       await addCartApi(cartData);
-
     } catch (error) {
       console.error("Error adding product to cart:", error);
     }
   };
+  // const handleQuantityChange = (index, newQuantity) => {
+  //   if (newQuantity) {
+  //     setcartItems((prev) => {
+  //       const updatedList = [...prev];
+  //       updatedList[index] = {
+  //         ...updatedList[index],
+  //         updateQuantity: newQuantity,
+  //       };
+  //       return updatedList;
+  //     });
+  //     handleCart(
+  //       cartItems[index].product.productID,
+  //       newQuantity - cartItems[index].quantity
+  //     );
+  //   }
+  // };
   const handleQuantityChange = (index, newQuantity) => {
-    if (newQuantity) {
+    // Ensure the new quantity is at least 1
+    if (newQuantity >= 1) {
       setcartItems((prev) => {
         const updatedList = [...prev];
         updatedList[index] = {
@@ -299,76 +549,155 @@ function Cart() {
         };
         return updatedList;
       });
-      handleCart(cartItems[index].product.productID, newQuantity - cartItems[index].quantity);
+      handleCart(
+        cartItems[index].product.productID,
+        newQuantity - cartItems[index].quantity
+      );
     }
   };
-  // const handleQuantityChange = (index, newQuantity) => {
-  //   const updatedQuantities = [...quantities];
-  //   updatedQuantities[index] = newQuantity;
-  //   setQuantities(updatedQuantities);
-  // };
 
   const calculateSubtotal = (price, quantity) => price * quantity;
 
-  // Calculate total dynamically based on updated quantities
-  const total = cartItems.reduce(
-    (acc, item, index) =>
-      acc + calculateSubtotal(item.product.salePrice, item.quantity),
-    0
-  );
+  const total = cartItems.reduce((acc, item) => {
+    const price =
+      item.product?.salePrice > 0
+        ? item.product.salePrice.toFixed(2)
+        : item.product.unitPrice?.toFixed(2);
 
-  const handleProceed = () => {
-    navigate(`/checkout?total=${total}`);
+    return acc + calculateSubtotal(price, item.quantity);
+  }, 0);
+
+  const dispatch = useDispatch();
+  // const handleProceed = () => {
+  //   const currentDate = new Date();
+  //   const payload = {
+  //     orderId: "",
+  //     customerId: user.customerId,
+  //     totalAmount: total?.toFixed(2),
+  //     orderDate: currentDate.toISOString(),
+  //     shippingMethodId: 1,
+  //     orderStatusId: 1,
+  //     trackingNumber: "",
+  //     products: cartItems.map((items) => {
+  //       return {
+  //         productId: items.product.productID,
+  //         quantity: items.quantity,
+  //         pricePerProduct: items.product.salePrice,
+  //         sellerId: user.customerId,
+  //         imageUrl: items.product.imageUrl,
+  //       };
+  //     }),
+  //   };
+  //   dispatch(fetchOrderPlace(payload));
+  //   navigate(`/checkout?total=${total?.toFixed(2)}`);
+  // };
+
+  // const handleProceed = async () => {
+  //   // Check stock availability for each item in the cart
+  //   for (let i = 0; i < cartItems.length; i++) {
+  //     const item = cartItems[i];
+
+  //     // Assume item.product.stockQuantity holds the available stock for the product
+  //     if (item.quantity > item.product.amountInStock) {
+  //       alert(`Sorry, there's not enough stock for ${item.product.productName}. Only ${item.product.amountInStock} left.`);
+  //       return;  // Prevent proceeding to checkout if stock is insufficient
+  //     }
+  //   }
+
+  //   // If all products have enough stock, proceed with the order
+  //   const currentDate = new Date();
+  //   const payload = {
+  //     orderId: "",
+  //     customerId: user.customerId,
+  //     totalAmount: total?.toFixed(2),
+  //     orderDate: currentDate.toISOString(),
+  //     shippingMethodId: 1,
+  //     orderStatusId: 1,
+  //     trackingNumber: "",
+  //     products: cartItems.map((items) => {
+  //       return {
+  //         productId: items.product.productID,
+  //         quantity: items.quantity,
+  //         pricePerProduct: items.product.salePrice,
+  //         sellerId: user.customerId,
+  //         imageUrl: items.product.imageUrl,
+  //       };
+  //     }),
+  //   };
+
+  //   try {
+  //     // Dispatch the action to place the order
+  //     dispatch(fetchOrderPlace(payload));
+
+  //     // Navigate to checkout page
+  //     navigate(`/checkout?total=${total?.toFixed(2)}`);
+  //   } catch (error) {
+  //     console.error("Error processing the order:", error);
+  //   }
+  // };
+
+  // const [notification, setNotification] = useState({
+  //   show: false,
+  //   message: "",
+  // });
+  const handleProceed = async () => {
+    // Check stock availability for each item in the cart
+    let hasStockIssue = false;
+
+    for (let i = 0; i < cartItems.length; i++) {
+      const item = cartItems[i];
+
+      // Logging item details for debugging
+      console.log(`Checking stock for ${item.product.productName}: Quantity = ${item.quantity}, Stock = ${item.product.amountInStock}`);
+
+      if (item.quantity > item.product.amountInStock) {
+        alert(`Sorry, there's not enough stock for ${item.product.productName}. Only ${item.product.amountInStock} left.`);
+        // setNotification({
+        //   show: true,
+        //   message: "Please decrease the stock to proceed to checkout",
+        // });
+        // setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+        hasStockIssue = true;  // Set flag if stock is insufficient
+        break;  // Stop further execution once insufficient stock is found
+      }
+    }
+
+    if (hasStockIssue) return;  // Prevent proceeding to checkout if any stock issue is found
+
+    // If all products have enough stock, proceed with the order
+    const currentDate = new Date();
+    const payload = {
+      orderId: "",
+      customerId: user.customerId,
+      totalAmount: total?.toFixed(2),
+      orderDate: currentDate.toISOString(),
+      shippingMethodId: 1,
+      orderStatusId: 1,
+      trackingNumber: "",
+      products: cartItems.map((item) => ({
+        productId: item.product.productID,
+        quantity: item.quantity,
+        pricePerProduct: item.product.salePrice,
+        sellerId: user.customerId,
+        imageUrl: item.product.imageUrl,
+      })),
+    };
+
+    try {
+      // Dispatch the action to place the order
+      await dispatch(fetchOrderPlace(payload));
+
+      // Navigate to checkout page
+      navigate(`/checkout?total=${total?.toFixed(2)}`);
+    } catch (error) {
+      console.error("Error processing the order:", error);
+    }
   };
+
 
   const handlemove = () => {
     navigate("/detailspage/0");
   };
-
-  const Search = styled("div")(({ theme }) => ({
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(1),
-      width: "auto",
-    },
-  }));
-
-  const SearchIconWrapper = styled("div")(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "black",
-    zIndex: "1",
-  }));
-
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    border: "1px solid gray",
-    borderRadius: "5px",
-    color: "black",
-    width: "100%",
-    "& .MuiInputBase-input": {
-      padding: theme.spacing(1, 1, 1, 0),
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create("width"),
-      [theme.breakpoints.up("sm")]: {
-        width: "12ch",
-        "&:focus": {
-          width: "20ch",
-        },
-      },
-    },
-  }));
 
   return (
     <div className="flex flex-col justify-center font-sans bg-gray-200 p-8">
@@ -377,22 +706,9 @@ function Cart() {
       </p>
       <div className="w-full bg-white rounded-lg shadow-lg p-5">
         <div className="flex justify-between">
-          <h2 className="text-xl md:text-2xl mb-4 font-semibold">Cart</h2>
-          <div className="flex bg-white m-5">
-            <Search>
-              <SearchIconWrapper>
-                <img
-                  src={searchimg}
-                  className="w-6 absolute"
-                  alt="search-icon"
-                />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search..."
-                inputProps={{ "aria-label": "search" }}
-              />
-            </Search>
-          </div>
+          <h2 className="text-xl md:text-2xl m-5 text-blue-900 font-semibold">
+            Cart
+          </h2>
         </div>
         {cartItems.length > 0 ? (
           <div className="flex flex-col lg:flex-row gap-2">
@@ -412,7 +728,7 @@ function Cart() {
                     <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">
                       Quantity
                     </th>
-                    <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">
+                    <th className="px-2 md:px-5 -mr-2 py-2 md:py-3 text-right font-semibold text-blue-950 tracking-wider">
                       Subtotal
                     </th>
                     <th className="px-2 md:px-5 py-2 md:py-3 text-left font-semibold text-blue-950 tracking-wider">
@@ -423,25 +739,37 @@ function Cart() {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {cartItems.map((item, index) => (
                     <tr key={index}>
-                      <td className="px-2 md:px-3 py-2 whitespace-nowrap">
-
-                      <Link to={`/detailspage/${item.product.productID}`}>
-
-                        <img
-                          className="h-16 w-16 rounded-lg"
-                          src={item.product.imageUrl}
-                          alt={item.product.id}
-                        />
+                      <td className="px-2 md:px-3 py-2 ">
+                        <Link to={`/detailspage/${item.product.productID}`}>
+                          <img
+                            className="h-16 w-16 rounded-lg"
+                            src={item.product.imageUrl}
+                            alt={item.product.id}
+                          />
                         </Link>
-
                       </td>
-                      <td className="px-2 md:px-4 py-3 whitespace-nowrap">
+                      <td className="px-2 md:px-4 py-3 p-2 flex flex-wrap">
                         {item.product.productName}
                       </td>
-                      <td className="px-2 md:px-4 py-3 whitespace-nowrap">
-                        ${item.product.salePrice}
+                      <td className="md:px-4 py-3 text-center">
+                        ${(() => {
+                          const currentDate = new Date();
+                          const saleStartDate = new Date(item.product?.salePriceValidFrom);
+                          const saleEndDate = new Date(item.product?.salePriceValidTo);
+
+                          // Check if salePrice exists, and the current date is within the sale period
+                          if (
+                            item.product?.salePrice > 0 &&
+                            currentDate >= saleStartDate &&
+                            currentDate <= saleEndDate
+                          ) {
+                            return item.product.salePrice.toFixed(2);
+                          } else {
+                            return item.product.unitPrice?.toFixed(2);
+                          }
+                        })()}
                       </td>
-                      <td className="px-2 flex gap-2 md:px-4 py-3 whitespace-nowrap">
+                      {/* <td className="px-2 flex gap-2 md:px-4 py-3 ">
                         <input
                           type="number"
                           value={item.updateQuantity}
@@ -451,31 +779,129 @@ function Cart() {
                           className="text-xl border rounded-lg p-1 w-16"
                           min="1"
                         />
-                        {/* {item.updateQuantity != item.quantity && (
-                          <button onClick={()=>handleCart(item.product.productID,item.updateQuantity-item.quantity)} className="text-white px-2 bg-blue-900">
-                            Update
-                          </button>
-                        )} */}
+                      </td> */}
+                      <td>
+                        <div className="flex flex-col mx-3">
+                          {/* <p className="font-semibold">Quantity</p> */}
+
+                          {/* <div className="mt-2 flex items-center">
+                            <button
+                              className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                              onClick={() =>
+                                handleQuantityChange(
+                                  index,
+                                  item.updateQuantity - 1
+                                )
+                              }
+                            >
+                              -
+                            </button>
+
+                            <input
+                              type="text"
+                              value={item.updateQuantity}
+                              disabled={true}
+                              className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
+                            />
+
+                            <button
+                              className="px-2 py-1 border rounded-md  bg-gray-200 text-gray-700 font-bold"
+                              onClick={() =>
+                                handleQuantityChange(
+                                  index,
+                                  item.updateQuantity + 1
+                                )
+                              }
+                            >
+                              +
+                            </button>
+                          </div> */}
+                          <div className="mt-2 flex items-center">
+                            <button
+                              className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                              onClick={() =>
+                                handleQuantityChange(
+                                  index,
+                                  Math.max(1, item.updateQuantity - 1)
+                                )
+                              }
+                              disabled={item.updateQuantity === 1} // Disable button if quantity is 1
+                            >
+                              -
+                            </button>
+
+                            <input
+                              type="text"
+                              value={item.updateQuantity}
+                              disabled={true}
+                              className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
+                            />
+
+                            {/* <button
+                              className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                              onClick={() =>
+                                handleQuantityChange(
+                                  index,
+                                  item.updateQuantity + 1
+                                )
+                              }
+                              disabled={item.updateQuantity >= item.product.amountInStock} // Disable + button if quantity reaches amountInStock
+                            >
+                              +
+                            </button> */}
+                            <button
+                              className={`px-2 py-1 border rounded-md font-bold text-gray-700 ${item.updateQuantity >= item.product.amountInStock
+                                  ? 'bg-gray-400 opacity-50 cursor-not-allowed' // Style when disabled
+                                  : 'bg-gray-200' // Style when enabled
+                                }`}
+                              onClick={() =>
+                                handleQuantityChange(index, item.updateQuantity + 1)
+                              }
+                              disabled={item.updateQuantity >= item.product.amountInStock} // Disable + button if quantity reaches amountInStock
+                            >
+                              +
+                            </button>
+                            
+                          </div>
+                          {item.updateQuantity >= item.product.amountInStock && (
+                              <p className="text-red-500 text-sm">
+                                Only {item.product.amountInStock} available in stock
+                              </p>
+                            )}
+                          {/* {item.updateQuantity > item.product.amountInStock && (
+                            <p className="text-red-500 text-sm">
+                              Only {item.product.amountInStock} left in stock. 
+                              {/* You've selected {item.updateQuantity}. 
+                            </p>
+                          )} */}
+                        </div>
+                        {/* <div className="text-xs">Minimum Quantity Required:{item?.product?.minimumOrderQuantity}</div> */}
                       </td>
-                      <td className="px-2 md:px-4 py-3 whitespace-nowrap">
+
+                      <td className="px-2 md:px-4 text-right py-3 ">
                         <strong>
                           $
                           {calculateSubtotal(
-                            item.product.salePrice,
+                            item.product?.salePrice > 0
+                              ? item.product.salePrice.toFixed(2)
+                              : item.product.unitPrice?.toFixed(2),
                             item.quantity
-                          )}
+                          )?.toFixed(2)}
                         </strong>
                       </td>
                       <td className="px-2 md:px-4 py-8 whitespace-nowrap flex items-center justify-center">
                         <button
                           className="text-red-600 w-4 h-3"
-                          onClick={() => handleremove(index)}
+                          // onClick={() => handleremove(index)}
+                          onClick={() => handleDeleteClick(index)}
                         >
-                          <img
-                            src={deleteicon}
-                            className="w-6"
-                            alt="delete-icon"
-                          />
+                          <Tooltip placement="top" title="Delete">
+                            <img
+                              src={deleteicon}
+                              className="w-6"
+                              alt="delete-icon"
+                            />
+                          </Tooltip>
                         </button>
                       </td>
                     </tr>
@@ -491,26 +917,30 @@ function Cart() {
                   <button className="px-6 py-2 font-bold text-white text-lg bg-blue-900 rounded-full">
                     Apply Coupon
                   </button>
-                  <button className="px-6 py-2 font-bold text-white text-lg bg-blue-900 rounded-full">
+                  {/* <button className="px-6 py-2 font-bold text-white text-lg bg-blue-900 rounded-full">
                     Update Cart
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>
             <div className="w-full lg:w-1/3 mt-4 lg:mt-0">
               <div className="bg-white border rounded-lg shadow-lg p-5">
-                <h2 className="text-xl md:text-2xl mb-4 text-center font-semibold">
+                <h2 className="text-xl md:text-2xl mb-4  text-blue-900 text-center font-semibold">
                   Cart Totals
                 </h2>
                 <table className="w-full">
                   <tbody>
                     <tr>
                       <td className="px-4 py-2 font-semibold">Subtotal</td>
-                      <td className="px-4 py-2 text-right">${total}</td>
+                      <td className="px-4 py-2 text-right">
+                        ${total?.toFixed(2)}
+                      </td>
                     </tr>
                     <tr>
                       <td className="px-4 py-2 font-semibold">Total</td>
-                      <td className="px-4 py-2 text-right">${total}</td>
+                      <td className="px-4 py-2 text-right">
+                        ${total?.toFixed(2)}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -521,7 +951,7 @@ function Cart() {
                   Proceed to checkout
                 </button>
                 <button className="w-full mt-2 px-4 py-2 font-bold text-black text-lg bg-slate-300 rounded-full">
-                  <Link to="/products">Continue Shopping</Link>
+                  <Link to="/allProducts">Continue Shopping</Link>
                 </button>
               </div>
             </div>
@@ -531,15 +961,56 @@ function Cart() {
             <h2 className="text-xl font-semibold text-gray-700">
               Your cart is currently empty.
             </h2>
-            <Link
-              to="/products"
-              className="mt-5 px-8 py-2 font-semibold text-white text-lg bg-blue-900 rounded-full"
-            >
-              RETURN TO SHOP
-            </Link>
+
+            <img src={searchimg} className="w-24 h-24 mt-4" alt="empty-cart" />
+            <button className="bg-blue-900 text-white px-4 py-2 mt-6 rounded-lg">
+              <Link to="/allProducts">Continue Shopping</Link>
+            </button>
           </div>
         )}
       </div>
+      {/* Confirmation Dialog */}
+      <Dialog open={openDialog} onClose={handleDialogClose}>
+        <div className="flex  justify-end p-2">
+          <img
+            onClick={handleDialogClose}
+            src={wrong}
+            className="w-5 h-5 cursor-pointer flex justify-end"
+          />
+        </div>
+        <DialogContent>
+          Are you sure you want to delete this item from your cart?
+        </DialogContent>
+        <div>
+          <DialogActions
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+            }}
+          >
+            <Button
+              onClick={handleDialogClose}
+              sx={{
+                color: "white",
+                backgroundColor: "red",
+                "&:hover": { backgroundColor: "#cc0000" },
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleremove}
+              sx={{
+                color: "white",
+                backgroundColor: "green",
+                "&:hover": { backgroundColor: "#006400" },
+              }}
+            >
+              Delete
+            </Button>
+          </DialogActions>
+        </div>
+      </Dialog>
     </div>
   );
 }

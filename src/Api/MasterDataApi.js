@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from './api'; 
+import { setCategorySpecificationsGetAll, setOrderStatusGetAll, setProductCategoryGetAll } from '../Store/Store';
 
-axios.defaults.baseURL = 'http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/';
 
 
 
@@ -22,3 +22,53 @@ export const fetchNdcUpcListApi = async (value) => {
   }
 };
 
+export const fetchProductCategoriesGetAll = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/api/Masters/ProductCategories/GetAll`);
+      if (response.status === 200) {
+        const ProductCategoryGetAll = response.data.result;
+        dispatch(setProductCategoryGetAll(ProductCategoryGetAll)); // Dispatch action
+      } else {
+        console.error('Failed to category get all Product:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error  category get all Product:', error);
+    }
+  };
+}
+
+
+export const fetchCategorySpecificationsGetAll = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/api/Masters/CategorySpecifications/GetAll`);
+      if (response.status === 200) {
+        const CategorySpecificationsGetAll = response.data.result;
+        dispatch(setCategorySpecificationsGetAll(CategorySpecificationsGetAll)); // Dispatch action
+      } else {
+        console.error('Failed to category get all Product:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error  category get all Product:', error);
+    }
+  };
+}
+
+
+export const MasterOrderStatusGetAll = () => {
+  return async (dispatch) => {
+    try {
+
+      const statusGetAllResponse = await axios.get('/api/Masters/OrderStatus/GetAll')
+      if (statusGetAllResponse.status === 200) {
+        const response = statusGetAllResponse.data.result
+        dispatch(setOrderStatusGetAll(response))
+      } else {
+        console.error('Failed to get all Order Status:', statusGetAllResponse.data.message)
+      }
+    } catch (error) {
+      console.log("error order get all status", error)
+    }
+  }
+}

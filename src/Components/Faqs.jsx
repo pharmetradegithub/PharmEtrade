@@ -15,7 +15,7 @@ function Faqs() {
         {
             id:1,
             Question:'Is the Pharmetrade site secure?',
-            Answer:`Yes, RxWorld is a secure site. However, it is your sole responsibility to maintain your account. This includes the security of your email address and password for all activity that occurs.`,
+            Answer:`Yes, Pharmetrade is a secure site. However, it is your sole responsibility to maintain your account. This includes the security of your email address and password for all activity that occurs.`,
            src: plus,
            src1:minus
         },
@@ -29,14 +29,14 @@ function Faqs() {
         {
             id:3,
             Question:'How do i know buying and selling my overstock prescription drugs is legal?',
-            Answer:`You will need to review and follow your state's rules and regulations. While RxWorld operates only in the states that allow such sales, it is your responsibility as a buyer and seller to be`,
+            Answer:`You will need to review and follow your state's rules and regulations. While Pharmetrade operates only in the states that allow such sales, it is your responsibility as a buyer and seller to be`,
             src: plus,
            src1:minus
         },
         {
             id:4,
             Question:'How does pharmetrade charge me for selling on the website?',
-            Answer:'RxWorld charges a fee of 8% of the total sale or $5.00, whichever is higher.',
+            Answer:'Pharmetrade charges a fee of 8% of the total sale or $5.00, whichever is higher.',
             src: plus,
            src1:minus
         },
@@ -58,7 +58,7 @@ function Faqs() {
        {
         id:7,
         Question:'How do I get Started on pharmetrade?',
-        Answer:`To get started on RxWorld, you must register.
+        Answer:`To get started on Pharmetrade, you must register.
          To register, go to pharmetrade.com and click on 
          'Free Registration.' Follow the prompts to enter 
          your business information. When your registration
@@ -91,26 +91,19 @@ function Faqs() {
              src: plus,
            src1:minus
         },
-        {
-            id:11,
-            Question:'How long is shipping?',
-             Answer:'Shipping is between 5-10 business working days',
-             src: plus,
-           src1:minus
-        },
+       
        
     ]
 
   return (
-    <div className='w-screen h-full mt-32 flex flex-col  '>
+    <div className='w-full h-full flex flex-col  overflow-y-scroll '>
          
-        <div className='flex justify-center items-center overflow-y-auto'>
-       
-            <div className='flex flex-col justify-center items-center rounded-md shadow-lg bg-gray-50  w-[85%] h-full'>
+        <div className='flex flex-col  bg-white justify-center items-center overflow-y-auto'>
+            <div className='flex flex-col mt-60 justify-center  items-center  mb-4   w-[85%] h-full'>
                 {questions.map((question) => (
                     <div
                         key={question.id}
-                        className='bg-slate-300 w-[85%] flex justify-start gap-6 p-4 border shadow-md rounded-md items-start my-2'
+                        className=' w-[85%] bg-gray-300 h-full flex justify-start gap-6 p-4 border shadow-md rounded-md items-start my-2'
                     >
                         <div className='flex flex-col w-full h-full'>
                             <div className='flex justify-between items-center'>

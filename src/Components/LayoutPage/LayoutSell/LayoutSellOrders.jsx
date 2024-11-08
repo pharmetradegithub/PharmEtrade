@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -7,10 +7,34 @@ import { IoIosArrowRoundUp } from "react-icons/io";
 import { IoIosArrowRoundDown } from "react-icons/io";
 import { CiSearch, CiMenuKebab } from "react-icons/ci";
 import filter from "../../../assets/Filter_icon.png";
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchGetOrderBySellerId, fetchOrderDownloadInvoice, fetchOrderInvoice, fetchOrderView, orderStatusUpdateApi } from "../../../Api/OrderApi";
+import { FaFileInvoice } from "react-icons/fa";
+import { Tooltip } from "@mui/material";
+import eye from '../../../assets/eye.png'
+import Invoice from '../../../assets/Icons/Invoice.png'
+import download from '../../../assets/Icons/download.png'
+import wrong from "../../../assets/Icons/wrongred.png";
+import Pagination from "../../Pagination";
+import { MasterOrderStatusGetAll } from "../../../Api/MasterDataApi";
 
 function LayoutSellOrders() {
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user.user);
   const [searchQuery, setSearchQuery] = useState("");
+  const SellerOrder = useSelector((state) => state.order.OrderBySellerId)
+  console.log("sellerOrder---->", SellerOrder)
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
+  const [currentPage, setCurrentPage] = useState(1);
+  const ordered = useSelector((state) => state.order.orderView)
+  console.log("orderedview-->", ordered) 
+  const orderStatusGetAll = useSelector((state) => state.master.orderStatusGetAll)
+  console.log("statusGetAll", orderStatusGetAll)
+  useEffect(() => {
+    dispatch(MasterOrderStatusGetAll())
+  }, [dispatch])
+  
+  const localData = localStorage.getItem("userId")
   const products = [
     {
       id: "000",
@@ -33,20 +57,126 @@ function LayoutSellOrders() {
   ];
 
   const stats = [
-    { label: "Total Orders", value: "2,420", percentage: 20 },
-    { label: "Total Products", value: "3,843", percentage: 25 },
-    { label: "Base Amount", value: "1,700", percentage: -11 },
-    { label: "Purchase Amount", value: "2,530", percentage: 17 },
+    { label: "Total Orders", value: SellerOrder ? SellerOrder.length : 0, percentage: SellerOrder ? ((SellerOrder.length - 100) / 100 * 100).toFixed(2) : 0, },
+    { label: "Total Products", value: SellerOrder ? SellerOrder.length : 0, percentage: SellerOrder ? ((SellerOrder.length - 100) / 100 * 100).toFixed(2) : 0, },
+    {
+      label: "Base Amount",
+      value: `$${SellerOrder ? SellerOrder.reduce((total, order) => total + (order.baseAmount || 0), 0).toFixed(2) : 0.00}`,
+      percentage: SellerOrder
+        ? Math.floor(((Math.floor(SellerOrder.reduce((total, order) => total + (order.baseAmount || 0), 0)) - 1500) / 1500) * 100)
+        : 0,
+    },
+    {
+      label: "Purchase Amount",
+      value: `$${SellerOrder ? SellerOrder.reduce((total,order) => total + (order.totalAmount  || 0),0).toFixed(2) : 0.00}`,
+      // `$${SellerOrder
+      //   ? Math.floor(SellerOrder.reduce((total, order) => total + (order.totalAmount || 0), 0) .toFixed(2) : 0.00)
+      //   : 0}`,
+      percentage: SellerOrder
+        ? Math.floor(((Math.floor(SellerOrder.reduce((total, order) => total + (order.totalAmount || 0), 0)) - 2000) / 2000) * 100)
+        : 0,
+    },
   ];
 
-  const filteredProducts = products.filter(
-    (product) =>
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.id.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // const filteredProducts = products.filter(
+  //   (product) =>
+  //     product?.productName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //     product?.productId.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
+
+  const pathname = location.pathname; // e.g., /layout/sellorders/123
+  console.log("pathname-->", pathname)
+  const parts = pathname.split('/'); // ['layout', 'sellorders', '123']
+  console.log("parts--->", parts)
+  const orderSellerId = parts[2]; // Assuming '123' is the seller ID
+  console.log("orderSeller-->", orderSellerId)
+
+  const [modal, setModal] = useState(false) 
+  const [orderID,setOrderID] = useState(null)
+
+  useEffect(() => {
+    const fetchGetOrder = async () => {
+      if (user?.customerId) {
+        await dispatch(fetchGetOrderBySellerId(user.customerId));
+      }
+    };
+
+    if (orderSellerId) {
+      fetchGetOrder();
+    }
+  }, [user, orderSellerId, dispatch]);
+
+  const handleClickView = async (orderId) => {
+    setModal(true)
+    await dispatch(fetchOrderView(orderId))
+    setOrderID(orderId)
+  }
+
+  const handleClickInvoice = async () => {
+    // console.log("ordersdf", ordered?.orderId)
+    await dispatch(fetchOrderInvoice(orderID))
+  }
+
+  // const handleDownload = (orderId) => {
+  //   dispatch(fetchOrderDownloadInvoice(orderId))
+  // }
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = SellerOrder.slice(indexOfFirstItem, indexOfLastItem);
+  // const currentItems = SellerOrder ? SellerOrder.slice(indexOfFirstItem, indexOfLastItem) : [];
+  const currentItems = SellerOrder
+  ? SellerOrder.slice(indexOfFirstItem, indexOfLastItem).sort(
+      (a, b) => new Date(b.orderDate) - new Date(a.orderDate)
+    )
+  : [];
+  const totalPages = Math.ceil((SellerOrder?.length || 0) / itemsPerPage);
+
+  const handleStatus = async (orderId, statusId) => {
+    if (orderId && statusId) {
+      await dispatch(orderStatusUpdateApi(orderId, statusId));
+    }
+  };
 
   return (
-    <div className="bg-gray-100 w-full h-full flex items-center justify-center">
+    
+    <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
+      {modal && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+          onClick={() => setModal(false)}
+        >
+          <div
+            className="bg-white p-6 rounded-lg shadow-lg max-w-4xl w-full h-[85%] flex flex-col"
+            onClick={(e) => e.stopPropagation()} /* Stop click from closing modal */
+          >
+            {/* Close button */}
+            <button
+              className="self-end text-red-500 font-bold py-1 px-2 rounded hover:bg-red-100"
+              onClick={() => setModal(false)}
+            >
+              <img src={wrong} className="w-6 h-4"/>
+            </button>
+
+            {/* Content section */}
+            <div
+              dangerouslySetInnerHTML={{ __html: ordered }}
+              className="mt-4 overflow-y-scroll flex-grow"
+            />
+
+            {/* Buttons at the bottom */}
+            <div className="flex justify-between mt-4 pt-4 border-t border-gray-200">
+              <button className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400 cursor-pointer" onClick={() => setModal(false)}>
+                Cancel
+              </button>
+              <button className="bg-blue-500 text-black py-2 px-4 rounded hover:bg-blue-600 cursor-pointer" onClick={handleClickInvoice}>
+                <img src={Invoice} alt="Invoice" className="inline w-6 h-6 mr-2" />
+                Send Invoice
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="w-[95%] h-full mt-4">
         <div className="flex justify-between">
           <h1 className="text-[22px] text-blue-900 font-semibold">List of Orders</h1>
@@ -63,22 +193,22 @@ function LayoutSellOrders() {
             >
               <div className="w-full">
                 <div className="flex justify-between items-center">
-                  <div className="text-[15px] text-gray-700 font-normal">
+                  <div className="text-[16px] text-gray-700 font-semibold">
                     {stat.label}
                   </div>
-                  <div className="menu-icon">
+                  {/* <div className="menu-icon">
                     <CiMenuKebab />
-                  </div>
+                  </div> */}
                 </div>
                 <div className="flex justify-between mt-2 items-center">
-                  <div className="text-2xl font-semibold">{stat.value}</div>
-                  <div
+                  <div className="text-xl font-semibold">{stat.value}</div>
+                  {/* <div
                     className={`text-sm ${
                       stat.percentage > 0 ? "bg-green-400" : "bg-red-400"
                     } p-1 rounded-lg`}
                   >
                     {stat.percentage > 0 ? "↑" : "↓"} {Math.abs(stat.percentage)}%
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -100,19 +230,19 @@ function LayoutSellOrders() {
           {/* search end */}
           <div className="flex gap-2">
             <div className="flex  ">
-            <button className="bg-green-300 p-2 h-8 rounded-md flex items-center">
+            {/* <button className="bg-green-300 p-2 h-8 rounded-md flex items-center">
               <img src={filter} className="w-6 h-6" />
               Filter
-            </button>
+            </button> */}
               {/* <FaFilter className="m-2" /> */}
               {/* <button className='text-2xl'>Filter</button> */}
             </div>
-            <div className="flex bg-white h-9 p-2 items-center w-48 justify-evenly border rounded-md">
+            {/* <div className="flex bg-white h-9 p-2 items-center w-48 justify-evenly border rounded-md">
      
               <select className="">
                 <option>-Select Group-</option>
               </select>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -121,39 +251,112 @@ function LayoutSellOrders() {
             <thead className="bg-blue-900 text-white">
               <tr className="border-b-2">
                 <th className="px-4 py-2 text-left">Order ID</th>
+                <th className="px-4 py-2 text-left">Thumbnail</th>
+                <th className="px-4 py-2 text-left">Product Name</th>
                 <th className="px-4 py-2 text-left">Purchased On</th>
-                <th className="px-4 py-2 text-left">Products</th>
-                <th className="px-4 py-2 text-left">Total</th>
+                <th className="px-4 py-2 text-right">Amount</th>
                 <th className="px-4 py-2 text-left">Customer</th>
-                <th className="px-4 py-2 text-left">Status</th>
-                <th className="px-4 py-2 text-left">View</th>
+                <th className="px-4 py-2 text-left"> Order Status</th>
+                <th className="px-4 py-2 text-left">Action</th>
               </tr>
             </thead>
             <tbody>
-              {(() => {
+              {/* {(() => {
                 const rows = [];
                 for (let i = 0; i < filteredProducts.length; i++) {
                   rows.push(
                     <tr key={i} className="border-b">
-                      <td className="px-4 py-2">{filteredProducts[i].id}</td>
-                      <td className="px-4 py-2">{filteredProducts[i].thumbnail}</td>
-                      <td className="px-4 py-2">{filteredProducts[i].name}</td>
-                      <td className="px-4 py-2">{filteredProducts[i].attributeSet}</td>
-                      <td className="px-4 py-2">{filteredProducts[i].productStatus}</td>
-                      <td className="px-4 py-2">{filteredProducts[i].status}</td>
-                      <td className="px-4 py-2">{filteredProducts[i].type}</td>
+                      <td className="px-4 py-2">{[i + 1]}</td>
+                      <td className="px-4 py-2">{filteredProducts?.orderDate}</td>
+                      <td className="px-4 py-2">{filteredProducts?.productName}</td>
+                      <td className="px-4 py-2">{filteredProducts?.totalAmount}</td>
+                      <td className="px-4 py-2">{filteredProducts?.customerName}</td>
+                      <td className="px-4 py-2">{filteredProducts?.status}</td>
+                      <td className="px-4 py-2">view order</td>
                     </tr>
                   );
                 }
                 return rows;
               })()}
-            </tbody>
+            </tbody> */}
+              
+              {Array.isArray(currentItems) && currentItems.length > 0 ?(
+                currentItems.map((product, index) => (
+                  <tr key={product.productId} className="border-b">
+                    <td className="px-4 py-2">{indexOfFirstItem + index + 1}</td>
+                    <td className="px-4 py-2"><img className="w-10 h-10" src={product.imageUrl} /></td>
+                    <td className="px-4 py-2">{product?.productName}</td>
+                    <td className="px-4 py-2">{new Date(product.orderDate).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit',
+                              }).replace(/\//g, '-')}</td>
+                    <td className="text-right px-4 py-2">${product?.totalAmount.toFixed(2)}</td>
+                    <td className="px-4 py-2">{product?.customerName}</td>
+                    <td className="px-4 py-2">
+                      {/* <select>
+                        <option value="approve">Accepted</option>
+                        <option value="Reject">Rejected</option>
+                        <option value="Shipped">Ready to Ship</option>
+                        <option value="Shipped"> Shipped</option>
+
+                        <option value="Delivered">Delivered</option>
+                      </select> */}
+                        <select
+                          disabled={!Array.isArray(orderStatusGetAll) || orderStatusGetAll.length === 0}
+                          onChange={(e) => handleStatus(product?.orderId, e.target.value)} // Trigger handleStatus on change
+                        >
+                          {Array.isArray(orderStatusGetAll) && orderStatusGetAll.length > 0 &&
+                            orderStatusGetAll.map((item) => (
+                              <option key={item.statusId} value={item.statusId}>
+                                {item.statusDescription}
+                              </option>
+                            ))
+                          }
+                        </select>
+
+
+                    </td>
+                    <td className="px-4 py-2 cursor-pointer flex gap-1">
+                      <Tooltip title="ViewInvoice" placement="top">
+                        <img src={eye} className="w-5 h-5" onClick={() => handleClickView(product?.orderId)} />
+                        {/* <FaFileInvoice className="w-5 h-5"/> */}
+                      </Tooltip>
+                    {/* <Tooltip title="Invoice" placement="top">
+                      <img src={Invoice} className="w-5 h-5" onClick={() => handleClickInvoice(product?.orderId)}/>
+                      {/* <FaFileInvoice className="w-5 h-5"/> 
+                      </Tooltip> */}
+                      <Tooltip title="Download" placement="top">
+                        <img src={download} className="w-5 h-5"/>
+                      </Tooltip>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7" className="text-center py-4">
+                    No Orders available
+                  </td>
+                </tr>
+              )}
+              </tbody>
           </table>
         </div>
+          <Pagination
+            indexOfFirstItem={indexOfFirstItem}
+            indexOfLastItem={indexOfLastItem}
+            productList={SellerOrder}
+            itemsPerPage={itemsPerPage}
+            setItemsPerPage={setItemsPerPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
       </div>
     </div>
   );
 }
 
 export default LayoutSellOrders;
+
+
 

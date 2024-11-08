@@ -1,9 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import offer from "../../assets/offers_1.png";
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setGetOrder } from '../../Store/Store';
+import previous from '../../assets/Previous_icon.png'
+import next from '../../assets/Next_icon.png'
+import { useNavigate } from 'react-router-dom';
+import Pagination from '../Pagination';
 
 const ItemsAndDelivery = () => {
+  const navigate = useNavigate()
 
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const getOrder = useSelector((state) => state.order.getById)
+  console.log("getOrder-->", getOrder) 
+  const date = new Date()
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // getMonth() is 0-indexed, so add 1
+const day = String(date.getDate()).padStart(2, '0');
+const year = date.getFullYear();
+
+const formattedDate = `${month}-${day}-${year}`;
+
+console.log(date)
     const itemsdetails = [
         {
           // img: 'offer',  // Assuming 'offer' is a string representing the image or icon name
@@ -19,35 +38,48 @@ const ItemsAndDelivery = () => {
         },
       ];
 
-  return (
-    <div>
-    <h1>4 Review items and delivery</h1>
+    // Pagination logic
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = (Array.isArray(getOrder) ? getOrder : []).slice(
+      indexOfFirstItem,
+      indexOfLastItem
+    );
 
-    <div className=" border rounded-md p-4 ">
+      console.log("currrr", currentItems)
+
+      const handleNav = (productId) =>{
+        navigate(`/detailspage/${productId}`)
+      }
+
+  return (
+    <div >
+    <h1 className='text-orange-400 font-semibold text-xl'>5 Review items and delivery</h1>
+    {/* {getOrder.map((itemsdetail, index) => (
+      <div  key={index}>
+    <div className=" border rounded-md p-4 m-3 ">
       <h1 className="text-lg font-semibold text-green-600">
-        Arriving 7 Sept 2024
+      
       </h1>
-      <p className="text-base">
+      <p className="text-base flex flex-wrap">
         If you order in the next 10 hours and 50 minutes (
         Details )
       </p>
-      <p className="text-base">
+      <p className="text-base flex flex-wrap">
         Items dispatched by Pharmetrade{" "}
       </p>
-      {itemsdetails.map((itemsdetail, index) => (
-        <div
-          key={index}
-          className="flex justify-around my-4"
-        >
-          <div className="mt-4">
-            {/* <p>{itemsdetail.src}</p>  */}
-            <img src={offer} className="w-28 h-24  " />
+       
+       <div className='flex justify-between'>
+        
+       
+          <div className="mt-4 p-2">
+              <img src={itemsdetail.imageUrl} className="w-28 h-24  p-4 " />
           </div>
           <div>
-            <p className="text-base font-semibold">
-              {itemsdetail.name}
+            <p className="text-base font-semibold flex flex-wrap">
+                {itemsdetail.productName}
             </p>
-            <p className="text-base font-semibold">
+            <p className="text-base font-semibold flex flex-wrap">
               {itemsdetail.type}
             </p>
             <p className="text-base font-semibold">
@@ -55,11 +87,12 @@ const ItemsAndDelivery = () => {
             </p>
             <p className="text-red-600 font-semibold">
               {" "}
-              ${itemsdetail.Price}
+                ${itemsdetail.totalAmount}
             </p>
             <input
               type="number"
-              //  value={quantities[index]}
+                //  value={quantities[index]}
+                value={itemsdetail.quantity}
               // onChange={(e) =>
               //   handleQuantityChange(index, Number(e.target.value))
               // }
@@ -67,8 +100,8 @@ const ItemsAndDelivery = () => {
               min="1"
             />
             <div className="flex">
-              <p>{itemsdetail.purchase}</p>
-              <p>{itemsdetail.Company_Name}</p>
+                <p>{}</p>
+                <p>{itemsdetail.customerName}</p>
             </div>
           </div>
 
@@ -89,9 +122,114 @@ const ItemsAndDelivery = () => {
               {itemsdetail.deliivery_type1}
             </p>
           </div>
+
+
+          </div>
+        </div>
+     
+    </div>
+  ))} */}
+
+<div>
+      {currentItems.map((itemsdetail, index) => (
+        <div key={index}>
+          <div className="border rounded-md p-4 m-3 shadow-lg">
+            <h1 className="text-lg font-semibold text-green-600">
+              Arriving {formattedDate} {/* Updated date format */}
+            </h1>
+            <p className="text-base flex flex-wrap">
+              If you order in the next 10 hours and 50 minutes (Details)
+            </p>
+            <p className="text-base flex flex-wrap">
+              Items  shipped by {
+} 
+            </p>
+
+            <div className="flex justify-around">
+              <div className="mt-4 p-2 cursor-pointer" onClick={()=>handleNav(itemsdetail.productId)}>
+
+                <img
+                  src={itemsdetail.imageUrl}
+                  className="w-44 h-28 p-4"
+                  alt="product"
+                />
+              </div>
+              <div>
+                <p className="text-base font-semibold flex flex-wrap">
+                  {itemsdetail.productName}
+                </p>
+                <p className="text-base font-semibold flex flex-wrap">
+                  {itemsdetail.type}
+                </p>
+                <p className="text-base font-semibold">
+                  {itemsdetail.Strength}
+                </p>
+                <p className="text-red-600 font-semibold">
+                  ${itemsdetail.totalAmount.toFixed(2)}
+                </p>
+                <p className='font-semibold'>Quantity: {itemsdetail.quantity}</p>
+                {/* <input
+                  // type="number"
+                  value={itemsdetail.quantity}
+                  className="text-xl p-1 w-16"
+                  min="1"
+                /> */}
+                {/* <div className="flex">
+                  <p>{}</p>
+                  <p>{itemsdetail.customerName}</p>
+                </div> */}
+              </div>
+
+              {/* <div>
+
+                <p className="text-base font-semibold">
+                  {itemsdetail.option}:
+                </p>
+                <label className="flex items-center text-base text-green-600 font-semibold">
+                  <input
+                    type="radio"
+                    name={`delivery${index}`}
+                    value={itemsdetail.delivery_type1}
+                    className="mr-2"
+                  />
+                  {itemsdetail.delivery1}
+                </label>
+                <p className="text-base ml-5">{itemsdetail.delivery_type1}</p>
+              </div> */}
+            </div>
+          </div>
         </div>
       ))}
     </div>
+
+    <Pagination
+            indexOfFirstItem={indexOfFirstItem}
+            indexOfLastItem={indexOfLastItem}
+            productList={getOrder}
+            itemsPerPage={itemsPerPage}
+            setItemsPerPage={setItemsPerPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+    {/* <div className="flex justify-end my-2">
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+            className="mx-2 px-4 border p-2 text-white rounded-lg"
+          >
+            <img src={previous} className="w-2" alt="Previous Page" />
+          </button>
+          <span className="mx-2 px-4 flex items-center bg-white text-black rounded-lg">
+            {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className="mx-2 px-4 border p-2 text-white rounded-lg"
+          >
+            <img src={next} className="w-2" alt="Next Page" />
+          </button>
+        </div> */}
   </div>
   )
 }
