@@ -507,7 +507,7 @@
 //         </ul>
 //         {/* down div elemenet  */}
 //         <div
-//           className="flex justify-evenly bg-gray-200 w-full h-fit flex-row  md:w-screen  
+//           className="flex justify-evenly bg-gray-200 w-full h-fit flex-row  md:w-screen
 //            items-center text-black  border-grey-500 shadow-lg "
 //         >
 //           <div className="flex gap-5 items-center justify-around text-blue-900 text-xs p-4 w-full md:w-fit">
@@ -692,14 +692,6 @@
 
 // export default Nav;
 
-
-
-
-
-
-
-
-
 import React from "react";
 
 import Logo from "../../../assets/logo2.png";
@@ -739,7 +731,7 @@ import { Tooltip } from "@mui/material";
 import { fetchProductCategoriesGetAll } from "../../../Api/MasterDataApi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-let text =[];
+let text = [];
 
 function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   let navigate = useNavigate();
@@ -748,8 +740,8 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   const components = useSelector((state) => state.master.productCategoryGetAll);
   console.log("categoeryyy-->", components);
   const modifiedComponents = [
-    { productCategoryId: -1, categoryName: 'All' },
-    ...components
+    { productCategoryId: -1, categoryName: "All" },
+    ...components,
   ];
 
   const [selectedIndex, setSelectedIndex] = useState();
@@ -763,22 +755,17 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const category = searchParams.get("CategoryName");
-    if(category===null)
-    {
-      setSelectedItem("All")
-
-    }
-    else if (category && components.length > 0) {
+    if (category === null) {
+      setSelectedItem("All");
+    } else if (category && components.length > 0) {
       const component = modifiedComponents.find(
         (comp) => comp.productCategoryId == category
       );
-      console.log("heyeheyehhoanceu",component,category)
+      console.log("heyeheyehhoanceu", component, category);
       if (component) {
         setSelectedItem(component.categoryName); // Set the name if found
-      }
-      else
-      {
-        setSelectedItem("All")
+      } else {
+        setSelectedItem("All");
       }
     }
   }, [location.search]);
@@ -864,7 +851,10 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
       setErrorMessage(
         <>
           You have logged in as a buyer. Please contact us at{" "}
-          <a href="mailto:help@pharmetrade.com" className="text-blue-900 underline">
+          <a
+            href="mailto:help@pharmetrade.com"
+            className="text-blue-900 underline"
+          >
             help@pharmetrade.com
           </a>
         </>
@@ -920,15 +910,14 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   // ];
 
   const handleCriteria = async (obj) => {
-    handleItemClick(obj.categoryName,obj.productCategoryId)
+    handleItemClick(obj.categoryName, obj.productCategoryId);
     let Criteria = {
       productCategoryId: obj.productCategoryId,
     };
 
     console.log("cr--->", obj);
-    if(obj.productCategoryId===-1)
-    {
-      navigate('/allProducts')
+    if (obj.productCategoryId === -1) {
+      navigate("/allProducts");
       return;
     }
     await fetchCriteriaProductsApi(Criteria);
@@ -1033,7 +1022,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
       handleSearchAPI(); // Call submit function when Enter is pressed
     }
   };
-  const [selectedItemId,setSelectedItemId]= useState(-1);
+  const [selectedItemId, setSelectedItemId] = useState(-1);
   const [SearchInput, setSearchInput] = useState("");
   console.log(SearchInput, "search");
   const handleSearch = async (e) => {
@@ -1045,15 +1034,14 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
       productCategoryId: selectedItemId,
       productName: SearchInput,
     };
-    if(selectedItemId==-1)
-    {
+    if (selectedItemId == -1) {
       Criteria = {
         productName: SearchInput,
-      }
-    };
+      };
+    }
     await fetchCriteriaProductsApi(Criteria);
     navigate(`/allProducts?Search=${SearchInput}`);
-    setSearchInput("")
+    setSearchInput("");
   };
 
   return (
@@ -1097,7 +1085,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 >
                   <div
                     className="flex  items-center cursor-pointer"
-                    onClick={() => setIsPopupVisible(prevState => !prevState)}
+                    onClick={() => setIsPopupVisible((prevState) => !prevState)}
                   >
                     <img
                       src={add}
@@ -1131,7 +1119,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                           {user ? (
                             <li
                               className="cursor-pointer "
-                              onClick={()=>handleLogout()}
+                              onClick={() => handleLogout()}
                             >
                               <Link
                                 to="/login"
@@ -1143,21 +1131,29 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                           ) : (
                             <a
                               className="bg-blue-900 text-white py-1 hover:cursor-pointer px-2 rounded block text-center "
-                              onClick={()=>handleRedirect()}
+                              onClick={() => handleRedirect()}
                             >
                               Sign In
                             </a>
                           )}
                         </div>
-                        <p
-                          className="text-base hover:cursor-pointer mb-2  text-left"
-                          onClick={handlesignup}
-                        >
-                          New User?{" "}
-                          <span className="text-blue-900 hover:text-red-500 hover:underline">
-                            Sign Up
-                          </span>
-                        </p>
+                        
+                        {user ? (
+                          <>
+                            <p className="hidden"></p>
+                          </>
+                        ) : (
+                          <p
+                            className="text-base hover:cursor-pointer mb-2 text-left"
+                            onClick={handlesignup}
+                          >
+                            New User?{" "}
+                            <span className="text-blue-900 hover:text-red-500 hover:underline">
+                              Sign Up
+                            </span>
+                          </p>
+                        )}
+
                         {user && (
                           <>
                             <h2
@@ -1229,44 +1225,49 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
            items-center text-black  border-grey-500 shadow-lg "
         >
           <div className="flex gap-5 items-center justify-around text-blue-900 text-xs p-4 w-full md:w-fit">
-        {downDivItems.map((item, index) => (
-          <li
-            key={index}
-            className={`flex gap-1 items-center justify-center cursor-pointer font-semibold hover:text-black
-              ${Form_Data?.userType === 4 && item.label === "SELL" ? "hidden" : ""}`}
-            onClick={() => handleItemclick(item)} // Use the handleItemClick function
-          >
-            <img
-              src={item.icon}
-              className="max-w-8 max-h-8"
-              alt={item.label}
-            />
-            <div className="text-[15px] ml-1">{item.label}</div>
-          </li>
-        ))}
-      </div>
-
-      {/* Error message modal */}
-      {errorMessage && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-gray-100 p-4 rounded-md shadow-md text-center">
-            <div className="flex justify-start items-center border-b border-black">
-              <img src={warning} className="w-12 h-12" alt="Warning" />
-              <p className="text-red-600 text-xl font-semibold mt-2">Warning!</p>
-            </div>
-            <div className="mt-4">
-              <p className="text-black mb-4">{errorMessage}</p>
-              <button
-                onClick={() => setErrorMessage("")}
-                className="bg-red-500 text-white px-4 py-2 rounded mb-2"
+            {downDivItems.map((item, index) => (
+              <li
+                key={index}
+                className={`flex gap-1 items-center justify-center cursor-pointer font-semibold hover:text-black
+              ${
+                Form_Data?.userType === 4 && item.label === "SELL"
+                  ? "hidden"
+                  : ""
+              }`}
+                onClick={() => handleItemclick(item)} // Use the handleItemClick function
               >
-                Close
-              </button>
-            </div>
+                <img
+                  src={item.icon}
+                  className="max-w-8 max-h-8"
+                  alt={item.label}
+                />
+                <div className="text-[15px] ml-1">{item.label}</div>
+              </li>
+            ))}
           </div>
-        </div>
-      )}
 
+          {/* Error message modal */}
+          {errorMessage && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+              <div className="bg-gray-100 p-4 rounded-md shadow-md text-center">
+                <div className="flex justify-start items-center border-b border-black">
+                  <img src={warning} className="w-12 h-12" alt="Warning" />
+                  <p className="text-red-600 text-xl font-semibold mt-2">
+                    Warning!
+                  </p>
+                </div>
+                <div className="mt-4">
+                  <p className="text-black mb-4">{errorMessage}</p>
+                  <button
+                    onClick={() => setErrorMessage("")}
+                    className="bg-red-500 text-white px-4 py-2 rounded mb-2"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="flex bg-whit rounded-md items-center w-[50%] lg:gap-10">
             <div
@@ -1314,20 +1315,20 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                     ))}
                   </div> */}
                   <div className="bg-white w-64">
-    {modifiedComponents.map((items, index) => (
-      <ul onClick={() => handleCriteria(items)} key={index}>
-        <li>
-          <a
-            className="hover:text-black ml-2 cursor-pointer text-sm font-medium text-blue-900"
-            onClick={() => handleItemClick(items.categoryName)}
-            onMouseLeave={handleCatMouseLeave}
-          >
-            {items.categoryName}
-          </a>
-        </li>
-      </ul>
-    ))}
-  </div>
+                    {modifiedComponents.map((items, index) => (
+                      <ul onClick={() => handleCriteria(items)} key={index}>
+                        <li>
+                          <a
+                            className="hover:text-black ml-2 cursor-pointer text-sm font-medium text-blue-900"
+                            onClick={() => handleItemClick(items.categoryName)}
+                            onMouseLeave={handleCatMouseLeave}
+                          >
+                            {items.categoryName}
+                          </a>
+                        </li>
+                      </ul>
+                    ))}
+                  </div>
                 </div>
               )}
 
@@ -1406,4 +1407,3 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
 }
 
 export default Nav;
-

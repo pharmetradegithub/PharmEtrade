@@ -190,7 +190,7 @@ const Signup = () => {
     legalBusinessName: "",
     dbaName: "",
     address1: "",
-    customerTypeId:0,
+    customerTypeId:null,
     city: "",
     State: "",
     zip: "",
@@ -220,7 +220,9 @@ const Signup = () => {
   
   const handleUserTypeChange = (e) => {
     setFormData({...formData,["customerTypeId"]:e.target.value})
-    setUserType(e.target.value);
+    const customerTypeId = parseInt(e.target.value, 10);
+    console.log(userTypes[customerTypeId],customerTypeId)
+    setUserType(userTypes[customerTypeId]);
     setSelectedValue(""); // Reset UPN Member selection on User Type change
   };
   const [errors, setErrors] = useState({});
@@ -896,14 +898,7 @@ const Signup = () => {
       email: formData.Email_id,
       password: formData.password,
       mobile: formData.Phone_number,
-      customerTypeId:
-        userType === "Retail Pharmacy"
-          ? 1
-          : userType === "General Merchandise Seller"
-            ? 2
-            : userType === "Pharmacy Distributor"
-              ? 3
-              : 4,
+      customerTypeId: parseInt(formData.customerTypeId, 10)+1,
       accountTypeId:
         accountType === "Buyer" ? 1 : accountType === "Seller" ? 2 : 3,
       isUPNMember: formData.upnMember === "true" ? 1 : 0, // Convert to boolean if needed
@@ -1217,7 +1212,7 @@ const Signup = () => {
                 </label>
                 <select
                   id="userType"
-                  value={userType}
+                  value={formData.customerTypeId}
                   onChange={handleUserTypeChange}
                   className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 >
