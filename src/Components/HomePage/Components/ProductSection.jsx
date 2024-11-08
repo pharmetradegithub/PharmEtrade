@@ -139,7 +139,7 @@
 //       )}
 //       <h1 className="text-2xl font-bold text-text-blue">{heading}</h1>
 //       {products.length > 0 ? (
-//         <div className="grid grid-cols-3 grid-rows-1 gap-0  p-2">
+//         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-2">
 //           {products.map((item, index) => (
 //             <div
 //               key={item.id}
@@ -161,7 +161,7 @@
 //                 />
 //                 <img
 //                   src={item.productGallery.imageUrl} // Assuming item.img contains image URL
-//                   className="h-40 cursor-pointer w-40 object-contain rounded-lg"
+//                   className="h-40 cursor-pointer w-full object-contain rounded-lg"
 //                   onClick={() => navigate(`/detailspage/${item.productID}`)}
 //                   alt={item.productName}
 //                 />
@@ -236,7 +236,7 @@
 
 //       <Link
 //         onClick={() => handleProductCategory()}
-//         className="font-semibold hover:text-red-500 flex justify-end underline"
+//         className="font-semibold hover:text-red-500 flex justify-center sm:justify-end underline"
 //       >
 //         See all products
 //       </Link>
@@ -248,6 +248,8 @@
 
 
 
+ 
+ 
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import addcart from "../../../assets/cartw_icon.png";
@@ -383,17 +385,17 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
     }
   };
   return (
-    <div className="bg-white w-full p-4">
+    <div className="bg-white w-full p-4 ">
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
       <h1 className="text-2xl font-bold text-text-blue">{heading}</h1>
       {products.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-2">
+        <div className="grid grid-cols-1 sm-md:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
           {products.map((item, index) => (
             <div
               key={item.id}
-              className="snap-center border rounded-sm bg-white shrink-0 m-3"
+              className="snap-center border rounded-sm bg-white shrink-0 m-3 "
             >
               <div className="relative rounded-t-sm bg-slate-100 m-2">
                 <img
@@ -406,7 +408,7 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
                       ? filledHeart
                       : emptyHeart
                   }
-                  className="absolute h-6 w-6  right-1 p-1 cursor-pointer"
+                  className="absolute h-6 w-6  right-1 p-1 cursor-pointer "
                   alt="Favorite Icon"
                 />
                 <img
@@ -417,40 +419,40 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
                 />
                 <img
                   src={other}
-                  className="h-5 w-5 right-1 absolute bottom-1 text-green-700"
+                  className="h-5 w-5 right-1 absolute bottom-1 text-green-700 "
                   alt="Other Icon"
                 />
               </div>
-              <div className="p-2 rounded-b-lg w-40">
+              <div className="p-2 rounded-b-lg w-40 mobile:w-full">
                 <div className="flex justify-between flex-col font-medium">
-                  <h2 className="text-black font-bold h-16 w-36 overflow-scroll">
+                  <h2 className="text-black font-bold h-16 w-36 overflow-scroll mobile:text-center">
                     {item.productName}
                   </h2>
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center mobile:text-center">
                     {/* <div className="flex gap-1 items-center">
                     <h3 className="text-black font-semibold">${item.salePrice?.toFixed(2)}</h3>
                     <span className="text-[10px] line-through">(${item.unitPrice?.toFixed(2)})</span>
                   </div> */}
-                    <div className="flex gap-1 items-center">
+                    <div className="flex gap-1 items-center mobile:text-center">
                       {new Date() >= new Date(item?.salePriceValidFrom) &&
                       new Date() <= new Date(item?.salePriceValidTo) ? (
                         <>
-                          <h3 className="text-black font-semibold">
+                          <h3 className="text-black font-semibold mobile:text-center">
                             ${item.salePrice?.toFixed(2)}
                           </h3>
-                          <span className="text-[10px] line-through">
+                          <span className="text-[10px] line-through mobile:text-center">
                             (${item.unitPrice?.toFixed(2)})
                           </span>
                         </>
                       ) : (
-                        <h3 className="text-black font-semibold">
+                        <h3 className="text-black font-semibold mobile:text-center">
                           ${item.unitPrice?.toFixed(2)}
                         </h3>
                       )}
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center   ">
+                <div className="flex items-center   mobile:items-center">
                   <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                   <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                   <span style={{ fontSize: "24px", color: "orange" }}>☆</span>

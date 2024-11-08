@@ -100,7 +100,20 @@ function LayoutCustomers() {
 
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
-  const sortedItems = [...SellerOrder]?.sort((a, b) => {
+  // const sortedItems = [...SellerOrder]?.sort((a, b) => {
+  //   if (sortConfig.key) {
+  //     const aValue = a[sortConfig.key];
+  //     const bValue = b[sortConfig.key];
+
+  //     if (sortConfig.direction === 'asc') {
+  //       return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
+  //     } else {
+  //       return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
+  //     }
+  //   }
+  //   return 0;
+  // });
+  const sortedItems = Array.isArray(SellerOrder) ? [...SellerOrder].sort((a, b) => {
     if (sortConfig.key) {
       const aValue = a[sortConfig.key];
       const bValue = b[sortConfig.key];
@@ -112,7 +125,7 @@ function LayoutCustomers() {
       }
     }
     return 0;
-  });
+  }) : []; 
   const handleSort = (key) => {
     let direction = 'asc';
     if (sortConfig.key === key && sortConfig.direction === 'asc') {
@@ -123,7 +136,8 @@ function LayoutCustomers() {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = sortedItems?.slice(indexOfFirstItem, indexOfLastItem) || [];
+  // const currentItems = sortedItems?.slice(indexOfFirstItem, indexOfLastItem) || [];
+  const currentItems = Array.isArray(sortedItems) ? sortedItems.slice(indexOfFirstItem, indexOfLastItem) : [];
   const totalPages = Math.ceil((SellerOrder?.length || 0) / itemsPerPage);
 
   return (

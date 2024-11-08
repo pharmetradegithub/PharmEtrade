@@ -1,3 +1,7 @@
+
+
+
+
 // import { useEffect, useState } from "react";
 // import {
 //   FormControl,
@@ -9,16 +13,16 @@
 // // import editIcon from "../../../assets/Edit.png"; // Renamed for clarity
 // import edit from "../../../assets/Edit.png";
 // import BankInformation from "./BankInformation";
+// import ChargesInformation from "../../../Components/LayoutPage/LayoutProfile/ChargesInformation";
 // import { useSelector } from "react-redux";
 // import { useStates } from "react-us-states";
 // import TaxInformation from "./TaxInformation";
-// import Chargesinformation from "./ChargesInformation";
-
 // import {
 //   BusinessInfoUpdate,
 //   getUserByCustomerIdApi,
 //   UserInfoUpdate,
 // } from "../../../Api/UserApi";
+// import Chargesinformation from "./ChargesInformation";
 // import Notification from "../../Notification";
 // const LayoutProfile = () => {
 //   const userdata = useSelector((state) => state.user.user); // Get user data from redux
@@ -125,6 +129,23 @@
 //     pharmacyLicenseExpirationDate:
 //       businessInfo?.pharmacyLicenseExpirationDate || "",
 //   });
+
+//   // const [addressData, setAddressData] = useState({
+//   //   shopName: "",
+//   //   dba: "",
+//   //   city: "",
+//   //   zip: "",
+//   //   legalBusinessName: "",
+//   //   address: "",
+//   //   state: "",
+//   //   businessPhone: "",
+//   //   businessFax: "",
+//   //   deaExpirationDate: "",
+//   //   businessEmail: "",
+//   //   companyWebsite: "",
+//   //   pharmacyLicenseExpirationDate: "",
+//   // });
+
 //   const [accountData, setAccountData] = useState({
 //     dea: businessInfo?.dea || "",
 //     deaExpirationDate: businessInfo?.deaExpirationDate || "",
@@ -137,7 +158,7 @@
 //     federalTaxId: businessInfo?.federalTaxId || "",
 //     pharmacyLicence: businessInfo?.pharmacyLicence || "",
 //     deaLicenseCopy: businessInfo?.deaLicenseCopy || "",
-//     pharmacyLicenseCopy:businessInfo?.pharmacyLicenseCopy|| "",
+//     pharmacyLicenseCopy: businessInfo?.pharmacyLicenseCopy || "",
 //   });
 //   useEffect(() => {
 //     setAddressData({
@@ -157,8 +178,8 @@
 
 //       pharmacyLicenseExpirationDate:
 //         businessInfo?.pharmacyLicenseExpirationDate || "",
-//         deaLicenseCopy: businessInfo?.deaLicenseCopy || "",
-//         pharmacyLicenseCopy:businessInfo?.pharmacyLicenseCopy|| "",
+//       deaLicenseCopy: businessInfo?.deaLicenseCopy || "",
+//       pharmacyLicenseCopy: businessInfo?.pharmacyLicenseCopy || "",
 //     });
 //     setAccountData({
 //       dea: businessInfo?.dea || "",
@@ -172,8 +193,29 @@
 //       federalTaxId: businessInfo?.federalTaxId || "",
 //       pharmacyLicence: businessInfo?.pharmacyLicence || "",
 //       deaLicenseCopy: businessInfo?.deaLicenseCopy || "",
-//       pharmacyLicenseCopy:businessInfo?.pharmacyLicenseCopy|| "",
+//       pharmacyLicenseCopy: businessInfo?.pharmacyLicenseCopy || "",
 //     });
+//   }, [businessInfo]);
+
+
+//   useEffect(() => {
+//     if (businessInfo) {
+//       setAddressData({
+//         shopName: businessInfo.shopName || "",
+//         dba: businessInfo.dba || "",
+//         city: businessInfo.city || "",
+//         zip: businessInfo.zip || "",
+//         legalBusinessName: businessInfo.legalBusinessName || "",
+//         address: businessInfo.address || "",
+//         state: businessInfo.state || "",
+//         businessPhone: businessInfo.businessPhone || "",
+//         businessFax: businessInfo.businessFax || "",
+//         deaExpirationDate: businessInfo.deaExpirationDate || "",
+//         businessEmail: businessInfo.businessEmail || "",
+//         companyWebsite: businessInfo.companyWebsite || "",
+//         pharmacyLicenseExpirationDate: businessInfo.pharmacyLicenseExpirationDate || "",
+//       });
+//     }
 //   }, [businessInfo]);
 
 //   const profiles = [
@@ -189,21 +231,30 @@
 //       label: "Tax Information",
 //       grid: "Tax",
 //     },
-
-//  {
-//   label: "Charges Information",
-//   grid: "charges",
-// },
+//     {
+//       label: "Charges Information",
+//       grid: "charges",
+//     },
 //   ];
 //   const [visibleGrid, setVisibleGrid] = useState("account"); // Default to Account Information
 //   const toggleGrid = (grid) => {
 //     setVisibleGrid(grid); // Set the visible grid to the selected one
 //   };
-//   const handleAddressChange = (e) => {
-//     const { name, value } = e.target;
+//   // const handleAddressChange = (e) => {
+//   //   const { name, value } = e.target;
 
-//     setAddressData((prevData) => ({ ...prevData, [name]: value }));
+//   //   setAddressData((prevData) => ({ ...prevData, [name]: value }));
+//   // };
+
+//   const handleAddressChange = (e) => {
+//     console.log("Field changed:", e.target.name, e.target.value);
+//     const { name, value } = e.target;
+//     setAddressData((prevState) => ({
+//       ...prevState,
+//       [name]: value,
+//     }));
 //   };
+
 //   const handlePhoneChange = (e) => {
 //     const formattedPhone = formatPhoneNumber(e.target.value);
 //     handleAddressChange({
@@ -236,8 +287,9 @@
 //       federalTaxId: businessInfo.federalTaxId,
 //       dea: businessInfo.dea,
 //       pharmacyLicence: businessInfo.pharmacyLicence,
-//       deaExpirationDate: addressData.deaExpirationDate,
-//       pharmacyLicenseExpirationDate: addressData.pharmacyLicenseExpirationDate,
+//       deaExpirationDate: businessInfo.deaExpirationDate == "" ? null : businessInfo.deaExpirationDate,
+//       pharmacyLicenseExpirationDate:
+//         businessInfo.pharmacyLicenseExpirationDate == "" ? null : businessInfo.pharmacyLicenseExpirationDate,
 //       deaLicenseCopy: businessInfo.deaLicenseCopy,
 //       pharmacyLicenseCopy: businessInfo.pharmacyLicenseCopy,
 //       npi: businessInfo.npi,
@@ -257,7 +309,6 @@
 //       message: "Address information saved Successfully!",
 //     });
 //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-
 //   };
 
 //   // State for editing Account Information
@@ -275,37 +326,58 @@
 //   const formatDate = (dateString) => {
 //     const date = new Date(dateString);
 //     const year = date.getFullYear();
-//     const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
-//     const day = String(date.getDate()).padStart(2, '0');
+//     const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+//     const day = String(date.getDate()).padStart(2, "0");
 //     return `${year}-${month}-${day}`;
 //   };
 
+//   // const handleFileChange = (event) => {
+//   //   const file = event.target.files[0]; // Get the selected file
+//   //   if (file) {
+//   //     // Handle the file (e.g., store in state, upload it, etc.)
+//   //     setAccountData((prevState) => ({
+//   //       ...prevState,
+//   //       deaLicenseCopy: file, // Update state with the selected file
+//   //     }));
+//   //   }
+//   // };
+
+//   // const handleFileChangePharma = (event) => {
+//   //   const file = event.target.files[0]; // Get the selected file
+//   //   if (file) {
+//   //     // Update the state with the selected file for pharmacy license
+//   //     setAccountData((prevState) => ({
+//   //       ...prevState,
+//   //       pharmacyLicenseCopy: file, // Store the selected file object
+//   //     }));
+//   //   }
+//   // };
+
 //   const handleFileChange = (event) => {
-//     const file = event.target.files[0]; // Get the selected file
+//     const file = event.target.files[0];
 //     if (file) {
-//       // Handle the file (e.g., store in state, upload it, etc.)
-//       setAccountData((prevState) => ({
-//         ...prevState,
-//         deaLicenseCopy: file, // Update state with the selected file
+//       const fileUrl = URL.createObjectURL(file); // Create a temporary URL for preview
+//       setAccountData((prevData) => ({
+//         ...prevData,
+//         deaLicenseCopy: fileUrl, // Update state with the selected file URL
 //       }));
 //     }
 //   };
 
 //   const handleFileChangePharma = (event) => {
-//     const file = event.target.files[0]; // Get the selected file
-//     if (file) {
-//       // Update the state with the selected file for pharmacy license
-//       setAccountData((prevState) => ({
-//         ...prevState,
-//         pharmacyLicenseCopy: file, // Store the selected file object
-//       }));
-//     }
-//   };
+//   const file = event.target.files[0];
+//   if (file) {
+//     const fileUrl = URL.createObjectURL(file); // Create a temporary URL for preview
+//     setAccountData((prevData) => ({
+//       ...prevData,
+//       pharmacyLicenseCopy: fileUrl, // Update state with the selected file URL
+//     }));
+//   }
+// };
 
-
-//   const handleAccountSaveClick =async () => {
+//   const handleAccountSaveClick = async () => {
 //     setIsAccountEdit(false);
-//     console.log("acc",accountData);
+//     console.log("acc", accountData);
 //     const businessInfoObj = {
 //       customerBusinessInfoId: businessInfo.customerBusinessInfoId,
 //       customerId: userdata.customerId,
@@ -322,10 +394,13 @@
 //       federalTaxId: accountData.federalTaxId,
 //       dea: accountData.dea,
 //       pharmacyLicence: accountData.pharmacyLicence,
-//       deaExpirationDate: accountData.deaExpirationDate,
-//       pharmacyLicenseExpirationDate: accountData.pharmacyLicenseExpirationDate,
-//       deaLicenseCopy: businessInfo.deaLicenseCopy,
-//       pharmacyLicenseCopy: businessInfo.pharmacyLicenseCopy,
+//       deaExpirationDate: accountData.deaExpirationDate == "" ? null : accountData.deaExpirationDate,
+//       pharmacyLicenseExpirationDate:
+//         accountData.pharmacyLicenseExpirationDate == "" ? null : accountData.pharmacyLicenseExpirationDate,
+//       // deaLicenseCopy: businessInfo.deaLicenseCopy,
+//       // pharmacyLicenseCopy: businessInfo.pharmacyLicenseCopy,
+//       deaLicenseCopy: accountData.deaLicenseCopy || businessInfo.deaLicenseCopy,
+//       pharmacyLicenseCopy: accountData.pharmacyLicenseCopy || businessInfo.pharmacyLicenseCopy,
 //       npi: accountData.npi,
 //       ncpdp: accountData.ncpdp,
 //       companyWebsite: businessInfo.companyWebsite,
@@ -380,14 +455,13 @@
 //           {profiles.map((profile, index) =>
 //             // Hide index 1 if user.customerTypeId is 4
 //             userdata?.customerTypeId === 4 &&
-//             (index === 1 || index === 2) ? null : (
+//               (index === 1 || index === 2) ? null : (
 //               <div key={profile.grid} className="flex ml-6">
 //                 <div
-//                   className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${
-//                     visibleGrid === profile.grid
-//                       ? "border-b-4 border-blue-900"
-//                       : ""
-//                   }`}
+//                   className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${visibleGrid === profile.grid
+//                     ? "border-b-4 border-blue-900"
+//                     : ""
+//                     }`}
 //                   onClick={() => toggleGrid(profile.grid)}
 //                 >
 //                   <h1 className="text-lg text-blue-900 font-semibold">
@@ -405,13 +479,26 @@
 //               Primary
 //             </h1>
 //             <div
-//               className={`bg-white border ${
-//                 isEditable ? "border-blue-900" : "border-gray-400"
-//               } rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}
+//               className={`bg-white border ${isEditable ? "border-blue-900" : "border-gray-400"
+//                 } rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}
 //             >
-//               <h1 className={`text-xl font-semibold my-2 text-blue-900`}>
+//               {/* <h1 className={`text-xl font-semibold my-2 text-blue-900`}>
+//                 User Information
+//               </h1> */}
+
+// {isEditable && (
+//                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+//                   User Information
+//                 </h1>
+//               )}
+//               <h1
+//                 className={`text-xl font-semibold my-2 ${isEditable ? "invisible" : "text-blue-900"
+//                   }`}
+//               >
 //                 User Information
 //               </h1>
+
+              
 //               <div className="flex justify-between">
 //                 <div className="py-4 flex flex-col gap-4">
 //                   <TextField
@@ -472,9 +559,8 @@
 //                     alt="Edit"
 //                   />
 //                   <button
-//                     className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-//                       !isEditable ? "opacity-50 cursor-not-allowed" : ""
-//                     }`}
+//                     className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isEditable ? "opacity-50 cursor-not-allowed" : ""
+//                       }`}
 //                     onClick={handleSaveClick}
 //                     disabled={!isEditable}
 //                   >
@@ -489,9 +575,8 @@
 //           <div className="flex flex-col bg-slate-200 p-6 w-full h-full">
 //             {/* Address Information Section */}
 //             <div
-//               className={`bg-white border ${
-//                 isAddressEdit ? "border-blue-900" : "border-gray-400"
-//               } rounded-lg px-8 w-full mt-8 relative`}
+//               className={`bg-white border ${isAddressEdit ? "border-blue-900" : "border-gray-400"
+//                 } rounded-lg px-8  w-[95%] mt-8 relative`}
 //             >
 //               {isAddressEdit && (
 //                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -499,15 +584,14 @@
 //                 </h1>
 //               )}
 //               <h1
-//                 className={`text-xl font-semibold my-2 ${
-//                   isAddressEdit ? "invisible" : "text-blue-900"
-//                 }`}
+//                 className={`text-xl font-semibold my-2 ${isAddressEdit ? "invisible" : "text-blue-900"
+//                   }`}
 //               >
 //                 Address Information
 //               </h1>
 //               <div className="flex justify-between py-4">
 //                 <div className="flex flex-col gap-3">
-//                   {userdata?.customerTypeId !== 4 && (
+//                   {userdata?.customerTypeId !== 4 && userdata?.customerTypeId !== 2 && userdata?.customerTypeId !== 3 && (
 //                     <TextField
 //                       label="Shop Name"
 //                       id="shopName"
@@ -518,7 +602,7 @@
 //                       size="small"
 //                     />
 //                   )}
-//                   {userdata?.customerTypeId !== 4 && (
+//                   {userdata?.customerTypeId !== 4 && userdata?.customerTypeId !== 3 && userdata?.customerTypeId !== 2 && (
 //                     <TextField
 //                       label="DBA Name"
 //                       id="dba"
@@ -602,38 +686,35 @@
 //                     disabled={!isAddressEdit}
 //                     size="small"
 //                   /> */}
-//                   <FormControl
-//   size="small"
-//   disabled={!isAddressEdit}
-// >
-//   <InputLabel id="state-select-label">State</InputLabel>
-//   <Select
-//     id="state-select"
-//     label="State"
-//     value={addressData.state || ""} // Ensure a default value
-//     name="state" // Ensure the name matches the key in addressData
-//     onChange={handleAddressChange}
-//     MenuProps={{
-//       PaperProps: {
-//         style: {
-//           maxHeight: 200, // Set the maximum height of the dropdown
-//         },
-//       },
-//     }}
-//   >
-//     <MenuItem value="">
-//       <em>None</em>
-//     </MenuItem>
-//     {states.map((state) => (
-//       <MenuItem
-//         key={state.abbreviation}
-//         value={state.name} // Match this value to what you want to save in addressData
-//       >
-//         {state.name}
-//       </MenuItem>
-//     ))}
-//   </Select>
-// </FormControl>
+//                   <FormControl size="small" disabled={!isAddressEdit}>
+//                     <InputLabel id="state-select-label">State</InputLabel>
+//                     <Select
+//                       id="state-select"
+//                       label="State"
+//                       value={addressData.state || ""} // Ensure a default value
+//                       name="state" // Ensure the name matches the key in addressData
+//                       onChange={handleAddressChange}
+//                       MenuProps={{
+//                         PaperProps: {
+//                           style: {
+//                             maxHeight: 200, // Set the maximum height of the dropdown
+//                           },
+//                         },
+//                       }}
+//                     >
+//                       <MenuItem value="">
+//                         <em>None</em>
+//                       </MenuItem>
+//                       {states.map((state) => (
+//                         <MenuItem
+//                           key={state.abbreviation}
+//                           value={state.name} // Match this value to what you want to save in addressData
+//                         >
+//                           {state.name}
+//                         </MenuItem>
+//                       ))}
+//                     </Select>
+//                   </FormControl>
 
 //                   {userdata?.customerTypeId !== 4 && (
 //                     <TextField
@@ -649,15 +730,14 @@
 //                   )}
 //                   {userdata?.customerTypeId !== 4 && (
 //                     <TextField
-//                     label="Business Email"
-//                     id="businessEmail"
-//                     name="businessEmail"
-//                     value={addressData.businessEmail}
-//                     onChange={handleAddressChange}
-//                     disabled={!isAddressEdit}
-//                     size="small"
-//                   />
-
+//                       label="Business Email"
+//                       id="businessEmail"
+//                       name="businessEmail"
+//                       value={addressData.businessEmail}
+//                       onChange={handleAddressChange}
+//                       disabled={!isAddressEdit}
+//                       size="small"
+//                     />
 //                   )}
 //                 </div>
 //                 <div className="flex flex-col justify-between py-2">
@@ -667,9 +747,8 @@
 //                     onClick={handleAddressEditClick}
 //                   />
 //                   <button
-//                     className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-//                       !isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
-//                     }`}
+//                     className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
+//                       }`}
 //                     onClick={handleAddressSaveClick}
 //                     disabled={!isAddressEdit}
 //                   >
@@ -680,158 +759,11 @@
 //             </div>
 
 //             {/* Account Information Section */}
-//             {/* <div
-//               className={`bg-white border ${
-//                 isAccountEdit ? "border-blue-900" : "border-gray-400"
-//               } rounded-lg px-8 w-full mt-8 relative mb-4`}>
-//               {isAccountEdit && (
-//                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
-//                   Account Information
-//                 </h1>
-//               )}
-//               <h1
-//                 className={`text-xl font-semibold my-2 ${
-//                   isAccountEdit ? "invisible" : "text-blue-900"
-//                 }`}
-//               >
-//                 Account Information
-//               </h1>
-//               <div className="flex justify-between py-4">
-//                 <div className="flex flex-col gap-3">
-//                   <TextField
-//                     label="DEA"
-//                     id="dea"
-//                     name="dea"
-//                     value={accountData.dea}
-//                     onChange={handleAccountChange}
-//                     disabled={!isAccountEdit}
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <label> DEA Expiration Date </label>
-//                   <TextField
-//                     label=""
-//                     type="date"
-//                     id="deaExpirationDate"
-//                     name="deaExpirationDate"
-//                     value={accountData.deaExpirationDate}
-//                     onChange={handleAccountChange}
-//                     disabled={!isAccountEdit}
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <label> DEA Expiration File </label>
 
-//                   <TextField
-//                     label=""
-//                     type="file"
-//                     id="outlined-size-small"
-//                     name="Last Name"
-//                     value={accountData.First_Name}
-//                     onChange={handleAccountChange}
-//                     disabled={!isAccountEdit}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <TextField
-//                     label="NPI"
-//                     id="npi"
-//                     name="npi"
-//                     value={accountData.npi}
-//                     onChange={handleAccountChange}
-//                     disabled={!isAccountEdit}
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <TextField
-//                     label="Federal Tax"
-//                     id="federalTaxId"
-//                     name="federalTaxId"
-//                     value={accountData.federalTaxId}
-//                     onChange={handleAccountChange}
-//                     disabled={!isAccountEdit}
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                 </div>
-//                 <div className="flex flex-col gap-3">
-//                   <TextField
-//                     label="Pharmacy License"
-//                     id="pharmacyLicence"
-//                     name="pharmacyLicence"
-//                     value={accountData.pharmacyLicence}
-//                     onChange={handleAccountChange}
-//                     disabled={!isAccountEdit}
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <label> Pharmacy License Expiration Date </label>
-
-//                   <TextField
-//                     label=""
-//                     type="date"
-//                     id="pharmacyLicenseExpirationDate"
-//                     name="pharmacyLicenseExpirationDate"
-//                     value={accountData.pharmacyLicenseExpirationDate}
-//                     onChange={handleAccountChange}
-//                     disabled={!isAccountEdit}
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                   <label>Pharmacy License Expiration File</label>
-
-//                   <TextField
-//                     label=""
-//                     type="file"
-//                     id="outlined-size-small"
-//                     name="Last Name"
-//                     // value={formData.First_Name}
-//                     onChange={handleAccountChange}
-//                     disabled={!isAccountEdit}
-//                     // error={!!errors.First_Name}
-//                     // helperText={errors.First_Name}
-
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-
-//                   <TextField
-//                     label="NCPDP"
-//                     id="ncpdp"
-//                     name="ncpdp"
-//                     onChange={handleAccountChange}
-//                     disabled={!isAccountEdit}
-//                     value={accountData.ncpdp}
-//                     size="small"
-//                     className="w-[60%]"
-//                   />
-//                 </div>
-//                 <div className="flex flex-col justify-between py-2">
-//                   <img
-//                     src={edit}
-//                     className="w-6 h-6 cursor-pointer"
-//                     onClick={handleAccountEditClick}
-//                   />
-//                   <button
-//                     className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-//                       !isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
-//                     }`}
-//                     onClick={handleAccountSaveClick}
-//                     disabled={!isAccountEdit}
-//                   >
-//                     Save
-//                   </button>
-//                 </div>
-//               </div>
-//             </div> */}
 //             {userdata?.customerTypeId !== 4 && (
 //               <div
-//                 className={`bg-white border ${
-//                   isAccountEdit ? "border-blue-900" : "border-gray-400"
-//                 } rounded-lg px-8 w-full mt-8 relative mb-4`}
+//                 className={`bg-white border ${isAccountEdit ? "border-blue-900" : "border-gray-400"
+//                   } rounded-lg px-8 w-[95%]  mt-8 relative mb-6`}
 //               >
 //                 {isAccountEdit && (
 //                   <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -839,9 +771,8 @@
 //                   </h1>
 //                 )}
 //                 <h1
-//                   className={`text-xl font-semibold my-2 ${
-//                     isAccountEdit ? "invisible" : "text-blue-900"
-//                   }`}
+//                   className={`text-xl font-semibold my-2 ${isAccountEdit ? "invisible" : "text-blue-900"
+//                     }`}
 //                 >
 //                   Account Information
 //                 </h1>
@@ -859,34 +790,42 @@
 //                     />
 //                     <label> DEA Expiration Date </label>
 //                     <TextField
-//   label=""
-//   type="date"
-//   id="deaExpirationDate"
-//   name="deaExpirationDate"
-//   value={accountData.deaExpirationDate ? formatDate(accountData.deaExpirationDate) : ""}
-//   onChange={handleAccountChange}
-//   disabled={!isAccountEdit}
-//   size="small"
-//   className="w-[60%]"
-// />
+//                       label=""
+//                       type="date"
+//                       id="deaExpirationDate"
+//                       name="deaExpirationDate"
+//                       value={
+//                         accountData.deaExpirationDate
+//                           ? formatDate(accountData.deaExpirationDate)
+//                           : ""
+//                       }
+//                       onChange={handleAccountChange}
+//                       disabled={!isAccountEdit}
+//                       size="small"
+//                       className="w-[60%]"
+//                     />
 
 //                     <label> DEA Expiration File </label>
 //                     <TextField
-//   label=""
-//   type="file"
-//   id="outlined-size-small"
-//   name="deaLicenseCopy"
-//   onChange={handleFileChange} // Separate handler for file selection
-//   disabled={!isAccountEdit}
-//   size="small"
-//   className="w-[60%]"
-// />
-// {accountData.deaLicenseCopy && (
-//   <a href={accountData.deaLicenseCopy} target="_blank" rel="noopener noreferrer">
-//     View DEA License Copy
-//   </a>
-// )}
-
+//                       label=""
+//                       type="file"
+//                       id="outlined-size-small"
+//                       name="deaLicenseCopy"
+//                       onChange={handleFileChange} // Separate handler for file selection
+//                       disabled={!isAccountEdit}
+//                       size="small"
+//                       className="w-[60%]"
+//                     />
+//                     {accountData.deaLicenseCopy && (
+//                       <a
+//                         href={accountData.deaLicenseCopy}
+//                         target="_blank"
+//                         rel="noopener noreferrer"
+//                          className="text-blue-500 underline  -mt-3"
+//                       >
+//                         View DEA License Copy
+//                       </a>
+//                     )}
 
 //                     <TextField
 //                       label="NPI"
@@ -896,7 +835,7 @@
 //                       onChange={handleAccountChange}
 //                       disabled={!isAccountEdit}
 //                       size="small"
-//                       className="w-[60%]"
+//                       className="w-[60%] mt-3"
 //                     />
 //                     <TextField
 //                       label="Federal Tax"
@@ -933,33 +872,44 @@
 //                       className="w-[60%]"
 //                     /> */}
 //                     <TextField
-//   label=""
-//   type="date"
-//   id="pharmacyLicenseExpirationDate"
-//   name="pharmacyLicenseExpirationDate"
-//   value={accountData.pharmacyLicenseExpirationDate ? formatDate(accountData.pharmacyLicenseExpirationDate) : ""}
-//   onChange={handleAccountChange}
-//   disabled={!isAccountEdit}
-//   size="small"
-//   className="w-[60%]"
-// />
+//                       label=""
+//                       type="date"
+//                       id="pharmacyLicenseExpirationDate"
+//                       name="pharmacyLicenseExpirationDate"
+//                       value={
+//                         accountData.pharmacyLicenseExpirationDate
+//                           ? formatDate(
+//                             accountData.pharmacyLicenseExpirationDate
+//                           )
+//                           : ""
+//                       }
+//                       onChange={handleAccountChange}
+//                       disabled={!isAccountEdit}
+//                       size="small"
+//                       className="w-[60%]"
+//                     />
 
 //                     <label>Pharmacy License Expiration File</label>
 //                     <TextField
-//   label=""
-//   type="file"
-//   id="outlined-size-small"
-//   name="pharmacyLicenseCopy"
-//   onChange={handleFileChangePharma} // Separate handler for file input
-//   disabled={!isAccountEdit}
-//   size="small"
-//   className="w-[60%]"
-// />
-// {accountData.pharmacyLicenseCopy && (
-//   <a href={accountData.pharmacyLicenseCopy} target="_blank" rel="noopener noreferrer">
-//     View Pharmacy License Copy
-//   </a>
-// )}
+//                       label=""
+//                       type="file"
+//                       id="outlined-size-small"
+//                       name="pharmacyLicenseCopy"
+//                       onChange={handleFileChangePharma} // Separate handler for file input
+//                       disabled={!isAccountEdit}
+//                       size="small"
+//                       className="w-[60%]"
+//                     />
+//                     {accountData.pharmacyLicenseCopy && (
+//                       <a
+//                         href={accountData.pharmacyLicenseCopy}
+//                         target="_blank"
+//                         rel="noopener noreferrer"
+//                          className="text-blue-500 underline  -mt-3"
+//                       >
+//                         View Pharmacy License Copy
+//                       </a>
+//                     )}
 
 //                     <TextField
 //                       label="NCPDP"
@@ -969,7 +919,7 @@
 //                       disabled={!isAccountEdit}
 //                       value={accountData.ncpdp}
 //                       size="small"
-//                       className="w-[60%]"
+//                       className="w-[60%] mt-3"
 //                     />
 //                   </div>
 //                   <div className="flex flex-col justify-between py-2">
@@ -979,9 +929,8 @@
 //                       onClick={handleAccountEditClick}
 //                     />
 //                     <button
-//                       className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-//                         !isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
-//                       }`}
+//                       className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
+//                         }`}
 //                       onClick={handleAccountSaveClick}
 //                       disabled={!isAccountEdit}
 //                     >
@@ -1011,7 +960,7 @@
 //           </div>
 //         )}
 
-//           {visibleGrid === "charges" && (
+//         {visibleGrid === "charges" && (
 //           <div
 //           //  className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4"
 //           >
@@ -1025,6 +974,7 @@
 // };
 
 // export default LayoutProfile;
+
 
 
 
@@ -1597,6 +1547,39 @@ const LayoutProfile = () => {
             </div>
           </div>
         )}
+
+
+{visibleGrid === "account" && (
+  <div className="flex flex-col bg-white border  border-gray-400 p-6 h-full ml-6  rounded-lg px-8  w-[90%] mt-8">
+    <h1 className="text-blue-900 font-semibold -mt-2 text-xl ">User Type</h1>
+    <div className="mt-2">
+      {/* <label className="gap-2 mr-3" >Account type :</label> */}
+      <TextField
+                      label="User type"
+                      // id="shopName"
+                      name="shopName"
+                      // value={addressData.shopName}
+                      // onChange={handleAddressChange}
+                      disabled={!isAddressEdit}
+                      className="ml-3"
+                      size="small"
+                    />
+
+                   
+      </div>
+      {userdata?.customerTypeId !== 4 && userdata?.customerTypeId !== 2 && userdata?.customerTypeId !== 3 && (
+
+      <div className="mt-2">
+      <label className="mr-3">UPN Member</label>
+                    <input type="radio" className="mr-2"/>
+                    <label className="mr-2">Yes</label>
+                    <input type="radio"  className="mr-2"/>
+                    <label  className="mr-2">No</label>
+                    </div>
+      )}
+    </div>
+)}
+
         {visibleGrid === "account" && (
           <div className="flex flex-col bg-slate-200 p-6 w-full h-full">
             {/* Address Information Section */}

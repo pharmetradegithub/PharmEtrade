@@ -791,9 +791,9 @@ const LayoutPostingProducts = () => {
     setDeletePop(false);
   };
 
-  // useEffect(() => {
-  //   dispatch(fetchSellerDashboard(user?.customerId));
-  // }, [])
+  useEffect(() => {
+    dispatch(fetchSellerDashboard(user?.customerId));
+  }, [])
 
   const handleSort = (key) => {
     let direction = "ascending";
@@ -819,6 +819,12 @@ const LayoutPostingProducts = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = sortedProducts.slice(indexOfFirstItem, indexOfLastItem);
+  const sortedCurrentItems = currentItems.sort((a, b) => {
+    const aDate = new Date(a.createdDate);
+    const bDate = new Date(b.createdDate);
+
+    return bDate - aDate; // Descending order
+  });
   const totalPages = Math.ceil((products?.length || 0) / itemsPerPage);
 
   return (
@@ -997,14 +1003,14 @@ const LayoutPostingProducts = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {currentItems.length === 0 ? (
+                  {sortedCurrentItems.length === 0 ? (
                     <tr>
                       <td colSpan="5" className="text-center py-4">
                         No products available
                       </td>
                     </tr>
                   ) : (
-                    currentItems.map((product, index) => (
+                    sortedCurrentItems.map((product, index) => (
                       <tr key={product.id} className="border-b">
                         <td className="px-4 py-2">
                           {indexOfFirstItem + index + 1}

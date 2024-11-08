@@ -32,6 +32,7 @@ import {
   fetchNdcUpcListApi,
   fetchProductCategoriesGetAll,
 } from "../../../Api/MasterDataApi";
+import { useNavigate } from "react-router-dom";
 
 function LayoutaddProduct() {
   const user = useSelector((state) => state.user.user);
@@ -702,6 +703,9 @@ function LayoutaddProduct() {
     setSelectedValue(e.target.value);
   };
 
+  const navigate = useNavigate();
+
+
   const handleRemoveImage = () => {
     setSelectedImage(null);
     setFormData({ ...formData, ["imageUrl"]: null });
@@ -965,13 +969,15 @@ function LayoutaddProduct() {
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
-          setActiveTab(0);
+          // setActiveTab(0);
           localStorage.removeItem("productId");
           // Disable 2nd and 3rd tabs
           setShowTab([1, 2, 3]);
           if (queryProductId == null) {
             ResetFormDate();
           }
+          navigate("/layout/postingproducts");
+
 
           // Optionally reset or move to another step
         }, 3000);
