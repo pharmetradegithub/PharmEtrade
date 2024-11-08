@@ -18,22 +18,22 @@ export const loginUserApi = async (username, password) => {
 
     if (response.status === 200) {
 
-      localStorage.setItem('userId', response.data.userId);
-      localStorage.setItem('token', response.data.token);
-      const userDetails = await axios.get(`/api/Customer/GetByCustomerId?customerId=${response.data.userId}`);
-
-      if (response.status === 200) {
         if (response?.data?.statusCode == 400) {
-          return response.data.message;
+          return "Your account is inactive ";
         }
+        localStorage.setItem('userId', response.data.userId);
+        localStorage.setItem('token', response.data.token);
+        const userDetails = await axios.get(`/api/Customer/GetByCustomerId?customerId=${response.data.userId}`);
         store.dispatch({ type: 'user/setUser', payload: userDetails.data.result[0] });
         return;
-      }
-      else {
-        return "Incorrect EmailId and Password ";
-      }
 
-    } else {
+
+    } if(response.status == 401)
+    {
+      return "Your account is inactive ";
+
+    }
+    else {
       console.error('Login failed:', response.data.message);
       return "Incorrect EmailId and Password ";
 
