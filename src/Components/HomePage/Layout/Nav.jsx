@@ -1033,10 +1033,12 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
       // productName: SearchInput,
       productCategoryId: selectedItemId,
       productName: SearchInput,
+      customerId: user.customerId
     };
     if (selectedItemId == -1) {
       Criteria = {
         productName: SearchInput,
+        customerId: user.customerId
       };
     }
     await fetchCriteriaProductsApi(Criteria);

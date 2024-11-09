@@ -306,6 +306,7 @@ function App() {
           <Route path="/bid" element={<Bid />} />
           <Route path="/buy" element={<Buy />} />
           <Route path="/whypharmetrade" element={<WhyPharma />} />
+          <Route path="/faqs" element={<Faqs />} />
           <Route path="/aboutus" element={<AboutUs />} />{" "}
           {/* <Route path="/contactus" element={<Contactus />} /> */}
           <Route path="/requestdemo" element={<RequestDemo />} />
@@ -375,7 +376,7 @@ function App() {
           <Route path="manage-shipping" element={<ManageShipping />} />
         </Route>
 
-        <Route path="/faqs" element={<Faqs />} />
+        {/* <Route path="/faqs" element={<Faqs />} /> */}
 
         <Route path="/layout" element={<LayoutPanel cartItems={cartItems} />}>
           <Route
@@ -425,7 +426,7 @@ function App() {
             path="/layout/requestedquote"
             element={<LayoutAllrequestedQuote />}
           />
-                    <Route path="/layout/faqs" element={<Faqs />} />
+          <Route path="/layout/faqs" element={<Faqs />} />
 
           <Route
             path="/layout/quotedproducts"

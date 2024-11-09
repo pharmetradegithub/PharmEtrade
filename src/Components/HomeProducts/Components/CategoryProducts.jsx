@@ -44,6 +44,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
     const fetchCategoryProducts = async () => {
       let Criteria = {
         productCategoryId: CategoryId,
+        customerId: user.customerId
       };
 
       await fetchCriteriaProductsApi(Criteria);
