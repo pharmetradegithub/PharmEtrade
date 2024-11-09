@@ -40,13 +40,22 @@ import { FedExRatesApi, serviceTypeApi } from "../../Api/TrackApi";
 import Proccedtoshipment from '../ProccedtoShipment'
 import SquarePaymentForm from "../SquarePaymentForm";
 function Address({ topMargin, totalAmount, amount }) {
-
+  const dispatch = useDispatch()
   const applicationId = 'sandbox-sq0idb-vXdVdM6tMjTG6Zi2XCoE-A';
   const locationId = 'L0599WY5GGG3W';
-  const Payment_Amnount = 500;
-  const handlePaymentSuccess = (token, amount) => {
+  // const Payment_Amnount = 500;
+  const handlePaymentSuccess = async(token, amount) => {
     console.log("Payment Successful, Token:", token);
     console.log("Payment Successful, amount:", amount);
+
+    const payload = {
+      sourceId: token,
+      amount: Math.floor(amount),
+      currency: "USD",
+      note: "Payment for ORD763847827"
+    }
+    await paymentProcessApi(payload)
+
   };
 
   const handlePaymentError = (error) => {
@@ -89,7 +98,7 @@ function Address({ topMargin, totalAmount, amount }) {
   const user = useSelector((state) => state.user.user);
   console.log("user-->address", user);
   console.log("addressdataaaaaa", getAddress);
-  const dispatch = useDispatch();
+  
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
