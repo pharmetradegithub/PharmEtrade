@@ -900,7 +900,7 @@ const ProccedtoShipment = ({
                       <tr className="text-sm">
                         <td className="text-center">
                             {tabledetail.product.sellerName}
-                            {tabledetail.product.sellerId}
+                            {/* {tabledetail.product.sellerId} */}
                         </td>
                         <td>
                           <img
