@@ -1397,7 +1397,7 @@
 //               <div className="data-group bg-white p-4 rounded-lg">
 //                 {/* <div className="data-item">
 //                   <label>Email 1 :</label>
-//                   <span>John Doe</span> 
+//                   <span>John Doe</span>
 //                 </div>
 
 //                 <div className="data-item">
@@ -1472,8 +1472,6 @@
 // };
 
 // export default EditSellerList;
-
-
 
 import React, { useEffect, useState } from "react";
 import {
@@ -1594,6 +1592,7 @@ const EditSellerList = () => {
   const [userDetails, setUserDetails] = useState({
     firstName: userdata?.firstName || "",
     lastName: userdata?.lastName || "",
+    customerTypeId: userdata?.customerTypeId || "",
     email: userdata?.email || "",
     password: userdata?.password || "",
     // phoneNumber: userdata?.phoneNumber || "",
@@ -1604,6 +1603,7 @@ const EditSellerList = () => {
     setUserDetails({
       firstName: userdata?.firstName || "",
       lastName: userdata?.lastName || "",
+      customerTypeId: userdata?.customerTypeId || "",
       email: userdata?.email || "",
       password: userdata?.password || "",
       // phoneNumber: userdata?.phoneNumber || "",
@@ -1702,14 +1702,46 @@ const EditSellerList = () => {
   const handleEditClick = () => {
     setIsEditable((prev) => !prev); // Toggle edit mode
   };
+  const [isUserEditable, setIsUserEditable] = useState(false);
+
+  const handleUserEditClick = () => {
+    setIsUserEditable((prev) => !prev); // Toggle edit mode
+  };
   // Handle save button click
   // const handleSaveClick = () => {
   //   setIsEditable(false);
   //   alert("Data saved successfully!"); // Show notification (can replace with your own notification system)
   // };
 
+
   const RefreshUser = async () => {
     await getUserByCustomerIdApi(userdata.customerId);
+  };
+  const handleUserSaveClick = async () => {
+    setIsUserEditable(false);
+    const usertypeinfo = {
+      // customerId: userdata.customerId,
+      // firstName: userDetails.firstName,
+      // lastName: userDetails.lastName,
+      // email: userDetails.email,
+      // mobile: userDetails.mobile,
+      // password: userDetails.password,
+      customerTypeId: userdata.customerTypeId,
+      accountTypeId: userdata.accountTypeId,
+      isUPNMember: userdata.isUPNMember,
+    };
+    if (usertypeinfo) {
+      await UserInfoUpdate(usertypeinfo);
+      await RefreshUser();
+    }
+
+    console.log("Data saved:", userDetails); // You can dispatch this to Redux or send it to the backend
+    // alert("Data saved successfully!"); // Show notification
+    setNotification({
+      show: true,
+      message: "User Type saved Successfully!",
+    });
+    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
   };
 
   const handleSaveClick = async () => {
@@ -2092,6 +2124,23 @@ const EditSellerList = () => {
     setComments(event.target.value); // Update comments state with input value
   };
 
+  const [upnMember, setUpnMember] = useState(0);
+
+  // Function to handle changes in radio button selection
+  const handleUpnChange = (event) => {
+    setUpnMember(Number(event.target.value)); // Ensure the value is a number (0 or 1)
+  };
+
+  const handleUserChange = (event) => {
+    const { name, value } = event.target;
+    setUserDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value, // Update the value of the corresponding field
+    }));
+  };
+
+
+
   return (
     <div className="w-full h-full flex-col bg-slate-200 flex justify-center overflow-y-scroll">
       {notification.show && (
@@ -2139,9 +2188,7 @@ const EditSellerList = () => {
                   User Information
                 </h1>
               )}
-              {/* <h1 className="text-xl font-semibold text-blue-900 my-2">
-                Address Information
-              </h1> */}
+             
               <h1
                 className={`text-xl font-semibold my-2 ${
                   isEditable ? "invisible" : "text-blue-900"
@@ -2240,47 +2287,105 @@ const EditSellerList = () => {
               </div>
             </div>
 
+            {/* <div className="bg-white border border-gray-400  p-6 mx-6 rounded-lg px-8 w-[90%] mt-8 relative mb-4">
+              <h1 className="text-blue-900 font-semibold text-xl">User Type</h1> */}
+               <div
+              className={`bg-white border  mx-6  ${
+                isUserEditable ? "border-blue-900" : "border-gray-400"
+              } rounded-lg px-8 w-[90%] mt-8 relative`}
+            >
+              {isUserEditable && (
+                <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+                  User Type
+                </h1>
+              )}
+             
+              <h1
+                className={`text-xl font-semibold my-2 ${
+                  isUserEditable ? "invisible" : "text-blue-900"
+                }`}
+              >
+                User Type
+              </h1>
+              <div className="flex justify-between">
+              <div className="mt-2">
+                {/* <label className="gap-2 mr-3" >Account type :</label> */}
+                <TextField
+                  label="User type"
+                  id="customerTypeId"
+                  name="customerTypeId"
+                  value={userDetails.customerTypeId}
+                  onChange={handleUserChange}
+                  disabled={!isUserEditable}
+                  className="ml-3"
+                  size="small"
+                />
+              
+              <>
+              {userdata?.customerTypeId !== 4 &&
+                userdata?.customerTypeId !== 2 &&
+                userdata?.customerTypeId !== 3 && (
+                  <div className="my-2">
+                    <label className="mr-3">UPN Member</label>
 
-            <div className="bg-white border border-gray-400  p-6 mx-6 rounded-lg px-8 w-[90%] mt-8 relative mb-4">
-                    <h1 className="text-blue-900 font-semibold text-xl">User Type</h1>
-                    <div className="mt-2">
-      {/* <label className="gap-2 mr-3" >Account type :</label> */}
-      <TextField
-                      label="User type"
-                      // id="shopName"
-                      name="shopName"
-                      // value={addressData.shopName}
-                      // onChange={handleAddressChange}
-                      disabled={!isAddressEdit}
-                      className="ml-3"
-                      size="small"
+                    <input
+                      type="radio"
+                      id="yes"
+                      value="1"
+                      checked={upnMember === 1}
+                      onChange={handleUpnChange}
+                      className="mr-2"
+                      disabled={!isUserEditable}
                     />
+                    <label className="mr-2" htmlFor="yes">
+                      Yes
+                    </label>
 
-                   
-      </div>
-      {userdata?.customerTypeId !== 4 && userdata?.customerTypeId !== 2 && userdata?.customerTypeId !== 3 && (
+                    <input
+                      type="radio"
+                      id="no"
+                      value="0"
+                      checked={upnMember === 0}
+                      onChange={handleUpnChange}
+                      className="mr-2"
+                      disabled={!isUserEditable}
+                    />
+                    <label className="mr-2" htmlFor="no">
+                      No
+                    </label>
+                  </div>
+                )}
+                </>
+                </div>
+                <div className="flex flex-col justify-between py-2">
+                  <img
+                    src={edit}
+                    className="w-6 h-6 ml-4 cursor-pointer"
+                    onClick={handleUserEditClick} // Handle edit icon click
+                    alt="Edit" // Add alt text for accessibility
+                  />
+                  <button
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                      !isUserEditable ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
+                    onClick={handleUserSaveClick}
+                    disabled={!isUserEditable} // Disable button when not editable/ Save button is disabled if not editable
+                  >
+                    Save
+                  </button>
+                </div>
+                </div>
 
-                    <div className="mt-2">
-      <label className="mr-3">UPN Member</label>
-                    <input type="radio" className="mr-2"/>
-                    <label className="mr-2">Yes</label>
-                    <input type="radio"  className="mr-2"/>
-                    <label  className="mr-2">No</label>
-                    </div>
-      )}
-              </div>
+            </div>
             {/* <div className="bg-white border  flex justify-between flex-col border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4"> */}
 
             {/* <div className="button-group"></div> */}
-            
 
             <div
               className={`bg-white border  mx-6 ${
                 isAddressEdit ? "border-blue-900" : "border-gray-400"
               } rounded-lg px-8 w-[90%] mt-8 relative`}
             >
-
-              
               {isAddressEdit && (
                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
                   Address Information
@@ -2296,7 +2401,6 @@ const EditSellerList = () => {
               >
                 Address Information
               </h1>
-            
 
               <div className="flex justify-between py-4">
                 <div className="flex flex-col gap-3">
@@ -2517,7 +2621,6 @@ const EditSellerList = () => {
                   </button>
                 </div>
               </div>
-            
             </div>
             {userdata?.customerTypeId !== 4 && (
               <div
@@ -2984,4 +3087,3 @@ export default UploadEmailButton;
 };
 
 export default EditSellerList;
-

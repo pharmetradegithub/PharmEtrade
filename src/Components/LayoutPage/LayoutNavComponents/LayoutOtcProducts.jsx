@@ -699,7 +699,9 @@ function LayoutOtcProducts({
 
                       <input
                         type="text"
-                        value={product.CartQuantity}
+                        // value={product.CartQuantity}
+                        // value={product.amountInStock === 0 ? 0 : product.minOrderQuantity}
+                        value={product.amountInStock === 0 ? 0 : product.CartQuantity || product.minOrderQuantity}
                         className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
                         onChange={(e) => {
                           const value = e.target.value;
@@ -788,7 +790,7 @@ function LayoutOtcProducts({
                           } else {
                             handleCart(
                               product.productID,
-                              product.CartQuantity
+                              product.minOrderQuantity
                             );
                             setStockWarning({ productId: null, message: "" });
                           }

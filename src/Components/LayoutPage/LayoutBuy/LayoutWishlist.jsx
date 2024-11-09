@@ -162,7 +162,7 @@ function LayoutWishlist({ addCart }) {
       <h1 className="text-2xl mb-2 text-blue-900 font-semibold">
         PharmEtrade {">"} Wishlist
       </h1>
-      <div className="w-full min-h-full bg-white rounded-lg shadow-lg p-4">
+      <div className="w-full min-h-full sm:w-full  bg-white rounded-lg shadow-lg p-4 sm:p-8">
         <div className="flex justify-between">
           <h1 className="text-2xl m-5 font-semibold">Wishlist</h1>
           {/* <div className="flex bg-white m-5">
@@ -183,67 +183,63 @@ function LayoutWishlist({ addCart }) {
             {wishItems.map((item, index) => (
               <div
                 key={index}
-                className="border rounded-lg flex justify-evenly h-auto p-4 max-w-6xl bg-white shadow-md"
+                className="border rounded-lg flex flex-wrap md:flex-nowrap justify-evenly h-auto p-4 max-w-6xl  md:w-auto bg-white shadow-md"
               >
                 <Link to={`/detailspage/${item.product.productID}`}>
                   <img
-                    className="h-40 w-40 rounded-lg cursor-pointer"
+                    className="h-40 w-40 md:w-32 lg:w-40 rounded-lg cursor-pointer"
                     src={item.product.imageUrl}
                     alt={item.product.productName}
                   />
                 </Link>
-                <div className="flex flex-col font-medium">
+                <div className="flex flex-col font-medium  w-full md:w-auto">
                   <Link
                     to={`/detailspage/${item.product.productID}`}
                     className="hover:text-red-600"
                   >
-                    <h3 className="text-xl font-semibold">
+                    <h3  className="text-lg md:text-xl font-semibold">
                       {/* Vitamin C(1000IU) Cap X Syrup 1000mg Nature Made */}
                       {item.product.productName}
                     </h3>
                     {/* <p className="text-xl">Cough Syrup 1000mg</p> */}
-                    <p className="text-lg font-semibold">${item.product.salePrice?.toFixed(2)}</p>
+                    <p className="text-md md:text-lg font-semibold">${item.product.salePrice?.toFixed(2)}</p>
                   </Link>
-                  <div className="flex">
-                  <p className=" text-xl font-semibold mr-2">Manufacturer: 
-                     </p>
-                    <span className="text-sm flex flex-wrap mt-1">{item.product.manufacturer}</span>
-                 </div>
+                  <div className="flex flex-col md:flex-col lg:flex-row">
+                  <p className="text-sm md:text-base font-semibold mr-2">Manufacturer: </p>
+  <span className="text-xs md:text-sm flex flex-wrap mt-1">{item.product.manufacturer}</span>
+</div>
                   {/* <p>Quantity: 1</p> */}
                   <div className="flex ">
-                    <span className="text-lg font-semibold mr-2">Brand Name :</span>
-                    <p className="flex flex-wrap">{item.product.brandName}</p>
+                    <span className="text-sm md:text-lg font-semibold mr-2">Brand Name :</span>
+                    <p className="text-xs md:text-base flex flex-wrap">{item.product.brandName}</p>
                   </div>
                   <div className="flex">
-                    <p className="mr-2">
+                    <p className="text-sm md:text-lg">
 
-                    Quantity  :
+                      Quantity  :
                     </p>
                     <p>1</p>
-                    </div>
-                    <div className="flex">
-                    <p className="mr-2">
-
-                   Expires on or after :
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-sm md:text-lg">Expires on or after:</span>
+                    <p className="text-sm md:text-sm">
+                      {new Date(item.product.expiryDate)
+                        .toLocaleDateString('en-US', {
+                          month: '2-digit',
+                          day: '2-digit',
+                          year: 'numeric'
+                        })
+                        .replace(/\//g, '-')}
                     </p>
-                    <p>
-  {new Date(item.product.expiryDate)
-    .toLocaleDateString('en-US', {
-      month: '2-digit',
-      day: '2-digit',
-      year: 'numeric'
-    })
-    .replace(/\//g, '-')}
-</p>
                     {/* <p>Dec 24</p> */}
-                    </div>
+                  </div>
                 </div>
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center mt-4 md:mt-0">
                   <button
-                    className="text-lg font-semibold text-white bg-blue-900  items-center justify-center flex h-9 w-36 rounded-full"
+                    className="text-lg md:text-base font-semibold text-white bg-blue-900  items-center justify-center flex h-9 w-36 md:w-28 rounded-full"
                     onClick={() => handleCart(item.product.productID)}
                   >
-                    <img src={cart} className="w-5 h-5 mx-1" />
+                    <img src={cart} className="w-4 md:w-5 h-4 md:h-5 mx-1" />
                     ADD
                   </button>
                   <div className="flex  items-center justify-between my-4 cursor-pointer">
@@ -252,7 +248,7 @@ function LayoutWishlist({ addCart }) {
 
                         <img
                           src={share}
-                          className="w-6 mx-3 "
+                          className="w-6 mx-3 md:w-5"
                           onClick={handleSharePopupToggle}
 
                         />
@@ -291,7 +287,7 @@ function LayoutWishlist({ addCart }) {
                             </a>
                           </div>
                           <div className="flex border-b p-2">
-                          <a href="https://wa.me/1234567890?text=Hello" target="_blank" rel="noopener noreferrer" className="flex items-center">
+                            <a href="https://wa.me/1234567890?text=Hello" target="_blank" rel="noopener noreferrer" className="flex items-center">
 
                               <img src={Whatsapp} className="text-blue-400 w-6" />
                               <p className="ml-3">Whatsapp</p>
@@ -304,79 +300,61 @@ function LayoutWishlist({ addCart }) {
                       <img
                         src={deleteicon}
                         onClick={() => handleremove(item.wishListId)}
-                        className=" w-5 "
+                        className=" w-5 md:w-4"
                       />
                     </Tooltip>
                     {/* <MdDeleteOutline className="border rounded-md text-2xl hover:bg-sky-200" /> */}
                   </div>
                   <p
                     onClick={handlePopupToggle}
-                    className="hover:text-red-400 hover:underline font-semibold text-blue-900"
+                    className="hover:text-red-400 hover:underline font-semibold text-blue-900 text-lg sm:text-sm md:text-sm md:text-center"
                   >
                     Add comment, quantity & priority
                   </p>
                   {showPopup && (
                     <div className="flex flex-col justify-center items-center h-full absolute inset-0 bg-transparent z-auto">
-                      <div className="border w-[30%] rounded-lg bg-gray-100">
-                        <div className="flex justify-between items-center bg-blue-900 border-b p-2">
-                          <p className="font-bold text-xl text-white">
-                            Add comment, quantity, priority
-                          </p>
-                          <img
-                            src={cross}
-                            className="hover:text-red-500  w-3"
-                            onClick={handlePopupToggle}
-                          />
-                        </div>
-                        <div className="flex justify-evenly my-2">
-                          <img
-                            className="h-32 w-24 rounded-lg"
-                            src={item.src}
-                            alt={item.id}
-                          />
-                          <div className="flex flex-col justify-end">
-                            <label className="flex flex-col font-semibold">
-                              Comment
-                            </label>
-                            <textarea
-                              placeholder="Enter comments"
-                              className="border text-center h-32 w-60 rounded-md flex justify-start items-start"
-                            />
-                          </div>
-                        </div>
-                        <div className="flex justify-end">
-                          <div className="flex flex-col">
-                            <span className="font-semibold ">Priority:</span>
-                            <select className="p-2 border rounded-md">
-                              <option>Lowest</option>
-                              <option>Low</option>
-                              <option>Medium</option>
-                              <option>High</option>
-                              <option>Highest</option>
-                            </select>
-                          </div>
-                          <div className="flex flex-col mx-4">
-                            <span className="font-semibold ">Needs</span>
-                            <input className="border rounded-md w-20 p-2" />
-                          </div>
-                          <div className="flex flex-col mx-4">
-                            <span className="font-semibold ">Has:</span>
-                            <input className="border rounded-md w-20 p-2" />
-                          </div>
-                        </div>
-                        <div className="flex justify-end my-6">
-                          <button
-                            className="border p-2 rounded-md hover:bg-red-500 hover:text-white "
-                            onClick={handlePopupToggle}
-                          >
-                            Cancel
-                          </button>
-                          <button className="border p-2 rounded-md mx-4 w-16 bg-blue-900 text-white">
-                            Save
-                          </button>
+                    <div className="border w-3/4 md:w-[40%] lg:w-[36%] md:ml-20 rounded-lg bg-gray-100">
+                      <div className="flex justify-between items-center bg-blue-900 border-b p-2">
+                        <p className="font-bold text-sm md:text-base md:flex-wrap text-white">Add comment, quantity, priority</p>
+                        <img src={cross} className="hover:text-red-500 w-3 cursor-pointer" onClick={handlePopupToggle} />
+                      </div>
+                      <div className="flex justify-evenly  my-2">
+                        <img className="h-24 md:h-24 w-16 md:w-16 md:mt-5 md:ml-10 rounded-lg" src={item.src} alt={item.id} />
+                        <div className="flex flex-col justify-end">
+                          <label className="font-semibold text-sm md:text-base">Comment</label>
+                          <textarea placeholder="Enter comments" className="border text-center h-24 md:h-28 w-40 md:w-40 rounded-md flex justify-start items-start" />
                         </div>
                       </div>
+                      <div className="flex justify-end">
+                        <div className="flex flex-col md:ml-5">
+                          <span className="font-semibold text-sm md:text-sm md:ml-10">Priority:</span>
+                          <select className="p-1  md:ml-10 border rounded-md text-xs md:text-sm">
+                            <option>Lowest</option>
+                            <option>Low</option>
+                            <option>Medium</option>
+                            <option>High</option>
+                            <option>Highest</option>
+                          </select>
+                        </div>
+                        <div className="flex flex-col mx-2 md:mx-4">
+                          <span className="font-semibold text-sm md:text-base">Needs</span>
+                          <input className="border rounded-md w-16 md:w-16 p-1  text-xs md:text-sm" />
+                        </div>
+                        <div className="flex flex-col mx-2 md:mx-4">
+                          <span className="font-semibold text-sm md:text-base">Has:</span>
+                          <input className="border rounded-md w-16 md:w-16 p-1 text-xs md:text-sm" />
+                        </div>
+                      </div>
+                      <div className="flex justify-end my-4 md:my-6">
+                        <button className="border p-1 md:p-2 rounded-md hover:bg-red-500 hover:text-white" onClick={handlePopupToggle}>
+                          Cancel
+                        </button>
+                        <button className="border p-1 md:p-2 rounded-md mx-2 md:mx-4 w-12 md:w-16 bg-blue-900 text-white">
+                          Save
+                        </button>
+                      </div>
                     </div>
+                  </div>
                   )}
                   {/* <div>
                     {Array.from({ length: totalStars }, (v, i) => (
@@ -391,7 +369,7 @@ function LayoutWishlist({ addCart }) {
                       The rating is {rating} out of {totalStars}.
                     </p>
                   </div> */}
-                  <div className="flex items-center">
+                  <div className="flex items-center ">
                     <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                     <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                     <span style={{ fontSize: "24px", color: "orange" }}>☆</span>

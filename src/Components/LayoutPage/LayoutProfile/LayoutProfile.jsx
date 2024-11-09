@@ -1,7 +1,3 @@
-
-
-
-
 // import { useEffect, useState } from "react";
 // import {
 //   FormControl,
@@ -196,7 +192,6 @@
 //       pharmacyLicenseCopy: businessInfo?.pharmacyLicenseCopy || "",
 //     });
 //   }, [businessInfo]);
-
 
 //   useEffect(() => {
 //     if (businessInfo) {
@@ -498,7 +493,6 @@
 //                 User Information
 //               </h1>
 
-              
 //               <div className="flex justify-between">
 //                 <div className="py-4 flex flex-col gap-4">
 //                   <TextField
@@ -975,9 +969,6 @@
 
 // export default LayoutProfile;
 
-
-
-
 import { useEffect, useState } from "react";
 import {
   FormControl,
@@ -1019,6 +1010,7 @@ const LayoutProfile = () => {
     password: userdata?.password || "",
     // phoneNumber: userdata?.phoneNumber || "",
     mobile: userdata?.mobile || "",
+    customerTypeId: userdata?.customerTypeId || "",
   });
 
   useEffect(() => {
@@ -1029,6 +1021,7 @@ const LayoutProfile = () => {
       password: userdata?.password || "",
       // phoneNumber: userdata?.phoneNumber || "",
       mobile: userdata?.mobile || "",
+      customerTypeId: userdata?.customerTypeId || "",
     });
   }, [userdata]);
 
@@ -1173,7 +1166,6 @@ const LayoutProfile = () => {
     });
   }, [businessInfo]);
 
-
   useEffect(() => {
     if (businessInfo) {
       setAddressData({
@@ -1189,7 +1181,8 @@ const LayoutProfile = () => {
         deaExpirationDate: businessInfo.deaExpirationDate || "",
         businessEmail: businessInfo.businessEmail || "",
         companyWebsite: businessInfo.companyWebsite || "",
-        pharmacyLicenseExpirationDate: businessInfo.pharmacyLicenseExpirationDate || "",
+        pharmacyLicenseExpirationDate:
+          businessInfo.pharmacyLicenseExpirationDate || "",
       });
     }
   }, [businessInfo]);
@@ -1263,9 +1256,14 @@ const LayoutProfile = () => {
       federalTaxId: businessInfo.federalTaxId,
       dea: businessInfo.dea,
       pharmacyLicence: businessInfo.pharmacyLicence,
-      deaExpirationDate: businessInfo.deaExpirationDate == "" ? null : businessInfo.deaExpirationDate,
+      deaExpirationDate:
+        businessInfo.deaExpirationDate == ""
+          ? null
+          : businessInfo.deaExpirationDate,
       pharmacyLicenseExpirationDate:
-        businessInfo.pharmacyLicenseExpirationDate == "" ? null : businessInfo.pharmacyLicenseExpirationDate,
+        businessInfo.pharmacyLicenseExpirationDate == ""
+          ? null
+          : businessInfo.pharmacyLicenseExpirationDate,
       deaLicenseCopy: businessInfo.deaLicenseCopy,
       pharmacyLicenseCopy: businessInfo.pharmacyLicenseCopy,
       npi: businessInfo.npi,
@@ -1341,15 +1339,15 @@ const LayoutProfile = () => {
   };
 
   const handleFileChangePharma = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const fileUrl = URL.createObjectURL(file); // Create a temporary URL for preview
-    setAccountData((prevData) => ({
-      ...prevData,
-      pharmacyLicenseCopy: fileUrl, // Update state with the selected file URL
-    }));
-  }
-};
+    const file = event.target.files[0];
+    if (file) {
+      const fileUrl = URL.createObjectURL(file); // Create a temporary URL for preview
+      setAccountData((prevData) => ({
+        ...prevData,
+        pharmacyLicenseCopy: fileUrl, // Update state with the selected file URL
+      }));
+    }
+  };
 
   const handleAccountSaveClick = async () => {
     setIsAccountEdit(false);
@@ -1370,13 +1368,19 @@ const LayoutProfile = () => {
       federalTaxId: accountData.federalTaxId,
       dea: accountData.dea,
       pharmacyLicence: accountData.pharmacyLicence,
-      deaExpirationDate: accountData.deaExpirationDate == "" ? null : accountData.deaExpirationDate,
+      deaExpirationDate:
+        accountData.deaExpirationDate == ""
+          ? null
+          : accountData.deaExpirationDate,
       pharmacyLicenseExpirationDate:
-        accountData.pharmacyLicenseExpirationDate == "" ? null : accountData.pharmacyLicenseExpirationDate,
+        accountData.pharmacyLicenseExpirationDate == ""
+          ? null
+          : accountData.pharmacyLicenseExpirationDate,
       // deaLicenseCopy: businessInfo.deaLicenseCopy,
       // pharmacyLicenseCopy: businessInfo.pharmacyLicenseCopy,
       deaLicenseCopy: accountData.deaLicenseCopy || businessInfo.deaLicenseCopy,
-      pharmacyLicenseCopy: accountData.pharmacyLicenseCopy || businessInfo.pharmacyLicenseCopy,
+      pharmacyLicenseCopy:
+        accountData.pharmacyLicenseCopy || businessInfo.pharmacyLicenseCopy,
       npi: accountData.npi,
       ncpdp: accountData.ncpdp,
       companyWebsite: businessInfo.companyWebsite,
@@ -1420,6 +1424,13 @@ const LayoutProfile = () => {
     return value;
   };
 
+  const [upnMember, setUpnMember] = useState(0);
+
+  // Function to handle changes in radio button selection
+  // const handleUserChange = (event) => {
+  //   setUpnMember(Number(event.target.value)); // Ensure the value is a number (0 or 1)
+  // };
+
   return (
     <div className="w-full h-full flex-col bg-slate-200 flex justify-center overflow-y-scroll">
       {notification.show && (
@@ -1431,13 +1442,14 @@ const LayoutProfile = () => {
           {profiles.map((profile, index) =>
             // Hide index 1 if user.customerTypeId is 4
             userdata?.customerTypeId === 4 &&
-              (index === 1 || index === 2) ? null : (
+            (index === 1 || index === 2) ? null : (
               <div key={profile.grid} className="flex ml-6">
                 <div
-                  className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${visibleGrid === profile.grid
-                    ? "border-b-4 border-blue-900"
-                    : ""
-                    }`}
+                  className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${
+                    visibleGrid === profile.grid
+                      ? "border-b-4 border-blue-900"
+                      : ""
+                  }`}
                   onClick={() => toggleGrid(profile.grid)}
                 >
                   <h1 className="text-lg text-blue-900 font-semibold">
@@ -1455,26 +1467,27 @@ const LayoutProfile = () => {
               Primary
             </h1>
             <div
-              className={`bg-white border ${isEditable ? "border-blue-900" : "border-gray-400"
-                } rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}
+              className={`bg-white border ${
+                isEditable ? "border-blue-900" : "border-gray-400"
+              } rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}
             >
               {/* <h1 className={`text-xl font-semibold my-2 text-blue-900`}>
                 User Information
               </h1> */}
 
-{isEditable && (
+              {isEditable && (
                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
                   User Information
                 </h1>
               )}
               <h1
-                className={`text-xl font-semibold my-2 ${isEditable ? "invisible" : "text-blue-900"
-                  }`}
+                className={`text-xl font-semibold my-2 ${
+                  isEditable ? "invisible" : "text-blue-900"
+                }`}
               >
                 User Information
               </h1>
 
-              
               <div className="flex justify-between">
                 <div className="py-4 flex flex-col gap-4">
                   <TextField
@@ -1535,8 +1548,9 @@ const LayoutProfile = () => {
                     alt="Edit"
                   />
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isEditable ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                      !isEditable ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                     onClick={handleSaveClick}
                     disabled={!isEditable}
                   >
@@ -1548,44 +1562,68 @@ const LayoutProfile = () => {
           </div>
         )}
 
+        {visibleGrid === "account" && (
+          <div className="flex flex-col bg-white border  border-gray-400 p-6 h-full ml-6  rounded-lg px-8  w-[90%] mt-8">
+            <h1 className="text-blue-900 font-semibold -mt-2 text-xl ">
+              User Type
+            </h1>
+            <div className="mt-2" >
+              {/* <label className="gap-2 mr-3" >Account type :</label> */}
+              <TextField
+                label="User type"
+                id="customerTypeId"
+                name="customerTypeId"
+                value={userDetails.customerTypeId}
+                // onChange={handleAddressChange}
+                disabled={!isAddressEdit}
+                className="ml-3"
+                size="small"
+              />
+            </div>
+            {userdata?.customerTypeId !== 4 &&
+              userdata?.customerTypeId !== 2 &&
+              userdata?.customerTypeId !== 3 && (
+                <div className="mt-2" >
+                  <label className="mr-3 text-gray-400" >UPN Member</label>
 
-{visibleGrid === "account" && (
-  <div className="flex flex-col bg-white border  border-gray-400 p-6 h-full ml-6  rounded-lg px-8  w-[90%] mt-8">
-    <h1 className="text-blue-900 font-semibold -mt-2 text-xl ">User Type</h1>
-    <div className="mt-2">
-      {/* <label className="gap-2 mr-3" >Account type :</label> */}
-      <TextField
-                      label="User type"
-                      // id="shopName"
-                      name="shopName"
-                      // value={addressData.shopName}
-                      // onChange={handleAddressChange}
-                      disabled={!isAddressEdit}
-                      className="ml-3"
-                      size="small"
-                    />
+                  <input
+                    type="radio"
+                    id="yes"
+                    value="1"
+                    checked={upnMember === 1}
+                    // onChange={handleChange}
+                    className="mr-2"
+                    disabled={!isAddressEdit}
 
-                   
-      </div>
-      {userdata?.customerTypeId !== 4 && userdata?.customerTypeId !== 2 && userdata?.customerTypeId !== 3 && (
+                  />
+                  <label className="mr-2 text-gray-400" htmlFor="yes">
+                    Yes
+                  </label>
 
-      <div className="mt-2">
-      <label className="mr-3">UPN Member</label>
-                    <input type="radio" className="mr-2"/>
-                    <label className="mr-2">Yes</label>
-                    <input type="radio"  className="mr-2"/>
-                    <label  className="mr-2">No</label>
-                    </div>
-      )}
-    </div>
-)}
+                  <input
+                    type="radio"
+                    id="no"
+                    value="0"
+                    checked={upnMember === 0}
+                    // onChange={handleChange}
+                    className="mr-2"
+                    disabled={!isAddressEdit}
+                  />
+                  <label className="mr-2 text-gray-400" htmlFor="no">
+                    No
+                  </label>
+                </div>
+              )}
+          </div>
+        )}
 
         {visibleGrid === "account" && (
           <div className="flex flex-col bg-slate-200 p-6 w-full h-full">
             {/* Address Information Section */}
             <div
-              className={`bg-white border ${isAddressEdit ? "border-blue-900" : "border-gray-400"
-                } rounded-lg px-8  w-[95%] mt-8 relative`}
+              className={`bg-white border ${
+                isAddressEdit ? "border-blue-900" : "border-gray-400"
+              } rounded-lg px-8  w-[95%] mt-8 relative`}
             >
               {isAddressEdit && (
                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -1593,35 +1631,40 @@ const LayoutProfile = () => {
                 </h1>
               )}
               <h1
-                className={`text-xl font-semibold my-2 ${isAddressEdit ? "invisible" : "text-blue-900"
-                  }`}
+                className={`text-xl font-semibold my-2 ${
+                  isAddressEdit ? "invisible" : "text-blue-900"
+                }`}
               >
                 Address Information
               </h1>
               <div className="flex justify-between py-4">
                 <div className="flex flex-col gap-3">
-                  {userdata?.customerTypeId !== 4 && userdata?.customerTypeId !== 2 && userdata?.customerTypeId !== 3 && (
-                    <TextField
-                      label="Shop Name"
-                      id="shopName"
-                      name="shopName"
-                      value={addressData.shopName}
-                      onChange={handleAddressChange}
-                      disabled={!isAddressEdit}
-                      size="small"
-                    />
-                  )}
-                  {userdata?.customerTypeId !== 4 && userdata?.customerTypeId !== 3 && userdata?.customerTypeId !== 2 && (
-                    <TextField
-                      label="DBA Name"
-                      id="dba"
-                      name="dba"
-                      value={addressData.dba}
-                      onChange={handleAddressChange}
-                      disabled={!isAddressEdit}
-                      size="small"
-                    />
-                  )}
+                  {userdata?.customerTypeId !== 4 &&
+                    userdata?.customerTypeId !== 2 &&
+                    userdata?.customerTypeId !== 3 && (
+                      <TextField
+                        label="Shop Name"
+                        id="shopName"
+                        name="shopName"
+                        value={addressData.shopName}
+                        onChange={handleAddressChange}
+                        disabled={!isAddressEdit}
+                        size="small"
+                      />
+                    )}
+                  {userdata?.customerTypeId !== 4 &&
+                    userdata?.customerTypeId !== 3 &&
+                    userdata?.customerTypeId !== 2 && (
+                      <TextField
+                        label="DBA Name"
+                        id="dba"
+                        name="dba"
+                        value={addressData.dba}
+                        onChange={handleAddressChange}
+                        disabled={!isAddressEdit}
+                        size="small"
+                      />
+                    )}
 
                   <TextField
                     label="City"
@@ -1756,8 +1799,9 @@ const LayoutProfile = () => {
                     onClick={handleAddressEditClick}
                   />
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                      !isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                     onClick={handleAddressSaveClick}
                     disabled={!isAddressEdit}
                   >
@@ -1771,8 +1815,9 @@ const LayoutProfile = () => {
 
             {userdata?.customerTypeId !== 4 && (
               <div
-                className={`bg-white border ${isAccountEdit ? "border-blue-900" : "border-gray-400"
-                  } rounded-lg px-8 w-[95%]  mt-8 relative mb-6`}
+                className={`bg-white border ${
+                  isAccountEdit ? "border-blue-900" : "border-gray-400"
+                } rounded-lg px-8 w-[95%]  mt-8 relative mb-6`}
               >
                 {isAccountEdit && (
                   <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -1780,8 +1825,9 @@ const LayoutProfile = () => {
                   </h1>
                 )}
                 <h1
-                  className={`text-xl font-semibold my-2 ${isAccountEdit ? "invisible" : "text-blue-900"
-                    }`}
+                  className={`text-xl font-semibold my-2 ${
+                    isAccountEdit ? "invisible" : "text-blue-900"
+                  }`}
                 >
                   Account Information
                 </h1>
@@ -1830,7 +1876,7 @@ const LayoutProfile = () => {
                         href={accountData.deaLicenseCopy}
                         target="_blank"
                         rel="noopener noreferrer"
-                         className="text-blue-500 underline  -mt-3"
+                        className="text-blue-500 underline  -mt-3"
                       >
                         View DEA License Copy
                       </a>
@@ -1888,8 +1934,8 @@ const LayoutProfile = () => {
                       value={
                         accountData.pharmacyLicenseExpirationDate
                           ? formatDate(
-                            accountData.pharmacyLicenseExpirationDate
-                          )
+                              accountData.pharmacyLicenseExpirationDate
+                            )
                           : ""
                       }
                       onChange={handleAccountChange}
@@ -1914,7 +1960,7 @@ const LayoutProfile = () => {
                         href={accountData.pharmacyLicenseCopy}
                         target="_blank"
                         rel="noopener noreferrer"
-                         className="text-blue-500 underline  -mt-3"
+                        className="text-blue-500 underline  -mt-3"
                       >
                         View Pharmacy License Copy
                       </a>
@@ -1938,8 +1984,9 @@ const LayoutProfile = () => {
                       onClick={handleAccountEditClick}
                     />
                     <button
-                      className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
-                        }`}
+                      className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                        !isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                       onClick={handleAccountSaveClick}
                       disabled={!isAccountEdit}
                     >

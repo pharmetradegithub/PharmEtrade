@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import plus from '../assets/Icons/plus.png'
 import minus from '../assets/Icons/minus.png'
+import { useLocation } from 'react-router-dom';
 
 function Faqs() {
 
@@ -95,11 +96,19 @@ function Faqs() {
        
     ]
 
+    const location = useLocation();
+
+
   return (
     <div className='w-full h-full flex flex-col  overflow-y-scroll '>
          
         <div className='flex flex-col  bg-white justify-center items-center overflow-y-auto'>
-            <div className='flex flex-col mt-60 justify-center  items-center  mb-4   w-[85%] h-full'>
+            {/* <div className='flex flex-col mt-60 justify-center  items-center  mb-4   w-[85%] h-full'> */}
+            <div
+      className={`flex flex-col justify-center items-center mb-4 w-[85%] h-full ${
+        location.pathname === '/layout/faqs' ? 'mt-60' : ''
+      }`}
+    >
                 {questions.map((question) => (
                     <div
                         key={question.id}

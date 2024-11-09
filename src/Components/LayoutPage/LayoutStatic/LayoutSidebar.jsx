@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { FaChevronDown, FaChevronUp,FaBars, FaTimes, } from "react-icons/fa";
 // import logo from "../../../assets/logo_05.png";
 import logo from "../../../assets/Icons/Logo_white.png";
 import profile from "../../../assets/ProfileSetting.png";
@@ -90,13 +90,29 @@ function LayoutSidebar() {
     navigate('/')
   };
 
+  const [isMobileOpen, setIsMobileOpen] = useState(false); // State for mobile toggle
+
+  const handleSidebarToggle = () => {
+    setIsMobileOpen(!isMobileOpen); // Toggle sidebar visibility on mobile
+  };
   return (
+    <>
+    {/* Mobile Menu Button (hamburger/back icon) */}
+    <div className="md:hidden flex items-center p-4">
+        <button onClick={handleSidebarToggle} className="text-white">
+          {isMobileOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+        </button>
+      </div>
+  
+    {/* Sidebar */}
     <div
-      className={`p-2 overflow-scroll h-full w-full z-[100] font-normal font-sans flex flex-col  shadow-lg ${
-        isCollapsed ? "min-w-16 items-center" : "min-w-64"
-      }`}
-      style={{ backgroundColor: "rgba(14, 81, 140, 1)" }}
-    >
+        className={`p-2 overflow-scroll h-full z-[100] font-normal font-sans flex flex-col shadow-lg fixed top-0 left-0 transform ${
+          isMobileOpen ? "translate-x-0" : "-translate-x-full"
+        } md:relative md:block md:translate-x-0 ${
+          isCollapsed ? "min-w-16 items-center" : "min-w-64"
+        } w-full md:w-64`}
+        style={{ backgroundColor: "rgba(14, 81, 140, 1)" }}
+      >
       <div className="w-full flex flex-col justify-center items-center my-5">
         <Link to="/app">
           <img src={logo} className="w-44 mb-2" alt="Logo" />
@@ -105,23 +121,24 @@ function LayoutSidebar() {
           <div className="flex justify-center flex-col items-center">
             <img
               src={logos.src}
-              className="w-10 h-10 rounded-full "
+              className="w-10 h-10 rounded-full"
               alt="Profile"
             />
             <p className="text-xs text-red-500 font-semibold my-1">
               {logos.Shop_name}
             </p>
-            <p className=" text-sm font-semibold">{logos.name}</p>
+            <p className="text-sm font-semibold">{logos.name}</p>
           </div>
         </div>
       </div>
-
+  
+      {/* Navigation */}
       <nav className="space-y-2 text-[16px]">
         {navItems.map((item, index) => (
           <div key={index}>
             {item.children ? (
               <div
-                className="flex items-center justify-between p-2 text-white  hover:bg-gray-400 cursor-pointer"
+                className="flex items-center justify-between p-2 text-white hover:bg-gray-400 cursor-pointer"
                 onClick={() => toggleDropdown(item.label)}
               >
                 <div className="flex font-semibold text-[15px] items-center">
@@ -130,15 +147,19 @@ function LayoutSidebar() {
                 </div>
                 {!isCollapsed &&
                   (dropdownStates[item.label] ? (
-                    <FaChevronUp className={`mr-2`} />
+                    <FaChevronUp className="mr-2" />
                   ) : (
-                    <FaChevronDown className={`mr-2`} />
+                    <FaChevronDown className="mr-2" />
                   ))}
               </div>
             ) : (
               <Link
                 to={item.to}
-                onClick={() => handleClick(item.to)}
+                onClick={() => {
+                  handleClick(item.to);
+                  // Close sidebar on small screens after clicking a link
+                  setIsMobileOpen(false);
+                }}
                 className={`flex items-center font-semibold text-[15px] p-2 ${
                   activeLink === item.to
                     ? "text-white bg-gray-400"
@@ -179,7 +200,11 @@ function LayoutSidebar() {
                               <li key={subIdx}>
                                 <Link
                                   to={subChild.to}
-                                  onClick={() => handleClick(subChild.to)}
+                                  onClick={() => {
+                                    handleClick(subChild.to);
+                                    // Close sidebar after selecting subChild
+                                    setIsMobileOpen(false);
+                                  }}
                                   className={`flex items-center font-normal text-[15px] p-2 ${
                                     activeLink === subChild.to
                                       ? "text-white bg-gray-400"
@@ -191,7 +216,9 @@ function LayoutSidebar() {
                                     className="w-4 h-4"
                                     alt={subChild.label}
                                   />
-                                  <span className="ml-3">{subChild.label}</span>
+                                  <span className="ml-3">
+                                    {subChild.label}
+                                  </span>
                                 </Link>
                               </li>
                             ))}
@@ -201,7 +228,11 @@ function LayoutSidebar() {
                     ) : (
                       <Link
                         to={child.to}
-                        onClick={() => handleClick(child.to)}
+                        onClick={() => {
+                          handleClick(child.to);
+                          // Close sidebar after selecting child
+                          setIsMobileOpen(false);
+                        }}
                         className={`flex items-center font-normal text-[15px] p-2 ${
                           activeLink === child.to
                             ? "text-white bg-gray-400"
@@ -223,14 +254,17 @@ function LayoutSidebar() {
           </div>
         ))}
       </nav>
-      {/* <button className="text-white bg-red-600 p-2 rounded-lg font-semibold">Logout</button> */}
+  
+      {/* Logout Button */}
       <button
-        className="text-white bg-red-600 p-2 rounded-lg font-semibold"
+        className="text-white w-56 bg-red-600 p-2 rounded-lg font-semibold"
         onClick={handleLogout}
       >
         Logout
       </button>
     </div>
+  </>
+  
   );
 }
 
