@@ -212,10 +212,9 @@
 //                           ? item.product.salePrice.toFixed(2)
 //                           : item.product.unitPrice?.toFixed(2)}
 //                       </td>
-                      
+
 //                       <td>
 //                         <div className="mt-2 flex items-center">
-                  
 
 //                           <button
 //                             className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
@@ -451,9 +450,6 @@
 
 // export default Cart;
 
-
-
-
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
@@ -477,7 +473,7 @@ import wrong from "../assets/Icons/wrongred.png";
 function Cart() {
   const user = useSelector((state) => state.user.user);
   const cartList = useSelector((state) => state.cart.cart);
-  console.log("cartList---->", cartList)
+  console.log("cartList---->", cartList);
   const [cartItems, setcartItems] = useState(cartList);
   // const { cartItems, setCartItems } = useContext(AppContext);
   const [quantities, setQuantities] = useState([]);
@@ -648,21 +644,25 @@ function Cart() {
       const item = cartItems[i];
 
       // Logging item details for debugging
-      console.log(`Checking stock for ${item.product.productName}: Quantity = ${item.quantity}, Stock = ${item.product.amountInStock}`);
+      console.log(
+        `Checking stock for ${item.product.productName}: Quantity = ${item.quantity}, Stock = ${item.product.amountInStock}`
+      );
 
       if (item.quantity > item.product.amountInStock) {
-        alert(`Sorry, there's not enough stock for ${item.product.productName}. Only ${item.product.amountInStock} left.`);
+        alert(
+          `Sorry, there's not enough stock for ${item.product.productName}. Only ${item.product.amountInStock} left.`
+        );
         // setNotification({
         //   show: true,
         //   message: "Please decrease the stock to proceed to checkout",
         // });
         // setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-        hasStockIssue = true;  // Set flag if stock is insufficient
-        break;  // Stop further execution once insufficient stock is found
+        hasStockIssue = true; // Set flag if stock is insufficient
+        break; // Stop further execution once insufficient stock is found
       }
     }
 
-    if (hasStockIssue) return;  // Prevent proceeding to checkout if any stock issue is found
+    if (hasStockIssue) return; // Prevent proceeding to checkout if any stock issue is found
 
     // If all products have enough stock, proceed with the order
     const currentDate = new Date();
@@ -693,7 +693,6 @@ function Cart() {
       console.error("Error processing the order:", error);
     }
   };
-
 
   const handlemove = () => {
     navigate("/detailspage/0");
@@ -752,10 +751,15 @@ function Cart() {
                         {item.product.productName}
                       </td>
                       <td className="md:px-4 py-3 text-center">
-                        ${(() => {
+                        $
+                        {(() => {
                           const currentDate = new Date();
-                          const saleStartDate = new Date(item.product?.salePriceValidFrom);
-                          const saleEndDate = new Date(item.product?.salePriceValidTo);
+                          const saleStartDate = new Date(
+                            item.product?.salePriceValidFrom
+                          );
+                          const saleEndDate = new Date(
+                            item.product?.salePriceValidTo
+                          );
 
                           // Check if salePrice exists, and the current date is within the sale period
                           if (
@@ -818,14 +822,22 @@ function Cart() {
                           </div> */}
                           <div className="mt-2 flex items-center">
                             <button
-                              className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                              className={`px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                              ${
+                                item.updateQuantity <
+                                  item.product.minimumOrderQuantity
+                                  ? "bg-gray-400 opacity-50 cursor-not-allowed" // Style when disabled
+                                  : "bg-gray-200" // Style when enabled
+                              }`}
                               onClick={() =>
                                 handleQuantityChange(
                                   index,
                                   Math.max(1, item.updateQuantity - 1)
                                 )
                               }
-                              disabled={item.updateQuantity === 1} // Disable button if quantity is 1
+                              disabled={item.updateQuantity === 1 ||
+                                item.updateQuantity <
+                                  item.product.minimumOrderQuantity} // Disable button if quantity is 1
                             >
                               -
                             </button>
@@ -837,43 +849,55 @@ function Cart() {
                               className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
                             />
 
-                            {/* <button
-                              className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                           
+                            <button
+                              className={`px-2 py-1 border rounded-md font-bold text-gray-700 ${
+                                item.updateQuantity >
+                                  item.product.amountInStock ||
+                                item.updateQuantity >
+                                  item.product.maximumOrderQuantity
+                                  ? "bg-gray-400 opacity-50 cursor-not-allowed" // Style when disabled
+                                  : "bg-gray-200" // Style when enabled
+                              }`}
                               onClick={() =>
                                 handleQuantityChange(
                                   index,
                                   item.updateQuantity + 1
                                 )
                               }
-                              disabled={item.updateQuantity >= item.product.amountInStock} // Disable + button if quantity reaches amountInStock
-                            >
-                              +
-                            </button> */}
-                            <button
-                              className={`px-2 py-1 border rounded-md font-bold text-gray-700 ${item.updateQuantity >= item.product.amountInStock
-                                  ? 'bg-gray-400 opacity-50 cursor-not-allowed' // Style when disabled
-                                  : 'bg-gray-200' // Style when enabled
-                                }`}
-                              onClick={() =>
-                                handleQuantityChange(index, item.updateQuantity + 1)
+                              disabled={
+                                item.updateQuantity >
+                                  item.product.amountInStock ||
+                                item.updateQuantity >
+                                  item.product.maximumOrderQuantity
                               }
-                              disabled={item.updateQuantity >= item.product.amountInStock} // Disable + button if quantity reaches amountInStock
                             >
                               +
                             </button>
-                            
                           </div>
-                          {item.updateQuantity >= item.product.amountInStock && (
-                              <p className="text-red-500 text-sm">
-                                Only {item.product.amountInStock} available in stock
-                              </p>
-                            )}
-                          {/* {item.updateQuantity > item.product.amountInStock && (
+
+                          {item.updateQuantity >
+                            item.product.amountInStock && (
                             <p className="text-red-500 text-sm">
-                              Only {item.product.amountInStock} left in stock. 
-                              {/* You've selected {item.updateQuantity}. 
+                              Only {item.product.amountInStock} available in
+                              stock
                             </p>
-                          )} */}
+                          )}
+
+                          {item.updateQuantity >
+                            item.product.maximumOrderQuantity && (
+                            <p className="text-red-500 text-sm">
+                              You can buy maximum of{" "}
+                              {item.product.maximumOrderQuantity} Only
+                            </p>
+                          )}
+                          {item.updateQuantity <
+                            item.product.minimumOrderQuantity && (
+                            <p className="text-red-500 text-sm">
+                              You must order at least{" "}
+                              {item.product.minimumOrderQuantity}
+                            </p>
+                          )}
                         </div>
                         {/* <div className="text-xs">Minimum Quantity Required:{item?.product?.minimumOrderQuantity}</div> */}
                       </td>

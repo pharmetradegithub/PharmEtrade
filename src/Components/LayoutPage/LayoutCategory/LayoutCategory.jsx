@@ -1403,7 +1403,9 @@ function LayoutCategory({
                         {/* Input for quantity */}
                         <input
                           type="text"
-                          value={product.CartQuantity}
+                          // value={product.CartQuantity}
+                          // value={product.amountInStock === 0 ? 0 : product.minOrderQuantity}
+                          value={product.amountInStock === 0 ? 0 : product.CartQuantity || product.minOrderQuantity}
                           className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
                           onChange={(e) => {
                             const value = e.target.value;
@@ -1460,7 +1462,7 @@ function LayoutCategory({
 <div
                         onClick={() => {
                           if (product.amountInStock !== 0) {
-                            handleCart(product.productID, product.CartQuantity);
+                            handleCart(product.productID, product.minOrderQuantity);
                           }
                         }}
                         className={`flex text-white h-[32px] px-2 mt-24 rounded-lg  justify-center items-center

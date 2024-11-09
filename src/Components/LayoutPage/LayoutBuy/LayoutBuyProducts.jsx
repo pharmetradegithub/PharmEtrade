@@ -747,7 +747,9 @@ function LayoutBuy({
 
                         <input
                           type="text"
-                          value={product.CartQuantity}
+                          // value={product.CartQuantity}
+                          // value={product.amountInStock === 0 ? 0 : product.minOrderQuantity}
+                          value={product.amountInStock === 0 ? 0 : product.CartQuantity || product.minOrderQuantity}
                           className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
                           onChange={(e) => {
                             const value = e.target.value;
@@ -825,7 +827,7 @@ function LayoutBuy({
                         </p>
                       )}
 
-<div
+                        <div
                         onClick={() => {
                           if (product.amountInStock > 0) {
                             if (product.CartQuantity > product.amountInStock) {
@@ -836,7 +838,7 @@ function LayoutBuy({
                             } else {
                               handleCart(
                                 product.productID,
-                                product.CartQuantity
+                                product.minOrderQuantity
                               );
                               setStockWarning({ productId: null, message: "" });
                             }
