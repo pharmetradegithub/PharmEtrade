@@ -36,7 +36,7 @@ function AdminSidebar() {
   };
 
   const handleLogout = () => {
-    navigate("/PharmetradeLogin");
+    navigate("/loginadminEtrade");
   };
 
   const toggleSellerDropdown = () => {

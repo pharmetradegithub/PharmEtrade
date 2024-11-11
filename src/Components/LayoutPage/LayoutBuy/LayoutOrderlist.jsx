@@ -23,6 +23,7 @@ import LayoutBuyerCancelledgrid from "../LayoutDashboard/LayoutBuyerCancelledgri
 import LayoutBuyerReceiversgrid from "../LayoutDashboard/LayoutBuyerReceiversgrid";
 import LayoutBuyerUpcomingGrid from "../LayoutDashboard/LayoutBuyerUpcomingGrid";
 import TrackingOrder from "../../../Components/TermsAndConditions";
+import Notification from "../../Notification";
 function LayoutOrderList() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
@@ -218,6 +219,10 @@ function LayoutOrderList() {
   };
 
   const [ratings, setRatings] = useState([]);
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+  });
 
   const handleAddRating = async (productId) => {
     const date = new Date().toISOString();
@@ -235,8 +240,17 @@ function LayoutOrderList() {
     try {
       await addRatingApi(ratingData);
       console.log("Rating added successfully");
+      setIsOpen(false)
+      setNotification({
+        show: true,
+        message: "Rating added Successfully!",
+      });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      setRating(0)
+      setReviewText("")
     } catch (error) {
       console.error("Error adding rating:", error);
+      setIsOpen(false)
     }
     // try {
     //   await addRatingApi(ratingData);
@@ -265,6 +279,9 @@ function LayoutOrderList() {
       className="w-full h-full overflow-y-scroll "
       // style={{marginTop: `${topMargin}px`,}}
     >
+       {notification.show && (
+        <Notification show={notification.show} message={notification.message} />
+      )}
       {modal && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
@@ -405,7 +422,7 @@ function LayoutOrderList() {
                     <div>
                       <h1 className="text-sm lg:text-lg">Total</h1>
                       <p className="text-sm lg:text-lg lg:text-wrap">
-                        ${order?.pricePerProduct?.toFixed(2)}
+                        ${order?.totalAmount?.toFixed(2)}
                       </p>
                     </div>
                     <div>
@@ -522,11 +539,11 @@ function LayoutOrderList() {
                         <button className="border rounded-lg p-2 mb-2 lg:p-2 hover:bg-gray-400 w-20 lg:w-full shadow-md sm_md:w-full">
                           <Link to="/layout/trackingorder">Track Package</Link>
                         </button>
-                        <button className="border rounded-lg hover:bg-gray-400 p-2 w-20 lg:w-full shadow-md sm_md:w-full">
-                          {/* <Link to="/layout/trackingorder"> */}
+                        {/* <button className="border rounded-lg hover:bg-gray-400 p-2 w-20 lg:w-full shadow-md sm_md:w-full">
+                          <Link to="/layout/trackingorder">
                           Leave Seller Feedback
-                          {/* </Link> */}
-                        </button>
+                          </Link>
+                        </button> */}
                         <button
                           className="border rounded-lg p-2 sm_md:w-full hover:bg-gray-400 my-2 w-20 lg:w-full shadow-md"
                           onClick={() => setIsOpen(true)}
