@@ -254,7 +254,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/termsandconditions" element={<TermsAndConditions />} />
         <Route path="/login" element={<Signin />} />
-        <Route path="/PharmetradeLogin" element={<Login />} />
+        <Route path="/loginadminEtrade" element={<Login />} />
         <Route path="/otp2" element={<OTP2 />} />
         <Route path="/password" element={<Password />} />
         <Route path="/changepassword" element={<Changepassword />} />
