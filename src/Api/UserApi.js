@@ -255,6 +255,22 @@ export const fetchCustomerActivateDeactivateById = async (customerId) => {
 };
 
 
+export const sendChangePasswordLinkApi = async (email) => {
+  try {
+    // const customer = await axios.get(`/api/Customer/GetCustomers?email=${email}`)
+    const response = await axios.post(`/api/Customer/SendChangePasswordLink?customerId=${email}`);
+    if (response.status === 200) {
+      return "Please Check your email Id";
+    } else {
+      console.error('Failed to fetch user data:', response.data.message);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    return null;
+  }
+};
+
 
 
 

@@ -564,41 +564,48 @@ function Cart() {
   }, 0);
 
   const dispatch = useDispatch();
-  // const handleProceed = () => {
-  //   const currentDate = new Date();
-  //   const payload = {
-  //     orderId: "",
-  //     customerId: user.customerId,
-  //     totalAmount: total?.toFixed(2),
-  //     orderDate: currentDate.toISOString(),
-  //     shippingMethodId: 1,
-  //     orderStatusId: 1,
-  //     trackingNumber: "",
-  //     products: cartItems.map((items) => {
-  //       return {
-  //         productId: items.product.productID,
-  //         quantity: items.quantity,
-  //         pricePerProduct: items.product.salePrice,
-  //         sellerId: user.customerId,
-  //         imageUrl: items.product.imageUrl,
-  //       };
-  //     }),
-  //   };
-  //   dispatch(fetchOrderPlace(payload));
-  //   navigate(`/checkout?total=${total?.toFixed(2)}`);
-  // };
 
   // const handleProceed = async () => {
   //   // Check stock availability for each item in the cart
+  //   let hasStockIssue = false;
+
   //   for (let i = 0; i < cartItems.length; i++) {
   //     const item = cartItems[i];
 
-  //     // Assume item.product.stockQuantity holds the available stock for the product
+  //     // Logging item details for debugging
+  //     console.log(
+  //       `Checking stock for ${item.product.productName}: Quantity = ${item.quantity}, Stock = ${item.product.amountInStock}`
+  //     );
+
+ 
+  //   for (const item of cartItems) {
   //     if (item.quantity > item.product.amountInStock) {
-  //       alert(`Sorry, there's not enough stock for ${item.product.productName}. Only ${item.product.amountInStock} left.`);
-  //       return;  // Prevent proceeding to checkout if stock is insufficient
+  //       alert(
+  //         `Sorry, there's not enough stock for ${item.product.productName}. Only ${item.product.amountInStock} left.`
+  //       );
+  //       hasStockIssue = true;
+  //       break;
+  //     }
+    
+  //     if (item.quantity > item.product.maximumOrderQuantity) {
+  //       alert(
+  //         `The quantity for ${item.product.productName} exceeds the maximum order limit of ${item.product.maximumOrderQuantity}.`
+  //       );
+  //       hasStockIssue = true;
+  //       break;
+  //     }
+    
+  //     if (item.quantity < item.product.minimumOrderQuantity) {
+  //       alert(
+  //         `The quantity for ${item.product.productName} is below the minimum order limit of ${item.product.minimumOrderQuantity}.`
+  //       );
+  //       hasStockIssue = true;
+  //       break;
   //     }
   //   }
+  // }
+
+  //   if (hasStockIssue) return; 
 
   //   // If all products have enough stock, proceed with the order
   //   const currentDate = new Date();
@@ -610,20 +617,18 @@ function Cart() {
   //     shippingMethodId: 1,
   //     orderStatusId: 1,
   //     trackingNumber: "",
-  //     products: cartItems.map((items) => {
-  //       return {
-  //         productId: items.product.productID,
-  //         quantity: items.quantity,
-  //         pricePerProduct: items.product.salePrice,
-  //         sellerId: user.customerId,
-  //         imageUrl: items.product.imageUrl,
-  //       };
-  //     }),
+  //     products: cartItems.map((item) => ({
+  //       productId: item.product.productID,
+  //       quantity: item.quantity,
+  //       pricePerProduct: item.product.salePrice,
+  //       sellerId: user.customerId,
+  //       imageUrl: item.product.imageUrl,
+  //     })),
   //   };
 
   //   try {
   //     // Dispatch the action to place the order
-  //     dispatch(fetchOrderPlace(payload));
+  //     await dispatch(fetchOrderPlace(payload));
 
   //     // Navigate to checkout page
   //     navigate(`/checkout?total=${total?.toFixed(2)}`);
@@ -632,38 +637,45 @@ function Cart() {
   //   }
   // };
 
-  // const [notification, setNotification] = useState({
-  //   show: false,
-  //   message: "",
-  // });
   const handleProceed = async () => {
     // Check stock availability for each item in the cart
     let hasStockIssue = false;
-
+  
     for (let i = 0; i < cartItems.length; i++) {
       const item = cartItems[i];
-
+  
       // Logging item details for debugging
       console.log(
         `Checking stock for ${item.product.productName}: Quantity = ${item.quantity}, Stock = ${item.product.amountInStock}`
       );
-
+  
       if (item.quantity > item.product.amountInStock) {
         alert(
           `Sorry, there's not enough stock for ${item.product.productName}. Only ${item.product.amountInStock} left.`
         );
-        // setNotification({
-        //   show: true,
-        //   message: "Please decrease the stock to proceed to checkout",
-        // });
-        // setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-        hasStockIssue = true; // Set flag if stock is insufficient
-        break; // Stop further execution once insufficient stock is found
+        hasStockIssue = true;
+        break;
+      }
+  
+      if (item.quantity > item.product.maximumOrderQuantity) {
+        alert(
+          `The quantity for ${item.product.productName} exceeds the maximum order limit of ${item.product.maximumOrderQuantity}.`
+        );
+        hasStockIssue = true;
+        break;
+      }
+  
+      if (item.quantity < item.product.minimumOrderQuantity) {
+        alert(
+          `The quantity for ${item.product.productName} is below the minimum order limit of ${item.product.minimumOrderQuantity}.`
+        );
+        hasStockIssue = true;
+        break;
       }
     }
-
-    if (hasStockIssue) return; // Prevent proceeding to checkout if any stock issue is found
-
+  
+    if (hasStockIssue) return;
+  
     // If all products have enough stock, proceed with the order
     const currentDate = new Date();
     const payload = {
@@ -682,18 +694,18 @@ function Cart() {
         imageUrl: item.product.imageUrl,
       })),
     };
-
+  
     try {
       // Dispatch the action to place the order
       await dispatch(fetchOrderPlace(payload));
-
+  
       // Navigate to checkout page
       navigate(`/checkout?total=${total?.toFixed(2)}`);
     } catch (error) {
       console.error("Error processing the order:", error);
     }
   };
-
+  
   const handlemove = () => {
     navigate("/detailspage/0");
   };
@@ -788,44 +800,12 @@ function Cart() {
                         <div className="flex flex-col mx-3">
                           {/* <p className="font-semibold">Quantity</p> */}
 
-                          {/* <div className="mt-2 flex items-center">
-                            <button
-                              className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
-                              onClick={() =>
-                                handleQuantityChange(
-                                  index,
-                                  item.updateQuantity - 1
-                                )
-                              }
-                            >
-                              -
-                            </button>
-
-                            <input
-                              type="text"
-                              value={item.updateQuantity}
-                              disabled={true}
-                              className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
-                            />
-
-                            <button
-                              className="px-2 py-1 border rounded-md  bg-gray-200 text-gray-700 font-bold"
-                              onClick={() =>
-                                handleQuantityChange(
-                                  index,
-                                  item.updateQuantity + 1
-                                )
-                              }
-                            >
-                              +
-                            </button>
-                          </div> */}
                           <div className="mt-2 flex items-center">
                             <button
                               className={`px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
                               ${
                                 item.updateQuantity <
-                                  item.product.minimumOrderQuantity
+                                item.product.minimumOrderQuantity
                                   ? "bg-gray-400 opacity-50 cursor-not-allowed" // Style when disabled
                                   : "bg-gray-200" // Style when enabled
                               }`}
@@ -835,9 +815,11 @@ function Cart() {
                                   Math.max(1, item.updateQuantity - 1)
                                 )
                               }
-                              disabled={item.updateQuantity === 1 ||
+                              disabled={
+                                item.updateQuantity === 1 ||
                                 item.updateQuantity <
-                                  item.product.minimumOrderQuantity} // Disable button if quantity is 1
+                                  item.product.minimumOrderQuantity
+                              } // Disable button if quantity is 1
                             >
                               -
                             </button>
@@ -849,7 +831,6 @@ function Cart() {
                               className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
                             />
 
-                           
                             <button
                               className={`px-2 py-1 border rounded-md font-bold text-gray-700 ${
                                 item.updateQuantity >
@@ -876,8 +857,7 @@ function Cart() {
                             </button>
                           </div>
 
-                          {item.updateQuantity >
-                            item.product.amountInStock && (
+                          {item.updateQuantity > item.product.amountInStock && (
                             <p className="text-red-500 text-sm">
                               Only {item.product.amountInStock} available in
                               stock
@@ -902,7 +882,7 @@ function Cart() {
                         {/* <div className="text-xs">Minimum Quantity Required:{item?.product?.minimumOrderQuantity}</div> */}
                       </td>
 
-                      <td className="px-2 md:px-4 text-right py-3 ">
+                      {/* <td className="px-2 md:px-4 text-right py-3 ">
                         <strong>
                           $
                           {calculateSubtotal(
@@ -911,6 +891,32 @@ function Cart() {
                               : item.product.unitPrice?.toFixed(2),
                             item.quantity
                           )?.toFixed(2)}
+                        </strong>
+                      </td> */}
+                      <td className="px-2 md:px-4 text-right py-3">
+                        <strong>
+                          $
+                          {(() => {
+                            const currentDate = new Date();
+                            const saleStartDate = new Date(
+                              item.product?.salePriceValidFrom
+                            );
+                            const saleEndDate = new Date(
+                              item.product?.salePriceValidTo
+                            );
+
+                            const price =
+                              item.product?.salePrice > 0 &&
+                              currentDate >= saleStartDate &&
+                              currentDate <= saleEndDate
+                                ? item.product.salePrice
+                                : item.product.unitPrice;
+
+                            return calculateSubtotal(
+                              price,
+                              item.quantity
+                            )?.toFixed(2);
+                          })()}
                         </strong>
                       </td>
                       <td className="px-2 md:px-4 py-8 whitespace-nowrap flex items-center justify-center">
