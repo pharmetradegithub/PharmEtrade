@@ -169,8 +169,6 @@ const EditSellerList = () => {
   // phone number
   const [phoneNumber, setPhoneNumber] = useState("");
 
- 
-
   const formatPhoneNumber = (value) => {
     // Remove all non-numeric characters
     const cleaned = ("" + value).replace(/\D/g, "");
@@ -219,8 +217,6 @@ const EditSellerList = () => {
   const handleUserEditClick = () => {
     setIsUserEditable((prev) => !prev); // Toggle edit mode
   };
-  
-
 
   const RefreshUser = async () => {
     await getUserByCustomerIdApi(userdata.customerId);
@@ -647,7 +643,12 @@ const EditSellerList = () => {
     }));
   };
 
-
+  const customerTypeLabels = {
+    1: "Retail Pharmacy",
+    2: "General Merchandise Seller",
+    3: "Pharmacy Distributor",
+    4: "Retail Customer",
+  };
 
   return (
     <div className="w-full h-full flex-col bg-slate-200 flex justify-center overflow-y-scroll">
@@ -682,10 +683,7 @@ const EditSellerList = () => {
               Primary
             </h1>
 
-            {/* <div className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
-              <h1 className="text-xl font-semibold text-blue-900 my-2">
-                User Information
-              </h1> */}
+          
             <div
               className={`bg-white border  mx-6 ${
                 isEditable ? "border-blue-900" : "border-gray-400"
@@ -696,7 +694,7 @@ const EditSellerList = () => {
                   User Information
                 </h1>
               )}
-             
+
               <h1
                 className={`text-xl font-semibold my-2 ${
                   isEditable ? "invisible" : "text-blue-900"
@@ -762,8 +760,6 @@ const EditSellerList = () => {
                     //   shrink: !!userDetails?.mobile, // Shrink the label if there is a value
                     // }}
                   />
-
-                 
                 </div>
 
                 <div className="flex flex-col justify-between py-2">
@@ -788,8 +784,8 @@ const EditSellerList = () => {
 
             {/* <div className="bg-white border border-gray-400  p-6 mx-6 rounded-lg px-8 w-[90%] mt-8 relative mb-4">
               <h1 className="text-blue-900 font-semibold text-xl">User Type</h1> */}
-               <div
-              className={`bg-white border  mx-6  ${
+            <div
+              className={`bg-white border mx-6 ${
                 isUserEditable ? "border-blue-900" : "border-gray-400"
               } rounded-lg px-8 w-[90%] mt-8 relative`}
             >
@@ -798,7 +794,7 @@ const EditSellerList = () => {
                   User Type
                 </h1>
               )}
-             
+
               <h1
                 className={`text-xl font-semibold my-2 ${
                   isUserEditable ? "invisible" : "text-blue-900"
@@ -807,55 +803,77 @@ const EditSellerList = () => {
                 User Type
               </h1>
               <div className="flex justify-between">
-              <div className="mt-2">
-                {/* <label className="gap-2 mr-3" >Account type :</label> */}
-                <TextField
-                  label="User type"
-                  id="customerTypeId"
-                  name="customerTypeId"
-                  value={userDetails.customerTypeId}
-                  onChange={handleUserChange}
-                  disabled={!isUserEditable}
-                  className="ml-3"
-                  size="small"
-                />
-              
-              <>
-              {userdata?.customerTypeId !== 4 &&
-                userdata?.customerTypeId !== 2 &&
-                userdata?.customerTypeId !== 3 && (
-                  <div className="my-2">
-                    <label className="mr-3">UPN Member</label>
-
-                    <input
-                      type="radio"
-                      id="yes"
-                      value="1"
-                      checked={upnMember === 1}
-                      onChange={handleUpnChange}
-                      className="mr-2"
-                      disabled={!isUserEditable}
+                <div className="mt-2">
+                  {/* Editable dropdown for User Type */}
+                  {isUserEditable ? (
+                    <FormControl className="ml-3" size="small" fullWidth>
+                    <InputLabel id="customerTypeId-label">User type</InputLabel>
+                    <Select
+                      labelId="customerTypeId-label"
+                      label="User type"
+                      id="customerTypeId"
+                      name="customerTypeId"
+                      value={userDetails.customerTypeId}
+                      onChange={handleUserChange}
+                    >
+                      {Object.entries(customerTypeLabels).map(([key, label]) => (
+                        <MenuItem key={key} value={Number(key)}>
+                          {label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  ) : (
+                    <TextField
+                      label="User type"
+                      id="customerTypeId"
+                      name="customerTypeId"
+                      value={
+                        customerTypeLabels[userDetails.customerTypeId] ||
+                        userDetails.customerTypeId
+                      }
+                      disabled
+                      className="ml-3"
+                      size="small"
                     />
-                    <label className="mr-2" htmlFor="yes">
-                      Yes
-                    </label>
+                  )}
 
-                    <input
-                      type="radio"
-                      id="no"
-                      value="0"
-                      checked={upnMember === 0}
-                      onChange={handleUpnChange}
-                      className="mr-2"
-                      disabled={!isUserEditable}
-                    />
-                    <label className="mr-2" htmlFor="no">
-                      No
-                    </label>
-                  </div>
-                )}
-                </>
+                  {/* UPN Member Section */}
+                  {userdata?.customerTypeId !== 4 &&
+                    userdata?.customerTypeId !== 2 &&
+                    userdata?.customerTypeId !== 3 && (
+                      <div className="my-2">
+                        <label className="mr-3">UPN Member</label>
+
+                        <input
+                          type="radio"
+                          id="yes"
+                          value="1"
+                          checked={upnMember === 1}
+                          onChange={handleUpnChange}
+                          className="mr-2"
+                          disabled={!isUserEditable}
+                        />
+                        <label className="mr-2" htmlFor="yes">
+                          Yes
+                        </label>
+
+                        <input
+                          type="radio"
+                          id="no"
+                          value="0"
+                          checked={upnMember === 0}
+                          onChange={handleUpnChange}
+                          className="mr-2"
+                          disabled={!isUserEditable}
+                        />
+                        <label className="mr-2" htmlFor="no">
+                          No
+                        </label>
+                      </div>
+                    )}
                 </div>
+
                 <div className="flex flex-col justify-between py-2">
                   <img
                     src={edit}
@@ -868,13 +886,12 @@ const EditSellerList = () => {
                       !isUserEditable ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                     onClick={handleUserSaveClick}
-                    disabled={!isUserEditable} // Disable button when not editable/ Save button is disabled if not editable
+                    disabled={!isUserEditable} // Disable button when not editable
                   >
                     Save
                   </button>
                 </div>
-                </div>
-
+              </div>
             </div>
             {/* <div className="bg-white border  flex justify-between flex-col border-gray-400 rounded-lg  px-8 mx-6 w-[90%] mt-4"> */}
 
@@ -1023,7 +1040,7 @@ const EditSellerList = () => {
                     size="small"
                     // className="w-full"
                   />
-                 
+
                   <FormControl size="small" disabled={!isAddressEdit}>
                     <InputLabel id="state-select-label">State</InputLabel>
                     <Select
@@ -1053,7 +1070,6 @@ const EditSellerList = () => {
                       ))}
                     </Select>
                   </FormControl>
-                 
 
                   {userdata?.customerTypeId !== 4 && (
                     <TextField
@@ -1149,9 +1165,6 @@ const EditSellerList = () => {
                       className="w-[60%]"
                     />
 
-
-                    
-
                     <label> DEA Expiration File </label>
                     <TextField
                       label=""
@@ -1234,7 +1247,6 @@ const EditSellerList = () => {
                       className="w-[60%]"
                     />
 
-                  
                     <label>Pharmacy License Expiration File</label>
                     <TextField
                       label=""
@@ -1293,11 +1305,9 @@ const EditSellerList = () => {
               </div>
             )}
 
-           
-
             <div className="flex flex-col justify-between  rounded-lg mx-8 w-[90%] mt-4">
               {/* TextField for input */}
-              
+
               <TextField
                 label="Add Comments" // Updated label to "Add Comments"
                 id="outlined-size-small"
@@ -1310,7 +1320,6 @@ const EditSellerList = () => {
                 rows={4}
               />
               {/* Button to submit the notes */}
-             
             </div>
 
             {/* </div> */}
@@ -1370,8 +1379,6 @@ const EditSellerList = () => {
             {/* {submittedNotes && ( */}
             <div className=" flex justify-between flex-col  rounded-lg  px-8  w-[90%]  my-4">
               <div className="data-group bg-white p-4 rounded-lg">
-              
-
                 {/* {submittedNotes} */}
                 {historyData.length > 0 ? (
                   historyData.map((item, index) => (

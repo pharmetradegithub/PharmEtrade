@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://ec2-100-29-38-82.compute-1.amazonaws.com';
+
+// axios.defaults.baseURL = 'https://ec2-100-29-38-82.compute-1.amazonaws.com';
+
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 
 // Set up request interceptor to add Authorization header
 axios.interceptors.request.use(

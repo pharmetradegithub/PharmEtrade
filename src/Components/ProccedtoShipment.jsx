@@ -389,7 +389,7 @@
 import React, { useEffect, useState } from "react";
 import deleteicon from "../assets/trash.png";
 import { TextField, InputAdornment } from "@mui/material";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FedExRatesApi, serviceTypeApi } from "../Api/TrackApi";
 import { getUserByCustomerIdApi } from "../Api/UserApi";
@@ -411,6 +411,7 @@ const ProccedtoShipment = ({
   const dispatch = useDispatch();
   const businessInfo = useSelector((state) => state.user.businessInfo);
   console.log("businessInfo", businessInfo);
+  const navigate = useNavigate()
   // const [responseBusiness, setResponseBusiness] = useState(null)
 
   // useEffect(() => {
@@ -912,16 +913,39 @@ const ProccedtoShipment = ({
                         <td className="px-2 md:px-4 py-2 p-2 flex flex-wrap">
                           {tabledetail.product.productName}
                         </td>
-                        <td className="text-center">
+                        {/* <td className="text-center">
                           $
                           {tabledetail.product?.salePrice > 0
                             ? tabledetail.product.salePrice.toFixed(2)
                             : tabledetail.product.unitPrice?.toFixed(2)}
-                        </td>
+                        </td> */}
+                        <td className="md:px-4 py-3 text-center">
+                        $
+                        {(() => {
+                          const currentDate = new Date();
+                          const saleStartDate = new Date(
+                            tabledetail.product?.salePriceValidFrom
+                          );
+                          const saleEndDate = new Date(
+                            tabledetail.product?.salePriceValidTo
+                          );
+
+                          // Check if salePrice exists, and the current date is within the sale period
+                          if (
+                            tabledetail.product?.salePrice > 0 &&
+                            currentDate >= saleStartDate &&
+                            currentDate <= saleEndDate
+                          ) {
+                            return tabledetail.product.salePrice.toFixed(2);
+                          } else {
+                            return tabledetail.product.unitPrice?.toFixed(2);
+                          }
+                        })()}
+                      </td>
                         <td className="text-center">{tabledetail.quantity}</td>
-                        <td className="text-center">
+                        {/* <td className="text-center">
                           {" "}
-                          {/* ${tabledetail?.Subtotal?.toFixed(2)} */}
+                          // {/* ${tabledetail?.Subtotal?.toFixed(2)} 
                           <strong>
                             $
                             {calculateSubtotal(
@@ -931,7 +955,33 @@ const ProccedtoShipment = ({
                               tabledetail.quantity
                             )?.toFixed(2)}
                           </strong>
-                        </td>
+                        </td> */}
+                        <td className="px-2 md:px-4 text-right py-3">
+                        <strong>
+                          $
+                          {(() => {
+                            const currentDate = new Date();
+                            const saleStartDate = new Date(
+                              tabledetail.product?.salePriceValidFrom
+                            );
+                            const saleEndDate = new Date(
+                              tabledetail.product?.salePriceValidTo
+                            );
+
+                            const price =
+                            tabledetail.product?.salePrice > 0 &&
+                              currentDate >= saleStartDate &&
+                              currentDate <= saleEndDate
+                                ? tabledetail.product.salePrice
+                                : tabledetail.product.unitPrice;
+
+                            return calculateSubtotal(
+                              price,
+                              tabledetail.quantity
+                            )?.toFixed(2);
+                          })()}
+                        </strong>
+                      </td>
                         <td className="text-center">
                           {" "}
                           <img

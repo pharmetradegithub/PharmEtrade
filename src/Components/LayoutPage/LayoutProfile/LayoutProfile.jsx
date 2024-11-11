@@ -1431,6 +1431,13 @@ const LayoutProfile = () => {
   //   setUpnMember(Number(event.target.value)); // Ensure the value is a number (0 or 1)
   // };
 
+  const customerTypeLabels = {
+    1: "Retail Pharmacy",
+    2: "General Merchandise Seller",
+    3: "Pharmacy Distributor",
+    4: "Retail Customer",
+  };
+
   return (
     <div className="w-full h-full flex-col bg-slate-200 flex justify-center overflow-y-scroll">
       {notification.show && (
@@ -1569,7 +1576,7 @@ const LayoutProfile = () => {
             </h1>
             <div className="mt-2" >
               {/* <label className="gap-2 mr-3" >Account type :</label> */}
-              <TextField
+              {/* <TextField
                 label="User type"
                 id="customerTypeId"
                 name="customerTypeId"
@@ -1578,7 +1585,19 @@ const LayoutProfile = () => {
                 disabled={!isAddressEdit}
                 className="ml-3"
                 size="small"
-              />
+              /> */}
+               <TextField
+                      label="User type"
+                      id="customerTypeId"
+                      name="customerTypeId"
+                      value={
+                        customerTypeLabels[userDetails.customerTypeId] ||
+                        userDetails.customerTypeId
+                      }
+                      disabled
+                      className="ml-3"
+                      size="small"
+                    />
             </div>
             {userdata?.customerTypeId !== 4 &&
               userdata?.customerTypeId !== 2 &&
