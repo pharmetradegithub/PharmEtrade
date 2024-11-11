@@ -554,14 +554,31 @@ function Cart() {
 
   const calculateSubtotal = (price, quantity) => price * quantity;
 
-  const total = cartItems.reduce((acc, item) => {
-    const price =
-      item.product?.salePrice > 0
-        ? item.product.salePrice.toFixed(2)
-        : item.product.unitPrice?.toFixed(2);
+  // const total = cartItems.reduce((acc, item) => {
+  //   const price =
+  //     item.product?.salePrice > 0
+  //       ? item.product.salePrice.toFixed(2)
+  //       : item.product.unitPrice?.toFixed(2);
 
+  //   return acc + calculateSubtotal(price, item.quantity);
+  // }, 0);
+
+  const total = cartItems.reduce((acc, item) => {
+    const currentDate = new Date();
+    const saleStartDate = new Date(item.product?.salePriceValidFrom);
+    const saleEndDate = new Date(item.product?.salePriceValidTo);
+  
+    // Check if salePrice exists and if the current date is within the sale period
+    const price =
+      item.product?.salePrice > 0 &&
+      currentDate >= saleStartDate &&
+      currentDate <= saleEndDate
+        ? item.product.salePrice
+        : item.product.unitPrice;
+  
     return acc + calculateSubtotal(price, item.quantity);
   }, 0);
+  
 
   const dispatch = useDispatch();
 
@@ -684,7 +701,7 @@ function Cart() {
       totalAmount: total?.toFixed(2),
       orderDate: currentDate.toISOString(),
       shippingMethodId: 1,
-      orderStatusId: 1,
+      orderStatusId: 7,
       trackingNumber: "",
       products: cartItems.map((item) => ({
         productId: item.product.productID,

@@ -123,7 +123,8 @@ const SquarePaymentForm = ({
         await getCartItemsApi();
         setTimeout(() => {
           setNotification({ show: false, message: "" });
-          navigate('/layout/layoutorderlist');
+          // navigate('/layout/layoutorderlist');
+          window.location.href="/layout/layoutorderlist"
         }, 5000); // Navigate after 5 seconds
       } catch (error) {
         console.log("error", error);
