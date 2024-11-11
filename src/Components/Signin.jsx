@@ -837,6 +837,7 @@ const Signin = () => {
         }));
       }
     }
+    handleRefresh();
   };
 
 

@@ -45,8 +45,8 @@ function Sliders({wishList,addCart}) {
   return (
     <>
       <div className="">
-        <div className="w-full flex justify-between items-center ">
-          <div className="w-[48%]">
+        <div className="w-full gap-2 flex flex-col sm:flex-wrap  lg:flex-row justify-between items-center ">
+          <div className="w-full sm:w-full  lg:w-[48%] ">
             <ProductSection
              addCart={addCart} wishList={wishList}
               products={RXProducts.slice(0, 3)}
@@ -54,7 +54,7 @@ function Sliders({wishList,addCart}) {
               path={`/products?header=${"Rx Items"}`}
             />
           </div>
-          <div className="w-[48%]">
+          <div className="w-full sm:w-full md:w-full lg:w-[48%]">
             <ProductSection
              addCart={addCart} wishList={wishList}
               products={OTCProducts.slice(0, 3)}
