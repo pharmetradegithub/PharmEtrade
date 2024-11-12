@@ -1,11 +1,14 @@
 
 
+
+
 // import React, { useEffect, useRef } from "react";
 // import left from "../../../assets/arrowleft.png";
 // import right from "../../../assets/arrowright.png";
 // import { Link } from "react-router-dom";
 // import { useDispatch, useSelector } from "react-redux";
-// import { fetchProductOffer } from "../../../Api/ProductApi";
+// import { fetchGetProductOffer, fetchProductOffer } from "../../../Api/ProductApi";
+// // import { fetchGetProductOffer, fetchProductOffer } from "../../../Api/ProductApi";
 
 // let newoffer = [];
 
@@ -14,9 +17,10 @@
 //   const specialOffers = useSelector((state) => state.product.productSpecialOffer);
 //   console.log("offer-->", specialOffers)
 //   newoffer = [];
-//   specialOffers.map((element, index) => {
+//   specialOffers?.map((element, index) => {
 //     const newObject = {...element, image: images[index]};
 //     newoffer.push(newObject);
+//     return newObject
 //   })
 //   console.log("new offere", newoffer);
 
@@ -52,6 +56,17 @@
 //     "Up to 45% off | Deals on RX Products",
 //   ];
 //   console.log("offerSpecial---------", specialOffers)
+
+//   const handleSeeOffers = (categorySpecificationId) => {
+//     try {
+//       dispatch(fetchGetProductOffer(categorySpecificationId))
+//     }
+//     catch (error) {
+//       console.log("error")
+//     }
+//   }
+
+
 //   return (
 //     <div className="flex flex-col justify-center gap-10 pt-4 pb-8">
 //       <div className="flex justify-between ml-4 font-semibold text-3xl">
@@ -89,17 +104,18 @@
             
 //               <div>
 //                 {" "}
-//                 <Link to="/offers">
+//                 <Link to="/allProducts/offers">
 //                   <img
 //                     src={element.image}
 //                     className="w-[300px] cursor-pointer Laptop:w-[320px] shadow-sm shadow-slate-100 Laptop:h-[200px] h-[180px] rounded-sm"
 //                     alt={`Offer ${index + 1}`}
+//                     onClick={()=>handleSeeOffers(element?.categorySpecificationId)}
 //                   />
 //                 </Link>
 //               </div>
 
-//               <div className="w-full mt-8 text-black flex font-semibold justify-end">
-//                 <Link to="/offers" className="hover:text-red-500">
+//               <div className="w-full mt-8 text-black flex font-semibold justify-end" onClick={()=>handleSeeOffers(element?.categorySpecificationId)}>
+//                 <Link to="/allProducts/offers" className="hover:text-red-500">
 //                   See all offers
 //                 </Link>
 //               </div>
@@ -112,6 +128,7 @@
 // };
 
 // export default OfferSlider;
+
 
 
 
@@ -182,8 +199,8 @@ const OfferSlider = ({ images, Title }) => {
 
   return (
     <div className="flex flex-col justify-center gap-10 pt-4 pb-8">
-      <div className="flex justify-between ml-4 font-semibold text-3xl">
-        <p>{Title}</p>
+      <div className="flex justify-between  sm:justify-between ml-4 font-semibold text-3xl">
+        <p className=" text-xl sm:text-xl md:text-xl lg:text-3xl">{Title}</p>
 
         <div className="flex justify-end mr-14 gap-2">
           <button
@@ -193,7 +210,7 @@ const OfferSlider = ({ images, Title }) => {
             <img src={left} className="w-4 h-4" alt="Left" />
           </button>
           <button
-            className="bg-white rounded-sm p-2 "
+            className="bg-white rounded-sm p-2  "
             onClick={() => navigation("right")}
           >
             <img src={right} className="w-4 h-4 " alt="Right" />
@@ -208,7 +225,7 @@ const OfferSlider = ({ images, Title }) => {
           {newoffer.map((element, index) => (
             <div
               key={index}
-              className="border bg-white shadow-2xl min-w-[300px] Laptop:min-w-[320px] p-4 relative flex flex-col gap-3 items-center justify-center"
+              className="border bg-white shadow-2xl min-w-[260px] sm:w-[200px] Laptop:min-w-[320px] p-4 relative flex flex-col gap-3 items-center justify-center"
             >
                
                 <p key={index} className="w-full h-12 text-[17px] font-semibold cursor-pointer">
@@ -241,6 +258,7 @@ const OfferSlider = ({ images, Title }) => {
 };
 
 export default OfferSlider;
+
 
 
 

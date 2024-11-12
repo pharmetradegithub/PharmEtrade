@@ -205,7 +205,7 @@ function LayoutBuy({
       const updatedList = [...prev];
       updatedList[index] = {
         ...updatedList[index],
-        CartQuantity: quantity,
+        minOrderQuantity: quantity,
       };
       return updatedList;
     });
@@ -432,31 +432,6 @@ function LayoutBuy({
                             />
                           </Tooltip>
 
-                          {/* <Tooltip title="Wishlist" placement="top">
-                          <img
-                            src={
-                              wishlistProductIDs.includes(product.productID)
-                                ? filledHeart
-                                : emptyHeart
-                            }
-
-                            className={`w-6 h-6 ${product.amountInStock === 0
-                              ? "opacity-50"
-                              : "cursor-pointer"
-                              }`}
-                            // // className={` w-6 h-6 cursor-pointer ${product.amountInStock === 0 ? "opacity-50" : ""
-                            // }`}
-                            // className="w-6 h-6 cursor-pointer"
-                            onClick={() => {
-                              if (product.amountInStock !== 0) {
-                                handleClick(product.productID, product.CartQuantity);
-                              }
-                            }
-                              // handleClick(product.productID)
-                            }
-                            alt="Wishlist Icon"
-                          />
-                        </Tooltip> */}
                         </div>
                         <div className="relative inline-block mt-2">
                           <Tooltip title="Share" placement="right">
@@ -466,23 +441,7 @@ function LayoutBuy({
                               onClick={() => handleShare(product.productID)}
                             />
                           </Tooltip>
-                          {/* <Tooltip title="Share" placement="right">
-                          <img
-                            src={share}
-                            // className="w-6 mx-3 "
-                            className={`w-6 mx-3 ${product.amountInStock === 0
-                              ? "opacity-50"
-                              : "cursor-pointer"
-                              }`}
-                            onClick={() => {
-                              if (product.amountInStock !== 0) {
-                                handleShare(product.productID, product.CartQuantity);
-                              }
-                            }
-                              // handleShare(product.productID)
-                            }
-                          />
-                        </Tooltip> */}
+                         
                         </div>
                       </div>
                         </div>
@@ -649,84 +608,18 @@ function LayoutBuy({
 
                     </div>
 
-                    {/* <div className="flex flex-col mx-3">
-                      <p className="font-semibold">Quantity</p>
-
-                      <div className="mt-2 flex items-center">
-                        <button
-                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
-                          onClick={() =>
-                            handleQuantityChange(
-                              index,
-                              product.CartQuantity - 1
-                            )
-                          }
-                          disabled={
-                            product.CartQuantity <= 1 ||
-                            cart.some(
-                              (item) =>
-                                item.product.productID === product.productID
-                            ) === 1
-                          }
-                        >
-                          -
-                        </button>
-
-                        <input
-                          type="text"
-                          value={product.CartQuantity}
-                          disabled={true}
-                          className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
-                        />
-
-                        <button
-                          className="px-2 py-1 border rounded-md  bg-gray-200 text-gray-700 font-bold"
-                          onClick={() =>
-                            handleQuantityChange(
-                              index,
-                              product.CartQuantity + 1
-                            )
-                          }
-                          disabled={
-                            cart.some(
-                              (item) =>
-                                item.product.productID === product.productID
-                            ) === 1
-                          }
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div> */}
+                 
                     <div className="flex flex-col mx-3">
 
                       <p className="font-semibold ml-4">Quantity</p>
                       <div className="mt-2 flex  justify-start items-center ">
-                        {/* <button
-                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
-                          onClick={() =>
-                            handleQuantityChange(
-                              index,
-                              Math.max(1, product.CartQuantity - 1)
-                            )
-                          }
-                          disabled={
-                            product.CartQuantity <= 1 ||
-                            product.amountInStock <= 0
-                            // cart.some(
-                            //   (item) =>
-                            //     item.product.productID === product.productID
-                            // )
-                          }
-                        >
-                          -
-                        </button> */}
+                        
                          <button
                           className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
                           onClick={() => {
                             const newQuantity = Math.max(
                               1,
-                              product.CartQuantity - 1
+                              product.minOrderQuantity - 1
                             );
 
                             // Clear stock warning if the new quantity is within the stock
@@ -736,10 +629,10 @@ function LayoutBuy({
 
                             handleQuantityChange(index, newQuantity);
                           }}
-                          disabled={
-                            product.CartQuantity <= 1 ||
-                            product.amountInStock <= 0
-                          }
+                          // disabled={
+                          //   product.CartQuantity <= 1 ||
+                          //   product.amountInStock <= 0
+                          // }
                         >
                           -
                         </button>
@@ -748,8 +641,8 @@ function LayoutBuy({
                         <input
                           type="text"
                           // value={product.CartQuantity}
-                          // value={product.amountInStock === 0 ? 0 : product.minOrderQuantity}
-                          value={product.amountInStock === 0 ? 0 : product.CartQuantity || product.minOrderQuantity}
+                          value={product.amountInStock === 0 ? 0 : product.minOrderQuantity}
+                          // value={product.amountInStock === 0 ? 0 : product.CartQuantity || product.minOrderQuantity}
                           className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
                           onChange={(e) => {
                             const value = e.target.value;
@@ -772,39 +665,11 @@ function LayoutBuy({
                           }}
                         />
                        
-                        {/* <button
-                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
-                          onClick={() => {
-                            if (
-                              product.CartQuantity + 1 >
-                              product.amountInStock
-                            ) {
-                              setStockWarning({
-                                productId: product.productID,
-                                message: `Only ${product.amountInStock} items available .`,
-                              });
-                            } else {
-                              handleQuantityChange(
-                                index,
-                                product.CartQuantity + 1
-                              );
-                              setStockWarning({ productId: null, message: "" });
-                            }
-                          }}
-                          disabled={
-                            product.CartQuantity >= product.amountInStock ||
-                            product.amountInStock <= 0 ||
-                            cart.some(
-                              (item) => item.productID === product.productID
-                            )
-                          }
-                        >
-                          +
-                        </button> */}
+                      
                          <button
                           className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
                           onClick={() => {
-                            const newQuantity = product.CartQuantity + 1;
+                            const newQuantity = product.minOrderQuantity + 1;
 
                             // Check if quantity exceeds stock
                             if (newQuantity > product.amountInStock) {

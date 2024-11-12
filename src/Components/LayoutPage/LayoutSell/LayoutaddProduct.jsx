@@ -483,23 +483,23 @@ function LayoutaddProduct() {
           file.size === thumbnails[0].size &&
           file.lastModified === thumbnails[0].lastModified
       );
-
+      console.log("hello");
       if (isDuplicate) {
         console.log("This file has already been uploaded.");
         return;
       }
       setThumnails([...thumbnails, acceptedFiles[0]]);
-      if (formData.thumbnail1 == null) {
+      if (formData.thumbnail1 == null || formData.thumbnail1=="null") {
         setFormData({ ...formData, thumbnail1: acceptedFiles[0] });
-      } else if (formData.thumbnail2 == null) {
+      } else if (formData.thumbnail2 == null || formData.thumbnail2=="null") {
         setFormData({ ...formData, thumbnail2: acceptedFiles[0] });
-      } else if (formData.thumbnail3 == null) {
+      } else if (formData.thumbnail3 == null || formData.thumbnail3=="null") {
         setFormData({ ...formData, thumbnail3: acceptedFiles[0] });
-      } else if (formData.thumbnail4 == null) {
+      } else if (formData.thumbnail4 == null || formData.thumbnail4=="null") {
         setFormData({ ...formData, thumbnail4: acceptedFiles[0] });
-      } else if (formData.thumbnail5 == null) {
+      } else if (formData.thumbnail5 == null || formData.thumbnail5=="null") {
         setFormData({ ...formData, thumbnail5: acceptedFiles[0] });
-      } else if (formData.thumbnail6 == null) {
+      } else if (formData.thumbnail6 == null || formData.thumbnail6=="null") {
         setFormData({ ...formData, thumbnail6: acceptedFiles[0] });
       } else {
         console.log("cannot upload more than 6 thumnails");
