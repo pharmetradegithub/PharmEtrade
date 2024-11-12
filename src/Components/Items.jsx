@@ -346,6 +346,17 @@ function Items({
   // const userId = localStorage.getItem("userId");
   const handleOrder = async () => {
     const currentDate = new Date();
+    const cartData = {
+      customerId: user.customerId,
+      productId: id,
+      quantity: quantity,
+      isActive: 1,
+    };
+    try {
+      await addCartApi(cartData);
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
+    }
     const payLoad = {
       // orderId: "0",
       // customerId: userId,

@@ -58,6 +58,8 @@ const LayoutRelatedProducts = () => {
     (state) => state.product.productsByCriteria
   );
 
+  console.log(productsByCriteria, "gnn");
+
   const relatedProducts = useSelector((state) => state.product.RelatedProducts);
   const UpSellProducts = useSelector((state) => state.product.UpSellProducts);
   const CrossSellProducts = useSelector(
@@ -205,6 +207,7 @@ const LayoutRelatedProducts = () => {
   const handleCriteria = async () => {
     const sellerId = localStorage.getItem("userId");
     let Criteria = {
+      customerId:sellerId,
       deals: "",
       brands: "",
       generics: "",
@@ -214,7 +217,7 @@ const LayoutRelatedProducts = () => {
       pharmacyItems: false,
       prescriptionDrugs: false,
       otcProducts: false,
-      vawdSeller: sellerId,
+      // vawdSeller: sellerId,
       topSellingProducts: false,
       buyAgain: false,
       productCategoryId: formData.productCategory,
@@ -307,8 +310,8 @@ const LayoutRelatedProducts = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = productsByCriteria.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil((productsByCriteria?.length || 0) / itemsPerPage);
+  const currentItems = productsbySeller.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil((productsbySeller?.length || 0) / itemsPerPage);
 
   const handleNextPage = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -714,7 +717,7 @@ const LayoutRelatedProducts = () => {
         <Pagination
           indexOfFirstItem={indexOfFirstItem}
           indexOfLastItem={indexOfLastItem}
-          productList={productsByCriteria}
+          productList={productsbySeller}
           itemsPerPage={itemsPerPage}
           setItemsPerPage={setItemsPerPage}
           currentPage={currentPage}

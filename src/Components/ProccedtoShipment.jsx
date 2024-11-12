@@ -780,76 +780,76 @@ const ProccedtoShipment = ({
   // }, []);  // Empty dependency array means it only runs once
 
 
-  const [responseBusiness, setResponseBusiness] = useState(null);
-  console.log("ressssss", responseBusiness)
+  // const [responseBusiness, setResponseBusiness] = useState(null);
+  // console.log("ressssss", responseBusiness)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Step 1: Collect unique seller IDs from groupedProducts
-        const sellerIds = new Set();
-        Object.entries(groupedProducts).forEach(([_, products]) => {
-          products.forEach((product) => {
-            sellerIds.add(product.product.sellerId);
-          });
-        });
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       // Step 1: Collect unique seller IDs from groupedProducts
+  //       const sellerIds = new Set();
+  //       Object.entries(groupedProducts).forEach(([_, products]) => {
+  //         products.forEach((product) => {
+  //           sellerIds.add(product.product.sellerId);
+  //         });
+  //       });
 
-        // Step 2: Fetch business information for each seller and store it in an array
-        const sellersInfo = [];
-        for (const sellerId of sellerIds) {
-          const res = await getUserByCustomerIdApi(sellerId);
-          sellersInfo.push(res); // Store each response
-        }
+  //       // Step 2: Fetch business information for each seller and store it in an array
+  //       const sellersInfo = [];
+  //       for (const sellerId of sellerIds) {
+  //         const res = await getUserByCustomerIdApi(sellerId);
+  //         sellersInfo.push(res); // Store each response
+  //       }
 
-        setResponseBusiness(sellersInfo); // Store the full list of sellers in state if needed
+  //       setResponseBusiness(sellersInfo); // Store the full list of sellers in state if needed
 
-        // Step 3: Iterate over each seller's info and send payload for each
-        for (const seller of sellersInfo) { // Use `sellersInfo` directly here
-          const payload = {
-            accountNumber: {
-              value: "235969831",
-            },
-            requestedShipment: {
-              shipper: {
-                address: {
-                  postalCode: seller?.businessInfo?.zip,
-                  countryCode: seller?.businessInfo?.state,
-                },
-              },
-              recipient: {
-                address: {
-                  postalCode: "65247",
-                  countryCode: "US",
-                },
-              },
-              pickupType: "DROPOFF_AT_FEDEX_LOCATION",
-              rateRequestType: ["ACCOUNT", "LIST"],
-              requestedPackageLineItems: [
-                {
-                  weight: {
-                    units: "LB",
-                    value: 1,
-                  },
-                },
-              ],
-            },
-          };
+  //       // Step 3: Iterate over each seller's info and send payload for each
+  //       for (const seller of sellersInfo) { // Use `sellersInfo` directly here
+  //         const payload = {
+  //           accountNumber: {
+  //             value: "235969831",
+  //           },
+  //           requestedShipment: {
+  //             shipper: {
+  //               address: {
+  //                 postalCode: seller?.businessInfo?.zip,
+  //                 countryCode: seller?.businessInfo?.state,
+  //               },
+  //             },
+  //             recipient: {
+  //               address: {
+  //                 postalCode: "65247",
+  //                 countryCode: "US",
+  //               },
+  //             },
+  //             pickupType: "DROPOFF_AT_FEDEX_LOCATION",
+  //             rateRequestType: ["ACCOUNT", "LIST"],
+  //             requestedPackageLineItems: [
+  //               {
+  //                 weight: {
+  //                   units: "LB",
+  //                   value: 1,
+  //                 },
+  //               },
+  //             ],
+  //           },
+  //         };
 
-          // Send the payload with `serviceTypeApi`
-          await dispatch(serviceTypeApi(payload));
+  //         // Send the payload with `serviceTypeApi`
+  //         await dispatch(serviceTypeApi(payload));
 
-          // Call `FedExRatesApi` with the same payload
-          const rateResponse = await dispatch(FedExRatesApi(payload));
-          console.log("FedEx Rates Response for seller", seller.sellerId, ":", rateResponse);
-        }
+  //         // Call `FedExRatesApi` with the same payload
+  //         const rateResponse = await dispatch(FedExRatesApi(payload));
+  //         console.log("FedEx Rates Response for seller", seller.sellerId, ":", rateResponse);
+  //       }
 
-      } catch (error) {
-        console.error("Error in data fetching process:", error);
-      }
-    };
+  //     } catch (error) {
+  //       console.error("Error in data fetching process:", error);
+  //     }
+  //   };
 
-    fetchData(); // Only runs once when component mounts
-  }, []); // Empty dependency array means it only runs once
+  //   fetchData(); // Only runs once when component mounts
+  // }, []); // Empty dependency array means it only runs once
 
   return (
     <div className="w-full h-full  p-4 ">

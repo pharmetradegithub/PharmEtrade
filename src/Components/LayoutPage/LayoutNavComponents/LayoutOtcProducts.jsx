@@ -205,7 +205,7 @@ function LayoutOtcProducts({
       const updatedList = [...prev];
       updatedList[index] = {
         ...updatedList[index],
-        CartQuantity: quantity,
+        minOrderQuantity: quantity,
       };
       return updatedList;
     });
@@ -678,7 +678,7 @@ function LayoutOtcProducts({
                         onClick={() => {
                           const newQuantity = Math.max(
                             1,
-                            product.CartQuantity - 1
+                            product.minOrderQuantity - 1
                           );
 
                           // Clear stock warning if the new quantity is within the stock
@@ -688,10 +688,10 @@ function LayoutOtcProducts({
 
                           handleQuantityChange(index, newQuantity);
                         }}
-                        disabled={
-                          product.CartQuantity <= 1 ||
-                          product.amountInStock <= 0
-                        }
+                        // disabled={
+                        //   product.CartQuantity <= 1 ||
+                        //   product.amountInStock <= 0
+                        // }
                       >
                         -
                       </button>
@@ -700,8 +700,8 @@ function LayoutOtcProducts({
                       <input
                         type="text"
                         // value={product.CartQuantity}
-                        // value={product.amountInStock === 0 ? 0 : product.minOrderQuantity}
-                        value={product.amountInStock === 0 ? 0 : product.CartQuantity || product.minOrderQuantity}
+                        value={product.amountInStock === 0 ? 0 : product.minOrderQuantity}
+                        // value={product.amountInStock === 0 ? 0 : product.CartQuantity || product.minOrderQuantity}
                         className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
                         onChange={(e) => {
                           const value = e.target.value;
@@ -756,7 +756,7 @@ function LayoutOtcProducts({
                        <button
                         className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
                         onClick={() => {
-                          const newQuantity = product.CartQuantity + 1;
+                          const newQuantity = product.minOrderQuantity + 1;
 
                           // Check if quantity exceeds stock
                           if (newQuantity > product.amountInStock) {
