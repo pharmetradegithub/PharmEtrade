@@ -1,0 +1,9 @@
+version: '3.9'
+
+services:
+  pharmetrade:
+    image: headway630/pharmetrade:latest  # Your Docker Hub image
+    container_name: pharmetrade_container   # Custom container name
+    ports:
+      - "5173:5173"                        # Map host port 5173 to container port 5173
+    restart: always                        # Always restart the container if it stops
