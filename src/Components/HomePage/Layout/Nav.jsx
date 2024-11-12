@@ -910,9 +910,11 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   // ];
 
   const handleCriteria = async (obj) => {
+    console.log(obj, "objjjjj")
     handleItemClick(obj.categoryName, obj.productCategoryId);
     let Criteria = {
       productCategoryId: obj.productCategoryId,
+      customerId: user ? user.customerId : "234"
     };
 
     console.log("cr--->", obj);
@@ -1033,12 +1035,12 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
       // productName: SearchInput,
       productCategoryId: selectedItemId,
       productName: SearchInput,
-      customerId: user.customerId
+      customerId: user ? user.customerId : "234"
     };
     if (selectedItemId == -1) {
       Criteria = {
         productName: SearchInput,
-        customerId: user.customerId
+        customerId: user ? user.customerId : "123"
       };
     }
     await fetchCriteriaProductsApi(Criteria);
