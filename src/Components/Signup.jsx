@@ -911,7 +911,7 @@ const Signup = () => {
       customerTypeId: parseInt(formData.customerTypeId, 10)+1,
       accountTypeId:
         accountType === "Buyer" ? 1 : accountType === "Seller" ? 2 : 3,
-      isUPNMember: formData.upnMember === "true" ? 1 : 0, // Convert to boolean if needed
+      isUPNMember: formData.upnMember == "true" ? 1 : 0, // Convert to boolean if needed
       loginOTP: "string",
       otpExpiryDate: "2024-08-12T13:32:54.749Z",
     };
@@ -975,6 +975,7 @@ const Signup = () => {
   const [selectedValue, setSelectedValue] = React.useState("");
 
   const handleChange = (e) => {
+    setFormData({...formData,upnMember:e.target.value})
     setSelectedValue(e.target.value);
   };
 
@@ -1245,9 +1246,9 @@ const Signup = () => {
                   <Box sx={{ display: "flex", gap: 2 }}>
                     <div>
                       <Radio
-                        checked={selectedValue === "a"}
+                        checked={formData.upnMember == "true"}
                         onChange={handleChange}
-                        value="a"
+                        value={true}
                         name="radio-buttons"
                         size="small"
                         slotProps={{ input: { "aria-label": "A" } }}
@@ -1256,9 +1257,9 @@ const Signup = () => {
                     </div>
                     <div>
                       <Radio
-                        checked={selectedValue === "b"}
+                        checked={formData.upnMember == "false"}
                         onChange={handleChange}
-                        value="b"
+                        value={false}
                         name="radio-buttons"
                         size="small"
                         slotProps={{ input: { "aria-label": "B" } }}
