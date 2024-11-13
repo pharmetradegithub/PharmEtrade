@@ -361,7 +361,7 @@ function ProductFields() {
     // Sending data with fetch
     try {
       const response = await fetch(
-        "https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Product/InsertProduct",
+        "http://ec2-100-29-38-82.compute-1.amazonaws.com/api/Product/InsertProduct",
         {
           method: "POST",
           body: data,

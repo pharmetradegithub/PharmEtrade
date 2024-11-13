@@ -24,7 +24,7 @@ const AddProducts = () => {
   ];
   useEffect(() => {
     fetch(
-      "https://ec2-100-29-38-82.compute-1.amazonaws.com/api/ProductFilter/GetAllProducts"
+      "http://ec2-100-29-38-82.compute-1.amazonaws.com/api/ProductFilter/GetAllProducts"
     )
       .then((response) => {
         if (!response.ok) {
