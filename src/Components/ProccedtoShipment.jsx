@@ -590,6 +590,9 @@ const ProccedtoShipment = ({
     return acc;
   }, {});
 
+  const user = useSelector((state) => state.user.user);
+
+
   // useEffect(() => {
   //   const data = async () => {
   //     const sellerIds = new Set();
@@ -913,13 +916,8 @@ const ProccedtoShipment = ({
                         <td className="px-2 md:px-4 py-2 p-2 flex flex-wrap">
                           {tabledetail.product.productName}
                         </td>
-                        {/* <td className="text-center">
-                          $
-                          {tabledetail.product?.salePrice > 0
-                            ? tabledetail.product.salePrice.toFixed(2)
-                            : tabledetail.product.unitPrice?.toFixed(2)}
-                        </td> */}
-                        <td className="md:px-4 py-3 text-center">
+                        
+                        {/* <td className="md:px-4 py-3 text-center">
                         $
                         {(() => {
                           const currentDate = new Date();
@@ -941,22 +939,35 @@ const ProccedtoShipment = ({
                             return tabledetail.product.unitPrice?.toFixed(2);
                           }
                         })()}
-                      </td>
+                      </td> */}
+                        <td className="md:px-4 py-3 text-center">
+  $
+  {(() => {
+    const currentDate = new Date();
+    const saleStartDate = new Date(tabledetail.product?.salePriceValidFrom);
+    const saleEndDate = new Date(tabledetail.product?.salePriceValidTo);
+
+    // Check if the user is a UPN member and has a special price
+    if (user?.isUPNMember === 1 && tabledetail.product?.upnMemberPrice > 0) {
+      return tabledetail.product.upnMemberPrice.toFixed(2);
+    }
+
+    // Check if salePrice exists, and the current date is within the sale period
+    if (
+      tabledetail.product?.salePrice > 0 &&
+      currentDate >= saleStartDate &&
+      currentDate <= saleEndDate
+    ) {
+      return tabledetail.product.salePrice.toFixed(2);
+    }
+
+    // Default to unitPrice
+    return tabledetail.product.unitPrice?.toFixed(2);
+  })()}
+</td>
                         <td className="text-center">{tabledetail.quantity}</td>
-                        {/* <td className="text-center">
-                          {" "}
-                          // {/* ${tabledetail?.Subtotal?.toFixed(2)} 
-                          <strong>
-                            $
-                            {calculateSubtotal(
-                              tabledetail.product?.salePrice > 0
-                                ? tabledetail.product.salePrice.toFixed(2)
-                                : tabledetail.product.unitPrice?.toFixed(2),
-                              tabledetail.quantity
-                            )?.toFixed(2)}
-                          </strong>
-                        </td> */}
-                        <td className="px-2 md:px-4 text-right py-3">
+
+                        {/* <td className="px-2 md:px-4 text-right py-3">
                         <strong>
                           $
                           {(() => {
@@ -981,7 +992,31 @@ const ProccedtoShipment = ({
                             )?.toFixed(2);
                           })()}
                         </strong>
-                      </td>
+                      </td> */}
+                      <td className="px-2 md:px-4 text-right py-3">
+  <strong>
+    $
+    {(() => {
+      const currentDate = new Date();
+      const saleStartDate = new Date(tabledetail.product?.salePriceValidFrom);
+      const saleEndDate = new Date(tabledetail.product?.salePriceValidTo);
+
+      // Determine the price based on UPN membership and sale conditions
+      const price =
+        user?.isUPNMember === 1 && tabledetail.product?.upnMemberPrice > 0
+          ? tabledetail.product.upnMemberPrice
+          : tabledetail.product?.salePrice > 0 &&
+            currentDate >= saleStartDate &&
+            currentDate <= saleEndDate
+          ? tabledetail.product.salePrice
+          : tabledetail.product.unitPrice;
+
+      // Calculate the subtotal based on the selected price and quantity
+      return calculateSubtotal(price, tabledetail.quantity)?.toFixed(2);
+    })()}
+  </strong>
+</td>
+
                         <td className="text-center">
                           {" "}
                           <img
