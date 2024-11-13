@@ -122,8 +122,8 @@ const EditSellerList = () => {
     password: userdata?.password || "",
     // phoneNumber: userdata?.phoneNumber || "",
     mobile: userdata?.mobile || "",
+    isUPNMember : userdata?.isUPNMember==null? "":userdata?.isUPNMember==1? "true":"false",
   });
-
   useEffect(() => {
     setUserDetails({
       firstName: userdata?.firstName || "",
@@ -133,9 +133,10 @@ const EditSellerList = () => {
       password: userdata?.password || "",
       // phoneNumber: userdata?.phoneNumber || "",
       mobile: userdata?.mobile || "",
+      isUPNMember : userdata?.isUPNMember==null? "":userdata?.isUPNMember==1? "true":"false",
     });
   }, [userdata]);
-
+  console.log(userDetails);
   const handleBusinessPhoneChange = (e) => {
     const input = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
     let formattedBusinessPhone = input;
@@ -231,9 +232,11 @@ const EditSellerList = () => {
       mobile: userDetails.mobile,
       password: userDetails.password,
       customerTypeId: userDetails.customerTypeId,
-      accountTypeId: userDetails.accountTypeId,
-      isUPNMember: userDetails.isUPNMember,
+      // accountTypeId: userDetails.accountTypeId,
+      isUPNMember: userDetails.isUPNMember == "true"? 1:0,
+      accountTypeId:userdata.accountTypeId
     };
+    console.log(usertypeinfo,"usertypeinfo");
     if (usertypeinfo) {
       await UserInfoUpdate(usertypeinfo);
       await RefreshUser();
@@ -632,6 +635,7 @@ const EditSellerList = () => {
 
   // Function to handle changes in radio button selection
   const handleUpnChange = (event) => {
+    setUserDetails({...userDetails,isUPNMember : event.target.value})
     setUpnMember(Number(event.target.value)); // Ensure the value is a number (0 or 1)
   };
 
@@ -848,8 +852,8 @@ const EditSellerList = () => {
                         <input
                           type="radio"
                           id="yes"
-                          value="1"
-                          checked={upnMember === 1}
+                          value="true"
+                          checked={userDetails.isUPNMember == "true"}
                           onChange={handleUpnChange}
                           className="mr-2"
                           disabled={!isUserEditable}
@@ -861,8 +865,8 @@ const EditSellerList = () => {
                         <input
                           type="radio"
                           id="no"
-                          value="0"
-                          checked={upnMember === 0}
+                          value="false"
+                          checked={userDetails.isUPNMember == "false"}
                           onChange={handleUpnChange}
                           className="mr-2"
                           disabled={!isUserEditable}
