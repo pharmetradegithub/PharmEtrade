@@ -439,7 +439,7 @@ function LayoutOrderList() {
                           Order ID
                         </h1>
                         <p className="text-sm lg:text-md lg:text-wrap">
-                          {order.orderId}{" "}
+                          {order.orderNumber}{" "}
                         </p>
                       </div>
 
