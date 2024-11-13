@@ -310,7 +310,7 @@ const LayoutRelatedProducts = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = productsbySeller.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = Array.isArray(productsbySeller)? productsbySeller.slice(indexOfFirstItem, indexOfLastItem):[];
   const totalPages = Math.ceil((productsbySeller?.length || 0) / itemsPerPage);
 
   const handleNextPage = () => {
