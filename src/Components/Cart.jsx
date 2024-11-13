@@ -472,6 +472,7 @@ import wrong from "../assets/Icons/wrongred.png";
 
 function Cart() {
   const user = useSelector((state) => state.user.user);
+  console.log("uuuuu", user?.isUPNMember  )
   const cartList = useSelector((state) => state.cart.cart);
   console.log("cartList---->", cartList);
   const [cartItems, setcartItems] = useState(cartList);
@@ -484,6 +485,9 @@ function Cart() {
   useEffect(() => {
     if (cartList) setcartItems(cartList);
   }, [cartList]);
+
+
+
 
   const handleDeleteClick = (index) => {
     setSelectedItemIndex(index);
@@ -554,30 +558,42 @@ function Cart() {
 
   const calculateSubtotal = (price, quantity) => price * quantity;
 
-  // const total = cartItems.reduce((acc, item) => {
-  //   const price =
-  //     item.product?.salePrice > 0
-  //       ? item.product.salePrice.toFixed(2)
-  //       : item.product.unitPrice?.toFixed(2);
+  
 
+  // const total = cartItems.reduce((acc, item) => {
+  //   const currentDate = new Date();
+  //   const saleStartDate = new Date(item.product?.salePriceValidFrom);
+  //   const saleEndDate = new Date(item.product?.salePriceValidTo);
+  
+  //   // Check if salePrice exists and if the current date is within the sale period
+  //   const price =
+  //     item.product?.salePrice > 0 &&
+  //     currentDate >= saleStartDate &&
+  //     currentDate <= saleEndDate
+  //       ? item.product.salePrice
+  //       : item.product.unitPrice;
+  
   //   return acc + calculateSubtotal(price, item.quantity);
   // }, 0);
-
   const total = cartItems.reduce((acc, item) => {
     const currentDate = new Date();
     const saleStartDate = new Date(item.product?.salePriceValidFrom);
     const saleEndDate = new Date(item.product?.salePriceValidTo);
   
-    // Check if salePrice exists and if the current date is within the sale period
+    // Determine the price based on UPN membership and sale conditions
     const price =
-      item.product?.salePrice > 0 &&
-      currentDate >= saleStartDate &&
-      currentDate <= saleEndDate
+      user?.isUPNMember === 1 && item.product?.upnMemberPrice > 0
+        ? item.product.upnMemberPrice
+        : item.product?.salePrice > 0 &&
+          currentDate >= saleStartDate &&
+          currentDate <= saleEndDate
         ? item.product.salePrice
         : item.product.unitPrice;
   
+    // Add the subtotal to the accumulator
     return acc + calculateSubtotal(price, item.quantity);
   }, 0);
+  
   
 
   const dispatch = useDispatch();
@@ -779,7 +795,7 @@ function Cart() {
                       <td className="px-2 md:px-4 py-3 p-2 flex flex-wrap">
                         {item.product.productName}
                       </td>
-                      <td className="md:px-4 py-3 text-center">
+                      {/* <td className="md:px-4 py-3 text-center">
                         $
                         {(() => {
                           const currentDate = new Date();
@@ -801,18 +817,34 @@ function Cart() {
                             return item.product.unitPrice?.toFixed(2);
                           }
                         })()}
-                      </td>
-                      {/* <td className="px-2 flex gap-2 md:px-4 py-3 ">
-                        <input
-                          type="number"
-                          value={item.updateQuantity}
-                          onChange={(e) =>
-                            handleQuantityChange(index, Number(e.target.value))
-                          }
-                          className="text-xl border rounded-lg p-1 w-16"
-                          min="1"
-                        />
                       </td> */}
+                      <td className="md:px-4 py-3 text-center">
+  $
+  {(() => {
+    const currentDate = new Date();
+    const saleStartDate = new Date(item.product?.salePriceValidFrom);
+    const saleEndDate = new Date(item.product?.salePriceValidTo);
+
+    // Check if the user is a UPN member and has a special price
+    if (user?.isUPNMember === 1 && item.product?.upnMemberPrice > 0) {
+      return item.product.upnMemberPrice.toFixed(2);
+    }
+
+    // Check if salePrice exists, and the current date is within the sale period
+    if (
+      item.product?.salePrice > 0 &&
+      currentDate >= saleStartDate &&
+      currentDate <= saleEndDate
+    ) {
+      return item.product.salePrice.toFixed(2);
+    }
+
+    // Default to unitPrice
+    return item.product.unitPrice?.toFixed(2);
+  })()}
+</td>
+
+                      
                       <td>
                         <div className="flex flex-col mx-3">
                           {/* <p className="font-semibold">Quantity</p> */}
@@ -899,18 +931,8 @@ function Cart() {
                         {/* <div className="text-xs">Minimum Quantity Required:{item?.product?.minimumOrderQuantity}</div> */}
                       </td>
 
-                      {/* <td className="px-2 md:px-4 text-right py-3 ">
-                        <strong>
-                          $
-                          {calculateSubtotal(
-                            item.product?.salePrice > 0
-                              ? item.product.salePrice.toFixed(2)
-                              : item.product.unitPrice?.toFixed(2),
-                            item.quantity
-                          )?.toFixed(2)}
-                        </strong>
-                      </td> */}
-                      <td className="px-2 md:px-4 text-right py-3">
+                      
+                      {/* <td className="px-2 md:px-4 text-right py-3">
                         <strong>
                           $
                           {(() => {
@@ -935,7 +957,31 @@ function Cart() {
                             )?.toFixed(2);
                           })()}
                         </strong>
-                      </td>
+                      </td> */}
+                      <td className="px-2 md:px-4 text-right py-3">
+  <strong>
+    $
+    {(() => {
+      const currentDate = new Date();
+      const saleStartDate = new Date(item.product?.salePriceValidFrom);
+      const saleEndDate = new Date(item.product?.salePriceValidTo);
+
+      // Determine the price based on UPN membership and sale conditions
+      const price =
+        user?.isUPNMember === 1 && item.product?.upnMemberPrice > 0
+          ? item.product.upnMemberPrice
+          : item.product?.salePrice > 0 &&
+            currentDate >= saleStartDate &&
+            currentDate <= saleEndDate
+          ? item.product.salePrice
+          : item.product.unitPrice;
+
+      // Calculate the subtotal based on the selected price and quantity
+      return calculateSubtotal(price, item.quantity)?.toFixed(2);
+    })()}
+  </strong>
+</td>
+
                       <td className="px-2 md:px-4 py-8 whitespace-nowrap flex items-center justify-center">
                         <button
                           className="text-red-600 w-4 h-3"
@@ -997,9 +1043,15 @@ function Cart() {
                 >
                   Proceed to checkout
                 </button>
-                <button className="w-full mt-2 px-4 py-2 font-bold text-black text-lg bg-slate-300 rounded-full">
+                {/* <button className="w-full mt-2 px-4 py-2 font-bold text-black text-lg bg-slate-300 rounded-full">
                   <Link to="/allProducts">Continue Shopping</Link>
-                </button>
+                </button> */}
+                 <button
+      className="w-full mt-2 px-4 py-2 font-bold text-black text-lg bg-slate-300 rounded-full"
+      onClick={() => navigate(-1)} // Navigate to the previous page
+    >
+      Continue Shopping
+    </button>
               </div>
             </div>
           </div>
