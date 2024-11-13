@@ -237,8 +237,8 @@ const Signup = () => {
 
     try {
       const response = await fetch(
-        "https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Customer/Upload",
-        {
+        // "https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Customer/Upload",
+`${import.meta.env.VITE_API_BASE_URL}/api/Customer/Upload`,        {
           method: "POST",
           body: formData1,
         }
@@ -527,13 +527,22 @@ const Signup = () => {
       if (Object.keys(newErrors).length === 0 && localStorage.getItem('userId') == null) {
         try {
           console.log(formData.Email_id, formData.Phone_number);
+          // const responseEmail = await fetch(
+          //   `https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Customer/GetCustomers?email=${encodeURIComponent(
+          //     formData.Email_id
+          //   )}`
+          // );
+          // const responsePhone = await fetch(
+          //   `https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Customer/GetCustomers?mobile=${formData.Phone_number}`
+          // );
           const responseEmail = await fetch(
-            `https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Customer/GetCustomers?email=${encodeURIComponent(
+            `${import.meta.env.VITE_API_BASE_URL}/api/Customer/GetCustomers?email=${encodeURIComponent(
               formData.Email_id
             )}`
           );
+          
           const responsePhone = await fetch(
-            `https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Customer/GetCustomers?mobile=${formData.Phone_number}`
+            `${import.meta.env.VITE_API_BASE_URL}/api/Customer/GetCustomers?mobile=${formData.Phone_number}`
           );
           if (responsePhone.ok) {
             const data = await responsePhone.json(); // Convert response to JSON
@@ -866,7 +875,8 @@ const Signup = () => {
     };
     try {
       const response = await fetch(
-        "https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Customer/BusinessInfo",
+        // "https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Customer/BusinessInfo",
+        `${import.meta.env.VITE_API_BASE_URL}/api/Customer/BusinessInfo`,
         {
           method: "POST",
           headers: {
@@ -927,7 +937,8 @@ const Signup = () => {
       console.log("goingto regsiters");
 
       const response = await fetch(
-        "https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Customer/Register",
+        // "https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Customer/Register",
+        `${import.meta.env.VITE_API_BASE_URL}/api/Customer/Register`,
         {
           method: "POST",
           headers: {

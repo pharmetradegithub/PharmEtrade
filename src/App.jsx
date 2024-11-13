@@ -96,7 +96,7 @@ import LayoutSalesHistory from "./Components/LayoutPage/LayoutSell/LayoutSalesHi
 import LayoutShippingDetails from "./Components/LayoutPage/LayoutSell/LayoutShippingDetails";
 import LayoutRequestForQuote from "./Components/LayoutPage/LayoutSell/LayoutRequestForQuote";
 import LayoutSellReturn from "./Components/LayoutPage/LayoutSell/LayoutSellReturn";
-import LayoutEditProduct from "./Components/LayoutPage/LayoutSell/LayoutProducts/LayouEditProduct";
+// import LayoutEditProduct from "./Components/LayoutPage/LayoutSell/LayoutProducts/LayouEditProduct";
 import LayoutUpsShipping from "./Components/LayoutPage/LayoutSell/LayoutUpsShipping";
 import LayoutFedexshipping from "./Components/LayoutPage/LayoutSell/LayoutFedexshipping";
 import LayoutAllQuotesProducts from "./Components/LayoutPage/LayoutSell/LayoutAllQuotesProducts";
@@ -216,7 +216,8 @@ function App() {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          "https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Product/GetAll"
+          // "https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Product/GetAll"
+          `${import.meta.env.VITE_API_BASE_URL}/api/Product/GetAll`,
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -411,10 +412,10 @@ function App() {
             path="/layout/postingproducts"
             element={<LayoutPostingProducts />}
           />
-          <Route
+          {/* <Route
             path="/layout/layout-edit-single-product/:productID"
             element={<LayoutEditProduct />}
-          />
+          /> */}
           <Route path="/layout/sellorders" element={<LayoutSellOrders />} />
           <Route path="/layout/sellcustomers" element={<LayoutCustomers />} />
           <Route path="/layout/ups-shipping" element={<LayoutUpsShipping />} />
