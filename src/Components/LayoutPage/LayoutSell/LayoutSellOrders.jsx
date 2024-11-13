@@ -354,7 +354,7 @@ function LayoutSellOrders() {
                     }).replace(/\//g, '-')}</td>
                     <td className="text-right px-4 py-2">${product?.totalAmount.toFixed(2)}</td>
                     <td className="px-4 py-2">{product?.customerName}</td>
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 cursor-pointer">
                       {/* <select>
                         <option value="approve">Accepted</option>
                         <option value="Reject">Rejected</option>
@@ -363,14 +363,14 @@ function LayoutSellOrders() {
 
                         <option value="Delivered">Delivered</option>
                       </select> */}
-                      <select
+                      <select className="cursor-pointer"
                         disabled={!Array.isArray(orderStatusGetAll) || orderStatusGetAll.length === 0}
                         onChange={(e) => handleStatusChange(product, e.target.value)} // Trigger handleStatus on change
                         value={product?.orderStatusId} // Set the current status as the selected value
                       >
                         {Array.isArray(orderStatusGetAll) && orderStatusGetAll.length > 0 &&
                           orderStatusGetAll.map((item) => (
-                            <option key={item.statusId} value={item.statusId}>
+                            <option className="cursor-pointer" key={item.statusId} value={item.statusId}>
                               {item.statusDescription}
                             </option>
                           ))
