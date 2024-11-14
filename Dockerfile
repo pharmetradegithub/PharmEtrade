@@ -10,7 +10,7 @@ RUN npm config set proxy ${HTTP_PROXY} && \
 RUN npm install
 COPY . .
 RUN npm run build
-FROM node:18 as production
+FROM node:20 as production
 WORKDIR /app
 RUN npm install -g serve
 COPY --from=build /app/dist ./dist

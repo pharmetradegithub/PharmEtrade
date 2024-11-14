@@ -10,11 +10,6 @@ export default defineConfig({
   server: {
     port: process.env.PORT || 5173,
   },
-  build: {
-    rollupOptions: {
-      external: ['@floating-ui/dom'],
-    },
-  },
 });
 
 
