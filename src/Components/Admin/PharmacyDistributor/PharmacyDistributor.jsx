@@ -492,7 +492,7 @@ const pharmacyDistributor = () => {
 
   const [searchInput, setSearchInput] = useState({
     customerName: "",
-    customerTypeId: 1,
+    customerTypeId: 3,
   });
 
   const navigate = useNavigate();
