@@ -752,7 +752,8 @@ function LayoutCategory({
     message: "",
   });
   const navigate = useNavigate();
-
+  const [productLink, setProductLink] = useState("");
+  const [currentProductID, setCurrentProductID] = useState("");
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
   const [showMore, setShowMore] = useState({});
@@ -1073,7 +1074,44 @@ function LayoutCategory({
   //     setLoading(false);
   //   }
   // };
+  // Function to handle sharing
+  const handleProductDetailsShare = (productID) => {
+    setCurrentProductID(productID); // Store the productID in state
+    const productURL = `/detailspage/${productID}`;
+    setProductLink(window.location.origin + productURL); // Store the complete URL
+  };
+  // Function to handle sharing
+  const handleShare = (productID) => {
+    handleProductDetailsShare(productID); // Ensure the product details are set
 
+    const productLink = window.location.origin + `/detailspage/${productID}`;
+
+    if (navigator.share) {
+      navigator
+        .share({
+          title: "Check out this product!",
+          url: productLink,
+        })
+        .then(() => console.log("Successful share!"))
+        .catch((error) => {
+          console.log("Error sharing", error);
+          // Fallback to copying the link to clipboard
+          navigator.clipboard.writeText(productLink).then(() => {
+            alert("Link copied to clipboard");
+          });
+        });
+    } else {
+      // Fallback to copying the link to clipboard if sharing is not supported
+      navigator.clipboard
+        .writeText(productLink)
+        .then(() => {
+          alert("Link copied to clipboard");
+        })
+        .catch((error) => {
+          console.error("Error copying text to clipboard:", error);
+        });
+    }
+  };
   return (
     <div className="w-[95%] mt-4 ml-4 h-full overflow-y-scroll">
       {notification.show && (

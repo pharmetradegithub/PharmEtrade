@@ -1099,7 +1099,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
 
 
         <ul className="text-3xl w-full">
-          <div className="flex flex-row h-[60px] justify-around gap-4 md:gap-12 lg:gap-10 items-center text-xl bg-white text-gray-500">
+          <div className="flex flex-row h-[60px] justify-between gap-4 md:gap-12 lg:gap-10 items-center text-xl bg-white text-gray-500">
             <div className="flex items-center gap-4 md:hidden">
               <img
                 src={isNavOpen ? backIcon : hamburgerIcon} // Toggle icon between hamburger and back
@@ -1113,7 +1113,8 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
               <img
                 src={Logo}
                 onClick={() => navigate("/")}
-                className="w-18 md:w-16 lg:w-32 xl:w-60 h-9 ml-2 md:ml-2 lg:ml-12 hover:cursor-pointer lg:overflow-x-hidden"
+                // className="w-18 md:w-16 lg:w-32 xl:w-60 h-9 ml-2 md:ml-2 lg:ml-12 hover:cursor-pointer lg:overflow-x-hidden"
+                className="w-28 sm:w-36 md:w-36 lg:w-48 xl:w-60 h-auto ml-2 md:ml-2 lg:ml-12 hover:cursor-pointer"
                 alt="Logo"
               />
             </div>
