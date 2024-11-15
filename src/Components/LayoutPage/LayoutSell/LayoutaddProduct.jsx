@@ -219,7 +219,7 @@ function LayoutaddProduct() {
       packQuantity: product.packQuantity,
       packType: product.packType,
       packCondition: {
-        tornLabel: product.packCondition=="torn",
+        tornLabel: product.packCondition == "torn",
         otherCondition: "",
       },
       imageUrl: product?.productGallery?.imageUrl,
@@ -489,17 +489,17 @@ function LayoutaddProduct() {
         return;
       }
       setThumnails([...thumbnails, acceptedFiles[0]]);
-      if (formData.thumbnail1 == null || formData.thumbnail1=="null") {
+      if (formData.thumbnail1 == null || formData.thumbnail1 == "null") {
         setFormData({ ...formData, thumbnail1: acceptedFiles[0] });
-      } else if (formData.thumbnail2 == null || formData.thumbnail2=="null") {
+      } else if (formData.thumbnail2 == null || formData.thumbnail2 == "null") {
         setFormData({ ...formData, thumbnail2: acceptedFiles[0] });
-      } else if (formData.thumbnail3 == null || formData.thumbnail3=="null") {
+      } else if (formData.thumbnail3 == null || formData.thumbnail3 == "null") {
         setFormData({ ...formData, thumbnail3: acceptedFiles[0] });
-      } else if (formData.thumbnail4 == null || formData.thumbnail4=="null") {
+      } else if (formData.thumbnail4 == null || formData.thumbnail4 == "null") {
         setFormData({ ...formData, thumbnail4: acceptedFiles[0] });
-      } else if (formData.thumbnail5 == null || formData.thumbnail5=="null") {
+      } else if (formData.thumbnail5 == null || formData.thumbnail5 == "null") {
         setFormData({ ...formData, thumbnail5: acceptedFiles[0] });
-      } else if (formData.thumbnail6 == null || formData.thumbnail6=="null") {
+      } else if (formData.thumbnail6 == null || formData.thumbnail6 == "null") {
         setFormData({ ...formData, thumbnail6: acceptedFiles[0] });
       } else {
         console.log("cannot upload more than 6 thumnails");
@@ -632,8 +632,8 @@ function LayoutaddProduct() {
           const isSelected = formData.states.includes(value);
           const updatedStates = isSelected
             ? formData.states.filter(
-                (state) => state !== value && state !== "all"
-              )
+              (state) => state !== value && state !== "all"
+            )
             : [...formData.states, value];
 
           setFormData({
@@ -705,7 +705,6 @@ function LayoutaddProduct() {
 
   const navigate = useNavigate();
 
-
   const handleRemoveImage = () => {
     setSelectedImage(null);
     setFormData({ ...formData, ["imageUrl"]: null });
@@ -747,8 +746,8 @@ function LayoutaddProduct() {
       formData.mainImageUrl == null
         ? null
         : typeof formData.mainImageUrl === "string"
-        ? formData.mainImageUrl
-        : await uploadImageApi(
+          ? formData.mainImageUrl
+          : await uploadImageApi(
             user.customerId,
             productId,
             formData.mainImageUrl
@@ -758,65 +757,65 @@ function LayoutaddProduct() {
       formData.imageUrl == null
         ? null
         : typeof formData.imageUrl === "string"
-        ? formData.imageUrl
-        : await uploadImageApi(user.customerId, productId, formData.imageUrl);
+          ? formData.imageUrl
+          : await uploadImageApi(user.customerId, productId, formData.imageUrl);
 
     const thumbnail1 =
       formData.thumbnail1 == null
         ? "null"
         : typeof formData.thumbnail1 === "string"
-        ? formData.thumbnail1
-        : await uploadImageApi(user.customerId, productId, formData.thumbnail1);
+          ? formData.thumbnail1
+          : await uploadImageApi(user.customerId, productId, formData.thumbnail1);
 
     const thumbnail2 =
       formData.thumbnail2 == null
         ? "null"
         : typeof formData.thumbnail2 === "string"
-        ? formData.thumbnail2
-        : await uploadImageApi(user.customerId, productId, formData.thumbnail2);
+          ? formData.thumbnail2
+          : await uploadImageApi(user.customerId, productId, formData.thumbnail2);
 
     const thumbnail3 =
       formData.thumbnail3 == null
         ? "null"
         : typeof formData.thumbnail3 === "string"
-        ? formData.thumbnail3
-        : await uploadImageApi(user.customerId, productId, formData.thumbnail3);
+          ? formData.thumbnail3
+          : await uploadImageApi(user.customerId, productId, formData.thumbnail3);
 
     const thumbnail4 =
       formData.thumbnail4 == null
         ? "null"
         : typeof formData.thumbnail4 === "string"
-        ? formData.thumbnail4
-        : await uploadImageApi(user.customerId, productId, formData.thumbnail4);
+          ? formData.thumbnail4
+          : await uploadImageApi(user.customerId, productId, formData.thumbnail4);
 
     const thumbnail5 =
       formData.thumbnail5 == null
         ? "null"
         : typeof formData.thumbnail5 === "string"
-        ? formData.thumbnail5
-        : await uploadImageApi(user.customerId, productId, formData.thumbnail5);
+          ? formData.thumbnail5
+          : await uploadImageApi(user.customerId, productId, formData.thumbnail5);
 
     const thumbnail6 =
       formData.thumbnail6 == null
         ? "null"
         : typeof formData.thumbnail6 === "string"
-        ? formData.thumbnail6
-        : await uploadImageApi(user.customerId, productId, formData.thumbnail6);
+          ? formData.thumbnail6
+          : await uploadImageApi(user.customerId, productId, formData.thumbnail6);
 
     const videoUrl =
       formData.videoUrl == null
         ? "null"
         : typeof formData.videoUrl === "string"
-        ? formData.videoUrl
-        : await uploadImageApi(user.customerId, productId, formData.videoUrl);
+          ? formData.videoUrl
+          : await uploadImageApi(user.customerId, productId, formData.videoUrl);
 
     const tab1 = {
       productID:
         queryProductId != null
           ? queryProductId
           : productId != null
-          ? productId
-          : "String",
+            ? productId
+            : "String",
       productCategoryId: formData.productCategory,
       productName: formData.productName,
       ndCorUPC: formData.ndcUpc,
@@ -870,7 +869,10 @@ function LayoutaddProduct() {
       shippingCost: formData.shippingCost,
       amountInStock: formData.amountInStock,
       minOrderQuantity: formData.minOrderQuantity,
-      maxOrderQuantity: (formData.maxOrderQuantity == null || formData.maxOrderQuantity =="") ?formData.amountInStock :formData.maxOrderQuantity ,
+      maxOrderQuantity:
+        formData.maxOrderQuantity == null || formData.maxOrderQuantity == ""
+          ? formData.amountInStock
+          : formData.maxOrderQuantity,
     };
     if (formData.discount == null || formData.discount == "")
       setFormData({ ...formData, ["discount"]: 0 });
@@ -908,9 +910,8 @@ function LayoutaddProduct() {
         setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1)); // Enable Tab 2
         setNotification({
           show: true,
-          message: `Product Info ${
-            queryProductId != null ? "Edited" : "Added"
-          } Successfully!`,
+          message: `Product Info ${queryProductId != null ? "Edited" : "Added"
+            } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -926,9 +927,8 @@ function LayoutaddProduct() {
         ); // Enable Tabs 2 and 3
         setNotification({
           show: true,
-          message: `Price Details ${
-            queryProductId != null ? "Edited" : "Added"
-          } Successfully!`,
+          message: `Price Details ${queryProductId != null ? "Edited" : "Added"
+            } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -938,9 +938,8 @@ function LayoutaddProduct() {
         setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 3)); // Enable Tab 3
         setNotification({
           show: true,
-          message: `Related Products ${
-            queryProductId != null ? "Edited" : "Added"
-          } Successfully!`,
+          message: `Related Products ${queryProductId != null ? "Edited" : "Added"
+            } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -951,21 +950,17 @@ function LayoutaddProduct() {
 
         const response = await AddProductGallery(tab4, user.customerId);
         localStorage.setItem("productGalleryId", response);
-        if(queryProductId==null)
-        {
+        if (queryProductId == null) {
           localStorage.removeItem("productPriceId");
           localStorage.removeItem("productGalleryId");
           localStorage.removeItem("productId");
-
         }
-
 
         console.log("Product Data", response);
         setNotification({
           show: true,
-          message: `Product ${
-            queryProductId != null ? "Edited" : "Added"
-          } Successfully!`,
+          message: `Product ${queryProductId != null ? "Edited" : "Added"
+            } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -977,7 +972,6 @@ function LayoutaddProduct() {
             ResetFormDate();
           }
           navigate("/layout/postingproducts");
-
 
           // Optionally reset or move to another step
         }, 3000);
@@ -1756,7 +1750,11 @@ function LayoutaddProduct() {
                           }); // Update state with formatted value
                         }
                       }}
-                      value={formData.price === 0 ? "" : formData.price}
+                      value={
+                        formData.price
+                          ? parseFloat(formData.price).toFixed(2)
+                          : ""
+                      }
                     />
                     {formErrors.price && (
                       <span className="text-red-500 text-sm">
@@ -1835,9 +1833,14 @@ function LayoutaddProduct() {
                           }); // Update state with formatted value
                         }
                       }}
+                      // value={
+                      //   formData.upnMemberPrice !== ""
+                      //     ? formData.upnMemberPrice
+                      //     : ""
+                      // }
                       value={
-                        formData.upnMemberPrice !== ""
-                          ? formData.upnMemberPrice
+                        formData.upnMemberPrice
+                          ? parseFloat(formData.upnMemberPrice).toFixed(2)
                           : ""
                       }
                     />
@@ -1955,46 +1958,6 @@ function LayoutaddProduct() {
                   </div>
 
                   <div className="flex items-center gap-8 my-2">
-                    {/* <div className="flex flex-col">
-                      <label className="text-sm font-semibold">
-                        Sale Price To($):
-                      </label>
-                      <input
-                        name="salePriceTo"
-                        type="Date"
-                        className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                        onChange={handleInputChange}
-                        value={
-                          formData.salePriceTo
-                            ? formData.salePriceTo.split("T")[0]
-                            : ""
-                        }
-                      />
-                       
-                      {formErrors.salePriceTo && (
-                        <span className="text-red-500 text-sm">
-                          {formErrors.salePriceTo}
-                        </span>
-                      )}
-                    </div> */}
-
-                    {/* <div className="flex flex-col">
-      <label className="text-sm font-semibold">Sale Price To($):</label>
-      <input
-        name="expirationDate"
-        type="date"
-        className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-        onChange={handleInputChange}
-        value={formData.expirationDate}
-        min={minDate} // Set the minimum date to 15 days from today
-        max={maxDate} // Set the maximum date to 20 days from today (5 days range)
-      />
-      {formErrors.salePriceTo && (
-        <span className="text-red-500 text-sm">
-          {formErrors.salePriceTo}
-        </span>
-      )}
-    </div> */}
                     <div className="flex flex-col">
                       <label className="text-sm font-semibold">
                         Sale Price To:
@@ -2047,15 +2010,26 @@ function LayoutaddProduct() {
                     {/* <label className="font-semibold">Amount in Stock:</label> */}
                     <input
                       name="amountInStock"
-                      type="phone"
-                      className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
+                      type="number" // Change to "number" to restrict input to numbers only
+                      className="w-56 h-8 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={(e) => {
+                        // Allow only numbers and prevent any other characters
+                        const value = e.target.value;
+
+                        // Make sure the value is not empty and is a valid number
+                        if (/^\d*$/.test(value)) {
+                          handleInputChange(e); // Update state only with valid numeric input
+                        }
+                      }}
+                      min="0" // Prevents negative numbers
+                      step="1" // Increment by 1
                       value={
                         formData.amountInStock === 0
                           ? ""
                           : formData.amountInStock
                       }
                     />
+
                     {formErrors.amountInStock && (
                       <span className="text-red-500 text-sm">
                         {formErrors.amountInStock}
@@ -2075,8 +2049,8 @@ function LayoutaddProduct() {
                         formData.taxable == null
                           ? ""
                           : formData.taxable == true
-                          ? 1
-                          : 0
+                            ? 1
+                            : 0
                       }
                     >
                       <option value="">Select an option</option>
@@ -2089,11 +2063,32 @@ function LayoutaddProduct() {
                       Minimum Order Quantity:
                     </label>
                     {/* <label className="font-semibold">Amount in Stock:</label> */}
-                    <input
+                    {/* <input
                       name="minOrderQuantity"
                       type="phone"
                       className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       onChange={handleInputChange}
+                      value={
+                        formData.minOrderQuantity === 0
+                          ? ""
+                          : formData.minOrderQuantity
+                      }
+                    /> */}
+                    <input
+                      name="minOrderQuantity"
+                      type="number" // Use "number" to restrict input to numbers only
+                      className="w-56 h-8 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={(e) => {
+                        // Allow only numbers and prevent any other characters
+                        const value = e.target.value;
+
+                        // Make sure the value is not empty and is a valid number
+                        if (/^\d*$/.test(value)) {
+                          handleInputChange(e); // Update state only with valid numeric input
+                        }
+                      }}
+                      min="0" // Prevents negative numbers
+                      step="1" // Increment by 1
                       value={
                         formData.minOrderQuantity === 0
                           ? ""
@@ -2107,7 +2102,7 @@ function LayoutaddProduct() {
                   <label className="text-sm font-semibold">
                     Maximum Order Quantity :
                   </label>
-                  <input
+                  {/* <input
                     name="maxOrderQuantity"
                     type="phone"
                     className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
@@ -2117,13 +2112,35 @@ function LayoutaddProduct() {
                         ? ""
                         : formData.maxOrderQuantity
                     }
+                  /> */}
+                  <input
+                    name="maxOrderQuantity"
+                    type="number" // Use "number" to restrict input to numbers only
+                    className="w-56 h-8 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                    onChange={(e) => {
+                      // Allow only numbers and prevent any other characters
+                      const value = e.target.value;
+
+                      // Ensure the value is a valid non-negative integer
+                      if (/^\d*$/.test(value)) {
+                        handleInputChange(e); // Update state only with valid numeric input
+                      }
+                    }}
+                    min="0" // Prevents negative numbers
+                    step="1" // Increment by 1
+                    value={
+                      formData.maxOrderQuantity === 0
+                        ? ""
+                        : formData.maxOrderQuantity
+                    }
                   />
+
                   {parseInt(formData.maxOrderQuantity, 10) >
                     parseInt(formData.amountInStock, 10) && (
-                    <span className="text-red-600 text-sm mt-1">
-                      You need to select a quantity below the product in stock.
-                    </span>
-                  )}
+                      <span className="text-red-600 text-sm mt-1">
+                        You need to select a quantity below the product in stock.
+                      </span>
+                    )}
                 </div>
               </div>
             </div>
@@ -2594,8 +2611,8 @@ function LayoutaddProduct() {
                         selectedImage // Check if selectedImage exists first
                           ? selectedImage
                           : formData.imageUrl instanceof File // Check if formData.imageUrl is a File
-                          ? URL.createObjectURL(formData.imageUrl) // Generate URL if it's a file
-                          : formData.imageUrl // Otherwise, treat it as a direct image URL
+                            ? URL.createObjectURL(formData.imageUrl) // Generate URL if it's a file
+                            : formData.imageUrl // Otherwise, treat it as a direct image URL
                       }
                       alt="Selected"
                       className="w-64 h-64 object-cover rounded-md"
@@ -2655,8 +2672,8 @@ function LayoutaddProduct() {
                           typeof image === "string"
                             ? image
                             : image != null
-                            ? URL.createObjectURL(image)
-                            : ""
+                              ? URL.createObjectURL(image)
+                              : ""
                         } // Check if `image` is a string (URL) or a File object
                         alt={`Preview ${image}`}
                         className="w-full h-40 object-cover"
@@ -2775,15 +2792,13 @@ function LayoutaddProduct() {
                 disabled={
                   queryProductId != null ? false : showTab.includes(index)
                 } // Corrected to 'disabled'
-                className={`w-full flex justify-center items-center px-2 p-3 py-1 mt-7 shadow-md ${
-                  activeTab === index
+                className={`w-full flex justify-center items-center px-2 p-3 py-1 mt-7 shadow-md ${activeTab === index
                     ? "text-white bg-blue-900 rounded-t-xl font-semibold"
                     : "text-blue-900 shadow-none rounded-t-xl bg-white"
-                } ${
-                  showTab.includes(index) && queryProductId == null
+                  } ${showTab.includes(index) && queryProductId == null
                     ? "opacity-50 cursor-not-allowed"
                     : ""
-                }`} // Style changes for disabled state
+                  }`} // Style changes for disabled state
                 onClick={() => setActiveTab(index)}
               >
                 {tab}
@@ -2809,12 +2824,12 @@ function LayoutaddProduct() {
           {activeTab === 0
             ? "Save and Continue to Price Details"
             : activeTab === 1
-            ? "Save and Continue to Related Products"
-            : activeTab === 2
-            ? "Save and Continue to Additional Images"
-            : activeTab === 3
-            ? "Save and Close"
-            : ""}
+              ? "Save and Continue to Related Products"
+              : activeTab === 2
+                ? "Save and Continue to Additional Images"
+                : activeTab === 3
+                  ? "Save and Close"
+                  : ""}
         </button>
       </div>
     </div>

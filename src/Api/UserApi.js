@@ -45,6 +45,28 @@ export const loginUserApi = async (username, password) => {
   }
 };
 
+export const changePasswordUserApi = async (username, newpassword) => {
+  try {
+    const response = await axios.post(
+      `/api/Customer/ChangePassword?customerId=${encodeURIComponent(
+        username
+      )}&newPassword=${encodeURIComponent(newpassword)}`
+    );
+
+    if (response.status === 200) {
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } else {
+      console.error("Failed to fetch user data:", response.data.message);
+      return false;
+    }
+  } catch (error) {
+    console.error("Failed to change password in:", error);
+    return false;
+  }
+};
+
 
 
 export const loginAdminUserApi = async (username, password) => {

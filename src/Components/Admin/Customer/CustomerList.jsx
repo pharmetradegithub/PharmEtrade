@@ -524,7 +524,7 @@ const CustomerList = () => {
 
   const [searchInput, setSearchInput] = useState({
     customerName: "",
-    customerTypeId: 1,
+    customerTypeId: 4,
   });
 
   const navigate = useNavigate();

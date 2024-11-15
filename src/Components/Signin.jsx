@@ -148,6 +148,7 @@ const Signin = () => {
                     value={formData.email}
                     onChange={handleInputChange}
                     error={!!errors.email}
+                    helperText={errors.emaill}
                     size="small"
                     className="w-full"
                   />
