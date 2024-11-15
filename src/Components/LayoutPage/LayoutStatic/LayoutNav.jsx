@@ -442,7 +442,7 @@ console.log(selectedItem);
     // </div>
 
     <div className="my-3 pb-2 cursor-pointer border-b-2 border-gray-300 shadow-lg">
-      <div className="xl:flex justify-between items-center flex">
+      <div className="md:flex justify-between items-center ">
         {/* Nav Items (Hidden on small and medium screens) */}
         <div className="hidden xl:flex items-center">
           <div className="flex">
