@@ -24,8 +24,17 @@ const OtcProducts = () => {
     show: false,
     message: "one",
   });
+
+  const [showMore, setShowMore] = useState({});
+
+  const toggleShowMore = (index) => {
+    setShowMore((prevState) => ({
+      ...prevState,
+      [index]: !prevState[index],
+    }));
+  };
   const { pop, setPop } = useNavbarContext();
-const navigate = useNavigate()
+  const navigate = useNavigate()
   const OTCProducts = useSelector((state) => state.product.otcProducts);
   const user = useSelector((state) => state.user.user);
   const wishlist = useSelector((state) => state.wishlist.wishlist);
@@ -49,7 +58,7 @@ const navigate = useNavigate()
   );
 
   const handleClick = async (productID) => {
-    if(user == null){
+    if (user == null) {
       navigate("/login")
       return
     }
@@ -125,10 +134,10 @@ const navigate = useNavigate()
             message={notification.message}
           />
         )}
-        <div className="text-xl bg-blue-900 flex items-center p-2 rounded-lg text-white">
+        <div className="text-xl bg-blue-900 flex items-center p-1 rounded-lg text-white mt-10 md:mt-0">
           <div>OTC PRODUCTS</div>
         </div>
-        <div className="grid grid-cols-4 grid-rows-2 gap-4 mt-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-2 gap-4 mt-8">
           {currentItems.map((item, index) => (
             <div
               key={item.productID}
@@ -143,12 +152,12 @@ const navigate = useNavigate()
                       ? filledHeart
                       : emptyHeart
                   }
-                  className="h-8 p-[6px]  absolute right-0 "
+                  className="h-7 sm:h-8 p-[6px]  absolute right-0 "
                   alt="Favorite Icon"
                 />
                 <img
                   src={other}
-                  className="h-5 w-5 right-1 absolute bottom-1 text-green-700"
+                  className="h-4 sm:h-5 w-4 sm:w-5 right-1 absolute bottom-1 text-green-700"
                   alt="Other Icon"
                 />
 
@@ -156,7 +165,9 @@ const navigate = useNavigate()
                   <img
                     src={item.mainImageUrl}
                     alt={`nature-${index + indexOfFirstItem}`}
-                    className="h-40 w-28 rounded-lg"
+                    // className="h-40 w-28 rounded-lg"
+                    className="h-32 w-24 sm:h-40 sm:w-28 lg:h-48 lg:w-36 rounded-lg object-cover"
+
                   />
                 </Link>
               </div>
@@ -166,19 +177,33 @@ const navigate = useNavigate()
                 <h1 className="text-fonts font-semibold">${item?.unitPrice?.toFixed(2)}</h1>
               </div> */}
               <div className="w-full py-1">
-                <h2 className="text-fonts h-12">{item.productName}</h2>
+                {/* <h2 className="text-fonts h-12  text-sm sm:text-base">{item.productName}</h2> */}
+                <h2 className="text-fonts h-12   text-sm sm:text-base"
+                  title={item.productName} >
+                  {showMore[index]
+                    ? item.productName
+                    : `${item.productName.slice(0, 30)}`}
+                  {item.productName.length > 30 && (
+                    <button
+                      className="text-blue-500 ml-1"
+                      onClick={() => toggleShowMore(index)}
+                    >
+                      {showMore[index] ? "See Less" : " ..."}
+                    </button>
+                  )}
+                </h2>
                 {new Date() >= new Date(item?.salePriceValidFrom) &&
-                new Date() <= new Date(item?.salePriceValidTo) ? (
+                  new Date() <= new Date(item?.salePriceValidTo) ? (
                   <div className="flex items-center gap-1">
-                    <h1 className="text-fonts font-semibold">
+                    <h1 className="text-fonts text-sm sm:text-base font-semibold">
                       ${item.salePrice?.toFixed(2)}
                     </h1>
-                    <span className="text-[10px] line-through">
+                    <span className="text-xs sm:text-sm line-through">
                       (${item.unitPrice?.toFixed(2)})
                     </span>
                   </div>
                 ) : (
-                  <h1 className="text-fonts font-semibold">
+                  <h1 className="text-fonts text-sm sm:text-base   font-semibold">
                     ${item.unitPrice?.toFixed(2)}
                   </h1>
                 )}
@@ -199,7 +224,7 @@ const navigate = useNavigate()
                     <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                     <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                   </div> */}
-              <div className="flex justify-between items-center">
+              <div className="flex flex-col md:flex-row justify-between items-center">
                 <div className="flex items-center">
                   <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                   <span style={{ fontSize: "24px", color: "orange" }}>★</span>
@@ -207,7 +232,7 @@ const navigate = useNavigate()
                   <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                   <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                 </div>
-                <div className="text-xs">
+                <div className="text-xs sm:text-sm">
                   {item.amountInStock <= 0 ? (
                     <p className="text-red-500 font-semibold">Out Of Stock</p>
                   ) : (
@@ -217,9 +242,9 @@ const navigate = useNavigate()
                   )}
                 </div>
               </div>
-              <div className="flex flex-row items-center justify-between w-full px-1">
-                <div className="text-foot text-xs">UPN Member Price:</div>
-                <div className="text-base font-semibold">
+              <div className="flex  flex-col md:flex-row items-center justify-between w-full px-1">
+                <div className="text-foot text-xs sm:text-sm">UPN Member Price:</div>
+                <div className=" text-sm sm:text-base font-semibold">
                   ${item.salePrice?.toFixed(2)}
                 </div>
               </div>
@@ -231,11 +256,10 @@ const navigate = useNavigate()
                 <button className="text-white font-semibold">ADD</button>
               </div> */}
               <div
-                className={`flex p-1 rounded-md justify-center ${
-                  item.amountInStock <= 0
+                className={`flex p-1 rounded-md justify-center ${item.amountInStock <= 0
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-blue-900 cursor-pointer"
-                }`}
+                  }`}
                 onClick={() => {
                   if (item.amountInStock > 0) {
                     handleCart(item.productID); // Only call handleCart if item is in stock
@@ -245,14 +269,12 @@ const navigate = useNavigate()
                 <img
                   src={addcart}
                   alt="Add to cart"
-                  className={`h-8 p-[6px] ${
-                    item.amountInStock <= 0 ? "opacity-50" : ""
-                  }`}
+                  className={`h-6 sm:h-8 p-1 ${item.amountInStock <= 0 ? "opacity-50" : ""
+                    }`}
                 />
                 <button
-                  className={`text-white font-semibold ${
-                    item.amountInStock <= 0 ? "opacity-50" : ""
-                  }`}
+                  className={`text-white font-semibold ${item.amountInStock <= 0 ? "opacity-50" : ""
+                    }`}
                   disabled={item.amountInStock <= 0} // Disable the button when out of stock
                 >
                   ADD

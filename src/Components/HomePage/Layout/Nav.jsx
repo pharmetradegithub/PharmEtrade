@@ -449,7 +449,7 @@
 //                             </a>
 //                           )}
 //                         </div>
-                        
+
 //                         {user ? (
 //                           <>
 //                             <p className="hidden"></p>
@@ -1126,8 +1126,8 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 {MenuItems.map((item, index) => (
                   <li
                     className={`text-blue-900 hover:bg-slate-200 rounded-md flex justify-center p-1 px-1 items-center w-fit cursor-pointer font-medium text-[17px] leading-none ${selectedIndex === index
-                        ? "bg-slate-200 hover:text-blue-900 text-blue-900 border-0 font-semibold"
-                        : "border-transparent border-2"
+                      ? "bg-slate-200 hover:text-blue-900 text-blue-900 border-0 font-semibold"
+                      : "border-transparent border-2"
                       }`}
                     key={index}
                     onClick={() => handleSelect(index)}
@@ -1248,12 +1248,12 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
           </div>
 
           {isNavOpen && (
-            <div className="fixed top-0 left-0 w-[70%] h-full bg-white z-20 shadow-lg transform transition-transform duration-300">
+            <div className="fixed top-0 left-0 w-[70%] h-full bg-blue-100 z-20 shadow-lg transform transition-transform duration-300">
               <div className="flex justify-between items-center p-4">
                 <h2 className="text-xl font-semibold text-blue-900">Menu</h2>
                 <img
                   src={backIcon} // Back icon for closing
-                  className="w-6 h-6 cursor-pointer"
+                  className="w-5 h-5 cursor-pointer"
                   alt="Close Menu"
                   onClick={() => setIsNavOpen(false)}
                 />
@@ -1280,21 +1280,21 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
         <div
           className="flex flex-col justify-around bg-gray-200 w-full h-24 md:h-fit lg:h-fit xl:h-fit items-center text-black border-grey-500 shadow-lg md:flex-row "
         >
-          <div className="flex gap-4 items-center justify-around text-blue-900 p-3 w-full md:w-fit">
+          <div className="flex gap-4 items-center justify-around text-blue-900 p-3 ml-0 lg:ml-8 w-full md:w-fit">
             {downDivItems.map((item, index) => (
               <li
                 key={index}
-                className={`flex gap-1 items-center justify-center cursor-pointer font-semibold hover:text-black
+                className={`flex gap-3 items-center justify-center cursor-pointer font-semibold hover:text-black
         ${Form_Data?.userType === 4 && item.label === "SELL" ? "hidden" : ""}
         `}
                 onClick={() => handleItemclick(item)}
               >
                 <img
                   src={item.icon}
-                  className="max-w-6 max-h-6 sm:max-w-9 sm:max-h-9"
+                  className="max-w-5 max-h-5 sm:max-w-8 sm:max-h-8"
                   alt={item.label}
                 />
-                <div className="text-sm sm:text-[15px] md:text-base lg:text-lg">{item.label}</div> {/* Hide label on md+ screens */}
+                <div className="text-sm sm:text-[15px] md:text-base lg:text-base">{item.label}</div> {/* Hide label on md+ screens */}
               </li>
             ))}
           </div>
@@ -1351,7 +1351,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                       <ul onClick={() => handleCriteria(items)} key={index}>
                         <li>
                           <a
-                            className="hover:text-black ml-2 cursor-pointer text-sm font-medium text-blue-900"
+                            className="hover:text-black ml-2 cursor-pointer text-xs lg:text-sm font-medium text-blue-900  leading-none"
                             onClick={() => handleItemClick(items.categoryName)}
                             onMouseLeave={handleCatMouseLeave}
                           >
@@ -1364,12 +1364,12 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 </div>
               )}
 
-              <div className="flex w-full h-12 border">
+              <div className="flex w-full  h-12 border">
                 <input
                   type="text"
                   placeholder="Search for products..."
                   value={SearchInput}
-                  className="flex-grow p-4 border-none focus:outline-none"
+                  className="flex-grow p-4 border-none focus:outline-none "
                   onChange={handleSearch}
                   onKeyDown={handleKeyDown}
                 />

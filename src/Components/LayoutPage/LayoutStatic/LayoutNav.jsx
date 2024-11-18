@@ -59,8 +59,8 @@ const LayoutNav = ({ Form_Data }) => {
   //     setActivePopUp(name); // Set the active popup
   //   }
   // };
-  const [selectedItemId,setSelectedItemId]= useState(-1);
-  const handleItemClick = (name,id) => {
+  const [selectedItemId, setSelectedItemId] = useState(-1);
+  const handleItemClick = (name, id) => {
     if (activePopUp === name) {
       setSelectedItemId(-1);
       setActivePopUp(null); // Close the popup if it's already open
@@ -86,7 +86,7 @@ const LayoutNav = ({ Form_Data }) => {
   // };
 
   const handleCriteria = async (obj) => {
-    handleItemClick(obj.categoryName,obj.productCategoryId)
+    handleItemClick(obj.categoryName, obj.productCategoryId)
     let Criteria = {
       customerId: user.customerId,
       productCategoryId: obj.productCategoryId,
@@ -117,35 +117,34 @@ const LayoutNav = ({ Form_Data }) => {
 
   console.log(SearchInput, "search");
   const handleSearchAPI = async () => {
- 
 
-      
-      let Criteria = {
+
+
+    let Criteria = {
+      customerId: user.customerId,
+      productCategoryId: selectedItemId,
+      productName: SearchInput,
+    };
+    if (selectedItemId == -1) {
+      Criteria = {
         customerId: user.customerId,
-        productCategoryId: selectedItemId,
         productName: SearchInput,
-      };
-      if(selectedItemId==-1)
-      {
-        Criteria = {
-          customerId: user.customerId,
-          productName: SearchInput,
 
 
-        }
       }
-  
-      console.log("g--->", Criteria);
-  
-      await fetchCriteriaProductsApi(Criteria);
-      navigate(`/layout/layoutCategoryProducts?CategoryName=${selectedItemId}`);
-      setSearchInput("");
-    
-    
-    
-   
+    }
+
+    console.log("g--->", Criteria);
+
+    await fetchCriteriaProductsApi(Criteria);
+    navigate(`/layout/layoutCategoryProducts?CategoryName=${selectedItemId}`);
+    setSearchInput("");
+
+
+
+
   };
-console.log(selectedItem);
+  console.log(selectedItem);
   const components = useSelector((state) => state.master.productCategoryGetAll);
 
   const modifiedComponents = [
@@ -214,7 +213,7 @@ console.log(selectedItem);
   const navItems = [
     { image: buy, text: "BUY", path: "/layout/layoutbuy" },
     { image: sell, text: "SELL", path: "/layout/addproduct" },
-        { image: bid, text: "BID", path: "/layout/layoutbid" },
+    { image: bid, text: "BID", path: "/layout/layoutbid" },
 
   ];
 
@@ -234,7 +233,7 @@ console.log(selectedItem);
   const handleMouseLeave = () => {
     setIsPopupVisible(false);
   };
-  const handleCriteriaLoad = async (id)=>{
+  const handleCriteriaLoad = async (id) => {
     let Criteria = {
       customerId: user.customerId,
       productCategoryId: id,
@@ -248,7 +247,7 @@ console.log(selectedItem);
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const category = searchParams.get("CategoryName");
-    console.log("testing",category);
+    console.log("testing", category);
     if (category === null) {
       setSelectedItem("All");
     } else if (category && components.length > 0) {
@@ -256,7 +255,7 @@ console.log(selectedItem);
         (comp) => comp.productCategoryId == category
       );
       handleCriteriaLoad(category);
-      
+
       console.log("heyeheyehhoanceu", component, category);
       if (component) {
         setSelectedItem(component.categoryName); // Set the name if found
@@ -482,7 +481,7 @@ console.log(selectedItem);
         )}
 
         {/* Search and Dropdown */}
-        <div className="flex sm:w-full md:w-[60%] lg:w-[40%]">
+        <div className="flex sm:w-[30%] md:w-[60%] lg:w-[40%]">
           <div ref={dropdownRef} className={`w-full relative flex items-center ${isContainerFocused ? "ring-2 ring-blue-500 rounded-md" : ""}`}>
             <div className="relative inline-block">
               <button
@@ -503,7 +502,7 @@ console.log(selectedItem);
                     {modifiedComponents.map((items, index) => (
                       <ul onClick={() => handleCriteria(items)} key={index}>
                         <li className="">
-                          <a className="hover:text-black cursor-pointer text-sm font-medium text-blue-900  leading-none">
+                          <a className="hover:text-black cursor-pointer  text-xs lg:text-sm font-medium text-blue-900  leading-none">
                             {items.categoryName}
                           </a>
                         </li>
@@ -515,7 +514,7 @@ console.log(selectedItem);
             </div>
 
             {/* Search Input */}
-            <div className="flex w-full h-10 border">
+            <div className="flex w-[65%] md:w-full h-10 border">
               <input
                 type="text"
                 name="SearchInput"
@@ -523,7 +522,7 @@ console.log(selectedItem);
                 onChange={handleSearch}
                 onKeyDown={handleKeyDown}
                 placeholder="Search for products..."
-                className="flex-grow border-none focus:outline-none"
+                className="flex-grow border-none focus:outline-none w-10"
               />
               <button
                 onClick={() => handleSearchAPI()}
