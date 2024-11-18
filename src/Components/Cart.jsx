@@ -748,9 +748,9 @@ function Cart() {
         </div>
         {cartItems.length > 0 ? (
           <div className="flex flex-col lg:flex-row sm:gap-2 gap-4">
-            <div className="w-full lg:w-2/3 overflow-x-auto">
-              <div className="hidden md:block lg:block">
-                <table className="min-w-full border shadow-lg rounded-lg text-xs md:text-sm lg:text-base">
+            <div className="w-full lg:w-2/3 overflow-x-auto p-4 md:p-0 lg:p-0">
+              <div className="hidden md:block lg:block ">
+                <table className="min-w-full border  shadow-lg rounded-lg text-xs md:text-sm lg:text-base">
                   <thead>
                     <tr className="border-b">
                       <th className="px-4 py-2 text-left font-semibold text-blue-950 tracking-wider">
@@ -880,11 +880,11 @@ function Cart() {
 
                               <button
                                 className={`px-2 py-1 border rounded-md font-bold text-gray-700 ${item.updateQuantity >
-                                    item.product.amountInStock ||
-                                    item.updateQuantity >
-                                    item.product.maximumOrderQuantity
-                                    ? "bg-gray-400 opacity-50 cursor-not-allowed" // Style when disabled
-                                    : "bg-gray-200" // Style when enabled
+                                  item.product.amountInStock ||
+                                  item.updateQuantity >
+                                  item.product.maximumOrderQuantity
+                                  ? "bg-gray-400 opacity-50 cursor-not-allowed" // Style when disabled
+                                  : "bg-gray-200" // Style when enabled
                                   }`}
                                 onClick={() =>
                                   handleQuantityChange(
@@ -1069,9 +1069,9 @@ function Cart() {
                             {/* Decrease Quantity Button */}
                             <button
                               className={`w-6 h-6 flex items-center justify-center border rounded-md text-black font-bold ${item.updateQuantity <
-                                  item.product.minimumOrderQuantity
-                                  ? "bg-gray-400 opacity-50 cursor-not-allowed"
-                                  : "bg-gray-200"
+                                item.product.minimumOrderQuantity
+                                ? "bg-gray-400 opacity-50 cursor-not-allowed"
+                                : "bg-gray-200"
                                 }`}
                               onClick={() =>
                                 handleQuantityChange(
@@ -1099,11 +1099,11 @@ function Cart() {
                             {/* Increase Quantity Button */}
                             <button
                               className={`w-6 h-6 flex items-center justify-center border rounded-md text-black font-bold ${item.updateQuantity >
-                                  item.product.amountInStock ||
-                                  item.updateQuantity >
-                                  item.product.maximumOrderQuantity
-                                  ? "bg-gray-400 opacity-50 cursor-not-allowed"
-                                  : "bg-gray-200"
+                                item.product.amountInStock ||
+                                item.updateQuantity >
+                                item.product.maximumOrderQuantity
+                                ? "bg-gray-400 opacity-50 cursor-not-allowed"
+                                : "bg-gray-200"
                                 }`}
                               onClick={() =>
                                 handleQuantityChange(
@@ -1197,10 +1197,10 @@ function Cart() {
 
               {/* new mobile lyout 15/11/24*/}
 
-              <div className="mt-4 flex gap-4">
+              <div className="mt-4 flex flex-col md:flex-row gap-4 p-4">
                 <input
                   placeholder="Coupon Code"
-                  className="px-4 py-2 w-36 bg-gray-100 text-lg border rounded-full"
+                  className="px-4 py-2 w-full md:w-36 bg-gray-100 text-lg border rounded-full"
                 />
                 <div className="flex flex-col md:flex-row gap-4">
                   <button className="px-6 py-2 font-bold text-white text-lg bg-blue-900 rounded-full">
@@ -1212,7 +1212,7 @@ function Cart() {
                 </div>
               </div>
             </div>
-            <div className="w-full lg:w-1/3 mt-4 lg:mt-0">
+            <div className="w-full lg:w-1/3 mt-4 lg:mt-0 p-4 md:p-0 ">
               <div className="bg-white border rounded-lg shadow-lg p-5">
                 <h2 className="text-xl md:text-2xl mb-4  text-blue-900 text-center font-semibold">
                   Cart Totals
