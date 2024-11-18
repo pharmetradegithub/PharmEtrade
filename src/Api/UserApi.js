@@ -19,7 +19,7 @@ export const loginUserApi = async (username, password) => {
     if (response.status === 200) {
 
         if (response?.data?.statusCode == 400) {
-          return "Your account is inactive ";
+          return "Your account is inactive - if you need further assistance contact the admin - “help@pharmetrade.com”. ";
         }
         localStorage.setItem('userId', response.data.userId);
         localStorage.setItem('token', response.data.token);
@@ -52,11 +52,16 @@ export const changePasswordUserApi = async (username, newpassword) => {
         username
       )}&newPassword=${encodeURIComponent(newpassword)}`
     );
-
+    console.log(response);
     if (response.status === 200) {
-      if (response.statusCode == 200) {
+      console.log(response.data.statusCode);
+
+      if (response.data.statusCode == 200) {
+        console.log(response);
+
         return true;
       }
+      return false;
     } else {
       console.error("Failed to fetch user data:", response.data.message);
       return false;
@@ -282,7 +287,11 @@ export const sendChangePasswordLinkApi = async (email) => {
     // const customer = await axios.get(`/api/Customer/GetCustomers?email=${email}`)
     const response = await axios.post(`/api/Customer/SendChangePasswordLink?customerId=${email}`);
     if (response.status === 200) {
-      return "Please Check your email Id";
+      if(response.data.statusCode==500)
+      {
+        return "User Not Found";
+      }
+      return "A Link has been sent to your Email address";
     } else {
       console.error('Failed to fetch user data:', response.data.message);
       return null;
