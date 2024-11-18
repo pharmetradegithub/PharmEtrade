@@ -75,7 +75,7 @@ const Confirmpassword = () => {
     if (validate()) {
       try {
         const success = await changePasswordUserApi(username, newPassword);
-        if (success == false) {
+        if (success === false) {
           setApiError("Failed to change password. Please try again.");
           return;
         }

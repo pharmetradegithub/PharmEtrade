@@ -998,7 +998,9 @@ const LayoutPostingProducts = () => {
 
                     <th className="px-2 py-2 text-left">Saleprice Start</th>
                     <th className="px-2 py-2 text-left">Saleprice End</th>
-
+                    <th className=" px-2 py-2 text-left cursor-pointer">
+                      Active
+                    </th>
                     <th className="px-2 py-2 ">Action</th>
                   </tr>
                 </thead>
@@ -1065,6 +1067,7 @@ const LayoutPostingProducts = () => {
                             })
                             .replace(/\//g, "-")}
                         </td>
+                        <td className="">{product.isActive ? 'Activate' : 'Deactivate'}</td>
 
                         <td className=" py-2 cursor-pointer flex items-center space-x-2">
                           <Tooltip title="Edit" placement="top">
