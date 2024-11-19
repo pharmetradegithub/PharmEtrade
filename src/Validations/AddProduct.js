@@ -59,7 +59,7 @@ export const ProductPriceValidation = (formData) => {
         errors.upnMemberPrice = "Upn Member Price is required and must be greater than 0.";
     } else {
         if (formData.upnMemberPrice >= formData.price) {
-            errors.upnMemberPrice = "Upn Member Price must be less than the regular price.";
+            errors.upnMemberPrice = "Upn Member Price must be less than the price.";
         }
         if (formData.salePrice > 0 && formData.upnMemberPrice >= formData.salePrice) {
             errors.upnMemberPrice = "Upn Member Price must be less than the sale price.";
