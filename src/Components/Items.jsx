@@ -798,10 +798,16 @@ function Items({
                   </p> */}
           <p className="text-black text-[20px] lg:text-[22px]">
           $
-                    {new Date() >= new Date(prod?.salePriceValidFrom) &&
+                    {/* {new Date() >= new Date(prod?.salePriceValidFrom) &&
                     new Date() <= new Date(prod?.salePriceValidTo)
                       ? prod?.salePrice?.toFixed(2)
-                      : prod?.unitPrice?.toFixed(2)}
+                      : prod?.unitPrice?.toFixed(2)} */}
+                       {user?.isUPNMember === 1
+    ? prod?.upnMemberPrice?.toFixed(2)
+    : new Date() >= new Date(prod?.salePriceValidFrom) &&
+      new Date() <= new Date(prod?.salePriceValidTo)
+    ? prod?.salePrice?.toFixed(2)
+    : prod?.unitPrice?.toFixed(2)}
                   </p>
 
                   {/* <img src={ ?Wishlist :filledheart} className="w-5 h-5 flex   "/> */}

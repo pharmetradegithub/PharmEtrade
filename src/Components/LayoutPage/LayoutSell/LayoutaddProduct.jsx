@@ -527,7 +527,7 @@ function LayoutaddProduct() {
         setFormData({
           ...formData,
           [name]: value === "" ? "" : Number(value),
-          ["salePrice"]: Number((formData.price * (100 - Number(value))) / 100),
+          ["salePrice"]: value==""? "":Number((formData.price * (100 - Number(value))) / 100),
         });
       }
     } else if (type === "select-multiple") {
@@ -573,6 +573,8 @@ function LayoutaddProduct() {
         setFormData({
           ...formData,
           [name]: value === "" ? "" : roundedValue,
+          ["salePrice"]: formData.discount!=null ? Number((value * (100 - Number(formData.discount))) / 100) : "",
+
         });
       } else {
         setFormData({
@@ -659,6 +661,17 @@ function LayoutaddProduct() {
           },
         });
       }
+    }  
+    else if (name === "price") {
+      // Limit price to 2 decimal places
+      const roundedValue = parseFloat(value).toFixed(2);
+      console.log(formData.discount,"dis")
+      setFormData({
+        ...formData,
+        [name]: value === "" ? "" : value,
+        ["salePrice"]: formData.discount!="" ? Number((value * (100 - Number(formData.discount))) / 100) : "",
+
+      });
     } else {
       setFormData({
         ...formData,
@@ -859,7 +872,7 @@ function LayoutaddProduct() {
         formData.discount == null || formData.discount == ""
           ? 0
           : formData.discount,
-      salePrice: formData.salePrice,
+      salePrice: formData.salePrice==""? 0: parseFloat(formData.salePrice) ||0,
       salePriceValidFrom: formData.salePriceForm,
       salePriceValidTo: formData.salePriceTo,
       taxable: formData.taxable == 1 ? true : false,
@@ -874,6 +887,7 @@ function LayoutaddProduct() {
           ? formData.amountInStock
           : formData.maxOrderQuantity,
     };
+    console.log(tab2);
     if (formData.discount == null || formData.discount == "")
       setFormData({ ...formData, ["discount"]: 0 });
     // const tab4 = {
