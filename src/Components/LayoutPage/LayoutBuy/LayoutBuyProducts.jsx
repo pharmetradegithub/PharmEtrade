@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
@@ -212,9 +208,8 @@ function LayoutBuy({
     // }
   };
 
-
   // new share 25/10/2024
-  
+
   // to navigate
   const handleProductDetails1 = (productID, product) => {
     navigate(`/detailspage/${productID}`);
@@ -264,11 +259,11 @@ function LayoutBuy({
   //   const productURL = `/detailspage/${productID}`;
   //   setProductLink(window.location.origin + productURL); // Store the complete URL
   // };
-  
+
   // const handleProductDetails1 = (productID, product) => {
   //   navigate(`/detailspage/${productID}`);
   // };
-  
+
   // const handleShare = (productID) => {
   //   handleProductDetailsShare(productID); // Ensure the product details are set
 
@@ -373,8 +368,10 @@ function LayoutBuy({
         <Notification show={notification.show} message={notification.message} />
       )}
 
-      <div className="flex justify-between">
-        <h1 className="text-2xl font-semibold text-blue-900">Buy Products</h1>
+      <div className="flex lg:flex-row justify-between flex-col gap-2">
+        <h1 className="lg:text-2xl text-2xl font-semibold text-blue-900">
+          Buy Products
+        </h1>
         <div className="flex">
           <div className="flex gap-1">
             <select
@@ -393,66 +390,65 @@ function LayoutBuy({
 
       <div className="w-full mt-5">
         <div>
-          <div className="flex flex-col">
-            <div className="flex flex-col justify-between">
+          <div className="flex flex-col ">
+            <div className="flex flex-col justify-between ">
               {/* {productList.length} */}
               {productList.length > 0 ? (
                 currentItems.map((product, index) => (
                   <div
                     key={index}
-                    className="flex p-4  h-auto border w-auto justify-around shadow-lg rounded-md mb-4"
+                    className="flex sm:p-4  p-2 flex-col  lg:flex-row md:flex-row h-auto  border w-60 md:w-auto justify-around shadow-lg rounded-md mb-4"
                   >
-                    <div className="flex flex-col ">
+                    <div className="flex sm:flex-col flex-col">
                       <img
                         src={product.productGallery.imageUrl}
-                        className="w-32 p-2 hover:cursor-pointer rounded-lg h-28 bg-slate-200"
+                        className="sm:w-32 w-40 p-2 hover:cursor-pointer rounded-lg sm:h-28 h-40 bg-slate-200"
                         alt="Product"
                         onClick={() =>
                           handleProductDetails1(product.productID, product)
                         }
                       />
-                      <p className=" w-36 text-[15px] mt-2 text-black ">
+                      <p className=" sm:w-36 text-[15px] mt-2 text-black ">
                         {product.productCategory.categoryName}
                       </p>
 
                       <div>
-
-                      <div className="flex  justify-center  ">
-                        <div className="mt-2 ">
-                          <Tooltip title="Wishlist" placement="top">
-                            <img
-                              src={
-                                wishlistProductIDs.includes(product.productID)
-                                  ? filledHeart
-                                  : emptyHeart
-                              }
-                              className="w-6 h-6 cursor-pointer"
-                              onClick={() => handleClick(product.productID)}
-                              alt="Wishlist Icon"
-                            />
-                          </Tooltip>
-
-                        </div>
-                        <div className="relative inline-block mt-2">
-                          <Tooltip title="Share" placement="right">
-                            <img
-                              src={share}
-                              className="w-6 mx-3 "
-                              onClick={() => handleShare(product.productID)}
-                            />
-                          </Tooltip>
-                         
+                        <div className="flex  sm:justify-center  ">
+                          <div className="mt-2 ">
+                            <Tooltip title="Wishlist" placement="top">
+                              <img
+                                src={
+                                  wishlistProductIDs.includes(product.productID)
+                                    ? filledHeart
+                                    : emptyHeart
+                                }
+                                className="w-6 h-6 cursor-pointer"
+                                onClick={() => handleClick(product.productID)}
+                                alt="Wishlist Icon"
+                              />
+                            </Tooltip>
+                          </div>
+                          <div className="relative inline-block mt-2">
+                            <Tooltip title="Share" placement="right">
+                              <img
+                                src={share}
+                                className="w-6 mx-3 "
+                                onClick={() => handleShare(product.productID)}
+                              />
+                            </Tooltip>
+                          </div>
                         </div>
                       </div>
-                        </div>
                     </div>
 
                     <div className="flex flex-col w-[170px] ">
                       <p className="font-semibold text-sm">Item Details</p>
                       <div className="mt-2">
-                        <p className="font-bold text-blue-900  w-32 text-sm">{product.productName}</p>
+                        <p className="font-bold text-blue-900  sm:w-32 w-full text-sm">
+                          {product.productName}
+                        </p>
 
-                        <p className="text-xs mt-1 w-32">
+                        <p className="text-xs mt-1 sm:w-32 w-full">
                           {showMore[index]
                             ? product.aboutTheProduct
                             : `${product.aboutTheProduct.slice(0, 50)}...`}
@@ -471,7 +467,8 @@ function LayoutBuy({
                             <p className=" text-xs font-semibold">Exp.Date :</p>
                             <p className="font-bold text-xs">
                               {/* {product.expiryDate} */}
-                              &nbsp; {new Date(product.expiryDate)
+                              &nbsp;{" "}
+                              {new Date(product.expiryDate)
                                 .toLocaleDateString("en-US", {
                                   year: "numeric",
                                   month: "2-digit",
@@ -482,13 +479,10 @@ function LayoutBuy({
                           </div>
                         </div>
                         <div className="flex">
-                        <p className="mt-1 text-sm">
-                          Product Returnable:{" "}
-                        </p>
-                        <p className="font-semibold ml-1">
-
-                          {product.isReturnable ? "Yes" : "No"}
-                        </p>
+                          <p className="mt-1 text-sm">Product Returnable: </p>
+                          <p className="font-semibold ml-1">
+                            {product.isReturnable ? "Yes" : "No"}
+                          </p>
                         </div>
                         <div className="flex">
                           <h2 className="  text-sm mr-1">Package Details :</h2>
@@ -518,103 +512,73 @@ function LayoutBuy({
                           {product.packCondition}
                         </p>
                       </div> */}
-                      <div className="flex flex-col mx-3">
-                        <p className="font-semibold   text-sm">Unit Price</p>
-                        <div className="mt-2 text-right text-xs font-bold">
-                          <p className="font-semibold   ">
+                      <div className="flex flex-row sm:flex-col gap-2 sm:mx-3 mx-0">
+                        <p className="font-semibold   text-sm sm:mt-0 mt-1">
+                          Unit Price
+                        </p>
+                        <div className="sm:mt-1 mt-0 text-right text-xs font-bold">
+                          <p className="font-semibold mt-1 text-sm ">
                             ${product.unitPrice?.toFixed(2)}
                           </p>
-
                         </div>
                       </div>
-
-
                     </div>
 
-
-                    <div className="flex flex-col justify-between mx-3">
+                    <div className="flex sm:flex-col flex-row sm:justify-between justify-start gap-2 sm:mx-3 mx-0">
                       <div>
-                        <p className="font-semibold  text-sm">UPN Member Price</p>
-                        <div className="mt-2 text-right text-xs font-bold">
-                          <p className="font-semiboldm -ml-5 ">
+                        <p className="font-semibold  text-sm sm:mt-0">
+                          UPN Member Price
+                        </p>
+                        <div className="sm:mt-3 m-0 sm:text-right text-left text-xs font-bold">
+                          <p className="font-semiboldm sm:-ml-5 m:0 text-sm">
                             ${product.upnMemberPrice?.toFixed(2)}
                           </p>
-
                         </div>
                       </div>
-                      <div className="text-sm">
-                        {product.amountInStock <= 0 ? (
-                          <p className="text-red-500 font-semibold">
-                            Out Of Stock
-                          </p>
-                        ) : (
-                          <p className="text-white p-1 w-28 text-center text-xs bg-green-600 rounded-lg ">
-                            Stock Available {" "}
-                            <span className="font-semibold text-xs text-center">
-                              {product.amountInStock}
-                            </span>
-                          </p>
-                        )}
-                      </div>
-
-
                     </div>
 
-                    <div className="flex flex-col mx-3">
+                    <div className="flex sm:flex-col    gap-2 flex-row sm:mx-3 mx-0">
                       <p className="font-semibold text-sm">Sale Price</p>
-                      <div className="mt-2 text-right text-xs font-bold">
-                        <p className="font-semibold">
+                      <div className="sm:mt-2 mt-0 sm:text-right text-left text-xs font-bold  ">
+                        <p className="font-semibold text-sm ">
                           ${product.salePrice?.toFixed(2)}
                         </p>
-
                       </div>
-
-
                     </div>
-                    
-                    <div className="flex flex-col mx-4">
+
+                    <div className="flex sm:flex-col flex-col sm:mx-4 mx-0">
                       <p className="font-semibold text-sm">Sale Price Range</p>
-                      <div className="mt-2 text-right text-xs font-bold">
-                        <div className="flex">
-                        <p className="font-semibold ml-1">
-                          {new Date(product.salePriceValidFrom)
-                            .toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "2-digit",
-                              day: "2-digit",
-                            })
-                            .replace(/\//g, "-")}
-                        </p>
-                          </div>
-                          <p className="text-center -ml-8">to </p> 
+                      <div className="mt-2 sm:text-right text-left text-xs font-bold ">
+                        <div className="flex sm:flex-col">
+                          <p className="font-semibold ml-1">
+                            {new Date(product.salePriceValidFrom)
+                              .toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "2-digit",
+                                day: "2-digit",
+                              })
+                              .replace(/\//g, "-")}
+                          </p>{" "}
+                          <p className="text-center sm:ml-8 ml-2">to </p>
+                          <p className="ml-1">
+                            {new Date(product.salePriceValidTo)
+                              .toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "2-digit",
+                                day: "2-digit",
+                              })
+                              .replace(/\//g, "-")}
+                          </p>
+                        </div>
 
-                          <div className="flex">
-
-                        <p className="ml-1">
-                          {new Date(product.
-                            salePriceValidTo
-                          )
-                            .toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "2-digit",
-                              day: "2-digit",
-                            })
-                            .replace(/\//g, "-")}
-                        </p>
-                            </div>
-
+                        <div className="flex"></div>
                       </div>
-
-
                     </div>
 
-                 
-                    <div className="flex flex-col mx-3">
-
-                      <p className="font-semibold ml-4">Quantity</p>
-                      <div className="mt-2 flex  justify-start items-center ">
-                        
-                         <button
+                    <div className="flex sm:flex-col flex-col sm:mx-3 mx-0">
+                      <p className="font-semibold sm:ml-4 m-0">Quantity</p>
+                      <div className="mt-2 flex ">
+                        <button
                           className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
                           onClick={() => {
                             const newQuantity = Math.max(
@@ -637,11 +601,14 @@ function LayoutBuy({
                           -
                         </button>
 
-
                         <input
                           type="text"
                           // value={product.CartQuantity}
-                          value={product.amountInStock === 0 ? 0 : product.minOrderQuantity}
+                          value={
+                            product.amountInStock === 0
+                              ? 0
+                              : product.minOrderQuantity
+                          }
                           // value={product.amountInStock === 0 ? 0 : product.CartQuantity || product.minOrderQuantity}
                           className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
                           onChange={(e) => {
@@ -664,9 +631,8 @@ function LayoutBuy({
                             handleQuantityChange(index, numericValue);
                           }}
                         />
-                       
-                      
-                         <button
+
+                        <button
                           className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
                           onClick={() => {
                             const newQuantity = product.minOrderQuantity + 1;
@@ -691,8 +657,21 @@ function LayoutBuy({
                           {stockWarning.message}
                         </p>
                       )}
-
-                        <div
+                      <div className="text-sm sm:mt-2 mt-4">
+                        {product.amountInStock <= 0 ? (
+                          <p className="text-red-500 font-semibold">
+                            Out Of Stock
+                          </p>
+                        ) : (
+                          <p className="text-white p-1 sm:w-28 w-40 text-center text-xs bg-green-600 rounded-lg ">
+                            Stock Available{" "}
+                            <span className="font-semibold text-xs text-center">
+                              {product.amountInStock}
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                      <div
                         onClick={() => {
                           if (product.amountInStock > 0) {
                             if (product.CartQuantity > product.amountInStock) {
@@ -709,34 +688,35 @@ function LayoutBuy({
                             }
                           }
                         }}
-                        className={`flex text-white h-[32px] px-2 rounded-lg mt-28 mx-2 justify-center items-center ${product.amountInStock <= 0
-                          ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-blue-900 cursor-pointer"
-                          }`}
+                        className={`flex text-white h-[32px] sm:w-full w-32 sm:px-2 rounded-lg sm:mt-20 mt-4 ml-0 p-0 mx-2 justify-center items-center ${
+                          product.amountInStock <= 0
+                            ? "bg-gray-400 cursor-not-allowed"
+                            : "bg-blue-900 cursor-pointer"
+                        }`}
                       >
                         <div className="mr-1">
                           <img
                             src={addcart}
-                            className={`w-5 h-5 ${product.amountInStock <= 0
-                              ? "opacity-50"
-                              : "cursor-pointer"
-                              }`}
+                            className={`w-5 h-5 ${
+                              product.amountInStock <= 0
+                                ? "opacity-50"
+                                : "cursor-pointer"
+                            }`}
                             alt="Add to Cart Icon"
                           />
                         </div>
                         <p
-                          className={`font-semibold text-sm ${product.amountInStock <= 0 ? "opacity-50" : ""
-                            }`}
+                          className={`font-semibold text-sm ${
+                            product.amountInStock <= 0 ? "opacity-50" : ""
+                          }`}
                         >
                           {"Add to Cart"}
                         </p>
                       </div>
                     </div>
-                   
 
                     {/* Wishlist */}
                     <div className="flex flex-col items-center justify-between -mr-6">
-                    
                       {isShowPopup && (
                         <div
                           className="flex flex-column  items-center absolute z-auto"
@@ -835,8 +815,6 @@ function LayoutBuy({
                         </div>
                         <p className="font-semibold">{"Add to Cart"}</p>
                       </div> */}
-
-                    
 
                       {/* Display the stock warning message */}
                       {/* {stockWarning.productId === product.productID && (

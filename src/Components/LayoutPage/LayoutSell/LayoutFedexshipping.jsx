@@ -216,6 +216,7 @@
 
 
 
+
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fedexShippingGetApi, shipmentAddApi, shipmentEditApi } from '../../../Api/ShipmentApi';
@@ -340,15 +341,15 @@ function LayoutFedexshipping() {
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
-      <div className="flex justify-between border-b border-black my-5 p-4">
-        <h1 className="text-xl text-blue-900 font-semibold">Manage Fedex Configuration</h1>
+      <div className="flex justify-between border-b border-black my-2 md:my-5 p-4">
+        <h1 className="text-base md:text-xl text-blue-900 font-semibold">Manage Fedex Configuration</h1>
       </div>
-      <div className="w-[60%] border rounded-md shadow-md flex flex-col justify-center">
-        <div className="w-full ml-8 flex flex-col justify-center mt-4">
+      <div className="w-full md:w-[80%] xl:w-[60%]  border rounded-md shadow-md flex flex-col justify-center">
+        <div className="w-full ml-2 md:ml-6 flex flex-col  justify-center ">
           <div className="flex justify-end -ml-4 w-[95%]">
             <img src={edit} className="w-6 h-6 cursor-pointer" onClick={handleEditClick} alt="Edit" />
           </div>
-          <div className="w-[80%] flex justify-between text-gray-600 my-4">
+          <div className="w-[80%] flex flex-col md:flex-row justify-between gap-4 text-gray-600 my-0 md:my-4">
             <div className="flex flex-col">
               <TextField
                 label="Account ID"
@@ -375,7 +376,7 @@ function LayoutFedexshipping() {
             </div>
           </div>
 
-          <div className="w-[80%] flex justify-between text-gray-600 my-4">
+          <div className="w-[80%] flex flex-col md:flex-row gap-4 justify-between text-gray-600 my-4">
             <div className="flex flex-col">
               <TextField
                 type="text"

@@ -544,7 +544,7 @@ const TaxInformation = () => {
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
-      <div className="bg-white w-[90%] border border-black rounded-lg px-8 mx-6 py-5 mt-8 relative my-6">
+      <div className="bg-white w-[85%] md:w-[90%] border border-black rounded-lg px-8 mx-6 py-5 mt-8 relative my-6">
         <div className="flex justify-between">
         {isEditable && (
                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -562,8 +562,8 @@ const TaxInformation = () => {
           <img src={edit} className='w-6 h-6 cursor-pointer' onClick={() => setIsEditable(true)} />
         </div>
 
-        <div className="flex justify-around my-4">
-          <div>
+        <div className="flex flex-col gap-3 md:gap-0 md:flex-row justify-around my-4">
+          <div className=''>
             <select
               className="border rounded-md h-11"
               value={category} // Set category in select box

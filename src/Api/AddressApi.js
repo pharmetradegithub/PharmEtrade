@@ -97,3 +97,18 @@ export const orderDeliveryAddress = (customerId, orderId, addressId) => {
     }
   }
 }
+
+export const SetDefaultApi = async (customerId, addressId) => {
+  try {
+    const response = await axios.post(`/api/Customer/Address/SetDefault?customerId=${customerId}&addressId=${addressId}`)
+    if (response.status === 200) {
+      const addAddress = response.data.result
+      // dispatch(setDefault(addAddress))
+      return addAddress
+    } else {
+      console.error('Failed to add address action:', response.data.message);
+    }
+  } catch (error) {
+    console.log("error", error)
+  }
+}
