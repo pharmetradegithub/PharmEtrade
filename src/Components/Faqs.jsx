@@ -138,14 +138,13 @@ function Faqs() {
     //         </div>
     //         </div>
     //     </div>
-
-    <div className="w-full sm:w-full h-full flex flex-col overflow-y-scroll">
-  <div className="flex flex-col bg-white justify-center items-center overflow-y-auto">
-    <div
-      className={`flex flex-col justify-center items-center mb-4 w-full sm:w-[90%] md:w-[85%] h-full ${
-        location.pathname === '/layout/faqs' ? 'mt-60' : ''
-      }`}
-    >
+    <div className="w-full sm:w-full h-full flex flex-col overflow-y-scroll mt-5 p-2">
+    <div className="flex flex-col bg-white justify-center items-center overflow-y-auto">
+      <div
+        className={`flex flex-col justify-center items-center mt-5 mb-4 w-full sm:w-[90%] md:w-[85%] h-full ${
+          location.pathname === "/layout/faqs" ? "mt-60" : ""
+        }`}
+      >
       {questions.map((question) => (
         <div
           key={question.id}

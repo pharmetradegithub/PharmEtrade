@@ -1985,7 +1985,7 @@ import Bin from "../../assets/Bin.png";
 import edit from "../../assets/Edit.png";
 import axios from "axios";
 import wrong from "../../assets/Icons/wrongred.png";
-import { fetchAddAddress, fetchDeleteAddressApi, fetchEditAddress, fetchGetByCustomerId, orderDeliveryAddress } from "../../Api/AddressApi";
+import { fetchAddAddress, fetchDeleteAddressApi, fetchEditAddress, fetchGetByCustomerId, orderDeliveryAddress, SetDefaultApi } from "../../Api/AddressApi";
 import { FedExRatesApi, serviceTypeApi } from "../../Api/TrackApi";
 // import { setAddress } from "../../Store/Store";
 import Proccedtoshipment from '../ProccedtoShipment'
@@ -2077,6 +2077,17 @@ function Address({ topMargin, totalAmount, amount }) {
   const [pincodes, setPincodes] = useState(null)
   const [stateAdd, setStateAdd] = useState(null)
   const [res, setRes] = useState([]);
+
+  const [response, setResponse] = useState(null)
+  useEffect(() => {
+    const data = async () => {
+      const res = await SetDefaultApi(user.customerId, selectedAddressId)
+      console.log("resSetDefault--->", res)
+      setResponse(res)
+    }
+    data()
+  }, [selectedAddressId])
+
 
   // useEffect(() => {
   //   const fetchSellers = async () => {

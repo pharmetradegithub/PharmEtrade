@@ -476,18 +476,17 @@ const LayoutProfile = () => {
       )}
       <div className="w-[95%] mt-8 h-full flex flex-col justify-normal">
         {/* Render Profile Buttons */}
-        <div className="flex">
+        <div className="grid flex-col md:grid-cols-3  xl:flex md:flex-row gap-4 md:gap-3">
           {profiles.map((profile, index) =>
             // Hide index 1 if user.customerTypeId is 4
             userdata?.customerTypeId === 4 &&
-            (index === 1 || index === 2) ? null : (
-              <div key={profile.grid} className="flex ml-6">
+              (index === 1 || index === 2) ? null : (
+              <div key={profile.grid} className="flex  ml-6">
                 <div
-                  className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${
-                    visibleGrid === profile.grid
-                      ? "border-b-4 border-blue-900"
-                      : ""
-                  }`}
+                  className={`w-44 bg-white rounded-lg flex   items-center justify-center cursor-pointer ${visibleGrid === profile.grid
+                    ? "border-b-4 border-blue-900"
+                    : ""
+                    }`}
                   onClick={() => toggleGrid(profile.grid)}
                 >
                   <h1 className="text-lg text-blue-900 font-semibold">
@@ -505,9 +504,8 @@ const LayoutProfile = () => {
               Primary
             </h1>
             <div
-              className={`bg-white border ${
-                isEditable ? "border-blue-900" : "border-gray-400"
-              } rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}
+              className={`bg-white border ${isEditable ? "border-blue-900" : "border-gray-400"
+                } rounded-lg px-3 lg:px-8 mx-3 lg:mx-6 w-[85%] lg:w-[90%] mt-8 relative`}
             >
               {/* <h1 className={`text-xl font-semibold my-2 text-blue-900`}>
                 User Information
@@ -519,15 +517,22 @@ const LayoutProfile = () => {
                 </h1>
               )}
               <h1
-                className={`text-xl font-semibold my-2 ${
-                  isEditable ? "invisible" : "text-blue-900"
-                }`}
+                className={`text-xl font-semibold my-2 ${isEditable ? "invisible" : "text-blue-900"
+                  }`}
               >
                 User Information
               </h1>
 
-              <div className="flex justify-between">
-                <div className="py-4 flex flex-col gap-4">
+              <div className="flex flex-col ">
+                <div className="flex justify-end">
+                  <img
+                    src={edit}
+                    className="w-6 h-6 ml-4 cursor-pointer"
+                    onClick={handleEditClick}
+                    alt="Edit"
+                  />
+                </div>
+                <div className="py-4 flex   flex-col md:flex-row gap-4">
                   <TextField
                     label="First Name"
                     name="firstName"
@@ -535,8 +540,23 @@ const LayoutProfile = () => {
                     onChange={handleInputChange}
                     disabled={!isEditable}
                     size="small"
-                    className="w-full"
+                    className="w-52 md:w-56 "
                   />
+                  <div className=" ml-0 xl:ml-52">
+                    <TextField
+                      label="Last Name"
+                      name="lastName"
+                      value={userDetails.lastName}
+                      onChange={handleInputChange}
+                      disabled={!isEditable}
+                      size="small"
+                      className="w-52 md:w-56 "
+                    />
+                  </div>
+
+
+                </div>
+                <div className=" flex  flex-col md:flex-row gap-4">
                   <TextField
                     label="Email"
                     name="email"
@@ -544,8 +564,24 @@ const LayoutProfile = () => {
                     onChange={handleInputChange}
                     disabled={!isEditable}
                     size="small"
-                    className="w-full"
+                    className=" w-52 md:w-56"
                   />
+                  <div className=" ml-0 xl:ml-52">
+                    <TextField
+                      label="Phone Number"
+                      name="mobile"
+                      value={userDetails.mobile}
+                      onChange={handlePhoneNumberChange}
+                      // onChange={handlePhoneChange}
+                      inputProps={{ maxLength: 12 }}
+                      disabled={!isEditable}
+                      size="small"
+                      className=" w-52 md:w-56"
+                    />
+                  </div>
+                </div>
+                <div className="py-4">
+
                   <TextField
                     label="Password"
                     name="password"
@@ -553,42 +589,14 @@ const LayoutProfile = () => {
                     onChange={handleInputChange}
                     disabled={!isEditable}
                     size="small"
-                    className="w-full"
+                    className="w-52 md:w-56"
                   />
                 </div>
-                <div className="py-4 flex flex-col gap-4">
-                  <TextField
-                    label="Last Name"
-                    name="lastName"
-                    value={userDetails.lastName}
-                    onChange={handleInputChange}
-                    disabled={!isEditable}
-                    size="small"
-                    className="w-full"
-                  />
-                  <TextField
-                    label="Phone Number"
-                    name="mobile"
-                    value={userDetails.mobile}
-                    onChange={handlePhoneNumberChange}
-                    // onChange={handlePhoneChange}
-                    inputProps={{ maxLength: 12 }}
-                    disabled={!isEditable}
-                    size="small"
-                    className="w-full"
-                  />
-                </div>
-                <div className="flex flex-col justify-between py-2">
-                  <img
-                    src={edit}
-                    className="w-6 h-6 ml-4 cursor-pointer"
-                    onClick={handleEditClick}
-                    alt="Edit"
-                  />
+                <div className="flex  justify-end py-2">
+
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-                      !isEditable ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isEditable ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                     onClick={handleSaveClick}
                     disabled={!isEditable}
                   >
@@ -601,7 +609,7 @@ const LayoutProfile = () => {
         )}
 
         {visibleGrid === "account" && (
-          <div className="flex flex-col bg-white border  border-gray-400 p-6 h-full ml-6  rounded-lg px-8  w-[90%] mt-8">
+          <div className="flex flex-col bg-white border  border-gray-400 p-6 h-full  ml-3 lg:ml-6  rounded-lg px-3 lg:px-8  w-[80%] lg:w-[90%] mt-8">
             <h1 className="text-blue-900 font-semibold -mt-2 text-xl ">
               User Type
             </h1>
@@ -617,18 +625,18 @@ const LayoutProfile = () => {
                 className="ml-3"
                 size="small"
               /> */}
-               <TextField
-                      label="User type"
-                      id="customerTypeId"
-                      name="customerTypeId"
-                      value={
-                        customerTypeLabels[userDetails.customerTypeId] ||
-                        userDetails.customerTypeId
-                      }
-                      disabled
-                      className="ml-3"
-                      size="small"
-                    />
+              <TextField
+                label="User type"
+                id="customerTypeId"
+                name="customerTypeId"
+                value={
+                  customerTypeLabels[userDetails.customerTypeId] ||
+                  userDetails.customerTypeId
+                }
+                disabled
+                className="ml-3"
+                size="small"
+              />
             </div>
             {userdata?.customerTypeId !== 4 &&
               userdata?.customerTypeId !== 2 &&
@@ -671,9 +679,8 @@ const LayoutProfile = () => {
           <div className="flex flex-col bg-slate-200 p-6 w-full h-full">
             {/* Address Information Section */}
             <div
-              className={`bg-white border ${
-                isAddressEdit ? "border-blue-900" : "border-gray-400"
-              } rounded-lg px-8  w-[95%] mt-8 relative`}
+              className={`bg-white border ${isAddressEdit ? "border-blue-900" : "border-gray-400"
+                } rounded-lg  lg:px-8  -ml-2  w-full lg:w-[95%] mt-8 relative`}
             >
               {isAddressEdit && (
                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -681,13 +688,20 @@ const LayoutProfile = () => {
                 </h1>
               )}
               <h1
-                className={`text-xl font-semibold my-2 ${
-                  isAddressEdit ? "invisible" : "text-blue-900"
-                }`}
+                className={`text-xl font-semibold my-2 ${isAddressEdit ? "invisible" : "text-blue-900"
+                  }`}
               >
                 Address Information
               </h1>
-              <div className="flex justify-between py-4">
+              <div className="flex justify-end">
+                <img
+                    src={edit}
+                    className="w-6 h-6 cursor-pointer"
+                    onClick={handleAddressEditClick}
+                  />
+                  </div>
+              <div className="flex flex-col md:flex-row mx-3 py-4">
+                
                 <div className="flex flex-col gap-3">
                   {userdata?.customerTypeId !== 4 &&
                     userdata?.customerTypeId !== 2 &&
@@ -747,6 +761,7 @@ const LayoutProfile = () => {
                     />
                   )}
                   {userdata?.customerTypeId !== 4 && (
+                    <div className="my-2">
                     <TextField
                       label=" Company Website"
                       id="companyWebsite"
@@ -756,9 +771,10 @@ const LayoutProfile = () => {
                       disabled={!isAddressEdit}
                       size="small"
                     />
+                    </div>
                   )}
                 </div>
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col ml-0 md:ml-6 xl:ml-52 gap-3">
                   {userdata?.customerTypeId !== 4 && (
                     <TextField
                       label="Legal Business Name"
@@ -842,32 +858,27 @@ const LayoutProfile = () => {
                     />
                   )}
                 </div>
-                <div className="flex flex-col justify-between py-2">
-                  <img
-                    src={edit}
-                    className="w-6 h-6 cursor-pointer"
-                    onClick={handleAddressEditClick}
-                  />
-                  <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-                      !isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
-                    onClick={handleAddressSaveClick}
-                    disabled={!isAddressEdit}
-                  >
-                    Save
-                  </button>
-                </div>
+              
               </div>
+              <div className="flex  justify-end py-2">
+                 
+                 <button
+                   className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
+                     }`}
+                   onClick={handleAddressSaveClick}
+                   disabled={!isAddressEdit}
+                 >
+                   Save
+                 </button>
+               </div>
             </div>
 
             {/* Account Information Section */}
 
             {userdata?.customerTypeId !== 4 && (
               <div
-                className={`bg-white border ${
-                  isAccountEdit ? "border-blue-900" : "border-gray-400"
-                } rounded-lg px-8 w-[95%]  mt-8 relative mb-6`}
+                className={`bg-white border -ml-2 md:ml-0 ${isAccountEdit ? "border-blue-900" : "border-gray-400"
+                  } rounded-lg px-3 lg:px-8  w-full lg:w-[95%]  mt-8 relative mb-6`}
               >
                 {isAccountEdit && (
                   <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -875,13 +886,20 @@ const LayoutProfile = () => {
                   </h1>
                 )}
                 <h1
-                  className={`text-xl font-semibold my-2 ${
-                    isAccountEdit ? "invisible" : "text-blue-900"
-                  }`}
+                  className={`text-xl font-semibold my-2 ${isAccountEdit ? "invisible" : "text-blue-900"
+                    }`}
                 >
                   Account Information
                 </h1>
-                <div className="flex justify-between py-4">
+                <div className="flex justify-end">
+
+                <img
+                      src={edit}
+                      className="w-6 h-6 cursor-pointer"
+                      onClick={handleAccountEditClick}
+                    />
+                  </div>
+                <div className="flex flex-col md:flex-row  py-4">
                   <div className="flex flex-col gap-3">
                     <TextField
                       label="DEA"
@@ -891,7 +909,7 @@ const LayoutProfile = () => {
                       onChange={handleAccountChange}
                       disabled={!isAccountEdit}
                       size="small"
-                      className="w-[60%]"
+                      className=" w-52 md:w-56 "
                     />
                     <label> DEA Expiration Date </label>
                     <TextField
@@ -907,7 +925,7 @@ const LayoutProfile = () => {
                       onChange={handleAccountChange}
                       disabled={!isAccountEdit}
                       size="small"
-                      className="w-[60%]"
+                      className=" w-52 md:w-56 "
                     />
 
                     <label> DEA Expiration File </label>
@@ -919,7 +937,7 @@ const LayoutProfile = () => {
                       onChange={handleFileChange} // Separate handler for file selection
                       disabled={!isAccountEdit}
                       size="small"
-                      className="w-[60%]"
+                      className=" w-52 md:w-56 "
                     />
                     {accountData.deaLicenseCopy && (
                       <a
@@ -940,7 +958,7 @@ const LayoutProfile = () => {
                       onChange={handleAccountChange}
                       disabled={!isAccountEdit}
                       size="small"
-                      className="w-[60%] mt-3"
+                      className="w-56 mt-3"
                     />
                     <TextField
                       label="Federal Tax"
@@ -950,10 +968,10 @@ const LayoutProfile = () => {
                       onChange={handleAccountChange}
                       disabled={!isAccountEdit}
                       size="small"
-                      className="w-[60%]"
+                      className=" w-52 md:w-56 "
                     />
                   </div>
-                  <div className="flex flex-col gap-3">
+                  <div className="flex flex-col mt-3 md:mt-0 ml-0 md:ml-6 xl:ml-52 gap-3">
                     <TextField
                       label="Pharmacy License"
                       id="pharmacyLicence"
@@ -962,7 +980,7 @@ const LayoutProfile = () => {
                       onChange={handleAccountChange}
                       disabled={!isAccountEdit}
                       size="small"
-                      className="w-[60%]"
+                      className=" w-52 md:w-56 "
                     />
                     <label> Pharmacy License Expiration Date </label>
                     {/* <TextField
@@ -984,14 +1002,14 @@ const LayoutProfile = () => {
                       value={
                         accountData.pharmacyLicenseExpirationDate
                           ? formatDate(
-                              accountData.pharmacyLicenseExpirationDate
-                            )
+                            accountData.pharmacyLicenseExpirationDate
+                          )
                           : ""
                       }
                       onChange={handleAccountChange}
                       disabled={!isAccountEdit}
                       size="small"
-                      className="w-[60%]"
+                      className=" w-52 md:w-56 "
                     />
 
                     <label>Pharmacy License Expiration File</label>
@@ -1003,7 +1021,7 @@ const LayoutProfile = () => {
                       onChange={handleFileChangePharma} // Separate handler for file input
                       disabled={!isAccountEdit}
                       size="small"
-                      className="w-[60%]"
+                      className=" w-52 md:w-56 "
                     />
                     {accountData.pharmacyLicenseCopy && (
                       <a
@@ -1024,26 +1042,22 @@ const LayoutProfile = () => {
                       disabled={!isAccountEdit}
                       value={accountData.ncpdp}
                       size="small"
-                      className="w-[60%] mt-3"
+                      className=" w-52 md:w-56 mt-3"
                     />
                   </div>
-                  <div className="flex flex-col justify-between py-2">
-                    <img
-                      src={edit}
-                      className="w-6 h-6 cursor-pointer"
-                      onClick={handleAccountEditClick}
-                    />
+                 
+                </div>
+                <div className="flex  justify-end py-2">
+                    
                     <button
-                      className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-                        !isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
+                      className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
                       onClick={handleAccountSaveClick}
                       disabled={!isAccountEdit}
                     >
                       Save
                     </button>
                   </div>
-                </div>
               </div>
             )}
           </div>

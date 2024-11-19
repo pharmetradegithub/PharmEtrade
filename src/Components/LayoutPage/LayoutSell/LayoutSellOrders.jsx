@@ -161,30 +161,42 @@ function LayoutSellOrders() {
       setIsModalOpen(false); // Close the modal after confirmation
     }
   };
+  const [comment, setComment] = useState('')
 
   // Handle cancelling the action (No)
   const handleCancel = () => {
     setIsModalOpen(false); // Just close the modal without any action
+    setComment(""); // Reset comment
   };
   return (
 
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
       {isModalOpen && (
         <div
-          className="fixed top-0 left-25 w-4/5 h-full flex justify-center items-center bg-slate-900 bg-opacity-20"
+          className="fixed top-0 left-25 w-[90%] h-full flex justify-center items-center bg-slate-600 bg-opacity-20"
           role="dialog"
           aria-modal="true"
         >
-          <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
+          <div className="w-96 h-44 bg-white rounded-md shadow-md flex flex-col justify-center">
             <div className="flex justify-end  ">
-              <button className="w-5 p-1 -mt-8 mx-2" onClick={handleCancel}>
+              <button className="w-5 p-1 mx-2 mt-3" onClick={handleCancel}>
                 <img src={wrong} className="w-6 h-4" />
               </button>
             </div>
             <h1 className="text-black text-center mt-2">
               Are you sure you want to update the status?
             </h1>
-            <div className="flex justify-around mt-6">
+            <div className="flex justify-center">
+
+              <textarea
+                type="text"
+                className="border w-72 p-2 h-10 mt-3 rounded-md text-left"
+                placeholder="Write a comment"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+            </div>
+            <div className="flex justify-around mt-6 mb-5">
               <button
                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                 onClick={handleCancel}
@@ -202,6 +214,7 @@ function LayoutSellOrders() {
         </div>
 
       )}
+   
       {modal && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
@@ -418,4 +431,4 @@ function LayoutSellOrders() {
   );
 }
 
-export default LayoutSellOrders;
+export default LayoutSellOrders;a
