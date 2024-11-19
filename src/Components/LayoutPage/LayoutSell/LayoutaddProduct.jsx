@@ -632,8 +632,8 @@ function LayoutaddProduct() {
           const isSelected = formData.states.includes(value);
           const updatedStates = isSelected
             ? formData.states.filter(
-              (state) => state !== value && state !== "all"
-            )
+                (state) => state !== value && state !== "all"
+              )
             : [...formData.states, value];
 
           setFormData({
@@ -746,8 +746,8 @@ function LayoutaddProduct() {
       formData.mainImageUrl == null
         ? null
         : typeof formData.mainImageUrl === "string"
-          ? formData.mainImageUrl
-          : await uploadImageApi(
+        ? formData.mainImageUrl
+        : await uploadImageApi(
             user.customerId,
             productId,
             formData.mainImageUrl
@@ -757,65 +757,65 @@ function LayoutaddProduct() {
       formData.imageUrl == null
         ? null
         : typeof formData.imageUrl === "string"
-          ? formData.imageUrl
-          : await uploadImageApi(user.customerId, productId, formData.imageUrl);
+        ? formData.imageUrl
+        : await uploadImageApi(user.customerId, productId, formData.imageUrl);
 
     const thumbnail1 =
       formData.thumbnail1 == null
         ? "null"
         : typeof formData.thumbnail1 === "string"
-          ? formData.thumbnail1
-          : await uploadImageApi(user.customerId, productId, formData.thumbnail1);
+        ? formData.thumbnail1
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail1);
 
     const thumbnail2 =
       formData.thumbnail2 == null
         ? "null"
         : typeof formData.thumbnail2 === "string"
-          ? formData.thumbnail2
-          : await uploadImageApi(user.customerId, productId, formData.thumbnail2);
+        ? formData.thumbnail2
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail2);
 
     const thumbnail3 =
       formData.thumbnail3 == null
         ? "null"
         : typeof formData.thumbnail3 === "string"
-          ? formData.thumbnail3
-          : await uploadImageApi(user.customerId, productId, formData.thumbnail3);
+        ? formData.thumbnail3
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail3);
 
     const thumbnail4 =
       formData.thumbnail4 == null
         ? "null"
         : typeof formData.thumbnail4 === "string"
-          ? formData.thumbnail4
-          : await uploadImageApi(user.customerId, productId, formData.thumbnail4);
+        ? formData.thumbnail4
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail4);
 
     const thumbnail5 =
       formData.thumbnail5 == null
         ? "null"
         : typeof formData.thumbnail5 === "string"
-          ? formData.thumbnail5
-          : await uploadImageApi(user.customerId, productId, formData.thumbnail5);
+        ? formData.thumbnail5
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail5);
 
     const thumbnail6 =
       formData.thumbnail6 == null
         ? "null"
         : typeof formData.thumbnail6 === "string"
-          ? formData.thumbnail6
-          : await uploadImageApi(user.customerId, productId, formData.thumbnail6);
+        ? formData.thumbnail6
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail6);
 
     const videoUrl =
       formData.videoUrl == null
         ? "null"
         : typeof formData.videoUrl === "string"
-          ? formData.videoUrl
-          : await uploadImageApi(user.customerId, productId, formData.videoUrl);
+        ? formData.videoUrl
+        : await uploadImageApi(user.customerId, productId, formData.videoUrl);
 
     const tab1 = {
       productID:
         queryProductId != null
           ? queryProductId
           : productId != null
-            ? productId
-            : "String",
+          ? productId
+          : "String",
       productCategoryId: formData.productCategory,
       productName: formData.productName,
       ndCorUPC: formData.ndcUpc,
@@ -910,8 +910,9 @@ function LayoutaddProduct() {
         setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1)); // Enable Tab 2
         setNotification({
           show: true,
-          message: `Product Info ${queryProductId != null ? "Edited" : "Added"
-            } Successfully!`,
+          message: `Product Info ${
+            queryProductId != null ? "Edited" : "Added"
+          } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -927,8 +928,9 @@ function LayoutaddProduct() {
         ); // Enable Tabs 2 and 3
         setNotification({
           show: true,
-          message: `Price Details ${queryProductId != null ? "Edited" : "Added"
-            } Successfully!`,
+          message: `Price Details ${
+            queryProductId != null ? "Edited" : "Added"
+          } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -938,8 +940,9 @@ function LayoutaddProduct() {
         setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 3)); // Enable Tab 3
         setNotification({
           show: true,
-          message: `Related Products ${queryProductId != null ? "Edited" : "Added"
-            } Successfully!`,
+          message: `Related Products ${
+            queryProductId != null ? "Edited" : "Added"
+          } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -959,8 +962,9 @@ function LayoutaddProduct() {
         console.log("Product Data", response);
         setNotification({
           show: true,
-          message: `Product ${queryProductId != null ? "Edited" : "Added"
-            } Successfully!`,
+          message: `Product ${
+            queryProductId != null ? "Edited" : "Added"
+          } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -1714,48 +1718,38 @@ function LayoutaddProduct() {
                       Price ($):<span className="text-red-600">*</span>
                     </label>
                     <input
-                      name="price"
-                      type="phone"
-                      className="w-56 h-8 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      // onChange={(e) => {
-                      //   let value = e.target.value;
+  name="price"
+  type="text"
+  className="w-56 h-8 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+  onChange={(e) => {
+    let value = e.target.value;
 
-                      //   // Allow only numbers and decimals, limit to 2 decimal places
-                      //   const validPrice = /^\d*(\.\d{0,2})?$/;
+    // Allow only numbers and decimals, limit to 2 decimal places
+    const validPrice = /^\d*(\.\d{0,2})?$/;
 
-                      //   // Check if the input value is a valid number with up to 2 decimal places
-                      //   if (validPrice.test(value)) {
-                      //     handleInputChange(e); // Update the state only with valid input
-                      //   }
-                      // }}
-                      onChange={(e) => {
-                        let value = e.target.value;
+    // Check if the input value is a valid number with up to 2 decimal places
+    if (validPrice.test(value)) {
+      handleInputChange(e); // Update the state only with valid input
+    }
+  }}
+  onBlur={(e) => {
+    let value = e.target.value;
 
-                        // Allow only numbers and decimals, limit to 2 decimal places
-                        const validPrice = /^\d*(\.\d{0,2})?$/;
+    // If the value is a valid number, format it to 2 decimal places
+    if (value && !value.includes('.')) {
+      value += '.00'; // Append .00 if there's no decimal part
+    } else if (value) {
+      value = parseFloat(value).toFixed(2); // Ensure 2 decimal places
+    }
 
-                        // Check if the input value is a valid number with up to 2 decimal places
-                        if (validPrice.test(value)) {
-                          handleInputChange(e); // Update the state only with valid input
-                        }
-                      }}
-                      onBlur={(e) => {
-                        let value = parseFloat(e.target.value);
+    handleInputChange({
+      target: { name: e.target.name, value },
+    }); // Update state with formatted value
+  }}
+  value={formData.price !== undefined ? formData.price : ""}
+/>
 
-                        // If the value is a valid number, format it to 2 decimal places
-                        if (!isNaN(value)) {
-                          value = value.toFixed(2); // Ensure 2 decimal places
-                          handleInputChange({
-                            target: { name: e.target.name, value },
-                          }); // Update state with formatted value
-                        }
-                      }}
-                      value={
-                        formData.price
-                          ? parseFloat(formData.price).toFixed(2)
-                          : ""
-                      }
-                    />
+
                     {formErrors.price && (
                       <span className="text-red-500 text-sm">
                         {formErrors.price}
@@ -1785,29 +1779,38 @@ function LayoutaddProduct() {
                     <label className="text-sm font-semibold">
                       UPN Member Price ($):
                     </label>
-                    {/* <input
-                      name="upnMemberPrice"
-                      type="phone"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      // onChange={handleInputChange}
-                      onChange={(e) => {
-                        let value = e.target.value;
 
-                        // Allow only numbers and decimals, limit to 2 decimal places
-                        const validPrice = /^\d*(\.\d{0,2})?$/;
-
-                        // Check if the input value is a valid number with up to 2 decimal places
-                        if (validPrice.test(value)) {
-                          handleInputChange(e); // Update the state only with valid input
-                        }
-                      }}
-                      value={
-                        formData.upnMemberPrice === ""
-                          ? ""
-                          : formData.upnMemberPrice
-                      }
-                    /> */}
                     <input
+  name="upnMemberPrice"
+  type="text"
+  className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+  onChange={(e) => {
+    let value = e.target.value;
+
+    // Allow only numbers and decimals, limit to 2 decimal places
+    const validPrice = /^\d*(\.\d{0,2})?$/;
+
+    // Check if the input value is a valid number with up to 2 decimal places
+    if (validPrice.test(value)) {
+      handleInputChange(e); // Update the state only with valid input
+    }
+  }}
+  onBlur={(e) => {
+    let value = parseFloat(e.target.value);
+
+    // If the value is a valid number, format it to 2 decimal places
+    if (!isNaN(value)) {
+      value = value.toFixed(2); // Ensure 2 decimal places
+      handleInputChange({
+        target: { name: e.target.name, value },
+      }); // Update state with formatted value
+    }
+  }}
+  value={formData.upnMemberPrice !== "" ? formData.upnMemberPrice : ""}
+/>
+
+
+                    {/* <input
                       name="upnMemberPrice"
                       type="text"
                       className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
@@ -1843,7 +1846,12 @@ function LayoutaddProduct() {
                           ? parseFloat(formData.upnMemberPrice).toFixed(2)
                           : ""
                       }
-                    />
+                    /> */}
+                    {formErrors.upnMemberPrice && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.upnMemberPrice}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="flex items-center gap-8">
@@ -2049,8 +2057,8 @@ function LayoutaddProduct() {
                         formData.taxable == null
                           ? ""
                           : formData.taxable == true
-                            ? 1
-                            : 0
+                          ? 1
+                          : 0
                       }
                     >
                       <option value="">Select an option</option>
@@ -2137,10 +2145,10 @@ function LayoutaddProduct() {
 
                   {parseInt(formData.maxOrderQuantity, 10) >
                     parseInt(formData.amountInStock, 10) && (
-                      <span className="text-red-600 text-sm mt-1">
-                        You need to select a quantity below the product in stock.
-                      </span>
-                    )}
+                    <span className="text-red-600 text-sm mt-1">
+                      You need to select a quantity below the product in stock.
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -2611,8 +2619,8 @@ function LayoutaddProduct() {
                         selectedImage // Check if selectedImage exists first
                           ? selectedImage
                           : formData.imageUrl instanceof File // Check if formData.imageUrl is a File
-                            ? URL.createObjectURL(formData.imageUrl) // Generate URL if it's a file
-                            : formData.imageUrl // Otherwise, treat it as a direct image URL
+                          ? URL.createObjectURL(formData.imageUrl) // Generate URL if it's a file
+                          : formData.imageUrl // Otherwise, treat it as a direct image URL
                       }
                       alt="Selected"
                       className="w-64 h-64 object-cover rounded-md"
@@ -2672,8 +2680,8 @@ function LayoutaddProduct() {
                           typeof image === "string"
                             ? image
                             : image != null
-                              ? URL.createObjectURL(image)
-                              : ""
+                            ? URL.createObjectURL(image)
+                            : ""
                         } // Check if `image` is a string (URL) or a File object
                         alt={`Preview ${image}`}
                         className="w-full h-40 object-cover"
@@ -2792,13 +2800,15 @@ function LayoutaddProduct() {
                 disabled={
                   queryProductId != null ? false : showTab.includes(index)
                 } // Corrected to 'disabled'
-                className={`w-full flex justify-center items-center px-2 p-3 py-1 mt-7 shadow-md ${activeTab === index
+                className={`w-full flex justify-center items-center px-2 p-3 py-1 mt-7 shadow-md ${
+                  activeTab === index
                     ? "text-white bg-blue-900 rounded-t-xl font-semibold"
                     : "text-blue-900 shadow-none rounded-t-xl bg-white"
-                  } ${showTab.includes(index) && queryProductId == null
+                } ${
+                  showTab.includes(index) && queryProductId == null
                     ? "opacity-50 cursor-not-allowed"
                     : ""
-                  }`} // Style changes for disabled state
+                }`} // Style changes for disabled state
                 onClick={() => setActiveTab(index)}
               >
                 {tab}
@@ -2824,12 +2834,12 @@ function LayoutaddProduct() {
           {activeTab === 0
             ? "Save and Continue to Price Details"
             : activeTab === 1
-              ? "Save and Continue to Related Products"
-              : activeTab === 2
-                ? "Save and Continue to Additional Images"
-                : activeTab === 3
-                  ? "Save and Close"
-                  : ""}
+            ? "Save and Continue to Related Products"
+            : activeTab === 2
+            ? "Save and Continue to Additional Images"
+            : activeTab === 3
+            ? "Save and Close"
+            : ""}
         </button>
       </div>
     </div>

@@ -44,6 +44,7 @@ export const ProductPriceValidation = (formData) => {
         errors.price = "Price is required and must be greater than 0.";
     }
 
+
     if (formData.salePrice > 0) {  // Check for positive sale price
         if (!formData.salePriceForm || formData.salePriceForm.trim() === "") {
             errors.salePriceForm = "Sale price 'from' date is required.";
@@ -53,35 +54,26 @@ export const ProductPriceValidation = (formData) => {
         }
     }
 
+    
+    if (formData.upnMemberPrice === null || formData.upnMemberPrice === undefined || formData.upnMemberPrice <= 0) {
+        errors.upnMemberPrice = "Upn Member Price is required and must be greater than 0.";
+    } else {
+        if (formData.upnMemberPrice >= formData.price) {
+            errors.upnMemberPrice = "Upn Member Price must be less than the regular price.";
+        }
+        if (formData.salePrice > 0 && formData.upnMemberPrice >= formData.salePrice) {
+            errors.upnMemberPrice = "Upn Member Price must be less than the sale price.";
+        }
+    }
+
     if (formData.amountInStock === null || formData.amountInStock === undefined || formData.amountInStock <= 0) {
         errors.amountInStock = "Amount In Stock is required.";
     }
+
 
     return errors;
 };
 
 
-// export const ProductPriceValidation = (formData) => {
-//     let errors = {};
 
-//     // Price is mandatory
-//     if (formData.price === null || formData.price === undefined || formData.price <= 0) {
-//         errors.price = "Price is required.";
-//     }
-
-//     // Sale price is mandatory
-//     if (formData.salePrice === null || formData.salePrice === undefined || formData.salePrice <= 0) {
-//         errors.salePrice = "Sale price is required.";
-//     } else {
-//         // If sale price is provided, salePriceForm and salePriceTo are mandatory
-//         if (!formData.salePriceForm || formData.salePriceForm.trim() === "") {
-//             errors.salePriceForm = "Sale price 'from' date is required.";
-//         }
-//         if (!formData.salePriceTo || formData.salePriceTo.trim() === "") {
-//             errors.salePriceTo = "Sale price 'to' date is required.";
-//         }
-//     }
-
-//     return errors;
-// };
 
