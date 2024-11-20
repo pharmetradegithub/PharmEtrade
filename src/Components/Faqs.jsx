@@ -15,7 +15,7 @@ function Faqs() {
     const questions =[
         {
             id:1,
-            Question:'Is the Pharmetrade site secure?',
+            Question:'Is the pharmaEtrade site secure?',
             Answer:`Yes, Pharmetrade is a secure site. However, it is your sole responsibility to maintain your account. This includes the security of your email address and password for all activity that occurs.`,
            src: plus,
            src1:minus
