@@ -24,7 +24,7 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
   // const [currentPage, setCurrentPage] = useState(1);
   const [favoriteItems, setFavoriteItems] = useState({});
   // const [currentItems, setCurrentItems] = useState([]);
-  
+
   const productOffer = useSelector((state) => state.product.getProductSpecialOffer);
   // const carts = useSelector((state) => state.cart.cart);
   // const wishlist = useSelector((state) => state.wishlist.wishlist);
@@ -59,13 +59,13 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
       const indexOfFirstItem = indexOfLastItem - itemsPerPage;
       setcurrentItems(productOffer.slice(indexOfFirstItem, indexOfLastItem));
     }
-  }, [productOffer, indexOfFirstItem, indexOfLastItem]);	
+  }, [productOffer, indexOfFirstItem, indexOfLastItem]);
 
   // const indexOfLastItem = currentPage * itemsPerPage;
   // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const totalPages = Math.ceil((productOffer?.length || 0) / itemsPerPage);
 
-  
+
   // useEffect(() => {
   //   if (productOffer) {
   //     setCurrentItems(productOffer.slice(indexOfFirstItem, indexOfLastItem));
@@ -94,7 +94,7 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
   // };
 
   const handleCart = async (productID) => {
-    if(user == null){
+    if (user == null) {
       navigate("/login")
       return
     }
@@ -116,7 +116,7 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
       });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     }
-     catch (error) {
+    catch (error) {
       console.error("Error adding product to cart:", error);
     }
   };
@@ -138,7 +138,7 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
   //   wishList(prolist);
   // };
   const handleClick = async (productID) => {
-    if(user == null){
+    if (user == null) {
       navigate("/login")
       return
     }
@@ -167,22 +167,22 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
         marginTop: `${topMargin}px`,
       }}
     >
-       {notification.show && (
-          <Notification
-            show={notification.show}
-            message={notification.message}
-          />
-        )}
+      {notification.show && (
+        <Notification
+          show={notification.show}
+          message={notification.message}
+        />
+      )}
 
-      <h1 className="bg-blue-900 w-full p-1 mx-1 text-white font-semibold text-xl rounded-md mt-1">Offer Products</h1>
+      <h1 className="bg-blue-900 w-full  p-1 mx-1 text-white font-semibold text-xl rounded-md mt-10 md:mt-1">Offer Products</h1>
 
       <div className="w-full h-full bg-gray-200 mb-5 mt-8">
         <div className="h-full p-5">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
             {currentItems.map((offer, index) => (
               <div
                 key={index}
-                className="flex flex-col border rounded-lg w-60 h-80 bg-white"
+                className="flex flex-col border rounded-lgw-full max-w-md h-80 bg-white"
               >
                 <div className="flex justify-between">
                   <div className="flex flex-row justify-center text-center bg-yellow-300 w-20 rounded-l-xl rounded-b-full pb-8">
@@ -210,20 +210,20 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
                   <Link to={`/detailspage/${offer.productID}`}>
                     <img
                       src={offer.productGallery.imageUrl}
-                      className="w-60 h-40 hover:cursor-pointer p-6"
+                      className="h-40 w-52 sm:h-40 sm:w-28 lg:h-48 lg:w-36 hover:cursor-pointer p-6"
                       alt={offer.productName}
                     />
                   </Link>
                 </div>
                 <div className="flex justify-center flex-col items-center mb-1 cursor-pointer">
-                <Link to={`/detailspage/${offer.productID}`}>
-                  <p
-                    className="font-semibold text-lg hover:underline w-52 items-start justify-start text-center whitespace-nowrap overflow-hidden text-ellipsis"
-                    title={offer.productName}
+                  <Link to={`/detailspage/${offer.productID}`}>
+                    <p
+                      className="font-semibold text-lg hover:underline w-52 items-start justify-start text-center whitespace-nowrap overflow-hidden text-ellipsis"
+                      title={offer.productName}
                     // onClick={() => navigate(`/detailspage/${index}`)}
-                  >
-                    {offer.productName}
-                  </p>
+                    >
+                      {offer.productName}
+                    </p>
                   </Link>
                   <span className="">${offer.salePrice?.toFixed(2)}</span>
                 </div>

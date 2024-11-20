@@ -8,7 +8,7 @@ const EditFields = () => {
     const GetProductById = async () => {
       try {
         const response = await fetch(
-          `http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/ProductFilter/GetProductsById?AddproductID=${addproductID}`,
+          `http://ec2-100-29-38-82.compute-1.amazonaws.com/api/ProductFilter/GetProductsById?AddproductID=${addproductID}`,
           {
             method: "GET",
           }

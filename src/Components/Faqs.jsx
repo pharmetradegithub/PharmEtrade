@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import plus from '../assets/Icons/plus.png'
 import minus from '../assets/Icons/minus.png'
+import { useLocation } from 'react-router-dom';
 
 function Faqs() {
 
@@ -95,40 +96,83 @@ function Faqs() {
        
     ]
 
+    const location = useLocation();
+
+
   return (
-    <div className='w-full h-full flex flex-col  overflow-y-scroll '>
+    // <div className='w-full h-full flex flex-col  overflow-y-scroll '>
          
-        <div className='flex flex-col  bg-white justify-center items-center overflow-y-auto'>
-            <div className='flex flex-col mt-60 justify-center  items-center  mb-4   w-[85%] h-full'>
-                {questions.map((question) => (
-                    <div
-                        key={question.id}
-                        className=' w-[85%] bg-gray-300 h-full flex justify-start gap-6 p-4 border shadow-md rounded-md items-start my-2'
-                    >
-                        <div className='flex flex-col w-full h-full'>
-                            <div className='flex justify-between items-center'>
-                                <p className='font-semibold'>{question.Question}</p>
-                                <div onClick={() => toggleQuestion(question.id)}>
-                                    {Activequestion === question.id ? (
-                                        <img src={question.src1} className='cursor-pointer w-7 h-5'/>
-                                        // <question.src1 className='text-xl cursor-pointer w-7 h-6' />
-                                    ) : (
-                                        <img src={question.src} className='cursor-pointer w-7 h-5'/>
-                                        // <question.src className='text-xl cursor-pointer w-7 h-6' />
-                                    )}
-                                </div>
-                            </div>
-                            {Activequestion === question.id && (
-                                <div className='mt-2'>
-                                    <p>{question.Answer}</p>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                ))}
+    //     <div className='flex flex-col  bg-white justify-center items-center overflow-y-auto'>
+    //         {/* <div className='flex flex-col mt-60 justify-center  items-center  mb-4   w-[85%] h-full'> */}
+    //         <div
+    //   className={`flex flex-col justify-center items-center mb-4 w-[85%] h-full ${
+    //     location.pathname === '/layout/faqs' ? 'mt-60' : ''
+    //   }`}
+    // >
+    //             {questions.map((question) => (
+    //                 <div
+    //                     key={question.id}
+    //                     className=' w-[85%] bg-gray-300 h-full flex justify-start gap-6 p-4 border shadow-md rounded-md items-start my-2'
+    //                 >
+    //                     <div className='flex flex-col w-full h-full'>
+    //                         <div className='flex justify-between items-center'>
+    //                             <p className='font-semibold'>{question.Question}</p>
+    //                             <div onClick={() => toggleQuestion(question.id)}>
+    //                                 {Activequestion === question.id ? (
+    //                                     <img src={question.src1} className='cursor-pointer w-7 h-5'/>
+    //                                     // <question.src1 className='text-xl cursor-pointer w-7 h-6' />
+    //                                 ) : (
+    //                                     <img src={question.src} className='cursor-pointer w-7 h-5'/>
+    //                                     // <question.src className='text-xl cursor-pointer w-7 h-6' />
+    //                                 )}
+    //                             </div>
+    //                         </div>
+    //                         {Activequestion === question.id && (
+    //                             <div className='mt-2'>
+    //                                 <p>{question.Answer}</p>
+    //                             </div>
+    //                         )}
+    //                     </div>
+    //                 </div>
+    //             ))}
+    //         </div>
+    //         </div>
+    //     </div>
+    <div className="w-full sm:w-full h-full flex flex-col overflow-y-scroll mt-5 p-2">
+    <div className="flex flex-col bg-white justify-center items-center overflow-y-auto">
+      <div
+        className={`flex flex-col justify-center items-center mt-5 mb-4 w-full sm:w-[90%] md:w-[85%] h-full ${
+          location.pathname === "/layout/faqs" ? "mt-60" : ""
+        }`}
+      >
+      {questions.map((question) => (
+        <div
+          key={question.id}
+          className="w-full sm:w-[90%] md:w-[85%] bg-gray-300 h-full flex justify-start gap-6 p-4 border shadow-md rounded-md items-start my-2"
+        >
+          <div className="flex flex-col w-full h-full">
+            <div className="flex justify-between items-center">
+              <p className="font-semibold">{question.Question}</p>
+              <div onClick={() => toggleQuestion(question.id)}>
+                {Activequestion === question.id ? (
+                  <img src={question.src1} className="cursor-pointer w-7 h-5" />
+                ) : (
+                  <img src={question.src} className="cursor-pointer w-7 h-5" />
+                )}
+              </div>
             </div>
-            </div>
+            {Activequestion === question.id && (
+              <div className="mt-2">
+                <p>{question.Answer}</p>
+              </div>
+            )}
+          </div>
         </div>
+      ))}
+    </div>
+  </div>
+</div>
+
   )
 }
 

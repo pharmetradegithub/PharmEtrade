@@ -151,17 +151,35 @@ console.log(scrollPosition,"Y axis");
 
   // console.log("criteria--->", criteriaProducts);
   return (
-    <div className="w-screen overflow-x-hidden ">
+    // <div className="w-screen overflow-x-hidden ">
+    //   <div className="flex relative Largest:w-[85%] flex-row justify-center pr-4 gap-10">
+    //     <div
+    //       className={` hidden lg:flex overflow-y-scroll h-[calc(100vh-125px)] justify-center w-72 mt-2 pb-10 ${
+    //         scrollPosition > 880 ? 'absolute' : 'fixed'
+    //       }`}
+    //       style={{ left: scrollPosition > 880 ? `${leftOffset}px` : '0' }}
+    //     >
+    //       <ProductSideBar handleChange={handleChange} />
+    //     </div>
+    //     {/* <div className="Largest:w-full w-[calc(100%-288px)] Desktop:ml-28 Largest::ml-48 ml-72 min-h-[230vh] "> */}
+    //     <div className="w-full lg:w-[calc(100%-288px)] md:w-full Desktop:ml-28 Largest:ml-48 ml-3 lg:ml-72 min-h-[230vh]">
+    //     <Outlet />
+    //     </div>
+    //   </div>
+    // </div>
+    <div className="w-screen overflow-x-hidden">
       <div className="flex relative Largest:w-[85%] flex-row justify-center pr-4 gap-10">
+        {/* ProductSideBar - Hidden on small and medium screens */}
         <div
-          className={`flex overflow-y-scroll h-[calc(100vh-125px)] justify-center w-72 mt-2 pb-10 ${
-            scrollPosition > 880 ? 'absolute' : 'fixed'
-          }`}
+          className={`hidden lg:flex overflow-y-scroll h-[calc(100vh-125px)] justify-center w-72 mt-2 pb-10 ${scrollPosition > 880 ? 'absolute' : 'fixed'
+            }`}
           style={{ left: scrollPosition > 880 ? `${leftOffset}px` : '0' }}
         >
           <ProductSideBar handleChange={handleChange} />
         </div>
-        <div className="Largest:w-full w-[calc(100%-288px)] Desktop:ml-28 Largest::ml-48 ml-72 min-h-[230vh] ">
+
+        {/* Outlet - Full width on small/medium screens, adjusted width on large screens */}
+        <div className="w-full lg:w-[calc(100%-288px)] md:w-full Desktop:ml-28 Largest:ml-48 ml-3 lg:ml-72 min-h-[230vh]">
           <Outlet />
         </div>
       </div>

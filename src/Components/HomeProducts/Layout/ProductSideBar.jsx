@@ -128,7 +128,7 @@ function ProductSideBar({ handleChange }) {
   };
 
   return (
-    <div className="w-full z-[-10]  bg-slate-50 text-lg py-4 pl-4">
+    <div className=" hidden lg:block w-full z-[-10]  bg-slate-50 text-lg py-4 pl-4">
       {components?.map((category, index) => (
         <div
         key={category.productCategoryId}

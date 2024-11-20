@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { TextField } from '@mui/material';
 import background_image from "../../../assets/Demobg.jpg";
@@ -166,115 +167,138 @@ const RequestDemo = ({ topMargin }) => {
   };
 
   return (
-    <div
-      className="w-full relative flex justify-center items-center"
-      style={{ marginTop: `${topMargin}px` }}
-    >
-      <div className="flex w-full h-screen z-[-1] top-0 absolute justify-center items-center">
-        <img className="w-full opacity-50" src={background_image} alt="Background" />
-      </div>
 
-      <div className="w-full h-screen flex items-center">
-        <div className="w-[54%] p-20 m-4 flex flex-col gap-6">
-          <h1 className='text-6xl text-black font-semibold'>Unlock Your Marketplace Potential with a Live Demo</h1>
-          <p className='text-black text-xl font-medium'>See how our platform can elevate your buying and selling experience. 
-            Join our live demo to explore powerful features designed for your success.</p>
-        </div>
+<div
+  className="w-full relative flex flex-col md:flex-row justify-center items-center"
+  style={{ marginTop: `${topMargin}px` }}
+>
+  <div className="absolute top-0 w-full h-full sm:h-[70vh] md:h-[95vh] lg:h-screen z-[-1] flex justify-center items-center">
+    <img className="w-full h-full opacity-50" src={background_image} alt="Background" />
+  </div>
 
-        {/* Conditional rendering based on form visibility */}
-        <div className="w-[46%] flex flex-col m-4 bg-white p-8">
-          {formVisible ? (
-            <>
-              <h2 className="text-xl font-bold mb-4">SCHEDULE A LIVE DEMO TODAY</h2>
-              <form className="w-full flex flex-col space-y-4" onSubmit={handleSubmit}>
-                <div className="flex space-x-4">
-                  <div className="flex-1">
-                    <TextField
-                      label="First Name"
-                      variant="outlined"
-                      fullWidth
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={handleInputChange}
-                      error={!!errors.firstName}
-                      helperText={errors.firstName}
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <TextField
-                      label="Last Name"
-                      variant="outlined"
-                      fullWidth
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleInputChange}
-                      error={!!errors.lastName}
-                      helperText={errors.lastName}
-                    />
-                  </div>
-                </div>
-                <TextField
-                  label="Email Address"
-                  variant="outlined"
-                  fullWidth
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  error={!!errors.email}
-                  helperText={errors.email}
-                />
-                <div className="flex space-x-4">
-                  <TextField
-                    label="Area Code"
-                    variant="outlined"
-                    fullWidth
-                    name="areaCode"
-                    value={formData.areaCode}
-                    onChange={handleInputChange}
-                    error={!!errors.areaCode}
-                    helperText={errors.areaCode}
-                  />
-                  <TextField
-                    label="Phone Number"
-                    variant="outlined"
-                    fullWidth
-                    name="phoneNumber"
-                    value={formData.phoneNumber}
-                    onChange={handlePhoneInputChange} // Custom phone input handler
-                    error={!!errors.phoneNumber}
-                    helperText={errors.phoneNumber}
-                  />
-                </div>
-                <TextField
-                  label="Company Name"
-                  variant="outlined"
-                  fullWidth
-                  name="companyName"
-                  value={formData.companyName}
-                  onChange={handleInputChange}
-                  error={!!errors.companyName}
-                  helperText={errors.companyName}
-                />
-                <button
-                  type="submit"
-                  className='bg-blue-900 text-white p-2 rounded-md font-semibold'
-                >
-                  Request Your Demo
-                </button>
-              </form>
-              <p className="mt-4 text-gray-600 text-center">
-                We don’t share your info, promise
-              </p>
-            </>
-          ) : (
-            <div className="text-center">
-              <h2 className="text-2xl font-bold text-green-600">{successMessage}</h2>
-            </div>
-          )}
-        </div>
-      </div>
+  <div className="w-full h-auto md:h-screen flex flex-col sm:flex-col md:flex-row lg:flex-row items-center">
+    {/* Left side content */}
+    <div className="w-full sm:w-full md:w-[54%] lg:w-[54%] p-6 sm:p-10 md:p-20 m-4 flex flex-col gap-6">
+      <h1 className='text-3xl sm:text-2xl md:text-2xl lg:text-6xl text-black font-semibold'>
+        Unlock Your Marketplace Potential with a Live Demo
+      </h1>
+      <p className='text-black text-base sm:text-base md:text-base font-medium'>
+        See how our platform can elevate your buying and selling experience.
+        Join our live demo to explore powerful features designed for your success.
+      </p>
     </div>
+
+    {/* Right side form */}
+    <div className="w-full sm:w-full md:w-[46%] lg:w-[46%] flex flex-col m-4 bg-white p-6 sm:p-8">
+      {formVisible ? (
+        <>
+          <h2 className="text-xl font-bold mb-4">SCHEDULE A LIVE DEMO TODAY</h2>
+          <form className="w-full flex flex-col space-y-4" onSubmit={handleSubmit}>
+            <div className="flex flex-col sm:flex-col md:flex-row space-x-0 md:space-x-4">
+              <div className="flex-1">
+                <TextField
+                  label="First Name"
+                  variant="outlined"
+                  fullWidth
+                   size='small'
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleInputChange}
+                  error={!!errors.firstName}
+                  helperText={errors.firstName}
+                />
+              </div>
+              <div className="flex-1 mt-4 md:mt-0">
+                <TextField
+                  label="Last Name"
+                  variant="outlined"
+                  fullWidth
+                   size='small'
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleInputChange}
+                  error={!!errors.lastName}
+                  helperText={errors.lastName}
+                />
+              </div>
+            </div>
+
+            <TextField
+              label="Email Address"
+              variant="outlined"
+              fullWidth
+               size='small'
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              error={!!errors.email}
+              helperText={errors.email}
+            />
+
+            <div className="flex flex-col sm:flex-col md:flex-row space-x-0 md:space-x-4">
+            <div className="flex-1">
+              <TextField
+                label="Area Code"
+                variant="outlined"
+                fullWidth
+                 size='small'
+                name="areaCode"
+                value={formData.areaCode}
+                onChange={handleInputChange}
+                error={!!errors.areaCode}
+                helperText={errors.areaCode}
+              />
+              </div>
+                            <div className="flex-1 mt-4 md:mt-0">
+
+              <TextField
+                label="Phone Number"
+                variant="outlined"
+                fullWidth
+                 size='small'
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handlePhoneInputChange} // Custom phone input handler
+                error={!!errors.phoneNumber}
+                helperText={errors.phoneNumber}
+              />
+              </div>
+            </div>
+
+            <TextField
+              label="Company Name"
+              variant="outlined"
+              fullWidth
+              size='small'
+              name="companyName"
+              value={formData.companyName}
+              onChange={handleInputChange}
+              error={!!errors.companyName}
+              helperText={errors.companyName}
+            />
+
+            <button
+              type="submit"
+              className='bg-blue-900 text-white p-2 rounded-md font-semibold'
+            >
+              Request Your Demo
+            </button>
+          </form>
+          <p className="mt-4 text-gray-600 text-center">
+            We don’t share your info, promise
+          </p>
+        </>
+      ) : (
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-green-600">{successMessage}</h2>
+        </div>
+      )}
+    </div>
+  </div>
+</div>
+
   );
 };
 
 export default RequestDemo;
+

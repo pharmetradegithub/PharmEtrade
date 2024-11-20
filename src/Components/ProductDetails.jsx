@@ -237,7 +237,7 @@ const ProductDetails = ({
               Take one tablet daily or as directed by your physician.
             </span>
           </div>
-          <div className="flex w-full ">
+          {/* <div className="flex w-full ">
             <div className=" w-[50%] ">
               <p className="text-xl text-blue-900  my-4 font-semibold">
                 Product Information
@@ -334,7 +334,93 @@ const ProductDetails = ({
                 </ul>
               </div>
             </div>
-          </div>
+          </div> */}
+          <div className="flex flex-col sm:flex-row sm:w-full w-[90%] mx-auto">
+  {/* Left section: Product Information */}
+  <div className="sm:w-full lg:w-[50%] w-full">
+    <p className="text-xl text-blue-900 my-4 font-semibold">
+      Product Information
+    </p>
+    <div className="my-4">
+      {detailsTables.map((detailsTable, index) => (
+        <div key={index} className="flex">
+          <table className="table-fixed border border-gray-400 w-full h-auto">
+            <tbody>
+              <tr className="grid grid-cols-2 border-b">
+                <th className="p-2 text-left bg-slate-100">Product Name:</th>
+                <td className="p-2">{product}</td>
+              </tr>
+              <tr className="grid grid-cols-2 border-b">
+                <th className="p-2 text-left bg-slate-100">Manufacturer:</th>
+                <td className="p-2">{manufacturer}</td>
+              </tr>
+              <tr className="grid grid-cols-2 border-b">
+                <th className="p-2 text-left bg-slate-100">Size:</th>
+                <td className="p-2">{size}</td>
+              </tr>
+              <tr className="grid grid-cols-2 border-b">
+                <th className="p-2 text-left bg-slate-100">Form:</th>
+                <td className="p-2">{Form}</td>
+              </tr>
+              <tr className="grid grid-cols-2 border-b">
+                <th className="p-2 text-left bg-slate-100">UOM:</th>
+                <td className="p-2">{UOM}</td>
+              </tr>
+              <tr className="grid grid-cols-2 border-b">
+                <th className="p-2 text-left bg-slate-100">Strength:</th>
+                <td className="p-2">{Strength}</td>
+              </tr>
+              <tr className="grid grid-cols-2 border-b">
+                <th className="p-2 text-left bg-slate-100">Brand Name:</th>
+                <td className="p-2">{Brand}</td>
+              </tr>
+              <tr className="grid grid-cols-2 border-b">
+                <th className="p-2 text-left bg-slate-100">Height:</th>
+                <td className="p-2">{Height}(Inches)</td>
+              </tr>
+              <tr className="grid grid-cols-2 border-b">
+                <th className="p-2 text-left bg-slate-100">Weight:</th>
+                <td className="p-2">{Weight}(Grams)</td>
+              </tr>
+              <tr className="grid grid-cols-2 border-b">
+                <th className="p-2 text-left bg-slate-100">Width:</th>
+                <td className="p-2">{Width}(Cm)</td>
+              </tr>
+              <tr className="grid grid-cols-2">
+                <th className="p-2 text-left bg-slate-100">Length:</th>
+                <td className="p-2">{Length}(Cm)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {/* Right section: Safety Information */}
+  <div className="sm:w-full lg:w-[50%] w-full mt-6 sm:mt-0 sm:ml-6">
+    <h2 className="text-xl font-semibold text-blue-900 mt-4">
+      Safety Information:
+    </h2>
+    <div className="p-6">
+      <ul className="font-normal list-disc font-sans text-[16px] space-y-2">
+        <li>Keep out of reach of children</li>
+        <li>Use under medical supervision</li>
+        <li>Do not exceed the recommended dose</li>
+        <li>Store in a cool, dry place away from direct sunlight</li>
+        <li>
+          Pregnant or nursing mothers, children, and people with medical
+          conditions must consult a physician before taking this supplement
+        </li>
+        <li>
+          Do not use if the product appears to be tampered with or the seal is
+          broken
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
         </div>
       </div>
     </div>

@@ -752,7 +752,8 @@ function LayoutCategory({
     message: "",
   });
   const navigate = useNavigate();
-
+  const [productLink, setProductLink] = useState("");
+  const [currentProductID, setCurrentProductID] = useState("");
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
   const [showMore, setShowMore] = useState({});
@@ -882,7 +883,7 @@ function LayoutCategory({
       const updatedList = [...prev];
       updatedList[index] = {
         ...updatedList[index],
-        CartQuantity: quantity,
+        minOrderQuantity: quantity,
       };
       return updatedList;
     });
@@ -1073,7 +1074,44 @@ function LayoutCategory({
   //     setLoading(false);
   //   }
   // };
+  // Function to handle sharing
+  const handleProductDetailsShare = (productID) => {
+    setCurrentProductID(productID); // Store the productID in state
+    const productURL = `/detailspage/${productID}`;
+    setProductLink(window.location.origin + productURL); // Store the complete URL
+  };
+  // Function to handle sharing
+  const handleShare = (productID) => {
+    handleProductDetailsShare(productID); // Ensure the product details are set
 
+    const productLink = window.location.origin + `/detailspage/${productID}`;
+
+    if (navigator.share) {
+      navigator
+        .share({
+          title: "Check out this product!",
+          url: productLink,
+        })
+        .then(() => console.log("Successful share!"))
+        .catch((error) => {
+          console.log("Error sharing", error);
+          // Fallback to copying the link to clipboard
+          navigator.clipboard.writeText(productLink).then(() => {
+            alert("Link copied to clipboard");
+          });
+        });
+    } else {
+      // Fallback to copying the link to clipboard if sharing is not supported
+      navigator.clipboard
+        .writeText(productLink)
+        .then(() => {
+          alert("Link copied to clipboard");
+        })
+        .catch((error) => {
+          console.error("Error copying text to clipboard:", error);
+        });
+    }
+  };
   return (
     <div className="w-[95%] mt-4 ml-4 h-full overflow-y-scroll">
       {notification.show && (
@@ -1382,7 +1420,7 @@ function LayoutCategory({
                           onClick={() => {
                             const newQuantity = Math.max(
                               1,
-                              product.CartQuantity - 1
+                              product.minOrderQuantity - 1
                             );
 
                             // Clear stock warning if the new quantity is within the stock
@@ -1392,10 +1430,10 @@ function LayoutCategory({
 
                             handleQuantityChange(index, newQuantity);
                           }}
-                          disabled={
-                            product.CartQuantity <= 1 ||
-                            product.amountInStock <= 0
-                          }
+                          // disabled={
+                          //   product.CartQuantity <= 1 ||
+                          //   product.amountInStock <= 0
+                          // }
                         >
                           -
                         </button>
@@ -1403,7 +1441,9 @@ function LayoutCategory({
                         {/* Input for quantity */}
                         <input
                           type="text"
-                          value={product.CartQuantity}
+                          // value={product.CartQuantity}
+                          value={product.amountInStock === 0 ? 0 : product.minOrderQuantity}
+                          // value={product.amountInStock === 0 ? 0 : product.CartQuantity || product.minOrderQuantity}
                           className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
                           onChange={(e) => {
                             const value = e.target.value;
@@ -1431,7 +1471,7 @@ function LayoutCategory({
                         <button
                           className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
                           onClick={() => {
-                            const newQuantity = product.CartQuantity + 1;
+                            const newQuantity = product.minOrderQuantity + 1;
 
                             // Check if quantity exceeds stock
                             if (newQuantity > product.amountInStock) {
@@ -1460,7 +1500,7 @@ function LayoutCategory({
 <div
                         onClick={() => {
                           if (product.amountInStock !== 0) {
-                            handleCart(product.productID, product.CartQuantity);
+                            handleCart(product.productID, product.minOrderQuantity);
                           }
                         }}
                         className={`flex text-white h-[32px] px-2 mt-24 rounded-lg  justify-center items-center

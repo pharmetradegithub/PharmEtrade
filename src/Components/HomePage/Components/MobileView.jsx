@@ -1,20 +1,17 @@
-
-
-
 // import React, { useState, useEffect } from "react";
 // import AnimatedText from "./AnimatedText";
 // import BuyImg from "../../../assets/Buy_icon.png";
 // import JoinImg from "../../../assets/Join-icon.png";
 // import SellImg from "../../../assets/Sell-icon.png";
 // import BidImg from "../../../assets/Bid-icon.png";
-// // import mobileBuy from "../../../assets/mobileBuy.png"; 
-// // import mobileJoin from "../../../assets/mobileJoin.jpg"; 
-// // import mobileSell from "../../../assets/mobileSell.jpg"; 
-// // import mobileBid from "../../../assets/mobileBid.jpg"; 
-// import mobileBuy from "../../../assets/mobileBuy.png"; 
-// import mobileJoin from "../../../assets/mobileJoin1.png"; 
-// import mobileSell from "../../../assets/mobileSell1.png"; 
-// import mobileBid from "../../../assets/mobileBid1.png"; 
+// // import mobileBuy from "../../../assets/mobileBuy.png";
+// // import mobileJoin from "../../../assets/mobileJoin.jpg";
+// // import mobileSell from "../../../assets/mobileSell.jpg";
+// // import mobileBid from "../../../assets/mobileBid.jpg";
+// import mobileBuy from "../../../assets/mobileBuy.png";
+// import mobileJoin from "../../../assets/mobileJoin1.png";
+// import mobileSell from "../../../assets/mobileSell1.png";
+// import mobileBid from "../../../assets/mobileBid1.png";
 
 // const MobileView = () => {
 //   const [selectedStepIndex, setSelectedStepIndex] = useState(0);
@@ -113,24 +110,22 @@
 
 // export default MobileView;
 
-
-
 import React, { useState, useEffect } from "react";
 import AnimatedText from "./AnimatedText";
 import BuyImg from "../../../assets/Buy_icon.png";
 import JoinImg from "../../../assets/Join-icon.png";
 import SellImg from "../../../assets/Sell-icon.png";
 import BidImg from "../../../assets/Bid-icon.png";
-import playstore from '../../../assets/googleplay.png'
-import appstore from '../../../assets/apple[1].png'
-// import mobileBuy from "../../../assets/mobileBuy.png"; 
-// import mobileJoin from "../../../assets/mobileJoin.jpg"; 
-// import mobileSell from "../../../assets/mobileSell.jpg"; 
-// import mobileBid from "../../../assets/mobileBid.jpg"; 
-import mobileBuy from "../../../assets/mobileBuy.png"; 
-import mobileJoin from "../../../assets/mobileJoin1.png"; 
-import mobileSell from "../../../assets/mobileSell1.png"; 
-import mobileBid from "../../../assets/mobileBid1.png"; 
+import playstore from "../../../assets/googleplay.png";
+import appstore from "../../../assets/apple[1].png";
+// import mobileBuy from "../../../assets/mobileBuy.png";
+// import mobileJoin from "../../../assets/mobileJoin.jpg";
+// import mobileSell from "../../../assets/mobileSell.jpg";
+// import mobileBid from "../../../assets/mobileBid.jpg";
+import mobileBuy from "../../../assets/mobileBuy.png";
+import mobileJoin from "../../../assets/mobileJoin1.png";
+import mobileSell from "../../../assets/mobileSell1.png";
+import mobileBid from "../../../assets/mobileBid1.png";
 
 const MobileView = () => {
   const [selectedStepIndex, setSelectedStepIndex] = useState(0);
@@ -175,61 +170,57 @@ const MobileView = () => {
   };
 
   return (
-    <div className="w-full flex flex-col items-center justify-center ">
-      <h1 className="text-3xl font-semibold text-text-blue my-4">
+    <div className="w-full flex flex-col items-center justify-center px-4">
+      <h1 className="text-2xl md:text-3xl font-semibold text-text-blue my-4 text-center">
         Get Our Mobile App Today
       </h1>
 
-      <div className="flex w-[80%] justify-center">
-        <div className="w-[55%] h-full flex flex-col justify-center">
+      <div className="flex flex-col md:flex-row w-full md:w-[80%] justify-center">
+        <div className="w-full md:w-[55%] h-full flex flex-col justify-center items-center">
           <AnimatedText />
 
-          <div className="flex flex-col w-[90%]">
+          <div className="flex flex-col w-full md:w-[90%] px-2">
             {steps.map((step, index) => (
               <div
                 key={index}
-                className={`flex items-center p-1 rounded-lg shadow-inner border w-full my-2  cursor-pointer ${
+                className={`flex items-center p-2 rounded-lg shadow-inner border w-full my-2 cursor-pointer ${
                   index === selectedStepIndex ? "bg-gray-300" : ""
                 }`}
                 onClick={() => handleClick(index)}
               >
                 <img
-                  className="text-xl p-1 w-9 h-9 text-blue-900"
+                  className="w-8 h-8 text-blue-900 mr-2"
                   src={step.img}
                   alt={step.heading}
                 />
-                <div className="p-2 w-full">
-                  <h2 className="text-[16px] font-bold text-blue-900">
+                <div className="w-full">
+                  <h2 className="text-base font-bold text-blue-900">
                     {step.heading}
                   </h2>
-                  <p className="text-[15px] text-gray-700 font-medium">
+                  <p className="text-sm text-gray-700 font-medium">
                     {step.content}
                   </p>
                 </div>
               </div>
             ))}
           </div>
-          {/* <div className="w-full">
-            <button className="border border-gray-500 bg-blue-900 text-white mt-2 p-2 rounded-lg w-44 mb-8">
-              Download Now
-            </button>
-          </div> */}
-           <div className=' flex py-6'>
-               
-               <button className='bg-blue-900 text-white mx-4 w-32 h-8 rounded-md flex items-center p-2'>
-                   <img src={playstore} className='w-6'/>
-                 {" "}  Google Play
-               </button>
 
-               <button className='bg-blue-900 rounded-md text-white mx-6 w-28 flex h-8 items-center'>
-                   <img src={appstore} className='w-8 '/>
-                   App Store</button>
-           </div>
+          <div className="flex py-4 justify-center gap-4">
+            <button className="bg-blue-900 text-white w-32 h-10 rounded-md flex items-center justify-center p-2 gap-2">
+              <img src={playstore} className="w-5" alt="Google Play" />
+              Google Play
+            </button>
+            <button className="bg-blue-900 text-white w-32 h-10 rounded-md flex items-center justify-center p-2 gap-2">
+              <img src={appstore} className="w-5" alt="App Store" />
+              App Store
+            </button>
+          </div>
         </div>
-        <div className="w-[45%] h-full flex justify-center items-center">
+
+        <div className="w-full md:w-[45%] h-full flex justify-center items-center mt-4 md:mt-0">
           <img
             src={steps[selectedStepIndex].mobileImage}
-            className="w-[250px] h-[400px]"
+            className="w-[200px] h-[350px] md:w-[250px] md:h-[400px]"
             alt="Mobile App"
           />
         </div>

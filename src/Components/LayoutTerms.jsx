@@ -12,8 +12,8 @@ const LayoutTerms =({ topMargin, setActiveStep }) => {
                 <img src={logo} className='w-56 h-12'/>
                 </div> */}
                 <div className='flex justify-center items-center w-full flex-col'>
-            <div className='w-[80%]  px-20 py-2 h-full border-b '>
-                <h1 className='text-3xl font-medium text-blue-900 text-start py-6 underline'>
+            <div className='w-[80%] px-0 md:px-20 py-2 h-full border-b '>
+                <h1 className=' text-xl md:text-3xl font-medium mt-5 md:mt-0 text-blue-900 text-start py-6 underline'>
                     Terms & Conditions
                 </h1>
                 {/* <button onClick={() => setActiveStep(3)} className=' flex text-red-500 text-xl hover:under  gap-1'>
@@ -107,9 +107,9 @@ const LayoutTerms =({ topMargin, setActiveStep }) => {
 
             </div>
 
-            <div className='flex py-4'>
+            <div className='flex flex-col md:flex-row py-4'>
                 <div>
-                    <img src={mobile} className='w-60 h-96' />
+                    <img src={mobile} className=' w-40 h-80 md:w-60 md:h-96 ml-20 md:ml-0' />
                 </div>
                 <div className='flex flex-col items-center justify-center '>
                     <h1 className='flex  text-xl'>Download App for Free</h1>

@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 function PLefts() {
   let navigate = useNavigate();
 
-
   function handleClick() {
     navigate("/signup");
   }
@@ -32,9 +31,6 @@ function PLefts() {
     };
   }, []);
 
-  // console.log(scrollY);
-  
-
   return (
     <div
       className={` fixed top-44 bottom-0 left-0 overflow-y-auto ${
@@ -42,7 +38,7 @@ function PLefts() {
       }`}
     >
       <ul className="list-none space-y-4">
-        <li  onClick={handleBuy}>
+        <li onClick={handleBuy}>
           <a
             href="#"
             style={{ borderColor: "#41cdcf", color: "#41cdcf" }}
@@ -60,8 +56,7 @@ function PLefts() {
             className="flex items-center bg-pink-50 border-2 border-pink-600 text-pink-600 rounded-r-full h-14 w-14 hover:w-28 transition-all duration-400 ease-in-out overflow-hidden relative group"
           >
             <span className="absolute left-0 hover:left-4 whitespace-nowrap transition-all duration-400 ease-in-out transform -translate-x-full group-hover:translate-x-0">
-             
-             <p>Join</p> 
+              <p>Join</p>
             </span>
             <img src={hand} className="ml-auto mr-6 text-2xl w-8" />
           </a>

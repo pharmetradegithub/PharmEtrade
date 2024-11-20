@@ -30,7 +30,7 @@ import Pagination from "../../Pagination";
 function AllProducts({ Title, topMargin, addCart, wishList }) {
   const [showMore, setShowMore] = useState({});
 
- const toggleShowMore = (index) => {
+  const toggleShowMore = (index) => {
     setShowMore((prevState) => ({
       ...prevState,
       [index]: !prevState[index],
@@ -232,15 +232,15 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
-      <div className=" flex justify-between bg-blue-900 p-1 rounded-lg">
-        <div className="text-xl pl-2 flex items-center text-white">
+      <div className=" flex justify-between bg-blue-900 p-1 rounded-lg mt-10 md:mt-0">
+        <div className="text-xl pl-2 flex items-center text-white ">
           {searchInput != null ? `Search on ${searchInput}` : "ALL PRODUCTS"}
           {/* {{Heading} ? Heading : "All Products"} */}
         </div>
       </div>
 
       <div className="w-[95%]">
-        <div className="grid grid-cols-4 grid-rows-2 gap-4 mt-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-2 gap-4 mt-8">
           {currentItems.length == 0 && <div>No products are available</div>}
           {currentItems?.map((item, index) => (
             <div
@@ -256,12 +256,12 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                       ? filledHeart
                       : emptyHeart
                   }
-                  className="h-8 p-[6px] cursor-pointer absolute right-0 "
+                  className="h-7 sm:h-8 p-[6px] cursor-pointer absolute right-0 "
                   alt="Favorite Icon"
                 />
                 <img
                   src={other}
-                  className="h-5 w-5 right-1 absolute bottom-1 text-green-700"
+                  className="sm:h-5 sm:w-5 h-4 w-4  right-1 absolute bottom-1 text-green-700"
                   alt="Other Icon"
                 />
 
@@ -269,7 +269,7 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                   <img
                     src={item.productGallery.imageUrl}
                     alt={`nature-${index + indexOfFirstItem}`}
-                    className="h-40 w-28 rounded-lg"
+                    className=" h-32 w-24 sm:h-40 sm:w-28 lg:h-48 lg:w-36 rounded-lg"
                   />
                 </Link>
               </div>
@@ -279,11 +279,11 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 <h1 className="text-fonts font-semibold">${item.salePrice?.toFixed(2)}</h1>
               </div> */}
               <div className="w-full py-1">
-              <h2 className="text-fonts h-12">
+                <h2 className="text-fonts h-12 text-sm sm:text-base">
                   {showMore[index]
                     ? item.productName
-                    : `${item.productName.slice(0, 40)}`}
-                  {item.productName.length > 40 && (
+                    : `${item.productName.slice(0, 30)}`}
+                  {item.productName.length > 30 && (
                     <button
                       className="text-blue-500 ml-1"
                       onClick={() => toggleShowMore(index)}
@@ -308,17 +308,17 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                   </h1>
                 )} */}
                 {new Date() >= new Date(item?.salePriceValidFrom) &&
-                new Date() <= new Date(item?.salePriceValidTo) ? (
+                  new Date() <= new Date(item?.salePriceValidTo) ? (
                   <div className="flex items-center gap-1">
-                    <h1 className="text-fonts font-semibold">
+                    <h1 className="text-fonts text-sm sm:text-base  font-semibold">
                       ${item.salePrice?.toFixed(2)}
                     </h1>
-                    <span className="text-[10px] line-through">
+                    <span className="text-xs sm:text-sm line-through">
                       (${item.unitPrice?.toFixed(2)})
                     </span>
                   </div>
                 ) : (
-                  <h1 className="text-fonts font-semibold mt-4">
+                  <h1 className="text-fonts text-sm sm:text-base  font-semibold mt-4">
                     ${item.unitPrice?.toFixed(2)}
                   </h1>
                 )}
@@ -339,15 +339,15 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                 <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
               </div> */}
-              <div className="flex justify-between items-center">
+              <div className="flex flex-col md:flex-row justify-between items-center">
                 <div className="flex items-center">
-                  <span style={{ fontSize: "24px", color: "orange" }}>★</span>
-                  <span style={{ fontSize: "24px", color: "orange" }}>★</span>
-                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
-                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
-                  <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                  <span className="text-orange-500 text-lg md:text-xl lg:text-2xl">★</span>
+                  <span className="text-orange-500 text-lg md:text-xl lg:text-2xl">★</span>
+                  <span className="text-orange-500 text-lg md:text-xl lg:text-2xl">☆</span>
+                  <span className="text-orange-500 text-lg md:text-xl lg:text-2xl">☆</span>
+                  <span className="text-orange-500 text-lg md:text-xl lg:text-2xl">☆</span>
                 </div>
-                <div className="text-xs">
+                <div className="text-xs sm:text-sm">
                   {item.amountInStock <= 0 ? (
                     <p className="text-red-500 font-semibold">Out Of Stock</p>
                   ) : (
@@ -374,11 +374,10 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 <button className="text-white font-semibold">ADD</button>
               </div> */}
               <div
-                className={`flex p-1 rounded-md justify-center ${
-                  item.amountInStock <= 0
+                className={`flex p-1 rounded-md justify-center ${item.amountInStock <= 0
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-blue-900 cursor-pointer"
-                }`}
+                  }`}
                 onClick={() => {
                   if (item.amountInStock > 0) {
                     handleCart(item.productID); // Only call handleCart if item is in stock
@@ -388,14 +387,12 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 <img
                   src={addcart}
                   alt="Add to cart"
-                  className={`h-8 p-[6px] ${
-                    item.amountInStock <= 0 ? "opacity-50" : ""
-                  }`}
+                  className={`h-6 sm:h-8 p-1  ${item.amountInStock <= 0 ? "opacity-50" : ""
+                    }`}
                 />
                 <button
-                  className={`text-white font-semibold ${
-                    item.amountInStock <= 0 ? "opacity-50" : ""
-                  }`}
+                  className={`text-white font-semibold ${item.amountInStock <= 0 ? "opacity-50" : ""
+                    }`}
                   disabled={item.amountInStock <= 0} // Disable the button when out of stock
                 >
                   ADD

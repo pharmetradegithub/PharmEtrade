@@ -117,23 +117,26 @@ const EditSellerList = () => {
   const [userDetails, setUserDetails] = useState({
     firstName: userdata?.firstName || "",
     lastName: userdata?.lastName || "",
+    customerTypeId: userdata?.customerTypeId || "",
     email: userdata?.email || "",
     password: userdata?.password || "",
     // phoneNumber: userdata?.phoneNumber || "",
     mobile: userdata?.mobile || "",
+    isUPNMember : userdata?.isUPNMember==null? "":userdata?.isUPNMember==1? "true":"false",
   });
-
   useEffect(() => {
     setUserDetails({
       firstName: userdata?.firstName || "",
       lastName: userdata?.lastName || "",
+      customerTypeId: userdata?.customerTypeId || "",
       email: userdata?.email || "",
       password: userdata?.password || "",
       // phoneNumber: userdata?.phoneNumber || "",
       mobile: userdata?.mobile || "",
+      isUPNMember : userdata?.isUPNMember==null? "":userdata?.isUPNMember==1? "true":"false",
     });
   }, [userdata]);
-
+  console.log(userDetails);
   const handleBusinessPhoneChange = (e) => {
     const input = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
     let formattedBusinessPhone = input;
@@ -166,21 +169,6 @@ const EditSellerList = () => {
   };
   // phone number
   const [phoneNumber, setPhoneNumber] = useState("");
-
-  // const handlePhoneNumberChange = (e) => {
-  //   const input = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
-  //   let formattedPhoneNumber = input;
-
-  //   if (input.length > 3 && input.length <= 6) {
-  //     formattedPhoneNumber = `${input.slice(0, 3)}-${input.slice(3)}`;
-  //   } else if (input.length > 6) {
-  //     formattedPhoneNumber = `${input.slice(0, 3)}-${input.slice(
-  //       3,
-  //       6
-  //     )}-${input.slice(6, 10)}`;
-  //   }
-  //   setPhoneNumber(formattedPhoneNumber);
-  // };
 
   const formatPhoneNumber = (value) => {
     // Remove all non-numeric characters
@@ -225,14 +213,42 @@ const EditSellerList = () => {
   const handleEditClick = () => {
     setIsEditable((prev) => !prev); // Toggle edit mode
   };
-  // Handle save button click
-  // const handleSaveClick = () => {
-  //   setIsEditable(false);
-  //   alert("Data saved successfully!"); // Show notification (can replace with your own notification system)
-  // };
+  const [isUserEditable, setIsUserEditable] = useState(false);
+
+  const handleUserEditClick = () => {
+    setIsUserEditable((prev) => !prev); // Toggle edit mode
+  };
 
   const RefreshUser = async () => {
     await getUserByCustomerIdApi(userdata.customerId);
+  };
+  const handleUserSaveClick = async () => {
+    setIsUserEditable(false);
+    const usertypeinfo = {
+      customerId: userdata.customerId,
+      firstName: userDetails.firstName,
+      lastName: userDetails.lastName,
+      email: userDetails.email,
+      mobile: userDetails.mobile,
+      password: userDetails.password,
+      customerTypeId: userDetails.customerTypeId,
+      // accountTypeId: userDetails.accountTypeId,
+      isUPNMember: userDetails.isUPNMember == "true"? 1:0,
+      accountTypeId:userdata.accountTypeId
+    };
+    console.log(usertypeinfo,"usertypeinfo");
+    if (usertypeinfo) {
+      await UserInfoUpdate(usertypeinfo);
+      await RefreshUser();
+    }
+
+    console.log("Data saved:", userDetails); // You can dispatch this to Redux or send it to the backend
+    // alert("Data saved successfully!"); // Show notification
+    setNotification({
+      show: true,
+      message: "User Type saved Successfully!",
+    });
+    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
   };
 
   const handleSaveClick = async () => {
@@ -244,9 +260,9 @@ const EditSellerList = () => {
       email: userDetails.email,
       mobile: userDetails.mobile,
       password: userDetails.password,
-      customerTypeId: userdata.customerTypeId,
-      accountTypeId: userdata.accountTypeId,
-      isUPNMember: userdata.isUPNMember,
+      customerTypeId: userDetails.customerTypeId,
+      accountTypeId: userDetails.accountTypeId,
+      isUPNMember: userDetails.isUPNMember,
     };
     if (userinfo) {
       await UserInfoUpdate(userinfo);
@@ -615,6 +631,29 @@ const EditSellerList = () => {
     setComments(event.target.value); // Update comments state with input value
   };
 
+  const [upnMember, setUpnMember] = useState(0);
+
+  // Function to handle changes in radio button selection
+  const handleUpnChange = (event) => {
+    setUserDetails({...userDetails,isUPNMember : event.target.value})
+    setUpnMember(Number(event.target.value)); // Ensure the value is a number (0 or 1)
+  };
+
+  const handleUserChange = (event) => {
+    const { name, value } = event.target;
+    setUserDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value, // Update the value of the corresponding field
+    }));
+  };
+
+  const customerTypeLabels = {
+    1: "Retail Pharmacy",
+    2: "General Merchandise Seller",
+    3: "Pharmacy Distributor",
+    4: "Retail Customer",
+  };
+
   return (
     <div className="w-full h-full flex-col bg-slate-200 flex justify-center overflow-y-scroll">
       {notification.show && (
@@ -648,10 +687,7 @@ const EditSellerList = () => {
               Primary
             </h1>
 
-            {/* <div className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4">
-              <h1 className="text-xl font-semibold text-blue-900 my-2">
-                User Information
-              </h1> */}
+          
             <div
               className={`bg-white border  mx-6 ${
                 isEditable ? "border-blue-900" : "border-gray-400"
@@ -662,9 +698,7 @@ const EditSellerList = () => {
                   User Information
                 </h1>
               )}
-              {/* <h1 className="text-xl font-semibold text-blue-900 my-2">
-                Address Information
-              </h1> */}
+
               <h1
                 className={`text-xl font-semibold my-2 ${
                   isEditable ? "invisible" : "text-blue-900"
@@ -730,17 +764,6 @@ const EditSellerList = () => {
                     //   shrink: !!userDetails?.mobile, // Shrink the label if there is a value
                     // }}
                   />
-
-                  {/* <TextField
-                    label="Confirm Password"
-                    // id="outlined-size-small"
-                    value={userDetails?.password} // Ensure it handles null or undefined
-                    name="password" // Use camelCase for the name
-                    onChange={handleInputChange} // Handle input change
-                    disabled={!isEditable} // Disable field unless in edit mode
-                    size="small"
-                    className="w-full"
-                  /> */}
                 </div>
 
                 <div className="flex flex-col justify-between py-2">
@@ -756,6 +779,118 @@ const EditSellerList = () => {
                     }`}
                     onClick={handleSaveClick}
                     disabled={!isEditable} // Disable button when not editable/ Save button is disabled if not editable
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* <div className="bg-white border border-gray-400  p-6 mx-6 rounded-lg px-8 w-[90%] mt-8 relative mb-4">
+              <h1 className="text-blue-900 font-semibold text-xl">User Type</h1> */}
+            <div
+              className={`bg-white border mx-6 ${
+                isUserEditable ? "border-blue-900" : "border-gray-400"
+              } rounded-lg px-8 w-[90%] mt-8 relative`}
+            >
+              {isUserEditable && (
+                <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+                  User Type
+                </h1>
+              )}
+
+              <h1
+                className={`text-xl font-semibold my-2 ${
+                  isUserEditable ? "invisible" : "text-blue-900"
+                }`}
+              >
+                User Type
+              </h1>
+              <div className="flex justify-between">
+                <div className="mt-2">
+                  {/* Editable dropdown for User Type */}
+                  {isUserEditable ? (
+                    <FormControl className="ml-3" size="small" fullWidth>
+                    <InputLabel id="customerTypeId-label">User type</InputLabel>
+                    <Select
+                      labelId="customerTypeId-label"
+                      label="User type"
+                      id="customerTypeId"
+                      name="customerTypeId"
+                      value={userDetails.customerTypeId}
+                      onChange={handleUserChange}
+                    >
+                      {Object.entries(customerTypeLabels).map(([key, label]) => (
+                        <MenuItem key={key} value={Number(key)}>
+                          {label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  ) : (
+                    <TextField
+                      label="User type"
+                      id="customerTypeId"
+                      name="customerTypeId"
+                      value={
+                        customerTypeLabels[userDetails.customerTypeId] ||
+                        userDetails.customerTypeId
+                      }
+                      disabled
+                      className="ml-3"
+                      size="small"
+                    />
+                  )}
+
+                  {/* UPN Member Section */}
+                  {userdata?.customerTypeId !== 4 &&
+                    userdata?.customerTypeId !== 2 &&
+                    userdata?.customerTypeId !== 3 && (
+                      <div className="my-2">
+                        <label className="mr-3">UPN Member</label>
+
+                        <input
+                          type="radio"
+                          id="yes"
+                          value="true"
+                          checked={userDetails.isUPNMember == "true"}
+                          onChange={handleUpnChange}
+                          className="mr-2"
+                          disabled={!isUserEditable}
+                        />
+                        <label className="mr-2" htmlFor="yes">
+                          Yes
+                        </label>
+
+                        <input
+                          type="radio"
+                          id="no"
+                          value="false"
+                          checked={userDetails.isUPNMember == "false"}
+                          onChange={handleUpnChange}
+                          className="mr-2"
+                          disabled={!isUserEditable}
+                        />
+                        <label className="mr-2" htmlFor="no">
+                          No
+                        </label>
+                      </div>
+                    )}
+                </div>
+
+                <div className="flex flex-col justify-between py-2">
+                  <img
+                    src={edit}
+                    className="w-6 h-6 ml-4 cursor-pointer"
+                    onClick={handleUserEditClick} // Handle edit icon click
+                    alt="Edit" // Add alt text for accessibility
+                  />
+                  <button
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                      !isUserEditable ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
+                    onClick={handleUserSaveClick}
+                    disabled={!isUserEditable} // Disable button when not editable
                   >
                     Save
                   </button>
@@ -909,20 +1044,7 @@ const EditSellerList = () => {
                     size="small"
                     // className="w-full"
                   />
-                  {/* <TextField
-                    label="State"
-                    id="outlined-size-small"
-                    name="Last Name"
-                    disabled={!isAddressEdit}
-                    onChange={handleAddressChange}
-                    value={addressData?.state || ""}
-                    // onChange={handleInputChange}
-                    // error={!!errors.First_Name}
-                    // helperText={errors.First_Name}
 
-                    size="small"
-                  // className="w-full"
-                  /> */}
                   <FormControl size="small" disabled={!isAddressEdit}>
                     <InputLabel id="state-select-label">State</InputLabel>
                     <Select
@@ -952,17 +1074,6 @@ const EditSellerList = () => {
                       ))}
                     </Select>
                   </FormControl>
-                  {/* <TextField
-                    label="Business Phone"
-                    // id="outlined-size-small"
-                    name="businessPhone"
-                    value={addressData?.businessPhone || ""}
-                    onChange={handlePhoneChange}
-                    size="small"
-                    className="w-full"
-                    disabled={!isAddressEdit} // Disable unless in edit mode
-                    inputProps={{ maxLength: 12 }} // Limit max length to 12 (including dashes)
-                  /> */}
 
                   {userdata?.customerTypeId !== 4 && (
                     <TextField
@@ -1058,36 +1169,6 @@ const EditSellerList = () => {
                       className="w-[60%]"
                     />
 
-                    {/* <TextField
-                    label=""
-                    type="date"
-                    id="outlined-size-small"
-                    name="Last Name"
-                    value={businessInfo?.deaExpirationDate?.split("T")[0] || ""}
-                    // onChange={handleInputChange}
-                    // error={!!errors.First_Name}
-                    // helperText={errors.First_Name}
-                    disabled={!istabedit}
-                    size="small"
-                    className="w-[60%]"
-                  /> */}
-
-                    {/* <input
-                    label=""
-                    type="file"
-                    accept="image/*"
-                    id="outlined-size-small"
-                    name="City"
-                    disabled={!istabedit}
-                    // value={businessInfo?.deaLicenseCopy || ""}
-                    // onChange={handleInputChange}
-                    // error={!!errors.First_Name}
-                    // helperText={errors.First_Name}
-
-                    size="small"
-                    className="w-[60%] border p-1 border-gray-400 rounded-md"
-                  /> */}
-
                     <label> DEA Expiration File </label>
                     <TextField
                       label=""
@@ -1170,21 +1251,6 @@ const EditSellerList = () => {
                       className="w-[60%]"
                     />
 
-                    {/* <input
-                    label=""
-                    type="file"
-                    accept="image/*"
-                    id="outlined-size-small"
-                    name="Last Name"
-                    disabled={!istabedit}
-                    // value={businessInfo?.pharmacyLicenseCopy || ""}
-                    // onChange={handleInputChange}
-                    // error={!!errors.First_Name}
-                    // helperText={errors.First_Name}
-
-                    size="small"
-                    className="w-[60%] border rounded-md p-1 border-gray-400"
-                  /> */}
                     <label>Pharmacy License Expiration File</label>
                     <TextField
                       label=""
@@ -1243,36 +1309,9 @@ const EditSellerList = () => {
               </div>
             )}
 
-            {/* <div className="flex justify-between bg-white border  flex-col  rounded-lg  mx-8  w-[90%] mt-4">
-              <TextField
-                label="Add Notes"
-                id="outlined-size-small"
-                value={confirmPassword || ""} // Handles null or undefined values
-                name="comments" // camelCase for the name
-                onChange={handleInputChange} // Handles input change
-                // disabled={!isEditable} // Disable unless in edit mode
-                size="small"
-                className="w-full  m-2"
-                multiline // Makes it a TextArea
-                rows={4} // Number of rows for the TextArea
-              />
-
-              <button>Send</button>
-            </div> */}
-
             <div className="flex flex-col justify-between  rounded-lg mx-8 w-[90%] mt-4">
               {/* TextField for input */}
-              {/* <TextField
-                label="Add Notes"
-                id="outlined-size-small"
-                value={comments} // Set input value from state
-                name="comments"
-                onChange={handleNotesChange} // Handles input change
-                size="small"
-                className="w-full m-2 bg-white border"
-                multiline
-                rows={4}
-              /> */}
+
               <TextField
                 label="Add Comments" // Updated label to "Add Comments"
                 id="outlined-size-small"
@@ -1285,14 +1324,6 @@ const EditSellerList = () => {
                 rows={4}
               />
               {/* Button to submit the notes */}
-              {/* <div className="flex justify-end">
-                <button
-                  onClick={handleSend}
-                  className="m-2 p-2 w-28 bg-blue-900 font-semibold text-white rounded"
-                >
-                  Send
-                </button>
-              </div> */}
             </div>
 
             {/* </div> */}
@@ -1332,49 +1363,6 @@ const EditSellerList = () => {
                   Send Email
                 </Button>
 
-                {/* import React, { useState } from "react";
-
-function UploadEmailButton() {
-  const [selectedFiles, setSelectedFiles] = useState(null);
-
-  // Handler for file input change
-  const handleFileChange = (event) => {
-    setSelectedFiles(event.target.files);
-  };
-
-  // Placeholder function for sending email (connect to backend service)
-  const handleSendEmail = () => {
-    if (selectedFiles) {
-      const formData = new FormData();
-      Array.from(selectedFiles).forEach((file) => formData.append("files", file));
-
-      // Send formData to your backend API to handle the email sending
-      fetch("your-backend-api-url/send-email", {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Email sent successfully:", data);
-        })
-        .catch((error) => {
-          console.error("Error sending email:", error);
-        });
-    } else {
-      alert("Please select a file to upload.");
-    }
-  };
-
-  return (
-    <div>
-      <input type="file" multiple onChange={handleFileChange} />
-      <button onClick={handleSendEmail}>Upload and Send via Email</button>
-    </div>
-  );
-}
-
-export default UploadEmailButton;
- */}
                 <Button
                   // variant="filled" // Replaced "contained" with "filled"
                   className="ml-2  bg-gray-400 text-white"
@@ -1395,15 +1383,6 @@ export default UploadEmailButton;
             {/* {submittedNotes && ( */}
             <div className=" flex justify-between flex-col  rounded-lg  px-8  w-[90%]  my-4">
               <div className="data-group bg-white p-4 rounded-lg">
-                {/* <div className="data-item">
-                  <label>Email 1 :</label>
-                  <span>John Doe</span> 
-                </div>
-
-                <div className="data-item">
-                  <label>Email 2 :</label> <span>johndoe@example.com</span>{" "}
-                </div> */}
-
                 {/* {submittedNotes} */}
                 {historyData.length > 0 ? (
                   historyData.map((item, index) => (

@@ -24,7 +24,7 @@
 //     const { name, value } = e.target;
 //     setFormData({ ...formData, [name]: value });
 //   };
-  
+
 //       // if (isFormEmpty) {
 //       //   // If any of the form fields are empty, show an error
 //       //   setMessage('All fields are required.');
@@ -43,7 +43,7 @@
 //           } else {
 //             // Check if shipping details already exist for typeId 4 (FedEx)
 //             const existingShipment = getshipingDetails?.find(shipment => shipment.shipmentTypeId === 5);
-        
+
 //           if (!existingShipment) {
 //             // If any required fields are empty, call shipmentAddApi
 //             const payloadAdd = {
@@ -87,7 +87,7 @@
 //           }
 //         }
 //         };
-        
+
 
 //   useEffect(() => {
 //     // Fetch shipping details from API
@@ -124,7 +124,7 @@
 //       )}
 //       <div className='flex justify-between border-b border-black my-5 p-4'>
 //         <h1 className='text-xl text-blue-900 font-semibold'>MARKETPLACE UPS CONFIGURATION</h1>
-      
+
 //       </div>
 // <div className="w-[60%]  border rounded-md shadow-md flex flex-col justify-center">
 //       <div className='w-full flex flex-col justify-center ml-6 mt-4'>
@@ -251,8 +251,8 @@ function LayoutUpsShipping() {
 
       if (!existingShipment) {
         const payloadAdd = {
-          shipmentID: "", 
-          shipmentTypeId: 5, 
+          shipmentID: "",
+          shipmentTypeId: 5,
           customerId: user.customerId,
           accessLicenseNumber: formData.accessLicenseNumber || "string",
           userID: formData.userId || "string",
@@ -334,14 +334,14 @@ function LayoutUpsShipping() {
         <Notification show={notification.show} message={notification.message} />
       )}
       <div className='flex justify-between border-b border-black my-5 p-4'>
-        <h1 className='text-xl text-blue-900 font-semibold'>MARKETPLACE UPS CONFIGURATION</h1>
+        <h1 className=' text-sm md:text-xl text-blue-900 font-semibold'>MARKETPLACE UPS CONFIGURATION</h1>
       </div>
-      <div className="w-[60%] border rounded-md shadow-md flex flex-col justify-center">
-        <div className='w-full flex flex-col justify-center ml-6 mt-4'>
+      <div className=" w-full md:w-[80%] xl:w-[60%]  border rounded-md shadow-md flex flex-col justify-center">
+        <div className='w-full flex flex-col justify-center ml-4 mt-4'>
           <div className="flex justify-end -ml-4 w-[95%]">
             <img src={edit} className="w-6 h-6 cursor-pointer" onClick={handleEditClick} /> {/* Edit icon triggers edit mode */}
           </div>
-          <div className="w-[80%] flex justify-between text-gray-600 my-4">
+          <div className="w-[80%] flex flex-col md:flex-row gap-4 justify-between text-gray-600 my-4">
             <div className="flex flex-col">
               <TextField
                 label="Access License Number"
@@ -367,7 +367,7 @@ function LayoutUpsShipping() {
               />
             </div>
           </div>
-          <div className="w-[80%] flex justify-between text-gray-600 my-4">
+          <div className="w-[80%] flex flex-col md:flex-row gap-4 justify-between text-gray-600 my-4">
             <div className="flex flex-col">
               <TextField
                 label="Password"

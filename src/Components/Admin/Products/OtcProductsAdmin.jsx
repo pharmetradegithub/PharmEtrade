@@ -72,8 +72,12 @@ const OtcProductsAdmin = () => {
 
   const handleSearchClick = async () => {
     console.log("SearchInput:", SearchInput); // Check SearchInput value
+    const payload = {
+      customerId : "",
+      productName: SearchInput.productName,
+  }
     try {
-      const productsData = await fetchCriteriaProductsApi(SearchInput);
+      const productsData = await fetchCriteriaProductsApi(payload);
       console.log("API Response:", productsData); // Check API response
       if (productsData) {
         setData(productsData); // Only set if valid

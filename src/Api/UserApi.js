@@ -18,22 +18,22 @@ export const loginUserApi = async (username, password) => {
 
     if (response.status === 200) {
 
-      localStorage.setItem('userId', response.data.userId);
-      localStorage.setItem('token', response.data.token);
-      const userDetails = await axios.get(`/api/Customer/GetByCustomerId?customerId=${response.data.userId}`);
-
-      if (response.status === 200) {
         if (response?.data?.statusCode == 400) {
-          return response.data.message;
+          return "Your account is inactive - if you need further assistance contact the admin - “help@pharmetrade.com”. ";
         }
+        localStorage.setItem('userId', response.data.userId);
+        localStorage.setItem('token', response.data.token);
+        const userDetails = await axios.get(`/api/Customer/GetByCustomerId?customerId=${response.data.userId}`);
         store.dispatch({ type: 'user/setUser', payload: userDetails.data.result[0] });
         return;
-      }
-      else {
-        return "Incorrect EmailId and Password ";
-      }
 
-    } else {
+
+    } if(response.status == 401)
+    {
+      return "Your account is inactive ";
+
+    }
+    else {
       console.error('Login failed:', response.data.message);
       return "Incorrect EmailId and Password ";
 
@@ -42,6 +42,33 @@ export const loginUserApi = async (username, password) => {
     console.error('Failed to log in:', error);
     return "Incorrect EmailId and Password ";
 
+  }
+};
+
+export const changePasswordUserApi = async (username, newpassword) => {
+  try {
+    const response = await axios.post(
+      `/api/Customer/ChangePassword?customerId=${encodeURIComponent(
+        username
+      )}&newPassword=${encodeURIComponent(newpassword)}`
+    );
+    console.log(response);
+    if (response.status === 200) {
+      console.log(response.data.statusCode);
+
+      if (response.data.statusCode == 200) {
+        console.log(response);
+
+        return true;
+      }
+      return false;
+    } else {
+      console.error("Failed to fetch user data:", response.data.message);
+      return false;
+    }
+  } catch (error) {
+    console.error("Failed to change password in:", error);
+    return false;
   }
 };
 
@@ -254,6 +281,26 @@ export const fetchCustomerActivateDeactivateById = async (customerId) => {
   }
 };
 
+
+export const sendChangePasswordLinkApi = async (email) => {
+  try {
+    // const customer = await axios.get(`/api/Customer/GetCustomers?email=${email}`)
+    const response = await axios.post(`/api/Customer/SendChangePasswordLink?customerId=${email}`);
+    if (response.status === 200) {
+      if(response.data.statusCode==500)
+      {
+        return "User Not Found";
+      }
+      return "A Link has been sent to your Email address";
+    } else {
+      console.error('Failed to fetch user data:', response.data.message);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    return null;
+  }
+};
 
 
 
