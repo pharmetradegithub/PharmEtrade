@@ -179,7 +179,7 @@ function Footers({ topMargin}) {
         {/* About Us Section */}
 
         <div className=" flex items-center">
-          <img src={logo} className="w-96 h-12"/>
+          <img src={logo} className="  w-52 xl:w-96 h-12"/>
         </div>
         <div className="flex flex-col xl:text-md  w-full xl:w-auto">
           <p className="text-md font-semibold mb-4">About Us</p>

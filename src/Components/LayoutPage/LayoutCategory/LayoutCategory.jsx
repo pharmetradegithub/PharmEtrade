@@ -1118,8 +1118,8 @@ function LayoutCategory({
         <Notification show={notification.show} message={notification.message} />
       )}
 
-      <div className="flex justify-between">
-        <h1 className="text-2xl font-semibold text-blue-900">{Header}</h1>
+      <div className="flex flex-col md:flex-row justify-between">
+        <h1 className=" text-lg md:text-2xl font-semibold text-blue-900">{Header}</h1>
 
         <div className="flex gap-1">
           <select
@@ -1143,13 +1143,13 @@ function LayoutCategory({
                 currentItems.map((product, index) => (
                   <div
                     key={index}
-                    className="flex p-4 border h-auto w-full justify-around shadow-lg rounded-md mb-4"
+                    className="flex flex-col md:flex-row p-4 border h-auto  w-[80%] md:w-full justify-around shadow-lg rounded-md mb-4"
                   >
                     <div className="flex flex-col mx-2">
                       <img
                         // src={product.mainImageUrl}
                         src={product.productGallery.imageUrl}
-                        className="w-32 p-2 hover:cursor-pointer rounded-lg h-28 bg-slate-200"
+                        className="w-32 md:w-36  p-2 hover:cursor-pointer rounded-lg h-28 md:h-24 bg-slate-200"
                         alt="Product"
                         onClick={() =>
                           handleProductDetails(product.productID, product)
@@ -1158,7 +1158,7 @@ function LayoutCategory({
 
                       <div>
 
-                      <div className="flex mt-3 justify-center">
+                      <div className="flex mt-3 md:justify-center">
                       
                       <div className="mt-2 ">
                         <Tooltip title="Wishlist" placement="top">
@@ -1190,7 +1190,7 @@ function LayoutCategory({
                     <div className="flex flex-col w-[170px] ">
                       <p className="font-semibold text-sm">Item Details</p>
                       <div className="mt-2">
-                        <p className="font-semibold text-blue-900  w-32 text-sm">{product.productName}</p>
+                        <p className="font-semibold text-blue-900  w-32 flex flex-wrap text-sm">{product.productName}</p>
 
                         <p className="text-xs mt-1 w-32">
                           {showMore[index]
@@ -1221,13 +1221,16 @@ function LayoutCategory({
                             </p>
                           </div>
                         </div>
-                        <p className="mt-1 text-sm">
+                        <p className="mt-1 text-sm flex">
                           Product returnable:{" "}
+                          <p className="font-semibold ml-2">
+
                           {product.isReturnable ? "Yes" : "No"}
+                          </p>
                         </p>
                         <div className=" flex">
                         <h2 className="text-sm  mr-1">Package Details :</h2>
-                        <p className="text-sm">
+                        <p className="text-sm font-semibold">
                         &nbsp; {product.packCondition}
                         </p>
                       </div>
@@ -1248,9 +1251,9 @@ function LayoutCategory({
 
                     
 
-                    <div className="flex flex-col mx-3">
+                    <div className="flex md:flex-col md:mx-3">
                       <p className="font-semibold text-sm">Unit Price</p>
-                      <div className="mt-2 text-right text-xs font-bold">
+                      <div className=" mt-1  ml-2 md:ml-0 md:mt-2  text-left md:text-right text-xs font-bold">
                         <p className="font-semibold">
                           ${product.unitPrice?.toFixed(2)}
                         </p>
@@ -1334,17 +1337,17 @@ function LayoutCategory({
                         />
                       </div> 
                     </div> */}
-                     <div className="flex flex-col justify-between mx-3">
+                     <div className="flex md:flex-col justify-between md:mx-3">
                       <div>
                         <p className="font-semibold  text-sm">UPN Member Price</p>
-                        <div className="mt-2 text-right text-xs font-bold">
-                          <p className="font-semiboldm -ml-5 ">
+                        <div className="md:mt-2  text-left md:text-right text-xs font-bold">
+                          <p className="font-semiboldm md:-ml-5 ">
                             ${product.upnMemberPrice?.toFixed(2)}
                           </p>
 
                         </div>
                       </div>
-                      <div className="text-sm">
+                      {/* <div className="text-sm">
                         {product.amountInStock <= 0 ? (
                           <p className="text-red-500 font-semibold">
                             Out Of Stock
@@ -1357,14 +1360,14 @@ function LayoutCategory({
                             </span>
                           </p>
                         )}
-                      </div>
+                      </div> */}
 
 
                     </div>
 
-                    <div className="flex flex-col mx-3">
+                    <div className="flex md:flex-col md:mx-3">
                       <p className="font-semibold text-sm">Sale Price</p>
-                      <div className="mt-2 text-right text-xs font-bold">
+                      <div className=" mt-1 ml-2  md:ml-0 md:mt-2 text-right text-xs font-bold">
                         <p className="font-semibold">
                           ${product.salePrice?.toFixed(2)}
                         </p>
@@ -1375,9 +1378,9 @@ function LayoutCategory({
                     </div>
 
 
-                    <div className="flex flex-col mx-4">
+                    <div className="flex flex-col md:mx-4">
                       <p className="font-semibold text-sm">Sale Price Range</p>
-                      <div className="mt-2 text-right text-xs font-bold">
+                      <div className="mt-2 flex md:flex-col text-right text-xs font-bold">
                         <div className="flex">
                         <p className="font-semibold ml-1">
                           {new Date(product.salePriceValidFrom)
@@ -1389,7 +1392,7 @@ function LayoutCategory({
                             .replace(/\//g, "-")}
                         </p>
                           </div>
-                          <p className="text-center -ml-8">to </p> 
+                          <p className="text-center md:-ml-8">to </p> 
 
                           <div className="flex">
 
@@ -1411,8 +1414,8 @@ function LayoutCategory({
 
                     </div>
 
-                     <div className="flex flex-col mx-3">
-                      <p className="font-semibold ml-4">Quantity</p>
+                     <div className="flex flex-col md:mx-3">
+                      <p className="font-semibold md:ml-4">Quantity</p>
                       <div className="mt-2 flex items-center">
                         {/* Decrease quantity button */}
                         <button
@@ -1489,6 +1492,24 @@ function LayoutCategory({
                         </button>
                       </div>
 
+
+                      <div className="text-sm  ">
+                        {product.amountInStock <= 0 ? (
+                          <p className="text-red-500 font-semibold ml-5 mt-2">
+                            Out Of Stock
+                          </p>
+                        ) : (
+                          <p className="text-white  text-center w-28 p-1 text-xs mt-2 bg-green-600 rounded-lg ">
+                            Stock Available {" "}
+                            <span className="font-semibold text-center text-xs">
+                              {product.amountInStock}
+                            </span>
+                          </p>
+                        )}
+                      </div>
+
+
+
                       {/* Display the stock message for the product */}
                       {stockWarning.productId === product.productID && (
                         <p className="text-red-500 text-sm mt-2">
@@ -1503,7 +1524,7 @@ function LayoutCategory({
                             handleCart(product.productID, product.minOrderQuantity);
                           }
                         }}
-                        className={`flex text-white h-[32px] px-2 mt-24 rounded-lg  justify-center items-center
+                        className={`flex text-white h-[32px] px-2 w-40 md:w-auto mt-5 md:mt-24 rounded-lg  justify-center items-center
                                   ${
                                     product.amountInStock === 0
                                       ? "bg-gray-400 cursor-not-allowed"

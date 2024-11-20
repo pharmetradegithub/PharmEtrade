@@ -354,16 +354,16 @@ function LayoutOtcProducts({
                   key={index}
                   className="flex sm:p-4  p-2 flex-col  lg:flex-row md:flex-row h-auto  border w-60 md:w-auto justify-around shadow-lg rounded-md mb-4"
                 >
-                  <div className="flex sm:flex-col flex-col">
+                  <div className="flex sm:flex-col flex-col mr-2">
                     <img
                       src={product.productGallery.imageUrl}
-                      className="sm:w-32 w-40 p-2 hover:cursor-pointer rounded-lg sm:h-28 h-40 bg-slate-200"
+                      className="w-32  p-2 hover:cursor-pointer rounded-lg h-28  bg-slate-200"
                       alt="Product"
                       onClick={() =>
                         handleProductDetails1(product.productID, product)
                       }
                     />
-                    <p className=" sm:w-36 text-[15px] mt-2 text-black ">
+                    <p className=" text-[15px] mt-2 text-black ">
                       {product.productCategory.categoryName}
                     </p>
 
