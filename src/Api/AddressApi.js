@@ -23,11 +23,9 @@ export const fetchGetByCustomerId = (customerId) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`/api/Customer/Address/GetByCustomerId?customerId=${customerId}`);
-      console.log("customerId",customerId)
-      console.log(response, "reppppp")
+
       if (response.status === 200) {
         const getCustomerId = response.data.result;
-        console.log('Dispatching get customerId action:', getCustomerId); // Log before dispatch
         dispatch(setAddress(getCustomerId)); // Dispatch action
       } else {
         console.error('Failed to get customerId  action:', response.data.message);
@@ -41,7 +39,6 @@ export const fetchAddAddress = (payload) => {
   return async (dispatch) => {
     try {
       const response = await axios.post('/api/Customer/Address/Add', payload);
-      console.log(response, "user---")
       if (response.status === 200) {
         const addAddress = response.data.result[0]
         dispatch(setAddAddress(addAddress))
@@ -58,7 +55,6 @@ export const fetchEditAddress = (payload) => {
   return async (dispatch) => {
     try {
       const response = await axios.post('/api/Customer/Address/Edit', payload);
-      console.log(response, "user---")
       if (response.status === 200) {
         const addAddress = response.data.result[0]
         dispatch(setEditAddress(addAddress))
@@ -90,7 +86,6 @@ export const orderDeliveryAddress = (customerId, orderId, addressId) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(`/api/Orders/UpdateDeliveryAddress?customerId=${customerId}&orderId=${orderId}&addressId=${addressId}`)
-      console.log("cuordadd", response)
       if (response.status === 200) {
         const addAddress = response.data
         dispatch(setOrderDeliveryAddress(addAddress))
@@ -100,5 +95,20 @@ export const orderDeliveryAddress = (customerId, orderId, addressId) => {
     } catch (error) {
       console.log("error", error)
     }
+  }
+}
+
+export const SetDefaultApi = async (customerId, addressId) => {
+  try {
+    const response = await axios.post(`/api/Customer/Address/SetDefault?customerId=${customerId}&addressId=${addressId}`)
+    if (response.status === 200) {
+      const addAddress = response.data.result
+      // dispatch(setDefault(addAddress))
+      return addAddress
+    } else {
+      console.error('Failed to add address action:', response.data.message);
+    }
+  } catch (error) {
+    console.log("error", error)
   }
 }

@@ -36,7 +36,7 @@ function AdminSidebar() {
   };
 
   const handleLogout = () => {
-    navigate("/PharmetradeLogin");
+    navigate("/loginadminEtrade");
   };
 
   const toggleSellerDropdown = () => {
@@ -91,15 +91,16 @@ function AdminSidebar() {
     {
       label: "Banners",
       icon: sellerIcon,
-      isOpen: isBannerDropdownOpen,
-      toggleDropdown: toggleBannerDropdown,
-      links: [
-        {
-          to: "/pharmEtradeadmin/AdminBanners",
-          label: "Admin Banners",
-          icon: orderListIcon,
-        },
-      ],
+      to: "/pharmEtradeadmin/AdminBanners",
+      // isOpen: isBannerDropdownOpen,
+      // toggleDropdown: toggleBannerDropdown,
+      // links: [
+      //   {
+      //     to: "/pharmEtradeadmin/AdminBanners",
+      //     label: "Admin Banners",
+      //     icon: orderListIcon,
+      //   },
+      // ],
     },
     {
       label: "User Administration",
@@ -183,10 +184,16 @@ function AdminSidebar() {
           label: "Settlements",
           icon: orderListIcon,
         },
+        
       ],
+      
     },
 
-   
+    {
+      label: "Reports",
+      icon: sellerIcon,
+      to: "/pharmEtradeadmin/reports", // Direct link to the Dashboard page
+    },
 
 
   ];

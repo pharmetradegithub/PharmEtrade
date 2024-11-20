@@ -79,9 +79,7 @@ function Items({
 }) {
   const user = useSelector((state) => state.user.user);
   const wishlist = useSelector((state) => state.wishlist.wishlist);
-  // const [wishlistProductIDs, setwishlistProductIDs] = useState(
-  //   wishlist.map((wishItem) => wishItem.product.productID)
-  // );
+  const cartList = useSelector((state) => state.cart.cart);
   const [productLink, setProductLink] = useState("");
   const [currentProductID, setCurrentProductID] = useState("");
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
@@ -118,7 +116,6 @@ function Items({
   const [selectedMl, setSelectedMl] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   // const [showViewCart, setShowViewCart] = useState(false);
-  const [isItemAdded, setIsItemAdded] = useState(false);
   const [prod, setprod] = useState(null);
   const [thumnailList, setthumnailList] = useState([]);
   const newProducts = useSelector((state) => state.product.recentSoldProducts);
@@ -130,12 +127,13 @@ function Items({
   const crossSellProducts = useSelector(
     (state) => state.product.CrossSellProducts
   );
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     const NewProductsAPI = async () => {
       try {
         const product = await fetchProductByIdApi(id);
-        console.log(product);
+        setQuantity(product.minOrderQuantity);
         setprod(product);
       } catch (error) {
         console.log(error);
@@ -177,11 +175,6 @@ function Items({
     }
   }, [prod]);
 
-  const handleAddToCart = () => {
-    // setShowViewCart(true);
-    setIsItemAdded(true);
-  };
-
   useEffect(() => {
     fetchCrossSellProductApi(id);
   }, [id]);
@@ -194,23 +187,36 @@ function Items({
     fetchUpsellProductApi(id);
   }, [id]);
 
-  const mlOptions = [250, 350, 500];
-  const colorOptions = [
-    { color: "sky-500", textColor: "text-sky-500" },
-    { color: "green-500", textColor: "text-green-500" },
-    { color: "orange-400", textColor: "text-orange-400" },
-  ];
-
   const clearSelection = () => {
     setSelectedMl(null);
     setSelectedColor(null);
   };
+  const [Errors,setErrors] = useState({});
 
   const handleCart = async (index) => {
     if (user == null) {
       console.log("login to add");
       return;
     }
+    const existingCartItem = cartList.find(
+      (item) => item.product.productID === id
+    );
+    console.log(
+      "unna ra babu ",
+      existingCartItem,
+      Math.min(prod.maxOrderQuantity, prod.amountInStock)
+    );
+    if (
+      existingCartItem != null &&
+      existingCartItem.quantity + quantity >
+        Math.min(prod.maxOrderQuantity, prod.amountInStock)
+    ) {
+      setErrors({
+        quantity : `The maximum quantity allowed to add is ${Math.min(prod.maxOrderQuantity, prod.amountInStock)}.`
+      })
+      return;
+    }
+
     const cartData = {
       customerId: user.customerId,
       productId: id,
@@ -326,14 +332,13 @@ function Items({
     SetPopup(false);
   };
 
-  const [quantity, setQuantity] = useState(1);
-
   const handleIncrease = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+    if (quantity < prod.amountInStock && quantity < prod.maxOrderQuantity)
+      setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
   const handleDecrease = () => {
-    if (quantity > 1) {
+    if (quantity > 1 && quantity > prod.minOrderQuantity) {
       setQuantity((prevQuantity) => prevQuantity - 1);
     }
   };
@@ -341,6 +346,17 @@ function Items({
   // const userId = localStorage.getItem("userId");
   const handleOrder = async () => {
     const currentDate = new Date();
+    const cartData = {
+      customerId: user.customerId,
+      productId: id,
+      quantity: quantity,
+      isActive: 1,
+    };
+    try {
+      await addCartApi(cartData);
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
+    }
     const payLoad = {
       // orderId: "0",
       // customerId: userId,
@@ -470,18 +486,18 @@ function Items({
         marginTop: `${topMargin}px`,
       }}
     >
-      <div className="  flex gap-4 mt-4 justify-around h-full w-full mb-4">
-        <div className="w-[40%] mb-3">
-          <div className="flex ml-10 h-[400px] cursor-pointer">
+      <div className="  flex   flex-col md:flex-row gap-4 mt-4 justify-around h-full w-full mb-4 ">
+      <div className="w-full flex sm:w-[60%] md:w-[45%] mb-3 ml-8 ">
+      <div className="flex ml-2 md:-mr-3 h-[400px] cursor-pointer">
             <div className="flex flex-col mr-4 items-center   overflow-y-scroll">
               {thumnailList?.map((item, index) => {
                 return (
-                  <div key={index} className="">
+                  <div key={index} className=" ">
                     <img
                       onMouseEnter={() => setimg(item)}
                       src={item}
-                      className="w-16  object-cover  bg-gray-200 border rounded-lg object-fit hover:border-sky-500 hover:border-2 "
-                    />
+                      className="w-16 sm:w-20 md:w-20  object-cover bg-gray-200 border rounded-lg hover:border-sky-500 hover:border-2 cursor-pointer"
+                      />
                   </div>
                 );
               })}
@@ -542,7 +558,7 @@ function Items({
               ) : (
                 <img
                   src={img}
-                  className="object-contain w-96 h-72"
+                  className="object-contain w-96 h-72 "
                   alt="Product"
                 />
               )}
@@ -572,8 +588,7 @@ function Items({
               
             </div> */}
           </div>
-        </div>
-        <div className="relative inline-block mt-4">
+          {/* <div className="relative inline-block mt-4 ">
           <Tooltip title="Share" placement="right">
             <img
               src={share}
@@ -581,91 +596,30 @@ function Items({
               onClick={() => handleShare(prod.productID)}
             />
           </Tooltip>
-          {/* <Tooltip title="Share" placement="right">
-                          <img
-                            src={share}
-                            // className="w-6 mx-3 "
-                            className={`w-6 mx-3 ${product.amountInStock === 0
-                              ? "opacity-50"
-                              : "cursor-pointer"
-                              }`}
-                            onClick={() => {
-                              if (product.amountInStock !== 0) {
-                                handleShare(product.productID, product.CartQuantity);
-                              }
-                            }
-                              // handleShare(product.productID)
-                            }
-                          />
-                        </Tooltip> */}
+          
+        </div> */}
+
         </div>
-        {/* {isShowPopup && (
-          <div className="flex flex-col justify-center items-center top-0 right-0 h-full absolute inset-0 bg-transparent z-auto">
-            <div className="border w-[13%] rounded-lg bg-gray-100 -ml-40">
-              <div className="flex border-b justify-between p-2">
-                <div className="flex items-center">
-                  <a
-                    href="mailto:example@example.com"
-                    className="flex items-center"
-                  >
-                    <img src={email} className="text-blue-400 w-6" />
-                    <p className="ml-3">Email</p>
-                  </a>
-                </div>
-                <img
-                  src={wrong}
-                  onClick={handleSharePopupToggle}
-                  className="w-3 h-3"
-                />
-              </div>
-              <div className="flex border-b p-2">
-                <a
-                  href="https://www.instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center"
-                >
-                  <img src={Instagram} className="text-blue-400 w-6" />
+        <div className="relative inline-block mt-4 -ml-2 ">
+          <Tooltip title="Share" placement="right">
+            <img
+              src={share}
+              className="w-6 mx-3 "
+              onClick={() => handleShare(prod.productID)}
+            />
+          </Tooltip>
+          
+        </div>
+        
 
-                  {/* <FaPinterest className="text-red-500 text-2xl" /> 
-                  <p className="ml-3">Instagram</p>
-                </a>
-              </div>
-              <div className="flex border-b p-2">
-                <a
-                  href="https://www.facebook.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center"
-                >
-                  <img src={Facebook} className="text-blue-400 w-6" />
-                  {/* <FaFacebook  /> 
-                  <p className="ml-3">Facebook</p>
-                </a>
-              </div>
-              <div className="flex border-b p-2">
-                <a
-                  href="https://wa.me/1234567890?text=Hello"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center"
-                >
-                  <img src={Whatsapp} className="text-blue-400 w-6" />
-                  <p className="ml-3">Whatsapp</p>
-                </a>
-              </div>
-            </div>
-          </div>
-        )} */}
-
-        <div className="w-[60%] overflow-scroll justify-between h-[500px] flex border-none">
-          <div className="w-[50%] ">
-            <div className="  border-b-2">
-              <h1 className="text-2xl font-semibold text-box">
+        <div className="w-full lg:w-[60%] mr-5 overflow-scroll justify-between h-[500px] flex flex-col lg:flex-row border-none lg:-ml-6">
+        <div className="w-full lg:w-[50%] p-4 lg:p-2">
+        <div className="  border-b-2">
+              <h1 className="text-xl lg:text-2xl font-semibold text-box">
                 {/* Vitamin C(1000IU) Cap X */}
                 {prod?.productName}
               </h1>
-              <h3 className="text-orange-400 font-light text-sm">
+              <h3 className="text-orange-400 font-light text-sm lg:text-base">
                 UPN Member Price:
                 <span className="text-orange-400 font-semibold">
                   {" "}
@@ -694,21 +648,21 @@ function Items({
                 {new Date() >= new Date(prod?.salePriceValidFrom) &&
                 new Date() <= new Date(prod?.salePriceValidTo) ? (
                   <>
-                    <span className="text-sky-500 font-semibold text-[18px]">
-                      ${prod?.salePrice?.toFixed(2)}
+            <span className="text-sky-500 font-semibold text-[16px] lg:text-[18px]">
+            ${prod?.salePrice?.toFixed(2)}
                     </span>
                     <p className="text-xs ml-1 line-through">
                       ${prod?.unitPrice?.toFixed(2)}
                     </p>
                   </>
                 ) : (
-                  <span className="text-sky-500 font-semibold text-[18px]">
+                  <span className="text-sky-500 font-semibold text-[16px] lg:text-[18px]">
                     ${prod?.unitPrice?.toFixed(2)}
                   </span>
                 )}
               </div>
 
-              <div className="text-[12px]">Inclusive of all taxes</div>
+              <div className="text-[12px] lg:text-[14px]">Inclusive of all taxes</div>
 
               {/* <div className="flex items-center   ">
                 <span style={{ fontSize: "24px", color: "orange" }}>★</span>
@@ -727,7 +681,7 @@ function Items({
                     {index < ratingValue ? "★" : "☆"}
                   </span>
                 ))}
-                <div className="ml-2 text-[13px]">({ratingValue} ratings)</div>
+                <div className="ml-2 text-[13px] lg:text-[14px]">({ratingValue} ratings)</div>
               </div>
             </div>
 
@@ -736,23 +690,23 @@ function Items({
                 <CiDiscount1 className=" text-2xl" />
               </p>{" "}
               {""} {""}
-              <p className=" text-[15px]  font-normal">
+              <p className=" text-[14px] lg:text-[15px] font-normal ml-2">
                 Add 15 Products to cart and get 10$ Discount
               </p>
             </div>
 
             <div className=" w-full flex justify-center flex-col ">
-              <div className="w-full flex items-center justify-between p-2  bg-gray-100 rounded-lg">
-                <span className="text-base font-semibold">Ship to</span>
+            <div className="w-full flex items-center justify-between p-2 bg-gray-100 rounded-lg">
+            <span className="text-base lg:text-lg font-semibold">Ship to</span>
                 <button
                   onClick={() => setIsFormVisible(!isFormVisible)}
-                  className="text-sm flex items-center"
+                 className="text-sm lg:text-base flex items-center"
                 >
                   Calculate Shipping Cost
                   <img
                     src={isFormVisible ? DropDownIcon : DropUpIcon}
                     alt="Toggle Dropdown"
-                    className=" w-6 h-6"
+                   className="w-4 h-4 lg:w-6 lg:h-6"
                   />
                 </button>
               </div>
@@ -825,15 +779,15 @@ function Items({
 
               <div className=" w-[80%] mt-3  bg-white space-y-4">
                 <h1 className="text-lg font-bold">Quick Overview</h1>
-                <p>
+                <ul>
                   <li>{prod?.aboutTheProduct}</li>
-                </p>
+                </ul>
               </div>
             </div>
           </div>
 
-          <div className="w-[50%] min-h-full mr-12  p-3 flex flex-col items-center  ">
-            <div className="border rounded-lg shadow-lg  pb-4 w-full h-full">
+          <div className="w-full lg:w-[50%] min-h-full p-3 flex flex-col items-center">
+          <div className="border rounded-lg shadow-lg  pb-4 w-full h-full">
               <div className="p-4">
                 <div className="flex justify-between">
                   {/* <p className="text-black text-[22px]">
@@ -842,12 +796,18 @@ function Items({
                       ? prod?.salePrice.toFixed(2)
                       : prod?.unitPrice?.toFixed(2)}
                   </p> */}
-                  <p className="text-black text-[22px]">
-                    $
-                    {new Date() >= new Date(prod?.salePriceValidFrom) &&
+          <p className="text-black text-[20px] lg:text-[22px]">
+          $
+                    {/* {new Date() >= new Date(prod?.salePriceValidFrom) &&
                     new Date() <= new Date(prod?.salePriceValidTo)
                       ? prod?.salePrice?.toFixed(2)
-                      : prod?.unitPrice?.toFixed(2)}
+                      : prod?.unitPrice?.toFixed(2)} */}
+                       {user?.isUPNMember === 1
+    ? prod?.upnMemberPrice?.toFixed(2)
+    : new Date() >= new Date(prod?.salePriceValidFrom) &&
+      new Date() <= new Date(prod?.salePriceValidTo)
+    ? prod?.salePrice?.toFixed(2)
+    : prod?.unitPrice?.toFixed(2)}
                   </p>
 
                   {/* <img src={ ?Wishlist :filledheart} className="w-5 h-5 flex   "/> */}
@@ -867,8 +827,8 @@ function Items({
                 </div>
                 <div className="flex justify-between">
                   <div className="flex">
-                    <p className="text-gray-600 text-[14px]">
-                      Delivery by{" "}
+                  <p className="text-gray-600 text-[12px] lg:text-[14px]">
+                  Delivery by{" "}
                       <span className="text-black">
                         Tommorrow, 8:00 am - 12:00 pm
                       </span>
@@ -882,8 +842,8 @@ function Items({
                 </div>
               </div>
 
-              <div className="flex flex-col text-[15px]  w-[320px] px-4 mb-2 ">
-                <div className="flex flex-col  ">
+              <div className="flex flex-col text-[14px] lg:text-[15px] w-full px-4 mb-2">
+              <div className="flex  text-[16px] lg:text-[18px] mb-1 flex-col  ">
                   {/* <div className="flex items-center text-[18px] mb-1">
                     <TbSquareRoundedCheckFilled className="text-sky-500  mr-1" />
                     <span>In Stock</span>
@@ -903,7 +863,7 @@ function Items({
 
                   <div className="flex">
                     <p className="text-sky-500 font-normal">NDC/UPC: </p>
-                    <span>{prod?.ndCorUPC}</span>
+                    <span className=" text-base md:text-base">{prod?.ndCorUPC}</span>
                   </div>
                 </div>
                 <div className="flex flex-col">
@@ -920,12 +880,13 @@ function Items({
                 </div>
               </div>
 
-              <div className="flex items-center space-x-2 pb-2 px-4">
-                <label className="text-lg font-semibold">Quantity:</label>
+              <div className="flex  md:flex-row items-center space-x-2 pb-2 px-4">
+                <label className="text-lg  font-semibold">Quantity:</label>
+                <div className=" flex gap-2 md:flex-row">
                 <button
                   onClick={handleDecrease}
-                  className="bg-gray-200 text-gray-700 font-bold py-1 px-3 rounded focus:outline-none"
-                >
+                  className="bg-gray-200 text-gray-700 font-bold py-1 px-3 md:px-4 md:py-2 sm:px-2 sm:py-1 rounded focus:outline-none"
+                  >
                   -
                 </button>
                 <input
@@ -940,38 +901,20 @@ function Items({
                 >
                   +
                 </button>
+                </div>
               </div>
+              {Errors?.quantity!=null && (
+                <span>{Errors.quantity}</span>
+              )}
 
               <div className="flex gap-2 mx-2">
-                {/* <button
-                  className={`bg-blue-900 w-40 flex  rounded-lg justify-center  items-center py-1 cursor-pointer
-                     `}
-                  onClick={() => handleCart(id)}
-                > */}
-                {/* <button
-                  className={`bg-blue-900 w-40 flex  rounded-lg justify-center  items-center py-1 cursor-pointer
-                     ${
-                       prod?.amountInStock <= 0
-                         ? "bg-gray-400 cursor-not-allowed"
-                         : "cursor-pointer"
-                     } `}
-                  // onClick={() => handleCart(id)}
-                  onClick={() => {
-                    if (prod?.amountInStock !== 0) {
-                      handleCart(id.CartQuantity);
-                    }
-                  }}
-                >
-                  <img src={addcart} className="h-7 p-1" />
-                  <p className="text-white font-semibold">ADD</p>
-                </button> */}
                 <button
-                  className={`w-40 flex rounded-lg justify-center items-center py-1 
-    ${
-      prod?.amountInStock <= 0
-        ? "bg-gray-400 cursor-not-allowed"
-        : "bg-blue-900 cursor-pointer"
-    }`}
+          className={`w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 
+                  ${
+                    prod?.amountInStock <= 0
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-blue-900 cursor-pointer"
+                  }`}
                   disabled={prod?.amountInStock <= 0}
                   onClick={() => {
                     if (prod?.amountInStock > 0) {
@@ -990,7 +933,8 @@ function Items({
                   Buy Now
                 </button> */}
                 <button
-                  className={`w-40 text-white font-semibold text-lg border rounded-lg items-center flex justify-center ${
+          className={`w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 
+ ${
                     prod?.amountInStock === 0
                       ? "bg-orange-200 cursor-not-allowed"
                       : "bg-orange-400"

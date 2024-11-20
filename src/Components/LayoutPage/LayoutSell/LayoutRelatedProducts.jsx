@@ -58,6 +58,8 @@ const LayoutRelatedProducts = () => {
     (state) => state.product.productsByCriteria
   );
 
+  console.log(productsByCriteria, "gnn");
+
   const relatedProducts = useSelector((state) => state.product.RelatedProducts);
   const UpSellProducts = useSelector((state) => state.product.UpSellProducts);
   const CrossSellProducts = useSelector(
@@ -205,6 +207,7 @@ const LayoutRelatedProducts = () => {
   const handleCriteria = async () => {
     const sellerId = localStorage.getItem("userId");
     let Criteria = {
+      customerId:sellerId,
       deals: "",
       brands: "",
       generics: "",
@@ -214,7 +217,7 @@ const LayoutRelatedProducts = () => {
       pharmacyItems: false,
       prescriptionDrugs: false,
       otcProducts: false,
-      vawdSeller: sellerId,
+      // vawdSeller: sellerId,
       topSellingProducts: false,
       buyAgain: false,
       productCategoryId: formData.productCategory,
@@ -307,8 +310,8 @@ const LayoutRelatedProducts = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = productsByCriteria.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil((productsByCriteria?.length || 0) / itemsPerPage);
+  const currentItems = Array.isArray(productsbySeller)? productsbySeller.slice(indexOfFirstItem, indexOfLastItem):[];
+  const totalPages = Math.ceil((productsbySeller?.length || 0) / itemsPerPage);
 
   const handleNextPage = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -446,7 +449,7 @@ const LayoutRelatedProducts = () => {
             </div>
             <div className="flex flex-col  ">
               <label className="text-sm font-semibold">Sale Price From:</label>
-              <input
+              {/* <input
                 name="salePriceForm"
                 type="Date"
                 className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
@@ -455,12 +458,38 @@ const LayoutRelatedProducts = () => {
                 onKeyDown={(e) => {
                   e.preventDefault();
                 }}
-              />
+              /> */}
+              <input
+                      name="salePriceForm"
+                      type="date" // Updated to lowercase for type consistency
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={
+                        formData.salePriceForm
+                          ? formData.salePriceForm.split("T")[0]
+                          : ""
+                      }
+                      min={new Date().toISOString().split("T")[0]} // This disables past dates
+                      // onKeyDown={(e) => {
+                      //   e.preventDefault();
+                      // }}
+                      onKeyDown={(e) => {
+                        // Allow Tab navigation and Backspace/Delete keys
+                        if (
+                          e.key !== "Tab" &&
+                          e.key !== "Delete" &&
+                          e.key !== "ArrowLeft" &&
+                          e.key !== "ArrowRight"
+                        ) {
+                          e.preventDefault(); // Prevent any other keypresses
+                        }
+                      }}
+                    />
             </div>
 
             <div className="flex flex-col ">
               <label className="text-sm font-semibold">Sale Price To:</label>
-              <input
+              {/* <input
                 name="salePriceTo"
                 type="Date"
                 className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
@@ -469,7 +498,38 @@ const LayoutRelatedProducts = () => {
                 onKeyDown={(e) => {
                   e.preventDefault();
                 }}
-              />
+              /> */}
+                <input
+                        name="salePriceTo"
+                        type="date"
+                        className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                        onChange={handleInputChange}
+                        value={
+                          formData.salePriceTo
+                            ? formData.salePriceTo.split("T")[0]
+                            : ""
+                        }
+                        // min={MinDate}
+                        min={
+                          formData.salePriceForm
+                            ? formData.salePriceForm.split("T")[0]
+                            : new Date().toISOString().split("T")[0]
+                        } // Min date is the Sale Price From date
+                        // onKeyDown={(e) => {
+                        //   e.preventDefault();
+                        // }}
+                        onKeyDown={(e) => {
+                          // Allow Tab navigation and Backspace/Delete keys
+                          if (
+                            e.key !== "Tab" &&
+                            e.key !== "Delete" &&
+                            e.key !== "ArrowLeft" &&
+                            e.key !== "ArrowRight"
+                          ) {
+                            e.preventDefault(); // Prevent any other keypresses
+                          }
+                        }}
+                      />
             </div>
           </div>
         </div>
@@ -657,7 +717,7 @@ const LayoutRelatedProducts = () => {
         <Pagination
           indexOfFirstItem={indexOfFirstItem}
           indexOfLastItem={indexOfLastItem}
-          productList={productsByCriteria}
+          productList={productsbySeller}
           itemsPerPage={itemsPerPage}
           setItemsPerPage={setItemsPerPage}
           currentPage={currentPage}

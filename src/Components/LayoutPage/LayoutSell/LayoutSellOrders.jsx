@@ -18,6 +18,8 @@ import wrong from "../../../assets/Icons/wrongred.png";
 import Pagination from "../../Pagination";
 import { MasterOrderStatusGetAll } from "../../../Api/MasterDataApi";
 
+
+
 function LayoutSellOrders() {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user.user);
@@ -27,13 +29,16 @@ function LayoutSellOrders() {
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
   const ordered = useSelector((state) => state.order.orderView)
-  console.log("orderedview-->", ordered) 
+  console.log("orderedview-->", ordered)
   const orderStatusGetAll = useSelector((state) => state.master.orderStatusGetAll)
   console.log("statusGetAll", orderStatusGetAll)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState(null);
   useEffect(() => {
     dispatch(MasterOrderStatusGetAll())
   }, [dispatch])
-  
+
   const localData = localStorage.getItem("userId")
   const products = [
     {
@@ -68,7 +73,7 @@ function LayoutSellOrders() {
     },
     {
       label: "Purchase Amount",
-      value: `$${SellerOrder ? SellerOrder.reduce((total,order) => total + (order.totalAmount  || 0),0).toFixed(2) : 0.00}`,
+      value: `$${SellerOrder ? SellerOrder.reduce((total, order) => total + (order.totalAmount || 0), 0).toFixed(2) : 0.00}`,
       // `$${SellerOrder
       //   ? Math.floor(SellerOrder.reduce((total, order) => total + (order.totalAmount || 0), 0) .toFixed(2) : 0.00)
       //   : 0}`,
@@ -91,8 +96,8 @@ function LayoutSellOrders() {
   const orderSellerId = parts[2]; // Assuming '123' is the seller ID
   console.log("orderSeller-->", orderSellerId)
 
-  const [modal, setModal] = useState(false) 
-  const [orderID,setOrderID] = useState(null)
+  const [modal, setModal] = useState(false)
+  const [orderID, setOrderID] = useState(null)
 
   useEffect(() => {
     const fetchGetOrder = async () => {
@@ -104,7 +109,7 @@ function LayoutSellOrders() {
     if (orderSellerId) {
       fetchGetOrder();
     }
-  }, [user, orderSellerId, dispatch]);
+  }, [user, orderSellerId, dispatch, isModalOpen]);
 
   const handleClickView = async (orderId) => {
     setModal(true)
@@ -126,21 +131,90 @@ function LayoutSellOrders() {
   // const currentItems = SellerOrder.slice(indexOfFirstItem, indexOfLastItem);
   // const currentItems = SellerOrder ? SellerOrder.slice(indexOfFirstItem, indexOfLastItem) : [];
   const currentItems = SellerOrder
-  ? SellerOrder.slice(indexOfFirstItem, indexOfLastItem).sort(
+    ? SellerOrder.slice(indexOfFirstItem, indexOfLastItem).sort(
       (a, b) => new Date(b.orderDate) - new Date(a.orderDate)
     )
-  : [];
+    : [];
   const totalPages = Math.ceil((SellerOrder?.length || 0) / itemsPerPage);
 
-  const handleStatus = async (orderId, statusId) => {
-    if (orderId && statusId) {
-      await dispatch(orderStatusUpdateApi(orderId, statusId));
-    }
+  // const handleStatus = async (orderId, statusId) => {
+
+  //   if (orderId && statusId) {
+  //     await dispatch(orderStatusUpdateApi(orderId, statusId));
+  //   }
+  // };
+
+
+
+  // This function is triggered when the user selects a new status
+  const handleStatusChange = (product, statusId) => {
+    setSelectedOrder(product); // Store the selected product (order) for confirmation
+    setSelectedStatus(statusId); // Store the selected status for confirmation
+    setIsModalOpen(true); // Open the modal
   };
 
+  // Handle confirming the action (Yes)
+  const handleConfirm = async () => {
+    if (selectedOrder && selectedStatus) {
+      // Update the status through the API only after confirmation
+      await dispatch(orderStatusUpdateApi(selectedOrder?.orderId, selectedStatus));
+      setIsModalOpen(false); // Close the modal after confirmation
+    }
+  };
+  const [comment, setComment] = useState('')
+
+  // Handle cancelling the action (No)
+  const handleCancel = () => {
+    setIsModalOpen(false); // Just close the modal without any action
+    setComment(""); // Reset comment
+  };
   return (
-    
+
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
+      {isModalOpen && (
+        <div
+          className="fixed top-0 left-25 w-[90%] h-full flex justify-center items-center bg-slate-600 bg-opacity-20"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="w-96 h-44 bg-white rounded-md shadow-md flex flex-col justify-center">
+            <div className="flex justify-end  ">
+              <button className="w-5 p-1 mx-2 mt-3" onClick={handleCancel}>
+                <img src={wrong} className="w-6 h-4" />
+              </button>
+            </div>
+            <h1 className="text-black text-center mt-2">
+              Are you sure you want to update the status?
+            </h1>
+            <div className="flex justify-center">
+
+              <textarea
+                type="text"
+                className="border w-72 p-2 h-10 mt-3 rounded-md text-left"
+                placeholder="Write a comment"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+            </div>
+            <div className="flex justify-around mt-6 mb-5">
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                onClick={handleCancel}
+              >
+                No
+              </button>
+              <button
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                onClick={handleConfirm}
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+
+      )}
+   
       {modal && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
@@ -155,7 +229,7 @@ function LayoutSellOrders() {
               className="self-end text-red-500 font-bold py-1 px-2 rounded hover:bg-red-100"
               onClick={() => setModal(false)}
             >
-              <img src={wrong} className="w-6 h-4"/>
+              <img src={wrong} className="w-6 h-4" />
             </button>
 
             {/* Content section */}
@@ -230,7 +304,7 @@ function LayoutSellOrders() {
           {/* search end */}
           <div className="flex gap-2">
             <div className="flex  ">
-            {/* <button className="bg-green-300 p-2 h-8 rounded-md flex items-center">
+              {/* <button className="bg-green-300 p-2 h-8 rounded-md flex items-center">
               <img src={filter} className="w-6 h-6" />
               Filter
             </button> */}
@@ -279,21 +353,21 @@ function LayoutSellOrders() {
                 return rows;
               })()}
             </tbody> */}
-              
-              {Array.isArray(currentItems) && currentItems.length > 0 ?(
+
+              {Array.isArray(currentItems) && currentItems.length > 0 ? (
                 currentItems.map((product, index) => (
                   <tr key={product.productId} className="border-b">
                     <td className="px-4 py-2">{indexOfFirstItem + index + 1}</td>
                     <td className="px-4 py-2"><img className="w-10 h-10" src={product.imageUrl} /></td>
                     <td className="px-4 py-2">{product?.productName}</td>
                     <td className="px-4 py-2">{new Date(product.orderDate).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: '2-digit',
-                                day: '2-digit',
-                              }).replace(/\//g, '-')}</td>
+                      year: 'numeric',
+                      month: '2-digit',
+                      day: '2-digit',
+                    }).replace(/\//g, '-')}</td>
                     <td className="text-right px-4 py-2">${product?.totalAmount.toFixed(2)}</td>
                     <td className="px-4 py-2">{product?.customerName}</td>
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 cursor-pointer">
                       {/* <select>
                         <option value="approve">Accepted</option>
                         <option value="Reject">Rejected</option>
@@ -302,18 +376,19 @@ function LayoutSellOrders() {
 
                         <option value="Delivered">Delivered</option>
                       </select> */}
-                        <select
-                          disabled={!Array.isArray(orderStatusGetAll) || orderStatusGetAll.length === 0}
-                          onChange={(e) => handleStatus(product?.orderId, e.target.value)} // Trigger handleStatus on change
-                        >
-                          {Array.isArray(orderStatusGetAll) && orderStatusGetAll.length > 0 &&
-                            orderStatusGetAll.map((item) => (
-                              <option key={item.statusId} value={item.statusId}>
-                                {item.statusDescription}
-                              </option>
-                            ))
-                          }
-                        </select>
+                      <select className="cursor-pointer"
+                        disabled={!Array.isArray(orderStatusGetAll) || orderStatusGetAll.length === 0}
+                        onChange={(e) => handleStatusChange(product, e.target.value)} // Trigger handleStatus on change
+                        value={product?.orderStatusId} // Set the current status as the selected value
+                      >
+                        {Array.isArray(orderStatusGetAll) && orderStatusGetAll.length > 0 &&
+                          orderStatusGetAll.map((item) => (
+                            <option className="cursor-pointer" key={item.statusId} value={item.statusId}>
+                              {item.statusDescription}
+                            </option>
+                          ))
+                        }
+                      </select>
 
 
                     </td>
@@ -322,12 +397,12 @@ function LayoutSellOrders() {
                         <img src={eye} className="w-5 h-5" onClick={() => handleClickView(product?.orderId)} />
                         {/* <FaFileInvoice className="w-5 h-5"/> */}
                       </Tooltip>
-                    {/* <Tooltip title="Invoice" placement="top">
+                      {/* <Tooltip title="Invoice" placement="top">
                       <img src={Invoice} className="w-5 h-5" onClick={() => handleClickInvoice(product?.orderId)}/>
                       {/* <FaFileInvoice className="w-5 h-5"/> 
                       </Tooltip> */}
                       <Tooltip title="Download" placement="top">
-                        <img src={download} className="w-5 h-5"/>
+                        <img src={download} className="w-5 h-5" />
                       </Tooltip>
                     </td>
                   </tr>
@@ -339,24 +414,21 @@ function LayoutSellOrders() {
                   </td>
                 </tr>
               )}
-              </tbody>
+            </tbody>
           </table>
         </div>
-          <Pagination
-            indexOfFirstItem={indexOfFirstItem}
-            indexOfLastItem={indexOfLastItem}
-            productList={SellerOrder}
-            itemsPerPage={itemsPerPage}
-            setItemsPerPage={setItemsPerPage}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
+        <Pagination
+          indexOfFirstItem={indexOfFirstItem}
+          indexOfLastItem={indexOfLastItem}
+          productList={SellerOrder}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
     </div>
   );
 }
 
 export default LayoutSellOrders;
-
-
-

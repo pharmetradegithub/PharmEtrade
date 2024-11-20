@@ -96,7 +96,7 @@ import LayoutSalesHistory from "./Components/LayoutPage/LayoutSell/LayoutSalesHi
 import LayoutShippingDetails from "./Components/LayoutPage/LayoutSell/LayoutShippingDetails";
 import LayoutRequestForQuote from "./Components/LayoutPage/LayoutSell/LayoutRequestForQuote";
 import LayoutSellReturn from "./Components/LayoutPage/LayoutSell/LayoutSellReturn";
-import LayoutEditProduct from "./Components/LayoutPage/LayoutSell/LayoutProducts/LayouEditProduct";
+// import LayoutEditProduct from "./Components/LayoutPage/LayoutSell/LayoutProducts/LayouEditProduct";
 import LayoutUpsShipping from "./Components/LayoutPage/LayoutSell/LayoutUpsShipping";
 import LayoutFedexshipping from "./Components/LayoutPage/LayoutSell/LayoutFedexshipping";
 import LayoutAllQuotesProducts from "./Components/LayoutPage/LayoutSell/LayoutAllQuotesProducts";
@@ -150,6 +150,8 @@ import TrackingOrder from "./Components/TrackingOrder";
 import { fetchProductCategoriesGetAll } from "./Api/MasterDataApi";
 import ProccedtoShipment from "./Components/ProccedtoShipment";
 import LayoutTerms from "./Components/LayoutTerms";
+import Reports from "./Components/Admin/Reports/Reports";
+import LayoutBuyReturn from "./Components/LayoutPage/LayoutBuy/LayoutReturn";
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
@@ -164,13 +166,19 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const skipRoutes = [ "/termsandconditions"];
     const LoadAll = async (userId) => {
       LoadingApi(true);
-      if (userId) {
+      if (userId &&  !skipRoutes.includes(location.pathname)) {
+       
+
         const userDetails = await getUserByCustomerIdApi(userId);
-        await UserMenuItemsApi(userDetails.customerDetails.customerTypeId);
-        await getCartItemsApi(userId);
-        await fetchWishlistItemsApi(userId);
+        if(userDetails!=null)
+        {
+          await UserMenuItemsApi(userDetails.customerDetails.customerTypeId);
+          await getCartItemsApi(userId);
+          await fetchWishlistItemsApi(userId);
+        } 
       }
       await fetchAllBannersApi();
       await fetchRecentSoldProductsApi(10);
@@ -195,9 +203,6 @@ function App() {
   // Ref for the top fixed div
 
   const [cartItems, setCartItems] = useState([]);
-  useEffect(() => {
-    console.log(cartItems);
-  }, [cartItems]);
 
   function addCart(prolist) {
     setCartItems([...cartItems, prolist]);
@@ -211,7 +216,8 @@ function App() {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Product/GetAll"
+          // "https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Product/GetAll"
+          `${import.meta.env.VITE_API_BASE_URL}/api/Product/GetAll`,
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -249,7 +255,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/termsandconditions" element={<TermsAndConditions />} />
         <Route path="/login" element={<Signin />} />
-        <Route path="/PharmetradeLogin" element={<Login />} />
+        <Route path="/loginadminEtrade" element={<Login />} />
         <Route path="/otp2" element={<OTP2 />} />
         <Route path="/password" element={<Password />} />
         <Route path="/changepassword" element={<Changepassword />} />
@@ -301,6 +307,7 @@ function App() {
           <Route path="/bid" element={<Bid />} />
           <Route path="/buy" element={<Buy />} />
           <Route path="/whypharmetrade" element={<WhyPharma />} />
+          <Route path="/faqs" element={<Faqs />} />
           <Route path="/aboutus" element={<AboutUs />} />{" "}
           {/* <Route path="/contactus" element={<Contactus />} /> */}
           <Route path="/requestdemo" element={<RequestDemo />} />
@@ -370,7 +377,7 @@ function App() {
           <Route path="manage-shipping" element={<ManageShipping />} />
         </Route>
 
-        <Route path="/faqs" element={<Faqs />} />
+        {/* <Route path="/faqs" element={<Faqs />} /> */}
 
         <Route path="/layout" element={<LayoutPanel cartItems={cartItems} />}>
           <Route
@@ -405,10 +412,10 @@ function App() {
             path="/layout/postingproducts"
             element={<LayoutPostingProducts />}
           />
-          <Route
+          {/* <Route
             path="/layout/layout-edit-single-product/:productID"
             element={<LayoutEditProduct />}
-          />
+          /> */}
           <Route path="/layout/sellorders" element={<LayoutSellOrders />} />
           <Route path="/layout/sellcustomers" element={<LayoutCustomers />} />
           <Route path="/layout/ups-shipping" element={<LayoutUpsShipping />} />
@@ -420,7 +427,7 @@ function App() {
             path="/layout/requestedquote"
             element={<LayoutAllrequestedQuote />}
           />
-                    <Route path="/layout/faqs" element={<Faqs />} />
+          <Route path="/layout/faqs" element={<Faqs />} />
 
           <Route
             path="/layout/quotedproducts"
@@ -441,6 +448,8 @@ function App() {
             element={<LayoutRequestForQuote />}
           />
           <Route path="/layout/saleshistory" element={<LayoutSalesHistory />} />
+          <Route path="/layout/purchasereturns" element={<LayoutBuyReturn />} />
+
           <Route path="/layout/layoutsetting" element={<LayoutSetting />} />
           <Route
             path="/layout/layoutbuy"
@@ -501,6 +510,8 @@ function App() {
           <Route path="/pharmEtradeadmin/Settlement" element={<Settlement />} />
           <Route path="/pharmEtradeadmin/Incoming" element={<Incomimg />} />
           <Route path="/pharmEtradeadmin/Outgoing" element={<Outgoing />} />
+          <Route path="/pharmEtradeadmin/reports" element={<Reports/>}/>
+
         </Route>
 
         <Route element={<AccountPanel topMargin={topMargin} />}>

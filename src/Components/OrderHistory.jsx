@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchGetOrder } from "../Api/OrderApi";
 function OrderHistory({ topMargin }) {
   const [searchQuery, setSearchQuery] = useState("");
-  const user = useSelector((state) => state.user.user)
+  const user = useSelector((state) => state.user.user);
   const generateYears = (startYear, endYear) => {
     let years = [];
     for (let year = startYear; year <= endYear; year++) {
@@ -17,7 +17,7 @@ function OrderHistory({ topMargin }) {
 
   const YearDropdown = () => {
     const currentYear = new Date().getFullYear();
-    const years = generateYears( currentYear, currentYear+5);
+    const years = generateYears(currentYear, currentYear + 5);
 
     return (
       <select className="border  rounded-md mx-2 shadow-md bg-slate-200">
@@ -30,14 +30,14 @@ function OrderHistory({ topMargin }) {
     );
   };
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
-     dispatch(fetchGetOrder(user?.customerId))
-  })
+    dispatch(fetchGetOrder(user?.customerId));
+  });
 
   return (
     <div
-      className="max-w-5xl  m-auto my-6"
+      className="w-full sm:max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto my-4 sm:my-6"
       style={{
         marginTop: `${topMargin}px`,
       }}

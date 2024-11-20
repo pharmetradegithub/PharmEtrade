@@ -6,10 +6,8 @@ export const fetchCustomer = (customerId) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`/api/Customer/GetByCustomerId?customerId=${customerId}`)
-      console.log("bi-->?", response)
       if (response.data.result === 200) {
         const data = response.data.result
-        console.log("bid customer data", data)
         dispatch(setBidCustomerDetails(data))
       }
     } catch (error) {
@@ -20,13 +18,9 @@ export const fetchCustomer = (customerId) => {
 export const GetBidsBySeller = (customerId) => {
   return async (dispatch) => {
     try {
-      console.log("Fetching bids for seller:", customerId);
       const response = await axios.get(`/api/Bid/GetBidsByBuyer?buyerId=${customerId}`);
-      console.log("Response received:", response);
-
       if (response.status === 200) {
         const data = response.data.result; // Adjust this based on your API structure
-        console.log("Bid customer data:", data);
         dispatch(setGetBidsBySeller(data));
       } else {
         console.log("Unexpected response status:", response.status);

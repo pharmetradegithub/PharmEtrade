@@ -791,9 +791,9 @@ const LayoutPostingProducts = () => {
     setDeletePop(false);
   };
 
-  // useEffect(() => {
-  //   dispatch(fetchSellerDashboard(user?.customerId));
-  // }, [])
+  useEffect(() => {
+    dispatch(fetchSellerDashboard(user?.customerId));
+  }, [])
 
   const handleSort = (key) => {
     let direction = "ascending";
@@ -819,6 +819,12 @@ const LayoutPostingProducts = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = sortedProducts.slice(indexOfFirstItem, indexOfLastItem);
+  const sortedCurrentItems = currentItems.sort((a, b) => {
+    const aDate = new Date(a.createdDate);
+    const bDate = new Date(b.createdDate);
+
+    return bDate - aDate; // Descending order
+  });
   const totalPages = Math.ceil((products?.length || 0) / itemsPerPage);
 
   return (
@@ -992,19 +998,21 @@ const LayoutPostingProducts = () => {
 
                     <th className="px-2 py-2 text-left">Saleprice Start</th>
                     <th className="px-2 py-2 text-left">Saleprice End</th>
-
+                    <th className=" px-2 py-2 text-left cursor-pointer">
+                      Active
+                    </th>
                     <th className="px-2 py-2 ">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {currentItems.length === 0 ? (
+                  {sortedCurrentItems.length === 0 ? (
                     <tr>
                       <td colSpan="5" className="text-center py-4">
                         No products available
                       </td>
                     </tr>
                   ) : (
-                    currentItems.map((product, index) => (
+                    sortedCurrentItems.map((product, index) => (
                       <tr key={product.id} className="border-b">
                         <td className="px-4 py-2">
                           {indexOfFirstItem + index + 1}
@@ -1059,6 +1067,7 @@ const LayoutPostingProducts = () => {
                             })
                             .replace(/\//g, "-")}
                         </td>
+                        <td className="">{product.isActive ? 'Activate' : 'Deactivate'}</td>
 
                         <td className=" py-2 cursor-pointer flex items-center space-x-2">
                           <Tooltip title="Edit" placement="top">

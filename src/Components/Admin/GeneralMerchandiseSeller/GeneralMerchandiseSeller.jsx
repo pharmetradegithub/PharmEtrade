@@ -493,7 +493,7 @@ const GeneralMerchandiseSeller = () => {
 
   const [searchInput, setSearchInput] = useState({
     customerName: "",
-    customerTypeId: 1,
+    customerTypeId: 2,
   });
 
   const navigate = useNavigate();

@@ -32,6 +32,7 @@ import {
   fetchNdcUpcListApi,
   fetchProductCategoriesGetAll,
 } from "../../../Api/MasterDataApi";
+import { useNavigate } from "react-router-dom";
 
 function LayoutaddProduct() {
   const user = useSelector((state) => state.user.user);
@@ -218,7 +219,7 @@ function LayoutaddProduct() {
       packQuantity: product.packQuantity,
       packType: product.packType,
       packCondition: {
-        tornLabel: product.packCondition=="torn",
+        tornLabel: product.packCondition == "torn",
         otherCondition: "",
       },
       imageUrl: product?.productGallery?.imageUrl,
@@ -482,23 +483,23 @@ function LayoutaddProduct() {
           file.size === thumbnails[0].size &&
           file.lastModified === thumbnails[0].lastModified
       );
-
+      console.log("hello");
       if (isDuplicate) {
         console.log("This file has already been uploaded.");
         return;
       }
       setThumnails([...thumbnails, acceptedFiles[0]]);
-      if (formData.thumbnail1 == null) {
+      if (formData.thumbnail1 == null || formData.thumbnail1 == "null") {
         setFormData({ ...formData, thumbnail1: acceptedFiles[0] });
-      } else if (formData.thumbnail2 == null) {
+      } else if (formData.thumbnail2 == null || formData.thumbnail2 == "null") {
         setFormData({ ...formData, thumbnail2: acceptedFiles[0] });
-      } else if (formData.thumbnail3 == null) {
+      } else if (formData.thumbnail3 == null || formData.thumbnail3 == "null") {
         setFormData({ ...formData, thumbnail3: acceptedFiles[0] });
-      } else if (formData.thumbnail4 == null) {
+      } else if (formData.thumbnail4 == null || formData.thumbnail4 == "null") {
         setFormData({ ...formData, thumbnail4: acceptedFiles[0] });
-      } else if (formData.thumbnail5 == null) {
+      } else if (formData.thumbnail5 == null || formData.thumbnail5 == "null") {
         setFormData({ ...formData, thumbnail5: acceptedFiles[0] });
-      } else if (formData.thumbnail6 == null) {
+      } else if (formData.thumbnail6 == null || formData.thumbnail6 == "null") {
         setFormData({ ...formData, thumbnail6: acceptedFiles[0] });
       } else {
         console.log("cannot upload more than 6 thumnails");
@@ -526,7 +527,7 @@ function LayoutaddProduct() {
         setFormData({
           ...formData,
           [name]: value === "" ? "" : Number(value),
-          ["salePrice"]: Number((formData.price * (100 - Number(value))) / 100),
+          ["salePrice"]: value==""? "":Number((formData.price * (100 - Number(value))) / 100),
         });
       }
     } else if (type === "select-multiple") {
@@ -572,6 +573,8 @@ function LayoutaddProduct() {
         setFormData({
           ...formData,
           [name]: value === "" ? "" : roundedValue,
+          ["salePrice"]: formData.discount!=null ? Number((value * (100 - Number(formData.discount))) / 100) : "",
+
         });
       } else {
         setFormData({
@@ -658,6 +661,17 @@ function LayoutaddProduct() {
           },
         });
       }
+    }  
+    else if (name === "price") {
+      // Limit price to 2 decimal places
+      const roundedValue = parseFloat(value).toFixed(2);
+      console.log(formData.discount,"dis")
+      setFormData({
+        ...formData,
+        [name]: value === "" ? "" : value,
+        ["salePrice"]: formData.discount!="" ? Number((value * (100 - Number(formData.discount))) / 100) : "",
+
+      });
     } else {
       setFormData({
         ...formData,
@@ -701,6 +715,8 @@ function LayoutaddProduct() {
   const handleChange = (e) => {
     setSelectedValue(e.target.value);
   };
+
+  const navigate = useNavigate();
 
   const handleRemoveImage = () => {
     setSelectedImage(null);
@@ -856,7 +872,7 @@ function LayoutaddProduct() {
         formData.discount == null || formData.discount == ""
           ? 0
           : formData.discount,
-      salePrice: formData.salePrice,
+      salePrice: formData.salePrice==""? 0: parseFloat(formData.salePrice) ||0,
       salePriceValidFrom: formData.salePriceForm,
       salePriceValidTo: formData.salePriceTo,
       taxable: formData.taxable == 1 ? true : false,
@@ -866,8 +882,12 @@ function LayoutaddProduct() {
       shippingCost: formData.shippingCost,
       amountInStock: formData.amountInStock,
       minOrderQuantity: formData.minOrderQuantity,
-      maxOrderQuantity: formData.maxOrderQuantity,
+      maxOrderQuantity:
+        formData.maxOrderQuantity == null || formData.maxOrderQuantity == ""
+          ? formData.amountInStock
+          : formData.maxOrderQuantity,
     };
+    console.log(tab2);
     if (formData.discount == null || formData.discount == "")
       setFormData({ ...formData, ["discount"]: 0 });
     // const tab4 = {
@@ -947,14 +967,11 @@ function LayoutaddProduct() {
 
         const response = await AddProductGallery(tab4, user.customerId);
         localStorage.setItem("productGalleryId", response);
-        if(queryProductId==null)
-        {
+        if (queryProductId == null) {
           localStorage.removeItem("productPriceId");
           localStorage.removeItem("productGalleryId");
           localStorage.removeItem("productId");
-
         }
-
 
         console.log("Product Data", response);
         setNotification({
@@ -965,13 +982,14 @@ function LayoutaddProduct() {
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
-          setActiveTab(0);
+          // setActiveTab(0);
           localStorage.removeItem("productId");
           // Disable 2nd and 3rd tabs
           setShowTab([1, 2, 3]);
           if (queryProductId == null) {
             ResetFormDate();
           }
+          navigate("/layout/postingproducts");
 
           // Optionally reset or move to another step
         }, 3000);
@@ -1714,44 +1732,38 @@ function LayoutaddProduct() {
                       Price ($):<span className="text-red-600">*</span>
                     </label>
                     <input
-                      name="price"
-                      type="phone"
-                      className="w-56 h-8 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      // onChange={(e) => {
-                      //   let value = e.target.value;
+  name="price"
+  type="text"
+  className="w-56 h-8 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+  onChange={(e) => {
+    let value = e.target.value;
 
-                      //   // Allow only numbers and decimals, limit to 2 decimal places
-                      //   const validPrice = /^\d*(\.\d{0,2})?$/;
+    // Allow only numbers and decimals, limit to 2 decimal places
+    const validPrice = /^\d*(\.\d{0,2})?$/;
 
-                      //   // Check if the input value is a valid number with up to 2 decimal places
-                      //   if (validPrice.test(value)) {
-                      //     handleInputChange(e); // Update the state only with valid input
-                      //   }
-                      // }}
-                      onChange={(e) => {
-                        let value = e.target.value;
+    // Check if the input value is a valid number with up to 2 decimal places
+    if (validPrice.test(value)) {
+      handleInputChange(e); // Update the state only with valid input
+    }
+  }}
+  onBlur={(e) => {
+    let value = e.target.value;
 
-                        // Allow only numbers and decimals, limit to 2 decimal places
-                        const validPrice = /^\d*(\.\d{0,2})?$/;
+    // If the value is a valid number, format it to 2 decimal places
+    if (value && !value.includes('.')) {
+      value += '.00'; // Append .00 if there's no decimal part
+    } else if (value) {
+      value = parseFloat(value).toFixed(2); // Ensure 2 decimal places
+    }
 
-                        // Check if the input value is a valid number with up to 2 decimal places
-                        if (validPrice.test(value)) {
-                          handleInputChange(e); // Update the state only with valid input
-                        }
-                      }}
-                      onBlur={(e) => {
-                        let value = parseFloat(e.target.value);
+    handleInputChange({
+      target: { name: e.target.name, value },
+    }); // Update state with formatted value
+  }}
+  value={formData.price !== undefined ? formData.price : ""}
+/>
 
-                        // If the value is a valid number, format it to 2 decimal places
-                        if (!isNaN(value)) {
-                          value = value.toFixed(2); // Ensure 2 decimal places
-                          handleInputChange({
-                            target: { name: e.target.name, value },
-                          }); // Update state with formatted value
-                        }
-                      }}
-                      value={formData.price === 0 ? "" : formData.price}
-                    />
+
                     {formErrors.price && (
                       <span className="text-red-500 text-sm">
                         {formErrors.price}
@@ -1781,29 +1793,38 @@ function LayoutaddProduct() {
                     <label className="text-sm font-semibold">
                       UPN Member Price ($):
                     </label>
-                    {/* <input
-                      name="upnMemberPrice"
-                      type="phone"
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      // onChange={handleInputChange}
-                      onChange={(e) => {
-                        let value = e.target.value;
 
-                        // Allow only numbers and decimals, limit to 2 decimal places
-                        const validPrice = /^\d*(\.\d{0,2})?$/;
-
-                        // Check if the input value is a valid number with up to 2 decimal places
-                        if (validPrice.test(value)) {
-                          handleInputChange(e); // Update the state only with valid input
-                        }
-                      }}
-                      value={
-                        formData.upnMemberPrice === ""
-                          ? ""
-                          : formData.upnMemberPrice
-                      }
-                    /> */}
                     <input
+  name="upnMemberPrice"
+  type="text"
+  className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+  onChange={(e) => {
+    let value = e.target.value;
+
+    // Allow only numbers and decimals, limit to 2 decimal places
+    const validPrice = /^\d*(\.\d{0,2})?$/;
+
+    // Check if the input value is a valid number with up to 2 decimal places
+    if (validPrice.test(value)) {
+      handleInputChange(e); // Update the state only with valid input
+    }
+  }}
+  onBlur={(e) => {
+    let value = parseFloat(e.target.value);
+
+    // If the value is a valid number, format it to 2 decimal places
+    if (!isNaN(value)) {
+      value = value.toFixed(2); // Ensure 2 decimal places
+      handleInputChange({
+        target: { name: e.target.name, value },
+      }); // Update state with formatted value
+    }
+  }}
+  value={formData.upnMemberPrice !== "" ? formData.upnMemberPrice : ""}
+/>
+
+
+                    {/* <input
                       name="upnMemberPrice"
                       type="text"
                       className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
@@ -1829,12 +1850,22 @@ function LayoutaddProduct() {
                           }); // Update state with formatted value
                         }
                       }}
+                      // value={
+                      //   formData.upnMemberPrice !== ""
+                      //     ? formData.upnMemberPrice
+                      //     : ""
+                      // }
                       value={
-                        formData.upnMemberPrice !== ""
-                          ? formData.upnMemberPrice
+                        formData.upnMemberPrice
+                          ? parseFloat(formData.upnMemberPrice).toFixed(2)
                           : ""
                       }
-                    />
+                    /> */}
+                    {formErrors.upnMemberPrice && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.upnMemberPrice}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="flex items-center gap-8">
@@ -1949,46 +1980,6 @@ function LayoutaddProduct() {
                   </div>
 
                   <div className="flex items-center gap-8 my-2">
-                    {/* <div className="flex flex-col">
-                      <label className="text-sm font-semibold">
-                        Sale Price To($):
-                      </label>
-                      <input
-                        name="salePriceTo"
-                        type="Date"
-                        className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                        onChange={handleInputChange}
-                        value={
-                          formData.salePriceTo
-                            ? formData.salePriceTo.split("T")[0]
-                            : ""
-                        }
-                      />
-                       
-                      {formErrors.salePriceTo && (
-                        <span className="text-red-500 text-sm">
-                          {formErrors.salePriceTo}
-                        </span>
-                      )}
-                    </div> */}
-
-                    {/* <div className="flex flex-col">
-      <label className="text-sm font-semibold">Sale Price To($):</label>
-      <input
-        name="expirationDate"
-        type="date"
-        className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-        onChange={handleInputChange}
-        value={formData.expirationDate}
-        min={minDate} // Set the minimum date to 15 days from today
-        max={maxDate} // Set the maximum date to 20 days from today (5 days range)
-      />
-      {formErrors.salePriceTo && (
-        <span className="text-red-500 text-sm">
-          {formErrors.salePriceTo}
-        </span>
-      )}
-    </div> */}
                     <div className="flex flex-col">
                       <label className="text-sm font-semibold">
                         Sale Price To:
@@ -2041,15 +2032,26 @@ function LayoutaddProduct() {
                     {/* <label className="font-semibold">Amount in Stock:</label> */}
                     <input
                       name="amountInStock"
-                      type="phone"
-                      className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
+                      type="number" // Change to "number" to restrict input to numbers only
+                      className="w-56 h-8 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={(e) => {
+                        // Allow only numbers and prevent any other characters
+                        const value = e.target.value;
+
+                        // Make sure the value is not empty and is a valid number
+                        if (/^\d*$/.test(value)) {
+                          handleInputChange(e); // Update state only with valid numeric input
+                        }
+                      }}
+                      min="0" // Prevents negative numbers
+                      step="1" // Increment by 1
                       value={
                         formData.amountInStock === 0
                           ? ""
                           : formData.amountInStock
                       }
                     />
+
                     {formErrors.amountInStock && (
                       <span className="text-red-500 text-sm">
                         {formErrors.amountInStock}
@@ -2083,11 +2085,32 @@ function LayoutaddProduct() {
                       Minimum Order Quantity:
                     </label>
                     {/* <label className="font-semibold">Amount in Stock:</label> */}
-                    <input
+                    {/* <input
                       name="minOrderQuantity"
                       type="phone"
                       className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       onChange={handleInputChange}
+                      value={
+                        formData.minOrderQuantity === 0
+                          ? ""
+                          : formData.minOrderQuantity
+                      }
+                    /> */}
+                    <input
+                      name="minOrderQuantity"
+                      type="number" // Use "number" to restrict input to numbers only
+                      className="w-56 h-8 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={(e) => {
+                        // Allow only numbers and prevent any other characters
+                        const value = e.target.value;
+
+                        // Make sure the value is not empty and is a valid number
+                        if (/^\d*$/.test(value)) {
+                          handleInputChange(e); // Update state only with valid numeric input
+                        }
+                      }}
+                      min="0" // Prevents negative numbers
+                      step="1" // Increment by 1
                       value={
                         formData.minOrderQuantity === 0
                           ? ""
@@ -2101,7 +2124,7 @@ function LayoutaddProduct() {
                   <label className="text-sm font-semibold">
                     Maximum Order Quantity :
                   </label>
-                  <input
+                  {/* <input
                     name="maxOrderQuantity"
                     type="phone"
                     className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
@@ -2111,7 +2134,29 @@ function LayoutaddProduct() {
                         ? ""
                         : formData.maxOrderQuantity
                     }
+                  /> */}
+                  <input
+                    name="maxOrderQuantity"
+                    type="number" // Use "number" to restrict input to numbers only
+                    className="w-56 h-8 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                    onChange={(e) => {
+                      // Allow only numbers and prevent any other characters
+                      const value = e.target.value;
+
+                      // Ensure the value is a valid non-negative integer
+                      if (/^\d*$/.test(value)) {
+                        handleInputChange(e); // Update state only with valid numeric input
+                      }
+                    }}
+                    min="0" // Prevents negative numbers
+                    step="1" // Increment by 1
+                    value={
+                      formData.maxOrderQuantity === 0
+                        ? ""
+                        : formData.maxOrderQuantity
+                    }
                   />
+
                   {parseInt(formData.maxOrderQuantity, 10) >
                     parseInt(formData.amountInStock, 10) && (
                     <span className="text-red-600 text-sm mt-1">

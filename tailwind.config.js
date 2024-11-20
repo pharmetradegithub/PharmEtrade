@@ -58,7 +58,9 @@ export default {
         Large:"1200px",
         Laptop:"1350px",
         Largest : "1650px",
-        Desktop:"1900px"
+        Desktop:"1900px",
+        sm_md: "635px",
+        mobile: "320px",
     }
       
     },

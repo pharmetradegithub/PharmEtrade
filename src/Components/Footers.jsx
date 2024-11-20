@@ -191,7 +191,7 @@ function Footers({ topMargin}) {
             built by pharmacists with you in mind.
           </p>
           <p className="text-md mt-4 font-thin">
-            With PharmEtrade, take control of your inventory and put profits
+            With PharmEtrade, takes control of your inventory and put profits
             back into your's
             pharmacy.
           </p>
@@ -257,7 +257,7 @@ function Footers({ topMargin}) {
                  
                 </li>
                 <li>
-                <Link to="/layout/faqs" className="underline">
+                <Link to="/faqs" className="underline">
                     FAQ
                   </Link>
                  

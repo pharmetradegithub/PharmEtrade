@@ -1,35 +1,63 @@
+
+
+
 import React, { useState } from "react";
 import background_image from "../assets/homepharma.png";
 import logo from "../assets/logo2.png";
-import FormControl from "@mui/material/FormControl";
-import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { TextField, InputAdornment, IconButton } from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { Link, useNavigate } from "react-router-dom";
+import { changePasswordUserApi } from "../Api/UserApi";
 
-// import Otp from './Otp';
-import { Link } from "react-router-dom";
 const Confirmpassword = () => {
   const [username, setUsername] = useState("");
-  const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewpassword] = useState("");
   const [confirmPassword, setConfirmpassword] = useState("");
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const [apiError, setApiError] = useState(""); // State to handle API errors if any
+  const [successMessage, setSuccessMessage] = useState(""); // State to show success message if needed
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleClickShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
+
 
   const validate = () => {
     let errors = {};
-    const passwordRegex = /.{6,}/; // Minimum 6 characters
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    // Password conditions
+    const hasUpperCase = /[A-Z]/.test(newPassword);
+    const hasNumber = /\d/.test(newPassword);
+    const hasSpecialChar = /[!@#$%^&*]/.test(newPassword);
+    const isValidLength = newPassword.length >= 8;
 
     if (!username) {
-      errors.username = "Username is required";
-    }
-
-    if (!oldPassword) {
-      errors.oldPassword = "Old password is required";
+      errors.username = "Email Id is required";
+    } else if (!emailRegex.test(username)) {
+      errors.username = "Enter a valid email id";
     }
 
     if (!newPassword) {
       errors.newPassword = "New password is required";
-    } else if (!passwordRegex.test(newPassword)) {
-      errors.newPassword = "New password must be at least 6 characters long";
+    } else {
+      if (!isValidLength) {
+        errors.newPassword = "Password must be at least 8 characters long.";
+      } else if (!hasUpperCase) {
+        errors.newPassword = "Password must include at least one capital letter.";
+      } else if (!hasNumber) {
+        errors.newPassword = "Password must include at least one number.";
+      } else if (!hasSpecialChar) {
+        errors.newPassword = "Password must include at least one special character.";
+      }
     }
 
     if (!confirmPassword) {
@@ -41,19 +69,38 @@ const Confirmpassword = () => {
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };
-
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (validate()) {
-      // Handle form submission
-      console.log("Form submitted successfully");
-      // Reset form
-      setUsername("");
-      setOldPassword("");
-      setNewpassword("");
-      setConfirmpassword("");
-      setErrors({});
+      try {
+        const success = await changePasswordUserApi(username, newPassword);
+        if (success === false) {
+          setApiError("Failed to change password. Please try again.");
+          return;
+        }
+        setSuccessMessage("Password changed successfully.");
+        setUsername("");
+        setNewpassword("");
+
+        setConfirmpassword("");
+        setErrors({});
+        setApiError(""); // Clear any previous errors
+
+        navigate("/login")
+
+      } catch (error) {
+        setApiError("Failed to change password. Please try again.");
+      }
     }
+  };
+
+  const handleInputChange = (setter, field) => (event) => {
+    setter(event.target.value);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [field]: "", // Clear the error for the specific field
+    }));
   };
 
   return (
@@ -71,83 +118,110 @@ const Confirmpassword = () => {
         }}
       />
 
-      <div className="w-full h-full ">
+      <div className="w-full h-full">
         <Link to="/">
           <img src={logo} style={{ width: "220px" }} />
         </Link>
 
-        <div className=" h-full flex justify-center items-center">
-          <div className="bg-white w-[550px] border rounded-lg  flex flex-col justify-center items-center shadow-lg">
-            <form
-              onSubmit={handleSubmit}
-              className="w-full h-full flex justify-center  my-8"
-            >
-              <div className="w-full h-full flex flex-col justify-center ">
-                <h2 className="font-semibold text-2xl text-blue-900 flex justify-center ">
+        <div className="h-full flex justify-center items-center">
+          <div className="bg-white w-[550px] border rounded-lg flex flex-col justify-center items-center shadow-lg">
+            <form onSubmit={handleSubmit} className="w-full h-full flex justify-center my-8">
+              <div className="w-full h-full flex flex-col justify-center">
+                <h2 className="font-semibold text-2xl text-blue-900 flex justify-center">
                   Change Password
                 </h2>
-                {/* <div className="w-[70%] h-full flex flex-col "> */}
-                <div className=" flex mt-6 items-center justify-center  my-2">
+
+                {apiError && (
+                  <div className="text-red-500 text-center my-2">
+                    {apiError}
+                  </div>
+                )}
+
+                {successMessage && (
+                  <div className="text-green-500 text-center my-2">
+                    {successMessage}
+                  </div>
+                )}
+
+                <div className="flex mt-6 items-center justify-center my-2">
                   <TextField
-                    label="Username"
+                    label="Email Id"
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={handleInputChange(setUsername, "username")}
                     error={!!errors.username}
                     helperText={errors.username}
                     size="small"
                   />
-                </div>{" "}
-                <div className=" flex items-center justify-center  my-2">
-                  <TextField
-                    label="Old Password"
-                    type="password"
-                    value={oldPassword}
-                    onChange={(e) => setOldPassword(e.target.value)}
-                    error={!!errors.oldPassword}
-                    helperText={errors.oldPassword}
-                    size="small"
-                  />
                 </div>
-                <div className=" flex items-center justify-center  my-2">
+
+                <div className="flex items-center justify-center my-2">
                   <TextField
                     label="New password"
-                    type="New password"
+                    type={showPassword ? "text" : "password"}
                     id="New password"
                     value={newPassword}
-                    onChange={(e) => setNewpassword(e.target.value)}
-                    error={!!errors.Newpassword}
+                    onChange={handleInputChange(setNewpassword, "newPassword")}
+                    error={!!errors.newPassword}
+                    helperText={errors.newPassword}
                     size="small"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                    className="w-56"
                   />
                 </div>
-                <div className="flex  items-center justify-center my-2 ">
+
+                <div className="flex items-center justify-center my-2">
                   <TextField
                     label="Confirm password"
-                    type="Confirmpassword"
-                    id="Confirmpassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    id="Confirm password"
                     value={confirmPassword}
-                    onChange={(e) => setConfirmpassword(e.target.value)}
-                    error={!!errors.Confirmpassword}
+                    onChange={handleInputChange(setConfirmpassword, "confirmPassword")}
+                    error={!!errors.confirmPassword}
+                    helperText={errors.confirmPassword}
                     size="small"
-                    // className="p-2 border border-gray-500 rounded-lg"
+                    className="w-56"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle confirm password visibility"
+                            onClick={handleClickShowConfirmPassword}
+                            edge="end"
+                          >
+                            {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </div>
+
                 <div className="flex justify-center my-2">
                   <button
                     type="submit"
-                    className="text-white bg-blue-900 border rounded-lg py-3 px-9 cursor-pointer font-semibold text-[18px] "
+                    className="text-white bg-blue-900 border rounded-lg py-3 px-9 cursor-pointer font-semibold text-[18px]"
                   >
                     Submit
                   </button>
                 </div>
+
                 <div className="text-[18px] my-4 gap-1 flex justify-center">
                   Need help?{" "}
-                  <span className="text-blue-900 underline">
-                    Contact support
-                  </span>y
-                  .
+                  <span className="text-blue-900 underline">Contact support</span>.
                 </div>
               </div>
-              {/* </div> */}
             </form>
           </div>
         </div>

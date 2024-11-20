@@ -9,7 +9,6 @@ export const fetchOrderApi = (payLoad) => {
       const response = await axios.post('/api/Orders/Add', payLoad);
       if (response.status === 200) {
         const order = response.data.result;
-        console.log('Dispatching addOrder action:', order);
 
         // Dispatching the action to add the order to the state
         dispatch(addOrder(order));
