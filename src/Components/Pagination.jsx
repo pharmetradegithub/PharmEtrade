@@ -157,7 +157,7 @@ const Pagination = ({
   };
 
   return (
-    <div className="flex justify-around items-center mt-4 mobile:gap-4">
+    <div className="flex flex-col md:flex-row  justify-around items-center mt-4 mobile:gap-4">
       {productList?.length > 0 ? (
         <div>
           <span className="font-semibold text-md lg:text-lg">
@@ -178,12 +178,12 @@ const Pagination = ({
         <div className="text-gray-500 font-semibold">No records </div>
       )}
 
-      <div className="flex justify-end my-2">
+      <div className="flex -ml-2 md:-ml-0 justify-end my-2">
         <button
           style={{ color: "blue" }}
           onClick={handleGoToFirstPage}
           disabled={currentPage === 1}
-          className="mx-2 px-4 border p-2 mobile:p-2 text-white rounded-lg cursor-pointer "
+          className="mx-2 px-2 md:px-4 border p-2 mobile:p-2 text-white rounded-lg cursor-pointer "
         >
           <Tooltip title="First page" placement="top">
             <div className="flex mobile:w-4 mobile:h-4">
@@ -207,7 +207,7 @@ const Pagination = ({
           {/* {currentPage} of {totalPages} 
         </span> */}
         {productList?.length > 0 && (
-          <span className="mx-2 px-4 mobile:p-0 mobile:m-0 flex items-center bg-white text-black rounded-lg">
+          <span className="mx-2 px-4 text-sm md:text-base mobile:p-0 mobile:m-0 flex items-center bg-white text-black rounded-lg">
             Showing {indexOfFirstItem + 1}-{indexOfLastItem} of{" "}
             {productList.length}
           </span>

@@ -162,7 +162,7 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
 
   return (
     <div
-      className="w-full flex flex-col mt-1 justify-center items-center overflow-y-auto  bg-gray-200"
+      className="w-full flex flex-col mt-1 h-full justify-center items-center overflow-y-auto  bg-gray-200"
       style={{
         marginTop: `${topMargin}px`,
       }}
@@ -174,10 +174,10 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
         />
       )}
 
-      <h1 className="bg-blue-900 w-full  p-1 mx-1 text-white font-semibold text-xl rounded-md mt-10 md:mt-1">Offer Products</h1>
+      <h1 className="bg-blue-900 w-full  p-1 mx-1 text-white font-semibold text-xl rounded-md mt-10 md:mt-2">Offer Products</h1>
 
       <div className="w-full h-full bg-gray-200 mb-5 mt-8">
-        <div className="h-full p-5">
+        <div className="h-full mr-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
             {currentItems.map((offer, index) => (
               <div
@@ -206,11 +206,11 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
                     />
                   </div>
                 </div>
-                <div className="flex justify-center items-center -mt-5">
+                <div className="flex justify-center items-center  -mt-8">
                   <Link to={`/detailspage/${offer.productID}`}>
                     <img
                       src={offer.productGallery.imageUrl}
-                      className="h-40 w-52 sm:h-40 sm:w-28 lg:h-48 lg:w-36 hover:cursor-pointer p-6"
+                      className="h-40 w-52  sm:h-40 sm:w-28 lg:h-48 lg:w-36 hover:cursor-pointer p-6"
                       alt={offer.productName}
                     />
                   </Link>
@@ -218,7 +218,7 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
                 <div className="flex justify-center flex-col items-center mb-1 cursor-pointer">
                   <Link to={`/detailspage/${offer.productID}`}>
                     <p
-                      className="font-semibold text-lg hover:underline w-52 items-start justify-start text-center whitespace-nowrap overflow-hidden text-ellipsis"
+                      className="font-semibold text-lg hover:underline  lg:-mt-6 w-52 items-start justify-start text-center whitespace-nowrap overflow-hidden text-ellipsis"
                       title={offer.productName}
                     // onClick={() => navigate(`/detailspage/${index}`)}
                     >
