@@ -1315,7 +1315,7 @@ const Signup = () => {
                   onChange={(e) => {
                     const { value } = e.target;
                     // Allow only alphabets and spaces by replacing anything else
-                    const alphabeticValue = value.replace(/[^a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]/g, "");
+                    const alphabeticValue = value.replace(/[^a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>']/g, "");
                     handleInputChange({
                       target: {
                         name: "legalBusinessName",
@@ -1375,7 +1375,7 @@ const Signup = () => {
                 onChange={(e) => {
                   const { value } = e.target;
                   // Allow only alphabets and spaces by replacing anything else
-                  const alphabeticValue = value.replace(/[^a-zA-Z\s]/g, "");
+                  const alphabeticValue = value.replace(/[^a-zA-Z0-9\s!@#\$%\^\&\*\(\)\-_=\+\[\]{};:'",.<>\/?\\|`~]/g, "");
                   handleInputChange({
                     target: { name: "city", value: alphabeticValue },
                   });
