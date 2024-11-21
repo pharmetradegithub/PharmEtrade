@@ -274,43 +274,245 @@ const LayoutSellerDashboard = () => {
 
 
   return (
+    // <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
+    //   <div className="w-[95%] h-full mt-8">
+    //     <div className="flex justify-between">
+    //       <h1 className="text-[22px] text-blue-900  font-semibold">Seller Dashboard</h1>
+    //     </div>
+
+    //     <div className="flex flex-col ">
+    //       <div className='flex  flex-wrap  gap-2 w-auto mt-8 border p-4 rounded-lg shadow-lg'>
+
+    //         {/* <div className='flex flex-col items-center justify-center ml-7'>
+    //           <h1 className='text-xl font-semibold'>Order(s)</h1>
+    //           <p className='text-3xl '>{sellerDashboard?.totalOrders}</p>
+    //         </div> */}
+    //         <div className='flex gap-3 ml-2 '>
+    //           {details.map((detail, index) => (
+    //             <div className='flex gap-4'>
+
+    //               <div
+    //                 key={index}
+    //                 className="bg-white w-48 rounded-lg shadow-xl cursor-pointer  h-28 p-1 flex flex-col justify-between"
+    //                 onClick={() => toggleGrid(detail.grid)}
+    //                 style={{ borderBottom: `4px solid ${detail.color}` }} // Set bottom border color
+    //               >
+
+    //                 <div className="flex justify-between items-center">
+    //                   <h1  onClick={() => handleNavigation(detail.to)} className='hover:text-red-600  hover:underline px-2 font-semibold '>{detail.label}</h1>
+
+    //                 </div>
+    //                 <div className="flex justify-between">
+    //                   <p className='items-center flex justify-center text-lg mt-4 font-semibold px-2'>{detail.percentage}</p>
+    //                   {/* <CircleProgress percentage={detail.percentage} color={detail.color} /> */}
+    //                 </div>
+    //               </div>
+    //             </div>
+    //           ))}
+    //         </div>
+
+
+    //         {/* <div
+    //           className="w-48 h-28 bg-white rounded-lg shadow-xl border-b-4 border-b-blue-900 flex items-center justify-center cursor-pointer"
+    //           onClick={handleClick}
+    //         >
+    //           {!isPercentageShown ? (
+    //             <h1 className="hover:text-red-500 font-semibold text-xl text-center">
+    //               Latest
+    //             </h1>
+    //           ) : !isGridOpen ? (
+    //             <h1 className="text-blue-900 font-semibold text-3xl text-center">
+    //               85%
+    //             </h1> // Example percentage
+    //           ) : (
+    //             <h1 className="hover:text-red-500 font-semibold text-xl text-center">
+    //               Close Latest
+    //             </h1>
+    //           )}
+    //         </div> */}
+
+
+    //       </div>
+
+
+    //             {/* Active inactive products */}
+
+    //        <div className='flex flex-wrap gap-6 w-full mt-8 border rounded-lg shadow-lg p-4'>
+    //               <div className='flex gap-5'>
+    //               {productsactives.map((productactive)=>(
+    //                 <div className=''>
+    //                   <div 
+    //                     style={{ borderBottom: `4px solid ${productactive.color}` }}
+    //                    className="bg-white w-52 flex rounded-lg shadow-xl cursor-pointer flex-col  h-28 p-2   justify-between"
+    //                   >
+    //                   <h1 className='font-semibold'>{productactive.label}</h1>
+    //                   <p className='font-semibold text-xl'>{productactive.percentage}</p>
+    //                   </div>
+    //                   </div>
+    //               ))}
+    //               </div>
+
+    //             </div>
+
+
+
+
+
+
+
+
+
+
+
+    //       {/* <div className='flex flex-wrap gap-6 w-full mt-8 border rounded-lg shadow-lg p-4'>
+
+    //         <div className='flex flex-col items-center justify-center ml-4'>
+    //           <h1 className='text-xl font-semibold'>Product(s)</h1>
+    //           <p className='text-3xl '>{sellerDashboard?.productsOrdered}</p>
+    //         </div>
+
+    //         <div className=''>
+    //           {productdetails.map((productdetail, index) => (
+    //             <div >
+    //               <div className='w-48 p-4  border rounded-lg shadow-lg  h-28 bg-white '>
+    //                 <div className=''>
+    //                   <h1 className='flex justify-center '>{productdetail.heading}</h1>
+    //                   <p className='border mt-2'></p>
+    //                 </div>
+    //                 <div className='overflow-y-scroll h-10 '>
+
+    //                   <div className='flex justify-between mt-2  '>
+    //                     <h1 className=' flex flex-wrap'> {productdetail.label}</h1>
+    //                     <div className='flex flex-col'>
+    //                       <p>{productdetail.number}</p>
+    //                       <p>{productdetail.sales}</p>
+    //                     </div>
+    //                   </div>
+    //                   <div className='flex justify-between  '>
+    //                     <h1 className=' flex flex-wrap'> {productdetail.text}</h1>
+    //                     <div className='flex flex-col '>
+    //                       <p>{productdetail.quantity}</p>
+    //                       <p>{productdetail.sales}</p>
+    //                     </div>
+
+    //                   </div>
+    //                   <div className='flex justify-between mt-2  '>
+    //                     <h1 className='flex flex-wrap'> {productdetail.label}</h1>
+    //                     <div className='flex flex-col'>
+    //                       <p>{productdetail.number}</p>
+    //                       <p>{productdetail.sales}</p>
+    //                     </div>
+    //                   </div>
+    //                   <div className='flex justify-between  '>
+    //                     <h1 className=' flex flex-wrap'> {productdetail.text}</h1>
+    //                     <div className='flex flex-col '>
+    //                       <p>{productdetail.quantity}</p>
+    //                       <p>{productdetail.sales}</p>
+    //                     </div>
+
+    //                   </div>
+    //                 </div>
+    //               </div>
+    //             </div>
+    //           ))}
+    //         </div>
+
+            
+
+    //         <div className=' flex gap-8'>
+    //           <div className='flex flex-col items-center justify-center ml-5'>
+    //             <h1 className='text-xl font-semibold'>Customers(s)</h1>
+    //             <p className='text-3xl '>{sellerDashboard?.customersOrdered}</p>
+    //           </div>
+    //           <div   >
+    //             {customerdetails.map((customerdetail, index) => (
+    //               <div className='flex'>
+    //                 <div className='w-48 p-4 ml-8  border rounded-lg shadow-lg h-28 bg-white'>
+    //                   <div className='flex border-b -mt-2'>
+    //                     <h1> {customerdetail.label} :</h1>
+    //                     <p className=''>{customerdetail.Quantity}</p>
+    //                   </div>
+
+
+    //                   <div className='flex '>
+    //                     <h1> {customerdetail.text} :</h1>
+    //                     < p className=''>{customerdetail.number}</p>
+    //                   </div>
+    //                 </div>
+    //               </div>
+    //             ))}
+
+    //           </div>
+    //         </div>
+
+    //       </div> */}
+    //     </div>
+
+    //     {/* <div className='mt-8'>
+    //       {isGridOpen && (
+    //         <LayoutDashboardgrid data={products} onClose={closeGrid} />
+    //       )}
+    //     </div> */}
+
+
+
+
+
+    //     {/* 
+    //     <div>
+    //       {visibleGrid === "customersOrdered" && <LayoutSellerCustomerOrders />}
+    //     </div>
+    //     <div>
+    //       {visibleGrid === "productsOrdered" && <LayoutSellerProductOrderd />}
+    //     </div>
+    //     <div>
+    //       {visibleGrid === "totalProducts" && <LayoutSellerTotalProducts />}
+    //     </div> */}
+    //   </div>
+
+
+    // </div>
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
-      <div className="w-[95%] h-full mt-8">
-        <div className="flex justify-between">
-          <h1 className="text-[22px] text-blue-900  font-semibold">Seller Dashboard</h1>
+      <div className="w-[95%] sm:w-full h-full mt-8 ">
+        <div className="flex justify-center sm:justify-between">
+          <h1 className="text-[22px] text-blue-900 font-semibold ml-2">
+            Seller Dashboard
+          </h1>
         </div>
 
-        <div className="flex flex-col ">
-          <div className='flex  flex-wrap  gap-2 w-auto mt-8 border p-4 rounded-lg shadow-lg'>
-
+        <div className="flex flex-col">
+          <div className="flex  flex-wrap  gap-2 w-auto mt-8 border p-4 rounded-lg shadow-lg">
             {/* <div className='flex flex-col items-center justify-center ml-7'>
               <h1 className='text-xl font-semibold'>Order(s)</h1>
               <p className='text-3xl '>{sellerDashboard?.totalOrders}</p>
             </div> */}
-            <div className='flex gap-3 ml-2 '>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-3 ml-2 w-full">
               {details.map((detail, index) => (
-                <div className='flex gap-4'>
-
+                <div className="flex gap-4" key={index}>
                   <div
                     key={index}
-                    className="bg-white w-48 rounded-lg shadow-xl cursor-pointer  h-28 p-1 flex flex-col justify-between"
+                    className="bg-white w-full sm:w-full  md:w-40    Medium:w-full  Laptop:w-48 rounded-lg shadow-xl cursor-pointer  h-28 p-1  flex flex-col justify-between"
                     onClick={() => toggleGrid(detail.grid)}
                     style={{ borderBottom: `4px solid ${detail.color}` }} // Set bottom border color
                   >
-
                     <div className="flex justify-between items-center">
-                      <h1  onClick={() => handleNavigation(detail.to)} className='hover:text-red-600  hover:underline px-2 font-semibold '>{detail.label}</h1>
-
+                      <h1
+                        onClick={() => handleNavigation(detail.to)}
+                        className="hover:text-red-600  hover:underline px-2 font-semibold "
+                      >
+                        {detail.label}
+                      </h1>
                     </div>
                     <div className="flex justify-between">
-                      <p className='items-center flex justify-center text-lg mt-4 font-semibold px-2'>{detail.percentage}</p>
+                      <p className="items-center flex justify-center text-lg mt-4 font-semibold px-2">
+                        {detail.percentage}
+                      </p>
                       {/* <CircleProgress percentage={detail.percentage} color={detail.color} /> */}
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-
 
             {/* <div
               className="w-48 h-28 bg-white rounded-lg shadow-xl border-b-4 border-b-blue-900 flex items-center justify-center cursor-pointer"
@@ -330,39 +532,27 @@ const LayoutSellerDashboard = () => {
                 </h1>
               )}
             </div> */}
-
-
           </div>
 
+          {/* Active inactive products */}
 
-                {/* Active inactive products */}
-
-           <div className='flex flex-wrap gap-6 w-full mt-8 border rounded-lg shadow-lg p-4'>
-                  <div className='flex gap-5'>
-                  {productsactives.map((productactive)=>(
-                    <div className=''>
-                      <div 
-                        style={{ borderBottom: `4px solid ${productactive.color}` }}
-                       className="bg-white w-52 flex rounded-lg shadow-xl cursor-pointer flex-col  h-28 p-2   justify-between"
-                      >
-                      <h1 className='font-semibold'>{productactive.label}</h1>
-                      <p className='font-semibold text-xl'>{productactive.percentage}</p>
-                      </div>
-                      </div>
-                  ))}
+          <div className="flex flex-wrap gap-6 w-full mt-8 border rounded-lg shadow-lg p-4 ">
+            <div className="flex sm:flex-row flex-col gap-5 w-full">
+              {productsactives.map((productactive, index) => (
+                <div className="" key={index}>
+                  <div
+                    style={{ borderBottom: `4px solid ${productactive.color}` }}
+                    className="bg-white w-full sm:w-52 md:w-52 flex rounded-lg shadow-xl cursor-pointer flex-col  h-28 p-2 justify-between"
+                  >
+                    <h1 className="font-semibold">{productactive.label}</h1>
+                    <p className="font-semibold text-xl">
+                      {productactive.percentage}
+                    </p>
                   </div>
-
                 </div>
-
-
-
-
-
-
-
-
-
-
+              ))}
+            </div>
+          </div>
 
           {/* <div className='flex flex-wrap gap-6 w-full mt-8 border rounded-lg shadow-lg p-4'>
 
@@ -454,10 +644,6 @@ const LayoutSellerDashboard = () => {
           )}
         </div> */}
 
-
-
-
-
         {/* 
         <div>
           {visibleGrid === "customersOrdered" && <LayoutSellerCustomerOrders />}
@@ -467,10 +653,8 @@ const LayoutSellerDashboard = () => {
         </div>
         <div>
           {visibleGrid === "totalProducts" && <LayoutSellerTotalProducts />}
-        </div> */}
+        </div> */} 
       </div>
-
-
     </div>
   );
 };

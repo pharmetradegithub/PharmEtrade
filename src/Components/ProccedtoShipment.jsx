@@ -1087,9 +1087,9 @@ const ProccedtoShipment = ({
                               key={item.serviceType}
                               value={item.serviceName}
                             >
-                              {item.serviceName}
+                              {item.serviceName} $ 
                               {matchingRate
-                                ? ` (${matchingRate.ratedShipmentDetails[0].totalNetCharge})`
+                                ? ` (${matchingRate.ratedShipmentDetails[0].totalNetCharge} )`
                                 : ""}
                             </option>
                           );

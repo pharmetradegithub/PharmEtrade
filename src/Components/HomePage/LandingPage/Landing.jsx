@@ -34,15 +34,17 @@ function Landing({ topMargin, wishList, addCart }) {
             marginTop: `${topMargin}px`,
           }}
         >
-          <div className="w-full relative h-[350px] overflow-hidden">
+          <div className="w-full relative mt-10 md:mt-0 h-[150px] md:h-[350px] overflow-hidden">
             {BannerData.length > 0 ? (
               <Slider {...settings}>
                 {BannerData.map((item, index) => (
-                  <div key={index}>
+                  <div key={index} className="w-full" >
                     <img
                       src={item.imageUrl}
                       alt={`Carousel Image ${index + 1}`}
-                      className="w-full h-[350px] Largest:h-[350px] Largest:object-fill "
+                      // className="w-full h-[200px] sm:h-[240px] md:h-[350px] lg:h-[350px] object-cover"
+
+                      className="w-full h-[150px] md:h-[350px] Largest:h-[350px] Largest:object-fill "
                     />
                   </div>
                 ))}

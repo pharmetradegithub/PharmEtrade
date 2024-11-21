@@ -549,6 +549,9 @@
 
 // export default LayoutPostingProducts;
 
+
+
+
 import React, { useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
@@ -575,7 +578,10 @@ import Pagination from "../../../Pagination";
 import { fetchSellerDashboard } from "../../../../Api/Dashboard";
 
 const LayoutPostingProducts = () => {
-  const [sortConfig, setSortConfig] = useState({ key: "", direction: "ascending" });
+  const [sortConfig, setSortConfig] = useState({
+    key: "",
+    direction: "ascending",
+  });
 
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
@@ -678,7 +684,9 @@ const LayoutPostingProducts = () => {
 
       try {
         if (listed && user?.customerId) {
-          const productPromise = await fetchProductsBySellerApi(user?.customerId);
+          const productPromise = await fetchProductsBySellerApi(
+            user?.customerId
+          );
           // Sort products by createdDate (or the relevant date property)
           // const sortedProducts = productPromise.sort((a, b) => {
           //   return new Date(b.createdDate) - new Date(a.createdDate); // Adjust 'createdDate' to your actual date property
@@ -721,8 +729,6 @@ const LayoutPostingProducts = () => {
 
   const [openPop, setOpenPop] = useState(false);
   const [deletePop, setDeletePop] = useState(false);
-
-
 
   const handleNextPage = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -793,7 +799,7 @@ const LayoutPostingProducts = () => {
 
   useEffect(() => {
     dispatch(fetchSellerDashboard(user?.customerId));
-  }, [])
+  }, []);
 
   const handleSort = (key) => {
     let direction = "ascending";
@@ -899,14 +905,14 @@ const LayoutPostingProducts = () => {
           </div>
         </div>
       )}
-      <div className="w-[95%] h-full mt-4">
-        <div className="flex justify-between">
-          <h2 className="text-[22px] text-blue-900 font-semibold">
+      <div className="w-[95%] h-full mt-4 ">
+        <div className="flex justify-between sm:flex-row flex-col gap-4 ">
+          <h2 className="sm:text-[22px] text-[15px] text-blue-900 font-semibold ml-4">
             Marketplace Product List
           </h2>
           <Link to="/layout/addproduct">
             <button
-              className="bg-blue-900 flex items-center text-white p-2 text-[15px] rounded-md"
+              className="bg-blue-900 flex items-center text-white p-2 text-[15px] rounded-md ml-4"
               onClick={handleAddNewProductClick}
             >
               <FaPlus /> Add New Product
@@ -970,36 +976,71 @@ const LayoutPostingProducts = () => {
             )}
             {error && <div>Error: {error.message}</div>}
             {!loading && !error && (
-              <table className="w-full">
+              <table className=" hidden md:table w-full">
                 <thead className="bg-blue-900 text-white">
                   <tr className="border-b-2">
                     <th className="px-2 py-2 text-left">S.No</th>
                     <th className="px-2 py-2 text-left">Thumbnail</th>
-                    <th className=" px-2 py-2 text-left cursor-pointer" onClick={() => handleSort("productName")}>
-                      Product Name {sortConfig.key === "productName" ? (sortConfig.direction === "ascending" ? "▲" : "▼") : "▲"}
+                    <th
+                      className=" px-2 py-2 text-left cursor-pointer"
+                      onClick={() => handleSort("productName")}
+                    >
+                      Product Name{" "}
+                      {sortConfig.key === "productName"
+                        ? sortConfig.direction === "ascending"
+                          ? "▲"
+                          : "▼"
+                        : "▲"}
                     </th>
-                    <th className="px-2 py-2 text-left cursor-pointer" onClick={() => handleSort("createdDate")}>
-                      Created Date {sortConfig.key === "createdDate" ? (sortConfig.direction === "ascending" ? "▲" : "▼") : "▲"}
-
-
+                    <th
+                      className="px-2 py-2 text-left cursor-pointer"
+                      onClick={() => handleSort("createdDate")}
+                    >
+                      Created Date{" "}
+                      {sortConfig.key === "createdDate"
+                        ? sortConfig.direction === "ascending"
+                          ? "▲"
+                          : "▼"
+                        : "▲"}
                     </th>
-                    <th className="px-2 py-2 text-right cursor-pointer" onClick={() => handleSort("unitPrice")}>
-                      Unit Price {sortConfig.key === "unitPrice" ? (sortConfig.direction === "ascending" ? "▲" : "▼") : "▲"}
-
+                    <th
+                      className="px-2 py-2 text-right cursor-pointer"
+                      onClick={() => handleSort("unitPrice")}
+                    >
+                      Unit Price{" "}
+                      {sortConfig.key === "unitPrice"
+                        ? sortConfig.direction === "ascending"
+                          ? "▲"
+                          : "▼"
+                        : "▲"}
                     </th>
-                    <th className="px-2 py-2 text-right cursor-pointer" onClick={() => handleSort("upnMemberPrice")}>
-                      UPN Member Price {sortConfig.key === "upnMemberPrice" ? (sortConfig.direction === "ascending" ? "▲" : "▼") : "▲"}
-
+                    <th
+                      className="px-2 py-2 text-right cursor-pointer"
+                      onClick={() => handleSort("upnMemberPrice")}
+                    >
+                      UPN Member Price{" "}
+                      {sortConfig.key === "upnMemberPrice"
+                        ? sortConfig.direction === "ascending"
+                          ? "▲"
+                          : "▼"
+                        : "▲"}
                     </th>
-                    <th className="px- py-2 text-right cursor-pointer" onClick={() => handleSort("salePrice")}>
-                      Sale Price {sortConfig.key === "salePrice" ? (sortConfig.direction === "ascending" ? "▲" : "▼") : "▲"}
-
+                    <th
+                      className="px- py-2 text-right cursor-pointer"
+                      onClick={() => handleSort("salePrice")}
+                    >
+                      Sale Price{" "}
+                      {sortConfig.key === "salePrice"
+                        ? sortConfig.direction === "ascending"
+                          ? "▲"
+                          : "▼"
+                        : "▲"}
                     </th>
 
                     <th className="px-2 py-2 text-left">Saleprice Start</th>
                     <th className="px-2 py-2 text-left">Saleprice End</th>
                     <th className=" px-2 py-2 text-left cursor-pointer">
-                      Active
+                      Status
                     </th>
                     <th className="px-2 py-2 ">Action</th>
                   </tr>
@@ -1047,8 +1088,12 @@ const LayoutPostingProducts = () => {
                         <td className="px-2 py-2 text-right">
                           ${product.unitPrice.toFixed(2)}
                         </td>
-                        <td className="px-4 py-2 text-right">${product.upnMemberPrice.toFixed(2)}</td>
-                        <td className="px-5 py-2 text-right">${product.salePrice.toFixed(2)}</td>
+                        <td className="px-4 py-2 text-right">
+                          ${product.upnMemberPrice.toFixed(2)}
+                        </td>
+                        <td className="px-5 py-2 text-right">
+                          ${product.salePrice.toFixed(2)}
+                        </td>
                         <td className="px-4 py-2 text-center">
                           {new Date(product.salePriceValidFrom)
                             .toLocaleDateString("en-US", {
@@ -1067,9 +1112,11 @@ const LayoutPostingProducts = () => {
                             })
                             .replace(/\//g, "-")}
                         </td>
-                        <td className="">{product.isActive ? 'Activate' : 'Deactivate'}</td>
+                        <td className="">
+                          {product.isActive ? "Activate" : "Deactivate"}
+                        </td>
 
-                        <td className=" py-2 cursor-pointer flex items-center space-x-2">
+                        <td className=" mt-4 py-2 cursor-pointer flex items-center space-x-2">
                           <Tooltip title="Edit" placement="top">
                             <img
                               src={edit}
@@ -1101,6 +1148,109 @@ const LayoutPostingProducts = () => {
                 </tbody>
               </table>
             )}
+            <div className="block md:hidden space-y-4">
+              {sortedCurrentItems.length === 0 ? (
+                <div className="text-center py-4">No products available</div>
+              ) : (
+                sortedCurrentItems.map((product, index) => (
+                  <div
+                    key={product.id}
+                    className="bg-white shadow rounded-lg p-4 border"
+                  >
+                    <div className="flex items-center space-x-4">
+                      <img
+                        src={product?.productGallery?.imageUrl}
+                        className="w-16 h-16 object-cover"
+                        alt="Thumbnail"
+                      />
+                      <div>
+                        <h3 className="font-semibold text-lg">
+                          {product.productName}
+                        </h3>
+                        <p className="text-sm text-gray-500">
+                          Created:{" "}
+                          {new Date(product.createdDate)
+                            .toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "2-digit",
+                              day: "2-digit",
+                            })
+                            .replace(/\//g, "-")}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="mt-4 space-y-2">
+                      <p className="text-sm">
+                        <span className="font-medium">Unit Price:</span> $
+                        {product.unitPrice.toFixed(2)}
+                      </p>
+                      <p className="text-sm">
+                        <span className="font-medium">UPN Member Price:</span> $
+                        {product.upnMemberPrice.toFixed(2)}
+                      </p>
+                      <p className="text-sm">
+                        <span className="font-medium">Sale Price:</span> $
+                        {product.salePrice.toFixed(2)}
+                      </p>
+                      <p className="text-sm">
+                        <span className="font-medium">
+                          Sale Price Valid From:
+                        </span>{" "}
+                        {new Date(product.salePriceValidFrom)
+                          .toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                          })
+                          .replace(/\//g, "-")}
+                      </p>
+                      <p className="text-sm">
+                        <span className="font-medium">
+                          Sale Price Valid To:
+                        </span>{" "}
+                        {new Date(product.salePriceValidTo)
+                          .toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                          })
+                          .replace(/\//g, "-")}
+                      </p>
+                      <p className="text-sm">
+                        <span className="font-medium">Status:</span>{" "}
+                        {product.isActive ? "Activate" : "Deactivate"}
+                      </p>
+                    </div>
+                    <div className="mt-4 flex justify-start items-center space-x-4">
+                      <Tooltip title="Edit" placement="top">
+                        <img
+                          src={edit}
+                          alt="Edit"
+                          className="cursor-pointer w-7 h-7"
+                          onClick={() => handleEditProduct(product)}
+                        />
+                      </Tooltip>
+                      <Tooltip placement="top" title="Delete">
+                        <img
+                          src={Bin}
+                          alt="Delete"
+                          className="cursor-pointer w-4 h-4"
+                          onClick={() => DeleteProduct(product.productID)}
+                        />
+                      </Tooltip>
+                      <Tooltip title="Deactivate" placement="top">
+                        <img
+                          src={Deactivate}
+                          alt="Deactivate"
+                          className="cursor-pointer w-4 h-4"
+                          onClick={() => deactivatePopUp(product.productID)}
+                        />
+                      </Tooltip>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </div>
 

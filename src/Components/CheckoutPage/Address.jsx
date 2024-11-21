@@ -3,6 +3,8 @@
 
 
 
+
+
 // import React, { useState, useEffect } from "react";
 // import {
 //   Link,
@@ -34,11 +36,12 @@
 // import edit from "../../assets/Edit.png";
 // import axios from "axios";
 // import wrong from "../../assets/Icons/wrongred.png";
-// import { fetchAddAddress, fetchDeleteAddressApi, fetchEditAddress, fetchGetByCustomerId, orderDeliveryAddress } from "../../Api/AddressApi";
+// import { fetchAddAddress, fetchDeleteAddressApi, fetchEditAddress, fetchGetByCustomerId, orderDeliveryAddress, SetDefaultApi } from "../../Api/AddressApi";
 // import { FedExRatesApi, serviceTypeApi } from "../../Api/TrackApi";
 // // import { setAddress } from "../../Store/Store";
 // import Proccedtoshipment from '../ProccedtoShipment'
 // import SquarePaymentForm from "../SquarePaymentForm";
+// import { getUserByCustomerIdApi } from "../../Api/UserApi";
 // function Address({ topMargin, totalAmount, amount }) {
 //   const dispatch = useDispatch()
 //   const applicationId = 'sandbox-sq0idb-vXdVdM6tMjTG6Zi2XCoE-A';
@@ -87,17 +90,21 @@
 //   const [deleteProduct, setDeleteProduct] = useState(null);
 //   const placeOrder = useSelector((state) => state.order.orderPlace)
 //   console.log("placeeeeeeeeeeeeeee", placeOrder)
+//   const cartList = useSelector((state) => state.cart.cart);
+//   console.log("addresss cart details", cartList)
 //   // console.log("ffffffff--->", totalAmount)
 //   const [isActive, setIsActive] = useState(true);
 //   const [ischeck, setIsCheck] = useState(false);
 //   const [isChecked, setIsChecked] = useState(false);
-//   const [selectedAddressId, setSelectedAddressId] = useState([]);
+//   const [selectedAddressId, setSelectedAddressId] = useState(null);
+
 //   const getAddress = useSelector((state) => state.address.customerId);
 //   const businessInfo = useSelector((state) => state.user.businessInfo);
 //   console.log("businessInfo-->address", businessInfo);
 //   const user = useSelector((state) => state.user.user);
 //   console.log("user-->address", user);
 //   console.log("addressdataaaaaa", getAddress);
+  
   
 //   const [formData, setFormData] = useState({
 //     firstName: "",
@@ -120,6 +127,181 @@
 
 //   const [pincodes, setPincodes] = useState(null)
 //   const [stateAdd, setStateAdd] = useState(null)
+//   const [res, setRes] = useState([]);
+
+//   const [response, setResponse] = useState(null)
+//   useEffect(() => {
+//     const data = async () => {
+//       const res = await SetDefaultApi(user.customerId, selectedAddressId)
+//       console.log("resSetDefault--->", res)
+//       setResponse(res)
+//     }
+//     data()
+//   }, [selectedAddressId])
+
+
+//   // useEffect(() => {
+//   //   const fetchSellers = async () => {
+//   //     for (const product of cartList) {
+//   //       try {
+//   //         const response = await getUserByCustomerIdApi(product.product.sellerId);
+//   //         // Do something with the response
+//   //         setRes(response)
+//   //         console.log("resss", response)
+//   //         console.log(`Response for seller ${product.sellerId}:`, res);
+//   //       } catch (error) {
+//   //         console.error(`Error fetching seller ${product.sellerId}:`, error);
+//   //       }
+//   //     }
+//   //   };
+
+//   //   if (cartList?.length > 0) {
+//   //     fetchSellers();
+//   //   }
+//   // }, []);
+//   // useEffect(() => {
+//   //   const fetchSellersAndSendPayload = async () => {
+//   //     for (const product of cartList) {
+//   //       try {
+//   //         // Fetch seller data first
+//   //         const sellerData = await getUserByCustomerIdApi(product.product.sellerId);
+
+//   //         if (sellerData) {
+//   //           console.log("Seller data:", sellerData.businessInfo.zip);
+
+//   //           // Prepare payload based on seller data and product details
+//   //           const payload = {
+//   //             accountNumber: {
+//   //               value: "235969831"
+//   //             },
+//   //             requestedShipment: {
+//   //               shipper: {
+//   //                 address: {
+//   //                   postalCode: sellerData.businessInfo.zip,  // Shipper's postal code
+//   //                   countryCode: "US"
+//   //                 }
+//   //               },
+//   //               recipient: {
+//   //                 address: {
+//   //                   postalCode: pincodes,  // Use the pincode from seller data
+//   //                   countryCode: 'US'
+//   //                 }
+//   //               },
+//   //               pickupType: "DROPOFF_AT_FEDEX_LOCATION",
+//   //               rateRequestType: ["ACCOUNT", "LIST"],
+//   //               requestedPackageLineItems: [
+//   //                 {
+//   //                   weight: {
+//   //                     units: "LB",
+//   //                     value: 1  // Example weight, adjust as needed
+//   //                   }
+//   //                 }
+//   //               ]
+//   //             }
+//   //           };
+
+//   //           // Dispatch the action with the payload
+//   //           const response = await dispatch(serviceTypeApi(payload));
+//   //           const responses = await dispatch(FedExRatesApi(payload));
+//   //           console.log("Response for seller:", product.product.sellerId, response);
+//   //         } else {
+//   //           console.warn("No seller data found for sellerId:", product.product.sellerId);
+//   //         }
+//   //       } catch (error) {
+//   //         console.error(`Error processing seller ${product.product.sellerId}:`, error);
+//   //       }
+//   //     }
+//   //   };
+
+//   //   if (cartList?.length > 0) {
+//   //     fetchSellersAndSendPayload();  // Call the function to fetch and send payloads
+//   //   }
+//   // }, [cartList, dispatch, stateAdd, pincodes]);///itt gooooood
+
+// console.log("pincode---->", pincodes)
+//   useEffect(() => {
+//     const fetchSellersAndSendPayload = async () => {
+//       try {
+//         // Map over cartList to fetch seller data and prepare payloads concurrently
+//         const sellerPromises = cartList.map(async (product) => {
+//           // Fetch seller data first
+//           const sellerData = await getUserByCustomerIdApi(product.product.sellerId);
+
+//           if (sellerData) {
+//             console.log("Seller data:", sellerData); // Log the entire seller data to inspect the structure
+
+//             // Ensure the postal code exists in sellerData
+//             // const postalCode = sellerData.businessInfo?.zip;
+//             // if (!postalCode) {
+//             //   console.warn(`Postal code not found for seller ${product.product.sellerId}`);
+//             //   return null;  // Skip if postal code is missing
+//             // }
+
+//             // Prepare payload based on seller data and product details
+//             const payload = {
+//               accountNumber: {
+//                 value: "235969831"
+//               },
+//               requestedShipment: {
+//                 shipper: {
+//                   address: {
+//                     postalCode: sellerData.businessInfo.zip,  // Shipper's postal code from sellerData
+//                     countryCode: "US"
+//                   }
+//                 },
+//                 recipient: {
+//                   address: {
+//                     postalCode: pincodes,  // Use the pincode from the selected address or state
+//                     countryCode: 'US'
+//                   }
+//                 },
+//                 pickupType: "DROPOFF_AT_FEDEX_LOCATION",
+//                 rateRequestType: ["ACCOUNT", "LIST"],
+//                 requestedPackageLineItems: [
+//                   {
+//                     weight: {
+//                       units: "LB",
+//                       value: 1  // Example weight, adjust as needed
+//                     }
+//                   }
+//                 ]
+//               }
+//             };
+
+//             // Dispatch the action with the payloads for each product
+//             const serviceResponse = await dispatch(serviceTypeApi(payload));
+//             const rateResponse = await dispatch(FedExRatesApi(payload));
+
+//             console.log(`Responses for seller ${product.product.sellerId}:`, {
+//               serviceResponse,
+//               rateResponse,
+//             });
+
+//             return { product: product.product.sellerId, serviceResponse, rateResponse };
+//           } else {
+//             console.warn("No seller data found for sellerId:", product.product.sellerId);
+//             return null;
+//           }
+//         });
+
+//         // Wait for all promises to resolve concurrently
+//         const allResponses = await Promise.all(sellerPromises);
+
+//         // Filter out any null responses (in case no seller data was found)
+//         const successfulResponses = allResponses.filter((response) => response !== null);
+
+//         console.log("All successful responses:", successfulResponses);
+//       } catch (error) {
+//         console.error("Error processing sellers:", error);
+//       }
+//     };
+
+//     // Ensure cartList has items before triggering the fetch
+//     if (cartList?.length > 0) {
+//       fetchSellersAndSendPayload();  // Call the function to fetch and send payloads concurrently
+//     }
+//   }, [cartList, pincodes]);
+//   // console.log(res, "Resolved results--->");
 
 //   // Function to handle the "Use this address" button click
 //   const handleUseAddress = async (state, pincode) => {
@@ -127,43 +309,43 @@
 //     setStateAdd(state)
 //     // setIsTotalHidden(true);
 //     await dispatch(orderDeliveryAddress(placeOrder.customerId, placeOrder.orderId, selectedAddressId))
+  
 
-
-//     const payload = {
-//       accountNumber: {
-//         value: "235969831"
-//       },
-//       requestedShipment: {
-//         shipper: {
-//           address: {
-//             postalCode: businessInfo.zip,
-//             countryCode: businessInfo.state
-//           }
-//         },
-//         recipient: {
-//           address: {
-//             postalCode: pincode,
-//             countryCode: state
-//           }
-//         },
-//         pickupType: "DROPOFF_AT_FEDEX_LOCATION",
-//           rateRequestType: [
-//             "ACCOUNT",
-//             "LIST"
-//           ],
-//             requestedPackageLineItems: [
-//               {
-//                 weight: {
-//                   units: "LB",
-//                   value: 1
-//                 }
-//               }
-//             ]
+//     // const payload = {
+//     //   accountNumber: {
+//     //     value: "235969831"
+//     //   },
+//     //   requestedShipment: {
+//     //     shipper: {
+//     //       address: {
+//     //         postalCode: businessInfo.zip,
+//     //         countryCode:"US"
+//     //       }
+//     //     },
+//     //     recipient: {
+//     //       address: {
+//     //         postalCode: pincode,
+//     //         countryCode: 'US'
+//     //       }
+//     //     },
+//     //     pickupType: "DROPOFF_AT_FEDEX_LOCATION",
+//     //       rateRequestType: [
+//     //         "ACCOUNT",
+//     //         "LIST"
+//     //       ],
+//     //         requestedPackageLineItems: [
+//     //           {
+//     //             weight: {
+//     //               units: "LB",
+//     //               value: 1
+//     //             }
+//     //           }
+//     //         ]
       
-//     }
+//     // }
     
-//     }
-//     await dispatch(serviceTypeApi(payload))
+//     // }
+//     // await dispatch(serviceTypeApi(payload))
 //     // if (selectedAddressId) {
 //     //   // Logic to handle using the selected address
 //     //   console.log(`Using address with ID: ${selectedAddressId}`);
@@ -219,49 +401,49 @@
 //   //   data();
 //   // }, [pincodes, stateAdd]);
 
-//   useEffect(() => {
-//     if (pincodes && stateAdd) { // Ensure they are set before making the call
-//       const payload = {
-//         accountNumber: {
-//           value: "235969831"
-//         },
-//         requestedShipment: {
-//           shipper: {
-//             address: {
-//               postalCode: businessInfo.zip,
-//               countryCode: businessInfo.state
-//             }
-//           },
-//           recipient: {
-//             address: {
-//               postalCode: pincodes,
-//               countryCode: stateAdd
-//             }
-//           },
-//           pickupType: "DROPOFF_AT_FEDEX_LOCATION",
-//           rateRequestType: ["ACCOUNT", "LIST"],
-//           requestedPackageLineItems: [
-//             {
-//               weight: {
-//                 units: "LB",
-//                 value: 1
-//               }
-//             }
-//           ]
-//         }
-//       };
+//   // useEffect(() => {
+//   //   if (pincodes && stateAdd) { // Ensure they are set before making the call
+//   //     const payload = {
+//   //       accountNumber: {
+//   //         value: "235969831"
+//   //       },
+//   //       requestedShipment: {
+//   //         shipper: {
+//   //           address: {
+//   //             postalCode: businessInfo.zip,
+//   //             countryCode: "US"
+//   //           }
+//   //         },
+//   //         recipient: {
+//   //           address: {
+//   //             postalCode: pincodes,
+//   //             countryCode: "US"
+//   //           }
+//   //         },
+//   //         pickupType: "DROPOFF_AT_FEDEX_LOCATION",
+//   //         rateRequestType: ["ACCOUNT", "LIST"],
+//   //         requestedPackageLineItems: [
+//   //           {
+//   //             weight: {
+//   //               units: "LB",
+//   //               value: 1
+//   //             }
+//   //           }
+//   //         ]
+//   //       }
+//   //     };
 
-//       const data = async () => {
-//         try {
-//           const response = await dispatch(FedExRatesApi(payload));
-//           console.log(response); // Handle response
-//         } catch (error) {
-//           console.error('Error fetching FedEx rates:', error);
-//         }
-//       };
-//       data();
-//     }
-//   }, [pincodes, stateAdd]);
+//   //     const data = async () => {
+//   //       try {
+//   //         const response = await dispatch(FedExRatesApi(payload));
+//   //         console.log(response); // Handle response
+//   //       } catch (error) {
+//   //         console.error('Error fetching FedEx rates:', error);
+//   //       }
+//   //     };
+//   //     data();
+//   //   }
+//   // }, [pincodes, stateAdd]);
 
 //   useEffect(() => {
 //     dispatch(orderGetByIdApi(placeOrder.orderId))
@@ -1159,6 +1341,8 @@
 //         setDeleteProduct(null); // Reset selected product
 //         setNotification({ show: true, message: "Address Deleted Successfully!" });
 //         setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+//         await dispatch(fetchGetByCustomerId(user?.customerId));
+        
 //       }
 //     } catch (error) {
 //       console.error("Error while deleting product:", error);
@@ -1847,15 +2031,25 @@
 //               <div className="">
 
 //                 <Proccedtoshipment selectedOptions = {selectedOptions} setSelectedOptions = {setSelectedOptions} totalNetCharges = {totalNetCharges} setTotalNetCharges = {setTotalNetCharges} />
-//                 <div className="border-b my-3 w-[70%]">
+//                 {/* <div className="border-b my-3 w-[70%]"> */}
 //                   {/* <Payment /> */}
-//                   <SquarePaymentForm
-//                     applicationId={applicationId}
-//                     locationId={locationId} 
-//                     amount={(validTotal + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}
-//                     onPaymentSuccess={handlePaymentSuccess}
-//                     onPaymentError={handlePaymentError}
-//                   />
+//                   {/* <SquarePaymentForm */}
+//                     {/* // applicationId={applicationId} */}
+//                     {/* // locationId={locationId}  */}
+//                     {/* amount={(validTotal + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)} */}
+//                     {/* // onPaymentSuccess={handlePaymentSuccess} */}
+//                     {/* // onPaymentError={handlePaymentError} */}
+//                   {/* /> */}
+//                     <div className="ml-6 w-[65%]">
+//                     {selectedAddressId ? (
+                      
+//                       <SquarePaymentForm
+//                         amount={(validTotal + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}
+//                       />
+//                     ) : (
+//                       <p className="text-red-500 font-semibold mt-3">Please select an address for payment.</p>
+//                     )}
+//                     {/* </div> */}
 //                 </div>
 //                 {/* <div className="border-b my-3">
 //                   <h1>3 Offers</h1>
@@ -1948,6 +2142,18 @@
 // }
 
 // export default Address;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2078,94 +2284,18 @@ function Address({ topMargin, totalAmount, amount }) {
   const [stateAdd, setStateAdd] = useState(null)
   const [res, setRes] = useState([]);
 
-  const [response, setResponse] = useState(null)
-  useEffect(() => {
-    const data = async () => {
-      const res = await SetDefaultApi(user.customerId, selectedAddressId)
-      console.log("resSetDefault--->", res)
-      setResponse(res)
-    }
-    data()
-  }, [selectedAddressId])
-
-
+  // const [response, setResponse] = useState(null)
   // useEffect(() => {
-  //   const fetchSellers = async () => {
-  //     for (const product of cartList) {
-  //       try {
-  //         const response = await getUserByCustomerIdApi(product.product.sellerId);
-  //         // Do something with the response
-  //         setRes(response)
-  //         console.log("resss", response)
-  //         console.log(`Response for seller ${product.sellerId}:`, res);
-  //       } catch (error) {
-  //         console.error(`Error fetching seller ${product.sellerId}:`, error);
-  //       }
-  //     }
-  //   };
-
-  //   if (cartList?.length > 0) {
-  //     fetchSellers();
+  //   const data = async () => {
+  //     const res = await SetDefaultApi(user.customerId, selectedAddressId)
+  //     console.log("resSetDefault--->", res)
+  //     setResponse(res)
   //   }
-  // }, []);
-  // useEffect(() => {
-  //   const fetchSellersAndSendPayload = async () => {
-  //     for (const product of cartList) {
-  //       try {
-  //         // Fetch seller data first
-  //         const sellerData = await getUserByCustomerIdApi(product.product.sellerId);
+  //   data()
+  // }, [selectedAddressId])
 
-  //         if (sellerData) {
-  //           console.log("Seller data:", sellerData.businessInfo.zip);
 
-  //           // Prepare payload based on seller data and product details
-  //           const payload = {
-  //             accountNumber: {
-  //               value: "235969831"
-  //             },
-  //             requestedShipment: {
-  //               shipper: {
-  //                 address: {
-  //                   postalCode: sellerData.businessInfo.zip,  // Shipper's postal code
-  //                   countryCode: "US"
-  //                 }
-  //               },
-  //               recipient: {
-  //                 address: {
-  //                   postalCode: pincodes,  // Use the pincode from seller data
-  //                   countryCode: 'US'
-  //                 }
-  //               },
-  //               pickupType: "DROPOFF_AT_FEDEX_LOCATION",
-  //               rateRequestType: ["ACCOUNT", "LIST"],
-  //               requestedPackageLineItems: [
-  //                 {
-  //                   weight: {
-  //                     units: "LB",
-  //                     value: 1  // Example weight, adjust as needed
-  //                   }
-  //                 }
-  //               ]
-  //             }
-  //           };
-
-  //           // Dispatch the action with the payload
-  //           const response = await dispatch(serviceTypeApi(payload));
-  //           const responses = await dispatch(FedExRatesApi(payload));
-  //           console.log("Response for seller:", product.product.sellerId, response);
-  //         } else {
-  //           console.warn("No seller data found for sellerId:", product.product.sellerId);
-  //         }
-  //       } catch (error) {
-  //         console.error(`Error processing seller ${product.product.sellerId}:`, error);
-  //       }
-  //     }
-  //   };
-
-  //   if (cartList?.length > 0) {
-  //     fetchSellersAndSendPayload();  // Call the function to fetch and send payloads
-  //   }
-  // }, [cartList, dispatch, stateAdd, pincodes]);///itt gooooood
+  
 
 console.log("pincode---->", pincodes)
   useEffect(() => {
@@ -2258,6 +2388,7 @@ console.log("pincode---->", pincodes)
     setStateAdd(state)
     // setIsTotalHidden(true);
     await dispatch(orderDeliveryAddress(placeOrder.customerId, placeOrder.orderId, selectedAddressId))
+    await SetDefaultApi(user.customerId, selectedAddressId)
   
 
     // const payload = {
@@ -3212,14 +3343,33 @@ console.log("pincode---->", pincodes)
   // }, [getAddress]);
   const [isInitialized, setIsInitialized] = useState(false); // Flag to track if default selection is set
 
+  // useEffect(() => {
+  //   // Check if getAddress has data and we haven't initialized the selection yet
+  //   if (getAddress.length > 0 && !isInitialized) {
+  //     // Set the first address as the default selected address
+  //     // setSelectedAddressId(null);
+  //     // setIsInitialized(true); // Mark as initialized
+  //     const defaultAddress = getAddress.find((element) => element.isDefault === true);
+  //     if (defaultAddress) {
+  //       setSelectedAddressId(defaultAddress?.addressId);
+  //       setPincodes(defaultAddress.pincode); // Set default pincode
+  //       setIsInitialized(true);
+  //      }
+  //   }
+  // }, [getAddress, isInitialized]);
   useEffect(() => {
     // Check if getAddress has data and we haven't initialized the selection yet
     if (getAddress.length > 0 && !isInitialized) {
-      // Set the first address as the default selected address
-      setSelectedAddressId(getAddress[0].addressId);
-      setIsInitialized(true); // Mark as initialized
+      // Find the default address
+      const defaultAddress = getAddress.find((element) => element.isDefault === true);
+      if (defaultAddress) {
+        setSelectedAddressId(defaultAddress.addressId);  // Set the default address ID
+        setPincodes(defaultAddress.pincode); // Set the default pincode
+        setIsInitialized(true); // Mark as initialized
+      }
     }
   }, [getAddress, isInitialized]);
+  
 
   const handleChangeAddress = (addressId) => {
     setSelectedAddressId(addressId);
@@ -3419,18 +3569,12 @@ console.log("pincode---->", pincodes)
                 <div className="flex flex-wrap">
                   <div className="flex">
                     <input
-                      type="radio"
-                      checked={selectedAddressId === item.addressId} // Check if the current item is selected
-                      onChange={() => handleChangeAddress(item.addressId)} // Change the selected address when clicked
-                      onClick={() => {
-                        if (selectedAddressId) {
-                          handleUseAddress(item.state, item.pincode); // Proceed with navigation
-                        } else {
-                          alert(
-                            "Please select an address before continuing."
-                          ); // Or display error message
-                        }
-                      }}
+                   type="radio"
+                   checked={selectedAddressId === item.addressId} // Check if the current item is selected
+                   onChange={() => handleChangeAddress(item.addressId)} // Handle the change when a new address is selected
+                   onClick={() => {
+                     handleUseAddress(item.state, item.pincode); // Proceed with address usage
+                   }}
                       className="mr-3"
                     />
                   </div>

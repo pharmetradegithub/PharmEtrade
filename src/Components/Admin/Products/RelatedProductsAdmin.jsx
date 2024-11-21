@@ -37,6 +37,8 @@ const RelatedProductsAdmin = () => {
     salePriceTo: "",
     productName: "",
   });
+  
+  
 
   const components = useSelector((state) => state.master.productCategoryGetAll);
   console.log("relatedproduct-->", components);
@@ -57,6 +59,8 @@ const RelatedProductsAdmin = () => {
   const productsByCriteria = useSelector(
     (state) => state.product.productsByCriteria
   );
+
+  console.log(productsByCriteria, "gnn");
 
   const relatedProducts = useSelector((state) => state.product.RelatedProducts);
   const UpSellProducts = useSelector((state) => state.product.UpSellProducts);
@@ -202,34 +206,145 @@ const RelatedProductsAdmin = () => {
   const productsbySeller = useSelector(
     (state) => state.product.productsBySeller[sellerId]
   );
-  const handleCriteria = async () => {
-    const sellerId = localStorage.getItem("userId");
-    let Criteria = {
-      deals: "",
-      brands: "",
-      generics: "",
-      discount: 0,
-      expiring: 0,
-      wholeSeller: "",
-      pharmacyItems: false,
-      prescriptionDrugs: false,
-      otcProducts: false,
-      vawdSeller: sellerId,
-      topSellingProducts: false,
-      buyAgain: false,
-      productCategoryId: formData.productCategory,
-      categorySpecificationId: formData.categorySpecification,
-      ndcupc: formData.ndcUpc,
-      productName: formData.productName,
-    };
-    setloading(true);
-    await fetchCriteriaProductsApi(Criteria, "Apply Filter");
-    await fetchProductsBySellerApi(sellerId);
-    setCurrentPage(1);
-    setloading(false);
-  };
+
+  const [prodct, setProducts]= useState(productsbySeller)
+  // const handleCriteria = async () => {
+  //   const sellerId = localStorage.getItem("userId");
+  //   let Criteria = {
+  //     customerId:sellerId,
+  //     deals: "",
+  //     brands: "",
+  //     generics: "",
+  //     discount: 0,
+  //     expiring: 0,
+  //     wholeSeller: "",
+  //     pharmacyItems: false,
+  //     prescriptionDrugs: false,
+  //     otcProducts: false,
+  //     // vawdSeller: sellerId,
+  //     topSellingProducts: false,
+  //     buyAgain: false,
+  //     productCategoryId: formData.productCategory,
+  //     categorySpecificationId: formData.categorySpecification,
+  //     ndcupc: formData.ndcUpc,
+  //     productName: formData.productName,
+  //   };
+  //   setloading(true);
+  //   await fetchCriteriaProductsApi(Criteria, "Apply Filter");
+  //   const productId = localStorage.getItem("productId");
+  //   await fetchProductsBySellerApi(sellerId);
+  //   setCurrentPage(1);
+  //   setloading(false);
+  // };
 
   // Handle input change for all form fields
+  
+
+  // const handleCriteria = async () => {
+  //   const sellerId = localStorage.getItem("userId");
+  //   const productIdToHide = localStorage.getItem("productId");
+    
+  //   let Criteria = {
+  //     customerId: sellerId,
+  //     deals: "",
+  //     brands: "",
+  //     generics: "",
+  //     discount: 0,
+  //     expiring: 0,
+  //     wholeSeller: "",
+  //     pharmacyItems: false,
+  //     prescriptionDrugs: false,
+  //     otcProducts: false,
+  //     // vawdSeller: sellerId,
+  //     topSellingProducts: false,
+  //     buyAgain: false,
+  //     productCategoryId: formData.productCategory,
+  //     categorySpecificationId: formData.categorySpecification,
+  //     ndcupc: formData.ndcUpc,
+  //     productName: formData.productName,
+  //   };
+    
+  //   setloading(true);
+    
+  //   await fetchCriteriaProductsApi(Criteria, "Apply Filter");
+    
+  //   // Fetch products and filter out the one you want to hide
+  //   const allProducts = await fetchProductsBySellerApi(sellerId);
+  //   const filteredProducts = allProducts.filter(product => product.productID !== productIdToHide);
+    
+  //   // Assuming you have a way to set/display the products, use filteredProducts
+  //   setProducts(filteredProducts);
+  
+  //   setCurrentPage(1);
+  //   // localStorage.removeItem("productId");
+  //   setloading(false);
+  // };
+  console.log("------>", formData.productCategory)
+
+  const [productsList, setProductList] = useState([])
+  const handleCriteria = async () => {
+    const sellerId = localStorage.getItem("userId");
+    const productIdToHide = localStorage.getItem("productId");
+  
+    // Check if any form data is filled
+    const isCriteriaFilled = Object.values(formData).some((value) => value !== "" && value !== null && value !== 0);
+  
+    setloading(true);
+  
+  
+    if (isCriteriaFilled) {
+      // If any criteria are filled, hit the `fetchCriteriaProductsApi`
+      const Criteria = {
+        customerId: sellerId,
+        deals: "",
+        brands: "",
+        generics: "",
+        discount: 0,
+        expiring: 0,
+        wholeSeller: "",
+        // vawdSeller: sellerId,
+        pharmacyItems: false,
+        prescriptionDrugs: false,
+        otcProducts: false,
+        topSellingProducts: false,
+        buyAgain: false,
+        productCategoryId: formData.productCategory,
+        categorySpecificationId: formData.categorySpecification,
+        ndcupc: formData.ndcUpc,
+        productName: formData.productName,
+      };
+  
+      const allProduct = await fetchCriteriaProductsApi(Criteria, "Apply Filter");
+  
+      // Fetch products matching criteria
+      // const criteriaProducts = useSelector((state) => state.product.productsByCriteria);
+      // const filteredProduct = productsByCriteria.filter(product => product.productID !== productIdToHide);
+      // filteredProducts = productsByCriteria.filter(
+      //   (product) => product.productID !== productIdToHide
+      // );
+      setProductList(allProduct);
+    } else {
+      // If no criteria are filled, fetch all products for the seller
+      const allProducts = await fetchProductsBySellerApi(sellerId);
+      const filteredProducts = allProducts.filter(product => product.productID !== productIdToHide);
+      setProductList(filteredProducts);
+    }
+  
+    // Filter out the product you want to hide, if necessary
+  
+    // Update the products state with the filtered list
+    // setProducts(filteredProducts);
+  
+    // Reset page number
+    setCurrentPage(1);
+  
+    // Remove the productId from local storage if it's no longer needed
+    // localStorage.removeItem("productId");
+  
+    setloading(false);
+  };
+  
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -307,8 +422,8 @@ const RelatedProductsAdmin = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = productsByCriteria.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil((productsByCriteria?.length || 0) / itemsPerPage);
+  const currentItems = Array.isArray(productsList)? productsList.slice(indexOfFirstItem, indexOfLastItem):[];
+  const totalPages = Math.ceil((productsList?.length || 0) / itemsPerPage);
 
   const handleNextPage = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
@@ -339,6 +454,9 @@ const RelatedProductsAdmin = () => {
   // const handlePreviousPage = () => {
   //   setCurrentPage((prev) => Math.max(prev - 1, 1));
   // };
+  console.log("productlist-->currentitem", currentItems)
+  console.log("productlist-->productlist", productsList)
+
 
   return (
     <div className="font-sans font-medium">
@@ -384,8 +502,8 @@ const RelatedProductsAdmin = () => {
                 <option value="2">Electronics</option> */}
                 {components.map((items) => {
                   return (
-                    <option value={items.productCategoryId}>
-                      {items.categoryName}
+                    <option value={items?.productCategoryId}>
+                      {items?.categoryName}
                     </option>
                   );
                 })}
@@ -446,7 +564,7 @@ const RelatedProductsAdmin = () => {
             </div>
             <div className="flex flex-col  ">
               <label className="text-sm font-semibold">Sale Price From:</label>
-              <input
+              {/* <input
                 name="salePriceForm"
                 type="Date"
                 className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
@@ -455,12 +573,38 @@ const RelatedProductsAdmin = () => {
                 onKeyDown={(e) => {
                   e.preventDefault();
                 }}
-              />
+              /> */}
+              <input
+                      name="salePriceForm"
+                      type="date" // Updated to lowercase for type consistency
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={
+                        formData.salePriceForm
+                          ? formData.salePriceForm.split("T")[0]
+                          : ""
+                      }
+                      min={new Date().toISOString().split("T")[0]} // This disables past dates
+                      // onKeyDown={(e) => {
+                      //   e.preventDefault();
+                      // }}
+                      onKeyDown={(e) => {
+                        // Allow Tab navigation and Backspace/Delete keys
+                        if (
+                          e.key !== "Tab" &&
+                          e.key !== "Delete" &&
+                          e.key !== "ArrowLeft" &&
+                          e.key !== "ArrowRight"
+                        ) {
+                          e.preventDefault(); // Prevent any other keypresses
+                        }
+                      }}
+                    />
             </div>
 
             <div className="flex flex-col ">
               <label className="text-sm font-semibold">Sale Price To:</label>
-              <input
+              {/* <input
                 name="salePriceTo"
                 type="Date"
                 className="w-52 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
@@ -469,7 +613,38 @@ const RelatedProductsAdmin = () => {
                 onKeyDown={(e) => {
                   e.preventDefault();
                 }}
-              />
+              /> */}
+                <input
+                        name="salePriceTo"
+                        type="date"
+                        className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                        onChange={handleInputChange}
+                        value={
+                          formData.salePriceTo
+                            ? formData.salePriceTo.split("T")[0]
+                            : ""
+                        }
+                        // min={MinDate}
+                        min={
+                          formData.salePriceForm
+                            ? formData.salePriceForm.split("T")[0]
+                            : new Date().toISOString().split("T")[0]
+                        } // Min date is the Sale Price From date
+                        // onKeyDown={(e) => {
+                        //   e.preventDefault();
+                        // }}
+                        onKeyDown={(e) => {
+                          // Allow Tab navigation and Backspace/Delete keys
+                          if (
+                            e.key !== "Tab" &&
+                            e.key !== "Delete" &&
+                            e.key !== "ArrowLeft" &&
+                            e.key !== "ArrowRight"
+                          ) {
+                            e.preventDefault(); // Prevent any other keypresses
+                          }
+                        }}
+                      />
             </div>
           </div>
         </div>
@@ -524,7 +699,7 @@ const RelatedProductsAdmin = () => {
                           <option>-</option>
                         </select>
                       </th> */}
-                <th className=" p-2  text-left text-sm w-32 ">S.NO</th>
+                <th className=" p-2  text-left text-sm w-32 ">ID</th>
                 <th className=" p-2  text-left text-sm w-40">Thumbnail</th>
                 <th className=" p-2  text-left text-sm  w-80">Name</th>
                 <th className=" p-2  text-left text-sm w-32">Category</th>
@@ -541,7 +716,7 @@ const RelatedProductsAdmin = () => {
                     {/* <td className=" p-2">
                 <input className=" h-6 w-4" type="checkbox" />
               </td> */}
-                    <td className="text-sm p-2 "> {indexOfFirstItem + index + 1}</td>
+                    <td className="text-sm p-2 "> {index + 1}</td>
                     <td className="text-sm p-2">
                       <img
                         src={
@@ -657,7 +832,7 @@ const RelatedProductsAdmin = () => {
         <Pagination
           indexOfFirstItem={indexOfFirstItem}
           indexOfLastItem={indexOfLastItem}
-          productList={productsByCriteria}
+          productList={productsList}
           itemsPerPage={itemsPerPage}
           setItemsPerPage={setItemsPerPage}
           currentPage={currentPage}

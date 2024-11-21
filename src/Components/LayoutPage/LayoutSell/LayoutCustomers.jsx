@@ -174,8 +174,8 @@ function LayoutCustomers() {
           </div>
         </div>
 
-        <div className="border text-[15px] rounded-md bg-white mt-4">
-          <table className="w-full">
+        <div className="border text-[15px] rounded-md overflow-x-scroll bg-white mt-4">
+          <table className="w-full hidden md:table">
             <thead className="bg-blue-900 text-white">
               <tr className="border-b-2">
                 <th className="px-2 py-2 text-left">S.No</th>
@@ -254,6 +254,84 @@ function LayoutCustomers() {
               )}
             </tbody>
           </table>
+
+          <div className="block md:hidden space-y-4">
+            {currentItems?.length > 0 ? (
+              currentItems.map((customer, i) => (
+                <div key={i} className="bg-white shadow rounded-lg p-4 border">
+                  <div className="flex gap-2">
+                    <span className="font-semibold text-sm">S.No:</span>
+                    <span>{indexOfFirstItem + i + 1}</span>
+                  </div>
+                  <div className="mt-2">
+                    <p>
+                      <span className="font-semibold">Customer Name:</span>{" "}
+                      {customer.customerName}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Email:</span>{" "}
+                      {customer.email}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Contact No:</span>{" "}
+                      {customer.mobile}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Address:</span>{" "}
+                      {customer.address1}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Grand Total:</span>{" "}
+                      {customer.totalAmount}
+                    </p>
+                  </div>
+                  <div className="mt-4 flex space-x-4 items-center justify-start">
+                    <Tooltip title="Edit" placement="top">
+                      <img
+                        src={edit}
+                        alt="Edit"
+                        className={`cursor-pointer w-7 h-7 ${
+                          deletedCustomers.includes(customer.name) ||
+                          deactivatedCustomers.includes(customer.name)
+                            ? "opacity-50 pointer-events-none"
+                            : ""
+                        }`}
+                        onClick={() => console.log("Edit clicked")}
+                      />
+                    </Tooltip>
+                    <Tooltip title="Delete" placement="top">
+                      <img
+                        src={Bin}
+                        alt="Delete"
+                        className={`cursor-pointer w-5 h-5 ${
+                          deletedCustomers.includes(customer.name) ||
+                          deactivatedCustomers.includes(customer.name)
+                            ? "opacity-50 pointer-events-none"
+                            : ""
+                        }`}
+                        onClick={() => deletePopUp(customer)}
+                      />
+                    </Tooltip>
+                    <Tooltip title="Deactivate" placement="top">
+                      <img
+                        src={Deactivate}
+                        alt="Deactivate"
+                        className={`cursor-pointer w-5 h-5 ${
+                          deletedCustomers.includes(customer.name) ||
+                          deactivatedCustomers.includes(customer.name)
+                            ? "opacity-50 pointer-events-none"
+                            : ""
+                        }`}
+                        onClick={() => deactivatePopUp(customer)}
+                      />
+                    </Tooltip>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-4">No customer details</div>
+            )}
+          </div>
         </div>
 
 
@@ -285,7 +363,7 @@ function LayoutCustomers() {
             </div>
 
             <p className="mt-2">
-              Are you sure you want to deactivate this product?
+              Are you sure you want to deactivate this customer?
             </p>
 
             <div className="mt-4 flex justify-around space-x-4">
@@ -320,7 +398,7 @@ function LayoutCustomers() {
             </div>
 
             <p className="mt-2">
-              Are you sure you want to delete this product?
+              Are you sure you want to delete this customer?
             </p>
 
             <div className="mt-4 flex justify-around space-x-4">
