@@ -1394,7 +1394,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 {/* Hide icons on sm and md screens, show on lg and above */}
                 <img
                   src={item.icon}
-                  className="hidden xl:block max-w-6 max-h-6 lg:max-w-8 lg:max-h-8"
+                  className="hidden lg:block max-w-6 max-h-6 lg:max-w-8 lg:max-h-8"
                   alt={item.label}
                 />
                 {/* Hide label on sm and md screens, show on lg and above */}

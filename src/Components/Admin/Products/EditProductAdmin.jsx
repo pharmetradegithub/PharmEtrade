@@ -32,6 +32,7 @@ import {
   fetchNdcUpcListApi,
   fetchProductCategoriesGetAll,
 } from "../../../Api/MasterDataApi";
+import { useNavigate } from "react-router-dom";
 
 function EditProductAdmin() {
   const user = useSelector((state) => state.user.user);
@@ -122,8 +123,8 @@ function EditProductAdmin() {
     mainImageUrl: null,
     price: 0,
     amountInStock: 0,
-    minOrderQuantity:1,
-    maxOrderQuantity:0,
+    minOrderQuantity: 1,
+    maxOrderQuantity: 0,
     taxable: false,
     productDetails: "",
     aboutProduct: "",
@@ -136,7 +137,8 @@ function EditProductAdmin() {
     Width: 0,
     states: [],
     shippingCostApplicable: false,
-    isReturnable : "",
+    shippingCost: 0,
+    isReturnable: "",
     upnMemberPrice: 0,
     salePrice: 0,
     salePriceForm: null,
@@ -194,8 +196,9 @@ function EditProductAdmin() {
       price: product.unitPrice,
       sku: product.sku,
       amountInStock: product.amountInStock,
-      minOrderQuantity:product.minOrderQuantity==0? 1 : product.minOrderQuantity,
-      maxOrderQuantity:product.maxOrderQuantity,
+      minOrderQuantity:
+        product.minOrderQuantity == 0 ? 1 : product.minOrderQuantity,
+      maxOrderQuantity: product.maxOrderQuantity,
       taxable: product.taxable,
       productDetails: product.productDescription,
       aboutProduct: product.aboutTheProduct,
@@ -203,7 +206,7 @@ function EditProductAdmin() {
       size: product.size,
       form: product.form,
       isReturnable: product.isReturnable,
-      shippingCostApplicable:product.shippingCostApplicable,
+      shippingCostApplicable: product.shippingCostApplicable,
       unitOfMeasurement: product.unitOfMeasure,
       upnMemberPrice: product.upnMemberPrice,
       salePrice: product.salePrice,
@@ -216,7 +219,7 @@ function EditProductAdmin() {
       packQuantity: product.packQuantity,
       packType: product.packType,
       packCondition: {
-        tornLabel: true,
+        tornLabel: product.packCondition == "torn",
         otherCondition: "",
       },
       imageUrl: product?.productGallery?.imageUrl,
@@ -247,9 +250,11 @@ function EditProductAdmin() {
           : product.productGallery.thumbnail6,
     });
   };
+
   const searchParams = new URLSearchParams(location.search);
   const queryProductId = searchParams.get("productId");
   const ResetFormDate = () => {
+    setAllSelected(false);
     setFormData({
       // Reset form data fields
       categorySpecification: 0,
@@ -264,8 +269,8 @@ function EditProductAdmin() {
       mainImageUrl: null,
       price: 0,
       amountInStock: 0,
-      minOrderQuantity:1,
-      maxOrderQuantity:0,
+      minOrderQuantity: 1,
+      maxOrderQuantity: 0,
       taxable: false,
       productDetails: "",
       aboutProduct: "",
@@ -277,6 +282,7 @@ function EditProductAdmin() {
       Width: 0,
       states: [],
       shippingCostApplicable: false,
+      isReturnable: true,
       upnMemberPrice: 0,
       salePrice: 0,
       salePriceForm: null,
@@ -396,6 +402,21 @@ function EditProductAdmin() {
     setButtonClicked(false);
   };
 
+  const handleDragOver = (event) => {
+    event.preventDefault(); // Prevent default behavior
+    event.stopPropagation(); // Stop the event from bubbling up
+  };
+
+  const handleDrop = (event) => {
+    event.preventDefault(); // Prevent default behavior
+    event.stopPropagation(); // Stop the event from bubbling up
+
+    const file = event.dataTransfer.files[0];
+    if (file) {
+      setFormData({ ...formData, imageUrl: file });
+    }
+  };
+
   // video
   const [selectedVideos, setSelectedVideos] = useState([]);
   const [videoPreviews, setVideoPreviews] = useState([]);
@@ -462,23 +483,23 @@ function EditProductAdmin() {
           file.size === thumbnails[0].size &&
           file.lastModified === thumbnails[0].lastModified
       );
-
+      console.log("hello");
       if (isDuplicate) {
         console.log("This file has already been uploaded.");
         return;
       }
       setThumnails([...thumbnails, acceptedFiles[0]]);
-      if (formData.thumbnail1 == null) {
+      if (formData.thumbnail1 == null || formData.thumbnail1 == "null") {
         setFormData({ ...formData, thumbnail1: acceptedFiles[0] });
-      } else if (formData.thumbnail2 == null) {
+      } else if (formData.thumbnail2 == null || formData.thumbnail2 == "null") {
         setFormData({ ...formData, thumbnail2: acceptedFiles[0] });
-      } else if (formData.thumbnail3 == null) {
+      } else if (formData.thumbnail3 == null || formData.thumbnail3 == "null") {
         setFormData({ ...formData, thumbnail3: acceptedFiles[0] });
-      } else if (formData.thumbnail4 == null) {
+      } else if (formData.thumbnail4 == null || formData.thumbnail4 == "null") {
         setFormData({ ...formData, thumbnail4: acceptedFiles[0] });
-      } else if (formData.thumbnail5 == null) {
+      } else if (formData.thumbnail5 == null || formData.thumbnail5 == "null") {
         setFormData({ ...formData, thumbnail5: acceptedFiles[0] });
-      } else if (formData.thumbnail6 == null) {
+      } else if (formData.thumbnail6 == null || formData.thumbnail6 == "null") {
         setFormData({ ...formData, thumbnail6: acceptedFiles[0] });
       } else {
         console.log("cannot upload more than 6 thumnails");
@@ -506,7 +527,7 @@ function EditProductAdmin() {
         setFormData({
           ...formData,
           [name]: value === "" ? "" : Number(value),
-          ["salePrice"]: Number((formData.price * (100 - Number(value))) / 100),
+          ["salePrice"]: value==""? "":Number((formData.price * (100 - Number(value))) / 100),
         });
       }
     } else if (type === "select-multiple") {
@@ -518,16 +539,57 @@ function EditProductAdmin() {
         [name]: selectedOptions,
       });
     } else if (type === "select-one") {
-      setFormData({
-        ...formData,
-        [name]: Number(value),
-      });
+      if (name == "form") {
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+      } else
+        setFormData({
+          ...formData,
+          [name]: Number(value),
+        });
     } else if (type === "phone") {
-      setFormData({
-        ...formData,
-        [name]: value === "" ? "" : Number(value),
-      });
-    } else if (type === "radio") {
+      if (name === "amountInStock") {
+        setFormData({
+          ...formData,
+          [name]: value === "" ? "" : Number(value),
+        });
+      } else if (name === "maxOrderQuantity") {
+        const amountInStock = formData.amountInStock || 0;
+        setFormData({
+          ...formData,
+          [name]: Number(value) > amountInStock ? amountInStock : Number(value),
+        });
+      } else if (name === "minOrderQuantity") {
+        const amountInStock = formData.amountInStock || 0;
+        setFormData({
+          ...formData,
+          [name]: Number(value) > amountInStock ? amountInStock : Number(value),
+        });
+      } else if (name === "price") {
+        // Limit price to 2 decimal places
+        const roundedValue = parseFloat(value).toFixed(2);
+        setFormData({
+          ...formData,
+          [name]: value === "" ? "" : roundedValue,
+          ["salePrice"]: formData.discount!=null ? Number((value * (100 - Number(formData.discount))) / 100) : "",
+
+        });
+      } else {
+        setFormData({
+          ...formData,
+          [name]: value === "" ? "" : Number(value),
+        });
+      }
+    }
+    // else if (type === "phone") {
+    //   setFormData({
+    //     ...formData,
+    //     [name]: value === "" ? "" : Number(value),
+    //   });
+    // }
+    else if (type === "radio") {
       // Handle radio buttons for packQuantity and packType
       if (name === "option") {
         setFormData({
@@ -541,16 +603,21 @@ function EditProductAdmin() {
         });
       }
       if (name === "shippingCostApplicable") {
+        const isShippingCostApplicable = value === "1"; // Convert value to boolean
         setFormData((prevData) => ({
           ...prevData,
-          [name]: value === "1" ? true : false, // Set to true for "1" (Yes), false for "0" (No)
+          shippingCostApplicable: isShippingCostApplicable,
+          shippingCost: isShippingCostApplicable ? 20 : 0, // Set shipping cost based on selection
         }));
+        //   setFormData((prevData) => ({
+        //     ...prevData,
+        //     [name]: value === "1" ? true : false, // Set to true for "1" (Yes), false for "0" (No)
+        //   }));
       }
-      if(name === "isReturnable")
-      {
+      if (name === "isReturnable") {
         setFormData((prevData) => ({
           ...prevData,
-          [name]: value === "1" ? true : false, // Set to true for "1" (Yes), false for "0" (No)
+          [name]: value == "1" ? true : false, // Set to true for "1" (Yes), false for "0" (No)
         }));
       }
     } else if (type === "checkbox") {
@@ -567,8 +634,8 @@ function EditProductAdmin() {
           const isSelected = formData.states.includes(value);
           const updatedStates = isSelected
             ? formData.states.filter(
-              (state) => state !== value && state !== "all"
-            )
+                (state) => state !== value && state !== "all"
+              )
             : [...formData.states, value];
 
           setFormData({
@@ -594,6 +661,17 @@ function EditProductAdmin() {
           },
         });
       }
+    }  
+    else if (name === "price") {
+      // Limit price to 2 decimal places
+      const roundedValue = parseFloat(value).toFixed(2);
+      console.log(formData.discount,"dis")
+      setFormData({
+        ...formData,
+        [name]: value === "" ? "" : value,
+        ["salePrice"]: formData.discount!="" ? Number((value * (100 - Number(formData.discount))) / 100) : "",
+
+      });
     } else {
       setFormData({
         ...formData,
@@ -601,7 +679,6 @@ function EditProductAdmin() {
       });
     }
     settriggerValidation((prev) => prev + 1);
-
   };
   const checkValidationOnchange = () => {
     setFormErrors({});
@@ -627,10 +704,10 @@ function EditProductAdmin() {
 
   useEffect(() => {
     checkValidationOnchange();
-  }, [triggerValidation])
+  }, [triggerValidation]);
   useEffect(() => {
     setfirstValidation(false);
-  }, [activeTab])
+  }, [activeTab]);
 
   console.log(firstValidation, formErrors);
   const [selectedValue, setSelectedValue] = React.useState("");
@@ -638,6 +715,8 @@ function EditProductAdmin() {
   const handleChange = (e) => {
     setSelectedValue(e.target.value);
   };
+
+  const navigate = useNavigate();
 
   const handleRemoveImage = () => {
     setSelectedImage(null);
@@ -678,10 +757,10 @@ function EditProductAdmin() {
 
     const mainImageUrl =
       formData.mainImageUrl == null
-        ? defaultImageUrl
+        ? null
         : typeof formData.mainImageUrl === "string"
-          ? formData.mainImageUrl
-          : await uploadImageApi(
+        ? formData.mainImageUrl
+        : await uploadImageApi(
             user.customerId,
             productId,
             formData.mainImageUrl
@@ -689,67 +768,67 @@ function EditProductAdmin() {
 
     const imageUrl =
       formData.imageUrl == null
-        ? defaultImageUrl
+        ? null
         : typeof formData.imageUrl === "string"
-          ? formData.imageUrl
-          : await uploadImageApi(user.customerId, productId, formData.imageUrl);
+        ? formData.imageUrl
+        : await uploadImageApi(user.customerId, productId, formData.imageUrl);
 
     const thumbnail1 =
       formData.thumbnail1 == null
         ? "null"
         : typeof formData.thumbnail1 === "string"
-          ? formData.thumbnail1
-          : await uploadImageApi(user.customerId, productId, formData.thumbnail1);
+        ? formData.thumbnail1
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail1);
 
     const thumbnail2 =
       formData.thumbnail2 == null
         ? "null"
         : typeof formData.thumbnail2 === "string"
-          ? formData.thumbnail2
-          : await uploadImageApi(user.customerId, productId, formData.thumbnail2);
+        ? formData.thumbnail2
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail2);
 
     const thumbnail3 =
       formData.thumbnail3 == null
         ? "null"
         : typeof formData.thumbnail3 === "string"
-          ? formData.thumbnail3
-          : await uploadImageApi(user.customerId, productId, formData.thumbnail3);
+        ? formData.thumbnail3
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail3);
 
     const thumbnail4 =
       formData.thumbnail4 == null
         ? "null"
         : typeof formData.thumbnail4 === "string"
-          ? formData.thumbnail4
-          : await uploadImageApi(user.customerId, productId, formData.thumbnail4);
+        ? formData.thumbnail4
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail4);
 
     const thumbnail5 =
       formData.thumbnail5 == null
         ? "null"
         : typeof formData.thumbnail5 === "string"
-          ? formData.thumbnail5
-          : await uploadImageApi(user.customerId, productId, formData.thumbnail5);
+        ? formData.thumbnail5
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail5);
 
     const thumbnail6 =
       formData.thumbnail6 == null
         ? "null"
         : typeof formData.thumbnail6 === "string"
-          ? formData.thumbnail6
-          : await uploadImageApi(user.customerId, productId, formData.thumbnail6);
+        ? formData.thumbnail6
+        : await uploadImageApi(user.customerId, productId, formData.thumbnail6);
 
     const videoUrl =
       formData.videoUrl == null
         ? "null"
         : typeof formData.videoUrl === "string"
-          ? formData.videoUrl
-          : await uploadImageApi(user.customerId, productId, formData.videoUrl);
+        ? formData.videoUrl
+        : await uploadImageApi(user.customerId, productId, formData.videoUrl);
 
     const tab1 = {
       productID:
         queryProductId != null
           ? queryProductId
           : productId != null
-            ? productId
-            : "String",
+          ? productId
+          : "String",
       productCategoryId: formData.productCategory,
       productName: formData.productName,
       ndCorUPC: formData.ndcUpc,
@@ -793,17 +872,22 @@ function EditProductAdmin() {
         formData.discount == null || formData.discount == ""
           ? 0
           : formData.discount,
-      salePrice: formData.salePrice,
+      salePrice: formData.salePrice==""? 0: parseFloat(formData.salePrice) ||0,
       salePriceValidFrom: formData.salePriceForm,
       salePriceValidTo: formData.salePriceTo,
       taxable: formData.taxable == 1 ? true : false,
       shippingCostApplicable:
         formData.shippingCostApplicable == 1 ? true : false,
-      shippingCost: 20,
+      isReturnable: formData.isReturnable == 1 ? true : false,
+      shippingCost: formData.shippingCost,
       amountInStock: formData.amountInStock,
       minOrderQuantity: formData.minOrderQuantity,
-      maxOrderQuantity: formData.maxOrderQuantity,
+      maxOrderQuantity:
+        formData.maxOrderQuantity == null || formData.maxOrderQuantity == ""
+          ? formData.amountInStock
+          : formData.maxOrderQuantity,
     };
+    console.log(tab2);
     if (formData.discount == null || formData.discount == "")
       setFormData({ ...formData, ["discount"]: 0 });
     // const tab4 = {
@@ -823,7 +907,7 @@ function EditProductAdmin() {
       productGalleryId: productGalleryId == null ? "string" : productGalleryId,
       productId: queryProductId != null ? queryProductId : productId,
       caption: "Caption",
-      imageUrl: imageUrl,
+      imageUrl: imageUrl == null ? defaultImageUrl : imageUrl,
       thumbnail1: thumbnail1,
       thumbnail2: thumbnail2,
       thumbnail3: thumbnail3,
@@ -840,14 +924,16 @@ function EditProductAdmin() {
         setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1)); // Enable Tab 2
         setNotification({
           show: true,
-          message: `Product Info ${queryProductId != null ? "Edited" : "Added"
-            } Successfully!`,
+          message: `Product Info ${
+            queryProductId != null ? "Edited" : "Added"
+          } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
           setActiveTab(1); // Move to the next tab
         }, 3000);
       } else if (activeTab == 1) {
+        console.log(tab2);
         const response = await AddProductPriceApi(tab2, user.customerId);
         localStorage.setItem("productPriceId", response);
         setFormErrors({});
@@ -856,8 +942,9 @@ function EditProductAdmin() {
         ); // Enable Tabs 2 and 3
         setNotification({
           show: true,
-          message: `Price Details ${queryProductId != null ? "Edited" : "Added"
-            } Successfully!`,
+          message: `Price Details ${
+            queryProductId != null ? "Edited" : "Added"
+          } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -867,8 +954,9 @@ function EditProductAdmin() {
         setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 3)); // Enable Tab 3
         setNotification({
           show: true,
-          message: `Related Products ${queryProductId != null ? "Edited" : "Added"
-            } Successfully!`,
+          message: `Related Products ${
+            queryProductId != null ? "Edited" : "Added"
+          } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -879,25 +967,29 @@ function EditProductAdmin() {
 
         const response = await AddProductGallery(tab4, user.customerId);
         localStorage.setItem("productGalleryId", response);
-        localStorage.removeItem("productPriceId");
-        localStorage.removeItem("productGalleryId");
-        localStorage.removeItem("productId");
+        if (queryProductId == null) {
+          localStorage.removeItem("productPriceId");
+          localStorage.removeItem("productGalleryId");
+          localStorage.removeItem("productId");
+        }
 
         console.log("Product Data", response);
         setNotification({
           show: true,
-          message: `Product ${queryProductId != null ? "Edited" : "Added"
-            } Successfully!`,
+          message: `Product ${
+            queryProductId != null ? "Edited" : "Added"
+          } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
-          setActiveTab(0);
+          // setActiveTab(0);
           localStorage.removeItem("productId");
           // Disable 2nd and 3rd tabs
           setShowTab([1, 2, 3]);
           if (queryProductId == null) {
             ResetFormDate();
           }
+          navigate("/layout/postingproducts");
 
           // Optionally reset or move to another step
         }, 3000);
@@ -955,9 +1047,17 @@ function EditProductAdmin() {
                       name="ndcUpc"
                       type="text"
                       className="w-80 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
+                      // onChange={handleInputChange}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        // Allow only numeric values
+                        if (/^\d*$/.test(value)) {
+                          handleInputChange(e);
+                        }
+                      }}
                       onBlur={() => handleNdcUpc(formData.ndcUpc)}
                       value={formData.ndcUpc}
+                      maxLength={11}
                     />
                     {formErrors.ndcUpc && (
                       <span className="text-red-500 text-sm">
@@ -1091,14 +1191,37 @@ function EditProductAdmin() {
                     />
                   </div>
                   <div className="flex flex-col mx-2">
-                    <label className="text-sm font-semibold">Form:</label>
-                    <input
+                    <label className="text-sm font-semibold">
+                      {" "}
+                      Medication Form:
+                    </label>
+                    {/* <input
                       name="form"
                       type="text"
                       className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       onChange={handleInputChange}
                       value={formData.form}
-                    />
+                    /> */}
+                    <select
+                      name="form"
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={handleInputChange}
+                      value={formData.form || ""}
+                    >
+                      <option value="">Select a form</option>{" "}
+                      {/* Default option */}
+                      <option value="CAPSULE">CAPSULE</option>
+                      <option value="CREAM">CREAM</option>
+                      <option value="INHALER">INHALER</option>
+                      <option value="INJECTION">INJECTION</option>
+                      <option value="LIQUID">LIQUID</option>
+                      <option value="LOTION">LOTION</option>
+                      <option value="OINTMENT">OINTMENT</option>
+                      <option value="OTHER">OTHER</option>
+                      <option value="PATCH">PATCH</option>
+                      <option value="POWDER">POWDER</option>
+                      <option value="TABLET">TABLET</option>
+                    </select>
                   </div>
                 </div>
 
@@ -1126,8 +1249,8 @@ function EditProductAdmin() {
                       value={formData.strength}
                     />
                   </div>
-                  <div className="font-semibold  ml-0 flex flex-col">
-                    <label>Brand Name:</label>
+                  <div className="  ml-0 flex flex-col">
+                    <label className="font-semibold">Brand Name:</label>
                     <input
                       name="brandName"
                       type="text"
@@ -1534,6 +1657,8 @@ function EditProductAdmin() {
                     ) : (
                       <label
                         htmlFor="imageUpload"
+                        onDragOver={handleDragOver}
+                        onDrop={handleDrop}
                         className="flex flex-col justify-center items-center w-full h-32 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200"
                       >
                         <span className="text-gray-500 text-center">
@@ -1607,12 +1732,38 @@ function EditProductAdmin() {
                       Price ($):<span className="text-red-600">*</span>
                     </label>
                     <input
-                      name="price"
-                      type="phone"
-                      className="w-56 h-8 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={formData.price === 0 ? "" : formData.price}
-                    />
+  name="price"
+  type="text"
+  className="w-56 h-8 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+  onChange={(e) => {
+    let value = e.target.value;
+
+    // Allow only numbers and decimals, limit to 2 decimal places
+    const validPrice = /^\d*(\.\d{0,2})?$/;
+
+    // Check if the input value is a valid number with up to 2 decimal places
+    if (validPrice.test(value)) {
+      handleInputChange(e); // Update the state only with valid input
+    }
+  }}
+  onBlur={(e) => {
+    let value = e.target.value;
+
+    // If the value is a valid number, format it to 2 decimal places
+    if (value && !value.includes('.')) {
+      value += '.00'; // Append .00 if there's no decimal part
+    } else if (value) {
+      value = parseFloat(value).toFixed(2); // Ensure 2 decimal places
+    }
+
+    handleInputChange({
+      target: { name: e.target.name, value },
+    }); // Update state with formatted value
+  }}
+  value={formData.price !== undefined ? formData.price : ""}
+/>
+
+
                     {formErrors.price && (
                       <span className="text-red-500 text-sm">
                         {formErrors.price}
@@ -1642,17 +1793,79 @@ function EditProductAdmin() {
                     <label className="text-sm font-semibold">
                       UPN Member Price ($):
                     </label>
+
                     <input
+  name="upnMemberPrice"
+  type="text"
+  className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+  onChange={(e) => {
+    let value = e.target.value;
+
+    // Allow only numbers and decimals, limit to 2 decimal places
+    const validPrice = /^\d*(\.\d{0,2})?$/;
+
+    // Check if the input value is a valid number with up to 2 decimal places
+    if (validPrice.test(value)) {
+      handleInputChange(e); // Update the state only with valid input
+    }
+  }}
+  onBlur={(e) => {
+    let value = parseFloat(e.target.value);
+
+    // If the value is a valid number, format it to 2 decimal places
+    if (!isNaN(value)) {
+      value = value.toFixed(2); // Ensure 2 decimal places
+      handleInputChange({
+        target: { name: e.target.name, value },
+      }); // Update state with formatted value
+    }
+  }}
+  value={formData.upnMemberPrice !== "" ? formData.upnMemberPrice : ""}
+/>
+
+
+                    {/* <input
                       name="upnMemberPrice"
-                      type="phone"
+                      type="text"
                       className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
+                      onChange={(e) => {
+                        let value = e.target.value;
+
+                        // Allow only numbers and decimals, limit to 2 decimal places
+                        const validPrice = /^\d*(\.\d{0,2})?$/;
+
+                        // Check if the input value is a valid number with up to 2 decimal places
+                        if (validPrice.test(value)) {
+                          handleInputChange(e); // Update the state only with valid input
+                        }
+                      }}
+                      onBlur={(e) => {
+                        let value = parseFloat(e.target.value);
+
+                        // If the value is a valid number, format it to 2 decimal places
+                        if (!isNaN(value)) {
+                          value = value.toFixed(2); // Ensure 2 decimal places
+                          handleInputChange({
+                            target: { name: e.target.name, value },
+                          }); // Update state with formatted value
+                        }
+                      }}
+                      // value={
+                      //   formData.upnMemberPrice !== ""
+                      //     ? formData.upnMemberPrice
+                      //     : ""
+                      // }
                       value={
-                        formData.upnMemberPrice === ""
-                          ? ""
-                          : formData.upnMemberPrice
+                        formData.upnMemberPrice
+                          ? parseFloat(formData.upnMemberPrice).toFixed(2)
+                          : ""
                       }
-                    />
+                    /> */}
+                    {formErrors.upnMemberPrice && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.upnMemberPrice}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="flex items-center gap-8">
@@ -1664,12 +1877,40 @@ function EditProductAdmin() {
                       name="salePrice"
                       type="phone"
                       className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
+                      onChange={(e) => {
+                        const value = e.target.value;
+
+                        // Regex to allow only valid numbers and two decimal places
+                        const formattedValue = value.match(/^\d*\.?\d{0,2}$/)
+                          ? value
+                          : formData.salePrice;
+
+                        // Update formData with the formatted value
+                        handleInputChange({
+                          target: {
+                            name: e.target.name,
+                            value: formattedValue,
+                          },
+                        });
+                      }}
+                      // onKeyDown={(e) => {
+                      //   e.preventDefault();
+                      // }}
                       onKeyDown={(e) => {
-                        e.preventDefault();
+                        // Allow Tab navigation and Backspace/Delete keys
+                        if (
+                          e.key !== "Tab" &&
+                          e.key !== "Delete" &&
+                          e.key !== "ArrowLeft" &&
+                          e.key !== "ArrowRight"
+                        ) {
+                          e.preventDefault(); // Prevent any other keypresses
+                        }
                       }}
                       value={
-                        formData.salePrice === "" ? "" : formData.salePrice
+                        formData.salePrice
+                          ? Number(formData.salePrice).toFixed(2) // Ensure the value is always formatted with 2 decimal places
+                          : ""
                       }
                     />
                     {formErrors.salePrice && (
@@ -1715,8 +1956,19 @@ function EditProductAdmin() {
                           : ""
                       }
                       min={new Date().toISOString().split("T")[0]} // This disables past dates
+                      // onKeyDown={(e) => {
+                      //   e.preventDefault();
+                      // }}
                       onKeyDown={(e) => {
-                        e.preventDefault();
+                        // Allow Tab navigation and Backspace/Delete keys
+                        if (
+                          e.key !== "Tab" &&
+                          e.key !== "Delete" &&
+                          e.key !== "ArrowLeft" &&
+                          e.key !== "ArrowRight"
+                        ) {
+                          e.preventDefault(); // Prevent any other keypresses
+                        }
                       }}
                     />
 
@@ -1728,46 +1980,6 @@ function EditProductAdmin() {
                   </div>
 
                   <div className="flex items-center gap-8 my-2">
-                    {/* <div className="flex flex-col">
-                      <label className="text-sm font-semibold">
-                        Sale Price To($):
-                      </label>
-                      <input
-                        name="salePriceTo"
-                        type="Date"
-                        className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                        onChange={handleInputChange}
-                        value={
-                          formData.salePriceTo
-                            ? formData.salePriceTo.split("T")[0]
-                            : ""
-                        }
-                      />
-                       
-                      {formErrors.salePriceTo && (
-                        <span className="text-red-500 text-sm">
-                          {formErrors.salePriceTo}
-                        </span>
-                      )}
-                    </div> */}
-
-                    {/* <div className="flex flex-col">
-      <label className="text-sm font-semibold">Sale Price To($):</label>
-      <input
-        name="expirationDate"
-        type="date"
-        className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-        onChange={handleInputChange}
-        value={formData.expirationDate}
-        min={minDate} // Set the minimum date to 15 days from today
-        max={maxDate} // Set the maximum date to 20 days from today (5 days range)
-      />
-      {formErrors.salePriceTo && (
-        <span className="text-red-500 text-sm">
-          {formErrors.salePriceTo}
-        </span>
-      )}
-    </div> */}
                     <div className="flex flex-col">
                       <label className="text-sm font-semibold">
                         Sale Price To:
@@ -1782,9 +1994,25 @@ function EditProductAdmin() {
                             ? formData.salePriceTo.split("T")[0]
                             : ""
                         }
-                        min={MinDate}
+                        // min={MinDate}
+                        min={
+                          formData.salePriceForm
+                            ? formData.salePriceForm.split("T")[0]
+                            : new Date().toISOString().split("T")[0]
+                        } // Min date is the Sale Price From date
+                        // onKeyDown={(e) => {
+                        //   e.preventDefault();
+                        // }}
                         onKeyDown={(e) => {
-                          e.preventDefault();
+                          // Allow Tab navigation and Backspace/Delete keys
+                          if (
+                            e.key !== "Tab" &&
+                            e.key !== "Delete" &&
+                            e.key !== "ArrowLeft" &&
+                            e.key !== "ArrowRight"
+                          ) {
+                            e.preventDefault(); // Prevent any other keypresses
+                          }
                         }}
                       />
                       {formErrors.salePriceTo && (
@@ -1804,15 +2032,26 @@ function EditProductAdmin() {
                     {/* <label className="font-semibold">Amount in Stock:</label> */}
                     <input
                       name="amountInStock"
-                      type="phone"
-                      className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
+                      type="number" // Change to "number" to restrict input to numbers only
+                      className="w-56 h-8 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={(e) => {
+                        // Allow only numbers and prevent any other characters
+                        const value = e.target.value;
+
+                        // Make sure the value is not empty and is a valid number
+                        if (/^\d*$/.test(value)) {
+                          handleInputChange(e); // Update state only with valid numeric input
+                        }
+                      }}
+                      min="0" // Prevents negative numbers
+                      step="1" // Increment by 1
                       value={
                         formData.amountInStock === 0
                           ? ""
                           : formData.amountInStock
                       }
                     />
+
                     {formErrors.amountInStock && (
                       <span className="text-red-500 text-sm">
                         {formErrors.amountInStock}
@@ -1832,8 +2071,8 @@ function EditProductAdmin() {
                         formData.taxable == null
                           ? ""
                           : formData.taxable == true
-                            ? 1
-                            : 0
+                          ? 1
+                          : 0
                       }
                     >
                       <option value="">Select an option</option>
@@ -1843,38 +2082,88 @@ function EditProductAdmin() {
                   </div>
                   <div className=" flex flex-col">
                     <label className="font-semibold">
-                      Minimum Order Qunatity:
+                      Minimum Order Quantity:
                     </label>
                     {/* <label className="font-semibold">Amount in Stock:</label> */}
-                    <input
+                    {/* <input
                       name="minOrderQuantity"
                       type="phone"
                       className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       onChange={handleInputChange}
-                      value={formData.minOrderQuantity === 0
+                      value={
+                        formData.minOrderQuantity === 0
+                          ? ""
+                          : formData.minOrderQuantity
+                      }
+                    /> */}
+                    <input
+                      name="minOrderQuantity"
+                      type="number" // Use "number" to restrict input to numbers only
+                      className="w-56 h-8 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={(e) => {
+                        // Allow only numbers and prevent any other characters
+                        const value = e.target.value;
+
+                        // Make sure the value is not empty and is a valid number
+                        if (/^\d*$/.test(value)) {
+                          handleInputChange(e); // Update state only with valid numeric input
+                        }
+                      }}
+                      min="0" // Prevents negative numbers
+                      step="1" // Increment by 1
+                      value={
+                        formData.minOrderQuantity === 0
                           ? ""
                           : formData.minOrderQuantity
                       }
                     />
-                    
                   </div>
                 </div>
 
                 <div className="flex flex-col mt-2">
-                    <label className="text-sm font-semibold">
-                       Maximum Order  Quantity :
-                    </label>
-                    <input
-                      name="maxOrderQuantity"
-                      type="phone"
-                      className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={formData.maxOrderQuantity === 0
-                          ? ""
-                          : formData.maxOrderQuantity
+                  <label className="text-sm font-semibold">
+                    Maximum Order Quantity :
+                  </label>
+                  {/* <input
+                    name="maxOrderQuantity"
+                    type="phone"
+                    className="w-56 h-8  border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                    onChange={handleInputChange}
+                    value={
+                      formData.maxOrderQuantity === 0
+                        ? ""
+                        : formData.maxOrderQuantity
+                    }
+                  /> */}
+                  <input
+                    name="maxOrderQuantity"
+                    type="number" // Use "number" to restrict input to numbers only
+                    className="w-56 h-8 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                    onChange={(e) => {
+                      // Allow only numbers and prevent any other characters
+                      const value = e.target.value;
+
+                      // Ensure the value is a valid non-negative integer
+                      if (/^\d*$/.test(value)) {
+                        handleInputChange(e); // Update state only with valid numeric input
                       }
-                    />
-                  </div>
+                    }}
+                    min="0" // Prevents negative numbers
+                    step="1" // Increment by 1
+                    value={
+                      formData.maxOrderQuantity === 0
+                        ? ""
+                        : formData.maxOrderQuantity
+                    }
+                  />
+
+                  {parseInt(formData.maxOrderQuantity, 10) >
+                    parseInt(formData.amountInStock, 10) && (
+                    <span className="text-red-600 text-sm mt-1">
+                      You need to select a quantity below the product in stock.
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
             <div className="my-4">
@@ -1948,10 +2237,9 @@ function EditProductAdmin() {
                 </label>
               </div>
 
-             
               <div className="flex items-center mt-4">
                 <label className="font-semibold">
-                 Is this product returnable
+                  Is this product returnable
                 </label>
                 <input
                   type="radio"
@@ -1979,7 +2267,6 @@ function EditProductAdmin() {
                   No
                 </label>
               </div>
-
             </div>
 
             {/* section5 start */}
@@ -2303,7 +2590,7 @@ function EditProductAdmin() {
             </p>
 
             <div className="flex w-full gap-4 justify-between">
-              <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
+              {/* <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
                 {selectedImage || formData.imageUrl ? (
                   <div className="relative">
                     <img
@@ -2325,6 +2612,48 @@ function EditProductAdmin() {
                   >
                     <span className="text-gray-500   text-center">
                       {" "}
+                      Click here or drag and drop image
+                    </span>
+                    <input
+                      type="file"
+                      id="imageUpload"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="hidden"
+                    />
+                  </label>
+                )}
+              </div> */}
+              <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
+                {selectedImage || formData.imageUrl ? (
+                  <div className="relative">
+                    <img
+                      // src={selectedImage || URL.createObjectURL(formData.imageUrl)}
+                      src={
+                        selectedImage // Check if selectedImage exists first
+                          ? selectedImage
+                          : formData.imageUrl instanceof File // Check if formData.imageUrl is a File
+                          ? URL.createObjectURL(formData.imageUrl) // Generate URL if it's a file
+                          : formData.imageUrl // Otherwise, treat it as a direct image URL
+                      }
+                      alt="Selected"
+                      className="w-64 h-64 object-cover rounded-md"
+                    />
+                    <button
+                      onClick={handleRemoveImage}
+                      className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full focus:outline-none"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                ) : (
+                  <label
+                    htmlFor="imageUpload"
+                    className="flex flex-col justify-center items-center w-full h-32 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200"
+                    onDragOver={handleDragOver} // Add drag over event
+                    onDrop={handleDrop} // Add drop event
+                  >
+                    <span className="text-gray-500 text-center">
                       Click here or drag and drop image
                     </span>
                     <input
@@ -2365,8 +2694,8 @@ function EditProductAdmin() {
                           typeof image === "string"
                             ? image
                             : image != null
-                              ? URL.createObjectURL(image)
-                              : ""
+                            ? URL.createObjectURL(image)
+                            : ""
                         } // Check if `image` is a string (URL) or a File object
                         alt={`Preview ${image}`}
                         className="w-full h-40 object-cover"
@@ -2485,13 +2814,15 @@ function EditProductAdmin() {
                 disabled={
                   queryProductId != null ? false : showTab.includes(index)
                 } // Corrected to 'disabled'
-                className={`w-full flex justify-center items-center px-2 p-3 py-1 mt-7 shadow-md ${activeTab === index
+                className={`w-full flex justify-center items-center px-2 p-3 py-1 mt-7 shadow-md ${
+                  activeTab === index
                     ? "text-white bg-blue-900 rounded-t-xl font-semibold"
                     : "text-blue-900 shadow-none rounded-t-xl bg-white"
-                  } ${showTab.includes(index) && queryProductId == null
+                } ${
+                  showTab.includes(index) && queryProductId == null
                     ? "opacity-50 cursor-not-allowed"
                     : ""
-                  }`} // Style changes for disabled state
+                }`} // Style changes for disabled state
                 onClick={() => setActiveTab(index)}
               >
                 {tab}
@@ -2517,16 +2848,16 @@ function EditProductAdmin() {
           {activeTab === 0
             ? "Save and Continue to Price Details"
             : activeTab === 1
-              ? "Save and Continue to Related Products"
-              : activeTab === 2
-                ? "Save and Continue to Additional Images"
-                : activeTab === 3
-                  ? "Save and Close"
-                  : ""}
+            ? "Save and Continue to Related Products"
+            : activeTab === 2
+            ? "Save and Continue to Additional Images"
+            : activeTab === 3
+            ? "Save and Close"
+            : ""}
         </button>
       </div>
     </div>
   );
 }
 
-export default EditProductAdmin; 
+export default EditProductAdmin;

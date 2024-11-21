@@ -957,18 +957,18 @@ function Items({
               <div className="p-2 bg-gray-100 rounded-lg mr-4">
                 <p className="font-semibold text-gray-600">SOLD BY</p>
                 <p className="text-red-600">
-                  <Link to="/layout/layoutprofile">
+                  {/* <Link to="/layout/layoutprofile"> */}
                     {" "}
                     {prod?.sellerFirstName} {prod?.sellerLastName}
-                  </Link>
+                  {/* </Link> */}
                 </p>
                 <p className="hover:text-red-600">Company Website</p>
                 <div className="flex flex-col">
                   <div className="flex  items-center space-x-2 hover:text-red-500">
                     <img src={product} className="w-fit h-10" />
-                    <Link to="/layout/layoutbuy">
+                    {/* <Link to="/layout/layoutbuy"> */}
                       <span className=" font-semibold">17 PRODUCTS</span>
-                    </Link>
+                    {/* </Link> */}
                   </div>
                   <div className="flex items-center space-x-2 hover:text-red-500">
                     <img src={phone} className="w-fit h-10" />

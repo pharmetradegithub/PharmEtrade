@@ -26,6 +26,7 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
   // const [currentItems, setCurrentItems] = useState([]);
 
   const productOffer = useSelector((state) => state.product.getProductSpecialOffer);
+  console.log('pr', productOffer)
   // const carts = useSelector((state) => state.cart.cart);
   // const wishlist = useSelector((state) => state.wishlist.wishlist);
   const user = useSelector((state) => state.user.user);
@@ -162,7 +163,7 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
 
   return (
     <div
-      className="w-full flex flex-col mt-1 h-full justify-center items-center overflow-y-auto  bg-gray-200"
+      className="w-full flex flex-col mt-1 h-full justify-center items-center overflow-y-auto  "
       style={{
         marginTop: `${topMargin}px`,
       }}
@@ -174,17 +175,63 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
         />
       )}
 
-      <h1 className="bg-blue-900 w-full  p-1 mx-1 text-white font-semibold text-xl rounded-md mt-10 md:mt-2">Offer Products</h1>
+      <h1 className="bg-blue-900 w-full  p-1 mx-1 text-white font-semibold text-xl rounded-md mt-10 md:mt-2">Offer Products In {
+        currentItems[0]?.categorySpecification.specificationName
+      }'s </h1>
 
-      <div className="w-full h-full bg-gray-200 mb-5 mt-8">
+      <div className="w-full h-full  mb-5 mt-8">
         <div className="h-full mr-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
             {currentItems.map((offer, index) => (
               <div
                 key={index}
-                className="flex flex-col border rounded-lgw-full max-w-md h-80 bg-white"
+                className="w-full max-w-md border p-2 shadow-md"
+              // className="flex flex-col border rounded-lgw-full max-w-md h-80 bg-white"
               >
-                <div className="flex justify-between">
+
+
+                <div className="flex sm:justify-center justify-start md:justify-start bg-slate-200 relative">
+                  <div className="flex flex-row  h-16 justify-center text-center bg-yellow-300 w-16  rounded-l-xl rounded-b-full pb-5">
+                    <p className="mt-2 -ml-1 text-black text-base font-semibold">
+                      {offer.discount}% Off
+                    </p>
+                  </div>
+
+                  <img
+                    onClick={() => {
+                      // e.stopPropagation();
+                      handleClick(offer.productID)
+                    }}
+                    // onClick={() => handleClick(item.productID)}
+                    // src={
+                    //   wishlistProductIDs.includes(item.productID)
+                    //     ? filledHeart
+                    //     : emptyHeart
+                    // }
+                    src={
+                      wishlistProductIDs.includes(offer.productID)
+                        ? filledHeart
+                        : emptyHeart
+                    }
+                    className="h-7 sm:h-8 p-[6px] cursor-pointer absolute right-0"
+                    alt="Favorite Icon"
+                  />
+                  <img
+                    src={compare}
+                    className="sm:h-5 sm:w-5 h-4 w-4 right-1 cursor-pointer absolute bottom-1 text-green-700"
+                    alt="Other Icon"
+                  />
+                  <Link to={`/detailspage/${offer.productID}`}>
+                    <img
+                      src={offer.productGallery.imageUrl}
+
+                      // src={item.productGallery.imageUrl}
+                      alt={`nature-${index}`}
+                      className=" h-32 w-24 sm:h-40 sm:w-28 lg:h-48 lg:w-36 rounded-lg"
+                    />
+                  </Link>
+                </div>
+                {/* <div className="flex justify-between">
                   <div className="flex flex-row justify-center text-center bg-yellow-300 w-20 rounded-l-xl rounded-b-full pb-8">
                     <p className="pb-3 mt-3 text-black font-semibold">
                       {offer.discount}% Off
@@ -205,8 +252,8 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
                       alt="Favorite Icon"
                     />
                   </div>
-                </div>
-                <div className="flex justify-center items-center  -mt-8">
+                </div> */}
+                {/* <div className="flex justify-center items-center  -mt-8">
                   <Link to={`/detailspage/${offer.productID}`}>
                     <img
                       src={offer.productGallery.imageUrl}
@@ -214,8 +261,8 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
                       alt={offer.productName}
                     />
                   </Link>
-                </div>
-                <div className="flex justify-center flex-col items-center mb-1 cursor-pointer">
+                </div> */}
+                <div className="flex justify-center mt-8 flex-col items-center mb-1 cursor-pointer">
                   <Link to={`/detailspage/${offer.productID}`}>
                     <p
                       className="font-semibold text-lg hover:underline  lg:-mt-6 w-52 items-start justify-start text-center whitespace-nowrap overflow-hidden text-ellipsis"
@@ -227,7 +274,29 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
                   </Link>
                   <span className="">${offer.salePrice?.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between mx-2">
+
+                <div className="flex  flex-col md:flex-row justify-between items-center">
+
+                  <div className="flex items-center">
+                    <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>★</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                    <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                  </div>
+
+                  <div className="text-xs sm:text-sm">
+                    {offer.amountInStock <= 0 ? (
+                      <p className="text-red-500 font-semibold">Out Of Stock</p>
+                    ) : (
+                      <p className="text-green-600 rounded-lg font-semibold ">
+                        In Stock - {offer.amountInStock}
+                      </p>
+                    )}
+                  </div>
+
+                </div>
+                {/* <div className="flex justify-between mx-2">
                   <button
                     onClick={() => handleCart(offer.productID)}
                     className="items-center justify-center px-2 flex gap-1 bg-blue-900 border text-sm font-medium rounded-md text-white p-1"
@@ -235,9 +304,33 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
                     <img src={cart} className="w-4 h-4" alt="Cart Icon" />
                     Add to cart
                   </button>
-                  <div className="flex gap-2">
-                    <img src={compare} className="w-5 h-5" alt="Compare Icon" />
-                  </div>
+                
+                </div> */}
+
+                <div
+                  className={`flex p-1 rounded-md justify-center ${offer.amountInStock <= 0
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-blue-900 cursor-pointer"
+                    }`}
+                  onClick={() => {
+                    if (offer.amountInStock > 0) {
+                      handleCart(offer.productID); // Only call handleCart if item is in stock
+                    }
+                  }}
+                >
+                  <img
+                    src={cart}
+                    alt="Add to cart"
+                    className={`h-6 sm:h-8 p-[6px] ${offer.amountInStock <= 0 ? "opacity-50" : ""
+                      }`}
+                  />
+                  <button
+                    className={`text-white font-semibold ${offer.amountInStock <= 0 ? "opacity-50" : ""
+                      }`}
+                    disabled={offer.amountInStock <= 0} // Disable the button when out of stock
+                  >
+                    ADD
+                  </button>
                 </div>
               </div>
             ))}
@@ -245,7 +338,7 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
         </div>
       </div>
 
-      <div className="bg-gray-200 w-full">
+      <div className=" w-full">
         <Pagination
           indexOfFirstItem={indexOfFirstItem}
           indexOfLastItem={indexOfLastItem}
