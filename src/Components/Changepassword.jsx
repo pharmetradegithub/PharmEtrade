@@ -9,7 +9,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link, useNavigate } from "react-router-dom";
 import { changePasswordUserApi } from "../Api/UserApi";
-
+import Notification from "./Notification";
 const Confirmpassword = () => {
   const [username, setUsername] = useState("");
   const [newPassword, setNewpassword] = useState("");
@@ -19,7 +19,11 @@ const Confirmpassword = () => {
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState(""); // State to handle API errors if any
   const [successMessage, setSuccessMessage] = useState(""); // State to show success message if needed
-
+  const [showPopup, setShowPopup] = useState(false);
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+  });
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -87,12 +91,27 @@ const Confirmpassword = () => {
         setErrors({});
         setApiError(""); // Clear any previous errors
 
-        navigate("/login")
+       
+        setNotification({
+          show: true,
+          message: "Password changed Successfully!",
+         
+        });
+        setTimeout(() => {
+          setNotification({ show: false, message: "" });
+          navigate("/login"); // Ensure navigation happens after the notification disappears
+        }, 3000);
+        // setTimeout(() => setNotification({ show: false, message: "" }), 3000);
 
       } catch (error) {
         setApiError("Failed to change password. Please try again.");
       }
     }
+    setSuccessMessage("Password changed successfully!");
+    setShowPopup(true); // Show popup
+
+    // Hide popup after 5 seconds
+    setTimeout(() => setShowPopup(false), 5000);
   };
 
   const handleInputChange = (setter, field) => (event) => {
@@ -137,11 +156,15 @@ const Confirmpassword = () => {
                   </div>
                 )}
 
-                {successMessage && (
+                {/* {successMessage && (
                   <div className="text-green-500 text-center my-2">
                     {successMessage}
                   </div>
-                )}
+                )} */}
+                 {notification.show && (
+        <Notification show={notification.show} message={notification.message} />
+      )}
+
 
                 <div className="flex mt-6 items-center justify-center my-2">
                   <TextField
@@ -222,6 +245,12 @@ const Confirmpassword = () => {
                   <span className="text-blue-900 underline">Contact support</span>.
                 </div>
               </div>
+
+              {/* {showPopup && (
+        <div className="fixed top-5 left-1/2 mt-4 transform -translate-x-1/2 -translate-y-1/2 bg-white border shadow-lg p-4 rounded-md z-50">
+          <p className="text-green-500 font-semibold">Password changed successfully!</p>
+        </div>
+      )} */}
             </form>
           </div>
         </div>

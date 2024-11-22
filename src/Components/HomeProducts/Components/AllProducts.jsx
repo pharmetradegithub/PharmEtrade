@@ -101,6 +101,7 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
 
   const handleCart = async (productID) => {
     if (user == null) {
+      navigate("/login")
       console.log("login to add");
       return;
     }
@@ -128,6 +129,10 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
   };
 
   const handleClick = async (productID) => {
+    if (user == null) {
+      navigate("/login")
+      return;
+    }
     if (wishlistProductIDs.includes(productID)) {
       setWishlistProductIDs(
         wishlistProductIDs.filter((id) => id !== productID)

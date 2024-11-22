@@ -270,7 +270,8 @@ const initialProductsState = {
   UpSellProducts : [],
   CrossSellProducts: [],
   deactiveProduct: [],
-  deleteProduct: []
+  deleteProduct: [],
+  activeProduct: [],
 };
 
 const productsSlice = createSlice({
@@ -334,6 +335,9 @@ const productsSlice = createSlice({
     },
     setDeleteProduct(state, action) {
       state.deleteProduct = action.payload
+    },
+    setActiveProduct(state, action) {
+      state.activeProduct = action.payload
     },
   },
 });
@@ -531,6 +535,7 @@ export const { addOrder } = orderSlice.actions
 export const { setSellerDashboardId } = dashboardSlice.actions
 export const { setCustomerDashboardId } = dashboardSlice.actions
 export const { setDeactiveProduct } = productsSlice.actions
+export const { setActiveProduct } = productsSlice.actions
 export const { setDeleteProduct } = productsSlice.actions
 export const { setProductCategoryGetAll } = mastersSlice.actions
 export const { setCategorySpecificationsGetAll } = mastersSlice.actions

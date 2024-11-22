@@ -59,7 +59,7 @@ const LayoutBuyReturn = () => {
   const records = [];
 
   return (
-    <div className="relative w-full h-full flex justify-center items-center ">
+    <div className="relative w-full h-full flex justify-center items-center overflow-y-scroll ">
       <div className=" w-[95%] h-full mt-4">
         <div className=" flex justify-between">
           <p className="text-[22px] text-blue-900 font-semibold"> Returns </p>

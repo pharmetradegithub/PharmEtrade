@@ -61,3 +61,16 @@ export const paymentProcessApi = async (payload) => {
       console.log("error api from shipping", error.response?.data?.message || error.message);
     }
   }
+
+  
+export const ShipmentChargesApi = async (payload) => {
+  try {
+    const response = await axios.post('/api/Orders/ShippingCharges', payload);
+    console.log(">", response);
+    if (response.status === 200) {
+      return response.data.result;
+    }
+  } catch (error) {
+    console.log("error api from shipping", error.response?.data?.message || error.message);
+  }
+}

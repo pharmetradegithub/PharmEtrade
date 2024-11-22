@@ -67,7 +67,7 @@ const AboutUs = ({ topMargin }) => {
     
     <div className="w-full flex flex-col lg:flex-row h-auto lg:h-screen items-center lg:items-start relative px-4 sm:px-8 lg:px-0">
       {/* Image Section */}
-      <div className="w-full lg:w-1/2 flex justify-center lg:justify-end mb-8 lg:mb-0">
+      <div className="w-full lg:w-1/2 flex justify-center  mt-5 md:mt-0 lg:justify-end mb-8 lg:mb-0">
         <img src={whypharma} className="w-[250px] sm:w-[350px] lg:w-[450px] object-contain" alt="About us" />
       </div>
     

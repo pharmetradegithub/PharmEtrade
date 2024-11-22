@@ -703,6 +703,22 @@ function Cart() {
 
     // If all products have enough stock, proceed with the order
     const currentDate = new Date();
+    // const payload = {
+    //   orderId: "",
+    //   customerId: user.customerId,
+    //   totalAmount: total?.toFixed(2),
+    //   orderDate: currentDate.toISOString(),
+    //   shippingMethodId: 1,
+    //   orderStatusId: 7,
+    //   trackingNumber: "",
+    //   products: cartItems.map((item) => ({
+    //     productId: item.product.productID,
+    //     quantity: item.quantity,
+    //     pricePerProduct: item.product.salePrice,
+    //     sellerId: user.customerId,
+    //     imageUrl: item.product.imageUrl,
+    //   })),
+    // };
     const payload = {
       orderId: "",
       customerId: user.customerId,
@@ -711,13 +727,33 @@ function Cart() {
       shippingMethodId: 1,
       orderStatusId: 7,
       trackingNumber: "",
-      products: cartItems.map((item) => ({
-        productId: item.product.productID,
-        quantity: item.quantity,
-        pricePerProduct: item.product.salePrice,
-        sellerId: user.customerId,
-        imageUrl: item.product.imageUrl,
-      })),
+      products: cartItems.map((item) => {
+        const currentDate = new Date();
+        const saleStartDate = new Date(item.product?.salePriceValidFrom);
+        const saleEndDate = new Date(item.product?.salePriceValidTo);
+
+        // Determine the price based on conditions
+        let pricePerProduct;
+        if (user?.isUPNMember === 1 && item.product?.upnMemberPrice > 0) {
+          pricePerProduct = item.product.upnMemberPrice;
+        } else if (
+          item.product?.salePrice > 0 &&
+          currentDate >= saleStartDate &&
+          currentDate <= saleEndDate
+        ) {
+          pricePerProduct = item.product.salePrice;
+        } else {
+          pricePerProduct = item.product.unitPrice;
+        }
+
+        return {
+          productId: item.product.productID,
+          quantity: item.quantity,
+          pricePerProduct: pricePerProduct?.toFixed(2),
+          sellerId: user.customerId,
+          imageUrl: item.product.imageUrl,
+        };
+      }),
     };
 
     try {
