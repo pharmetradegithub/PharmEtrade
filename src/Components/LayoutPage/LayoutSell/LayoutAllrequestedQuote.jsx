@@ -532,7 +532,7 @@ const LayoutAllrequestedQuote = () => {
         </div>
 
         <div className="w-full overflow-x-scroll text-[15px] mt-4">
-          <table className="rounded-lg bg-white w-full">
+          <table className="rounded-lg bg-white w-full hidden md:table">
             <thead className="bg-blue-900 text-white">
               <tr>
                 <th className="border-b-2 py-2 min-w-36 pl-4 text-left">
@@ -623,6 +623,79 @@ const LayoutAllrequestedQuote = () => {
               )}
             </tbody>
           </table>
+
+
+          <div className="block md:hidden space-y-4">
+            {currentItems?.length > 0 ? (
+              currentItems.map((request, i) => (
+                <div key={i} className="bg-white shadow rounded-lg p-4 border">
+                  <div className="flex gap-2">
+                    <span className="font-semibold text-sm">S.No:</span>
+                    <span>{indexOfFirstItem + i + 1}</span>
+                  </div>
+                  <div className="mt-2">
+                  <p>
+                      <span className="font-semibold">Customer Name:</span>{" "}
+                      {request.customerName}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Product Name:</span>{" "}
+                      {request.productName}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Status:</span>{" "}
+                      {request.isActive ? "Active" : "Inactive"}
+                    </p>
+                    {/* <p>
+                      <span className="font-semibold">Quantity:</span>{" "}
+                      {quoted.quantity}
+                    </p> */}
+                    <p>
+                      <span className="font-semibold"> Created Date:</span>{" "}
+                      {new Date(request.createdOn)
+                        .toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                        })
+                        .replace(/\//g, "-")}
+                    </p>
+                    {/* <p>
+                      <span className="font-semibold"> Customer Name:</span>{" "}
+                      {quoted.customerName}
+                    </p>
+                    <p>
+                      <span className="font-semibold"> Status:</span>{" "}
+                      {quoted.isActive ? "Active" : "Inactive"}
+                    </p> */}
+                    <p>
+                      <span className="font-semibold"> Action:</span>{" "}
+                      <Tooltip title="Delete" placement="top">
+                      <img
+                        src={Bin}
+                        alt="Delete"
+                        className="cursor-pointer w-4 h-4 "
+                      />
+                    </Tooltip>
+                    </p>
+                  </div>
+                  {/* <div className="mt-4 flex space-x-4 items-center justify-start">
+                   
+                    <Tooltip title="Delete" placement="top">
+                      <img
+                        src={Bin}
+                        alt="Delete"
+                        className="cursor-pointer w-4 h-4 "
+                      />
+                    </Tooltip>
+                  
+                  </div> */}
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-4"> We couldn't find any records</div>
+            )}
+          </div>
         </div>
         <Pagination
           indexOfFirstItem={indexOfFirstItem}

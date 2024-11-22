@@ -147,8 +147,8 @@ const LayoutAllQuotesProducts = () => {
             </select>
           </div> */}
 
-          <div className=" text-[15px] w-[95%] mt-4 font-sans">
-            <table className="rounded-lg bg-white w-[95%]">
+          <div className=" text-[15px] w-full mt-4 font-sans">
+            <table className="rounded-lg bg-white w-full hidden md:table">
               <thead className="bg-blue-900 text-white">
                 <tr>
                   {/* <th className="border-b-2 py-4 min-w-36 pl-4 text-left">
@@ -243,6 +243,82 @@ const LayoutAllQuotesProducts = () => {
                 )}
               </tbody>
             </table>
+
+
+            <div className="block md:hidden space-y-4">
+            {currentItems?.length > 0 ? (
+              currentItems.map((quoted, i) => (
+                <div key={i} className="bg-white shadow rounded-lg p-4 border">
+                  <div className="flex gap-2">
+                    <span className="font-semibold text-sm">S.No:</span>
+                    <span>{indexOfFirstItem + i + 1}</span>
+                  </div>
+                  <div className="mt-2">
+                    <p>
+                      <span className="font-semibold">Product Name:</span>{" "}
+                      {quoted.productName}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Price:</span>{" "}
+                      {quoted.price ? Number(quoted.price).toFixed(2) : "0.00"}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Quantity:</span>{" "}
+                      {quoted.quantity}
+                    </p>
+                    <p>
+                      <span className="font-semibold"> Created Date:</span>{" "}
+                      {new Date(quoted.createdOn)
+                            .toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "2-digit",
+                              day: "2-digit",
+                            })
+                            .replace(/\//g, "-")}
+                    </p>
+                    <p>
+                      <span className="font-semibold"> Customer Name:</span>{" "}
+                      {quoted.customerName}
+                    </p>
+                    <p>
+                      <span className="font-semibold"> Status:</span>{" "}
+                      {quoted.isActive ? "Active" : "Inactive"}
+                    </p>
+                    <p>
+                      <span className="font-semibold"> Action:</span>{" "}
+                      {quoted.totalAmount}
+                    </p>
+                  </div>
+                  <div className="mt-4 flex space-x-4 items-center justify-start">
+                    {/* <Tooltip title="Edit" placement="top">
+                      <img
+                        src={edit}
+                        alt="Edit"
+                        className={`cursor-pointer w-7 h-7 ${
+                          deletedCustomers.includes(customer.name) ||
+                          deactivatedCustomers.includes(customer.name)
+                            ? "opacity-50 pointer-events-none"
+                            : ""
+                        }`}
+                        onClick={() => console.log("Edit clicked")}
+                      />
+                    </Tooltip> */}
+                    <Tooltip title="Delete" placement="top">
+                      <img
+                        src={Bin}
+                        alt="Delete"
+                        className="cursor-pointer w-4 h-4 "
+                      />
+                    </Tooltip>
+                  
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-4"> We couldn't find any records</div>
+            )}
+          </div>
+
           </div>
         </div>
 

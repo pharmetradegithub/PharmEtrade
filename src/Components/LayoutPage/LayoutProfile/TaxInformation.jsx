@@ -535,7 +535,7 @@ const TaxInformation = () => {
 
 
   return (
-    <div className="w-[90%]">
+    <div className="w-full overflow-y-scroll">
       {/* {showSuccessMessage && (
         <p className="mt-4 flex justify-end text-green-600 font-semibold text-xl">
           Entry saved successfully!
@@ -544,6 +544,7 @@ const TaxInformation = () => {
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
+     <h1 className="text-xl text-blue-900 font-semibold mx-6 py-4">Tax Information</h1>
       <div className="bg-white w-[85%] md:w-[90%] border border-black rounded-lg px-8 mx-6 py-5 mt-8 relative my-6">
         <div className="flex justify-between">
         {isEditable && (
@@ -601,7 +602,7 @@ const TaxInformation = () => {
       </div>
 
       <div className="overflow-x-auto ml-5">
-        <table className="min-w-full text-left table-auto border-collapse">
+        <table className="w-full text-left table-auto border-collapse hidden md:table">
           <thead className="bg-gray-200">
             <tr className="bg-blue-900 text-white">
               <th className="px-6 py-3 text-base font-bold">S NO.</th>
@@ -648,6 +649,76 @@ const TaxInformation = () => {
             })}
           </tbody>
         </table>
+
+        <div className='block md:hidden space-y-4'>
+          {
+            stateNameData.map((entry, index) => {
+              const matchedCategory = getproductSpecialOffer.find(
+                (item) => item.categorySpecificationId === entry.categorySpecificationID
+              );
+              return (
+                <div key={index} className="bg-white shadow rounded-lg p-4 border">
+                    <div className="flex gap-2">
+                    <span className="font-semibold text-sm">S.No:</span>
+                    <span>{index + 1}</span>
+                  </div>
+
+                  <div className='mt-2'>
+                    <p>
+                    <span className="font-semibold">
+                      State :
+                      </span>
+                      {entry.stateName}
+                    </p>
+                    <p>
+                    <span className="font-semibold">
+                      Category Name :
+
+                      </span>
+                      {matchedCategory ? matchedCategory.specificationName : 'Unknown Category'}
+                    </p>
+                    <p>
+                    <span className="font-semibold">
+                      Tax Percentage :
+                      </span>
+                      {entry.taxPercentage}%
+                    </p>
+                    <p>
+                    <span className="font-semibold">
+                      Created Date :
+                      </span>
+                      {new Date(entry.createdDate)
+                      .toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
+                      .replace(/\//g, '-')}
+                    </p>
+                    <p>
+                    <span className="font-semibold">
+                      Modify Date :
+                      </span>
+                      {new Date(entry.modifiedDate)
+                      .toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
+                      .replace(/\//g, '-')} 
+                    </p>
+                    <p>
+                    <span className="font-semibold">
+                      Action :
+                      </span>
+                      <button
+                      className="px-4 py-2 text-white"
+                      onClick={() => handleEditClick(index, entry?.taxInformationID, entry.categorySpecificationID, entry.taxPercentage, entry.stateName, entry.createdDate, entry.modifiedDate)}
+                    >
+                      <img src={edit} alt="Edit" className="w-6 h-6" />
+                    </button>
+                    </p>
+                    </div>
+
+                  </div>
+
+              
+              ); 
+          })}
+
+        </div>
       </div>
     </div>
   );

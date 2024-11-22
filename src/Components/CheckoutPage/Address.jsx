@@ -2205,6 +2205,7 @@ function Address({ topMargin, totalAmount, amount }) {
   const handlePaymentSuccess = async(token, amount) => {
     console.log("Payment Successful, Token:", token);
     console.log("Payment Successful, amount:", amount);
+    
 
     const payload = {
       sourceId: token,
@@ -3416,6 +3417,21 @@ console.log("pincode---->", pincodes)
   
   // const [notification, setNotification] = useState({ show: false, message: "" });
 
+  const products = placeOrder?.products || [];
+
+  // Calculate total tax amount by iterating through the products
+  const totalTaxAmount = products.reduce((total, product) => {
+    const price = product?.pricePerProduct || 0;
+    console.log("priceeeeeee-->", price)
+    const taxPercentage = product?.taxPercentage || 0;
+    console.log("taxPercentage-->", taxPercentage)
+
+    const taxAmount = (price * taxPercentage) / 100;
+    console.log("taxAmount-->", taxAmount)
+
+    return total + taxAmount;
+  }, 0);
+  
   // Delete Address Handler
   const handleDeleteAddress = (addressId) => {
     console.log("Opening delete modal for address ID:", addressId);
@@ -4078,16 +4094,20 @@ console.log("pincode---->", pincodes)
                         <p>Shipping:</p>
                         <p>${Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0).toFixed(2)}</p>
                       </div>
+                      <div className="flex justify-between text-sm border-b my-2">
+                          <p>Tax :</p>
+                          <p>${totalTaxAmount.toFixed(2)}</p>
+                        </div>
                       <div className="flex justify-between text-sm mt-3">
                         <p>Total:</p>
                         {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
                         <p>${(validTotal  + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
 
                       </div>
-                      <div className="flex justify-between text-sm border-b my-2">
+                      {/* <div className="flex justify-between text-sm border-b my-2">
                         <p>Promotion Applied :</p>
                         <p>$0.00</p>
-                      </div>
+                      </div> */}
                       <div className="flex justify-between text-red-500 font-semibold">
                         <p>Grand Total:</p>
                         {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}

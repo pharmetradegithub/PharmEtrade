@@ -181,7 +181,7 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
 
       <div className="w-full h-full  mb-5 mt-8">
         <div className="h-full mr-5">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
             {currentItems.map((offer, index) => (
               <div
                 key={index}
@@ -192,7 +192,7 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
 
                 <div className="flex sm:justify-center justify-start md:justify-start bg-slate-200 relative">
                   <div className="flex flex-row  h-16 justify-center text-center bg-yellow-300 w-16  rounded-l-xl rounded-b-full pb-5">
-                    <p className="mt-2 -ml-1 text-black text-base font-semibold">
+                    <p className="mt-2 -ml-1 text-black text-sm md:text-base font-semibold">
                       {offer.discount}% Off
                     </p>
                   </div>

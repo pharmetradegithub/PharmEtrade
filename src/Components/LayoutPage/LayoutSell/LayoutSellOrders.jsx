@@ -1,3 +1,7 @@
+
+
+
+
 import React, { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
@@ -8,38 +12,44 @@ import { IoIosArrowRoundDown } from "react-icons/io";
 import { CiSearch, CiMenuKebab } from "react-icons/ci";
 import filter from "../../../assets/Filter_icon.png";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGetOrderBySellerId, fetchOrderDownloadInvoice, fetchOrderInvoice, fetchOrderView, orderStatusUpdateApi } from "../../../Api/OrderApi";
+import {
+  fetchGetOrderBySellerId,
+  fetchOrderDownloadInvoice,
+  fetchOrderInvoice,
+  fetchOrderView,
+  orderStatusUpdateApi,
+} from "../../../Api/OrderApi";
 import { FaFileInvoice } from "react-icons/fa";
 import { Tooltip } from "@mui/material";
-import eye from '../../../assets/eye.png'
-import Invoice from '../../../assets/Icons/Invoice.png'
-import download from '../../../assets/Icons/download.png'
+import eye from "../../../assets/eye.png";
+import Invoice from "../../../assets/Icons/Invoice.png";
+import download from "../../../assets/Icons/download.png";
 import wrong from "../../../assets/Icons/wrongred.png";
 import Pagination from "../../Pagination";
 import { MasterOrderStatusGetAll } from "../../../Api/MasterDataApi";
 
-
-
 function LayoutSellOrders() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
   const [searchQuery, setSearchQuery] = useState("");
-  const SellerOrder = useSelector((state) => state.order.OrderBySellerId)
-  console.log("sellerOrder---->", SellerOrder)
+  const SellerOrder = useSelector((state) => state.order.OrderBySellerId);
+  console.log("sellerOrder---->", SellerOrder);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
-  const ordered = useSelector((state) => state.order.orderView)
-  console.log("orderedview-->", ordered)
-  const orderStatusGetAll = useSelector((state) => state.master.orderStatusGetAll)
-  console.log("statusGetAll", orderStatusGetAll)
+  const ordered = useSelector((state) => state.order.orderView);
+  console.log("orderedview-->", ordered);
+  const orderStatusGetAll = useSelector(
+    (state) => state.master.orderStatusGetAll
+  );
+  console.log("statusGetAll", orderStatusGetAll);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
   useEffect(() => {
-    dispatch(MasterOrderStatusGetAll())
-  }, [dispatch])
+    dispatch(MasterOrderStatusGetAll());
+  }, [dispatch]);
 
-  const localData = localStorage.getItem("userId")
+  const localData = localStorage.getItem("userId");
   const products = [
     {
       id: "000",
@@ -62,23 +72,69 @@ function LayoutSellOrders() {
   ];
 
   const stats = [
-    { label: "Total Orders", value: SellerOrder ? SellerOrder.length : 0, percentage: SellerOrder ? ((SellerOrder.length - 100) / 100 * 100).toFixed(2) : 0, },
-    { label: "Total Products", value: SellerOrder ? SellerOrder.length : 0, percentage: SellerOrder ? ((SellerOrder.length - 100) / 100 * 100).toFixed(2) : 0, },
+    {
+      label: "Total Orders",
+      value: SellerOrder ? SellerOrder.length : 0,
+      percentage: SellerOrder
+        ? (((SellerOrder.length - 100) / 100) * 100).toFixed(2)
+        : 0,
+    },
+    {
+      label: "Total Products",
+      value: SellerOrder ? SellerOrder.length : 0,
+      percentage: SellerOrder
+        ? (((SellerOrder.length - 100) / 100) * 100).toFixed(2)
+        : 0,
+    },
     {
       label: "Base Amount",
-      value: `$${SellerOrder ? SellerOrder.reduce((total, order) => total + (order.baseAmount || 0), 0).toFixed(2) : 0.00}`,
+      value: `$${
+        SellerOrder
+          ? SellerOrder.reduce(
+              (total, order) => total + (order.baseAmount || 0),
+              0
+            ).toFixed(2)
+          : 0.0
+      }`,
       percentage: SellerOrder
-        ? Math.floor(((Math.floor(SellerOrder.reduce((total, order) => total + (order.baseAmount || 0), 0)) - 1500) / 1500) * 100)
+        ? Math.floor(
+            ((Math.floor(
+              SellerOrder.reduce(
+                (total, order) => total + (order.baseAmount || 0),
+                0
+              )
+            ) -
+              1500) /
+              1500) *
+              100
+          )
         : 0,
     },
     {
       label: "Purchase Amount",
-      value: `$${SellerOrder ? SellerOrder.reduce((total, order) => total + (order.totalAmount || 0), 0).toFixed(2) : 0.00}`,
+      value: `$${
+        SellerOrder
+          ? SellerOrder.reduce(
+              (total, order) => total + (order.totalAmount || 0),
+              0
+            ).toFixed(2)
+          : 0.0
+      }`,
       // `$${SellerOrder
       //   ? Math.floor(SellerOrder.reduce((total, order) => total + (order.totalAmount || 0), 0) .toFixed(2) : 0.00)
       //   : 0}`,
       percentage: SellerOrder
-        ? Math.floor(((Math.floor(SellerOrder.reduce((total, order) => total + (order.totalAmount || 0), 0)) - 2000) / 2000) * 100)
+        ? Math.floor(
+            ((Math.floor(
+              SellerOrder.reduce(
+                (total, order) => total + (order.totalAmount || 0),
+                0
+              )
+            ) -
+              2000) /
+              2000) *
+              100
+          )
         : 0,
     },
   ];
@@ -90,14 +146,14 @@ function LayoutSellOrders() {
   // );
 
   const pathname = location.pathname; // e.g., /layout/sellorders/123
-  console.log("pathname-->", pathname)
-  const parts = pathname.split('/'); // ['layout', 'sellorders', '123']
-  console.log("parts--->", parts)
+  console.log("pathname-->", pathname);
+  const parts = pathname.split("/"); // ['layout', 'sellorders', '123']
+  console.log("parts--->", parts);
   const orderSellerId = parts[2]; // Assuming '123' is the seller ID
-  console.log("orderSeller-->", orderSellerId)
+  console.log("orderSeller-->", orderSellerId);
 
-  const [modal, setModal] = useState(false)
-  const [orderID, setOrderID] = useState(null)
+  const [modal, setModal] = useState(false);
+  const [orderID, setOrderID] = useState(null);
 
   useEffect(() => {
     const fetchGetOrder = async () => {
@@ -112,15 +168,15 @@ function LayoutSellOrders() {
   }, [user, orderSellerId, dispatch, isModalOpen]);
 
   const handleClickView = async (orderId) => {
-    setModal(true)
-    await dispatch(fetchOrderView(orderId))
-    setOrderID(orderId)
-  }
+    setModal(true);
+    await dispatch(fetchOrderView(orderId));
+    setOrderID(orderId);
+  };
 
   const handleClickInvoice = async () => {
     // console.log("ordersdf", ordered?.orderId)
-    await dispatch(fetchOrderInvoice(orderID))
-  }
+    await dispatch(fetchOrderInvoice(orderID));
+  };
 
   // const handleDownload = (orderId) => {
   //   dispatch(fetchOrderDownloadInvoice(orderId))
@@ -132,8 +188,8 @@ function LayoutSellOrders() {
   // const currentItems = SellerOrder ? SellerOrder.slice(indexOfFirstItem, indexOfLastItem) : [];
   const currentItems = SellerOrder
     ? SellerOrder.slice(indexOfFirstItem, indexOfLastItem).sort(
-      (a, b) => new Date(b.orderDate) - new Date(a.orderDate)
-    )
+        (a, b) => new Date(b.orderDate) - new Date(a.orderDate)
+      )
     : [];
   const totalPages = Math.ceil((SellerOrder?.length || 0) / itemsPerPage);
 
@@ -143,8 +199,6 @@ function LayoutSellOrders() {
   //     await dispatch(orderStatusUpdateApi(orderId, statusId));
   //   }
   // };
-
-
 
   // This function is triggered when the user selects a new status
   const handleStatusChange = (product, statusId) => {
@@ -157,11 +211,13 @@ function LayoutSellOrders() {
   const handleConfirm = async () => {
     if (selectedOrder && selectedStatus) {
       // Update the status through the API only after confirmation
-      await dispatch(orderStatusUpdateApi(selectedOrder?.orderId, selectedStatus));
+      await dispatch(
+        orderStatusUpdateApi(selectedOrder?.orderId, selectedStatus)
+      );
       setIsModalOpen(false); // Close the modal after confirmation
     }
   };
-  const [comment, setComment] = useState('')
+  const [comment, setComment] = useState("");
 
   // Handle cancelling the action (No)
   const handleCancel = () => {
@@ -169,25 +225,26 @@ function LayoutSellOrders() {
     setComment(""); // Reset comment
   };
   return (
-
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
       {isModalOpen && (
         <div
-          className="fixed top-0 left-25 w-[90%] h-full flex justify-center items-center bg-slate-600 bg-opacity-20"
+          className="fixed top-0 left-25 w-[70%] sm:w-[90%] h-full flex justify-center items-center bg-slate-600 bg-opacity-20"
           role="dialog"
           aria-modal="true"
         >
-          <div className="w-96 h-44 bg-white rounded-md shadow-md flex flex-col justify-center">
+          <div className="w-full sm:w-96 h-44 bg-white rounded-md shadow-md flex flex-col justify-center">
             <div className="flex justify-end  ">
-              <button className="w-5 p-1 mx-2 mt-3" onClick={handleCancel}>
+              <button
+                className="w-5 p-1 mx-2 sm:mt-3 mt-5"
+                onClick={handleCancel}
+              >
                 <img src={wrong} className="w-6 h-4" />
               </button>
             </div>
-            <h1 className="text-black text-center mt-2">
+            <h1 className="text-black text-center mt-0">
               Are you sure you want to update the status?
             </h1>
             <div className="flex justify-center">
-
               <textarea
                 type="text"
                 className="border w-72 p-2 h-10 mt-3 rounded-md text-left"
@@ -196,7 +253,7 @@ function LayoutSellOrders() {
                 onChange={(e) => setComment(e.target.value)}
               />
             </div>
-            <div className="flex justify-around mt-6 mb-5">
+            <div className="flex justify-around sm:mt-6 mt-2 mb-5">
               <button
                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                 onClick={handleCancel}
@@ -212,9 +269,8 @@ function LayoutSellOrders() {
             </div>
           </div>
         </div>
-
       )}
-   
+
       {modal && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
@@ -222,7 +278,9 @@ function LayoutSellOrders() {
         >
           <div
             className="bg-white p-6 rounded-lg shadow-lg max-w-4xl w-full h-[85%] flex flex-col"
-            onClick={(e) => e.stopPropagation()} /* Stop click from closing modal */
+            onClick={(e) =>
+              e.stopPropagation()
+            } /* Stop click from closing modal */
           >
             {/* Close button */}
             <button
@@ -240,11 +298,21 @@ function LayoutSellOrders() {
 
             {/* Buttons at the bottom */}
             <div className="flex justify-between mt-4 pt-4 border-t border-gray-200">
-              <button className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400 cursor-pointer" onClick={() => setModal(false)}>
+              <button
+                className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400 cursor-pointer"
+                onClick={() => setModal(false)}
+              >
                 Cancel
               </button>
-              <button className="bg-blue-500 text-black py-2 px-4 rounded hover:bg-blue-600 cursor-pointer" onClick={handleClickInvoice}>
-                <img src={Invoice} alt="Invoice" className="inline w-6 h-6 mr-2" />
+              <button
+                className="bg-blue-500 text-black py-2 px-4 rounded hover:bg-blue-600 cursor-pointer"
+                onClick={handleClickInvoice}
+              >
+                <img
+                  src={Invoice}
+                  alt="Invoice"
+                  className="inline w-6 h-6 mr-2"
+                />
                 Send Invoice
               </button>
             </div>
@@ -253,13 +321,15 @@ function LayoutSellOrders() {
       )}
       <div className="w-[95%] h-full mt-4">
         <div className="flex justify-between">
-          <h1 className="text-[22px] text-blue-900 font-semibold">List of Orders</h1>
+          <h1 className="text-[22px] text-blue-900 font-semibold">
+            List of Orders
+          </h1>
           {/* <button className="bg-blue-900 flex items-center text-white p-2 text-[15px] rounded-md">
             <FaPlus /> Add New Product
           </button> */}
         </div>
 
-        <div className="flex flex-wrap my-4 gap-2 -ml-8 justify-normal items-center p-4">
+        <div className="flex flex-wrap my-4 gap-2 -ml-4 justify-normal items-center p-4">
           {stats.map((stat, index) => (
             <div
               key={index}
@@ -321,101 +391,182 @@ function LayoutSellOrders() {
         </div>
 
         <div className="border rounded-md text-[15px] bg-white mt-4">
-          <table className="w-full">
-            <thead className="bg-blue-900 text-white">
-              <tr className="border-b-2">
-                <th className="px-4 py-2 text-left">Order ID</th>
-                <th className="px-4 py-2 text-left">Thumbnail</th>
-                <th className="px-4 py-2 text-left">Product Name</th>
-                <th className="px-4 py-2 text-left">Purchased On</th>
-                <th className="px-4 py-2 text-right">Amount</th>
-                <th className="px-4 py-2 text-left">Customer</th>
-                <th className="px-4 py-2 text-left"> Order Status</th>
-                <th className="px-4 py-2 text-left">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* {(() => {
-                const rows = [];
-                for (let i = 0; i < filteredProducts.length; i++) {
-                  rows.push(
-                    <tr key={i} className="border-b">
-                      <td className="px-4 py-2">{[i + 1]}</td>
-                      <td className="px-4 py-2">{filteredProducts?.orderDate}</td>
-                      <td className="px-4 py-2">{filteredProducts?.productName}</td>
-                      <td className="px-4 py-2">{filteredProducts?.totalAmount}</td>
-                      <td className="px-4 py-2">{filteredProducts?.customerName}</td>
-                      <td className="px-4 py-2">{filteredProducts?.status}</td>
-                      <td className="px-4 py-2">view order</td>
-                    </tr>
-                  );
-                }
-                return rows;
-              })()}
-            </tbody> */}
-
+          <div className="overflow-x-auto">
+            <div className="block lg:hidden md:hidden ">
+              {/* Mobile View: Card layout */}
               {Array.isArray(currentItems) && currentItems.length > 0 ? (
                 currentItems.map((product, index) => (
-                  <tr key={product.productId} className="border-b">
-                    <td className="px-4 py-2">{indexOfFirstItem + index + 1}</td>
-                    <td className="px-4 py-2"><img className="w-10 h-10" src={product.imageUrl} /></td>
-                    <td className="px-4 py-2">{product?.productName}</td>
-                    <td className="px-4 py-2">{new Date(product.orderDate).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: '2-digit',
-                      day: '2-digit',
-                    }).replace(/\//g, '-')}</td>
-                    <td className="text-right px-4 py-2">${product?.totalAmount.toFixed(2)}</td>
-                    <td className="px-4 py-2">{product?.customerName}</td>
-                    <td className="px-4 py-2 cursor-pointer">
-                      {/* <select>
-                        <option value="approve">Accepted</option>
-                        <option value="Reject">Rejected</option>
-                        <option value="Shipped">Ready to Ship</option>
-                        <option value="Shipped"> Shipped</option>
-
-                        <option value="Delivered">Delivered</option>
-                      </select> */}
-                      <select className="cursor-pointer"
-                        disabled={!Array.isArray(orderStatusGetAll) || orderStatusGetAll.length === 0}
-                        onChange={(e) => handleStatusChange(product, e.target.value)} // Trigger handleStatus on change
-                        value={product?.orderStatusId} // Set the current status as the selected value
+                  <div
+                    key={product.productId}
+                    className="border rounded-lg shadow-md p-4 mb-4 bg-white"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <h2 className="text-lg font-bold">
+                        Order ID: {indexOfFirstItem + index + 1}
+                      </h2>
+                      <img
+                        className="w-10 h-10"
+                        src={product.imageUrl}
+                        alt="Product Thumbnail"
+                      />
+                    </div>
+                    <p className="mb-2">
+                      <span className="font-semibold">Product Name:</span>{" "}
+                      {product?.productName}
+                    </p>
+                    <p className="mb-2">
+                      <span className="font-semibold">Purchased On:</span>{" "}
+                      {new Date(product.orderDate)
+                        .toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                        })
+                        .replace(/\//g, "-")}
+                    </p>
+                    <p className="mb-2">
+                      <span className="font-semibold">Amount:</span> $
+                      {product?.totalAmount.toFixed(2)}
+                    </p>
+                    <p className="mb-2">
+                      <span className="font-semibold">Customer:</span>{" "}
+                      {product?.customerName}
+                    </p>
+                    <div className="mb-2">
+                      <span className="font-semibold">Order Status:</span>
+                      <select
+                        className="sm:ml-2 m-0 p-1 border rounded cursor-pointer"
+                        disabled={
+                          !Array.isArray(orderStatusGetAll) ||
+                          orderStatusGetAll.length === 0
+                        }
+                        onChange={(e) =>
+                          handleStatusChange(product, e.target.value)
+                        }
+                        value={product?.orderStatusId}
                       >
-                        {Array.isArray(orderStatusGetAll) && orderStatusGetAll.length > 0 &&
+                        {Array.isArray(orderStatusGetAll) &&
+                          orderStatusGetAll.length > 0 &&
                           orderStatusGetAll.map((item) => (
-                            <option className="cursor-pointer" key={item.statusId} value={item.statusId}>
+                            <option key={item.statusId} value={item.statusId}>
                               {item.statusDescription}
                             </option>
-                          ))
-                        }
+                          ))}
                       </select>
-
-
-                    </td>
-                    <td className="px-4 py-2 cursor-pointer flex gap-1">
-                      <Tooltip title="ViewInvoice" placement="top">
-                        <img src={eye} className="w-5 h-5" onClick={() => handleClickView(product?.orderId)} />
-                        {/* <FaFileInvoice className="w-5 h-5"/> */}
+                    </div>
+                    <div className="flex gap-2">
+                      <Tooltip title="View Invoice" placement="top">
+                        <img
+                          src={eye}
+                          className="w-5 h-5 cursor-pointer"
+                          onClick={() => handleClickView(product?.orderId)}
+                        />
                       </Tooltip>
-                      {/* <Tooltip title="Invoice" placement="top">
-                      <img src={Invoice} className="w-5 h-5" onClick={() => handleClickInvoice(product?.orderId)}/>
-                      {/* <FaFileInvoice className="w-5 h-5"/> 
-                      </Tooltip> */}
                       <Tooltip title="Download" placement="top">
-                        <img src={download} className="w-5 h-5" />
+                        <img
+                          src={download}
+                          className="w-5 h-5 cursor-pointer"
+                        />
                       </Tooltip>
-                    </td>
-                  </tr>
+                    </div>
+                  </div>
                 ))
               ) : (
-                <tr>
-                  <td colSpan="7" className="text-center py-4">
-                    No Orders available
-                  </td>
-                </tr>
+                <p className="text-center text-gray-500">No Orders available</p>
               )}
-            </tbody>
-          </table>
+            </div>
+
+            <div className="hidden lg:block md:block">
+              {/* Desktop View: Table layout */}
+              <table className="w-full">
+                <thead className="bg-blue-900 text-white">
+                  <tr className="border-b-2">
+                    <th className="px-4 py-2 text-left">Order ID</th>
+                    <th className="px-4 py-2 text-left">Thumbnail</th>
+                    <th className="px-4 py-2 text-left">Product Name</th>
+                    <th className="px-4 py-2 text-left">Purchased On</th>
+                    <th className="px-4 py-2 text-right">Amount</th>
+                    <th className="px-4 py-2 text-left">Customer</th>
+                    <th className="px-4 py-2 text-left">Order Status</th>
+                    <th className="px-4 py-2 text-left">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Array.isArray(currentItems) && currentItems.length > 0 ? (
+                    currentItems.map((product, index) => (
+                      <tr key={product.productId} className="border-b">
+                        <td className="px-4 py-2">
+                          {indexOfFirstItem + index + 1}
+                        </td>
+                        <td className="px-4 py-2">
+                          <img className="w-10 h-10" src={product.imageUrl} />
+                        </td>
+                        <td className="px-4 py-2">{product?.productName}</td>
+                        <td className="px-4 py-2">
+                          {new Date(product.orderDate)
+                            .toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "2-digit",
+                              day: "2-digit",
+                            })
+                            .replace(/\//g, "-")}
+                        </td>
+                        <td className="text-right px-4 py-2">
+                          ${product?.totalAmount.toFixed(2)}
+                        </td>
+                        <td className="px-4 py-2">{product?.customerName}</td>
+                        <td className="px-4 py-2">
+                          <select
+                            className="cursor-pointer"
+                            disabled={
+                              !Array.isArray(orderStatusGetAll) ||
+                              orderStatusGetAll.length === 0
+                            }
+                            onChange={(e) =>
+                              handleStatusChange(product, e.target.value)
+                            }
+                            value={product?.orderStatusId}
+                          >
+                            {Array.isArray(orderStatusGetAll) &&
+                              orderStatusGetAll.length > 0 &&
+                              orderStatusGetAll.map((item) => (
+                                <option
+                                  key={item.statusId}
+                                  value={item.statusId}
+                                >
+                                  {item.statusDescription}
+                                </option>
+                              ))}
+                          </select>
+                        </td>
+                        <td className="px-4 py-2 flex gap-1">
+                          <Tooltip title="View Invoice" placement="top">
+                            <img
+                              src={eye}
+                              className="w-5 h-5 cursor-pointer"
+                              onClick={() => handleClickView(product?.orderId)}
+                            />
+                          </Tooltip>
+                          <Tooltip title="Download" placement="top">
+                            <img
+                              src={download}
+                              className="w-5 h-5 cursor-pointer"
+                            />
+                          </Tooltip>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="7" className="text-center py-4">
+                        No Orders available
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
         <Pagination
           indexOfFirstItem={indexOfFirstItem}

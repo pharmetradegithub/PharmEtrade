@@ -274,6 +274,23 @@ export const fetchDeactiveProduct = (productID) => {
   };
 };
 
+export const fetchActivateProduct = (productID) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`/api/Product/ActivateProduct?productId=${productID}`);
+      if (response.status === 200) {
+        const activeProduct = response.data.result;
+        console.log('Dispatching Active Product action:', activeProduct); // Log before dispatch
+        dispatch(setActiveProduct(activeProduct)); // Dispatch action
+      } else {
+        console.error('Failed to fetch Active Product:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching Active Product:', error);
+    }
+  };
+};
+
 // export const fetchDeleteProduct = (productID) => {
 //   return async (dispatch) => {
 //     try {
