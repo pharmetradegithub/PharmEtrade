@@ -620,7 +620,7 @@ const EditSellerList = () => {
     };
 
     CustomerActivateDeactivateAPI();
-  }, [CustomerId]);
+  }, [CustomerId, historyData]);
 
   // console.log("ppppp", historyData);
 
