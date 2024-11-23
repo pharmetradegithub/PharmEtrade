@@ -45,18 +45,37 @@ export const ProductPriceValidation = (formData) => {
     }
 
 
-    if (!formData.salePrice ) {  // Check for positive sale price
-        console.log(formData.salePriceTo,formData.salePriceForm);
+    // if ( formData.salePrice) {  // Check for positive sale price
+    //     console.log(formData.salePriceTo,formData.salePriceForm);
+    //     if (!formData.salePriceForm || formData.salePriceForm.trim() === "") {
+    //         errors.salePriceForm = "Sale price 'from' date is required.";
+    //     }
+    //     if (!formData.salePriceTo || formData.salePriceTo.trim() === "") {
+    //         errors.salePriceTo = "Sale price 'to' date is required.";
+    //     }
+    //     if (formData?.salePriceTo<formData.salePriceForm){
+    //         errors.salePriceForm = "Sale price 'from' date must Less than Sale Price To.";
+    //     }
+    // }
+
+    if (formData.salePrice > 0) {  // Check if sale price is positive
         if (!formData.salePriceForm || formData.salePriceForm.trim() === "") {
             errors.salePriceForm = "Sale price 'from' date is required.";
         }
         if (!formData.salePriceTo || formData.salePriceTo.trim() === "") {
             errors.salePriceTo = "Sale price 'to' date is required.";
         }
-        if (formData?.salePriceTo<formData.salePriceForm){
-            errors.salePriceForm = "Sale price 'from' date must Less than Sale Price To.";
+    }
+    
+    // Separate condition to validate the date range, regardless of salePrice value
+    if (formData.salePriceForm && formData.salePriceTo) {
+        if (new Date(formData.salePriceTo) < new Date(formData.salePriceForm)) {
+            errors.salePriceForm = "Sale price 'from' date must be earlier than 'to' date.";
         }
     }
+    
+
+
 
     
     if (formData.upnMemberPrice === null || formData.upnMemberPrice === undefined || formData.upnMemberPrice <= 0) {
