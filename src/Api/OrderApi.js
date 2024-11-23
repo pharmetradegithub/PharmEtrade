@@ -241,10 +241,10 @@ export const orderGetByIdApi = (orderId) => {
   }
 }
 
-export const orderStatusUpdateApi = (orderId, statusId) => {
+export const orderStatusUpdateApi = (orderId,customerId, statusId, comment) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`/api/Orders/UpdateOrderStatus?orderId=${orderId}&statusId=${statusId}`);
+      const response = await axios.post(`/api/Orders/UpdateOrderStatus?orderId=${orderId}&&customerId=${customerId}&statusId=${statusId}&comments=${encodeURIComponent(comment)}`);
       console.log("orderStatusUpdateApi-->", response);
 
       if (response.status === 200) {

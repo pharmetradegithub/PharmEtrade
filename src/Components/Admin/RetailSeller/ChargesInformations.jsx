@@ -143,6 +143,7 @@ import {
   TaxInfoEdit,
 } from "../../../Api/TaxInfoApi";
 import Notification from "../../Notification";
+import { AdminChargesGetApi, AdminChargesInformationAdd } from "../../../Api/AdminApi";
 
 // const TaxInformation = () => {
 //   const getproductSpecialOffer = useSelector((state) => state.product.productSpecialOffer)
@@ -546,6 +547,9 @@ import Notification from "../../Notification";
 //   dispatch(TaxInfoEdit(payloadEdit))
 // };
 const ChargesInformations = () => {
+  const searchParams = new URLSearchParams(location.search);
+  const CustomerId = searchParams.get("CustomerId");
+  console.log("customerId--->", CustomerId)
   const getproductSpecialOffer = useSelector(
     (state) => state.product.productSpecialOffer
   );
@@ -682,6 +686,22 @@ const ChargesInformations = () => {
 //     dispatch(fetchProductOffer());
 //   }, [dispatch]);
 
+  console.log("cccc-->", category)
+  console.log("taxxxxx", taxPercentage)
+  const handleAddOrSave = async () => {
+    const payload = {
+      sellerId: CustomerId,
+      chargeTypeId: category,
+      chargePercentage: taxPercentage
+    }
+    await AdminChargesInformationAdd(payload)
+  }
+  useEffect(() => {
+    const data = async () => {
+      await AdminChargesGetApi(CustomerId)
+    }
+    data()
+  }, [])
   return (
     <div className="w-[90%]">
       {/* {showSuccessMessage && (
@@ -720,13 +740,19 @@ const ChargesInformations = () => {
           <div>
             <select
               className="border rounded-md h-11"
-              value={category} // Set category in select box
-              onChange={(e) => setCategory(Number(e.target.value))} // Update category when changed
+              value={category} // The numeric ID is stored here
+              onChange={(e) => {
+                console.log("Selected value:", e.target.value); // Debug selected value
+                const value = e.target.value;
+                setCategory(value ? Number(value) : ""); // Avoid NaN
+              }}// Update category when changed
               disabled={!isEditable} // Enable/disable based on edit mode
             >
               <option value="">Select a category</option>
-              <option value="credit card charges">Credit card charges</option>
-              <option value="pharmetrade charges">PharmEtrade charges</option>
+              <option value={1}>Credit card charges</option>
+              <option value={2}>PharmEtrade charges</option>
+              {/* <option value="credit card charges">Credit card charges</option>
+              <option value="pharmetrade charges">PharmEtrade charges</option> */}
 
               {/* {getproductSpecialOffer.map((item) => (
                 <option
@@ -762,7 +788,7 @@ const ChargesInformations = () => {
 
           <button
             className="bg-blue-900 text-white w-16 rounded-lg h-8"
-            // onClick={handleAddOrSave}
+            onClick={handleAddOrSave}
             disabled={!isEditable} // Disable if not in edit mode
           >
             {editingIndex !== null ? "Save" : "ADD"}

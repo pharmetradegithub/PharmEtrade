@@ -222,6 +222,20 @@ const LayoutSellerDashboard = () => {
     Daily: 'https://th.bing.com/th/id/OIP.aoXhfbHqx42fr7fUzSHh4gHaEK?w=286&h=180&c=7&r=0&o=5&pid=1.7',
   };
 
+
+  const getHeading = () => {
+    switch (user?.customerTypeId) {
+      case 1:
+        return 'Retail Pharmacy Dashboard';
+      case 2:
+        return 'General Merchandise Seller Dashboard';
+      case 3:
+        return 'Pharmacy Distributor Dashboard';
+      default:
+        return 'Seller Dashboard';
+    }
+  };
+
   // const CircleProgress = ({ percentage, color }) => {
   //   const radius = 20;
   //   const strokeWidth = 4;
@@ -476,7 +490,8 @@ const LayoutSellerDashboard = () => {
       <div className="w-[95%] sm:w-full h-full mt-8 ">
         <div className="flex justify-center sm:justify-between">
           <h1 className="text-[22px] text-blue-900 font-semibold ml-2">
-            Seller Dashboard
+            {/* Seller Dashboard */}
+            {getHeading()}
           </h1>
         </div>
 

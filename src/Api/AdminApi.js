@@ -43,3 +43,30 @@ export const fetchAdminLogin = (userId) => {
     }
   }
 }
+
+export const AdminChargesInformationAdd = async (payload) => {
+  try {
+    const response = await axios.post('/api/Admin/charges/Add', payload)
+    console.log("changing-->", response)
+    if (response.status === 200) {
+      return response.data.result;
+    } else {
+      console.error('Failed to fetch login:', response.data.message);
+    }
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
+export const AdminChargesGetApi = async (customerId) => {
+  try {
+    const response = await axios.get(`/api/Admin/charges/GetBySeller?sellerId=${customerId}`)
+    if (response.status === 200) {
+      return response.data.result;
+    } else {
+      console.error('Failed to fetch charges:', response.data.message);
+    }
+  } catch (error) {
+    console.error('Error fetching changes:', error);
+  }
+}

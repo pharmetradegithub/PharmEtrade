@@ -1372,9 +1372,16 @@ const ProccedtoShipment = ({
       await ShipmentChargesApi(payload)
       console.log("Payload:", payload);
 
+      // if (totalNetCharge > 0) {
+      //   navigate(
+      //     `/checkout?total=${totalNetCharge.toFixed(
+      //       2
+      //     )}&shipmentSubType=${encodeURIComponent(selectedServiceName)}`
+      //   );
       if (totalNetCharge > 0) {
+        const parsedTotal = parseFloat(total);
         navigate(
-          `/checkout?total=${totalNetCharge.toFixed(
+          `/checkout?total=${parsedTotal.toFixed(
             2
           )}&shipmentSubType=${encodeURIComponent(selectedServiceName)}`
         );

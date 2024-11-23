@@ -45,12 +45,16 @@ export const ProductPriceValidation = (formData) => {
     }
 
 
-    if (formData.salePrice > 0) {  // Check for positive sale price
+    if (!formData.salePrice ) {  // Check for positive sale price
+        console.log(formData.salePriceTo,formData.salePriceForm);
         if (!formData.salePriceForm || formData.salePriceForm.trim() === "") {
             errors.salePriceForm = "Sale price 'from' date is required.";
         }
         if (!formData.salePriceTo || formData.salePriceTo.trim() === "") {
             errors.salePriceTo = "Sale price 'to' date is required.";
+        }
+        if (formData?.salePriceTo<formData.salePriceForm){
+            errors.salePriceForm = "Sale price 'from' date must Less than Sale Price To.";
         }
     }
 

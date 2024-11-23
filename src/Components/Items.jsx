@@ -78,6 +78,7 @@ function Items({
   quantities,
 }) {
   const user = useSelector((state) => state.user.user);
+  console.log("iiii",user)
   const wishlist = useSelector((state) => state.wishlist.wishlist);
   const cartList = useSelector((state) => state.cart.cart);
   const [productLink, setProductLink] = useState("");
@@ -344,42 +345,44 @@ function Items({
   };
   // console.log("productDataItem-->", prod);
   // const userId = localStorage.getItem("userId");
-  const payload = {
-    orderId: "",
-    customerId: user.customerId,
-    totalAmount: total?.toFixed(2),
-    orderDate: currentDate.toISOString(),
-    shippingMethodId: 1,
-    orderStatusId: 7,
-    trackingNumber: "",
-    products: cartItems.map((item) => {
-      const currentDate = new Date();
-      const saleStartDate = new Date(item.product?.salePriceValidFrom);
-      const saleEndDate = new Date(item.product?.salePriceValidTo);
+  // const currentDate = new Date();
+  // const payload = {
+  //   orderId: "",
+  //   customerId: user.customerId,
+  //   // totalAmount: total?.toFixed(2),
+  //   totalAmount: quantity * prod?.salePrice,
+  //   orderDate: currentDate.toISOString(),
+  //   shippingMethodId: 1,
+  //   orderStatusId: 7,
+  //   trackingNumber: "",
+  //   products: cartItems.map((item) => {
+  //     const currentDate = new Date();
+  //     const saleStartDate = new Date(item.product?.salePriceValidFrom);
+  //     const saleEndDate = new Date(item.product?.salePriceValidTo);
 
-      // Determine the price based on conditions
-      let pricePerProduct;
-      if (user?.isUPNMember === 1 && item.product?.upnMemberPrice > 0) {
-        pricePerProduct = item.product.upnMemberPrice;
-      } else if (
-        item.product?.salePrice > 0 &&
-        currentDate >= saleStartDate &&
-        currentDate <= saleEndDate
-      ) {
-        pricePerProduct = item.product.salePrice;
-      } else {
-        pricePerProduct = item.product.unitPrice;
-      }
+  //     // Determine the price based on conditions
+  //     let pricePerProduct;
+  //     if (user?.isUPNMember === 1 && item.product?.upnMemberPrice > 0) {
+  //       pricePerProduct = item.product.upnMemberPrice;
+  //     } else if (
+  //       item.product?.salePrice > 0 &&
+  //       currentDate >= saleStartDate &&
+  //       currentDate <= saleEndDate
+  //     ) {
+  //       pricePerProduct = item.product.salePrice;
+  //     } else {
+  //       pricePerProduct = item.product.unitPrice;
+  //     }
 
-      return {
-        productId: item.product.productID,
-        quantity: item.quantity,
-        pricePerProduct: pricePerProduct?.toFixed(2),
-        sellerId: user.customerId,
-        imageUrl: item.product.imageUrl,
-      };
-    }),
-  };
+  //     return {
+  //       productId: item.product.productID,
+  //       quantity: item.quantity,
+  //       pricePerProduct: pricePerProduct?.toFixed(2),
+  //       sellerId: user.customerId,
+  //       imageUrl: item.product.imageUrl,
+  //     };
+  //   }),
+  // };
   const handleOrder = async () => {
     const currentDate = new Date();
     const cartData = {
@@ -393,24 +396,64 @@ function Items({
     } catch (error) {
       console.error("Error adding product to cart:", error);
     }
-    const payLoad = {
-      // orderId: "0",
-      // customerId: userId,
-      // totalAmount: quantity * prod.salePrice,
-      // orderDate: currentDate.toISOString(),
-      // // orderDateString: currentDate.toDateString(),
-      // // orderTimeString: currentDate.toLocaleTimeString(),
-      // shippingMethodId: 1,
-      // orderStatusId: 1,
-      // trackingNumber: "",
-      // productId: prod.productID,
-      // quantity: quantity,
-      // pricePerProduct: prod.salePrice,
-      // vendorId: prod.sellerId,
+    // const payLoad = {
+    //   // orderId: "0",
+    //   // customerId: userId,
+    //   // totalAmount: quantity * prod.salePrice,
+    //   // orderDate: currentDate.toISOString(),
+    //   // // orderDateString: currentDate.toDateString(),
+    //   // // orderTimeString: currentDate.toLocaleTimeString(),
+    //   // shippingMethodId: 1,
+    //   // orderStatusId: 1,
+    //   // trackingNumber: "",
+    //   // productId: prod.productID,
+    //   // quantity: quantity,
+    //   // pricePerProduct: prod.salePrice,
+    //   // vendorId: prod.sellerId,
 
+    //     orderId: "",
+    //     customerId: user.customerId,
+    //     // totalAmount: total?.toFixed(2),
+    //     totalAmount: quantity * prod?.salePrice,
+    //     orderDate: currentDate.toISOString(),
+    //     shippingMethodId: 1,
+    //     orderStatusId: 7,
+    //     trackingNumber: "",
+    //   products: [
+    //     {
+    //       productId: prod.productID,
+    //       quantity: quantity,
+    //       pricePerProduct: pricePerProduct?.toFixed(2),
+    //       sellerId: prod.sellerId,
+    //       imageUrl: prod.productGallery.imageUrl,
+    //     },
+    //   ],
+    // };
+
+
+
+    // Calculate the price per product based on the conditions
+    let pricePerProduct;
+    const saleStartDate = new Date(prod?.salePriceValidFrom);
+    const saleEndDate = new Date(prod?.salePriceValidTo);
+
+    if (user?.isUPNMember === 1 && prod?.upnMemberPrice > 0) {
+      pricePerProduct = prod.upnMemberPrice;
+    } else if (
+      prod?.salePrice > 0 &&
+      currentDate >= saleStartDate &&
+      currentDate <= saleEndDate
+    ) {
+      pricePerProduct = prod.salePrice;
+    } else {
+      pricePerProduct = prod.unitPrice;
+    }
+
+    // Create the payload
+    const payLoad = {
       orderId: "0",
       customerId: user.customerId,
-      totalAmount: quantity * prod.salePrice,
+      totalAmount: quantity * pricePerProduct,
       orderDate: currentDate.toISOString(),
       shippingMethodId: 1,
       orderStatusId: 1,
@@ -425,7 +468,8 @@ function Items({
         },
       ],
     };
-    navigate(`/checkout?total=${quantity * prod.salePrice.toFixed(2)}`);
+
+    navigate(`/checkout?total=${quantity * pricePerProduct.toFixed(2)}`);
 
     // try {
     //   // await customerOrderApi(payLoad);
@@ -438,7 +482,7 @@ function Items({
     try {
       await dispatch(fetchOrderPlace(payLoad));
       // await dispatch(fetchGetOrder(userId));
-      navigate(`/checkout?total=${quantity * prod.salePrice}`);
+      navigate(`/checkout?total=${quantity * pricePerProduct}`);
     } catch (error) {
       console.log(error);
     }

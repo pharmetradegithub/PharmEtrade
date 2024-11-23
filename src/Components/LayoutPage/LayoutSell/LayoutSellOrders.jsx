@@ -201,23 +201,25 @@ function LayoutSellOrders() {
   // };
 
   // This function is triggered when the user selects a new status
+  const [customerId, setCustomerId] = useState(null);
   const handleStatusChange = (product, statusId) => {
+    setCustomerId(product?.customerId);
     setSelectedOrder(product); // Store the selected product (order) for confirmation
     setSelectedStatus(statusId); // Store the selected status for confirmation
     setIsModalOpen(true); // Open the modal
   };
 
   // Handle confirming the action (Yes)
+  const [comment, setComment] = useState("");
   const handleConfirm = async () => {
     if (selectedOrder && selectedStatus) {
       // Update the status through the API only after confirmation
       await dispatch(
-        orderStatusUpdateApi(selectedOrder?.orderId, selectedStatus)
+        orderStatusUpdateApi(selectedOrder?.orderId, customerId, selectedStatus, comment)
       );
       setIsModalOpen(false); // Close the modal after confirmation
     }
   };
-  const [comment, setComment] = useState("");
 
   // Handle cancelling the action (No)
   const handleCancel = () => {

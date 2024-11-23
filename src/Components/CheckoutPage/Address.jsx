@@ -4094,11 +4094,11 @@ console.log("pincode---->", pincodes)
                         <p>Shipping:</p>
                         <p>${Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0).toFixed(2)}</p>
                       </div>
-                      <div className="flex justify-between text-sm border-b my-2">
+                      <div className="flex justify-between text-sm mt-3">
                           <p>Tax :</p>
                           <p>${totalTaxAmount.toFixed(2)}</p>
                         </div>
-                      <div className="flex justify-between text-sm mt-3">
+                      <div className="flex justify-between text-sm  border-b my-2">
                         <p>Total:</p>
                         {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
                         <p>${(validTotal  + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
