@@ -72,7 +72,7 @@ const LayoutDashboard = () => {
     <div className='w-full h-full bg-gray-100 flex items-center justify-center overflow-y-scroll'>
       <div className='w-[97%] h-full mt-4 mx-5 '>
         <div>
-          <h1 className='text-2xl text-blue-900 font-semibold'>Customer dashboard</h1>
+          <h1 className='text-2xl text-blue-900 font-semibold'>Retail Customer dashboard</h1>
         </div>
         <div className='flex justify-center items-center flex-wrap  gap-4 w-full mt-8 border p-4 rounded-lg shadow-lg'>
 
