@@ -152,6 +152,7 @@ import ProccedtoShipment from "./Components/ProccedtoShipment";
 import LayoutTerms from "./Components/LayoutTerms";
 import Reports from "./Components/Admin/Reports/Reports";
 import LayoutBuyReturn from "./Components/LayoutPage/LayoutBuy/LayoutReturn";
+import NotFoundErrorpage from "./NotFoundErrorpage";
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
@@ -529,6 +530,7 @@ function App() {
           <Route path="/user/wishlist" element={<MyWishlist />} />
           <Route path="/user/quote" element={<MyRequestedQuote />} />
         </Route>
+        <Route path="*" element={<NotFoundErrorpage/>}/>
       </Routes>
 
       {/* <ScrollToTop/> */}
