@@ -1,10 +1,4 @@
 
-
-
-
-
-
-
 // import React, { useState, useEffect } from "react";
 // import {
 //   Link,
@@ -2240,7 +2234,8 @@ function Address({ topMargin, totalAmount, amount }) {
 
   // Check if netCharge and total are valid numbers
   const validNetCharge = !isNaN(netCharge) && netCharge !== null ? netCharge : 0.00;
-  const validTotal = !isNaN(total) && total !== null ? total : 0.00;
+  
+
   // const netCharge = searchParams.get("netCharge")
   const [deletePop, setDeletePop] = useState(false);
   const [deleteProduct, setDeleteProduct] = useState(null);
@@ -3431,7 +3426,9 @@ console.log("pincode---->", pincodes)
 
     return total + taxAmount;
   }, 0);
-  
+  const validTotal = !isNaN(total) && total !== null ? total : 0.00;
+  // const totalWithTax = validTotal * totalTaxAmount; // Include tax in the subtotal
+  const totalWithTax = totalTaxAmount > 0 ? validTotal + totalTaxAmount : validTotal;
   // Delete Address Handler
   const handleDeleteAddress = (addressId) => {
     console.log("Opening delete modal for address ID:", addressId);
@@ -4088,7 +4085,7 @@ console.log("pincode---->", pincodes)
                       </div>
                       <div className="flex justify-between text-sm mt-3">
                         <p>Items(s) Subtotal :</p>
-                        <p>${total.toFixed(2)}</p>
+                          <p>${validTotal.toFixed(2)}</p>
                       </div>
                       <div className="flex justify-between text-sm mt-3">
                         <p>Shipping:</p>
@@ -4101,8 +4098,7 @@ console.log("pincode---->", pincodes)
                       <div className="flex justify-between text-sm  border-b my-2">
                         <p>Total:</p>
                         {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
-                        <p>${(validTotal  + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
-
+                          <p>${(totalWithTax  + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
                       </div>
                       {/* <div className="flex justify-between text-sm border-b my-2">
                         <p>Promotion Applied :</p>
@@ -4111,7 +4107,7 @@ console.log("pincode---->", pincodes)
                       <div className="flex justify-between text-red-500 font-semibold">
                         <p>Grand Total:</p>
                         {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
-                        <p>${(validTotal  + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
+                          <p>${(totalWithTax  + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
                       </div>
                     </div>
                     </div>

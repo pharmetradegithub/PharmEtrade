@@ -1301,6 +1301,7 @@ const LayoutRelatedProducts = () => {
         categorySpecificationId: formData.categorySpecification,
         ndcupc: formData.ndcUpc,
         productName: formData.productName,
+        isFromRelatedProducts:1
       };
   
       const allProduct = await fetchCriteriaProductsApi(Criteria, "Apply Filter");
