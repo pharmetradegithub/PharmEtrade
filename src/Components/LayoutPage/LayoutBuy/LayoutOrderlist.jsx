@@ -28,7 +28,7 @@ function LayoutOrderList() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [searchResults, setSearchResults] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [orders, setOrders] = useState([]);
   // const localData = localStorage.getItem("userId")
@@ -49,7 +49,7 @@ function LayoutOrderList() {
 
   useEffect(() => {
     if (getOrders) setGetOrder(getOrders);
-  }, [getOrders]);
+  }, [getOrders,searchResults]);
 
   //YEAR  SORTING
 
@@ -58,7 +58,7 @@ function LayoutOrderList() {
       await dispatch(fetchGetOrder(user?.customerId));
     };
     data();
-  }, [dispatch, user?.customerId]);
+  }, [dispatch, user?.customerId,searchResults]);
 
   // Sorting orders by date
   const sortedOrders = Array.isArray(getOrder)
@@ -71,13 +71,14 @@ function LayoutOrderList() {
   const filteredOrders = sortedOrders.filter(
     (order) => new Date(order.orderDate).getFullYear() === selectedYear
   );
-
+  const displayData = searchResults && searchResults.length > 0 ? searchResults : filteredOrders;
   const handleYearChange = (e) => {
     setSelectedYear(Number(e.target.value));
+    setSearchResults(null);
   };
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredOrders.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = displayData.slice(indexOfFirstItem, indexOfLastItem);
 
   const generateYears = (startYear, endYear) => {
     let years = [];
@@ -104,15 +105,37 @@ function LayoutOrderList() {
     }
   };
 
+  // const handleSearchClick = async () => {
+  //   const payload = {
+  //     customerId: user.customerId,
+  //     productName: SearchInput.productName
+
+  //   }
+  //   console.log("SearchInput:", payload); // Check SearchInput value
+  //   try {
+  //     const productsData = await fetchCriteriaProductsApi(payload);
+  //     console.log("API Response:", productsData); // Check API response
+  //     if (productsData) {
+  //       setGetOrder(productsData); // Only set if valid
+  //     } else {
+  //       console.log("No data returned from API.");
+  //     }
+  //   } catch (error) {
+  //     console.log("Error fetching data:", error);
+  //   }
+  // };
+
   const handleSearchClick = async () => {
-    console.log("SearchInput:", SearchInput); // Check SearchInput value
+    const payload = {
+      customerId: user.customerId,
+      productName: SearchInput.productName,
+    };
     try {
-      const productsData = await fetchCriteriaProductsApi(SearchInput);
-      console.log("API Response:", productsData); // Check API response
-      if (productsData) {
-        setGetOrder(productsData); // Only set if valid
+      const productsData = await fetchCriteriaProductsApi(payload);
+      if (productsData && productsData.length > 0) {
+        setSearchResults(productsData); // Store search results
       } else {
-        console.log("No data returned from API.");
+        setSearchResults(null); // No results, reset search results
       }
     } catch (error) {
       console.log("Error fetching data:", error);
@@ -153,6 +176,7 @@ function LayoutOrderList() {
   const [reviewText, setReviewText] = useState("");
   const [image, setImage] = useState(null);
   const [video, setVideo] = useState(null);
+  const [reviewProductId, setReviewProductId] = useState(null);
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
@@ -172,6 +196,11 @@ function LayoutOrderList() {
   const handleNav = (productId) => {
     navigate(`/detailspage/${productId}`);
   };
+
+  const handleReview = (productId) => {
+    setIsOpen(true)
+    setReviewProductId(productId)
+  }
 
   const [orderID, setOrderID] = useState(null);
   const handleClickView = async (orderId) => {
@@ -224,12 +253,13 @@ function LayoutOrderList() {
     message: "",
   });
 
-  const handleAddRating = async (productId) => {
+  const handleAddRating = async () => {
     const date = new Date().toISOString();
 
     const ratingData = {
       ratingId: "",
-      productId: productId,
+      // productId: productId,
+      productId:reviewProductId,
       customerId: user.customerId,
       rating,
       feedback: reviewText,
@@ -696,6 +726,91 @@ function LayoutOrderList() {
     {notification.show && (
       <Notification show={notification.show} message={notification.message} />
     )}
+    {/* review popup */}
+    {isOpen && (
+                         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                           <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+                             <h2 className="text-xl font-semibold text-blue-900 mb-4">
+                               Write a Review
+                             </h2>
+
+                             {/* Text Area */}
+                             <textarea
+                               className="border rounded-lg w-full p-2 mb-4"
+                              rows="4"
+                              placeholder="Write your review..."
+                              value={reviewText}
+                              onChange={(e) => setReviewText(e.target.value)}
+                            ></textarea>
+
+                            {/* Rating Stars */}
+                            <div className="mb-4">
+                              <div className="flex">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                  <svg
+                                    key={star}
+                                    onClick={() => setRating(star)}
+                                    className={`h-6 w-6 cursor-pointer ${
+                                      rating >= star
+                                        ? "text-yellow-500"
+                                        : "text-gray-400"
+                                    }`}
+                                    fill="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path d="M12 .587l3.668 7.568L24 9.423l-6 5.847L19.335 24 12 20.021 4.665 24l1.335-8.73L0 9.423l8.332-1.268L12 .587z" />
+                                  </svg>
+                                ))}
+                              </div>
+                              <p className="text-gray-500 text-sm mt-1">
+                                Rate this product
+                              </p>
+                            </div>
+
+                            {/* Image Upload */}
+                            <div className="mb-4">
+                              <label className="block mb-1 text-gray-700">
+                                Upload Image:
+                              </label>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                className="block w-full text-sm text-gray-900 border rounded-lg cursor-pointer bg-gray-50"
+                              />
+                            </div>
+
+                            {/* Video Upload */}
+                            <div className="mb-4">
+                              <label className="block mb-1 text-gray-700">
+                                Upload Video:
+                              </label>
+                              <input
+                                type="file"
+                                accept="video/*"
+                                onChange={handleVideoChange}
+                                className="block w-full text-sm text-gray-900 border rounded-lg cursor-pointer bg-gray-50"
+                              />
+                            </div>
+
+                            {/* Buttons */}
+                            <div className="flex justify-end space-x-2">
+                              <button
+                                className="border rounded-lg px-4 py-2 bg-red-600 text-white"
+                                onClick={() => setIsOpen(false)}
+                              >
+                                Cancel
+                              </button>
+                              <button
+                                className="bg-blue-900 text-white rounded-lg px-4 py-2"
+                                onClick={() => handleAddRating()}
+                              >
+                                Save
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
     {modal && (
       <div
         className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
@@ -919,7 +1034,8 @@ function LayoutOrderList() {
                     </button>
                     <button
                       className="border rounded-lg p-2 mb-2 hover:bg-gray-400"
-                      onClick={() => setIsOpen(true)}
+                      // onClick={() => setIsOpen(true)}
+                      onClick={() => handleReview(order.productId)}
                     >
                       Write a product review
                     </button>
@@ -942,7 +1058,7 @@ function LayoutOrderList() {
           <Pagination
             indexOfFirstItem={indexOfFirstItem}
             indexOfLastItem={indexOfLastItem}
-            productList={getOrder}
+            productList={displayData}
             itemsPerPage={itemsPerPage}
             setItemsPerPage={setItemsPerPage}
             currentPage={currentPage}
