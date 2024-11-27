@@ -57,6 +57,7 @@ const EditSellerList = () => {
       message: "User Deactivated Successfully!",
     });
     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    setCallHistory((prev) => prev + 1);
   };
 
   const ActivateCustomer = async (customerId, comments) => {
@@ -65,9 +66,31 @@ const EditSellerList = () => {
       show: true,
       message: "User Activated Successfully!",
     });
+
     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    setCallHistory((prev) => prev + 1);
   };
 
+
+  const handleCommentSaveClick = () => {
+    if (comments.trim() === "") {
+      setNotification({
+        show: true,
+        message: "Please add a comment before saving!",
+      });
+  
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      return; // Exit the function early if comments are empty
+    }
+  
+    setNotification({
+      show: true,
+      message: "Comment Saved Successfully!",
+    });
+  
+    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  };
+  
   const [confirmPassword, setConfirmPassword] = useState(""); // State to track user input
 
   const [notes, setNotes] = useState("");
@@ -121,7 +144,12 @@ const EditSellerList = () => {
     email: userdata?.email || "",
     password: userdata?.password || "",
     mobile: userdata?.mobile || "",
-    isUPNMember : userdata?.isUPNMember==null? "":userdata?.isUPNMember==1? "true":"false",
+    isUPNMember:
+      userdata?.isUPNMember == null
+        ? ""
+        : userdata?.isUPNMember == 1
+        ? "true"
+        : "false",
   });
 
   const [userTypeDetails, setUserTypeDetails] = useState({
@@ -131,7 +159,12 @@ const EditSellerList = () => {
     email: userdata?.email || "",
     password: userdata?.password || "",
     mobile: userdata?.mobile || "",
-    isUPNMember : userdata?.isUPNMember==null? "":userdata?.isUPNMember==1? "true":"false",
+    isUPNMember:
+      userdata?.isUPNMember == null
+        ? ""
+        : userdata?.isUPNMember == 1
+        ? "true"
+        : "false",
   });
 
   useEffect(() => {
@@ -151,9 +184,13 @@ const EditSellerList = () => {
       // email: userdata?.email || "",
       // password: userdata?.password || "",
       // mobile: userdata?.mobile || "",
-      isUPNMember : userdata?.isUPNMember==null? "":userdata?.isUPNMember==1? "true":"false",
+      isUPNMember:
+        userdata?.isUPNMember == null
+          ? ""
+          : userdata?.isUPNMember == 1
+          ? "true"
+          : "false",
     });
-
   }, [userdata]);
   console.log(userDetails);
   const handleBusinessPhoneChange = (e) => {
@@ -252,10 +289,10 @@ const EditSellerList = () => {
       password: userDetails.password,
       customerTypeId: userDetails.customerTypeId,
       // accountTypeId: userDetails.accountTypeId,
-      isUPNMember: userTypeDetails.isUPNMember == "true"? 1:0,
-      accountTypeId:userdata.accountTypeId
+      isUPNMember: userTypeDetails.isUPNMember == "true" ? 1 : 0,
+      accountTypeId: userdata.accountTypeId,
     };
-    console.log(usertypeinfo,"usertypeinfo");
+    console.log(usertypeinfo, "usertypeinfo");
     if (usertypeinfo) {
       await UserInfoUpdate(usertypeinfo);
       await RefreshUser();
@@ -621,6 +658,7 @@ const EditSellerList = () => {
   //   };
   //   CustomerActivateDeactivateAPI();
   // }, [CustomerId, historyData]);
+  const [CallHistory, setCallHistory] = useState(0);
   useEffect(() => {
     const CustomerActivateDeactivateAPI = async () => {
       try {
@@ -639,7 +677,7 @@ const EditSellerList = () => {
     };
 
     CustomerActivateDeactivateAPI();
-  }, [CustomerId, historyData]);
+  }, [CustomerId, CallHistory]);
 
   // console.log("ppppp", historyData);
 
@@ -654,7 +692,7 @@ const EditSellerList = () => {
 
   // Function to handle changes in radio button selection
   const handleUpnChange = (event) => {
-    setUserTypeDetails({...userDetails,isUPNMember : event.target.value})
+    setUserTypeDetails({ ...userDetails, isUPNMember: event.target.value });
     setUpnMember(Number(event.target.value)); // Ensure the value is a number (0 or 1)
   };
 
@@ -706,7 +744,6 @@ const EditSellerList = () => {
               Primary
             </h1>
 
-          
             <div
               className={`bg-white border  mx-6 ${
                 isEditable ? "border-blue-900" : "border-gray-400"
@@ -830,22 +867,26 @@ const EditSellerList = () => {
                   {/* Editable dropdown for User Type */}
                   {isUserEditable ? (
                     <FormControl className="ml-3" size="small" fullWidth>
-                    <InputLabel id="customerTypeId-label">User type</InputLabel>
-                    <Select
-                      labelId="customerTypeId-label"
-                      label="User type"
-                      id="customerTypeId"
-                      name="customerTypeId"
-                      value={userDetails.customerTypeId}
-                      onChange={handleUserChange}
-                    >
-                      {Object.entries(customerTypeLabels).map(([key, label]) => (
-                        <MenuItem key={key} value={Number(key)}>
-                          {label}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                      <InputLabel id="customerTypeId-label">
+                        User type
+                      </InputLabel>
+                      <Select
+                        labelId="customerTypeId-label"
+                        label="User type"
+                        id="customerTypeId"
+                        name="customerTypeId"
+                        value={userDetails.customerTypeId}
+                        onChange={handleUserChange}
+                      >
+                        {Object.entries(customerTypeLabels).map(
+                          ([key, label]) => (
+                            <MenuItem key={key} value={Number(key)}>
+                              {label}
+                            </MenuItem>
+                          )
+                        )}
+                      </Select>
+                    </FormControl>
                   ) : (
                     <TextField
                       label="User type"
@@ -1342,6 +1383,19 @@ const EditSellerList = () => {
                 multiline
                 rows={4}
               />
+            
+              <button
+  onClick={handleCommentSaveClick}
+  className={`w-1/5 m-2 py-2 px-4 rounded-lg transition duration-200 ${
+    comments.trim()
+      ? "bg-blue-900 text-white hover:bg-blue-800"
+      : "bg-gray-400 text-gray-200 cursor-not-allowed"
+  }`}
+  disabled={!comments.trim()} // Disable if comments are empty
+>
+  Save
+</button>
+
               {/* Button to submit the notes */}
             </div>
 
@@ -1412,13 +1466,14 @@ const EditSellerList = () => {
                           <span>
                             {
                               new Date(item.auditDate)
-                              .toLocaleDateString ("en-us",{
-                                year:"numeric",
-                                month:"2-digit",
-                                day:"2-digit"
-                              }).replace(/\//g,'-')
-                                // .toISOString()
-                                // .split("T")[0]
+                                .toLocaleDateString("en-us", {
+                                  year: "numeric",
+                                  month: "2-digit",
+                                  day: "2-digit",
+                                })
+                                .replace(/\//g, "-")
+                              // .toISOString()
+                              // .split("T")[0]
                             }
                           </span>
                         </div>
