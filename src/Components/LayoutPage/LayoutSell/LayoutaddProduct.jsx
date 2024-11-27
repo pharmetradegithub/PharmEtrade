@@ -453,26 +453,56 @@ function LayoutaddProduct() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
 
+  // const handleImageChange = async (event) => {
+  //   const file = event.target.files[0];
+  //   setErrorMessage("");
+  //   // Check if the file is an image
+  //   if (file && file.type.startsWith("image/")) {
+  //     // Create an object URL for previewing the image
+  //     const imagePreviewUrl = URL.createObjectURL(file);
+
+  //     // Set the preview and update form data
+  //     setSelectedImage(imagePreviewUrl);
+  //     setFormData({
+  //       ...formData,
+  //       imageUrl: file, // You can handle the file (e.g., send it in form submission)
+  //     });
+  //   } else {
+  //     // If not an image, handle the error (show an alert or handle it as needed)
+  //     setErrorMessage("Please upload a valid image file.");
+  //   }
+  // };
+
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
-    setErrorMessage("");
-    // Check if the file is an image
-    if (file && file.type.startsWith("image/")) {
+    const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+    setErrorMessage(""); // Clear any existing error message
+  
+    if (file) {
+      // Check if the file is an image
+      if (!file.type.startsWith("image/")) {
+        setErrorMessage("Please upload a valid image file.");
+        return;
+      }
+  
+      // Check if the file size exceeds 5MB
+      if (file.size > maxSize) {
+        setErrorMessage("File size exceeds the maximum limit of 5MB.");
+        return;
+      }
+  
       // Create an object URL for previewing the image
       const imagePreviewUrl = URL.createObjectURL(file);
-
+  
       // Set the preview and update form data
       setSelectedImage(imagePreviewUrl);
       setFormData({
         ...formData,
-        imageUrl: file, // You can handle the file (e.g., send it in form submission)
+        imageUrl: file, // Handle the file (e.g., send it in form submission)
       });
-    } else {
-      // If not an image, handle the error (show an alert or handle it as needed)
-      setErrorMessage("Please upload a valid image file.");
     }
   };
-
+  
   const [thumbnails, setThumnails] = useState([]);
   console.log("printed ", thumbnails);
   const { getRootProps, getInputProps } = useDropzone({
@@ -1634,7 +1664,7 @@ function LayoutaddProduct() {
                   <p className="text-sm mt-1 font-semibold">
                     Main Product Image:
                   </p>
-                  <p className="text-sm font-semibold"> ( JPEG, PNG)</p>
+                  <p className="text-sm font-semibold"> ( JPEG, PNG, Max size 5MB)</p>
                   <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
                     {formData.imageUrl ? (
                       <div className="relative">
@@ -2585,45 +2615,18 @@ function LayoutaddProduct() {
       case 3:
         return (
           <div className="space-y-4 Largest:w-[60%] font-sans font-medium ">
+            <div>
             <p className="font-semibold">
-              Main Product Image: (Accepted Formats: JPEG, PNG)
+              Main Product Image: (Accepted Formats: JPEG, PNG, Max size 5MB)
             </p>
+            {errorMessage && (
+                    <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
+                  )}
+            </div>
+           
 
             <div className="flex w-full gap-4 justify-between">
-              {/* <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
-                {selectedImage || formData.imageUrl ? (
-                  <div className="relative">
-                    <img
-                      src={selectedImage || formData.imageUrl}
-                      alt="Selected"
-                      className="w-64 h-64 object-cover rounded-md"
-                    />
-                    <button
-                      onClick={handleRemoveImage}
-                      className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full focus:outline-none"
-                    >
-                      &times;
-                    </button>
-                  </div>
-                ) : (
-                  <label
-                    htmlFor="imageUpload"
-                    className="flex flex-col justify-center  items-center w-full  h-32 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200"
-                  >
-                    <span className="text-gray-500   text-center">
-                      {" "}
-                      Click here or drag and drop image
-                    </span>
-                    <input
-                      type="file"
-                      id="imageUpload"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                      className="hidden"
-                    />
-                  </label>
-                )}
-              </div> */}
+            
               <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
                 {selectedImage || formData.imageUrl ? (
                   <div className="relative">

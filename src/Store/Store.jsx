@@ -258,6 +258,7 @@ const initialProductsState = {
   Heading:"",
   Products: [],
   rxProducts: [],
+  adminProducts:[],
   otcProducts: [],
   recentSoldProducts: [],
   productsBySeller: {},
@@ -289,6 +290,9 @@ const productsSlice = createSlice({
     },
     setRxProducts(state, action) {
       state.rxProducts = action.payload;
+    },
+    setAdminProducts(state, action) {
+      state.adminProducts = action.payload;
     },
     setOtcProducts(state, action) {
       state.otcProducts = action.payload;
@@ -510,6 +514,7 @@ const adminPaymentSlice = createSlice({
   }
 })
 
+export const {setAdminProducts} = productsSlice.actions
 export const { setPaymentReceived } = adminPaymentSlice.actions
 export const { setOrderStatusGetAll } = mastersSlice.actions
 export const { setOrderStatusUpdate } = orderSlice.actions

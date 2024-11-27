@@ -1,7 +1,7 @@
 
 // import axios from 'axios';
 import axios from './api'; 
-import store, { setSpecialOffer, setGetProductSpecialOffer, setDeactiveProduct, setDeleteProduct, addRating } from '../Store/Store';
+import store, { setSpecialOffer, setGetProductSpecialOffer, setDeactiveProduct, setDeleteProduct, addRating, setAdminProducts } from '../Store/Store';
 
 // import store, { setSpecialOffer, setGetProductSpecialOffer, setDeactiveProduct, setDeleteProduct } from '../Store/Store';
 // import store, { setGetProductSpecialOffer } from '../Store/Store';
@@ -69,6 +69,39 @@ export const AddCrossSellProductAPI = async (productId, crossSellProductId) => {
     throw error;
   }
 };
+
+
+// export const productAdminGetAllApi = async () => {
+//   ret
+//   try {
+//     const response = await axios.get('/api/Product/Admin/GetAll')
+//     if (response.status === 200) {
+//       return response.data.result
+//     }
+//   } catch (error) {
+//     console.log("error", error)
+//   }
+// }
+
+export const productAdminGetAllApi = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/api/Product/Admin/GetAll`);
+      console.log("-==--=-", response)
+      if (response.status === 200) {
+        const getAdminGetAll = response.data.result;
+        console.log('Dispatching get  SpecialOffer action:', getAdminGetAll); // Log before dispatch
+        dispatch(setAdminProducts(getAdminGetAll)); // Dispatch action
+        return getAdminGetAll
+      } else {
+        console.error('Failed to fetch Special Offer:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching special offer:', error);
+    }
+  };
+};
+
 export const AddRelatedProductAPI = async (productId, relatedProductId) => {
   try {
     const response = await axios.post(

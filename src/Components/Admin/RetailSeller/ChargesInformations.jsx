@@ -133,7 +133,7 @@
 // export default TaxInformation;
 
 import React, { useEffect, useState } from "react";
-import { TextField } from "@mui/material";
+import { TextField, Tooltip } from "@mui/material";
 import edit from "../../../assets/Edit.png";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductOffer } from "../../../Api/ProductApi";
@@ -143,7 +143,10 @@ import {
   TaxInfoEdit,
 } from "../../../Api/TaxInfoApi";
 import Notification from "../../Notification";
-import { AdminChargesGetApi, AdminChargesInformationAdd } from "../../../Api/AdminApi";
+
+import Bin from "../../../assets/Bin.png"
+import wrong from "../../../assets/Icons/wrongred.png"
+import { AdminChargesGetApi, AdminChargesInformationAdd, deleteChargesAPi, editChargesApi } from "../../../Api/AdminApi";
 
 // const TaxInformation = () => {
 //   const getproductSpecialOffer = useSelector((state) => state.product.productSpecialOffer)
@@ -553,9 +556,9 @@ const ChargesInformations = () => {
   const getproductSpecialOffer = useSelector(
     (state) => state.product.productSpecialOffer
   );
-  const [category, setCategory] = useState(null); // Initialize as an empty string for selected category
+  const [category, setCategory] = useState(''); // Initialize as an empty string for selected category
   const [taxPercentage, setTaxPercentage] = useState("");
-  const[transactionfee, setTransactionfee] = useState("")
+  // const[transactionfee, setTransactionfee] = useState("")
   const [addedEntries, setAddedEntries] = useState([]);
   const [isEditable, setIsEditable] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -648,36 +651,44 @@ const ChargesInformations = () => {
 //     setShowSuccessMessage(true);
 //   };
 
+  const [newTax, setNewTax] = useState("")
+  const [newCategory, setNewCategory] = useState("")
   // Handle edit icon click: populate the form with the selected row data
-//   const handleEditClick = (
-//     index,
-//     taxInformationId,
-//     categorySpecificationId,
-//     taxPercentage,
-//     stateName,
-//     createdDate,
-//     modifiedDate
-//   ) => {
-//     const entryToEdit = stateNameData[index]; // Get the selected entry
+  const handleEditClick = (
+    index,
+    chargeTypeId,
+    chargeType,
+    chargePercentage,
+    // taxPercentage,entry.createdOn
+    // stateName,
+    createdOn,
+    modifiedOn,
+    // transactionFee
+  ) => {
+    console.log("allllll--->", index, chargeType)
+    // setCategory(chargeType); // Update category
+    const mappedChargeTypeId =
+      chargeType === "Credit card charges"
+        ? 1
+        : chargeType === "PharmEtrade charges"
+          ? 2
+          : chargeTypeId; // Fall back to chargeTypeId if it's already correct
+    setCategory(mappedChargeTypeId);
+    setNewCategory(mappedChargeTypeId)
+    setTaxPercentage(chargePercentage); // Update tax percentage
+    setNewTax(taxPercentage)
+    // setTransactionfee(transactionFee); // Update transaction fee
+    setEditingIndex(index); // Set the index of the row being edited
+    setIsEditable(true); // Enable editing
+    setShowSuccessMessage(false); // Hide success messages during edit
+    setEditingEntry({
+      chargeType,
+      chargePercentage,
+      createdOn,
+      modifiedOn,
+    }); // Store the current entry for reference
+  };
 
-//     if (entryToEdit && entryToEdit.categorySpecificationID) {
-//       setCategory(entryToEdit.categorySpecificationID); // Set the category in the form
-//       setTaxPercentage(entryToEdit.taxPercentage); // Set the tax percentage in the form
-//       setEditingIndex(index); // Set the index of the row being edited
-//       setIsEditable(true); // Make form editable
-//       setShowSuccessMessage(false); // Hide success message while editing
-//       setEditingEntry({
-//         taxInformationId,
-//         categorySpecificationId,
-//         taxPercentage,
-//         stateName,
-//         createdDate,
-//         modifiedDate,
-//       }); // Store the editing entry data
-//     } else {
-//       console.error("Category is undefined for the selected entry.");
-//     }
-//   };
 //   useEffect(() => {
 //     dispatch(TaxGetByStateNameApi(businessInfo?.state));
 //   }, [dispatch, businessInfo?.state]);
@@ -686,22 +697,135 @@ const ChargesInformations = () => {
 //     dispatch(fetchProductOffer());
 //   }, [dispatch]);
 
-  console.log("cccc-->", category)
-  console.log("taxxxxx", taxPercentage)
+  // const [getCharge, setGetCharge] = useState([])
+  // console.log("cccc-->", category)
+  // console.log("taxxxxx", taxPercentage)
+  // const handleAddOrSave = async () => {
+  //   const payload = {
+  //     sellerId: CustomerId,
+  //     chargeTypeId: category,
+  //     chargePercentage: taxPercentage
+  //   }
+  //   await AdminChargesInformationAdd(payload)
+  // }
+  // useEffect(() => {
+  //   const data = async () => {
+  //     const res = await AdminChargesGetApi(CustomerId)
+  //     setGetCharge(res || []);
+  //   }
+  //   data()
+  // }, [CustomerId])
+  const [getCharge, setGetCharge] = useState([]);
+  const fetchCharges = async () => {
+    try {
+      const res = await AdminChargesGetApi(CustomerId);
+      setGetCharge(res || []);
+      setCategory("")
+      setTaxPercentage("")
+    } catch (error) {
+      console.error("Error fetching charges:", error);
+    }
+  };
+
+  // const handleAddOrSave = async () => {
+  //   const payload = {
+  //     sellerId: CustomerId,
+  //     chargeTypeId: category,
+  //     chargePercentage: taxPercentage,
+  //   };
+  //   try {
+  //     await AdminChargesInformationAdd(payload);
+  //     // Immediately fetch the updated data after saving
+  //     fetchCharges();
+  //   } catch (error) {
+  //     console.error("Error adding or saving charges:", error);
+  //   }
+  //   const payloadEdit = {
+  //     sellerId: CustomerId,
+  //     chargeTypeId: category,
+  //     chargePercentage: taxPercentage
+  //   }
+  //   await editChargesApi(payloadEdit)
+  // };
+
   const handleAddOrSave = async () => {
     const payload = {
       sellerId: CustomerId,
       chargeTypeId: category,
-      chargePercentage: taxPercentage
+      chargePercentage: taxPercentage,
+    };
+
+    try {
+      if (editingIndex !== null) {
+        console.log("newwwcategory==>", newCategory)
+        console.log("newwwcategory==>", newTax)
+        // Edit Mode: Call editChargesApi
+        const payloadEdit = {
+          sellerId: CustomerId,
+          chargeTypeId: newCategory,
+          chargePercentage: taxPercentage,
+        }
+        await editChargesApi(payloadEdit);
+        console.log("Successfully edited the charge.");
+      } else {
+        // Add Mode: Call AdminChargesInformationAdd
+        await AdminChargesInformationAdd(payload);
+        console.log("Successfully added the charge.");
+      }
+
+      // Immediately fetch the updated data after saving/editing
+      fetchCharges();
+      setIsEditable(false); // Disable edit mode
+      setEditingIndex(null); // Reset editing index
+    } catch (error) {
+      console.error("Error in handleAddOrSave:", error);
     }
-    await AdminChargesInformationAdd(payload)
-  }
+  };
+
+  
   useEffect(() => {
-    const data = async () => {
-      await AdminChargesGetApi(CustomerId)
+    fetchCharges(); // Fetch data on component mount
+  }, []);
+  
+  const [deletePop, setDeletePop] = useState(false);
+  const [deletePharma, setDeletePharma] = useState(null);
+  const handleDeleteClick = (pharmEtradeChargesId) => {
+    setDeletePop(true);
+    setDeletePharma(pharmEtradeChargesId);
+  }
+  const cancelDeleteButton = () => {
+    // console.log("Canceling delete operation");
+    setDeletePop(false); // Close modal without deleting
+    // setDeleteProduct(null); // Reset selected product
+  };
+
+  // Success Delete Button
+  const successDeleteButton = async () => {
+    try {
+      console.log("Deleting product:", deletePharma);
+      if (deletePharma) {
+        await deleteChargesAPi(deletePharma); // Call delete API
+        setDeletePop(false); // Close modal after deletion
+        setDeletePharma(null); // Reset selected product
+        setNotification({ show: true, message: "Charge Deleted Successfully!" });
+        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+        await fetchCharges()
+      }
+    } catch (error) {
+      console.error("Error while deleting product:", error);
+      setNotification({ show: true, message: "Error deleting charge." });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     }
-    data()
-  }, [])
+  };
+
+  // Close Modal Button
+  const closeDeleteButton = () => {
+    // console.log("Closing delete modal");
+    setDeletePop(false); // Close modal
+    setDeletePharma(null); // Reset selected product
+  };
+
+
   return (
     <div className="w-[90%]">
       {/* {showSuccessMessage && (
@@ -709,6 +833,38 @@ const ChargesInformations = () => {
           Entry saved successfully!
         </p>
       )} */}
+      {deletePop && (
+        <div
+          className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-slate-900 bg-opacity-50 z-50"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
+            <div className="flex justify-end">
+              <button className="w-5 p-1 -mt-8 mx-2" onClick={closeDeleteButton}>
+                <img src={wrong} className="w-6 h-4" alt="Close" />
+              </button>
+            </div>
+            <h1 className="text-black text-center mt-2">
+              Are you sure you want to delete this charge?
+            </h1>
+            <div className="flex justify-around mt-6">
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                onClick={cancelDeleteButton}
+              >
+                No
+              </button>
+              <button
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                onClick={successDeleteButton}
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
@@ -775,7 +931,7 @@ const ChargesInformations = () => {
               disabled={!isEditable} // Enable/disable based on edit mode
             />
           </div>
-          <div>
+          {/* <div>
             <TextField
               type="text"
               label="Transaction fee"
@@ -784,7 +940,7 @@ const ChargesInformations = () => {
               onChange={(e) => setTransactionfee(e.target.value)} // Update when changed
               disabled={!isEditable} // Enable/disable based on edit mode
             />
-          </div>
+          </div> */}
 
           <button
             className="bg-blue-900 text-white w-16 rounded-lg h-8"
@@ -801,7 +957,7 @@ const ChargesInformations = () => {
           <thead className="bg-gray-200">
             <tr className="bg-blue-900 text-white">
               <th className="px-6 py-3 text-base font-bold">S NO.</th>
-              <th className="px-6 py-3 text-base font-bold">State</th>
+              {/* <th className="px-6 py-3 text-base font-bold">State</th> */}
               <th className="px-6 py-3 text-base font-bold">Category Name</th>
               <th className="px-6 py-3 text-base font-bold">
                 Charge Percentage
@@ -811,12 +967,12 @@ const ChargesInformations = () => {
               <th className="px-6 py-3 text-base font-bold">Action</th>
             </tr>
           </thead>
-          {/* <tbody>
-            {stateNameData.map((entry, index) => {
-              const matchedCategory = getproductSpecialOffer.find(
-                (item) =>
-                  item.categorySpecificationId === entry.categorySpecificationID
-              );
+          <tbody>
+            {/* {getCharge.map((entry, index) => {
+              // const matchedCategory = getproductSpecialOffer.find(
+              //   (item) =>
+              //     item.categorySpecificationId === entry.categorySpecificationID
+              // );
               return (
                 <tr
                   key={index}
@@ -826,18 +982,19 @@ const ChargesInformations = () => {
                     {index + 1}
                   </td>
                   <td className="px-6 border-b border-gray-200 text-sm">
-                    {entry.stateName}
+                    {entry.chargeType}
                   </td>
-                  <td className="px-6 border-b border-gray-200 text-sm">
+                  {/* <td className="px-6 border-b border-gray-200 text-sm">
                     {matchedCategory
                       ? matchedCategory.specificationName
                       : "Unknown Category"}
+                  </td> 
+                  <td className="px-6 border-b border-gray-200 text-sm">
+                    {entry.chargePercentage}%
                   </td>
                   <td className="px-6 border-b border-gray-200 text-sm">
-                    {entry.taxPercentage}%
-                  </td>
-                  <td className="px-6 border-b border-gray-200 text-sm">
-                    {new Date(entry.createdDate)
+                    {new Date(entry.
+                      createdOn)
                       .toLocaleDateString("en-US", {
                         month: "2-digit",
                         day: "2-digit",
@@ -846,7 +1003,7 @@ const ChargesInformations = () => {
                       .replace(/\//g, "-")}
                   </td>
                   <td className="px-6 border-b border-gray-200 text-sm">
-                    {new Date(entry.modifiedDate)
+                    {new Date(entry.modifiedOn)
                       .toLocaleDateString("en-US", {
                         month: "2-digit",
                         day: "2-digit",
@@ -874,13 +1031,57 @@ const ChargesInformations = () => {
                   </td>
                 </tr>
               );
-            })}
-          </tbody> */}
+            })} */}
+            {getCharge && getCharge.length > 0 ? (
+              getCharge.map((entry, index) => (
+                <tr key={index} className="bg-white hover:bg-gray-100 transition-colors">
+                  <td className="px-6 border-b border-gray-200 text-sm">{index + 1}</td>
+                  <td className="px-6 border-b border-gray-200 text-sm">{entry.chargeType}</td>
+                  <td className="px-6 border-b border-gray-200 text-sm">{entry.chargePercentage}%</td>
+                  <td className="px-6 border-b border-gray-200 text-sm">
+                    {new Date(entry.createdOn).toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" }).replace(/\//g, "-")}
+                  </td>
+                  <td className="px-6 border-b border-gray-200 text-sm">
+                    {new Date(entry.modifiedOn).toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" }).replace(/\//g, "-")}
+                  </td>
+                  <td className="px-6 border-b border-gray-200 text-sm flex">
+                    <button
+                      className=" py-2 text-white"
+                      onClick={() => handleEditClick(index, entry.chargeTypeId, entry.chargeType, entry.chargePercentage, entry.createdOn, entry.modifiedOn)}
+                    >
+                      <Tooltip placement="top" title="Edit">
+                        <img src={edit} alt="Edit" className="w-6 h-6" />
+                        </Tooltip>
+                    </button>
+                    <button
+                      className="px-2 text-white"
+                      onClick={() => handleDeleteClick(entry.pharmEtradeChargesId)}
+                    >
+                      <Tooltip placement="top" title="Delete">
+
+                        <img src={Bin} alt="Delete" className="w-4 h-4" />
+                      </Tooltip>
+                    </button>
+                  </td>
+                  {/* <td className="px-6 border-b border-gray-200 text-sm">
+                    
+                  </td> */}
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" className="text-center text-gray-500">
+                  No charges available.
+                </td>
+              </tr>
+            )}
+          </tbody>
         </table>
       </div>
     </div>
   );
 };
+
 
 // const TaxInformation = () => {
 //   const getproductSpecialOffer = useSelector((state) => state.product.productSpecialOffer);

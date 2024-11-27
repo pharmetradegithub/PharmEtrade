@@ -255,7 +255,8 @@ function LayoutOtcProducts({
 
   // const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
   const [currentItems, setcurrentItems] = useState(
-    productList.slice(indexOfFirstItem, indexOfLastItem)
+    // productList.slice(indexOfFirstItem, indexOfLastItem)
+    productList.slice(0, itemsPerPage)
   );
   useEffect(() => {
     if (productList) {
@@ -263,7 +264,7 @@ function LayoutOtcProducts({
       const indexOfFirstItem = indexOfLastItem - itemsPerPage;
       setcurrentItems(productList.slice(indexOfFirstItem, indexOfLastItem));
     }
-  }, [currentPage, products, productList]);
+  }, [currentPage, productList,itemsPerPage]);
   const totalPages = Math.ceil((productList?.length || 0) / itemsPerPage);
 
   const Search = styled("div")(({ theme }) => ({
@@ -476,6 +477,8 @@ function LayoutOtcProducts({
                           ${product.unitPrice?.toFixed(2)}
                         </p>
                       </div>
+                      <p className="font-semibold">Taxable: {product.taxable ? 'Yes' : 'No'}</p>
+                      <p className="font-semibold">Shipping: {product.shippingCostApplicable ? 'Yes':'No'}</p>
                     </div>
                   </div>
 

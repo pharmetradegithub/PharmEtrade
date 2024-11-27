@@ -120,10 +120,20 @@ const EditSellerList = () => {
     customerTypeId: userdata?.customerTypeId || "",
     email: userdata?.email || "",
     password: userdata?.password || "",
-    // phoneNumber: userdata?.phoneNumber || "",
     mobile: userdata?.mobile || "",
     isUPNMember : userdata?.isUPNMember==null? "":userdata?.isUPNMember==1? "true":"false",
   });
+
+  const [userTypeDetails, setUserTypeDetails] = useState({
+    firstName: userdata?.firstName || "",
+    lastName: userdata?.lastName || "",
+    customerTypeId: userdata?.customerTypeId || "",
+    email: userdata?.email || "",
+    password: userdata?.password || "",
+    mobile: userdata?.mobile || "",
+    isUPNMember : userdata?.isUPNMember==null? "":userdata?.isUPNMember==1? "true":"false",
+  });
+
   useEffect(() => {
     setUserDetails({
       firstName: userdata?.firstName || "",
@@ -131,10 +141,19 @@ const EditSellerList = () => {
       customerTypeId: userdata?.customerTypeId || "",
       email: userdata?.email || "",
       password: userdata?.password || "",
-      // phoneNumber: userdata?.phoneNumber || "",
       mobile: userdata?.mobile || "",
+      // isUPNMember : userdata?.isUPNMember==null? "":userdata?.isUPNMember==1? "true":"false",
+    });
+    setUserTypeDetails({
+      // firstName: userdata?.firstName || "",
+      // lastName: userdata?.lastName || "",
+      customerTypeId: userdata?.customerTypeId || "",
+      // email: userdata?.email || "",
+      // password: userdata?.password || "",
+      // mobile: userdata?.mobile || "",
       isUPNMember : userdata?.isUPNMember==null? "":userdata?.isUPNMember==1? "true":"false",
     });
+
   }, [userdata]);
   console.log(userDetails);
   const handleBusinessPhoneChange = (e) => {
@@ -233,7 +252,7 @@ const EditSellerList = () => {
       password: userDetails.password,
       customerTypeId: userDetails.customerTypeId,
       // accountTypeId: userDetails.accountTypeId,
-      isUPNMember: userDetails.isUPNMember == "true"? 1:0,
+      isUPNMember: userTypeDetails.isUPNMember == "true"? 1:0,
       accountTypeId:userdata.accountTypeId
     };
     console.log(usertypeinfo,"usertypeinfo");
@@ -262,7 +281,7 @@ const EditSellerList = () => {
       password: userDetails.password,
       customerTypeId: userDetails.customerTypeId,
       accountTypeId: userDetails.accountTypeId,
-      isUPNMember: userDetails.isUPNMember,
+      // isUPNMember: userDetails.isUPNMember,
     };
     if (userinfo) {
       await UserInfoUpdate(userinfo);
@@ -620,7 +639,7 @@ const EditSellerList = () => {
     };
 
     CustomerActivateDeactivateAPI();
-  }, [CustomerId, historyData]);
+  }, [CustomerId]);
 
   // console.log("ppppp", historyData);
 
@@ -635,7 +654,7 @@ const EditSellerList = () => {
 
   // Function to handle changes in radio button selection
   const handleUpnChange = (event) => {
-    setUserDetails({...userDetails,isUPNMember : event.target.value})
+    setUserTypeDetails({...userDetails,isUPNMember : event.target.value})
     setUpnMember(Number(event.target.value)); // Ensure the value is a number (0 or 1)
   };
 
@@ -853,7 +872,7 @@ const EditSellerList = () => {
                           type="radio"
                           id="yes"
                           value="true"
-                          checked={userDetails.isUPNMember == "true"}
+                          checked={userTypeDetails.isUPNMember == "true"}
                           onChange={handleUpnChange}
                           className="mr-2"
                           disabled={!isUserEditable}
@@ -866,7 +885,7 @@ const EditSellerList = () => {
                           type="radio"
                           id="no"
                           value="false"
-                          checked={userDetails.isUPNMember == "false"}
+                          checked={userTypeDetails.isUPNMember == "false"}
                           onChange={handleUpnChange}
                           className="mr-2"
                           disabled={!isUserEditable}
@@ -1393,8 +1412,13 @@ const EditSellerList = () => {
                           <span>
                             {
                               new Date(item.auditDate)
-                                .toISOString()
-                                .split("T")[0]
+                              .toLocaleDateString ("en-us",{
+                                year:"numeric",
+                                month:"2-digit",
+                                day:"2-digit"
+                              }).replace(/\//g,'-')
+                                // .toISOString()
+                                // .split("T")[0]
                             }
                           </span>
                         </div>

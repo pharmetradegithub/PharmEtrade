@@ -982,14 +982,14 @@ function EditProductAdmin() {
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
-          // setActiveTab(0);
+          setActiveTab(0);
           localStorage.removeItem("productId");
           // Disable 2nd and 3rd tabs
           setShowTab([1, 2, 3]);
           if (queryProductId == null) {
             ResetFormDate();
           }
-          navigate("/layout/postingproducts");
+          // navigate("/layout/postingproducts");
 
           // Optionally reset or move to another step
         }, 3000);

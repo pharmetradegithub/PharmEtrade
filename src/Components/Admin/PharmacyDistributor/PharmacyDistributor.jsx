@@ -474,6 +474,7 @@ import Deactivate from "../../../assets/Deactivate.png";
 import { Tooltip } from "@mui/material";
 import Pagination from "../../Pagination";
 import { useNavigate } from "react-router-dom";
+import search from '../../../assets/search.png'
 import {
   DeactivateUserAPI,
   DeleteCustomerAPI,
@@ -803,14 +804,20 @@ const pharmacyDistributor = () => {
              Pharmacy Distributor List
             </h1>
             <div className="flex  relative mb-4">
+              <div>
+                <button className="absolute left-2  top-1/2 transform -translate-y-1/2">
+                  <img src={search} className="w-4 h-4"/>
+                </button>
+
               <input
-                className="rounded-lg p-1"
+                className=" pl-7 rounded-lg p-1"
                 placeholder="Search..."
                 name="customerName"
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
                 value={searchInput.customerName}
               />
+              </div>
 {searchInput.customerName &&(
   <button
   onClick={clearSearch}
