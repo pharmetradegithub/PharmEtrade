@@ -143,6 +143,7 @@ import {
   TaxInfoEdit,
 } from "../../../Api/TaxInfoApi";
 import Notification from "../../Notification";
+import { AdminChargesGetApi } from "../../../Api/AdminApi";
 
 // const TaxInformation = () => {
 //   const getproductSpecialOffer = useSelector((state) => state.product.productSpecialOffer)
@@ -562,10 +563,21 @@ const ChargesInformation = () => {
   const businessInfo = useSelector((state) => state.user.businessInfo);
   const dispatch = useDispatch();
   const stateNameData = useSelector((state) => state.tax.stateName);
+  const user = useSelector((state) => state.user.user)
+
 
   const [editingEntry, setEditingEntry] = useState({}); // Store current entry being edited
 
   console.log("edittttt", editingEntry);
+  const [getChargeList, setGetChargeList] = useState([])
+
+  useEffect(() => {
+    const data = async () => {
+      const res = await AdminChargesGetApi(user.customerId)
+      setGetChargeList(res)
+    }
+    data()
+  }, [])
 
   let selectedCategory;
 
@@ -749,18 +761,18 @@ const ChargesInformation = () => {
           <thead className="bg-gray-200">
             <tr className="bg-blue-900 text-white">
               <th className="px-6 py-3 text-base font-bold">S NO.</th>
-              <th className="px-6 py-3 text-base font-bold">State</th>
+              {/* <th className="px-6 py-3 text-base font-bold">State</th> */}
               <th className="px-6 py-3 text-base font-bold">Category Name</th>
               <th className="px-6 py-3 text-base font-bold">
                 Charge Percentage
               </th>
               <th className="px-6 py-3 text-base font-bold">Created Date</th>
               <th className="px-6 py-3 text-base font-bold">Modify Date</th>
-              <th className="px-6 py-3 text-base font-bold">Action</th>
+              {/* <th className="px-6 py-3 text-base font-bold">Action</th> */}
             </tr>
           </thead>
           <tbody>
-            {stateNameData.map((entry, index) => {
+            {/* {stateNameData.map((entry, index) => {
               const matchedCategory = getproductSpecialOffer.find(
                 (item) =>
                   item.categorySpecificationId === entry.categorySpecificationID
@@ -822,7 +834,57 @@ const ChargesInformation = () => {
                   </td>
                 </tr>
               );
-            })}
+            })} */}
+            {getChargeList && getChargeList?.length > 0 ? (
+              getChargeList.map((entry, index) => (
+                <tr key={index} className="bg-white hover:bg-gray-100 transition-colors">
+                  <td className="px-6 border-b border-gray-200 text-sm">{index + 1}</td>
+                  <td className="px-6 border-b border-gray-200 text-sm">{entry.chargeType}</td>
+                  <td className="px-6 border-b border-gray-200 text-sm">{entry.chargePercentage}%</td>
+                  <td className="px-6 border-b border-gray-200 text-sm">
+                    {new Date(entry.createdOn)
+                      .toLocaleDateString("en-US", {
+                        month: "2-digit",
+                        day: "2-digit",
+                        year: "numeric",
+                      })
+                      .replace(/\//g, "-")}
+                  </td>
+                  <td className="px-6 border-b border-gray-200 text-sm">
+                    {new Date(entry.modifiedOn)
+                      .toLocaleDateString("en-US", {
+                        month: "2-digit",
+                        day: "2-digit",
+                        year: "numeric",
+                      })
+                      .replace(/\//g, "-")}{" "}
+                  </td>
+                  {/* <td className="px-6 border-b border-gray-200 text-sm">
+                    <button
+                      className="px-4 py-2 text-white"
+                      onClick={() =>
+                        handleEditClick(
+                          index,
+                          entry.chargeTypeId,
+                          entry.chargeType,
+                          entry.chargePercentage,
+                          entry.createdOn,
+                          entry.modifiedOn
+                        )
+                      }
+                    >
+                      <img src={edit} alt="Edit Charge" className="w-6 h-6" />
+                    </button>
+                  </td> */}
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" className="text-center text-gray-500">
+                  No charges available.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

@@ -5,6 +5,8 @@ import { styled, alpha } from "@mui/material/styles";
 import searchimg from "../../../assets/search1.png";
 import InputBase from "@mui/material/InputBase";
 import { useDispatch, useSelector } from "react-redux";
+import search from '../../../assets/search.png'
+
 import Invoice from "../../../assets/Icons/Invoice.png";
 import {
   fetchGetOrder,
@@ -867,10 +869,13 @@ function LayoutOrderList() {
           Your Orders
         </h2>
 
-        <div className="flex text-end md:justify-end md:items-center">
+        <div className=" relative flex text-end md:justify-end md:items-center">
+        <button className="absolute left-2  top-4 transform -translate-y-1/2">
+                  <img src={search} className="w-4 h-4"/>
+                </button>
           <div className="flex mb-4 mobile:mb-1">
             <input
-              className="rounded-lg p-1 border "
+              className="pl-7 rounded-lg p-1 border "
               placeholder="Search Product..."
               name="productName"
               onChange={(e) => handleInputChange(e)}

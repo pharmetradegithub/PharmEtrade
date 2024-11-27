@@ -12,6 +12,8 @@ import view from "../../../assets/eye.png";
 import { Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import Pagination from "../../Pagination";
+import search from '../../../assets/search.png'
+
 import wrong from '../../../assets/Icons/wrongred.png'
 import {
   Button,
@@ -25,11 +27,12 @@ import {
 } from "@material-tailwind/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-import { DeactivateProductAPI, DeleteProductAPI, fetchAllProductsApi, fetchCriteriaProductsApi } from "../../../Api/ProductApi";
+import { DeactivateProductAPI, DeleteProductAPI, fetchAllProductsApi, fetchCriteriaProductsApi, productAdminGetAllApi } from "../../../Api/ProductApi";
 import Notification from "../../Notification";
 import Loading from "../../Loading";
 const TotalProducts = () => {
-  const products = useSelector((state) => state.product.Products);
+  const products = useSelector((state) => state.product.adminProducts);
+  console.log("===>", products)
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
   // const [trigger, settrigger] = useState(1);
@@ -224,7 +227,8 @@ const TotalProducts = () => {
       const fetchAllProducts = async () => {
         setLoading(true);
         try {
-          const response = await fetchAllProductsApi();
+          console.log("sosso")
+          dispatch(productAdminGetAllApi());
           // setData(response); // Set to all products
         } catch (error) {
           console.error("Error fetching products:", error);
@@ -352,8 +356,11 @@ const TotalProducts = () => {
               Products List
             </h1>
             <div className="flex relative mb-4">
+            <button className="absolute left-2  top-1/2 transform -translate-y-1/2">
+                  <img src={search} className="w-4 h-4"/>
+                </button>
               <input
-                className="rounded-lg p-1"
+                className=" pl-7 rounded-lg p-1"
                 placeholder="Search Product..."
                 name="productName"
                 onChange={(e) => handleInputChange(e)}

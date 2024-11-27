@@ -1265,6 +1265,8 @@ function LayoutCategory({
                           ${product.unitPrice?.toFixed(2)}
                         </p> */}
                       </div>
+                      <p className="font-semibold">Taxable: {product.taxable ? 'Yes' : 'No'}</p>
+                      <p className="font-semibold">Shipping: {product.shippingCostApplicable ? 'Yes':'No'}</p>
                     </div>
 
                     {/* <div className="flex flex-col mx-3">

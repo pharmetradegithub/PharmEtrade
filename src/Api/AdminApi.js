@@ -2,6 +2,9 @@
 import axios from './api'; 
 import store, { setAdmin } from '../Store/Store';
 
+const SET_ADMIN_PRODUCTS = 'product/setAdminProducts';
+
+
 
 export const GetCustomers = async (customerId = null, email = null, mobile = null) => {
   try {
@@ -70,3 +73,54 @@ export const AdminChargesGetApi = async (customerId) => {
     console.error('Error fetching changes:', error);
   }
 }
+
+// export const fetchAdminProductsApis = async () => {
+//   try {
+//     const response = await axios.get('/api/Product/Admin/GetAll');
+//     console.log("dmingetll", response)
+//     if (response.status === 200) {
+//       store.dispatch({ type: SET_ADMIN_PRODUCTS, payload: response.data.result });
+//     } else {
+//       console.error('Failed to fetch admin products:', response.data.message);
+//     }
+//   } catch (error) {
+//     console.error('Error fetching admin products:', error);
+//   }
+// };
+
+
+export const fetchAdminProductsApis = async () => {
+    try {
+      const response = await axios.get('/api/Product/Admin/GetAll');
+      console.log("dmingetll", response)
+      if (response.status === 200) {
+        return response.data.result
+      } else {
+        console.error('Failed to fetch admin products:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching admin products:', error);
+    }
+  };
+
+  export const editChargesApi = async (payload) => {
+    try {
+      const response = await axios.post('/api/Admin/charges/Edit', payload)
+      if (response.status === 200) {
+        return response.data.result;
+      }
+      }catch (error) {
+      console.error('Error fetching changes:', error);
+    }
+  }
+  
+  export const deleteChargesAPi = async (pharmEtradeChargesId) => {
+    try {
+      const response = await axios.post(`/api/Admin/charges/Delete?pharmEtradeChargesId=${pharmEtradeChargesId}`)
+      if (response.status === 200) {
+        return response.data.result;
+      }
+    } catch (error) { 
+      console.error('Error fetching changes:', error);
+    }
+  }

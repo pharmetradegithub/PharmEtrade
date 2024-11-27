@@ -342,14 +342,14 @@ const LayoutBuyerUpcomingGrid = () => {
             <div className='flex flex-col mx-5'>
                 <div className='flex justify-between'>
                     <h1 className='text-xl text-blue-900 font-semibold mt-4'>Upcoming Deliveries</h1>
-                    <div className="relative flex mb-9">
+                    {/* <div className="relative flex mb-9">
                         <input
                             type="text"
                             placeholder="Search Product....."
                             className="border rounded-xl h-10 w-64 text-left px-8 gap-2"
                         />
                         <CiSearch className="absolute left-2 top-3 text-gray-400 " />
-                    </div>
+                    </div> */}
                 </div>
                 <div className='w-full'>
                     {currentItems.map((Ordergrid, index) => (

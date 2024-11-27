@@ -505,6 +505,8 @@ import Bin from "../../../assets/Bin.png";
 import Deactivate from "../../../assets/Deactivate.png";
 import { Tooltip } from "@mui/material";
 import Pagination from "../../Pagination";
+import search from '../../../assets/search.png'
+
 import { useNavigate } from "react-router-dom";
 import {
   DeactivateUserAPI,
@@ -836,8 +838,11 @@ const CustomerList = () => {
             Customer List
             </h1>
             <div className="relative flex mb-4">
+            <button className="absolute left-2  top-1/2 transform -translate-y-1/2">
+                  <img src={search} className="w-4 h-4"/>
+                </button>
             <input
-                className="rounded-lg p-1"
+                className=" pl-7 rounded-lg p-1"
                 placeholder="Search..."
                 name="customerName"
                 onChange={handleInputChange}

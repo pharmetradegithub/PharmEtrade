@@ -24,13 +24,16 @@ export const ProductInfoValidation = (formData) => {
         errors.productCategory = "Product Category is required.";
     }
 
-    console.log(formData.states.length, "statessssssss");
-    // States validation
+  
     if (formData.states.length <= 0) {
         console.log(formData.states.length, "why");
 
         errors.states = "At least one state must be selected.";
     }
+
+    if (formData.imageUrl && formData.imageUrl.size > 5 * 1024 * 1024) {
+        errors.imageUrl = "Image size must not exceed 5MB.";
+      }
 
     return errors;
 };
@@ -74,8 +77,6 @@ export const ProductPriceValidation = (formData) => {
         }
     }
     
-
-
 
     
     if (formData.upnMemberPrice === null || formData.upnMemberPrice === undefined || formData.upnMemberPrice <= 0) {

@@ -24,6 +24,8 @@ import Deactivate from "../../../assets/Deactivate.png";
 import view from "../../../assets/eye.png";
 import { Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import search from '../../../assets/search.png'
+
 import Pagination from "../../Pagination";
 import {
   Button,
@@ -347,8 +349,11 @@ const OfferedProductsAdmin = () => {
               Offered Products List
             </h1>
             <div className="flex relative mb-4">
+            <button className="absolute left-2  top-1/2 transform -translate-y-1/2">
+                  <img src={search} className="w-4 h-4"/>
+                </button>
               <input
-                className="rounded-lg p-1"
+                className="pl-7 rounded-lg p-1"
                 placeholder="Search Product..."
                 name="productName"
                 onChange={(e) => handleInputChange(e)}
