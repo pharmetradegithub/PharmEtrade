@@ -2769,7 +2769,7 @@ function LayoutaddProduct() {
             </div>
 
             <h1 className="font-semibold">
-              Product Video :(Accepted Format :MP4,MPEG){" "}
+              Product Video :(Accepted Format :MP4,MPEG, Max size 5MB){" "}
             </h1>
             <div className="border shadow-md flex w-full rounded-md  mb-4">
               <div className="w-[50%]">
