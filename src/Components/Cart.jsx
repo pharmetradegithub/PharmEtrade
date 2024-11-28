@@ -750,7 +750,7 @@ function Cart() {
           productId: item.product.productID,
           quantity: item.quantity,
           pricePerProduct: pricePerProduct?.toFixed(2),
-          sellerId: user.customerId,
+          sellerId: item.product.sellerId,
           imageUrl: item.product.imageUrl,
         };
       }),
