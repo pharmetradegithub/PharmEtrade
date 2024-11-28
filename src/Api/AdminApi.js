@@ -124,3 +124,14 @@ export const fetchAdminProductsApis = async () => {
       console.error('Error fetching changes:', error);
     }
   }
+
+  export const getReportsApi = async (reportType, fromDate, toDate) => {
+    try {
+      const response = await axios.get(`/api/Reports/Generate?reportType=${encodeURIComponent(reportType)}&fromDate=${encodeURIComponent(fromDate)}&toDate=${encodeURIComponent(toDate)}`) 
+      if (response.status === 200) {
+        return response.data.result
+      }
+    } catch (error) {
+      console.error('Error fetching reports:', error);
+    }
+  }

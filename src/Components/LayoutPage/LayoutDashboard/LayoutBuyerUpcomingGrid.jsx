@@ -378,7 +378,7 @@ const LayoutBuyerUpcomingGrid = () => {
                             <div className='mt-2 ml-4'>
                                 <div>
                                 <span className='text-base font-semibold'>Package </span>
-                                <p>{Ordergrid.itempackage}Torn</p>
+                                <p>{Ordergrid.packCondition}{" "}</p>
                                 </div>
                                 <div>
                                 <span className='text-base font-semibold'>Quantity </span>

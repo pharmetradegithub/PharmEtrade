@@ -1383,33 +1383,52 @@ function LayoutCategory({
                     <div className="flex flex-col md:mx-4">
                       <p className="font-semibold text-sm">Sale Price Range</p>
                       <div className="mt-2 flex md:flex-col text-right text-xs font-bold">
-                        <div className="flex">
-                        <p className="font-semibold ml-1">
-                          {new Date(product.salePriceValidFrom)
-                            .toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "2-digit",
-                              day: "2-digit",
-                            })
-                            .replace(/\//g, "-")}
-                        </p>
-                          </div>
-                          <p className="text-center md:-ml-8">to </p> 
+                      <div className="flex sm:flex-col items-center">
+                          <p className="font-semibold ml-1">
+                            {product.salePriceValidFrom &&
+                            !isNaN(
+                              new Date(product.salePriceValidFrom).getTime()
+                            ) &&
+                            new Date(product.salePriceValidFrom).getFullYear() >
+                              999
+                              ? new Date(product.salePriceValidFrom)
+                                  .toLocaleDateString("en-US", {
+                                    year: "numeric",
+                                    month: "2-digit",
+                                    day: "2-digit",
+                                  })
+                                  .replace(/\//g, "-")
+                              : "-"}
+                          </p>
 
-                          <div className="flex">
-
-                        <p className="ml-1">
-                          {new Date(product.
-                            salePriceValidTo
-                          )
-                            .toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "2-digit",
-                              day: "2-digit",
-                            })
-                            .replace(/\//g, "-")}
-                        </p>
-                            </div>
+                          {product.salePriceValidFrom &&
+                          !isNaN(
+                            new Date(product.salePriceValidFrom).getTime()
+                          ) &&
+                          new Date(product.salePriceValidFrom).getFullYear() >
+                            999 ? (
+                            <>
+                              <p className="text-center sm:ml-8 ml-2">to</p>
+                              <p className="ml-1">
+                                {product.salePriceValidTo &&
+                                !isNaN(
+                                  new Date(product.salePriceValidTo).getTime()
+                                ) &&
+                                new Date(
+                                  product.salePriceValidTo
+                                ).getFullYear() > 999
+                                  ? new Date(product.salePriceValidTo)
+                                      .toLocaleDateString("en-US", {
+                                        year: "numeric",
+                                        month: "2-digit",
+                                        day: "2-digit",
+                                      })
+                                      .replace(/\//g, "-")
+                                  : "-"}
+                              </p>
+                            </>
+                          ) : null}
+                        </div>
 
                       </div>
 

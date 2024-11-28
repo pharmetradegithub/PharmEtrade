@@ -220,7 +220,7 @@ function LayoutaddProduct() {
       packType: product.packType,
       packCondition: {
         tornLabel: product.packCondition == "torn",
-        otherCondition: "",
+        otherCondition: product.packCondition,
       },
       imageUrl: product?.productGallery?.imageUrl,
       productSizeId: 0,
@@ -421,14 +421,45 @@ function LayoutaddProduct() {
   const [selectedVideos, setSelectedVideos] = useState([]);
   const [videoPreviews, setVideoPreviews] = useState([]);
 
+  // const handleVideoSelect = (event) => {
+  //   const files = Array.from(event.target.files);
+  //   setSelectedVideos(files);
+
+  //   const previews = files.map((file) => URL.createObjectURL(file));
+  //   setVideoPreviews(previews);
+  //   setFormData({ ...formData, ["videoUrl"]: files[0] });
+  // };
+
   const handleVideoSelect = (event) => {
     const files = Array.from(event.target.files);
-    setSelectedVideos(files);
-
-    const previews = files.map((file) => URL.createObjectURL(file));
-    setVideoPreviews(previews);
-    setFormData({ ...formData, ["videoUrl"]: files[0] });
+    const maxSize = 25 * 1024 * 1024; // 25MB in bytes
+    const validVideos = [];
+    const previews = [];
+  
+    files.forEach((file) => {
+      if (!file.type.startsWith("video/")) {
+        setErrorMessage("Please upload valid video files.");
+        return;
+      }
+  
+      if (file.size > maxSize) {
+        setErrorMessage(`The video exceeds the maximum size of 25MB.`);
+        return;
+      }
+  
+      validVideos.push(file);
+      previews.push(URL.createObjectURL(file));
+    });
+  
+    // Set videos and previews only if all are valid
+    if (validVideos.length > 0) {
+      setErrorMessage(""); // Clear any previous error
+      setSelectedVideos(validVideos);
+      setVideoPreviews(previews);
+      setFormData({ ...formData, videoUrl: validVideos[0] }); // Store the first video file
+    }
   };
+  
 
   const handleClearSelection = () => {
     setSelectedVideos([]);
@@ -554,11 +585,21 @@ function LayoutaddProduct() {
     if (name === "discount") {
       console.log(name, type);
       if (name == "discount") {
-        setFormData({
-          ...formData,
-          [name]: value === "" ? "" : Number(value),
-          ["salePrice"]: value==""? "":Number((formData.price * (100 - Number(value))) / 100),
-        });
+        if (/^\d{0,2}$/.test(value)) {
+          setFormData({
+            ...formData,
+            [name]: value === "" ? "" : Number(value),
+            salePrice:
+              value === ""
+                ? ""
+                : Number((formData.price * (100 - Number(value))) / 100),
+          });
+        }
+        // setFormData({
+        //   ...formData,
+        //   [name]: value === "" ? "" : Number(value),
+        //   ["salePrice"]: value==""? "":Number((formData.price * (100 - Number(value))) / 100),
+        // });
       }
     } else if (type === "select-multiple") {
       const selectedOptions = Array.from(options)
@@ -680,7 +721,10 @@ function LayoutaddProduct() {
           packCondition: {
             ...formData.packCondition,
             tornLabel: e.target.checked,
+            otherCondition:"",
+            otherConditionChecked:false
           },
+
         });
       } else if (id === "otherCondition") {
         setFormData({
@@ -1510,13 +1554,16 @@ function LayoutaddProduct() {
                         id="otherCondition"
                         name="otherCondition"
                         checked={
-                          formData.packCondition.otherConditionChecked || false
+                          (formData.packCondition.otherCondition.length>0 && formData.packCondition.tornLabel==""
+                            && formData.packCondition.otherCondition!="torn") 
+                            || formData.packCondition.otherConditionChecked
                         }
                         onChange={(e) =>
                           setFormData({
                             ...formData,
                             packCondition: {
                               ...formData.packCondition,
+                              tornLabel:"",
                               otherConditionChecked: e.target.checked,
                               otherCondition: e.target.checked
                                 ? formData.packCondition.otherCondition
@@ -1532,7 +1579,7 @@ function LayoutaddProduct() {
                       <input
                         type="text"
                         name="otherConditionText"
-                        value={formData.packCondition.otherCondition || ""}
+                        value={ formData.packCondition.otherCondition != "torn" ? formData.packCondition.otherCondition : ""}
                         onChange={(e) =>
                           setFormData({
                             ...formData,
@@ -1542,7 +1589,9 @@ function LayoutaddProduct() {
                             },
                           })
                         }
-                        disabled={!formData.packCondition.otherConditionChecked}
+                        disabled={(formData.packCondition.otherCondition.length<=0 
+                          || formData.packCondition.otherCondition=="torn") 
+                          && !formData.packCondition.otherConditionChecked}
                         className="mx-1 w-[30%] Largest:w-[15%] h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:shadow focus:shadow-blue-400"
                       />
                     </div>
@@ -2733,6 +2782,9 @@ function LayoutaddProduct() {
                     onChange={handleVideoSelect}
                     className="block mb-4 w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                   />
+                  {errorMessage && (
+                    <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
+                  )}
                   <div className="flex flex-wrap gap-4 mb-4">
                     {videoPreviews.map((preview, index) => (
                       <div key={index} className="w-1/4">

@@ -353,6 +353,7 @@ const Signup = () => {
       const file = files[0]; // Assuming only one file is uploaded
       // const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
       const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "application/pdf"];
+      const maxSize = 5 * 1024 * 1024; // 5MB in bytes
 
 
       if (!allowedTypes.includes(file.type)) {
@@ -362,13 +363,29 @@ const Signup = () => {
           [name]: "Invalid file format. Only jpg, jpeg, png files are allowed.",
         }));
         return; // Stop further processing
-      } else {
-        // Clear the error if the file type is correct
+      } 
+      // else {
+      //   // Clear the error if the file type is correct
+      //   setErrors((prevErrors) => ({
+      //     ...prevErrors,
+      //     [name]: "",
+      //   }));
+      // }
+
+      if (file.size > maxSize) {
+        // Set error for exceeding file size
         setErrors((prevErrors) => ({
           ...prevErrors,
-          [name]: "",
+          [name]: "File size cannot exceed 5MB.",
         }));
+        return; // Stop further processing
       }
+  
+      // If valid, clear errors and set the file
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: "",
+      }));
 
       // Proceed with setting the file in state if valid
       if (name === "DEA_License_Copy") {
@@ -1671,21 +1688,6 @@ const Signup = () => {
                 <span className="text-xs">
                   DEA License Copy (jpg, png, jpeg,pdf)
                 </span>
-                {/* <TextField
-                  label=""
-                  type="file"
-                  onChange={handleInputChange}
-                  name="DEA_License_Copy"
-                  id="outlined-size-small"
-                  error={!!errors.DEA_License_Copy}
-                  size="small"
-                  accept="image/jpeg, image/png, image/gif, image/jpg, image/webp"
-                  className="w-full"
-                  helperText={errors.DEA_License_Copy}
-                  FormHelperTextProps={{
-                    sx: { visibility: errors.DEA_License_Copy ? "visible" : "hidden" },
-                  }}
-                /> */}
                 <input
                   type="file"
                   name="DEA_License_Copy"

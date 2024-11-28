@@ -789,7 +789,7 @@ const EditSellerList = () => {
                     // id="outlined-size-small"
                     value={userDetails?.password} // Ensure it handles null or undefined
                     name="password" // Use camelCase for the name
-                    onChange={handleInputChange} // Handle input change
+                    // onChange={handleInputChange} // Handle input change
                     disabled={!isEditable} // Disable field unless in edit mode
                     size="small"
                     className="w-full"
@@ -1240,16 +1240,24 @@ const EditSellerList = () => {
                       size="small"
                       className="w-[60%]"
                     />
-                    {accountData.deaLicenseCopy && (
-                      <a
-                        href={accountData.deaLicenseCopy}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 underline text-sm  -mt-3"
-                      >
-                        View DEA License Copy
-                      </a>
-                    )}
+                   {accountData.deaLicenseCopy && (
+  <a
+    href={isAccountEdit ? accountData.deaLicenseCopy : undefined}
+    target={isAccountEdit ? "_blank" : undefined}
+    rel={isAccountEdit ? "noopener noreferrer" : undefined}
+    onClick={(e) => {
+      if (!isAccountEdit) {
+        e.preventDefault(); // Prevent navigation when disabled
+      }
+    }}
+    className={`text-sm -mt-3 underline ${
+      isAccountEdit ? "text-blue-500" : "text-gray-400 "
+    }`}
+  >
+    View DEA License Copy
+  </a>
+)}
+
                     <TextField
                       label="NPI"
                       // id="outlined-size-small"
@@ -1322,16 +1330,34 @@ const EditSellerList = () => {
                       size="small"
                       className="w-[60%]"
                     />
-                    {accountData.pharmacyLicenseCopy && (
+                    {/* {accountData.pharmacyLicenseCopy && (
                       <a
                         href={accountData.pharmacyLicenseCopy}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-500 underline text-sm -mt-3"
+                        disabled={!isAccountEdit}
                       >
                         View Pharmacy License Copy
                       </a>
-                    )}
+                    )} */}
+                    {accountData.pharmacyLicenseCopy && (
+  <a
+    href={isAccountEdit ? accountData.pharmacyLicenseCopy : undefined}
+    target={isAccountEdit ? "_blank" : undefined}
+    rel={isAccountEdit ? "noopener noreferrer" : undefined}
+    onClick={(e) => {
+      if (!isAccountEdit) {
+        e.preventDefault(); // Prevent navigation when disabled
+      }
+    }}
+    className={`text-sm -mt-3 underline ${
+      isAccountEdit ? "text-blue-500" : "text-gray-400 "
+    }`}
+  >
+    View Pharmacy License Copy
+  </a>
+)}
                     <TextField
                       label="NCPDP"
                       // id="outlined-size-small"

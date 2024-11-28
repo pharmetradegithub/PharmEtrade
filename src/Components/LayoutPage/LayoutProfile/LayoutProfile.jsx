@@ -586,7 +586,7 @@ const LayoutProfile = () => {
                     label="Password"
                     name="password"
                     value={userDetails.password}
-                    onChange={handleInputChange}
+                    // onChange={handleInputChange}
                     disabled={!isEditable}
                     size="small"
                     className="w-52 md:w-56"
@@ -939,16 +939,24 @@ const LayoutProfile = () => {
                       size="small"
                       className=" w-52 md:w-56 "
                     />
-                    {accountData.deaLicenseCopy && (
-                      <a
-                        href={accountData.deaLicenseCopy}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 underline  -mt-3"
-                      >
-                        View DEA License Copy
-                      </a>
-                    )}
+                   {accountData.deaLicenseCopy && (
+  <a
+    href={isAccountEdit ? accountData.deaLicenseCopy : undefined}
+    target={isAccountEdit ? "_blank" : undefined}
+    rel={isAccountEdit ? "noopener noreferrer" : undefined}
+    onClick={(e) => {
+      if (!isAccountEdit) {
+        e.preventDefault(); // Prevent navigation when disabled
+      }
+    }}
+    className={`text-sm -mt-3 underline ${
+      isAccountEdit ? "text-blue-500" : "text-gray-400 cursor-not-allowed"
+    }`}
+  >
+    View DEA License Copy
+  </a>
+)}
+
 
                     <TextField
                       label="NPI"
@@ -1023,7 +1031,7 @@ const LayoutProfile = () => {
                       size="small"
                       className=" w-52 md:w-56 "
                     />
-                    {accountData.pharmacyLicenseCopy && (
+                    {/* {accountData.pharmacyLicenseCopy && (
                       <a
                         href={accountData.pharmacyLicenseCopy}
                         target="_blank"
@@ -1032,7 +1040,24 @@ const LayoutProfile = () => {
                       >
                         View Pharmacy License Copy
                       </a>
-                    )}
+                    )} */}
+                    {accountData.pharmacyLicenseCopy && (
+  <a
+    href={isAccountEdit ? accountData.pharmacyLicenseCopy : undefined}
+    target={isAccountEdit ? "_blank" : undefined}
+    rel={isAccountEdit ? "noopener noreferrer" : undefined}
+    onClick={(e) => {
+      if (!isAccountEdit) {
+        e.preventDefault(); // Prevent navigation when disabled
+      }
+    }}
+    className={`text-sm -mt-3 underline ${
+      isAccountEdit ? "text-blue-500" : "text-gray-400 cursor-not-allowed"
+    }`}
+  >
+    View Pharmacy License Copy
+  </a>
+)}
 
                     <TextField
                       label="NCPDP"

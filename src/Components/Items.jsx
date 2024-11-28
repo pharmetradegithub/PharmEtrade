@@ -67,6 +67,7 @@ import { Tooltip } from "@mui/material";
 // import { customerOrderApi, customerOrderGetApi } from "../Api/CustomerOrderList";
 import filledHeart from "../assets/wishlist2_icon.png";
 import emptyHeart from "../assets/Wishlist1_icon.png";
+import Notification from "./Notification";
 function Items({
   onClose,
   topMargin,
@@ -119,6 +120,10 @@ function Items({
   // const [showViewCart, setShowViewCart] = useState(false);
   const [prod, setprod] = useState(null);
   const [thumnailList, setthumnailList] = useState([]);
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+  });
   const newProducts = useSelector((state) => state.product.recentSoldProducts);
 
   const RelatedProducts = useSelector((state) => state.product.RelatedProducts);
@@ -226,6 +231,12 @@ function Items({
     };
     try {
       await addCartApi(cartData);
+      setNotification({
+        show: true,
+        message: "Item Added To Cart Successfully!",
+      });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+
     } catch (error) {
       console.error("Error adding product to cart:", error);
     }
@@ -333,14 +344,42 @@ function Items({
     SetPopup(false);
   };
 
+  // const handleIncrease = () => {
+  //   if (quantity < prod.amountInStock && quantity < prod.maxOrderQuantity)
+  //     setQuantity((prevQuantity) => prevQuantity + 1);
+  // };
+  const [errorMessage, setErrorMessage] = useState("");
+
+  // const handleIncrease = () => {
+  //   if (quantity < prod.amountInStock && quantity < prod.maxOrderQuantity) {
+  //     setQuantity((prevQuantity) => prevQuantity + 1);
+  //     setErrorMessage(""); // Clear error when within the limit
+  //   } else {
+  //     setErrorMessage(
+  //       `You can only order a maximum of ${prod.maxOrderQuantity} items.`
+  //     );
+  //   }
+  // };
+
+  // const handleDecrease = () => {
+  //   if (quantity > 1 && quantity > prod.minOrderQuantity) {
+  //     setQuantity((prevQuantity) => prevQuantity - 1);
+  //   }
+  // };
+
   const handleIncrease = () => {
-    if (quantity < prod.amountInStock && quantity < prod.maxOrderQuantity)
+    if (quantity < prod.amountInStock && quantity < prod.maxOrderQuantity) {
       setQuantity((prevQuantity) => prevQuantity + 1);
+      setErrorMessage(""); // Clear error when within the limit
+    } else {
+      setErrorMessage(`Maximum limit is ${prod.maxOrderQuantity} items.`);
+    }
   };
 
   const handleDecrease = () => {
-    if (quantity > 1 && quantity > prod.minOrderQuantity) {
+    if (quantity > 1) {
       setQuantity((prevQuantity) => prevQuantity - 1);
+      setErrorMessage(""); // Clear error when decreasing quantity
     }
   };
   // console.log("productDataItem-->", prod);
@@ -566,6 +605,9 @@ function Items({
         marginTop: `${topMargin}px`,
       }}
     >
+      {notification.show && (
+        <Notification show={notification.show} message={notification.message} />
+      )}
       <div className="  flex   flex-col md:flex-row gap-4 mt-4 justify-around h-full w-full mb-4 ">
       <div className="w-full flex sm:w-[60%] md:w-[45%] mb-3 ml-8 ">
       <div className="flex ml-2 md:-mr-3 h-[400px] cursor-pointer">
@@ -964,28 +1006,37 @@ function Items({
                 <label className="text-lg  font-semibold">Quantity:</label>
                 <div className=" flex gap-2 md:flex-row">
                 <button
-                  onClick={handleDecrease}
-                  className="bg-gray-200 text-gray-700 font-bold py-1 px-3 md:px-4 md:py-2 sm:px-2 sm:py-1 rounded focus:outline-none"
-                  >
-                  -
-                </button>
-                <input
-                  type="number"
-                  value={quantity}
-                  readOnly
-                  className="w-12 py-1 text-center border border-gray-300 rounded focus:outline-none"
-                />
-                <button
-                  onClick={handleIncrease}
-                  className="bg-gray-200 text-gray-700 font-bold py-1 px-3 rounded focus:outline-none"
-                >
-                  +
-                </button>
+          onClick={handleDecrease}
+          className="bg-gray-200 text-gray-700 font-bold py-1 px-3 rounded focus:outline-none"
+          disabled={quantity === 1} // Disable decrease button if quantity is 1
+        >
+          -
+        </button>
+        <input
+          type="number"
+          value={quantity}
+          readOnly
+          className="w-12 py-1 text-center border border-gray-300 rounded focus:outline-none"
+        />
+        <button
+          onClick={handleIncrease}
+          className={`bg-gray-200 text-gray-700 font-bold py-1 px-3 rounded focus:outline-none ${
+            quantity >= prod?.maxOrderQuantity ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+        >
+          +
+        </button>
+     
+    
                 </div>
               </div>
               {Errors?.quantity!=null && (
                 <span>{Errors.quantity}</span>
               )}
+
+{errorMessage && (
+        <span className="text-red-500 ml-4 text-sm">{errorMessage}</span>
+      )}
 
               <div className="flex gap-2 mx-2">
                 <button
