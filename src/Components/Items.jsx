@@ -1066,12 +1066,18 @@ function Items({
                 <button
           className={`w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 
  ${
-                    prod?.amountInStock === 0
+                    prod?.amountInStock <= 0
                       ? "bg-orange-200 cursor-not-allowed"
                       : "bg-orange-400"
                   }`}
-                  onClick={handleOrder}
-                  disabled={prod?.amountInStock === 0}
+                  // onClick={handleOrder}
+                  // disabled={prod?.amountInStock === 0}
+                  disabled={prod?.amountInStock <= 0}
+                  onClick={() => {
+                    if (prod?.amountInStock > 0) {
+                      handleOrder();
+                    }
+                  }}
                 >
                   Buy Now
                 </button>
