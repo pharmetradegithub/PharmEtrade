@@ -1,8 +1,3 @@
-
-
-
-
-
 // import React, { useEffect, useState } from "react";
 // import { CiMenuKebab } from "react-icons/ci";
 // import { Link, useNavigate } from "react-router-dom";
@@ -750,10 +745,6 @@
 
 // export default LayoutPostingProducts;
 
-
-
-
-
 import React, { useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
@@ -857,7 +848,6 @@ const LayoutPostingProducts = () => {
   const listed = parts[2];
   const [trigger, settrigger] = useState(1);
 
-
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true); // Set loading state before the request
@@ -886,7 +876,7 @@ const LayoutPostingProducts = () => {
     if (user?.customerId) {
       fetchData();
     }
-  }, [listed, user?.customerId, activeProductID,trigger]);
+  }, [listed, user?.customerId, activeProductID, trigger]);
 
   const handleAddNewProductClick = () => {
     navigate("layout/addproduct");
@@ -921,8 +911,6 @@ const LayoutPostingProducts = () => {
     setItemsPerPage(parseInt(event.target.value));
     setCurrentPage(1); // Reset to page 1 when items per page is changed
   };
-
- 
 
   // const deactivatePopUp = (productID) => {
   //   setOpenPop(true);
@@ -1008,9 +996,6 @@ const LayoutPostingProducts = () => {
   });
   const totalPages = Math.ceil((products?.length || 0) / itemsPerPage);
 
-
-
-
   const [openPop, setOpenPop] = useState(false);
   const [isActivating, setIsActivating] = useState(false);
   const dispatch = useDispatch();
@@ -1039,7 +1024,6 @@ const LayoutPostingProducts = () => {
     setActiveProductID(null);
   };
 
-
   const successButton = async () => {
     try {
       // setLoading(true); // Set loading to true before API call
@@ -1067,7 +1051,6 @@ const LayoutPostingProducts = () => {
       setLoading(false); // Ensure loading is stopped after the API call
     }
   };
-
 
   return (
     <div className="relative bg-gray-100 w-full h-full flex justify-center  items-center">
@@ -1364,7 +1347,7 @@ const LayoutPostingProducts = () => {
                         <td className="px-5 py-2 text-right">
                           ${product.salePrice.toFixed(2)}
                         </td>
-                        <td className="px-4 py-2 text-center">
+                        {/* <td className="px-4 py-2 text-center">
                           {new Date(product.salePriceValidFrom)
                             .toLocaleDateString("en-US", {
                               year: "numeric",
@@ -1372,16 +1355,40 @@ const LayoutPostingProducts = () => {
                               day: "2-digit",
                             })
                             .replace(/\//g, "-")}
+                        </td> */}
+                        <td className="px-4 py-2 text-center">
+                          {product.salePriceValidFrom &&
+                          !isNaN(
+                            new Date(product.salePriceValidFrom).getTime()
+                          ) &&
+                          new Date(product.salePriceValidFrom).getFullYear() >
+                            999
+                            ? new Date(product.salePriceValidFrom)
+                                .toLocaleDateString("en-US", {
+                                  year: "numeric",
+                                  month: "2-digit",
+                                  day: "2-digit",
+                                })
+                                .replace(/\//g, "-")
+                            : "-"}
                         </td>
+
                         <td className="px-2 py-2 text-center">
-                          {new Date(product.salePriceValidTo)
-                            .toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "2-digit",
-                              day: "2-digit",
-                            })
-                            .replace(/\//g, "-")}
+                          {product.salePriceValidTo &&
+                          !isNaN(
+                            new Date(product.salePriceValidTo).getTime()
+                          ) &&
+                          new Date(product.salePriceValidTo).getFullYear() > 999
+                            ? new Date(product.salePriceValidTo)
+                                .toLocaleDateString("en-US", {
+                                  year: "numeric",
+                                  month: "2-digit",
+                                  day: "2-digit",
+                                })
+                                .replace(/\//g, "-")
+                            : "-"}
                         </td>
+
                         <td className="px-2 py-2 text-right">
                           ${product.receivableUnitPrice.toFixed(2)}
                         </td>
@@ -1419,25 +1426,27 @@ const LayoutPostingProducts = () => {
                               }
                             />
                           </Tooltip> */}
-                            {product.isActive ? (
-        <Tooltip title="Deactivate" placement="top">
-          <img
-            src={Deactivate}
-            alt="Deactivate"
-            className="cursor-pointer w-4 h-4"
-            onClick={() => deactivatePopUp(product.productID)}
-          />
-        </Tooltip>
-      ) : (
-        <Tooltip title="Activate" placement="top">
-          <img
-            src={Activate}
-            alt="Activate"
-            className="cursor-pointer w-4 h-4"
-            onClick={() => activatePopUp(product.productID)}
-          />
-        </Tooltip>
-      )}
+                          {product.isActive ? (
+                            <Tooltip title="Deactivate" placement="top">
+                              <img
+                                src={Deactivate}
+                                alt="Deactivate"
+                                className="cursor-pointer w-4 h-4"
+                                onClick={() =>
+                                  deactivatePopUp(product.productID)
+                                }
+                              />
+                            </Tooltip>
+                          ) : (
+                            <Tooltip title="Activate" placement="top">
+                              <img
+                                src={Activate}
+                                alt="Activate"
+                                className="cursor-pointer w-4 h-4"
+                                onClick={() => activatePopUp(product.productID)}
+                              />
+                            </Tooltip>
+                          )}
                           <Tooltip placement="top" title="Delete">
                             <img
                               src={Bin}
@@ -1446,8 +1455,6 @@ const LayoutPostingProducts = () => {
                               onClick={() => DeleteProduct(product.productID)}
                             />
                           </Tooltip>
-                         
-                         
                         </td>
                       </tr>
                     ))

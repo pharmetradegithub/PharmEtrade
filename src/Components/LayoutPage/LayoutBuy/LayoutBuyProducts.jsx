@@ -299,18 +299,16 @@ function LayoutBuy({
   // const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
   const [currentItems, setcurrentItems] = useState(
     // productList.slice(indexOfFirstItem, indexOfLastItem)
-        productList.slice(0, itemsPerPage)
+    productList.slice(0, itemsPerPage)
+  );
 
-         )
-
-  
   useEffect(() => {
     if (productList) {
       const indexOfLastItem = currentPage * itemsPerPage;
       const indexOfFirstItem = indexOfLastItem - itemsPerPage;
       setcurrentItems(productList.slice(indexOfFirstItem, indexOfLastItem));
     }
-  }, [currentPage,  productList,itemsPerPage]);
+  }, [currentPage, productList, itemsPerPage]);
   const totalPages = Math.ceil((productList?.length || 0) / itemsPerPage);
 
   const Search = styled("div")(({ theme }) => ({
@@ -525,8 +523,13 @@ function LayoutBuy({
                             ${product.unitPrice?.toFixed(2)}
                           </p>
                         </div>
-                        <p className="font-semibold">Taxable: {product.taxable ? 'Yes' : 'No'}</p>
-                      <p className="font-semibold">Shipping: {product.shippingCostApplicable ? 'Yes':'No'}</p>
+                        <p className="font-semibold">
+                          Taxable: {product.taxable ? "Yes" : "No"}
+                        </p>
+                        <p className="font-semibold">
+                          Shipping:{" "}
+                          {product.shippingCostApplicable ? "Yes" : "No"}
+                        </p>
                       </div>
                     </div>
 
@@ -555,8 +558,8 @@ function LayoutBuy({
                     <div className="flex sm:flex-col flex-col sm:mx-4 mx-0">
                       <p className="font-semibold text-sm">Sale Price Range</p>
                       <div className="mt-2 sm:text-right text-left text-xs font-bold ">
-                        <div className="flex sm:flex-col">
-                          <p className="font-semibold ml-1">
+                        <div className="flex sm:flex-col items-center">
+                          {/* <p className="font-semibold ml-1">
                             {new Date(product.salePriceValidFrom)
                               .toLocaleDateString("en-US", {
                                 year: "numeric",
@@ -574,7 +577,51 @@ function LayoutBuy({
                                 day: "2-digit",
                               })
                               .replace(/\//g, "-")}
+                          </p> */}
+                          <p className="font-semibold ml-1">
+                            {product.salePriceValidFrom &&
+                            !isNaN(
+                              new Date(product.salePriceValidFrom).getTime()
+                            ) &&
+                            new Date(product.salePriceValidFrom).getFullYear() >
+                              999
+                              ? new Date(product.salePriceValidFrom)
+                                  .toLocaleDateString("en-US", {
+                                    year: "numeric",
+                                    month: "2-digit",
+                                    day: "2-digit",
+                                  })
+                                  .replace(/\//g, "-")
+                              : "-"}
                           </p>
+
+                          {product.salePriceValidFrom &&
+                          !isNaN(
+                            new Date(product.salePriceValidFrom).getTime()
+                          ) &&
+                          new Date(product.salePriceValidFrom).getFullYear() >
+                            999 ? (
+                            <>
+                              <p className="text-center sm:ml-8 ml-2">to</p>
+                              <p className="ml-1">
+                                {product.salePriceValidTo &&
+                                !isNaN(
+                                  new Date(product.salePriceValidTo).getTime()
+                                ) &&
+                                new Date(
+                                  product.salePriceValidTo
+                                ).getFullYear() > 999
+                                  ? new Date(product.salePriceValidTo)
+                                      .toLocaleDateString("en-US", {
+                                        year: "numeric",
+                                        month: "2-digit",
+                                        day: "2-digit",
+                                      })
+                                      .replace(/\//g, "-")
+                                  : "-"}
+                              </p>
+                            </>
+                          ) : null}
                         </div>
 
                         <div className="flex"></div>

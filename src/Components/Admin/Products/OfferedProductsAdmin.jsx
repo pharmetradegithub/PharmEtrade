@@ -440,18 +440,38 @@ const OfferedProductsAdmin = () => {
                   <td className="text-center">{detail.sellerFirstName}</td>
                   {/* <td>{detail.categorySpecification.specificationName}</td> */}
                   <td className="text-right">${detail.unitPrice?.toFixed(2)}</td>
-                  <td className="px-2 py-1 text-center">{new Date(detail.salePriceValidFrom).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "2-digit",
-                          day: "2-digit",
-                        })
-                          .replace(/\//g, "-")}</td>
-                        <td className="px-2 py-1">{new Date(detail.salePriceValidTo).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "2-digit",
-                          day: "2-digit",
-                        })
-                          .replace(/\//g, "-")}</td>
+                  <td className="px-4 py-2 text-center">
+                          {detail.salePriceValidFrom &&
+                          !isNaN(
+                            new Date(detail.salePriceValidFrom).getTime()
+                          ) &&
+                          new Date(detail.salePriceValidFrom).getFullYear() >
+                            999
+                            ? new Date(detail.salePriceValidFrom)
+                                .toLocaleDateString("en-US", {
+                                  year: "numeric",
+                                  month: "2-digit",
+                                  day: "2-digit",
+                                })
+                                .replace(/\//g, "-")
+                            : "-"}
+                        </td>
+
+                        <td className="px-2 py-2 text-center">
+                          {detail.salePriceValidTo &&
+                          !isNaN(
+                            new Date(detail.salePriceValidTo).getTime()
+                          ) &&
+                          new Date(detail.salePriceValidTo).getFullYear() > 999
+                            ? new Date(detail.salePriceValidTo)
+                                .toLocaleDateString("en-US", {
+                                  year: "numeric",
+                                  month: "2-digit",
+                                  day: "2-digit",
+                                })
+                                .replace(/\//g, "-")
+                            : "-"}
+                        </td>
                   <td className="px-4  justify-center py-2 cursor-pointer flex items-center space-x-2 bg-transparent">
                     <Tooltip title="Edit" placement="top">
                       <img

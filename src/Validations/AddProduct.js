@@ -34,6 +34,9 @@ export const ProductInfoValidation = (formData) => {
     if (formData.imageUrl && formData.imageUrl.size > 5 * 1024 * 1024) {
         errors.imageUrl = "Image size must not exceed 5MB.";
       }
+    if (formData.videoUrl && formData.videoUrl.size > 25 * 1024 * 1024) {
+        errors.videoUrl = "Video size must not exceed 25MB.";
+      }
 
     return errors;
 };

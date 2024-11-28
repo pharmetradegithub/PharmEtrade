@@ -1737,6 +1737,20 @@ const ProccedtoShipment = ({
   //     fetchSellerData(seller);
   //   });
   // }, [groupedProducts]); 
+
+  const handleResetDropdown = (seller) => {
+    setSelectedOptions((prev) => ({
+      ...prev,
+      [seller]: "", // Reset the dropdown selection
+    }));
+  
+    setTotalNetCharges((prev) => ({
+      ...prev,
+      [seller]: 0, // Reset the amount to 0
+    }));
+  };
+  
+  
   return (
     <div className="w-full h-full  p-4 ">
       {/* <Dialog open={openDialog} onClose={handleDialogClose}>
@@ -1968,72 +1982,12 @@ const ProccedtoShipment = ({
                     Shipment :
                   </h1>
                   <div className="mx-5">
-                    {/* <select
-                      id="delivery-options"
-                      value={selectedOptions[seller]}
-                      onChange={(e) => handleChange(seller, e)}
-                      className="bg-gray-100 border rounded-md"
-                    >
-                      <option value="" disabled className=" ">
-                        Select an option
-                      </option>
-
-                      <optgroup label="Delivery options"> */}
-                    {/* <option value="groundBusiness">FedEx Ground® (to businesses, Monday to Friday)</option> */}
-                    {/* <option value="homeDelivery">FedEx Home Delivery® (to residences, every day)</option> */}
-                    {/* {serviceName.map((item) => {
-                          return (
-                            <option
-                              key={item.serviceType}
-                              value={item.serviceName}
-                            >
-                              {item.serviceName}
-                            </option>
-                          );
-                        })} */}
-                    {/* {serviceName.map((item) => {
-                          // Find the matching rate for the current serviceName
-                          const matchingRate = fedexRate.find(
-                            (fed) => item.serviceName === fed.serviceName
-                          ); */}
-                    {/* <select
-                      id="delivery-options"
-                      value={selectedOptions[seller] || ""}
-                      onChange={(e) => handleChange(seller, e)}
-                      className="bg-gray-100 border rounded-md"
-                    >
-                      <option value="" disabled>
-                        {/* {selectedOptions[seller] ? 'Select an option' : 'Please choose a delivery option'} 
-                        {selectedOptions[seller] ? 'Please choose a delivery option' : 'Select an option'}
-
-                      </option>
-
-                      <optgroup label="Delivery options" onChange={() => handleService(setSelectedService(e.target.value))}>
-                        {serviceName.map((item) => {
-                          const matchingRate = fedexRate.find(
-                            (fed) => item.serviceName === fed.serviceName
-                          );
-
-
-                          return (
-                            <option
-                              key={item.serviceType}
-                              value={item.serviceName}
-                            >
-                              {item.serviceName} $ 
-                              {matchingRate
-                                ? ` (${matchingRate.ratedShipmentDetails[0].totalNetCharge} )`
-                                : ""}
-                            </option>
-                          );
-                        })}
-                      </optgroup>
-                    </select> */}
+                   
                     <select
                       id="delivery-options"
                       value={selectedOptions[seller] || ""}
                       onChange={(e) => handleChange(seller, e, products)}
-                      className="bg-gray-100 border rounded-md"
+                      className="bg-gray-100 border p-1 rounded-md"
                     >
                       <option value="" disabled>
                         {selectedOptions[seller]
@@ -2077,6 +2031,16 @@ const ProccedtoShipment = ({
                         ),
                       }}
                     />
+                    {selectedOptions[seller] && (
+      <button
+        onClick={() => {
+          handleResetDropdown(seller);
+        }}
+        className="ml-2 text-white bg-blue-900 border py-1 px-2 rounded-lg text-lg hover:text-red-700"
+      >
+        Reset
+      </button>
+    )}
                   </div>
                 </div>
               </div>

@@ -959,7 +959,7 @@ function LayoutOrderList() {
                   </div>
                   <div className="mb-4 lg:mb-0">
                     <h1 className="text-sm lg:text-lg">Ship To</h1>
-                    <p className="text-sm lg:text-lg">{order.customerName}</p>
+                    <p className="text-sm lg:text-lg">{order.shippingContactName}</p>
                   </div>
                   <div className="sm:flex flex-col lg:flex-row items-start">
                     <div>
