@@ -1686,7 +1686,7 @@ const Signup = () => {
             <div className="flex flex-row w-full -mb-2 justify-between">
               <div className="w-[45%]">
                 <span className="text-xs">
-                  DEA License Copy (jpg, png, jpeg,pdf)
+                  DEA License Copy (jpg, png, jpeg,pdf, Max size 5MB)
                 </span>
                 <input
                   type="file"
@@ -1723,7 +1723,7 @@ const Signup = () => {
 
               <div className="w-[45%]">
                 <span className="text-xs">
-                  Pharmacy License Copy (jpeg, jpg, png,pdf)
+                  Pharmacy License Copy (jpeg, jpg, png,pdf, Max size 5MB)
                 </span>
                 <input
                   type="file"

@@ -26,6 +26,8 @@ import LayoutBuyerReceiversgrid from "../LayoutDashboard/LayoutBuyerReceiversgri
 import LayoutBuyerUpcomingGrid from "../LayoutDashboard/LayoutBuyerUpcomingGrid";
 import TrackingOrder from "../../../Components/TermsAndConditions";
 import Notification from "../../Notification";
+import searchImg from "../../../assets/search-icon.png";
+
 function LayoutOrderList() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
@@ -864,24 +866,30 @@ function LayoutOrderList() {
 
     <div className="mx-5 sm:mx-4">
       <div className="flex flex-col md:flex-row justify-between md:items-center ">
-        <h2 className=" mt-6 text-3xl mobile:text-xl font-semibold">
+        <h2 className=" mt-6 text-3xl mb-4 mobile:text-xl font-semibold">
           {" "}
           Your Orders
         </h2>
 
-        <div className=" relative flex text-end md:justify-end md:items-center">
+        <div className=" relative flex text-end md:justify-end md:items-center ">
         <button className="absolute left-2  top-4 transform -translate-y-1/2">
                   <img src={search} className="w-4 h-4"/>
                 </button>
-          <div className="flex mb-4 mobile:mb-1">
+          <div className="flex mb-1 mobile:mb-1">
             <input
-              className="pl-7 rounded-lg p-1 border "
+              className="pl-7 p-1  border "
               placeholder="Search Product..."
               name="productName"
               onChange={(e) => handleInputChange(e)}
               onKeyDown={handleKeyDown}
               value={SearchInput.productName}
             />
+            <button
+                  onClick={handleSearchClick}
+                  className="absolute bg-blue-900  p-2 right-0 top-4 transform -translate-y-1/2"
+                >
+                  <img src={searchImg} className="w-4 h-4" />
+                </button>
           </div>
         </div>
       </div>

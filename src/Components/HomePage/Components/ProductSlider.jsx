@@ -374,6 +374,10 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
       {filled ? "★" : "☆"}
     </span>
   );
+  const [showFull, setShowFull] = useState(false);
+
+  // Function to toggle the full product name display
+  const toggleShowFull = () => setShowFull(!showFull);
   return (
     <div className="flex mt-6 flex-col justify-center pb-4 gap-2">
       {notification.show && (
@@ -437,8 +441,15 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                 </div>
                 <div className="p-2 w-48">
                   <div className="flex justify-between flex-col font-medium">
-                    <h2 className="text-black font-bold h-12">
-                      {item.productName}
+                  <h2
+                      className="text-black font-bold h-12"
+                      onClick={toggleShowFull}
+                    >
+                      {showFull
+                        ? item.productName
+                        : item.productName.length > 15
+                        ? `${item.productName.slice(0, 15)}...`
+                        : item.productName}
                     </h2>
                     <div className="flex gap-1 items-center">
                       {new Date() >= new Date(item?.salePriceValidFrom) &&
@@ -457,6 +468,20 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                         </h1>
                       )}
                     </div>
+                    <div className="flex gap-2  items-center mobile:text-center">
+                      {item.amountInStock <= 0 ? (
+                        <p className="text-red-500 font-semibold">
+                          Out Of Stock
+                        </p>
+                      ) : (
+                        <p className="text-green-900 flex gap-2 font-semibold sm:w-28 w-40 text-start text-sm  rounded-lg ">
+                          In Stock -
+                          <span className="font-semibold text-sm text-start">
+                            {item.amountInStock}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   </div>
                   <div className="flex items-center">
                     <span style={{ fontSize: "24px", color: "orange" }}>★</span>
@@ -466,8 +491,16 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                     <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                   </div>
                   <div
-                    onClick={() => handleCart(index)}
-                    className="bg-blue-900 flex gap-1 p-1 rounded-lg justify-center items-center cursor-pointer"
+                    onClick={() => {
+                      if (item.amountInStock > 0) {
+                        handleCart(index);
+                      }
+                    }}
+                    className={`bg-blue-900 flex gap-1 p-1 rounded-lg justify-center items-center ${
+                      item.amountInStock <= 0
+                        ? "opacity-50 cursor-not-allowed"
+                        : "cursor-pointer"
+                    }`}
                   >
                     <img src={addcart} className="h-7 p-1" />
                     <p className="text-white font-semibold">ADD</p>

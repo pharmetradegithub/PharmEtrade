@@ -568,8 +568,10 @@ const ChargesInformations = () => {
     message: "",
   });
   const businessInfo = useSelector((state) => state.user.businessInfo);
+  const user = useSelector((state) => state.user.user);
+
   const dispatch = useDispatch();
-//   const stateNameData = useSelector((state) => state.tax.stateName);
+  //   const stateNameData = useSelector((state) => state.tax.stateName);
 
   const [editingEntry, setEditingEntry] = useState({}); // Store current entry being edited
 
@@ -577,79 +579,79 @@ const ChargesInformations = () => {
 
   let selectedCategory;
 
-//   const handleAddOrSave = async () => {
-//     selectedCategory = getproductSpecialOffer.find(
-//       (item) => item.categorySpecificationId === category
-//     );
+  //   const handleAddOrSave = async () => {
+  //     selectedCategory = getproductSpecialOffer.find(
+  //       (item) => item.categorySpecificationId === category
+  //     );
 
-//     if (editingIndex !== null) {
-//       // Update the existing entry in stateNameData (editing case)
-//       const updatedEntries = [...stateNameData];
-//       updatedEntries[editingIndex] = {
-//         ...updatedEntries[editingIndex],
-//         category: selectedCategory,
-//         taxPercentage: taxPercentage,
-//       };
-//       setAddedEntries(updatedEntries);
-//       setEditingIndex(null); // Reset the editing index after saving
-//     } else {
-//       // Add a new entry (if no editingIndex is set)
-//       setAddedEntries([
-//         ...addedEntries,
-//         { category: selectedCategory, taxPercentage },
-//       ]);
-//     }
+  //     if (editingIndex !== null) {
+  //       // Update the existing entry in stateNameData (editing case)
+  //       const updatedEntries = [...stateNameData];
+  //       updatedEntries[editingIndex] = {
+  //         ...updatedEntries[editingIndex],
+  //         category: selectedCategory,
+  //         taxPercentage: taxPercentage,
+  //       };
+  //       setAddedEntries(updatedEntries);
+  //       setEditingIndex(null); // Reset the editing index after saving
+  //     } else {
+  //       // Add a new entry (if no editingIndex is set)
+  //       setAddedEntries([
+  //         ...addedEntries,
+  //         { category: selectedCategory, taxPercentage },
+  //       ]);
+  //     }
 
-//     // Determine whether to call add or edit API based on filled fields
-//     if (
-//       !editingEntry.taxInformationId ||
-//       !editingEntry.categorySpecificationId
-//     ) {
-//       // If the fields are empty, call add API
-//       const payloadAdd = {
-//         taxInformationID: "",
-//         stateName: businessInfo?.state,
-//         categorySpecificationID: selectedCategory?.categorySpecificationId,
-//         taxPercentage: taxPercentage,
-//         createdDate: new Date().toISOString(),
-//         modifiedDate: new Date().toISOString(),
-//         isActive: 1,
-//       };
-//       await dispatch(taxAddInformationApi(payloadAdd));
-//       setNotification({
-//         show: true,
-//         message: "Added Item Successfully!",
-//       });
-//       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-//     } else {
-//       // If the fields are filled, call edit API
-//       const payloadEdit = {
-//         taxInformationID: editingEntry.taxInformationId,
-//         stateName: editingEntry.stateName,
-//         // categorySpecificationID: category, // Use updated category
-//         categorySpecificationID: category, // Use updated category
-//         taxPercentage: taxPercentage,
-//         createdDate: editingEntry.createdDate,
-//         modifiedDate: new Date().toISOString(), // Update modified date
-//         isActive: 1,
-//       };
-//       await dispatch(TaxInfoEdit(payloadEdit));
-//       setNotification({
-//         show: true,
-//         message: "Edit Item Successfully!",
-//       });
-//       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-//     }
+  //     // Determine whether to call add or edit API based on filled fields
+  //     if (
+  //       !editingEntry.taxInformationId ||
+  //       !editingEntry.categorySpecificationId
+  //     ) {
+  //       // If the fields are empty, call add API
+  //       const payloadAdd = {
+  //         taxInformationID: "",
+  //         stateName: businessInfo?.state,
+  //         categorySpecificationID: selectedCategory?.categorySpecificationId,
+  //         taxPercentage: taxPercentage,
+  //         createdDate: new Date().toISOString(),
+  //         modifiedDate: new Date().toISOString(),
+  //         isActive: 1,
+  //       };
+  //       await dispatch(taxAddInformationApi(payloadAdd));
+  //       setNotification({
+  //         show: true,
+  //         message: "Added Item Successfully!",
+  //       });
+  //       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //     } else {
+  //       // If the fields are filled, call edit API
+  //       const payloadEdit = {
+  //         taxInformationID: editingEntry.taxInformationId,
+  //         stateName: editingEntry.stateName,
+  //         // categorySpecificationID: category, // Use updated category
+  //         categorySpecificationID: category, // Use updated category
+  //         taxPercentage: taxPercentage,
+  //         createdDate: editingEntry.createdDate,
+  //         modifiedDate: new Date().toISOString(), // Update modified date
+  //         isActive: 1,
+  //       };
+  //       await dispatch(TaxInfoEdit(payloadEdit));
+  //       setNotification({
+  //         show: true,
+  //         message: "Edit Item Successfully!",
+  //       });
+  //       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //     }
 
-//     // Fetch updated tax data
-//     await dispatch(TaxGetByStateNameApi(businessInfo?.state));
+  //     // Fetch updated tax data
+  //     await dispatch(TaxGetByStateNameApi(businessInfo?.state));
 
-//     // Reset form fields after adding or editing
-//     setCategory("");
-//     setTaxPercentage("");
-//     setIsEditable(false);
-//     setShowSuccessMessage(true);
-//   };
+  //     // Reset form fields after adding or editing
+  //     setCategory("");
+  //     setTaxPercentage("");
+  //     setIsEditable(false);
+  //     setShowSuccessMessage(true);
+  //   };
 
   const [newTax, setNewTax] = useState("")
   const [newCategory, setNewCategory] = useState("")
@@ -689,13 +691,13 @@ const ChargesInformations = () => {
     }); // Store the current entry for reference
   };
 
-//   useEffect(() => {
-//     dispatch(TaxGetByStateNameApi(businessInfo?.state));
-//   }, [dispatch, businessInfo?.state]);
+  //   useEffect(() => {
+  //     dispatch(TaxGetByStateNameApi(businessInfo?.state));
+  //   }, [dispatch, businessInfo?.state]);
 
-//   useEffect(() => {
-//     dispatch(fetchProductOffer());
-//   }, [dispatch]);
+  //   useEffect(() => {
+  //     dispatch(fetchProductOffer());
+  //   }, [dispatch]);
 
   // const [getCharge, setGetCharge] = useState([])
   // console.log("cccc-->", category)
@@ -718,7 +720,7 @@ const ChargesInformations = () => {
   const [getCharge, setGetCharge] = useState([]);
   const fetchCharges = async () => {
     try {
-      const res = await AdminChargesGetApi(CustomerId);
+      const res = await AdminChargesGetApi(user.customerId);
       setGetCharge(res || []);
       setCategory("")
       setTaxPercentage("")
@@ -748,49 +750,49 @@ const ChargesInformations = () => {
   //   await editChargesApi(payloadEdit)
   // };
 
-  const handleAddOrSave = async () => {
-    const payload = {
-      sellerId: CustomerId,
-      chargeTypeId: category,
-      chargePercentage: taxPercentage,
-    };
+  // const handleAddOrSave = async () => {
+  //   const payload = {
+  //     sellerId: CustomerId,
+  //     chargeTypeId: category,
+  //     chargePercentage: taxPercentage,
+  //   };
 
-    try {
-      if (editingIndex !== null) {
-        console.log("newwwcategory==>", newCategory)
-        console.log("newwwcategory==>", newTax)
-        // Edit Mode: Call editChargesApi
-        const payloadEdit = {
-          sellerId: CustomerId,
-          chargeTypeId: newCategory,
-          chargePercentage: taxPercentage,
-        }
-        await editChargesApi(payloadEdit);
-        console.log("Successfully edited the charge.");
-        setNotification({ show: true, message: "Successfully edited the charge." });
-        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-      } else {
-        // Add Mode: Call AdminChargesInformationAdd
-        await AdminChargesInformationAdd(payload);
-        console.log("Successfully added the charge.");
-        setNotification({ show: true, message: "Successfully added the charge." });
-        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-      }
+  //   try {
+  //     if (editingIndex !== null) {
+  //       console.log("newwwcategory==>", newCategory)
+  //       console.log("newwwcategory==>", newTax)
+  //       // Edit Mode: Call editChargesApi
+  //       const payloadEdit = {
+  //         sellerId: CustomerId,
+  //         chargeTypeId: newCategory,
+  //         chargePercentage: taxPercentage,
+  //       }
+  //       await editChargesApi(payloadEdit);
+  //       console.log("Successfully edited the charge.");
+  //       setNotification({ show: true, message: "Successfully edited the charge." });
+  //       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //     } else {
+  //       // Add Mode: Call AdminChargesInformationAdd
+  //       await AdminChargesInformationAdd(payload);
+  //       console.log("Successfully added the charge.");
+  //       setNotification({ show: true, message: "Successfully added the charge." });
+  //       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //     }
 
-      // Immediately fetch the updated data after saving/editing
-      fetchCharges();
-      setIsEditable(false); // Disable edit mode
-      setEditingIndex(null); // Reset editing index
-    } catch (error) {
-      console.error("Error in handleAddOrSave:", error);
-    }
-  };
+  //     // Immediately fetch the updated data after saving/editing
+  //     fetchCharges();
+  //     setIsEditable(false); // Disable edit mode
+  //     setEditingIndex(null); // Reset editing index
+  //   } catch (error) {
+  //     console.error("Error in handleAddOrSave:", error);
+  //   }
+  // };
 
-  
+
   useEffect(() => {
     fetchCharges(); // Fetch data on component mount
-  }, []);
-  
+  }, [user.customerId]);
+
   const [deletePop, setDeletePop] = useState(false);
   const [deletePharma, setDeletePharma] = useState(null);
   const handleDeleteClick = (pharmEtradeChargesId) => {
@@ -872,40 +874,39 @@ const ChargesInformations = () => {
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
-      <div className="bg-white w-[90%] border border-black rounded-lg px-8 mx-6 py-5 mt-8 relative my-6">
+      <div className="w-[90%] border rounded-lg px-4 mx-2 py-3 mt-8 relative my-3">
         <div className="flex justify-between">
           {/* <h1 className="text-blue-900 text-xl font-semibold p-1 rounded-md">
             Charges Information
           </h1> */}
-           {isEditable && (
-                <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
-                  Charges Information
-                </h1>
-              )}
-              <h1
-                className={`text-xl font-semibold my-2 ${
-                  isEditable ? "invisible" : "text-blue-900"
-                }`}
-              >
-                Charges Information
-              </h1>
+          {/* {isEditable && ( */}
+            {/* <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+              Charges Information
+            </h1> */}
+          {/* )} */}
+          <h1
+            className={`text-xl font-semibold my-2 ${isEditable ? "invisible" : "text-blue-900"
+              }`}
+          >
+            Charges Information
+          </h1>
           {/* <img
             src={edit}
             className="w-6 h-6 cursor-pointer"
             onClick={() => setIsEditable(true)}
           /> */}
-          <img
-  src={edit}
-  className={`w-6 h-6 cursor-pointer ${getCharge.length >= 2 ? "opacity-50 cursor-not-allowed" : ""}`}
-  onClick={() => {
-    if (getCharge.length < 2) setIsEditable(true); // Enable only if less than 2 rows
-  }}
-  alt="Edit"
-/>
+          {/* <img
+            src={edit}
+            className={`w-6 h-6 cursor-pointer ${getCharge.length >= 2 ? "opacity-50 cursor-not-allowed" : ""}`}
+            onClick={() => {
+              if (getCharge.length < 2) setIsEditable(true); // Enable only if less than 2 rows
+            }}
+            alt="Edit"
+          /> */}
 
         </div>
 
-        <div className="flex justify-around my-4">
+        {/* <div className="flex justify-around my-4">
           <div>
             <select
               className="border rounded-md h-11"
@@ -930,7 +931,7 @@ const ChargesInformations = () => {
                 >
                   {item.specificationName}
                 </option>
-              ))} */}
+              ))} 
             </select>
           </div>
 
@@ -953,7 +954,7 @@ const ChargesInformations = () => {
               onChange={(e) => setTransactionfee(e.target.value)} // Update when changed
               disabled={!isEditable} // Enable/disable based on edit mode
             />
-          </div> */}
+          </div> 
 
           {/* <button
             className="bg-blue-900 text-white w-16 rounded-lg h-8"
@@ -961,17 +962,16 @@ const ChargesInformations = () => {
             disabled={!isEditable} // Disable if not in edit mode
           >
             {editingIndex !== null ? "Save" : "ADD"}
-          </button> */}
-        <button
-  className={`bg-blue-900 text-white w-16 rounded-lg h-8 ${
-    editingIndex === null && getCharge.length >= 2 ? "opacity-50 cursor-not-allowed" : ""
-  }`}
-  onClick={handleAddOrSave}
-  disabled={editingIndex === null && getCharge.length >= 2}
->
-  {editingIndex !== null ? "Save" : "ADD"}
-</button>
-        </div>
+          </button> 
+          <button
+            className={`bg-blue-900 text-white w-16 rounded-lg h-8 ${editingIndex === null && getCharge.length >= 2 ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+            onClick={handleAddOrSave}
+            disabled={editingIndex === null && getCharge.length >= 2}
+          >
+            {editingIndex !== null ? "Save" : "ADD"}
+          </button>
+        </div> */}
       </div>
 
       <div className="overflow-x-auto ml-5">
@@ -1073,7 +1073,7 @@ const ChargesInformations = () => {
                     >
                       <Tooltip placement="top" title="Edit">
                         <img src={edit} alt="Edit" className="w-6 h-6" />
-                        </Tooltip>
+                      </Tooltip>
                     </button>
                     <button
                       className="px-2 text-white"
