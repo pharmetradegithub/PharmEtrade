@@ -1012,7 +1012,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRelatedProductApi } from "../../../Api/ProductApi";
 import Bin from "../../../assets/trash.png";
-import Pagination from "../../Pagination";
+import Pagination from "../../Pagination"; 
 
 const LayoutRelatedProducts = () => {
   const [formData, setFormData] = useState({
@@ -1043,7 +1043,7 @@ const LayoutRelatedProducts = () => {
   const categorySpecificationGetAll = useSelector(
     (state) => state.master.setCategorySpecificationsGetAll
   );
-  console.log("relatedcategory-->", categorySpecificationGetAll);
+  console.log("related-->", categorySpecificationGetAll);
 
   const productsByCriteria = useSelector(
     (state) => state.product.productsByCriteria
@@ -1666,7 +1666,7 @@ const LayoutRelatedProducts = () => {
               onClick={handleCriteria}
               className="bg-blue-900 text-white p-2 mx-2 border rounded-md"
             >
-              APPLY FILTER
+              APPLY THE FILTER
             </button>
             <button
               // onClick={() => setFormData(initialFormState)}

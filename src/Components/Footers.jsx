@@ -184,7 +184,7 @@ function Footers({ topMargin}) {
         <div className="flex flex-col xl:text-md  w-full xl:w-auto">
           <p className="text-md font-semibold mb-4">About Us</p>
           <p className="text-md font-thin mt-2">
-            PharmEtrade is a secure online marketplace for independent
+            PharmaEtrade is a secure online marketplace for independent
             pharmacies to buy, sell,
             and bid on overstock and short date prescription drugs. Our
             easy-to-use platform was
