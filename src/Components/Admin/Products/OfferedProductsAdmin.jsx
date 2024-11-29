@@ -43,6 +43,8 @@ import { DeactivateProductAPI, DeleteProductAPI, fetchCriteriaProductsApi, fetch
 import wrong from '../../../assets/Icons/wrongred.png'
 import Notification from "../../Notification";
 import Loading from "../../Loading";
+import searchImg from "../../../assets/search-icon.png";
+
 const OfferedProductsAdmin = () => {
   // const products = useSelector((state) => state.product.getProductSpecialOffer);
   const products = useSelector((state) => state.product.getProductSpecialOffer);
@@ -345,7 +347,7 @@ const OfferedProductsAdmin = () => {
         )}
         <div className="w-[95%] h-full mt-8">
           <div className="flex justify-between">
-            <h1 className="text-blue-900 text-xl font-semibold my-3">
+            <h1 className="text-blue-900 text-xl font-semibold mb-4">
               Offered Products List
             </h1>
             <div className="flex relative mb-4">
@@ -353,21 +355,19 @@ const OfferedProductsAdmin = () => {
                   <img src={search} className="w-4 h-4"/>
                 </button>
               <input
-                className="pl-7 rounded-lg p-1"
+                className="pl-7 p-1"
                 placeholder="Search Product..."
                 name="productName"
                 onChange={(e) => handleInputChange(e)}
                 onKeyDown={handleKeyDown}
                 value={SearchInput.productName}
               />
-              {SearchInput.productName &&(
-  <button
-  onClick={clearSearch}
-  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
->
-  <img src={wrong} className="w-2 h-2" /> {/* This is the wrong (X) symbol */}
-</button>
-)}
+            <button
+                  onClick={handleSearchClick}
+                  className="absolute bg-blue-900 p-2 right-0 top-1/2 transform -translate-y-1/2"
+                >
+                  <img src={searchImg} className="w-4 h-4" />
+                </button>
               {/* <button onClick={() => handleSearchClick()}>Search</button> */}
             </div>
           </div>

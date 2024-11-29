@@ -58,7 +58,6 @@
 //   const [trigger, settrigger] = useState(1);
 //   const [deactivatedProducts, setDeactivatedProducts] = useState([]); // State to track deactivated products
 
-
 //   useEffect(() => {
 //     if (searchInput.customerName === "") {
 //       const fetchAllCustomers = async () => {
@@ -82,7 +81,6 @@
 //     }
 //   }, [searchInput.customerName, trigger, deactivatedProducts]);
 
-  
 //   // Sorting configuration
 //   const [sortConfig, setSortConfig] = useState({
 //     key: "",
@@ -229,7 +227,6 @@
 //     setOpendeletePop(true);
 //   };
 
-  
 //   const DeleteCustomer = async (customerId) => {
 //     try {
 //       await DeleteCustomerAPI(customerId);
@@ -239,9 +236,6 @@
 //       // Optionally handle errors, such as showing an error notification
 //     }
 //   };
-
-
-
 
 //   const DeactivateCustomer = async (customerId) => {
 //     try {
@@ -539,9 +533,6 @@
 
 // export default SellerList;
 
-
-
-
 import React, { useEffect, useState } from "react";
 import { GetByAdminCriteriaAPI, GetCustomers } from "../../../Api/AdminApi";
 import edit from "../../../assets/Edit.png";
@@ -558,7 +549,8 @@ import {
 import Loading from "../../Loading";
 import wrong from "../../../assets/Icons/wrongred.png";
 import Notification from "../../Notification";
-import search from '../../../assets/search.png'
+import search from "../../../assets/search.png";
+import searchImg from "../../../assets/search-icon.png";
 
 const SellerList = () => {
   const [customers, setCustomers] = useState([]);
@@ -603,7 +595,6 @@ const SellerList = () => {
   const [trigger, settrigger] = useState(1);
   const [deactivatedProducts, setDeactivatedProducts] = useState([]); // State to track deactivated products
 
-
   useEffect(() => {
     if (searchInput.customerName === "") {
       const fetchAllCustomers = async () => {
@@ -627,7 +618,6 @@ const SellerList = () => {
     }
   }, [searchInput.customerName, trigger, deactivatedProducts]);
 
-  
   // Sorting configuration
   const [sortConfig, setSortConfig] = useState({
     key: "",
@@ -694,7 +684,7 @@ const SellerList = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+  
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -774,7 +764,6 @@ const SellerList = () => {
     setOpendeletePop(true);
   };
 
-  
   const DeleteCustomer = async (customerId) => {
     try {
       await DeleteCustomerAPI(customerId);
@@ -784,9 +773,6 @@ const SellerList = () => {
       // Optionally handle errors, such as showing an error notification
     }
   };
-
-
-
 
   const DeactivateCustomer = async (customerId) => {
     try {
@@ -798,9 +784,9 @@ const SellerList = () => {
     }
   };
 
-  const clearSearch =()=>{
-    setSearchInput ({customerName :''})
-  }
+  const clearSearch = () => {
+    setSearchInput({ customerName: "" });
+  };
 
   return (
     <>
@@ -843,7 +829,7 @@ const SellerList = () => {
             </div>
           </div>
         )}
-             {opendeletePop && (
+        {opendeletePop && (
           <div
             className="fixed top-0 left-25 w-4/5 h-full flex justify-center items-center bg-slate-900 bg-opacity-20"
             role="dialog"
@@ -881,23 +867,31 @@ const SellerList = () => {
               Retail Pharmacy List
             </h1>
             <div className="flex relative mb-4">
-            <button className="absolute left-2  top-1/2 transform -translate-y-1/2">
-                  <img src={search} className="w-4 h-4"/>
-                </button>
+              <button className="absolute left-2  top-1/2 transform -translate-y-1/2">
+                <img src={search} className="w-4 h-4" />
+              </button>
               <input
-                className="pl-7 rounded-lg p-1"
+                className="pl-7  p-1"
                 placeholder="Search..."
                 name="customerName"
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
                 value={searchInput.customerName}
               />
-              {searchInput.customerName && (
-                <button onClick={clearSearch}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2">
-                  <img src={wrong} className="w-2 h-2"/>
+              {/* {searchInput.customerName && (
+                <button
+                  onClick={clearSearch}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                >
+                  <img src={wrong} className="w-2 h-2" />
                 </button>
-              )}
+              )} */}
+               <button
+                  onClick={handleSearchClick}
+                  className="absolute bg-blue-900 p-2 right-0 top-1/2 transform -translate-y-1/2"
+                >
+                  <img src={searchImg} className="w-4 h-4" />
+                </button>
             </div>
           </div>
           <div className="overflow-y-auto h-full clearfix">
@@ -1056,7 +1050,9 @@ const SellerList = () => {
                               src={Bin}
                               alt="Delete"
                               className="cursor-pointer w-4 h-4 -mb-5"
-                              onClick={() => handleDeleteClick(customer.customerId)}
+                              onClick={() =>
+                                handleDeleteClick(customer.customerId)
+                              }
                             />
                           </Tooltip>
                           <Tooltip placement="top" title="Deactivate">
@@ -1096,4 +1092,3 @@ const SellerList = () => {
 };
 
 export default SellerList;
-
