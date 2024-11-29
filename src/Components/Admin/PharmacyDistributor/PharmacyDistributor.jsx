@@ -483,6 +483,8 @@ import {
 import Loading from "../../Loading";
 import wrong from "../../../assets/Icons/wrongred.png";
 import Notification from "../../Notification";
+import searchImg from "../../../assets/search-icon.png";
+
 
 const pharmacyDistributor = () => {
   const [customers, setCustomers] = useState([]);
@@ -810,22 +812,21 @@ const pharmacyDistributor = () => {
                 </button>
 
               <input
-                className=" pl-7 rounded-lg p-1"
+                className=" pl-7  p-1"
                 placeholder="Search..."
                 name="customerName"
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
                 value={searchInput.customerName}
               />
+              <button
+                  onClick={handleSearchClick}
+                  className="absolute bg-blue-900 p-2 right-0 top-1/2 transform -translate-y-1/2"
+                >
+                  <img src={searchImg} className="w-4 h-4" />
+                </button>
               </div>
-{searchInput.customerName &&(
-  <button
-  onClick={clearSearch}
-  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
->
-  <img src={wrong} className="w-2 h-2" /> {/* This is the wrong (X) symbol */}
-</button>
-)}
+
 
             </div>
           </div>
