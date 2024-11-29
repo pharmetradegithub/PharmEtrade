@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import background_image from "../assets/homepharma3.jpg";
+import background_image from "../assets/homepharma4.jpg";
 import logo from "../assets/logo2.png";
 import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";

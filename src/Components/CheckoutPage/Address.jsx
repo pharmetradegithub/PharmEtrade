@@ -3416,7 +3416,7 @@ console.log("pincode---->", pincodes)
 
   // Calculate total tax amount by iterating through the products
   const totalTaxAmount = products.reduce((total, product) => {
-    const price = product?.pricePerProduct || 0;
+    const price = (product?.pricePerProduct * product?.quantity) || 0;
     console.log("priceeeeeee-->", price)
     const taxPercentage = product?.taxPercentage || 0;
     console.log("taxPercentage-->", taxPercentage)

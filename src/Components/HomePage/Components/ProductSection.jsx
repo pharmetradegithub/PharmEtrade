@@ -386,6 +386,10 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
       navigate(`/allProducts/OtcProducts`);
     }
   };
+  const [showFull, setShowFull] = useState(false);
+
+  // Function to toggle the full product name display
+  const toggleShowFull = () => setShowFull(!showFull);
   return (
     <div className="bg-white w-full p-4 mobile:p-4">
       {notification.show && (
@@ -429,8 +433,15 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
               </div>
               <div className="p-2 rounded-b-lg w-40 mobile:w-full">
                 <div className="flex justify-between flex-col font-medium">
-                  <h2 className="text-black font-bold h-16 w-36 overflow-scroll ">
-                    {item.productName}
+                <h2
+                    className="text-black font-bold h-12"
+                    onClick={toggleShowFull}
+                  >
+                    {showFull
+                      ? item.productName
+                      : item.productName.length > 21
+                      ? `${item.productName.slice(0, 21)}...`
+                      : item.productName}
                   </h2>
                   <div className="flex justify-between items-center mobile:text-center">
                     {/* <div className="flex gap-1 items-center">
@@ -454,6 +465,19 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
                         </h3>
                       )}
                     </div>
+                 
+                  </div>
+                  <div className="flex gap-2  items-center mobile:text-center">
+                    {item.amountInStock <= 0 ? (
+                      <p className="text-red-500 font-semibold">Out Of Stock</p>
+                    ) : (
+                      <p className="text-green-900 flex gap-2 font-semibold sm:w-28 w-40 text-start text-sm  rounded-lg ">
+                        In Stock -
+                        <span className="font-semibold text-sm text-start">
+                          {item.amountInStock}
+                        </span>
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="flex items-center   mobile:items-center">
@@ -475,12 +499,38 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
                 {/* <div onClick={() => handleCart(index)}>
                 <img src={addcart} className="h-7 p-1" alt="Add to Cart Icon" />
               </div> */}
-                <div
-                  onClick={() => handleCart(item.productID)}
-                  className="bg-blue-900 flex gap-1 p-1 rounded-lg justify-center items-center  cursor-pointer"
+               <div
+                  // onClick={() => handleCart(item.productID)}
+                  onClick={(e) => {
+                    if (item.amountInStock > 0) {
+                      handleCart(item.productID);
+                    } else {
+                      e.stopPropagation(); // Prevent any unwanted event bubbling
+                    }
+                  }}
+                  className={`bg-blue-900 flex gap-1 p-1 rounded-lg justify-center items-center  ${
+                    item.amountInStock <= 0
+                      ? "opacity-50 cursor-not-allowed"
+                      : "cursor-pointer"
+                  }`}
                 >
-                  <img src={addcart} className="h-7 p-1" />
-                  <p className="text-white font-semibold">ADD</p>
+                  <img
+                    src={addcart}
+                    className={`h-7 p-1  ${
+                      item.amountInStock <= 0
+                        ? "opacity-50  cursor-not-allowed"
+                        : "cursor-pointer"
+                    }`}
+                  />
+                  <p
+                    className={`text-white font-semibold ${
+                      item.amountInStock <= 0
+                        ? "opacity-50 cursor-not-allowed"
+                        : "cursor-pointer"
+                    }`}
+                  >
+                    ADD
+                  </p>
                 </div>
               </div>
             </div>
