@@ -476,6 +476,7 @@ import { Tooltip } from "@mui/material";
 import Pagination from "../../Pagination";
 import { useNavigate } from "react-router-dom";
 import {
+  ActivateUserAPI,
   DeactivateUserAPI,
   DeleteCustomerAPI,
   getUserByCustomerIdApi,
@@ -485,7 +486,8 @@ import wrong from "../../../assets/Icons/wrongred.png";
 import Notification from "../../Notification";
 import search from '../../../assets/search.png'
 import searchImg from "../../../assets/search-icon.png";
-
+import Activate from "../../../assets/Activate.jpg";
+import { useDispatch } from "react-redux";
 
 const GeneralMerchandiseSeller = () => {
   const [customers, setCustomers] = useState([]);
@@ -507,7 +509,7 @@ const GeneralMerchandiseSeller = () => {
   const [customerId, setCustomerId] = useState(null); // To store the ID of the customer being deactivated
 
   const closeButton = () => {
-    setOpendeactivatePop(false);
+    setOpenPop(false);
     setOpendeletePop(false);
   };
 
@@ -668,16 +670,16 @@ const GeneralMerchandiseSeller = () => {
   //   closeButton();
   // };
 
-  const successButton = async () => {
-    await DeactivateCustomer(customerId);
-    setDeactivatedProducts((prev) => [...prev, customerId]); // Add the deactivated product ID
-    closeButton(); // Close the popup
-    setNotification({
-      show: true,
-      message: "User Deactivated Successfully!",
-    });
-    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-  };
+  // const successButton = async () => {
+  //   await DeactivateCustomer(customerId);
+  //   setDeactivatedProducts((prev) => [...prev, customerId]); // Add the deactivated product ID
+  //   closeButton(); // Close the popup
+  //   setNotification({
+  //     show: true,
+  //     message: "User Deactivated Successfully!",
+  //   });
+  //   setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  // };
 
   const successDeleteButton = async () => {
     await DeleteCustomer(customerId);
@@ -728,6 +730,67 @@ const GeneralMerchandiseSeller = () => {
     setSearchInput({ customerName: '' });
   };
 
+  const [openPop, setOpenPop] = useState(false);
+
+  const [isActivating, setIsActivating] = useState(false);
+  const [activeCustomerID, setActiveCustomerID] = useState(null);
+
+
+  const activatePopUp = (customerId) => {
+    setOpenPop(true);
+    setIsActivating(true); // Indicate that it's an activation popup
+    setActiveCustomerID(customerId);
+  };
+
+  const deactivatePopUp = (customerId) => {
+    setOpenPop(true);
+    setIsActivating(false); // Indicate that it's a deactivation popup
+    setActiveCustomerID(customerId);
+  };
+  
+  const dispatch = useDispatch();
+
+  const successButton = async () => {
+    try {
+      // setLoading(true); // Set loading to true before API call
+      if (isActivating) {
+        // Activation logic
+        await dispatch(ActivateUserAPI(activeCustomerID));
+        settrigger((prev) => prev + 1); // Update trigger to reload data
+
+        setNotification({
+          show: true,
+          message: "User Activated Successfully!",
+        });
+      } else {
+        // Deactivation logic
+        await dispatch(DeactivateUserAPI(activeCustomerID));
+        settrigger((prev) => prev + 1); // Update trigger to reload data
+        setNotification({
+          show: true,
+          message: "User Deactivated Successfully!",
+        });
+      }
+      settrigger((prev) => prev + 1); // Update trigger to reload data
+
+      setOpenPop(false);
+      settrigger((prev) => prev + 1); // Update trigger to reload data
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    } catch (error) {
+      setOpenPop(false);
+      settrigger((prev) => prev + 1); // Update trigger to reload data
+
+
+      console.log(error);
+    } finally {
+      setOpenPop(false);
+      settrigger((prev) => prev + 1); // Update trigger to reload data
+
+
+      setLoading(false); // Ensure loading is stopped after the API call
+    }
+  };
+
   return (
     <>
       <div className="bg-gray-100 w-full h-full flex overflow-y-scroll items-center justify-center">
@@ -737,38 +800,39 @@ const GeneralMerchandiseSeller = () => {
             message={notification.message}
           />
         )}
-        {opendeactivatePop && (
-          <div
-            className="fixed top-0 left-25 w-4/5 h-full flex justify-center items-center bg-slate-900 bg-opacity-20"
-            role="dialog"
-            aria-modal="true"
-          >
-            <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
-              <div className="flex justify-end  ">
-                <button className="w-5 p-1 -mt-8 mx-2" onClick={closeButton}>
-                  <img src={wrong} className="w-6 h-4" />
-                </button>
-              </div>
-              <h1 className="text-black text-center mt-2">
-                Are you sure you want to deactivate this user ?
-              </h1>
-              <div className="flex justify-around mt-6">
-                <button
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={cancelButton}
-                >
-                  No
-                </button>
-                <button
-                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={successButton}
-                >
-                  Yes
-                </button>
-              </div>
+        {openPop && (
+        <div
+          className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-slate-900 bg-opacity-20"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
+            <div className="flex justify-end">
+              <button className="w-5 p-1 -mt-8 mx-2" onClick={closeButton}>
+                <img src={wrong} className="w-6 h-4" alt="Close" />
+              </button>
+            </div>
+            <h1 className="text-black text-center mt-2">
+              Are you sure you want to{" "}
+              {isActivating ? "activate" : "deactivate"} this user?
+            </h1>
+            <div className="flex justify-around mt-6">
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                onClick={cancelButton}
+              >
+                No
+              </button>
+              <button
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                onClick={successButton}
+              >
+                Yes
+              </button>
             </div>
           </div>
-        )}
+        </div>
+      )}
         {opendeletePop && (
           <div
             className="fixed top-0 left-25 w-4/5 h-full flex justify-center items-center bg-slate-900 bg-opacity-20"
@@ -976,6 +1040,25 @@ const GeneralMerchandiseSeller = () => {
                               }
                             />
                           </Tooltip>
+                          {customer.isActive ? (
+        <Tooltip title="Deactivate" placement="top">
+          <img
+            src={Deactivate}
+            alt="Deactivate"
+            className="cursor-pointer w-4 h-4 -mb-5"
+            onClick={() =>  deactivatePopUp(customer.customerId)}
+          />
+        </Tooltip>
+      ) : (
+        <Tooltip title="Activate" placement="top">
+          <img
+            src={Activate}
+            alt="Activate"
+            className="cursor-pointer w-4 h-4 -mb-5"
+            onClick={() => activatePopUp(customer?.customerId)}
+          />
+        </Tooltip>
+      )}
                           <Tooltip placement="top" title="Delete">
                             <img
                               src={Bin}
@@ -984,17 +1067,7 @@ const GeneralMerchandiseSeller = () => {
                               onClick={() => handleDeleteClick(customer.customerId)}
                             />
                           </Tooltip>
-                          <Tooltip placement="top" title="Deactivate">
-                            <img
-                              src={Deactivate}
-                              alt="Deactivate"
-                              className="cursor-pointer w-4 h-4 -mb-5"
-                              // onClick={() => DeactivateCustomer(customer.customerId)}
-                              onClick={() =>
-                                handleDeactivateClick(customer.customerId)
-                              }
-                            />
-                          </Tooltip>
+                         
                         </td>
                       </tr>
                     ))

@@ -97,6 +97,10 @@ export const ProductPriceValidation = (formData) => {
         errors.amountInStock = "Amount In Stock is required.";
     }
 
+    if (formData.minOrderQuantity === null || formData.minOrderQuantity === undefined || formData.minOrderQuantity <= 0) {
+        errors.minOrderQuantity = "Minimum Order Quantity is required and must be greater than 0.";
+    }
+
 
     return errors;
 };

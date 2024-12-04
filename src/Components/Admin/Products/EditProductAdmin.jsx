@@ -22,7 +22,7 @@ import {
   uploadImageApi,
 } from "../../../Api/ProductApi";
 import { useDispatch, useSelector } from "react-redux";
-import RelatedProductsAdmin from "./RelatedProductsAdmin";
+import RelatedProductsAdmin from "./RelatedProductsAdmin"
 import {
   ProductInfoValidation,
   ProductPriceValidation,
@@ -210,17 +210,17 @@ function EditProductAdmin() {
       unitOfMeasurement: product.unitOfMeasure,
       upnMemberPrice: product.upnMemberPrice,
       salePrice: product.salePrice,
-      salePriceForm: product.salePriceValidFrom,
-      salePriceTo: product.salePriceValidTo,
+      salePriceForm: product.salePriceValidFrom === "0001-01-01T00:00:00" ? null : product.salePriceValidFrom,
+      salePriceTo: product.salePriceValidTo === "0001-01-01T00:00:00" ? null : product.salePriceValidTo,           
       manufacturer: product.manufacturer,
       strength: product.strength,
       lotNumber: product.lotNumber,
-      expirationDate: product.expiryDate,
+      expirationDate: product.expiryDate === "0001-01-01T00:00:00" ? null : product.expiryDate,
       packQuantity: product.packQuantity,
       packType: product.packType,
       packCondition: {
         tornLabel: product.packCondition == "torn",
-        otherCondition: "",
+        otherCondition: product.packCondition,
       },
       imageUrl: product?.productGallery?.imageUrl,
       productSizeId: 0,
@@ -421,14 +421,45 @@ function EditProductAdmin() {
   const [selectedVideos, setSelectedVideos] = useState([]);
   const [videoPreviews, setVideoPreviews] = useState([]);
 
+  // const handleVideoSelect = (event) => {
+  //   const files = Array.from(event.target.files);
+  //   setSelectedVideos(files);
+
+  //   const previews = files.map((file) => URL.createObjectURL(file));
+  //   setVideoPreviews(previews);
+  //   setFormData({ ...formData, ["videoUrl"]: files[0] });
+  // };
+
   const handleVideoSelect = (event) => {
     const files = Array.from(event.target.files);
-    setSelectedVideos(files);
-
-    const previews = files.map((file) => URL.createObjectURL(file));
-    setVideoPreviews(previews);
-    setFormData({ ...formData, ["videoUrl"]: files[0] });
+    const maxSize = 25 * 1024 * 1024; // 25MB in bytes
+    const validVideos = [];
+    const previews = [];
+  
+    files.forEach((file) => {
+      if (!file.type.startsWith("video/")) {
+        setErrorMessage("Please upload valid video files.");
+        return;
+      }
+  
+      if (file.size > maxSize) {
+        setErrorMessage(`The video exceeds the maximum size of 25MB.`);
+        return;
+      }
+  
+      validVideos.push(file);
+      previews.push(URL.createObjectURL(file));
+    });
+  
+    // Set videos and previews only if all are valid
+    if (validVideos.length > 0) {
+      setErrorMessage(""); // Clear any previous error
+      setSelectedVideos(validVideos);
+      setVideoPreviews(previews);
+      setFormData({ ...formData, videoUrl: validVideos[0] }); // Store the first video file
+    }
   };
+  
 
   const handleClearSelection = () => {
     setSelectedVideos([]);
@@ -453,26 +484,56 @@ function EditProductAdmin() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
 
+  // const handleImageChange = async (event) => {
+  //   const file = event.target.files[0];
+  //   setErrorMessage("");
+  //   // Check if the file is an image
+  //   if (file && file.type.startsWith("image/")) {
+  //     // Create an object URL for previewing the image
+  //     const imagePreviewUrl = URL.createObjectURL(file);
+
+  //     // Set the preview and update form data
+  //     setSelectedImage(imagePreviewUrl);
+  //     setFormData({
+  //       ...formData,
+  //       imageUrl: file, // You can handle the file (e.g., send it in form submission)
+  //     });
+  //   } else {
+  //     // If not an image, handle the error (show an alert or handle it as needed)
+  //     setErrorMessage("Please upload a valid image file.");
+  //   }
+  // };
+
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
-    setErrorMessage("");
-    // Check if the file is an image
-    if (file && file.type.startsWith("image/")) {
+    const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+    setErrorMessage(""); // Clear any existing error message
+  
+    if (file) {
+      // Check if the file is an image
+      if (!file.type.startsWith("image/")) {
+        setErrorMessage("Please upload a valid image file.");
+        return;
+      }
+  
+      // Check if the file size exceeds 5MB
+      if (file.size > maxSize) {
+        setErrorMessage("File size exceeds the maximum limit of 5MB.");
+        return;
+      }
+  
       // Create an object URL for previewing the image
       const imagePreviewUrl = URL.createObjectURL(file);
-
+  
       // Set the preview and update form data
       setSelectedImage(imagePreviewUrl);
       setFormData({
         ...formData,
-        imageUrl: file, // You can handle the file (e.g., send it in form submission)
+        imageUrl: file, // Handle the file (e.g., send it in form submission)
       });
-    } else {
-      // If not an image, handle the error (show an alert or handle it as needed)
-      setErrorMessage("Please upload a valid image file.");
     }
   };
-
+  
   const [thumbnails, setThumnails] = useState([]);
   console.log("printed ", thumbnails);
   const { getRootProps, getInputProps } = useDropzone({
@@ -524,11 +585,21 @@ function EditProductAdmin() {
     if (name === "discount") {
       console.log(name, type);
       if (name == "discount") {
-        setFormData({
-          ...formData,
-          [name]: value === "" ? "" : Number(value),
-          ["salePrice"]: value==""? "":Number((formData.price * (100 - Number(value))) / 100),
-        });
+        if (/^\d{0,2}$/.test(value)) {
+          setFormData({
+            ...formData,
+            [name]: value === "" ? "" : Number(value),
+            salePrice:
+              value === ""
+                ? ""
+                : Number((formData.price * (100 - Number(value))) / 100),
+          });
+        }
+        // setFormData({
+        //   ...formData,
+        //   [name]: value === "" ? "" : Number(value),
+        //   ["salePrice"]: value==""? "":Number((formData.price * (100 - Number(value))) / 100),
+        // });
       }
     } else if (type === "select-multiple") {
       const selectedOptions = Array.from(options)
@@ -607,7 +678,7 @@ function EditProductAdmin() {
         setFormData((prevData) => ({
           ...prevData,
           shippingCostApplicable: isShippingCostApplicable,
-          shippingCost: isShippingCostApplicable ? 20 : 0, // Set shipping cost based on selection
+          shippingCost: isShippingCostApplicable ? 0 : 0, // Set shipping cost based on selection
         }));
         //   setFormData((prevData) => ({
         //     ...prevData,
@@ -650,7 +721,10 @@ function EditProductAdmin() {
           packCondition: {
             ...formData.packCondition,
             tornLabel: e.target.checked,
+            otherCondition:"",
+            otherConditionChecked:false
           },
+
         });
       } else if (id === "otherCondition") {
         setFormData({
@@ -982,14 +1056,14 @@ function EditProductAdmin() {
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
-          setActiveTab(0);
+          // setActiveTab(0);
           localStorage.removeItem("productId");
           // Disable 2nd and 3rd tabs
           setShowTab([1, 2, 3]);
           if (queryProductId == null) {
             ResetFormDate();
           }
-          // navigate("/layout/postingproducts");
+          navigate("/pharmEtradeadmin/products");
 
           // Optionally reset or move to another step
         }, 3000);
@@ -1480,13 +1554,16 @@ function EditProductAdmin() {
                         id="otherCondition"
                         name="otherCondition"
                         checked={
-                          formData.packCondition.otherConditionChecked || false
+                          (formData.packCondition.otherCondition.length>0 && formData.packCondition.tornLabel==""
+                            && formData.packCondition.otherCondition!="torn") 
+                            || formData.packCondition.otherConditionChecked
                         }
                         onChange={(e) =>
                           setFormData({
                             ...formData,
                             packCondition: {
                               ...formData.packCondition,
+                              tornLabel:"",
                               otherConditionChecked: e.target.checked,
                               otherCondition: e.target.checked
                                 ? formData.packCondition.otherCondition
@@ -1502,7 +1579,7 @@ function EditProductAdmin() {
                       <input
                         type="text"
                         name="otherConditionText"
-                        value={formData.packCondition.otherCondition || ""}
+                        value={ formData.packCondition.otherCondition != "torn" ? formData.packCondition.otherCondition : ""}
                         onChange={(e) =>
                           setFormData({
                             ...formData,
@@ -1512,7 +1589,9 @@ function EditProductAdmin() {
                             },
                           })
                         }
-                        disabled={!formData.packCondition.otherConditionChecked}
+                        disabled={(formData.packCondition.otherCondition.length<=0 
+                          || formData.packCondition.otherCondition=="torn") 
+                          && !formData.packCondition.otherConditionChecked}
                         className="mx-1 w-[30%] Largest:w-[15%] h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:shadow focus:shadow-blue-400"
                       />
                     </div>
@@ -1634,7 +1713,7 @@ function EditProductAdmin() {
                   <p className="text-sm mt-1 font-semibold">
                     Main Product Image:
                   </p>
-                  <p className="text-sm font-semibold"> ( JPEG, PNG)</p>
+                  <p className="text-sm font-semibold"> ( JPEG, PNG, Max size 5MB)</p>
                   <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
                     {formData.imageUrl ? (
                       <div className="relative">
@@ -2117,6 +2196,11 @@ function EditProductAdmin() {
                           : formData.minOrderQuantity
                       }
                     />
+                     {formErrors.minOrderQuantity && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.minOrderQuantity}
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -2585,45 +2669,18 @@ function EditProductAdmin() {
       case 3:
         return (
           <div className="space-y-4 Largest:w-[60%] font-sans font-medium ">
+            <div>
             <p className="font-semibold">
-              Main Product Image: (Accepted Formats: JPEG, PNG)
+              Main Product Image: (Accepted Formats: JPEG, PNG, Max size 5MB)
             </p>
+            {errorMessage && (
+                    <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
+                  )}
+            </div>
+           
 
             <div className="flex w-full gap-4 justify-between">
-              {/* <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
-                {selectedImage || formData.imageUrl ? (
-                  <div className="relative">
-                    <img
-                      src={selectedImage || formData.imageUrl}
-                      alt="Selected"
-                      className="w-64 h-64 object-cover rounded-md"
-                    />
-                    <button
-                      onClick={handleRemoveImage}
-                      className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full focus:outline-none"
-                    >
-                      &times;
-                    </button>
-                  </div>
-                ) : (
-                  <label
-                    htmlFor="imageUpload"
-                    className="flex flex-col justify-center  items-center w-full  h-32 bg-gray-100 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-200"
-                  >
-                    <span className="text-gray-500   text-center">
-                      {" "}
-                      Click here or drag and drop image
-                    </span>
-                    <input
-                      type="file"
-                      id="imageUpload"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                      className="hidden"
-                    />
-                  </label>
-                )}
-              </div> */}
+            
               <div className="flex flex-col items-center justify-center p-4 border border-dashed border-gray-300 rounded-lg">
                 {selectedImage || formData.imageUrl ? (
                   <div className="relative">
@@ -2717,7 +2774,7 @@ function EditProductAdmin() {
             </div>
 
             <h1 className="font-semibold">
-              Product Video :(Accepted Format :MP4,MPEG){" "}
+              Product Video :(Accepted Format :MP4,MPEG, Max size 5MB){" "}
             </h1>
             <div className="border shadow-md flex w-full rounded-md  mb-4">
               <div className="w-[50%]">
@@ -2730,6 +2787,9 @@ function EditProductAdmin() {
                     onChange={handleVideoSelect}
                     className="block mb-4 w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                   />
+                  {errorMessage && (
+                    <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
+                  )}
                   <div className="flex flex-wrap gap-4 mb-4">
                     {videoPreviews.map((preview, index) => (
                       <div key={index} className="w-1/4">

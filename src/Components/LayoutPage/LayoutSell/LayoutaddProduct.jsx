@@ -678,7 +678,7 @@ function LayoutaddProduct() {
         setFormData((prevData) => ({
           ...prevData,
           shippingCostApplicable: isShippingCostApplicable,
-          shippingCost: isShippingCostApplicable ? 20 : 0, // Set shipping cost based on selection
+          shippingCost: isShippingCostApplicable ? 0 : 0, // Set shipping cost based on selection
         }));
         //   setFormData((prevData) => ({
         //     ...prevData,
@@ -2196,6 +2196,11 @@ function LayoutaddProduct() {
                           : formData.minOrderQuantity
                       }
                     />
+                     {formErrors.minOrderQuantity && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.minOrderQuantity}
+                      </span>
+                    )}
                   </div>
                 </div>
 

@@ -165,6 +165,7 @@ import React, { useState } from "react";
 import { TextField } from "@mui/material";
 import { format, parseISO } from "date-fns";
 import { getReportsApi } from "../../../Api/AdminApi";
+import Pagination from "../../Pagination";
 
 const Reports = () => {
   // State to store input values and the saved reports data
@@ -172,7 +173,6 @@ const Reports = () => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [reports, setReports] = useState([]); // Array to hold saved reports
-
   // Handle report type change
   const handleReportTypeChange = (e) => {
     setReportType(e.target.value);
@@ -216,28 +216,25 @@ const Reports = () => {
   //     alert("Please fill all fields");
   //   }
   // };
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = reports.slice(indexOfFirstItem, indexOfLastItem);
+  // const totalPages = Math.ceil((products?.length || 0) / itemsPerPage);
 
   const handleSave = async () => {
     if (reportType && fromDate && toDate) {
       const formattedFromDate = format(parseISO(fromDate), "MM/dd/yyyy");
       const formattedToDate = format(parseISO(toDate), "MM/dd/yyyy");
-      console.log("fromdate==>", formattedFromDate)
-      console.log("todate==>", formattedToDate)
-       
 
-      // const newReport = {
-      //   reportType,
-      //   fromDate: formattedFromDate,
-      //   toDate: formattedToDate,
-      // };
-    
-      // setReports([...reports, newReport]);
       try {
-        const res = await getReportsApi(reportType, formattedFromDate, formattedToDate)
+        const res = await getReportsApi(reportType, formattedFromDate, formattedToDate);
         setReports(res)
       } catch (error) {
-        console.error(error);
+        console.error("Dispatch error:", error);
       }
+
       setReportType("");
       setFromDate("");
       setToDate("");
@@ -245,8 +242,9 @@ const Reports = () => {
       alert("Please fill all fields");
     }
   };
+
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto overflow-y-scroll p-6">
       {/* Form Section */}
       <div className="bg-white shadow-lg rounded-lg mx-5 p-6 mb-8">
         <h2 className="text-2xl font-semibold mb-4">Generate Report</h2>
@@ -310,7 +308,7 @@ const Reports = () => {
             onClick={handleSave}
             className="bg-blue-900 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-600 transition"
           >
-            Save
+            Show
           </button>
         </div>
       </div>
@@ -327,7 +325,7 @@ const Reports = () => {
           </button>
         </div>
         <table className="min-w-full table-auto">
-          <thead>
+          <thead className="overflow-scroll">
             <tr className="bg-blue-900 text-white">
               {/* <th className=" px-4 py-2 text-left">S No.</th>
               <th className=" px-4 py-2 text-left">Report Name</th>
@@ -335,25 +333,41 @@ const Reports = () => {
               <th className=" px-4 py-2 text-left">To</th>
               <th className=" px-4 py-2 text-left">Export Option</th> */}
               <th className=" px-4 py-2 text-left">S No.</th>
-              <th className=" px-4 py-2 text-left">CustomerName</th>
-              <th className=" px-4 py-2 text-left">OrderNumber</th>
-              <th className=" px-4 py-2 text-left">PaymentAmount</th>
-              <th className=" px-4 py-2 text-left">PaymentMethod</th>
-              <th className=" px-4 py-2 text-left">PaymentDate</th>
-              <th className=" px-4 py-2 text-left">OrderDate</th>
+              <th className=" px-4 py-2 text-left">Customer Name</th>
+              <th className=" px-4 py-2 text-left">Order Number</th>
+              <th className=" px-4 py-2 text-left">Order Date</th>
+              <th className=" px-4 py-2 text-left">Payment Amount</th>
+              <th className=" px-4 py-2 text-left">Payment Date</th>
+              <th className=" px-4 py-2 text-left">Payment Method</th>
             </tr>
           </thead>
           <tbody>
-            {Array.isArray(reports) && reports.length > 0 ? (
-              reports.map((report, index) => (
+            {Array.isArray(currentItems) && currentItems.length > 0 ? (
+              currentItems.map((report, index) => (
                 <tr key={index} className="border-t">
-                  <td className="px-4 py-2">{index + 1}</td>
-                  <td className="px-4 py-2">{report.customerName}</td>
-                  <td className="px-4 py-2">{report.orderNumber}</td>
-                  <td className="px-4 py-2">{report.paymentAmount}</td>
-                  <td className="px-4 py-2">{report.paymentMethod}</td>
-                  <td className="px-4 py-2">{report.paymentDate}</td>
-                  <td className="px-4 py-2">{report.orderDate}</td>
+                  <td className="px-4 py-2">{indexOfFirstItem + index + 1}</td>
+                  <td className="px-4 py-2">{report.CustomerName}</td>
+                  <td className="px-4 py-2">{report.OrderNumber}</td>
+                  <td className="px-4 py-2">
+                    {new Date(report.OrderDate)
+                      .toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                      })
+                      .replace(/\//g, "-")}
+                  </td>
+                  <td className="px-10 text-right">${report.PaymentAmount.toFixed(2)}</td>
+                  <td className="px-4 py-2">
+                    {new Date(report.PaymentDate)
+                      .toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                      })
+                      .replace(/\//g, "-")}
+                  </td>
+                  <td className="px-4 py-2">{report.PaymentMethod}</td>
                   {/* <td className="px-4 py-2">
                     <button className="bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600 transition">
                       Export
@@ -371,6 +385,16 @@ const Reports = () => {
           </tbody>
         </table>
       </div>
+      <Pagination
+        indexOfFirstItem={indexOfFirstItem}
+        indexOfLastItem={indexOfLastItem}
+        // productList={products}
+        productList={reports}
+        itemsPerPage={itemsPerPage}
+        setItemsPerPage={setItemsPerPage}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 };

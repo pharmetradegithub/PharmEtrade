@@ -473,12 +473,11 @@ function LayoutOtcProducts({
                         Unit Price
                       </p>
                       <div className="sm:mt-1 mt-0 text-right text-xs font-bold">
-                        <p className="font-semibold mt-1 text-sm ">
+                        <p className="font-semibold mr-4 mt-1 text-sm ">
                           ${product.unitPrice?.toFixed(2)}
                         </p>
                       </div>
-                      <p className="font-semibold">Taxable: {product.taxable ? 'Yes' : 'No'}</p>
-                      <p className="font-semibold">Shipping: {product.shippingCostApplicable ? 'Yes':'No'}</p>
+                      <p className="font-semibold text-sm mt-8">Taxable: {product.taxable ? 'Yes' : 'No'}</p>
                     </div>
                   </div>
 
@@ -497,11 +496,13 @@ function LayoutOtcProducts({
 
                   <div className="flex sm:flex-col    gap-2 flex-row sm:mx-3 mx-0">
                     <p className="font-semibold text-sm">Sale Price</p>
-                    <div className="sm:mt-2 mt-0 sm:text-right text-left text-xs font-bold  ">
+                    <div className="sm:mt-2 mt-0 mr-4 sm:text-right text-left text-xs font-bold  ">
                       <p className="font-semibold text-sm ">
                         ${product.salePrice?.toFixed(2)}
                       </p>
                     </div>
+                    <p className="font-semibold text-sm mt-8">Shipping: {product.shippingCostApplicable ? 'Yes':'No'}</p>
+
                   </div>
 
                   <div className="flex sm:flex-col flex-col sm:mx-4 mx-0">

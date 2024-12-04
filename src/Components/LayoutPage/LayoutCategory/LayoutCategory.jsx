@@ -1253,7 +1253,7 @@ function LayoutCategory({
 
                     <div className="flex md:flex-col md:mx-3">
                       <p className="font-semibold text-sm">Unit Price</p>
-                      <div className=" mt-1  ml-2 md:ml-0 md:mt-2  text-left md:text-right text-xs font-bold">
+                      <div className=" mt-1  ml-2 md:ml-0 md:mt-2 mr-4 text-left md:text-right text-xs font-bold">
                         <p className="font-semibold">
                           ${product.unitPrice?.toFixed(2)}
                         </p>
@@ -1265,8 +1265,7 @@ function LayoutCategory({
                           ${product.unitPrice?.toFixed(2)}
                         </p> */}
                       </div>
-                      <p className="font-semibold">Taxable: {product.taxable ? 'Yes' : 'No'}</p>
-                      <p className="font-semibold">Shipping: {product.shippingCostApplicable ? 'Yes':'No'}</p>
+                      <p className="font-semibold text-sm mt-8">Taxable: {product.taxable ? 'Yes' : 'No'}</p>
                     </div>
 
                     {/* <div className="flex flex-col mx-3">
@@ -1369,12 +1368,13 @@ function LayoutCategory({
 
                     <div className="flex md:flex-col md:mx-3">
                       <p className="font-semibold text-sm">Sale Price</p>
-                      <div className=" mt-1 ml-2  md:ml-0 md:mt-2 text-right text-xs font-bold">
+                      <div className=" mt-1 ml-2 mr-4  md:ml-0 md:mt-2 text-right text-xs font-bold">
                         <p className="font-semibold">
                           ${product.salePrice?.toFixed(2)}
                         </p>
 
                       </div>
+                      <p className="font-semibold text-sm mt-8">Shipping: {product.shippingCostApplicable ? 'Yes':'No'}</p>
 
 
                     </div>

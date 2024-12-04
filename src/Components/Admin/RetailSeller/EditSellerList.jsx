@@ -22,6 +22,13 @@ import Notification from "../../Notification";
 import ChargesInformations from "./ChargesInformations";
 import { useStates } from "react-us-states";
 import { useParams } from "react-router-dom";
+import {
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+} from "@mui/material";
+
 // import ChargesInformation from "../../LayoutPage/LayoutProfile/ChargesInformation";
 // import BankInformation from "./BankInformation";
 // import LayoutProfileAddress from "./LayoutProfileAddress";
@@ -50,47 +57,47 @@ const EditSellerList = () => {
     }
   }, [CustomerId]);
 
-  const DeactivateCustomer = async (customerId, comments) => {
-    await DeactivateUserAPI(customerId, comments);
-    setNotification({
-      show: true,
-      message: "User Deactivated Successfully!",
-    });
-    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-    setCallHistory((prev) => prev + 1);
-  };
+  // const DeactivateCustomer = async (customerId, comments) => {
+  //   await DeactivateUserAPI(customerId, comments);
+  //   setNotification({
+  //     show: true,
+  //     message: "User Deactivated Successfully!",
+  //   });
+  //   setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //   setCallHistory((prev) => prev + 1);
+  // };
 
-  const ActivateCustomer = async (customerId, comments) => {
-    await ActivateUserAPI(customerId, comments);
-    setNotification({
-      show: true,
-      message: "User Activated Successfully!",
-    });
+  // const ActivateCustomer = async (customerId, comments) => {
+  //   await ActivateUserAPI(customerId, comments);
+  //   setNotification({
+  //     show: true,
+  //     message: "User Activated Successfully!",
+  //   });
 
-    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-    setCallHistory((prev) => prev + 1);
-  };
+  //   setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //   setCallHistory((prev) => prev + 1);
+  // };
 
+  // const handleCommentSaveClick = () => {
+  //   if (usercomment.trim() === "") {
+  //     setNotification({
+  //       show: true,
+  //       message: "Please add a comment before saving!",
+  //     });
 
-  const handleCommentSaveClick = () => {
-    if (comments.trim() === "") {
-      setNotification({
-        show: true,
-        message: "Please add a comment before saving!",
-      });
-  
-      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-      return; // Exit the function early if comments are empty
-    }
-  
-    setNotification({
-      show: true,
-      message: "Comment Saved Successfully!",
-    });
-  
-    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-  };
-  
+  //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //     return; // Exit the function early if comments are empty
+  //   }
+  //   setUserComment((prevComments) => [...prevComments, usercomment.trim()]);
+
+  //   setNotification({
+  //     show: true,
+  //     message: "Comment Saved Successfully!",
+  //   });
+  //   setUsercomment("");
+  //   setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  // };
+
   const [confirmPassword, setConfirmPassword] = useState(""); // State to track user input
 
   const [notes, setNotes] = useState("");
@@ -680,6 +687,30 @@ const EditSellerList = () => {
   }, [CustomerId, CallHistory]);
 
   // console.log("ppppp", historyData);
+  const [usercomment, setUserComment] = useState([]);
+
+  const handleuserCommentsChange = (event) => {
+    setUserComment(event.target.value); // Update comments state with input value
+  };
+  // const handleCommentSaveClick = () => {
+  //   if (usercomment.trim() === "") {
+  //     setNotification({
+  //       show: true,
+  //       message: "Please add a comment before saving!",
+  //     });
+
+  //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //     return; // Exit the function early if comments are empty
+  //   }
+  //   setUserComment((prevComments) => [...prevComments, usercomment.trim()]);
+
+  //   setNotification({
+  //     show: true,
+  //     message: "Comment Saved Successfully!",
+  //   });
+  //   setUsercomment("");
+  //   setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  // };
 
   const [comments, setComments] = useState("");
 
@@ -709,6 +740,76 @@ const EditSellerList = () => {
     2: "General Merchandise Seller",
     3: "Pharmacy Distributor",
     4: "Retail Customer",
+  };
+
+  const [showPopup, setShowPopup] = useState(false);
+  const [actionType, setActionType] = useState(""); // "activate" or "deactivate"
+
+  const handleOpenPopup = (type) => {
+    setActionType(type);
+    setShowPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    setComments("");
+  };
+
+  const handleSave = async () => {
+    if (actionType === "activate") {
+      await ActivateCustomer(CustomerId, comments);
+    } else if (actionType === "deactivate") {
+      await DeactivateCustomer(CustomerId, comments);
+    }
+    handleClosePopup();
+  };
+
+  const DeactivateCustomer = async (customerId, comments) => {
+    await DeactivateUserAPI(customerId, comments);
+    setNotification({
+      show: true,
+      message: "User Deactivated Successfully!",
+    });
+    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    setCallHistory((prev) => prev + 1);
+  };
+
+  const ActivateCustomer = async (customerId, comments) => {
+    await ActivateUserAPI(customerId, comments);
+    setNotification({
+      show: true,
+      message: "User Activated Successfully!",
+    });
+    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    setCallHistory((prev) => prev + 1);
+  };
+
+  const [usercomments, setUserComments] = useState([]); // Array to store comments
+  const [currentComment, setCurrentComment] = useState(""); // Temporary input value
+
+  const handleUserCommentsChange = (event) => {
+    setCurrentComment(event.target.value); // Update temporary comment value
+  };
+
+  const handleCommentSaveClick = () => {
+    if (currentComment.trim() === "") {
+      setNotification({
+        show: true,
+        message: "Please add a comment before saving!",
+      });
+
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      return;
+    }
+
+    setUserComments((prevComments) => [...prevComments, currentComment.trim()]);
+
+    setNotification({
+      show: true,
+      message: "Comment Saved Successfully!",
+    });
+    setCurrentComment(""); // Clear input field
+    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
   };
 
   return (
@@ -1240,23 +1341,25 @@ const EditSellerList = () => {
                       size="small"
                       className="w-[60%]"
                     />
-                   {accountData.deaLicenseCopy && (
-  <a
-    href={isAccountEdit ? accountData.deaLicenseCopy : undefined}
-    target={isAccountEdit ? "_blank" : undefined}
-    rel={isAccountEdit ? "noopener noreferrer" : undefined}
-    onClick={(e) => {
-      if (!isAccountEdit) {
-        e.preventDefault(); // Prevent navigation when disabled
-      }
-    }}
-    className={`text-sm -mt-3 underline ${
-      isAccountEdit ? "text-blue-500" : "text-gray-400 "
-    }`}
-  >
-    View DEA License Copy
-  </a>
-)}
+                    {accountData.deaLicenseCopy && (
+                      <a
+                        href={
+                          isAccountEdit ? accountData.deaLicenseCopy : undefined
+                        }
+                        target={isAccountEdit ? "_blank" : undefined}
+                        rel={isAccountEdit ? "noopener noreferrer" : undefined}
+                        onClick={(e) => {
+                          if (!isAccountEdit) {
+                            e.preventDefault(); // Prevent navigation when disabled
+                          }
+                        }}
+                        className={`text-sm -mt-3 underline ${
+                          isAccountEdit ? "text-blue-500" : "text-gray-400 "
+                        }`}
+                      >
+                        View DEA License Copy
+                      </a>
+                    )}
 
                     <TextField
                       label="NPI"
@@ -1342,22 +1445,26 @@ const EditSellerList = () => {
                       </a>
                     )} */}
                     {accountData.pharmacyLicenseCopy && (
-  <a
-    href={isAccountEdit ? accountData.pharmacyLicenseCopy : undefined}
-    target={isAccountEdit ? "_blank" : undefined}
-    rel={isAccountEdit ? "noopener noreferrer" : undefined}
-    onClick={(e) => {
-      if (!isAccountEdit) {
-        e.preventDefault(); // Prevent navigation when disabled
-      }
-    }}
-    className={`text-sm -mt-3 underline ${
-      isAccountEdit ? "text-blue-500" : "text-gray-400 "
-    }`}
-  >
-    View Pharmacy License Copy
-  </a>
-)}
+                      <a
+                        href={
+                          isAccountEdit
+                            ? accountData.pharmacyLicenseCopy
+                            : undefined
+                        }
+                        target={isAccountEdit ? "_blank" : undefined}
+                        rel={isAccountEdit ? "noopener noreferrer" : undefined}
+                        onClick={(e) => {
+                          if (!isAccountEdit) {
+                            e.preventDefault(); // Prevent navigation when disabled
+                          }
+                        }}
+                        className={`text-sm -mt-3 underline ${
+                          isAccountEdit ? "text-blue-500" : "text-gray-400 "
+                        }`}
+                      >
+                        View Pharmacy License Copy
+                      </a>
+                    )}
                     <TextField
                       label="NCPDP"
                       // id="outlined-size-small"
@@ -1398,29 +1505,57 @@ const EditSellerList = () => {
             <div className="flex flex-col justify-between  rounded-lg mx-8 w-[90%] mt-4">
               {/* TextField for input */}
 
-              <TextField
+              {/* <TextField
                 label="Add Comments" // Updated label to "Add Comments"
                 id="outlined-size-small"
-                value={comments} // Set input value from state
+                // value={comments} // Set input value from state
                 name="comments"
-                onChange={handleCommentsChange} // Handles input change
+                // onChange={handleCommentsChange} // Handles input change
                 size="small"
                 className="w-[99%] m-2 bg-white border"
                 multiline
                 rows={4}
+              /> */}
+              {/* <textarea
+                name="usercomment"
+                rows="4"
+                className="w-[99%] mr-2 bg-white border resize p-2 rounded"
+                placeholder="Add Comments"
+                onChange={handleuserCommentsChange} // Handles input change
               />
-            
+
               <button
-  onClick={handleCommentSaveClick}
-  className={`w-1/5 m-2 py-2 px-4 rounded-lg transition duration-200 ${
-    comments.trim()
-      ? "bg-blue-900 text-white hover:bg-blue-800"
-      : "bg-gray-400 text-gray-200 cursor-not-allowed"
-  }`}
-  disabled={!comments.trim()} // Disable if comments are empty
->
-  Save
-</button>
+                onClick={handleCommentSaveClick}
+                className={`w-1/5 m-2 py-2 px-4 rounded-lg transition duration-200 ${
+                  usercomment.trim()
+                    ? "bg-blue-900 text-white hover:bg-blue-800"
+                    : "bg-gray-400 text-gray-200 cursor-not-allowed"
+                }`}
+                disabled={!usercomment.trim()} // Disable if comments are empty
+              >
+                Save
+              </button> */}
+
+              <textarea
+                name="usercomment"
+                rows="4"
+                className="w-[99%] mr-2 bg-white border resize p-2 rounded"
+                placeholder="Add Comments"
+                value={currentComment} // Controlled input value
+                onChange={handleUserCommentsChange} // Handles input change
+              />
+
+              <button
+                onClick={handleCommentSaveClick}
+                className={`w-1/5 m-2 py-2 px-4 rounded-lg transition duration-200 ${
+                  currentComment.trim()
+                    ? "bg-blue-900 text-white hover:bg-blue-800"
+                    : "bg-gray-400 text-gray-200 cursor-not-allowed"
+                }`}
+                disabled={!currentComment.trim()} // Disable if input is empty
+              >
+                Save
+              </button>
 
               {/* Button to submit the notes */}
             </div>
@@ -1429,7 +1564,7 @@ const EditSellerList = () => {
 
             <div className="flex justify-between flex-col  rounded-lg  px-8  w-[95%] mt-4">
               <div className="button-group">
-                <Button
+                {/* <Button
                   onClick={() => ActivateCustomer(CustomerId, comments)}
                   className={`mr-2 text-white ${
                     userdata?.isActive === 1
@@ -1451,7 +1586,56 @@ const EditSellerList = () => {
                   disabled={userdata?.isActive === 0} // Disable the button if isActive is 0
                 >
                   Deactivate
+                </Button> */}
+
+                <Button
+                  onClick={() => handleOpenPopup("activate")}
+                  className={`mr-2 text-white ${
+                    userdata?.isActive === 1
+                      ? "bg-green-500 cursor-not-allowed opacity-50"
+                      : "bg-green-500"
+                  }`}
+                  disabled={userdata?.isActive === 1}
+                >
+                  Activate
                 </Button>
+
+                <Button
+                  onClick={() => handleOpenPopup("deactivate")}
+                  className={`mr-2 text-white ${
+                    userdata?.isActive === 0
+                      ? "bg-red-500 cursor-not-allowed opacity-50"
+                      : "bg-red-500"
+                  }`}
+                  disabled={userdata?.isActive === 0}
+                >
+                  Deactivate
+                </Button>
+
+                <Dialog open={showPopup} onClose={handleClosePopup}>
+                  <DialogTitle className="">Write a Comment</DialogTitle>
+                  <p></p>
+                  <DialogContent>
+                    <TextField
+                      label="Add Comments"
+                      value={comments}
+                      onChange={handleCommentsChange}
+                      size="small"
+                      multiline
+                      rows={4}
+                      fullWidth
+                      className="bg-white"
+                    />
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClosePopup} className="bg-red-500">
+                      Cancel
+                    </Button>
+                    <Button onClick={handleSave} className="bg-blue-900">
+                      Save
+                    </Button>
+                  </DialogActions>
+                </Dialog>
 
                 <Button
                   // variant="filled" // Replaced "contained" with "filled"
@@ -1480,8 +1664,8 @@ const EditSellerList = () => {
               </div>
             </div>
             {/* {submittedNotes && ( */}
-            <div className=" flex justify-between flex-col  rounded-lg  px-8  w-[90%]  my-4">
-              <div className="data-group bg-white p-4 rounded-lg">
+            <div className=" flex justify-between rounded-lg  px-8  w-[90%]  my-4">
+              <div className="data-group bg-white p-4 h-full rounded-lg w-[50%]">
                 {/* {submittedNotes} */}
                 {historyData.length > 0 ? (
                   historyData.map((item, index) => (
@@ -1527,7 +1711,21 @@ const EditSellerList = () => {
                   <p>No history data available.</p>
                 )}
               </div>
+              <div className="w-[50%] data-group ml-4 h-full bg-white p-4 rounded-lg">
+                {usercomments.length > 0 ? (
+                  <ul className="mt-4">
+                    {usercomments.map((comment, index) => (
+                      <li key={index} className="border-b py-2">
+                        {comment}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-gray-500 mt-4">No comments added.</p>
+                )}
+              </div>
             </div>
+
             {/* )} */}
           </div>
         )}

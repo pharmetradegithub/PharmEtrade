@@ -519,17 +519,17 @@ function LayoutBuy({
                           Unit Price
                         </p>
                         <div className="sm:mt-1 mt-0 text-right text-xs font-bold">
-                          <p className="font-semibold mt-1 text-sm ">
+                          <p className="font-semibold mt-1 text-sm mr-4 ">
                             ${product.unitPrice?.toFixed(2)}
                           </p>
                         </div>
-                        <p className="font-semibold">
+                        <p className="font-semibold text-sm mt-4">
                           Taxable: {product.taxable ? "Yes" : "No"}
                         </p>
-                        <p className="font-semibold">
+                        {/* <p className="font-semibold ">
                           Shipping:{" "}
                           {product.shippingCostApplicable ? "Yes" : "No"}
-                        </p>
+                        </p> */}
                       </div>
                     </div>
 
@@ -548,11 +548,15 @@ function LayoutBuy({
 
                     <div className="flex sm:flex-col    gap-2 flex-row sm:mx-3 mx-0">
                       <p className="font-semibold text-sm">Sale Price</p>
-                      <div className="sm:mt-2 mt-0 sm:text-right text-left text-xs font-bold  ">
+                      <div className="sm:mt-2 mt-0 sm:text-right text-left text-xs font-bold mr-4 ">
                         <p className="font-semibold text-sm ">
                           ${product.salePrice?.toFixed(2)}
                         </p>
                       </div>
+                      <p className="font-semibold text-sm mt-4">
+                          Shipping:{" "}
+                          {product.shippingCostApplicable ? "Yes" : "No"}
+                        </p>
                     </div>
 
                     <div className="flex sm:flex-col flex-col sm:mx-4 mx-0">

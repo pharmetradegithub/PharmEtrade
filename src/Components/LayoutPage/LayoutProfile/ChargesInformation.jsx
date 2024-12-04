@@ -986,7 +986,7 @@ const ChargesInformations = () => {
               </th>
               <th className="px-6 py-3 text-base font-bold">Created Date</th>
               <th className="px-6 py-3 text-base font-bold">Modify Date</th>
-              <th className="px-6 py-3 text-base font-bold">Action</th>
+              {/* <th className="px-6 py-3 text-base font-bold">Action</th> */}
             </tr>
           </thead>
           <tbody>
@@ -1066,7 +1066,7 @@ const ChargesInformations = () => {
                   <td className="px-6 border-b border-gray-200 text-sm">
                     {new Date(entry.modifiedOn).toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" }).replace(/\//g, "-")}
                   </td>
-                  <td className="px-6 border-b border-gray-200 text-sm flex">
+                  {/* <td className="px-6 border-b border-gray-200 text-sm flex">
                     <button
                       className=" py-2 text-white"
                       onClick={() => handleEditClick(index, entry.chargeTypeId, entry.chargeType, entry.chargePercentage, entry.createdOn, entry.modifiedOn)}
@@ -1084,7 +1084,7 @@ const ChargesInformations = () => {
                         <img src={Bin} alt="Delete" className="w-4 h-4" />
                       </Tooltip>
                     </button>
-                  </td>
+                  </td> */}
                   {/* <td className="px-6 border-b border-gray-200 text-sm">
                     
                   </td> */}

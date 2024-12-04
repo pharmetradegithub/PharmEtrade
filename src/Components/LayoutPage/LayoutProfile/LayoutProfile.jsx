@@ -648,7 +648,7 @@ const LayoutProfile = () => {
                     type="radio"
                     id="yes"
                     value="1"
-                    checked={userdata.isUPNMember === 1}
+                    checked={userdata?.isUPNMember === 1}
                     // onChange={handleChange}
                     className="mr-2"
                     disabled={!isAddressEdit}
@@ -662,7 +662,7 @@ const LayoutProfile = () => {
                     type="radio"
                     id="no"
                     value="0"
-                    checked={userdata.isUPNMember === 0}
+                    checked={userdata?.isUPNMember === 0}
                     // onChange={handleChange}
                     className="mr-2"
                     disabled={!isAddressEdit}
