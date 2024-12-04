@@ -1165,17 +1165,32 @@ function Items({
 
           <div className="w-full md:w-2/3">
             <h2 className="text-xl font-bold text-blue-900 mb-4">
-              Customer Say
+              Customers Say
             </h2>
             {/* Example of a single review */}
-            <div className="p-4 mb-4 bg-white border border-gray-200 rounded shadow-sm">
+            {/* <div className="p-4 mb-4 bg-white border border-gray-200 rounded shadow-sm">
               <p className="text-gray-800">
                 "Cough syrups may contain antitussives (like dextromethorphan),
                 expectorants (like guaifenesin), or antihistamines (like
                 diphenhydramine) depending on the type."
               </p>
               <div className="mt-2 text-sm text-gray-500">- Testing</div>
-            </div>
+            </div> */}
+            <div>
+      {ratings.length > 0 ? (
+        ratings.map((rating, index) => (
+          <div
+            key={index}
+            className="p-4 mb-4 bg-white border border-gray-200 rounded shadow-sm"
+          >
+            <p className="text-gray-800">{rating.feedback}</p>
+            <div className="mt-2 text-sm text-gray-500">- testing</div>
+          </div>
+        ))
+      ) : (
+        <p className="text-gray-500">No feedback available for this product.</p>
+      )}
+    </div>
             {/* Repeat above div for multiple reviews */}
           </div>
         </div>

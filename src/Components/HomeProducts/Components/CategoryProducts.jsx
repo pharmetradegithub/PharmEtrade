@@ -44,7 +44,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
     const fetchCategoryProducts = async () => {
       let Criteria = {
         productCategoryId: CategoryId,
-        customerId: user ? user.customerId : "234"
+        customerId: user ? user.customerId : "234",
       };
 
       await fetchCriteriaProductsApi(Criteria);
@@ -105,7 +105,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
 
   const handleCart = async (productID) => {
     if (user == null) {
-      navigate("/login")
+      navigate("/login");
       console.log("login to add");
       return;
     }
@@ -129,7 +129,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
 
   const handleClick = async (productID) => {
     if (user == null) {
-      navigate("/login")
+      navigate("/login");
       return;
     }
     if (wishlistProductIDs.includes(productID)) {
@@ -343,7 +343,25 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
 
                 <div className="w-full py-1">
                   {/* <h2 className="text-fonts h-12">{item.productName}</h2> */}
-                  <h2 className="text-fonts h-12  text-sm sm:text-base " title={item.productName} >
+                  {/* <h2 className="text-fonts h-12  text-sm sm:text-base " title={item.productName} >
+                    {showMore[index]
+                      ? item.productName
+                      : `${item.productName.slice(0, 30)}`}
+                    {item.productName.length > 30 && (
+                      <button
+                        className="text-blue-500 ml-1"
+                        onClick={() => toggleShowMore(index)}
+                      >
+                        {showMore[index] ? "See Less" : " ..."}
+                      </button>
+                    )}
+                  </h2> */}
+                  <h2
+                    className={`text-fonts text-sm sm:text-base ${
+                      showMore[index] ? "h-full mt-2" : "h-12"
+                    }`}
+                    title={item.productName}
+                  >
                     {showMore[index]
                       ? item.productName
                       : `${item.productName.slice(0, 30)}`}
@@ -356,8 +374,9 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                       </button>
                     )}
                   </h2>
+
                   {new Date() >= new Date(item?.salePriceValidFrom) &&
-                    new Date() <= new Date(item?.salePriceValidTo) ? (
+                  new Date() <= new Date(item?.salePriceValidTo) ? (
                     <div className="flex items-center gap-1">
                       <h1 className="text-fonts text-sm sm:text-base font-semibold">
                         ${item.salePrice?.toFixed(2)}
@@ -380,7 +399,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                   <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                   <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                 </div> */}
-                <div className="flex  flex-col md:flex-row justify-between items-center">
+                <div className="flex  flex-col md:flex-row justify-between -mt-2 items-center">
                   <div className="flex items-center">
                     <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                     <span style={{ fontSize: "24px", color: "orange" }}>★</span>
@@ -400,7 +419,9 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                 </div>
 
                 <div className="flex  flex-col md:flex-row items-center justify-between w-full px-1">
-                  <div className="text-foot text-xs sm:text-sm">UPN Member Price:</div>
+                  <div className="text-foot text-xs sm:text-sm">
+                    UPN Member Price:
+                  </div>
                   <div className="text-sm sm:text-base font-semibold">
                     ${item.upnMemberPrice?.toFixed(2)}
                   </div>
@@ -418,10 +439,11 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                   <button className="text-white font-semibold">ADD</button>
                 </div> */}
                 <div
-                  className={`flex p-1 rounded-md justify-center ${item.amountInStock <= 0
+                  className={`flex p-1 rounded-md justify-center ${
+                    item.amountInStock <= 0
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-blue-900 cursor-pointer"
-                    }`}
+                  }`}
                   onClick={() => {
                     if (item.amountInStock > 0) {
                       handleCart(item.productID); // Only call handleCart if item is in stock
@@ -431,12 +453,14 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                   <img
                     src={addcart}
                     alt="Add to cart"
-                    className={`h-6 sm:h-8 p-[6px] ${item.amountInStock <= 0 ? "opacity-50" : ""
-                      }`}
+                    className={`h-6 sm:h-8 p-[6px] ${
+                      item.amountInStock <= 0 ? "opacity-50" : ""
+                    }`}
                   />
                   <button
-                    className={`text-white font-semibold ${item.amountInStock <= 0 ? "opacity-50" : ""
-                      }`}
+                    className={`text-white font-semibold ${
+                      item.amountInStock <= 0 ? "opacity-50" : ""
+                    }`}
                     disabled={item.amountInStock <= 0} // Disable the button when out of stock
                   >
                     ADD

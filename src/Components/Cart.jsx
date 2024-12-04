@@ -662,6 +662,7 @@ function Cart() {
   //   }
   // };
 
+  const orderPlace = useSelector((state) => state.order.orderPlace);
   const handleProceed = async () => {
     // Check stock availability for each item in the cart
     let hasStockIssue = false;
@@ -720,7 +721,7 @@ function Cart() {
     //   })),
     // };
     const payload = {
-      orderId: "",
+      orderId: "0" || orderPlace?.orderId,
       customerId: user.customerId,
       totalAmount: total?.toFixed(2),
       orderDate: currentDate.toISOString(),
