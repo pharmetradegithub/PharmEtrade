@@ -495,7 +495,7 @@ function Items({
       totalAmount: quantity * pricePerProduct,
       orderDate: currentDate.toISOString(),
       shippingMethodId: 1,
-      orderStatusId: 1,
+      orderStatusId: 7,
       trackingNumber: "",
       products: [
         {
