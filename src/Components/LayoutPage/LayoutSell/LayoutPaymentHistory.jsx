@@ -87,6 +87,24 @@ function LayoutPaymentHistory() {
       payout.purchase.toLowerCase().includes(searchQuery.toLowerCase()) ||
       payout.transactionid.toLowerCase().includes(searchQuery.toLowerCase())
   );
+  const [sortConfig, setSortConfig] = useState({
+    key: "",
+    direction: "ascending",
+  });
+
+  const sortedProducts = [...paymentHistory].sort((a, b) => {
+    if (sortConfig.key) {
+      const aValue = a[sortConfig.key];
+      const bValue = b[sortConfig.key];
+
+      if (sortConfig.direction === "ascending") {
+        return aValue > bValue ? 1 : -1;
+      } else {
+        return aValue < bValue ? 1 : -1;
+      }
+    }
+    return 0;
+  });
 
   useEffect(() => {
     dispatch(fetchPaymentHistory(user?.customerId));
@@ -94,10 +112,22 @@ function LayoutPaymentHistory() {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   // const currentItems = paymentHistory.slice(indexOfFirstItem, indexOfLastItem);
-  const currentItems = Array.isArray(paymentHistory)
-    ? paymentHistory.slice(indexOfFirstItem, indexOfLastItem)
+  const currentItems = Array.isArray(sortedProducts)
+    ? sortedProducts.slice(indexOfFirstItem, indexOfLastItem)
     : [];
-  const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
+  const totalPages = Math.ceil((sortedProducts?.length || 0) / itemsPerPage);
+ 
+  const handleSort = (key) => {
+    let direction = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
+    setSortConfig({ key, direction });
+  };
+
+ 
+
+
   return (
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
       <div className="w-[95%] h-full mt-8">
@@ -260,9 +290,17 @@ function LayoutPaymentHistory() {
                 <thead className="bg-blue-900 text-white">
                   <tr className="border-b-2">
                     <th className="px-4 py-2 text-left">Order ID</th>
-                    <th className="px-4 py-2 text-left">Payment Date</th>
+                    <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("paymentDate")}>Payment Date {sortConfig.key === "paymentDate"
+                        ? sortConfig.direction === "ascending"
+                          ? "▲"
+                          : "▼"
+                        : "▲"}</th>
                     <th className="px-4 py-2 text-left">Payment Status</th>
-                    <th className="px-4 py-2 text-left">Payment Amount</th>
+                    <th className="px-4 py-2 text-right cursor-pointer" onClick={() => handleSort("paymentAmount")}>Payment Amount  {sortConfig.key === "paymentAmount"
+                        ? sortConfig.direction === "ascending"
+                          ? "▲"
+                          : "▼"
+                        : "▲"}</th>
                     <th className="px-4 py-2 text-left">Action</th>
                   </tr>
                 </thead>
@@ -283,7 +321,7 @@ function LayoutPaymentHistory() {
                             .replace(/\//g, "-")}
                         </td>
                         <td className="px-4 py-2">{payout.paymentStatus}</td>
-                        <td className="px-4 py-2">
+                        <td className="px-4 py-2 text-right">
                           ${payout.paymentAmount.toFixed(2)}
                         </td>
                         <td className="px-4 py-2">
