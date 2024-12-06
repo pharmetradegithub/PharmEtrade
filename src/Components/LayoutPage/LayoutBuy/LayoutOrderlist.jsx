@@ -1032,9 +1032,19 @@ function LayoutOrderList() {
                             </button>
                           )}
                         </p>
-                        <p className="text-sm mt-2">
+                        {/* <p className="text-sm mt-2">
                           Return Window closed on{" "}
                           {new Date(order.orderDate)
+                            .toLocaleDateString("en-US", {
+                              month: "2-digit",
+                              day: "2-digit",
+                              year: "numeric",
+                            })
+                            .replace(/\//g, "-")}
+                        </p> */}
+                        <p className="text-sm mt-2">
+                          Return Window closes on{" "}
+                          {new Date(new Date(order.orderDate).getTime() + 7 * 24 * 60 * 60 * 1000)
                             .toLocaleDateString("en-US", {
                               month: "2-digit",
                               day: "2-digit",
