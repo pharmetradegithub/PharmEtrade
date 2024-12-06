@@ -1977,72 +1977,74 @@ const ProccedtoShipment = ({
                   })}
                 </table>
 
-                <div className="h-auto p-3 border  flex  rounded-md mt-3  ">
-                  <h1 className="text-base font-semibold text-blue-900">
-                    Shipment :
-                  </h1>
-                  <div className="mx-5">
-                   
-                    <select
-                      id="delivery-options"
-                      value={selectedOptions[seller] || ""}
-                      onChange={(e) => handleChange(seller, e, products)}
-                      className="bg-gray-100 border p-1 rounded-md"
-                    >
-                      <option value="" disabled>
-                        {selectedOptions[seller]
-                          ? "Please choose a delivery option"
-                          : "Select an option"}
-                      </option>
+                {/* Check if any product has a shipping cost */}
+                {products
+                  .filter((product) => product.product.isShippingCostApplicable === true)
+                  .length > 0 && (
+                    <div className="h-auto p-3 border flex rounded-md mt-3">
+                      <h1 className="text-base font-semibold text-blue-900">Shipment:</h1>
+                      <div className="mx-5">
+                        <select
+                          id="delivery-options"
+                          value={selectedOptions[seller] || ""}
+                          onChange={(e) => handleChange(seller, e, products)}
+                          className="bg-gray-100 border p-1 rounded-md"
+                        >
+                          <option value="" disabled>
+                            {selectedOptions[seller]
+                              ? "Please choose a delivery option"
+                              : "Select an option"}
+                          </option>
+                          <optgroup label="Delivery options">
+                            {serviceName.map((item) => {
+                              const matchingRate = fedexRate.find(
+                                (fed) =>
+                                  normalizeString(removeNonPrintableChars(fed.serviceName)) ===
+                                  normalizeString(removeNonPrintableChars(item.serviceName))
+                              );
 
-                      <optgroup label="Delivery options">
-                        {serviceName.map((item) => {
-                          const matchingRate = fedexRate.find(
-                            (fed) =>
-                              normalizeString(removeNonPrintableChars(fed.serviceName)) ===
-                              normalizeString(removeNonPrintableChars(item.serviceName))
-                          );
+                              return (
+                                <option key={item.serviceType} value={item.serviceName}>
+                                  {item.serviceName} $
+                                  {matchingRate
+                                    ? `(${matchingRate.ratedShipmentDetails[0].totalNetCharge})`
+                                    : ""}
+                                </option>
+                              );
+                            })}
+                          </optgroup>
+                        </select>
+                      </div>
 
-                          return (
-                            <option key={item.serviceType} value={item.serviceName}>
-                              {item.serviceName} $
-                              {matchingRate
-                                ? ` (${matchingRate.ratedShipmentDetails[0].totalNetCharge})`
-                                : ""}
-                            </option>
-                          );
-                        })}
-                      </optgroup>
-                    </select>
-                  </div>
+                      <div className="mb-4">
+                        <TextField
+                          label="amount"
+                          size="small"
+                          className="w-40 rounded-md h-4 border"
+                          value={(totalNetCharges[seller] || 0).toFixed(2)}
+                          onChange={(e) =>
+                            setAmount(parseFloat(e.target.value) || 0)
+                          }
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">$</InputAdornment>
+                            ),
+                          }}
+                        />
+                        {selectedOptions[seller] && (
+                          <button
+                            onClick={() => handleResetDropdown(seller)}
+                            className="ml-2 text-white bg-blue-900 border py-1 px-2 rounded-lg text-lg hover:text-red-700"
+                          >
+                            Reset
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  )}
 
-                  <div className="mb-4">
-                    <TextField
-                      label="amount"
-                      size="small"
-                      className="w-40 rounded-md h-4 border "
-                      value={(totalNetCharges[seller] || 0).toFixed(2)}
-                      onChange={(e) =>
-                        setAmount(parseFloat(e.target.value) || 0)
-                      }
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">$</InputAdornment>
-                        ),
-                      }}
-                    />
-                    {selectedOptions[seller] && (
-      <button
-        onClick={() => {
-          handleResetDropdown(seller);
-        }}
-        className="ml-2 text-white bg-blue-900 border py-1 px-2 rounded-lg text-lg hover:text-red-700"
-      >
-        Reset
-      </button>
-    )}
-                  </div>
-                </div>
+
+
               </div>
               {/* // ))} */}
             </div>

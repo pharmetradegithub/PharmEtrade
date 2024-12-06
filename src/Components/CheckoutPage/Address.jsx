@@ -2294,70 +2294,151 @@ function Address({ topMargin, totalAmount, amount }) {
   
 
 console.log("pincode---->", pincodes)
+  // useEffect(() => {
+  //   const fetchSellersAndSendPayload = async () => {
+  //     try {
+  //       // Map over cartList to fetch seller data and prepare payloads concurrently
+  //       const sellerPromises = cartList.map(async (product) => {
+  //         // Fetch seller data first
+  //         const sellerData = await getUserByCustomerIdApi(product.product.sellerId);
+
+  //         if (sellerData) {
+  //           console.log("Seller data:", sellerData); // Log the entire seller data to inspect the structure
+
+  //           // Ensure the postal code exists in sellerData
+  //           // const postalCode = sellerData.businessInfo?.zip;
+  //           // if (!postalCode) {
+  //           //   console.warn(`Postal code not found for seller ${product.product.sellerId}`);
+  //           //   return null;  // Skip if postal code is missing
+  //           // }
+
+  //           // Prepare payload based on seller data and product details
+  //           const payload = {
+  //             accountNumber: {
+  //               value: "235969831"
+  //             },
+  //             requestedShipment: {
+  //               shipper: {
+  //                 address: {
+  //                   postalCode: sellerData.businessInfo.zip,  // Shipper's postal code from sellerData
+  //                   countryCode: "US"
+  //                 }
+  //               },
+  //               recipient: {
+  //                 address: {
+  //                   postalCode: pincodes,  // Use the pincode from the selected address or state
+  //                   countryCode: 'US'
+  //                 }
+  //               },
+  //               pickupType: "DROPOFF_AT_FEDEX_LOCATION",
+  //               rateRequestType: ["ACCOUNT", "LIST"],
+  //               requestedPackageLineItems: [
+  //                 {
+  //                   weight: {
+  //                     units: "LB",
+  //                     value: 1  // Example weight, adjust as needed
+  //                   }
+  //                 }
+  //               ]
+  //             }
+  //           };
+
+  //           // Dispatch the action with the payloads for each product
+  //           const serviceResponse = await dispatch(serviceTypeApi(payload));
+  //           const rateResponse = await dispatch(FedExRatesApi(payload));
+
+  //           console.log(`Responses for seller ${product.product.sellerId}:`, {
+  //             serviceResponse,
+  //             rateResponse,
+  //           });
+
+  //           return { product: product.product.sellerId, serviceResponse, rateResponse };
+  //         } else {
+  //           console.warn("No seller data found for sellerId:", product.product.sellerId);
+  //           return null;
+  //         }
+  //       });
+
+  //       // Wait for all promises to resolve concurrently
+  //       const allResponses = await Promise.all(sellerPromises);
+
+  //       // Filter out any null responses (in case no seller data was found)
+  //       const successfulResponses = allResponses.filter((response) => response !== null);
+
+  //       console.log("All successful responses:", successfulResponses);
+  //     } catch (error) {
+  //       console.error("Error processing sellers:", error);
+  //     }
+  //   };
+
+  //   // Ensure cartList has items before triggering the fetch
+  //   if (cartList?.length > 0) {
+  //     fetchSellersAndSendPayload();  // Call the function to fetch and send payloads concurrently
+  //   }
+  // }, [cartList, pincodes]);
+  // console.log(res, "Resolved results--->");
+
+  // Function to handle the "Use this address" button click
+ 
   useEffect(() => {
     const fetchSellersAndSendPayload = async () => {
       try {
-        // Map over cartList to fetch seller data and prepare payloads concurrently
-        const sellerPromises = cartList.map(async (product) => {
-          // Fetch seller data first
-          const sellerData = await getUserByCustomerIdApi(product.product.sellerId);
+        // Map over cartList to process only products with shipping cost
+        const sellerPromises = cartList
+          .filter((product) => product.product.isShippingCostApplicable === true) // Only include products with shipping cost
+          .map(async (product) => {
+            // Fetch seller data first
+            const sellerData = await getUserByCustomerIdApi(product.product.sellerId);
 
-          if (sellerData) {
-            console.log("Seller data:", sellerData); // Log the entire seller data to inspect the structure
+            if (sellerData && sellerData.businessInfo?.zip) {
+              console.log("Seller data:", sellerData);
 
-            // Ensure the postal code exists in sellerData
-            // const postalCode = sellerData.businessInfo?.zip;
-            // if (!postalCode) {
-            //   console.warn(`Postal code not found for seller ${product.product.sellerId}`);
-            //   return null;  // Skip if postal code is missing
-            // }
-
-            // Prepare payload based on seller data and product details
-            const payload = {
-              accountNumber: {
-                value: "235969831"
-              },
-              requestedShipment: {
-                shipper: {
-                  address: {
-                    postalCode: sellerData.businessInfo.zip,  // Shipper's postal code from sellerData
-                    countryCode: "US"
-                  }
+              // Prepare payload based on seller data and product details
+              const payload = {
+                accountNumber: {
+                  value: "235969831",
                 },
-                recipient: {
-                  address: {
-                    postalCode: pincodes,  // Use the pincode from the selected address or state
-                    countryCode: 'US'
-                  }
+                requestedShipment: {
+                  shipper: {
+                    address: {
+                      postalCode: sellerData.businessInfo.zip, // Shipper's postal code from sellerData
+                      countryCode: "US",
+                    },
+                  },
+                  recipient: {
+                    address: {
+                      postalCode: pincodes, // Use the pincode from the selected address or state
+                      countryCode: "US",
+                    },
+                  },
+                  pickupType: "DROPOFF_AT_FEDEX_LOCATION",
+                  rateRequestType: ["ACCOUNT", "LIST"],
+                  requestedPackageLineItems: [
+                    {
+                      weight: {
+                        units: "LB",
+                        value: 1, // Example weight, adjust as needed
+                      },
+                    },
+                  ],
                 },
-                pickupType: "DROPOFF_AT_FEDEX_LOCATION",
-                rateRequestType: ["ACCOUNT", "LIST"],
-                requestedPackageLineItems: [
-                  {
-                    weight: {
-                      units: "LB",
-                      value: 1  // Example weight, adjust as needed
-                    }
-                  }
-                ]
-              }
-            };
+              };
 
-            // Dispatch the action with the payloads for each product
-            const serviceResponse = await dispatch(serviceTypeApi(payload));
-            const rateResponse = await dispatch(FedExRatesApi(payload));
+              // Dispatch the actions for the product with shipping cost
+              const serviceResponse = await dispatch(serviceTypeApi(payload));
+              const rateResponse = await dispatch(FedExRatesApi(payload));
 
-            console.log(`Responses for seller ${product.product.sellerId}:`, {
-              serviceResponse,
-              rateResponse,
-            });
+              console.log(`Responses for seller ${product.product.sellerId}:`, {
+                serviceResponse,
+                rateResponse,
+              });
 
-            return { product: product.product.sellerId, serviceResponse, rateResponse };
-          } else {
-            console.warn("No seller data found for sellerId:", product.product.sellerId);
-            return null;
-          }
-        });
+              return { product: product.product.sellerId, serviceResponse, rateResponse };
+            } else {
+              console.warn(`Postal code not found for seller ${product.product.sellerId}`);
+              return null; // Skip if postal code is missing
+            }
+          });
 
         // Wait for all promises to resolve concurrently
         const allResponses = await Promise.all(sellerPromises);
@@ -2373,12 +2454,10 @@ console.log("pincode---->", pincodes)
 
     // Ensure cartList has items before triggering the fetch
     if (cartList?.length > 0) {
-      fetchSellersAndSendPayload();  // Call the function to fetch and send payloads concurrently
+      fetchSellersAndSendPayload(); // Call the function to fetch and send payloads concurrently
     }
   }, [cartList, pincodes]);
-  // console.log(res, "Resolved results--->");
 
-  // Function to handle the "Use this address" button click
   const handleUseAddress = async (state, pincode) => {
     setPincodes(pincode)
     setStateAdd(state)
