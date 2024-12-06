@@ -1979,7 +1979,7 @@ const ProccedtoShipment = ({
 
                 {/* Check if any product has a shipping cost */}
                 {products
-                  .filter((product) => product.product.isShippingCostApplicable === true)
+                  .filter((product) => product.product.isShippingCostApplicable === false)
                   .length > 0 && (
                     <div className="h-auto p-3 border flex rounded-md mt-3">
                       <h1 className="text-base font-semibold text-blue-900">Shipment:</h1>
