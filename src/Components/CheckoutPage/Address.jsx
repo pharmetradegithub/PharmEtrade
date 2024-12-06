@@ -2385,7 +2385,7 @@ console.log("pincode---->", pincodes)
       try {
         // Map over cartList to process only products with shipping cost
         const sellerPromises = cartList
-          .filter((product) => product.product.isShippingCostApplicable === true) // Only include products with shipping cost
+          .filter((product) => product.product.isShippingCostApplicable === false) // Only include products with shipping cost
           .map(async (product) => {
             // Fetch seller data first
             const sellerData = await getUserByCustomerIdApi(product.product.sellerId);
