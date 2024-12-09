@@ -972,7 +972,7 @@ const LayoutPostingProducts = () => {
     setSortConfig({ key, direction });
   };
   // Sorting logic
-  const sortedProducts = [...products].sort((a, b) => {
+  const sortedProducts = [...(products || [])].sort((a, b) => {
     if (sortConfig.key) {
       const aValue = a[sortConfig.key];
       const bValue = b[sortConfig.key];
