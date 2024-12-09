@@ -92,20 +92,27 @@ function LayoutPaymentHistory() {
     direction: "ascending",
   });
 
-  const sortedProducts = [...paymentHistory].sort((a, b) => {
-    if (sortConfig.key) {
-      const aValue = a[sortConfig.key];
-      const bValue = b[sortConfig.key];
+  // const sortedProducts = [...paymentHistory].sort((a, b) => {
+  //   if (sortConfig.key) {
+  //     const aValue = a[sortConfig.key];
+  //     const bValue = b[sortConfig.key];
 
-      if (sortConfig.direction === "ascending") {
-        return aValue > bValue ? 1 : -1;
-      } else {
-        return aValue < bValue ? 1 : -1;
-      }
-    }
-    return 0;
-  });
+  //     if (sortConfig.direction === "ascending") {
+  //       return aValue > bValue ? 1 : -1;
+  //     } else {
+  //       return aValue < bValue ? 1 : -1;
+  //     }
+  //   }
+  //   return 0;
+  // });
 
+  const sortedProducts = [...paymentHistory]
+    .sort((a, b) => {
+      // Sort by `paymentDate` in descending order (newest first)
+      const aDate = new Date(a.paymentDate).getTime();
+      const bDate = new Date(b.paymentDate).getTime();
+      return bDate - aDate; // Descending order
+    });
   useEffect(() => {
     dispatch(fetchPaymentHistory(user?.customerId));
   }, [user?.customerId]);

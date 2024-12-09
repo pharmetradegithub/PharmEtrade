@@ -1,12 +1,12 @@
 
 import React, { useEffect, useState } from 'react';
-import { TextField } from '@mui/material';
+import { Autocomplete, FormControl, FormHelperText, InputLabel, TextField } from '@mui/material';
 import edit from '../../../assets/Edit.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductOffer } from '../../../Api/ProductApi';
-import { taxAddInformationApi, TaxGetByStateNameApi, TaxInfoEdit } from '../../../Api/TaxInfoApi';
+import { taxAddInformationApi, TaxGetAll, TaxGetByStateNameApi, TaxInfoEdit } from '../../../Api/TaxInfoApi';
 import Notification from '../../Notification';
-
+import { useStates } from "react-us-states";
 // const TaxInformation = () => {
 //   const getproductSpecialOffer = useSelector((state) => state.product.productSpecialOffer)
 //   const [category, setCategory] = useState(getproductSpecialOffer);
@@ -425,8 +425,10 @@ const TaxInformation = () => {
     message: "",
   });
   const businessInfo = useSelector((state) => state.user.businessInfo);
+  const user = useSelector((state)=>state.user.user)
   const dispatch = useDispatch();
   const stateNameData = useSelector((state) => state.tax.stateName);
+  console.log("stateeeeeee", stateNameData)
 
   const [editingEntry, setEditingEntry] = useState({}); // Store current entry being edited
 
@@ -434,7 +436,55 @@ const TaxInformation = () => {
 
   let selectedCategory;
 
+  const allStates = useStates(); // Fetches the list of states from react-us-states
+  const [states, setStates] = useState([]); // Holds the states list
+  const [formData, setFormData] = useState({ State: "" }); // Holds selected form data
+  const [errors, setErrors] = useState({}); // Holds validation errors
+
+  // Load states from `useStates` on component mount
+  useEffect(() => {
+    setStates(allStates); // Populate states array with data from useStates
+  }, [allStates]);
+
+  console.log("state-->", formData.State)
+  // Handles input changes
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+
+    // Update form data
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    // Reset error for the field
+    if (errors[name]) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: "",
+      }));
+    }
+  };
+
+  // Validates the form
+  const validate = () => {
+    const newErrors = {};
+
+    if (!formData.State) {
+      newErrors.State = "Please select a state.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleAddOrSave = async () => {
+    if (validate()) {
+      console.log("Form is valid:", formData);
+    } else {
+      console.log("Form has errors:", errors);
+    }
+
     selectedCategory = getproductSpecialOffer.find(
       (item) => item.categorySpecificationId === category
     );
@@ -445,6 +495,7 @@ const TaxInformation = () => {
       updatedEntries[editingIndex] = {
         ...updatedEntries[editingIndex],
         category: selectedCategory,
+        // stateName: formData.State,
         taxPercentage: taxPercentage,
       };
       setAddedEntries(updatedEntries);
@@ -459,7 +510,8 @@ const TaxInformation = () => {
       // If the fields are empty, call add API
       const payloadAdd = {
         taxInformationID: '',
-        stateName: businessInfo?.state,
+        sellerId: user.customerId,
+        stateName: formData.State,
         categorySpecificationID: selectedCategory?.categorySpecificationId,
         taxPercentage: taxPercentage,
         createdDate: new Date().toISOString(),
@@ -477,6 +529,7 @@ const TaxInformation = () => {
       // If the fields are filled, call edit API
       const payloadEdit = {
         taxInformationID: editingEntry.taxInformationId,
+        sellerId: user.customerId,
         stateName: editingEntry.stateName,
         // categorySpecificationID: category, // Use updated category
         categorySpecificationID: category, // Use updated category
@@ -494,9 +547,10 @@ const TaxInformation = () => {
     }
 
     // Fetch updated tax data
-    await dispatch(TaxGetByStateNameApi(businessInfo?.state));
+    await dispatch(TaxGetByStateNameApi(user.customerId, formData.State));
 
     // Reset form fields after adding or editing
+    setFormData('')
     setCategory("");
     setTaxPercentage('');
     setIsEditable(false);
@@ -510,6 +564,7 @@ const TaxInformation = () => {
     if (entryToEdit && entryToEdit.categorySpecificationID) {
       setCategory(entryToEdit.categorySpecificationID); // Set the category in the form
       setTaxPercentage(entryToEdit.taxPercentage); // Set the tax percentage in the form
+      setFormData({ State: entryToEdit.stateName })
       setEditingIndex(index); // Set the index of the row being edited
       setIsEditable(true); // Make form editable
       setShowSuccessMessage(false); // Hide success message while editing
@@ -526,14 +581,19 @@ const TaxInformation = () => {
     }
   };
   useEffect(() => {
-    dispatch(TaxGetByStateNameApi(businessInfo?.state));
-  }, [dispatch, businessInfo?.state]);
+    dispatch(TaxGetByStateNameApi(user.customerId, formData.State));
+  }, [dispatch, user.customerId]);
 
   useEffect(() => {
     dispatch(fetchProductOffer());
   }, [dispatch]);
 
-
+  useEffect(() => {
+    const data = async () => {
+      await TaxGetAll()
+    }
+    data()
+  }, [])
   return (
     <div className="w-full overflow-y-scroll">
       {/* {showSuccessMessage && (
@@ -569,7 +629,9 @@ const TaxInformation = () => {
               className="border rounded-md h-11"
               value={category} // Set category in select box
               onChange={(e) => setCategory(Number(e.target.value))} // Update category when changed
-              disabled={!isEditable} // Enable/disable based on edit mode
+              // disabled={isEditable && editingIndex !== null}
+              disabled={!isEditable || editingIndex !== null}
+              // disabled={!isEditable}
             >
               <option value="">Select a category</option>
               {getproductSpecialOffer.map((item) => (
@@ -579,7 +641,47 @@ const TaxInformation = () => {
               ))}
             </select>
           </div>
-
+          <div>
+            <FormControl className="w-44" error={!!errors.State}>
+              <Autocomplete
+                id="state-select"
+                options={states} // Populate dropdown with states
+                getOptionLabel={(option) => option.name} // Use `name` property for display
+                value={
+                  states.find((state) => state.name === formData.State) || null
+                }
+                onChange={(event, newValue) => {
+                  handleInputChange({
+                    target: {
+                      name: "State",
+                      value: newValue ? newValue.name : "",
+                    },
+                  });
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="State"
+                    size="small"
+                    variant="outlined"
+                    value={formData.State}
+                    error={!!errors.State}
+                    helperText={errors.State}
+                  />
+                )}
+                filterOptions={(options, { inputValue }) =>
+                  options.filter((option) =>
+                    option.name.toLowerCase().includes(inputValue.toLowerCase())
+                  )
+                }
+                // disabled={isEditable && editingIndex !== null} 
+                disabled={!isEditable || editingIndex !== null}
+              />
+              {errors.State && (
+                <FormHelperText>{errors.State}</FormHelperText>
+              )}
+            </FormControl>
+          </div>
           <div>
             <TextField
               type="text"
@@ -615,38 +717,45 @@ const TaxInformation = () => {
             </tr>
           </thead>
           <tbody>
-            {stateNameData.map((entry, index) => {
-              const matchedCategory = getproductSpecialOffer.find(
-                (item) => item.categorySpecificationId === entry.categorySpecificationID
-              );
-              return (
-                <tr key={index} className="bg-white hover:bg-gray-100 transition-colors">
-                  <td className="px-6 border-b border-gray-200 text-sm">{index + 1}</td>
-                  <td className="px-6 border-b border-gray-200 text-sm">{entry.stateName}</td>
-                  <td className="px-6 border-b border-gray-200 text-sm">
-                    {matchedCategory ? matchedCategory.specificationName : 'Unknown Category'}
-                  </td>
-                  <td className="px-6 border-b border-gray-200 text-sm">{entry.taxPercentage}%</td>
-                  <td className="px-6 border-b border-gray-200 text-sm">
-                    {new Date(entry.createdDate)
-                      .toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
-                      .replace(/\//g, '-')}
-                  </td>
-                  <td className="px-6 border-b border-gray-200 text-sm">
-                    {new Date(entry.modifiedDate)
-                      .toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
-                      .replace(/\//g, '-')}                  </td>
-                  <td className="px-6 border-b border-gray-200 text-sm">
-                    <button
-                      className="px-4 py-2 text-white"
-                      onClick={() => handleEditClick(index, entry?.taxInformationID, entry.categorySpecificationID, entry.taxPercentage, entry.stateName, entry.createdDate, entry.modifiedDate)}
-                    >
-                      <img src={edit} alt="Edit" className="w-6 h-6" />
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
+            {stateNameData?.length > 0 ? (
+              stateNameData.map((entry, index) => {
+                const matchedCategory = getproductSpecialOffer.find(
+                  (item) => item.categorySpecificationId === entry.categorySpecificationID
+                );
+                return (
+                  <tr key={index} className="bg-white hover:bg-gray-100 transition-colors">
+                    <td className="px-6 border-b border-gray-200 text-sm">{index + 1}</td>
+                    <td className="px-6 border-b border-gray-200 text-sm">{entry.stateName}</td>
+                    <td className="px-6 border-b border-gray-200 text-sm">
+                      {matchedCategory ? matchedCategory.specificationName : 'Unknown Category'}
+                    </td>
+                    <td className="px-6 border-b border-gray-200 text-sm">{entry.taxPercentage}%</td>
+                    <td className="px-6 border-b border-gray-200 text-sm">
+                      {new Date(entry.createdDate)
+                        .toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
+                        .replace(/\//g, '-')}
+                    </td>
+                    <td className="px-6 border-b border-gray-200 text-sm">
+                      {new Date(entry.modifiedDate)
+                        .toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
+                        .replace(/\//g, '-')}                  </td>
+                    <td className="px-6 border-b border-gray-200 text-sm">
+                      <button
+                        className="px-4 py-2 text-white"
+                        onClick={() => handleEditClick(index, entry?.taxInformationID, entry.categorySpecificationID, entry.taxPercentage, entry.stateName, entry.createdDate, entry.modifiedDate)}
+                      >
+                        <img src={edit} alt="Edit" className="w-6 h-6" />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+            <tr>
+              <td colSpan="7" className="text-center py-4">No data available</td>
+            </tr>
+)}
+            {/* })} */}
           </tbody>
         </table>
 

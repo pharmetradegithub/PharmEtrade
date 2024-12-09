@@ -18,10 +18,10 @@ export const taxAddInformationApi = (payload) => {
   }
 }
 
-export const TaxGetByStateNameApi = (stateName) => {
+export const TaxGetByStateNameApi = (customerId, stateName) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`/api/Tax/GetByStateName?stateName=${stateName}`)
+      const response = await axios.get(`/api/Tax/GetBySellerAndState?sellerId=${customerId}&stateName=${stateName}`)
       if (response.status === 200) {
         const stateName = response.data.result
         dispatch(setStateName(stateName))
@@ -47,5 +47,18 @@ export const TaxInfoEdit = (payload) => {
     } catch (error) {
       console.log(error);
     }
+  }
+}
+
+export const TaxGetAll = () => {
+  try {
+    const response = axios.get('/api/Tax/GetAllTaxInformation')
+    if (response.status === 200) {
+      return response.data.result
+    } else {
+      console.log("error fetch edit data", response.data.message)
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
