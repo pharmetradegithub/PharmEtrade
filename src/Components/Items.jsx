@@ -508,7 +508,7 @@ function Items({
       ],
     };
 
-    navigate(`/checkout?total=${quantity * pricePerProduct.toFixed(2)}`);
+    navigate(`/checkout?total=${quantity * pricePerProduct.toFixed(2)}&productId=${prod?.productID}`);
 
     // try {
     //   // await customerOrderApi(payLoad);
@@ -521,7 +521,7 @@ function Items({
     try {
       await dispatch(fetchOrderPlace(payLoad));
       // await dispatch(fetchGetOrder(userId));
-      navigate(`/checkout?total=${quantity * pricePerProduct}`);
+      navigate(`/checkout?total=${quantity * pricePerProduct}&productId=${prod?.productID}`);
     } catch (error) {
       console.log(error);
     }

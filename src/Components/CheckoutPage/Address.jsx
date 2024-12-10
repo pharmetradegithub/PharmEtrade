@@ -2228,7 +2228,10 @@ function Address({ topMargin, totalAmount, amount }) {
   const [searchParams] = useSearchParams();
   const total = parseFloat(searchParams.get("total")); // Convert total to a number
   const netCharge = parseFloat(searchParams.get("netCharge")) || 0;
-  console.log("netAddress-->", netCharge)
+  const isCart = searchParams.get("isCart")=="true"; // Convert total to a number
+  const productId = searchParams.get("productId"); // Convert total to a number
+
+  console.log("netAddress--> isCart", isCart)
 
   console.log("total-->", total);
 
@@ -4218,7 +4221,7 @@ console.log("pincode---->", pincodes)
 
               <div className="">
 
-                <Proccedtoshipment selectedOptions = {selectedOptions} setSelectedOptions = {setSelectedOptions} totalNetCharges = {totalNetCharges} setTotalNetCharges = {setTotalNetCharges} />
+                <Proccedtoshipment selectedOptions = {selectedOptions} setSelectedOptions = {setSelectedOptions} totalNetCharges = {totalNetCharges} setTotalNetCharges = {setTotalNetCharges} productId={productId} />
                 {/* <div className="border-b my-3 w-[70%]"> */}
                   {/* <Payment /> */}
                   {/* <SquarePaymentForm */}
