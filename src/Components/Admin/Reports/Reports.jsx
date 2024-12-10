@@ -160,8 +160,7 @@
 
 // export default Reports;
 
-
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { TextField } from "@mui/material";
 import { format, parseISO } from "date-fns";
 import { getReportsApi } from "../../../Api/AdminApi";
@@ -173,6 +172,7 @@ const Reports = () => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [reports, setReports] = useState([]); // Array to hold saved reports
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
   // Handle report type change
   const handleReportTypeChange = (e) => {
     setReportType(e.target.value);
@@ -220,8 +220,12 @@ const Reports = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = reports.slice(indexOfFirstItem, indexOfLastItem);
+  // const currentItems = reports.slice(indexOfFirstItem, indexOfLastItem);
   // const totalPages = Math.ceil((products?.length || 0) / itemsPerPage);
+
+  const [savedReportType, setSavedReportType] = useState("");
+  const [savedFromDate, setSavedFromDate] = useState("");
+  const [savedToDate, setSavedToDate] = useState("");
 
   const handleSave = async () => {
     if (reportType && fromDate && toDate) {
@@ -229,12 +233,22 @@ const Reports = () => {
       const formattedToDate = format(parseISO(toDate), "MM/dd/yyyy");
 
       try {
-        const res = await getReportsApi(reportType, formattedFromDate, formattedToDate);
-        setReports(res)
+        const res = await getReportsApi(
+          reportType,
+          formattedFromDate,
+          formattedToDate
+        );
+        setReports(res);
       } catch (error) {
         console.error("Dispatch error:", error);
       }
 
+      // Save the current input values
+      setSavedReportType(reportType);
+      setSavedFromDate(fromDate);
+      setSavedToDate(toDate);
+
+      // Clear the input fields
       setReportType("");
       setFromDate("");
       setToDate("");
@@ -243,6 +257,63 @@ const Reports = () => {
     }
   };
 
+  const sortedReports = useMemo(() => {
+    if (!sortConfig.key) return reports;
+
+    const sortedData = [...reports];
+    sortedData.sort((a, b) => {
+      const aValue = a[sortConfig.key];
+      const bValue = b[sortConfig.key];
+
+      if (sortConfig.key === "PaymentAmount") {
+        return sortConfig.direction === "asc"
+          ? aValue - bValue
+          : bValue - aValue;
+      }
+
+      const aStr = typeof aValue === "string" ? aValue.toLowerCase() : aValue;
+      const bStr = typeof bValue === "string" ? bValue.toLowerCase() : bValue;
+
+      return sortConfig.direction === "asc"
+        ? aStr > bStr
+          ? 1
+          : -1
+        : aStr < bStr
+        ? 1
+        : -1;
+    });
+
+    return sortedData;
+  }, [reports, sortConfig]);
+
+  const currentItems = sortedReports.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handleSort = (key) => {
+    setSortConfig((prevConfig) => ({
+      key,
+      direction:
+        prevConfig.key === key && prevConfig.direction === "asc"
+          ? "desc"
+          : "asc",
+    }));
+  };
+
+  const getArrow = (key) => {
+    if (sortConfig.key === key) {
+      return sortConfig.direction === "asc" ? "▲" : "▼";
+    }
+    return "▲"; // Default arrow
+  };
+  const reportTypeMapping = {
+    1: "Payments History",
+    2: "Purchase History",
+    3: "NewOrders",
+    4: "ExpiredItems",
+    5: "PendingShipments",
+  };
   return (
     <div className="container mx-auto overflow-y-scroll p-6">
       {/* Form Section */}
@@ -315,12 +386,119 @@ const Reports = () => {
 
       {/* Table Section */}
       <div className=" p-6">
-        <div className="flex justify-between">
+        {/* <div className="flex justify-between">
           <h2 className="text-xl text-blue-900 font-semibold mb-4">
             Saved Reports
           </h2>
+          <div className="items-center">
 
+          <label className="text-sm font-medium text-black-700">
+            Type of report :
+          </label>
+          <TextField
+            type="text" // Use text to prevent editing and keep it read-only
+            size="small"
+            className="w-52 mr-2" // Adjust width as needed (e.g., w-72 for wider input)
+            value={reportTypeMapping[reportType] || "No Report Selected"} // Show the report name
+            InputProps={{
+              readOnly: true, // Make it read-only
+              className: "border rounded-lg bg-gray-100", // Add background color to indicate it's read-only
+            }}
+          />
+          </div>
+          <h1>{fromDate}</h1>
+          <h1>{toDate}</h1>
           <button className="bg-green-500 text-white px-3 py-1 my-3 rounded-lg hover:bg-green-600 transition">
+            Export
+          </button>
+        </div> */}
+        <div className="flex justify-between items-center mb-4 flex-wrap gap-4">
+          <h2 className="text-xl text-blue-900 font-semibold">Saved Reports</h2>
+
+          {/* <div className="flex items-center gap-2">
+            <label className="text-sm font-medium text-gray-700">Type of report:</label>
+            <TextField
+              type="text"
+              size="small"
+              className="w-52"
+              value={reportTypeMapping[reportType] || "No Report Selected"}
+              InputProps={{
+                readOnly: true,
+                className: "border rounded-lg bg-gray-100",
+              }}
+            />
+          </div> */}
+          <div className="flex items-center gap-2">
+            <label className="text-sm font-medium text-gray-700">
+              Type of report:
+            </label>
+            <TextField
+              type="text"
+              size="small"
+              className="w-52"
+              value={reportTypeMapping[savedReportType] || "No Report Selected"}
+              InputProps={{
+                readOnly: true,
+                className: "border rounded-lg bg-gray-100",
+              }}
+            />
+          </div>
+
+          {/* <div className="flex items-center gap-2">
+            <label className="text-sm font-medium text-gray-700">From:</label>
+            <TextField
+              type="date"
+              size="small"
+              className="w-36"
+              value={fromDate}
+              InputProps={{
+                readOnly: true,
+                className: "border rounded-lg bg-gray-100",
+              }}
+            />
+          </div> */}
+
+          <div className="flex items-center gap-2">
+            <label className="text-sm font-medium text-gray-700">From:</label>
+            <TextField
+              type="date"
+              size="small"
+              className="w-36"
+              value={savedFromDate}
+              InputProps={{
+                readOnly: true,
+                className: "border rounded-lg bg-gray-100",
+              }}
+            />
+          </div>
+
+          {/* <div className="flex items-center gap-2">
+            <label className="text-sm font-medium text-gray-700">To:</label>
+            <TextField
+              type="date"
+              size="small"
+              className="w-36"
+              value={toDate}
+              InputProps={{
+                readOnly: true,
+                className: "border rounded-lg bg-gray-100",
+              }}
+            />
+          </div> */}
+          <div className="flex items-center gap-2">
+            <label className="text-sm font-medium text-gray-700">To:</label>
+            <TextField
+              type="date"
+              size="small"
+              className="w-36"
+              value={savedToDate}
+              InputProps={{
+                readOnly: true,
+                className: "border rounded-lg bg-gray-100",
+              }}
+            />
+          </div>
+          <button className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">
             Export
           </button>
         </div>
@@ -333,11 +511,35 @@ const Reports = () => {
               <th className=" px-4 py-2 text-left">To</th>
               <th className=" px-4 py-2 text-left">Export Option</th> */}
               <th className=" px-4 py-2 text-left">S No.</th>
-              <th className=" px-4 py-2 text-left">Customer Name</th>
+              {/* <th className=" px-4 py-2 text-left">Customer Name</th> */}
+              <th
+                className="px-4 py-2 text-left cursor-pointer"
+                onClick={() => handleSort("CustomerName")}
+              >
+                Customer Name {getArrow("CustomerName")}
+              </th>
               <th className=" px-4 py-2 text-left">Order Number</th>
-              <th className=" px-4 py-2 text-left">Order Date</th>
-              <th className=" px-4 py-2 text-left">Payment Amount</th>
-              <th className=" px-4 py-2 text-left">Payment Date</th>
+              {/* <th className=" px-4 py-2 text-left">Order Date</th> */}
+              <th
+                className="px-4 py-2 text-left cursor-pointer"
+                onClick={() => handleSort("OrderDate")}
+              >
+                Order Date {getArrow("OrderDate")}
+              </th>
+              {/* <th className=" px-4 py-2 text-left">Payment Amount</th>
+              <th className=" px-4 py-2 text-left">Payment Date</th> */}
+              <th
+                className="px-10 text-right cursor-pointer"
+                onClick={() => handleSort("PaymentAmount")}
+              >
+                Payment Amount {getArrow("PaymentAmount")}
+              </th>
+              <th
+                className="px-4 py-2 text-left cursor-pointer"
+                onClick={() => handleSort("PaymentDate")}
+              >
+                Payment Date {getArrow("PaymentDate")}
+              </th>
               <th className=" px-4 py-2 text-left">Payment Method</th>
             </tr>
           </thead>
@@ -357,7 +559,9 @@ const Reports = () => {
                       })
                       .replace(/\//g, "-")}
                   </td>
-                  <td className="px-10 text-right">${report.PaymentAmount.toFixed(2)}</td>
+                  <td className="px-10 text-right">
+                    ${report.PaymentAmount.toFixed(2)}
+                  </td>
                   <td className="px-4 py-2">
                     {new Date(report.PaymentDate)
                       .toLocaleDateString("en-US", {

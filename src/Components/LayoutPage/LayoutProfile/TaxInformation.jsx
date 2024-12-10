@@ -4,7 +4,7 @@ import { Autocomplete, FormControl, FormHelperText, InputLabel, TextField } from
 import edit from '../../../assets/Edit.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductOffer } from '../../../Api/ProductApi';
-import { taxAddInformationApi, TaxGetAll, TaxGetByStateNameApi, TaxInfoEdit } from '../../../Api/TaxInfoApi';
+import { taxAddInformationApi, TaxGetByStateNameApi, TaxInfoEdit } from '../../../Api/TaxInfoApi';
 import Notification from '../../Notification';
 import { useStates } from "react-us-states";
 // const TaxInformation = () => {
@@ -547,7 +547,7 @@ const TaxInformation = () => {
     }
 
     // Fetch updated tax data
-    await dispatch(TaxGetByStateNameApi(user.customerId, formData.State));
+    await dispatch(TaxGetByStateNameApi(user.customerId));
 
     // Reset form fields after adding or editing
     setFormData('')
@@ -581,19 +581,19 @@ const TaxInformation = () => {
     }
   };
   useEffect(() => {
-    dispatch(TaxGetByStateNameApi(user.customerId, formData.State));
+    dispatch(TaxGetByStateNameApi(user.customerId));
   }, [dispatch, user.customerId]);
 
   useEffect(() => {
     dispatch(fetchProductOffer());
   }, [dispatch]);
 
-  useEffect(() => {
-    const data = async () => {
-      await TaxGetAll()
-    }
-    data()
-  }, [])
+  // useEffect(() => {
+  //   const data = async () => {
+  //     await TaxGetAll()
+  //   }
+  //   data()
+  // }, [])
   return (
     <div className="w-full overflow-y-scroll">
       {/* {showSuccessMessage && (
