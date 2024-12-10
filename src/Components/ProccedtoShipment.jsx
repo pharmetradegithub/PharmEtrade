@@ -1144,6 +1144,7 @@ const ProccedtoShipment = ({
   setSelectedOptions,
   totalNetCharges,
   setTotalNetCharges,
+  productId
 }) => {
   const fedexRate = useSelector((state) => state.trackNumber.fedExRates);
   console.log("fedddddrate-->", fedexRate);
@@ -1400,9 +1401,19 @@ const ProccedtoShipment = ({
 
   const calculateSubtotal = (price, quantity) => price * quantity;
   const groupedProducts = cartList.reduce((acc, item) => {
-    const seller = item.product.sellerName;
-    if (!acc[seller]) acc[seller] = [];
-    acc[seller].push(item);
+    // If productId is present, filter by productId
+    if (productId) {
+      if (item.product.productID === productId) {
+        const seller = item.product.sellerName;
+        if (!acc[seller]) acc[seller] = [];
+        acc[seller].push(item);
+      }
+    } else {
+      // Usual grouping logic
+      const seller = item.product.sellerName;
+      if (!acc[seller]) acc[seller] = [];
+      acc[seller].push(item);
+    }
     return acc;
   }, {});
 

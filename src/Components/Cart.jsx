@@ -760,7 +760,7 @@ function Cart() {
     try {
       // Dispatch the action to place the order
       await dispatch(fetchOrderPlace(payload));
-
+      // navigate(`/checkout?total=${total?.toFixed(2)}&isCart=${true}`);
       // Navigate to checkout page
       navigate(`/checkout?total=${total?.toFixed(2)}`);
     } catch (error) {
