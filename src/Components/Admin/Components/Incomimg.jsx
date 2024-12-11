@@ -373,7 +373,7 @@
 
 // export default LayoutPaymentHistory;
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { FaFilter } from "react-icons/fa";
 import filter from "../../../assets/Filter_icon.png";
 import share from '../../../assets/upload1.png'
@@ -442,8 +442,10 @@ function LayoutPaymentHistory() {
   const stats = [
     {
       label: "Total Earnings",
-      value: `$${(2420 ||.0).toFixed(2)}`,
-      text: "as of 01-December-2023",
+      // value: `$${(2420 ||.0).toFixed(2)}`,
+      // text: "as of 01-December-2023",
+      // value: `$${(paymentHistory.paymentAmount).toFixed(2)}`,
+      value: `$${paymentHistory.reduce((total, each) => total + each.paymentAmount, 0).toFixed(2)}`,
       color: "text-green-500",
     },
     {
@@ -511,10 +513,38 @@ function LayoutPaymentHistory() {
   //   }
   //   return paymentHistory;
   // }, [paymentHistory, sortConfig]);
+  // const sortedItems = React.useMemo(() => {
+  //   console.log('Sorting Items:', paymentHistory);
+  //   if (sortConfig.key) {
+  //     return [...paymentHistory].sort((a, b) => {
+  //       const aValue = a[sortConfig.key];
+  //       const bValue = b[sortConfig.key];
+  //       console.log('Comparing:', aValue, bValue); // Log values being compared
+
+  //       if (aValue === bValue) return 0;
+
+  //       if (sortConfig.direction === 'ascending') {
+  //         return aValue > bValue ? 1 : -1;
+  //       }
+  //       return aValue < bValue ? 1 : -1;
+  //     });
+  //   }
+  //   return paymentHistory;
+  // }, [paymentHistory, sortConfig]);----------
+
   const sortedItems = React.useMemo(() => {
     console.log('Sorting Items:', paymentHistory);
+
+    // Default sort by `paymentDate` in descending order
+    let sortedData = [...paymentHistory].sort((a, b) => {
+      const aDate = new Date(a.paymentDate).getTime();
+      const bDate = new Date(b.paymentDate).getTime();
+      return bDate - aDate; // Descending order
+    });
+
+    // Apply additional sorting based on `sortConfig`
     if (sortConfig.key) {
-      return [...paymentHistory].sort((a, b) => {
+      sortedData.sort((a, b) => {
         const aValue = a[sortConfig.key];
         const bValue = b[sortConfig.key];
         console.log('Comparing:', aValue, bValue); // Log values being compared
@@ -527,10 +557,39 @@ function LayoutPaymentHistory() {
         return aValue < bValue ? 1 : -1;
       });
     }
-    return paymentHistory;
+
+    return sortedData;
   }, [paymentHistory, sortConfig]);
 
 
+  // const sortedItems = useMemo(() => {
+  //   if (!sortConfig.key) return paymentHistory;
+
+  //   const sortedData = [...paymentHistory];
+  //   sortedData.sort((a, b) => {
+  //     const aValue = a[sortConfig.key];
+  //     const bValue = b[sortConfig.key];
+
+  //     if (sortConfig.key === "PaymentAmount") {
+  //       return sortConfig.direction === "asc"
+  //         ? aValue - bValue
+  //         : bValue - aValue;
+  //     }
+
+  //     const aStr = typeof aValue === "string" ? aValue.toLowerCase() : aValue;
+  //     const bStr = typeof bValue === "string" ? bValue.toLowerCase() : bValue;
+
+  //     return sortConfig.direction === "asc"
+  //       ? aStr > bStr
+  //         ? 1
+  //         : -1
+  //       : aStr < bStr
+  //         ? 1
+  //         : -1;
+  //   });
+
+  //   return sortedData;
+  // }, [paymentHistory, sortConfig]);
   
 
 const indexOfLastItem = currentPage * itemsPerPage;
@@ -553,7 +612,7 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
               key={index}
               className="bg-white w-56 rounded-lg shadow-lg h-28 p-4"
             >
-              <h1 className="text-[20px] text-gray-700 font-normal">
+              <h1 className="text-[20px] text-gray-700 font-normal pb-3">
                 {stat.label}
               </h1>
               <h1
@@ -563,7 +622,7 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
               >
                 {stat.value}
               </h1>
-              <h1 className="text-[14px]">{stat.text}</h1>
+              {/* <h1 className="text-[14px]">{stat.text}</h1> */}
             </div>
           ))}
         </div>
@@ -754,7 +813,7 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
                         })
                         .replace(/\//g, "-")}
                     </td>
-                    <td className="px-4 py-2">{payout.paymentAmount }</td>
+                    <td className="px-4 py-2">${payout.paymentAmount.toFixed(2)}</td>
                     <td className="px-4 py-2">{payout.paymentMethod}</td>
                     {/* <td className="px-4 py-2">{ }</td> */}
                     {/* <td className="px-4 py-2">{ }</td> */}

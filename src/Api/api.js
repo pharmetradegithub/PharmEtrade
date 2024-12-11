@@ -74,7 +74,7 @@ const resetInactivityTimer = () => {
 };
 
 // Function to start the inactivity timer
-const startInactivityTimer = (inactivityLimit = 10 * 60 * 1000) => {
+const startInactivityTimer = (inactivityLimit = 30 * 60 * 1000) => {
   inactivityTimer = setTimeout(() => {
     handleLogout();
   }, inactivityLimit);

@@ -181,18 +181,60 @@ function LayoutSellOrders() {
   // const handleDownload = (orderId) => {
   //   dispatch(fetchOrderDownloadInvoice(orderId))
   // }
+  const [sortConfig, setSortConfig] = useState({
+    key: "",
+    direction: "ascending",
+  });
 
+  const sortedProducts = React.useMemo(() => {
+    console.log('Sorting Items:', SellerOrder);
+
+    // Default sort by `paymentDate` in descending order
+    let sortedData = [...SellerOrder].sort((a, b) => {
+      const aDate = new Date(a.orderDate).getTime();
+      const bDate = new Date(b.orderDate).getTime();
+      return bDate - aDate; // Descending order
+    });
+
+    // Apply additional sorting based on `sortConfig`
+    if (sortConfig.key) {
+      sortedData.sort((a, b) => {
+        const aValue = a[sortConfig.key];
+        const bValue = b[sortConfig.key];
+        console.log('Comparing:', aValue, bValue); // Log values being compared
+
+        if (aValue === bValue) return 0;
+
+        if (sortConfig.direction === 'ascending') {
+          return aValue > bValue ? 1 : -1;
+        }
+        return aValue < bValue ? 1 : -1;
+      });
+    }
+
+    return sortedData;
+  }, [SellerOrder, sortConfig]);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   // const currentItems = SellerOrder.slice(indexOfFirstItem, indexOfLastItem);
   // const currentItems = SellerOrder ? SellerOrder.slice(indexOfFirstItem, indexOfLastItem) : [];
-  const currentItems = SellerOrder
-    ? SellerOrder.slice(indexOfFirstItem, indexOfLastItem).sort(
-        (a, b) => new Date(b.orderDate) - new Date(a.orderDate)
-      )
+  // const currentItems = sortedProducts
+  //   ? sortedProducts.slice(indexOfFirstItem, indexOfLastItem).sort(
+  //       (a, b) => new Date(b.orderDate) - new Date(a.orderDate)
+  //     )
+  //   : [];
+  const currentItems = Array.isArray(sortedProducts)
+    ? sortedProducts.slice(indexOfFirstItem, indexOfLastItem)
     : [];
   const totalPages = Math.ceil((SellerOrder?.length || 0) / itemsPerPage);
 
+  const handleSort = (key) => {
+    let direction = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
+    setSortConfig({ key, direction });
+  };
   // const handleStatus = async (orderId, statusId) => {
 
   //   if (orderId && statusId) {
@@ -485,10 +527,34 @@ function LayoutSellOrders() {
                   <tr className="border-b-2">
                     <th className="px-4 py-2 text-left">Order ID</th>
                     <th className="px-4 py-2 text-left">Thumbnail</th>
-                    <th className="px-4 py-2 text-left">Product Name</th>
-                    <th className="px-4 py-2 text-left">Purchased On</th>
-                    <th className="px-4 py-2 text-right">Amount</th>
-                    <th className="px-4 py-2 text-left">Customer</th>
+                    <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("productName")}>Product Name 
+                      {sortConfig.key === "productName"
+                        ? sortConfig.direction === "ascending"
+                          ? "▲"
+                          : "▼"
+                        : "▲"}
+                    </th>
+                    <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("orderDate")}>Purchased On
+                      {sortConfig.key === "orderDate"
+                        ? sortConfig.direction === "ascending"
+                          ? "▲"
+                          : "▼"
+                        : "▲"}
+                    </th>
+                    <th className="px-4 py-2 text-right cursor-pointer" onClick={() => handleSort("totalAmount")}>Amount
+                      {sortConfig.key === "totalAmount"
+                        ? sortConfig.direction === "ascending"
+                          ? "▲"
+                          : "▼"
+                        : "▲"}
+                    </th>
+                    <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("customerName")}>Customer
+                      {sortConfig.key === "customerName"
+                        ? sortConfig.direction === "ascending"
+                          ? "▲"
+                          : "▼"
+                        : "▲"}
+                    </th>
                     <th className="px-4 py-2 text-left">Order Status</th>
                     <th className="px-4 py-2 text-left">Action</th>
                   </tr>

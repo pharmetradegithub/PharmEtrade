@@ -79,7 +79,7 @@ function Items({
   quantities,
 }) {
   const user = useSelector((state) => state.user.user);
-  console.log("iiii",user)
+  console.log("iiii", user);
   const wishlist = useSelector((state) => state.wishlist.wishlist);
   const cartList = useSelector((state) => state.cart.cart);
   const [productLink, setProductLink] = useState("");
@@ -197,7 +197,7 @@ function Items({
     setSelectedMl(null);
     setSelectedColor(null);
   };
-  const [Errors,setErrors] = useState({});
+  const [Errors, setErrors] = useState({});
 
   const handleCart = async (index) => {
     if (user == null) {
@@ -215,11 +215,14 @@ function Items({
     if (
       existingCartItem != null &&
       existingCartItem.quantity + quantity >
-        Math.min(prod.maxOrderQuantity, prod.amountInStock)
+      Math.min(prod.maxOrderQuantity, prod.amountInStock)
     ) {
       setErrors({
-        quantity : `The maximum quantity allowed to add is ${Math.min(prod.maxOrderQuantity, prod.amountInStock)}.`
-      })
+        quantity: `The maximum quantity allowed to add is ${Math.min(
+          prod.maxOrderQuantity,
+          prod.amountInStock
+        )}.`,
+      });
       return;
     }
 
@@ -236,7 +239,6 @@ function Items({
         message: "Item Added To Cart Successfully!",
       });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-
     } catch (error) {
       console.error("Error adding product to cart:", error);
     }
@@ -469,8 +471,6 @@ function Items({
     //   ],
     // };
 
-
-
     // Calculate the price per product based on the conditions
     let pricePerProduct;
     const saleStartDate = new Date(prod?.salePriceValidFrom);
@@ -508,7 +508,10 @@ function Items({
       ],
     };
 
-    navigate(`/checkout?total=${quantity * pricePerProduct.toFixed(2)}&productId=${prod?.productID}`);
+    navigate(
+      `/checkout?total=${quantity * pricePerProduct.toFixed(2)}&productId=${prod?.productID
+      }`
+    );
 
     // try {
     //   // await customerOrderApi(payLoad);
@@ -521,7 +524,10 @@ function Items({
     try {
       await dispatch(fetchOrderPlace(payLoad));
       // await dispatch(fetchGetOrder(userId));
-      navigate(`/checkout?total=${quantity * pricePerProduct}&productId=${prod?.productID}`);
+      navigate(
+        `/checkout?total=${quantity * pricePerProduct}&productId=${prod?.productID
+        }`
+      );
     } catch (error) {
       console.log(error);
     }
@@ -609,8 +615,8 @@ function Items({
         <Notification show={notification.show} message={notification.message} />
       )}
       <div className="  flex   flex-col md:flex-row gap-4 mt-4 justify-around h-full w-full mb-4 ">
-      <div className="w-full flex sm:w-[60%] md:w-[45%] mb-3 ml-8 ">
-      <div className="flex ml-2 md:-mr-3 h-[400px] cursor-pointer">
+        <div className="w-full flex sm:w-[60%] md:w-[45%] mb-3 ml-8 ">
+          <div className="flex ml-2 md:-mr-3 h-[400px] cursor-pointer">
             <div className="flex flex-col mr-4 items-center   overflow-y-scroll">
               {thumnailList?.map((item, index) => {
                 return (
@@ -619,7 +625,7 @@ function Items({
                       onMouseEnter={() => setimg(item)}
                       src={item}
                       className="w-16 sm:w-20 md:w-20  object-cover bg-gray-200 border rounded-lg hover:border-sky-500 hover:border-2 cursor-pointer"
-                      />
+                    />
                   </div>
                 );
               })}
@@ -720,7 +726,6 @@ function Items({
           </Tooltip>
           
         </div> */}
-
         </div>
         <div className="relative inline-block mt-4 -ml-2 ">
           <Tooltip title="Share" placement="right">
@@ -730,13 +735,11 @@ function Items({
               onClick={() => handleShare(prod.productID)}
             />
           </Tooltip>
-          
         </div>
-        
 
         <div className="w-full lg:w-[60%] mr-5 overflow-scroll justify-between h-[500px] flex flex-col lg:flex-row border-none lg:-ml-6">
-        <div className="w-full lg:w-[50%] p-4 lg:p-2">
-        <div className="  border-b-2">
+          <div className="w-full lg:w-[50%] p-4 lg:p-2">
+            <div className="  border-b-2">
               <h1 className="text-xl lg:text-2xl font-semibold text-box">
                 {/* Vitamin C(1000IU) Cap X */}
                 {prod?.productName}
@@ -768,10 +771,10 @@ function Items({
 
               <div className="flex items-center">
                 {new Date() >= new Date(prod?.salePriceValidFrom) &&
-                new Date() <= new Date(prod?.salePriceValidTo) ? (
+                  new Date() <= new Date(prod?.salePriceValidTo) ? (
                   <>
-            <span className="text-sky-500 font-semibold text-[16px] lg:text-[18px]">
-            ${prod?.salePrice?.toFixed(2)}
+                    <span className="text-sky-500 font-semibold text-[16px] lg:text-[18px]">
+                      ${prod?.salePrice?.toFixed(2)}
                     </span>
                     <p className="text-xs ml-1 line-through">
                       ${prod?.unitPrice?.toFixed(2)}
@@ -784,26 +787,64 @@ function Items({
                 )}
               </div>
 
-              <div className="text-[12px] lg:text-[14px]">Inclusive of all taxes</div>
+              <div className="text-[12px] lg:text-[14px]">
+                Inclusive of all taxes
+              </div>
 
-              {/* <div className="flex items-center   ">
-                <span style={{ fontSize: "24px", color: "orange" }}>★</span>
-                <span style={{ fontSize: "24px", color: "orange" }}>★</span>
-                <span style={{ fontSize: "24px", color: "orange" }}>★</span>
-                <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
-                <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
-                <div className="ml-2 text-[13px]">(1048 ratings)</div>
-              </div> */}
               <div className="flex items-center">
-                {[...Array(totalStar)].map((_, index) => (
+                {/* Render stars dynamically */}
+                {/* {[...Array(5)].map((_, index) => (
                   <span
                     key={index}
-                    style={{ fontSize: "24px", color: "orange" }}
+                    style={{
+                      fontSize: "24px",
+                      color:
+                        index < Math.floor(prod?.productRating)
+                          ? "orange"
+                          : "gray",
+                    }}
                   >
-                    {index < ratingValue ? "★" : "☆"}
+                    ★
                   </span>
-                ))}
-                <div className="ml-2 text-[13px] lg:text-[14px]">({ratingValue} ratings)</div>
+                ))} */}
+
+                <div className="flex items-center ml-2">
+                  {[...Array(5)].map((_, index) => (
+                    <svg
+                      key={index}
+                      className={`w-5 h-7 ${index <
+                          Math.round(
+                            ratings.reduce(
+                              (sum, rating) => sum + rating.rating,
+                              0
+                            ) / ratings.length
+                          )
+                          ? "text-yellow-400"
+                          : "text-gray-300"
+                        }`}
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.716 5.297a1 1 0 00.95.69h5.573c.969 0 1.371 1.24.588 1.81l-4.513 3.279a1 1 0 00-.364 1.118l1.716 5.297c.3.921-.755 1.688-1.54 1.118l-4.513-3.279a1 1 0 00-1.175 0l-4.513 3.279c-.785.57-1.84-.197-1.54-1.118l1.716-5.297a1 1 0 00-.364-1.118l-4.513-3.279c-.783-.57-.381-1.81.588-1.81h5.573a1 1 0 00.95-.69l1.716-5.297z" />
+                    </svg>
+                  ))}
+                </div>
+                <div className="text-sm mt-3 ml-1 font-bold text-yellow-400">
+                  {ratings.length > 0
+                    ? (
+                      ratings.reduce(
+                        (sum, rating) => sum + rating.rating,
+                        0
+                      ) / ratings.length
+                    ).toFixed(1)
+                    : "0.0"}
+                  <span className="text-sm font-normal">/5</span>
+                </div>
+                {/* Display number of ratings */}
+                <div className="ml-2 mt-2 text-[13px]">
+                  ({ratings.length} global ratings)
+                </div>
               </div>
             </div>
 
@@ -818,17 +859,19 @@ function Items({
             </div>
 
             <div className=" w-full flex justify-center flex-col ">
-            <div className="w-full flex items-center justify-between p-2 bg-gray-100 rounded-lg">
-            <span className="text-base lg:text-lg font-semibold">Ship to</span>
+              <div className="w-full flex items-center justify-between p-2 bg-gray-100 rounded-lg">
+                <span className="text-base lg:text-lg font-semibold">
+                  Ship to
+                </span>
                 <button
                   onClick={() => setIsFormVisible(!isFormVisible)}
-                 className="text-sm lg:text-base flex items-center"
+                  className="text-sm lg:text-base flex items-center"
                 >
                   Calculate Shipping Cost
                   <img
                     src={isFormVisible ? DropDownIcon : DropUpIcon}
                     alt="Toggle Dropdown"
-                   className="w-4 h-4 lg:w-6 lg:h-6"
+                    className="w-4 h-4 lg:w-6 lg:h-6"
                   />
                 </button>
               </div>
@@ -909,7 +952,7 @@ function Items({
           </div>
 
           <div className="w-full lg:w-[50%] min-h-full p-3 flex flex-col items-center">
-          <div className="border rounded-lg shadow-lg  pb-4 w-full h-full">
+            <div className="border rounded-lg shadow-lg  pb-4 w-full h-full">
               <div className="p-4">
                 <div className="flex justify-between">
                   {/* <p className="text-black text-[22px]">
@@ -918,18 +961,18 @@ function Items({
                       ? prod?.salePrice.toFixed(2)
                       : prod?.unitPrice?.toFixed(2)}
                   </p> */}
-          <p className="text-black text-[20px] lg:text-[22px]">
-          $
+                  <p className="text-black text-[20px] lg:text-[22px]">
+                    $
                     {/* {new Date() >= new Date(prod?.salePriceValidFrom) &&
                     new Date() <= new Date(prod?.salePriceValidTo)
                       ? prod?.salePrice?.toFixed(2)
                       : prod?.unitPrice?.toFixed(2)} */}
-                       {user?.isUPNMember === 1
-    ? prod?.upnMemberPrice?.toFixed(2)
-    : new Date() >= new Date(prod?.salePriceValidFrom) &&
-      new Date() <= new Date(prod?.salePriceValidTo)
-    ? prod?.salePrice?.toFixed(2)
-    : prod?.unitPrice?.toFixed(2)}
+                    {user?.isUPNMember === 1
+                      ? prod?.upnMemberPrice?.toFixed(2)
+                      : new Date() >= new Date(prod?.salePriceValidFrom) &&
+                        new Date() <= new Date(prod?.salePriceValidTo)
+                        ? prod?.salePrice?.toFixed(2)
+                        : prod?.unitPrice?.toFixed(2)}
                   </p>
 
                   {/* <img src={ ?Wishlist :filledheart} className="w-5 h-5 flex   "/> */}
@@ -949,8 +992,8 @@ function Items({
                 </div>
                 <div className="flex justify-between">
                   <div className="flex">
-                  <p className="text-gray-600 text-[12px] lg:text-[14px]">
-                  Delivery by{" "}
+                    <p className="text-gray-600 text-[12px] lg:text-[14px]">
+                      Delivery by{" "}
                       <span className="text-black">
                         Tommorrow, 8:00 am - 12:00 pm
                       </span>
@@ -965,7 +1008,7 @@ function Items({
               </div>
 
               <div className="flex flex-col text-[14px] lg:text-[15px] w-full px-4 mb-2">
-              <div className="flex  text-[16px] lg:text-[18px] mb-1 flex-col  ">
+                <div className="flex  text-[16px] lg:text-[18px] mb-1 flex-col  ">
                   {/* <div className="flex items-center text-[18px] mb-1">
                     <TbSquareRoundedCheckFilled className="text-sky-500  mr-1" />
                     <span>In Stock</span>
@@ -985,7 +1028,9 @@ function Items({
 
                   <div className="flex">
                     <p className="text-sky-500 font-normal">NDC/UPC: </p>
-                    <span className=" text-base md:text-base">{prod?.ndCorUPC}</span>
+                    <span className=" text-base md:text-base">
+                      {prod?.ndCorUPC}
+                    </span>
                   </div>
                 </div>
                 <div className="flex flex-col">
@@ -1005,47 +1050,45 @@ function Items({
               <div className="flex  md:flex-row items-center space-x-2 pb-2 px-4">
                 <label className="text-lg  font-semibold">Quantity:</label>
                 <div className=" flex gap-2 md:flex-row">
-                <button
-          onClick={handleDecrease}
-          className="bg-gray-200 text-gray-700 font-bold py-1 px-3 rounded focus:outline-none"
-          disabled={quantity === 1} // Disable decrease button if quantity is 1
-        >
-          -
-        </button>
-        <input
-          type="number"
-          value={quantity}
-          readOnly
-          className="w-12 py-1 text-center border border-gray-300 rounded focus:outline-none"
-        />
-        <button
-          onClick={handleIncrease}
-          className={`bg-gray-200 text-gray-700 font-bold py-1 px-3 rounded focus:outline-none ${
-            quantity >= prod?.maxOrderQuantity ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-        >
-          +
-        </button>
-     
-    
+                  <button
+                    onClick={handleDecrease}
+                    className="bg-gray-200 text-gray-700 font-bold py-1 px-3 rounded focus:outline-none"
+                    disabled={quantity === 1} // Disable decrease button if quantity is 1
+                  >
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    value={quantity}
+                    readOnly
+                    className="w-12 py-1 text-center border border-gray-300 rounded focus:outline-none"
+                  />
+                  <button
+                    onClick={handleIncrease}
+                    className={`bg-gray-200 text-gray-700 font-bold py-1 px-3 rounded focus:outline-none ${quantity >= prod?.maxOrderQuantity
+                        ? "opacity-50 cursor-not-allowed"
+                        : ""
+                      }`}
+                  >
+                    +
+                  </button>
                 </div>
               </div>
-              {Errors?.quantity!=null && (
-                <span>{Errors.quantity}</span>
-              )}
+              {Errors?.quantity != null && <span>{Errors.quantity}</span>}
 
-{errorMessage && (
-        <span className="text-red-500 ml-4 text-sm">{errorMessage}</span>
-      )}
+              {errorMessage && (
+                <span className="text-red-500 ml-4 text-sm">
+                  {errorMessage}
+                </span>
+              )}
 
               <div className="flex gap-2 mx-2">
                 <button
-          className={`w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 
-                  ${
-                    prod?.amountInStock <= 0
+                  className={`w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 
+                  ${prod?.amountInStock <= 0
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-blue-900 cursor-pointer"
-                  }`}
+                    }`}
                   disabled={prod?.amountInStock <= 0}
                   onClick={() => {
                     if (prod?.amountInStock > 0) {
@@ -1064,12 +1107,11 @@ function Items({
                   Buy Now
                 </button> */}
                 <button
-          className={`w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 
- ${
-                    prod?.amountInStock <= 0
+                  className={`w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 
+                  ${prod?.amountInStock <= 0
                       ? "bg-orange-200 cursor-not-allowed"
                       : "bg-orange-400"
-                  }`}
+                    }`}
                   // onClick={handleOrder}
                   // disabled={prod?.amountInStock === 0}
                   disabled={prod?.amountInStock <= 0}
@@ -1094,9 +1136,8 @@ function Items({
               <div className="p-2 bg-gray-100 rounded-lg mr-4">
                 <p className="font-semibold text-gray-600">SOLD BY</p>
                 <p className="text-red-600">
-                  {/* <Link to="/layout/layoutprofile"> */}
-                    {" "}
-                    {prod?.sellerFirstName} {prod?.sellerLastName}
+                  {/* <Link to="/layout/layoutprofile"> */}{" "}
+                  {prod?.sellerFirstName} {prod?.sellerLastName}
                   {/* </Link> */}
                 </p>
                 <p className="hover:text-red-600">Company Website</p>
@@ -1104,7 +1145,7 @@ function Items({
                   <div className="flex  items-center space-x-2 hover:text-red-500">
                     <img src={product} className="w-fit h-10" />
                     {/* <Link to="/layout/layoutbuy"> */}
-                      <span className=" font-semibold">17 PRODUCTS</span>
+                    <span className=" font-semibold">17 PRODUCTS</span>
                     {/* </Link> */}
                   </div>
                   <div className="flex items-center space-x-2 hover:text-red-500">
@@ -1140,7 +1181,7 @@ function Items({
           Length={prod?.length}
         />
 
-        <div className="w-[92%] flex flex-col md:flex-row border-t-2 shadow-inner justify-start gap-8 p-4">
+        {/* <div className="w-[92%] flex flex-col md:flex-row border-t-2 shadow-inner justify-start gap-8 p-4">
           <div className="w-full md:w-1/3">
             <h2 className="text-xl font-bold text-black mb-4">
               RATINGS & REVIEWS
@@ -1167,33 +1208,162 @@ function Items({
             <h2 className="text-xl font-bold text-blue-900 mb-4">
               Customers Say
             </h2>
-            {/* Example of a single review */}
-            {/* <div className="p-4 mb-4 bg-white border border-gray-200 rounded shadow-sm">
-              <p className="text-gray-800">
-                "Cough syrups may contain antitussives (like dextromethorphan),
-                expectorants (like guaifenesin), or antihistamines (like
-                diphenhydramine) depending on the type."
-              </p>
-              <div className="mt-2 text-sm text-gray-500">- Testing</div>
-            </div> */}
             <div>
-      {ratings.length > 0 ? (
-        ratings.map((rating, index) => (
-          <div
-            key={index}
-            className="p-4 mb-4 bg-white border border-gray-200 rounded shadow-sm"
-          >
-            <p className="text-gray-800">{rating.feedback}</p>
-            <div className="mt-2 text-sm text-gray-500">- testing</div>
+              {ratings.length > 0 ? (
+                ratings.map((rating, index) => (
+                  <div
+                    key={index}
+                    className="p-4 mb-4 bg-white border border-gray-200 rounded shadow-sm"
+                  >
+                    <div className="flex items-center ">
+                      {[...Array(5)].map((_, starIndex) => (
+                        <svg
+                          key={starIndex}
+                          className={`w-5 h-7 ${
+                            starIndex < rating.rating
+                              ? "text-yellow-400"
+                              : "text-gray-300"
+                          }`}
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.716 5.297a1 1 0 00.95.69h5.573c.969 0 1.371 1.24.588 1.81l-4.513 3.279a1 1 0 00-.364 1.118l1.716 5.297c.3.921-.755 1.688-1.54 1.118l-4.513-3.279a1 1 0 00-1.175 0l-4.513 3.279c-.785.57-1.84-.197-1.54-1.118l1.716-5.297a1 1 0 00-.364-1.118l-4.513-3.279c-.783-.57-.381-1.81.588-1.81h5.573a1 1 0 00.95-.69l1.716-5.297z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <p className="text-gray-800">{rating.feedback}</p>
+                    <div className="mt-2 text-sm text-gray-500">
+                      - {rating?.customerName}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-500">
+                  No feedback available for this product.
+                </p>
+              )}
+            </div>
           </div>
-        ))
-      ) : (
-        <p className="text-gray-500">No feedback available for this product.</p>
-      )}
-    </div>
-            {/* Repeat above div for multiple reviews */}
+        </div> */}
+
+        <div className="w-[92%] flex flex-col md:flex-row border-t-2 shadow-inner justify-start gap-8 p-4">
+          {/* Ratings Overview */}
+          <div className="w-full md:w-1/3">
+            <h2 className="text-xl font-bold text-black mb-4">
+              RATINGS & REVIEWS
+            </h2>
+            <div className="flex items-center">
+              <div className="text-2xl font-bold text-black">
+                {ratings.length > 0
+                  ? (
+                    ratings.reduce((sum, rating) => sum + rating.rating, 0) /
+                    ratings.length
+                  ).toFixed(1)
+                  : "0.0"}
+                <span className="text-lg font-normal">/5</span>
+              </div>
+              <div className="flex items-center ml-2">
+                {[...Array(5)].map((_, index) => (
+                  <svg
+                    key={index}
+                    className={`w-5 h-7 ${index <
+                        Math.round(
+                          ratings.reduce(
+                            (sum, rating) => sum + rating.rating,
+                            0
+                          ) / ratings.length
+                        )
+                        ? "text-yellow-400"
+                        : "text-gray-300"
+                      }`}
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.716 5.297a1 1 0 00.95.69h5.573c.969 0 1.371 1.24.588 1.81l-4.513 3.279a1 1 0 00-.364 1.118l1.716 5.297c.3.921-.755 1.688-1.54 1.118l-4.513-3.279a1 1 0 00-1.175 0l-4.513 3.279c-.785.57-1.84-.197-1.54-1.118l1.716-5.297a1 1 0 00-.364-1.118l-4.513-3.279c-.783-.57-.381-1.81.588-1.81h5.573a1 1 0 00.95-.69l1.716-5.297z" />
+                  </svg>
+                ))}
+              </div>
+
+
+
+              {/* Display number of ratings */}
+              <div className="ml-2 text-[13px]">
+                ({ratings.length} global ratings)
+              </div>
+            </div>
+            {[5, 4, 3, 2, 1].map((rating) => {
+              const ratingCount = ratings.filter(
+                (r) => r.rating === rating
+              ).length;
+              const totalRatings = ratings.length;
+              const percentage =
+                totalRatings > 0 ? (ratingCount / totalRatings) * 100 : 0;
+
+              return (
+                <div key={rating} className="flex items-center mb-4">
+                  <span className="text-sm font-medium flex text-gray-700">
+                    {rating} <span className="ml-1"> star</span>
+                  </span>
+                  <div className="w-full h-3 mx-3 bg-gray-200 rounded">
+                    <div
+                      className={`h-full bg-blue-500 rounded`}
+                      style={{ width: `${percentage}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-sm text-gray-700">
+                    {percentage.toFixed(0)}%
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Customer Reviews */}
+          <div className="w-full md:w-2/3">
+            <h2 className="text-xl font-bold text-blue-900 mb-4">
+              Customers Say
+            </h2>
+            <div>
+              {ratings.length > 0 ? (
+                ratings.map((rating, index) => (
+                  <div
+                    key={index}
+                    className="p-4 mb-4 bg-white border border-gray-200 rounded shadow-sm"
+                  >
+                    {/* Star Ratings */}
+                    <div className="flex items-center">
+                      {[...Array(5)].map((_, starIndex) => (
+                        <svg
+                          key={starIndex}
+                          className={`w-5 h-7 ${starIndex < rating.rating
+                              ? "text-yellow-400"
+                              : "text-gray-300"
+                            }`}
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.716 5.297a1 1 0 00.95.69h5.573c.969 0 1.371 1.24.588 1.81l-4.513 3.279a1 1 0 00-.364 1.118l1.716 5.297c.3.921-.755 1.688-1.54 1.118l-4.513-3.279a1 1 0 00-1.175 0l-4.513 3.279c-.785.57-1.84-.197-1.54-1.118l1.716-5.297a1 1 0 00-.364-1.118l-4.513-3.279c-.783-.57-.381-1.81.588-1.81h5.573a1 1 0 00.95-.69l1.716-5.297z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <p className="text-gray-800">{rating.feedback}</p>
+                    <div className="mt-2 text-sm text-gray-500">
+                      - {rating?.customerName}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-500">
+                  No feedback available for this product.
+                </p>
+              )}
+            </div>
           </div>
         </div>
+
         <div className="w-[92%] border-t-2 shadow-inner ">
           <ProductSlider
             productList={productList}
