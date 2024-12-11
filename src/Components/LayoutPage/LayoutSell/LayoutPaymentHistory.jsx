@@ -65,7 +65,8 @@ function LayoutPaymentHistory() {
   const stats = [
     {
       label: "Total Earnings",
-      value: `$${(2420 || 0.0).toFixed(2)}`,
+      // value: `$${(2420 || 0.0).toFixed(2)}`,
+      value: `$${paymentHistory.reduce((total, each) => total + each.paymentAmount, 0).toFixed(2)}`,
       text: "as of 01-December-2023",
       color: "text-green-500",
     },
@@ -172,7 +173,7 @@ function LayoutPaymentHistory() {
               key={index}
               className="bg-white w-56 rounded-lg shadow-lg h-28 p-4"
             >
-              <h1 className="text-[20px] text-gray-700 font-normal">
+              <h1 className="text-[20px] text-gray-700 font-normal pb-3">
                 {stat.label}
               </h1>
               <h1
@@ -182,7 +183,7 @@ function LayoutPaymentHistory() {
               >
                 {stat.value}
               </h1>
-              <h1 className="text-[14px]">{stat.text}</h1>
+              {/* <h1 className="text-[14px]">{stat.text}</h1> */}
             </div>
           ))}
         </div>
