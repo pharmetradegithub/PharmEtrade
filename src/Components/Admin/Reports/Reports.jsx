@@ -327,7 +327,7 @@ const Reports = () => {
             <select
               value={reportType}
               onChange={handleReportTypeChange}
-              className="border w-52 border-gray-300 rounded-lg px-3 py-2"
+              className="border w-52 border-gray-300 rounded-lg px-3 py-2 cursor-pointer"
             >
               <option value="">Select a report</option>
               {/* <option value="Payments">Payments History</option>
@@ -350,11 +350,11 @@ const Reports = () => {
             <TextField
               type="date"
               size="small"
-              className="w-52"
+              className="w-52 cursor-pointer"
               // value={fromDate ? format(parseISO(fromDate), "yyyy-MM-dd") : ""}
               value={fromDate}
               onChange={handleFromDateChange}
-              InputProps={{ className: "border rounded-lg" }}
+              InputProps={{ className: "border rounded-lg cursor-pointer" }}
             />
           </div>
 
@@ -365,11 +365,11 @@ const Reports = () => {
             <TextField
               type="date"
               size="small"
-              className="w-52"
+              className="w-52 cursor-pointer"
               // value={toDate ? format(parseISO(toDate), "yyyy-MM-dd") : ""}
               value={toDate}
               onChange={handleToDateChange}
-              InputProps={{ className: "border rounded-lg" }}
+              InputProps={{ className: "border rounded-lg cursor-pointer" }}
             />
           </div>
         </div>
