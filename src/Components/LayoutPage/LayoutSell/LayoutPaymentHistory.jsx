@@ -106,13 +106,35 @@ function LayoutPaymentHistory() {
   //   return 0;
   // });
 
-  const sortedProducts = [...paymentHistory]
-    .sort((a, b) => {
-      // Sort by `paymentDate` in descending order (newest first)
+  const sortedProducts = React.useMemo(() => {
+    console.log('Sorting Items:', paymentHistory);
+
+    // Default sort by `paymentDate` in descending order
+    let sortedData = [...paymentHistory].sort((a, b) => {
       const aDate = new Date(a.paymentDate).getTime();
       const bDate = new Date(b.paymentDate).getTime();
       return bDate - aDate; // Descending order
     });
+
+    // Apply additional sorting based on `sortConfig`
+    if (sortConfig.key) {
+      sortedData.sort((a, b) => {
+        const aValue = a[sortConfig.key];
+        const bValue = b[sortConfig.key];
+        console.log('Comparing:', aValue, bValue); // Log values being compared
+
+        if (aValue === bValue) return 0;
+
+        if (sortConfig.direction === 'ascending') {
+          return aValue > bValue ? 1 : -1;
+        }
+        return aValue < bValue ? 1 : -1;
+      });
+    }
+
+    return sortedData;
+  }, [paymentHistory, sortConfig]);
+
   useEffect(() => {
     dispatch(fetchPaymentHistory(user?.customerId));
   }, [user?.customerId]);

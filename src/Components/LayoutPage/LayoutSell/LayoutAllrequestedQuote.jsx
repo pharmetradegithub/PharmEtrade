@@ -559,17 +559,18 @@ const LayoutAllrequestedQuote = () => {
                   className="border-b-2 min-w-36 text-left cursor-pointer"
                   onClick={() => handleSort("isActive")}
                 >
-                  Status{" "}
-                  {sortConfig.key === "isActive" &&
-                    (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                  Status
+                  {/* Status{" "} */}
+                  {/* {sortConfig.key === "isActive" &&
+                    (sortConfig.direction === "ascending" ? "▲" : "▼")} */}
                 </th>
                 <th
                   className="border-b-2 min-w-36 text-left cursor-pointer"
                   onClick={() => handleSort("createdOn")}
                 >
                   Created Date{" "}
-                  {sortConfig.key === "createdOn" &&
-                    (sortConfig.direction === "ascending" ? "▲" : "▼")}
+                  {sortConfig.key === "productName" ?
+                    (sortConfig.direction === "ascending" ? "▲" : "▼") : "▲"}
                 </th>
                 <th className="border-b-2 min-w-36 text-left">Action</th>
               </tr>

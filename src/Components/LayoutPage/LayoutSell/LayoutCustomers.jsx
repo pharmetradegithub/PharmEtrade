@@ -204,7 +204,7 @@ function LayoutCustomers() {
                     <td className="px-4 py-2">{customer.email}</td>
                     <td className="px-4 py-2">{customer.mobile}</td>
                     <td className="px-4 py-2">{customer.address1}</td>
-                    <td className="px-4 py-2">{customer.totalAmount}</td>
+                    <td className="px-4 py-2">${customer.totalAmount.toFixed(2)}</td>
                     <td className="px-4 py-2 flex items-center space-x-2 justify-center">
                       <Tooltip title="Edit" placement="top">
                         <img
