@@ -556,7 +556,7 @@ const LayoutAllrequestedQuote = () => {
                     (sortConfig.direction === "ascending" ? "▲" : "▼") : "▲"}
                 </th>
                 <th
-                  className="border-b-2 min-w-36 text-left cursor-pointer"
+                  className="border-b-2 min-w-36 text-left"
                   onClick={() => handleSort("isActive")}
                 >
                   Status

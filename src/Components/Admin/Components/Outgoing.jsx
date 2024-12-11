@@ -413,7 +413,7 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
                         })
                         .replace(/\//g, "-")}
                     </td>
-                    <td className="px-4 py-2">{payout.paymentAmount}</td>
+                    <td className="px-4 py-2 text-left">${payout.paymentAmount.toFixed(2)}</td>
                     <td className="px-4 py-2">{payout.paymentStatus}</td>
                     <td className="px-4 py-2">{ }</td>
                     <td className="px-4 py-2">{ }</td>
