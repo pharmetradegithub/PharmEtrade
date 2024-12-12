@@ -101,7 +101,12 @@ export const ProductPriceValidation = (formData) => {
         errors.minOrderQuantity = "Minimum Order Quantity is required and must be greater than 0.";
     }
 
-
+    if (formData.maxOrderQuantity === null || formData.maxOrderQuantity === undefined || formData.maxOrderQuantity <= 0) {
+        errors.maxOrderQuantity = "Maximum Order Quantity is required and must be greater than 0.";
+    } else
+        if (formData.maxOrderQuantity <= formData.minOrderQuantity) {
+            errors.maxOrderQuantity = "Maximum Order Quantity must be greater than Minimum Order Quantity.";
+        }
     return errors;
 };
 

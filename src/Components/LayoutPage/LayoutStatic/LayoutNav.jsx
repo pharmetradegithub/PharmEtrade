@@ -84,6 +84,15 @@ const LayoutNav = ({ Form_Data }) => {
   //   navigate('/layout/layoutCategoryProducts');
 
   // };
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+
+    const category = searchParams.get("CategoryName");
+    if (category == -1) {
+      navigate("/layout/layoutbuy");
+    }
+
+  }, [])
 
   const handleCriteria = async (obj) => {
     handleItemClick(obj.categoryName, obj.productCategoryId)
@@ -129,8 +138,6 @@ const LayoutNav = ({ Form_Data }) => {
       Criteria = {
         customerId: user.customerId,
         productName: SearchInput,
-
-
       }
     }
 

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import filter from "../../../assets/Icons/filter_icon.png";
@@ -205,6 +206,7 @@ function LayoutaddProduct() {
       states: product.states.split(",").map((state) => state.trim()),
       size: product.size,
       form: product.form,
+      isfullpack:product.isFullPack,
       isReturnable: product.isReturnable,
       shippingCostApplicable: product.shippingCostApplicable,
       unitOfMeasurement: product.unitOfMeasure,
@@ -580,6 +582,7 @@ function LayoutaddProduct() {
   const [formErrors, setFormErrors] = useState({});
   const [triggerValidation, settriggerValidation] = useState(0);
   const handleInputChange = (e) => {
+    console.log("hm")
     const { name, value, type, options, id } = e.target;
     console.log(name, value, type, options, id);
     if (name === "discount") {
@@ -662,22 +665,12 @@ function LayoutaddProduct() {
     // }
     else if (type === "radio") {
       // Handle radio buttons for packQuantity and packType
-      if (name === "option") {
-        setFormData({
-          ...formData,
-          ["isfullpack"]: Number(value),
-        });
-      } else if (name === "product") {
-        setFormData({
-          ...formData,
-          packType: value,
-        });
-      }
+      
       if (name === "shippingCostApplicable") {
         const isShippingCostApplicable = value === "1"; // Convert value to boolean
         setFormData((prevData) => ({
           ...prevData,
-          shippingCostApplicable: isShippingCostApplicable,
+          shippingCostApplicable: isShippingCostApplicable == prevData.shippingCostApplicable? null:isShippingCostApplicable,
           shippingCost: isShippingCostApplicable ? 0 : 0, // Set shipping cost based on selection
         }));
         //   setFormData((prevData) => ({
@@ -693,6 +686,17 @@ function LayoutaddProduct() {
       }
     } else if (type === "checkbox") {
       // Handle checkboxes for packCondition
+      if (name === "option") {
+        setFormData({
+          ...formData,
+          ["isfullpack"]: Number(value) == formData.isfullpack? null:Number(value),
+        });
+      } else if (name === "product") {
+        setFormData({
+          ...formData,
+          packType: value == formData.packType ? null : value,
+        });
+      }
       if (name === "states") {
         // Handle "All Selected" checkbox separately
         if (value === "all") {
@@ -1427,7 +1431,7 @@ function LayoutaddProduct() {
                       <div className="flex items-center">
                         {" "}
                         <input
-                          type="radio"
+                          type="checkbox"
                           id="full"
                           name="option"
                           value={1}
@@ -1447,7 +1451,7 @@ function LayoutaddProduct() {
                       </div>
                       <div className="flex items-center">
                         <input
-                          type="radio"
+                          type="checkbox"
                           id="partial"
                           name="option"
                           value={0}
@@ -1488,7 +1492,7 @@ function LayoutaddProduct() {
                       <div className="flex items-center">
                         <div className="flex items-center">
                           <input
-                            type="radio"
+                            type="checkbox"
                             id="original"
                             name="product"
                             value="original"
@@ -1506,7 +1510,7 @@ function LayoutaddProduct() {
                         </div>
                         <div className="flex items-center">
                           <input
-                            type="radio"
+                            type="checkbox"
                             id="non-original"
                             name="product"
                             value="non-original"
@@ -2240,7 +2244,11 @@ function LayoutaddProduct() {
                         : formData.maxOrderQuantity
                     }
                   />
-
+ {formErrors.maxOrderQuantity && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.maxOrderQuantity}
+                      </span>
+                    )}
                   {parseInt(formData.maxOrderQuantity, 10) >
                     parseInt(formData.amountInStock, 10) && (
                     <span className="text-red-600 text-sm mt-1">

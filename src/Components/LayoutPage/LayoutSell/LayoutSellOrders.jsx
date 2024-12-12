@@ -189,8 +189,9 @@ function LayoutSellOrders() {
   const sortedProducts = React.useMemo(() => {
     console.log('Sorting Items:', SellerOrder);
 
+    const validSellerOrder = Array.isArray(SellerOrder) ? SellerOrder : [];
     // Default sort by `paymentDate` in descending order
-    let sortedData = [...SellerOrder].sort((a, b) => {
+    let sortedData = [...validSellerOrder].sort((a, b) => {
       const aDate = new Date(a.orderDate).getTime();
       const bDate = new Date(b.orderDate).getTime();
       return bDate - aDate; // Descending order

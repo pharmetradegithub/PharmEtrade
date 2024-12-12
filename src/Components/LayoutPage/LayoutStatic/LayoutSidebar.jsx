@@ -134,11 +134,14 @@ function LayoutSidebar() {
                 {logos.Shop_name}
               </p>
               <div className="flex items-center">
-              <span
-  className={`mr-1 inline-block w-2 h-2 rounded-full ${
-    user?.isUPNMember === 1 ? 'bg-green-500' : 'bg-red-500'
-  }`}
-></span>
+                <span
+                  className={`mr-1 inline-block w-2 h-2 rounded-full ${user?.customerTypeId === 1
+                      ? user?.isUPNMember === 1
+                        ? 'bg-green-500'
+                        : 'bg-red-500'
+                      : ''
+                    }`}
+                ></span>
 
                 <p className="text-sm font-semibold">{logos.name}</p>
               </div>
