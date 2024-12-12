@@ -319,16 +319,16 @@ function LayoutPaymentHistory() {
               <table className="w-full">
                 <thead className="bg-blue-900 text-white ">
                   <tr className="border-b-2 flex justify-around">
-                    <th className="">
+                    <th className="px-4 py-2">
                       S.NO
                     </th>
-                    <th className=" cursor-pointer" onClick={() => handleSort("paymentDate")}>Payment Date {sortConfig.key === "paymentDate"
+                    <th className="px-4 py-2 cursor-pointer" onClick={() => handleSort("paymentDate")}>Payment Date {sortConfig.key === "paymentDate"
                         ? sortConfig.direction === "ascending"
                           ? "▲"
                           : "▼"
                         : "▲"}</th>
-                    <th className="">Payment Status</th>
-                    <th className="text-right cursor-pointer" onClick={() => handleSort("paymentAmount")}>Payment Amount  {sortConfig.key === "paymentAmount"
+                    <th className="px-4 py-2">Payment Status</th>
+                    <th className="px-4 py-2 text-right cursor-pointer" onClick={() => handleSort("paymentAmount")}>Payment Amount  {sortConfig.key === "paymentAmount"
                         ? sortConfig.direction === "ascending"
                           ? "▲"
                           : "▼"
