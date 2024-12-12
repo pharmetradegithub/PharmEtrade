@@ -648,9 +648,23 @@ export const EditProductPriceApi = async (FormData, user) => {
 };
 
 
-export const fetchRatingWithProduct = async (productID) => {
+// export const fetchRatingWithProduct = async (productID) => {
+//   try {
+//     const response = await axios.get(`/api/Product/GetRatingWithProduct?productId=${productID}`);
+//     if (response.status === 200) {
+//       return response.data.result;
+//     } else {
+//       console.error('Failed to fetch product by ID:', response.data.message);
+//     }
+//   } catch (error) {
+//     console.error('Error fetching product by ID:', error);
+//   }
+// };
+export const fetchRatingWithProduct = async (productID, customerId = null) => {
   try {
-    const response = await axios.get(`/api/Product/GetRatingWithProduct?productId=${productID}`);
+    const url = `/api/Product/GetRatingWithProduct?productId=${productID}`
+      + (customerId != null ? `&customerId=${customerId}` : ``);
+    const response = await axios.get(url);
     if (response.status === 200) {
       return response.data.result;
     } else {

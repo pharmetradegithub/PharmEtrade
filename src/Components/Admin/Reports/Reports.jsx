@@ -163,7 +163,7 @@
 import React, { useMemo, useState } from "react";
 import { TextField } from "@mui/material";
 import { format, parseISO } from "date-fns";
-import { getReportsApi } from "../../../Api/AdminApi";
+import { getReportExpiredItemsExcel, getReportNewOrderExcel, getReportPaymentHistoryExcel, getReportPendingShipmentsExcel, getReportPurchaseHistoryExcel, getReportsApi } from "../../../Api/AdminApi";
 import Pagination from "../../Pagination";
 
 const Reports = () => {
@@ -257,56 +257,99 @@ const Reports = () => {
     }
   };
 
-  const sortedReports = useMemo(() => {
-    if (!sortConfig.key) return reports;
+  const handleSort = (key) => {
+    setSortConfig((prevConfig) => {
+      console.log('Previous Sort Config:', prevConfig);
+      const newConfig = prevConfig.key === key
+        ? {
+          key,
+          direction: prevConfig.direction === 'ascending' ? 'descending' : 'ascending',
+        }
+        : { key, direction: 'ascending' };
 
-    const sortedData = [...reports];
-    sortedData.sort((a, b) => {
-      const aValue = a[sortConfig.key];
-      const bValue = b[sortConfig.key];
-
-      if (sortConfig.key === "PaymentAmount") {
-        return sortConfig.direction === "asc"
-          ? aValue - bValue
-          : bValue - aValue;
-      }
-
-      const aStr = typeof aValue === "string" ? aValue.toLowerCase() : aValue;
-      const bStr = typeof bValue === "string" ? bValue.toLowerCase() : bValue;
-
-      return sortConfig.direction === "asc"
-        ? aStr > bStr
-          ? 1
-          : -1
-        : aStr < bStr
-        ? 1
-        : -1;
+      console.log('New Sort Config:', newConfig);
+      return newConfig;
     });
+  };
+
+  const sortedReports = useMemo(() => {
+    // if (!sortConfig.key) return reports;
+    // const sortedData = [...reports];
+    // sortedData.sort((a, b) => {
+    //   const aValue = a[sortConfig.key];
+    //   const bValue = b[sortConfig.key];
+
+    //   // if (sortConfig.key === "PaymentAmount") {
+    //     if (sortConfig.key) {
+    //     return sortConfig.direction === "asc"
+    //       ? aValue - bValue
+    //       : bValue - aValue;
+    //   }
+
+    //   const aStr = typeof aValue === "string" ? aValue.toLowerCase() : aValue;
+    //   const bStr = typeof bValue === "string" ? bValue.toLowerCase() : bValue;
+
+    //   return sortConfig.direction === "asc"
+    //     ? aStr > bStr
+    //       ? 1
+    //       : -1
+    //     : aStr < bStr
+    //     ? 1
+    //     : -1;
+    // });
+
+    // return sortedData;
+    let sortedData = [...reports].sort((a, b) => {
+      const aDate = new Date(a.paymentDate).getTime();
+      const bDate = new Date(b.paymentDate).getTime();
+      return bDate - aDate; // Descending order
+    });
+
+    // Apply additional sorting based on `sortConfig`
+    if (sortConfig.key) {
+      sortedData.sort((a, b) => {
+        const aValue = a[sortConfig.key];
+        const bValue = b[sortConfig.key];
+        console.log('Comparing:', aValue, bValue); // Log values being compared
+
+        if (aValue === bValue) return 0;
+
+        if (sortConfig.direction === 'ascending') {
+          return aValue > bValue ? 1 : -1;
+        }
+        return aValue < bValue ? 1 : -1;
+      });
+    }
 
     return sortedData;
   }, [reports, sortConfig]);
+
+ 
+
+
+
 
   const currentItems = sortedReports.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
-  const handleSort = (key) => {
-    setSortConfig((prevConfig) => ({
-      key,
-      direction:
-        prevConfig.key === key && prevConfig.direction === "asc"
-          ? "desc"
-          : "asc",
-    }));
-  };
+  // const handleSort = (key) => {
+  //   setSortConfig((prevConfig) => ({
+  //     key,
+  //     direction:
+  //       prevConfig.key === key && prevConfig.direction === "asc"
+  //         ? "desc"
+  //         : "asc",
+  //   }));
+  // };
 
-  const getArrow = (key) => {
-    if (sortConfig.key === key) {
-      return sortConfig.direction === "asc" ? "▲" : "▼";
-    }
-    return "▲"; // Default arrow
-  };
+  // const getArrow = (key) => {
+  //   if (sortConfig.key === key) {
+  //     return sortConfig.direction === "asc" ? "▲" : "▼";
+  //   }
+  //   return "▲"; // Default arrow
+  // };
   const reportTypeMapping = {
     1: "Payments History",
     2: "Purchase History",
@@ -314,6 +357,73 @@ const Reports = () => {
     4: "ExpiredItems",
     5: "PendingShipments",
   };
+
+  const mappedReportType = reportTypeMapping[savedReportType];
+  console.log("Mapped Report Type:", mappedReportType);
+  const onExcelHandle = async () => {
+    // if (!savedFromDate || isNaN(new Date(savedFromDate).getTime())) {
+    //   alert("Please select a valid 'From Date'.");
+    //   return;
+    // }
+    // if (!savedToDate || isNaN(new Date(savedToDate).getTime())) {
+    //   alert("Please select a valid 'To Date'.");
+    //   return;
+    // }
+    try {
+          // if (!fromDate || !toDate) {
+          //   console.error("Error: Missing date range inputs");
+          //   return;
+          // }
+
+      const formattedFromDate = format(parseISO(savedFromDate), "yyyy-MM-dd");
+      const formattedToDate = format(parseISO(savedToDate), "yyyy-MM-dd");
+      // const formattedFromDate = format(new Date(fromDate), "yyyy-MM-dd");
+      // const formattedToDate = format(new Date(toDate), "yyyy-MM-dd");
+
+      console.log("Formatted From Date:", formattedFromDate);
+      console.log("Formatted To Date:", formattedToDate);
+
+      // const trimmedSavedReportType = savedReportType.trim();
+      // console.log("Trimmed Report Type:", trimmedSavedReportType);
+
+      if (mappedReportType === "Payments History") {
+        await getReportPaymentHistoryExcel(formattedFromDate, formattedToDate);
+      } else if (mappedReportType === "Purchase History") {
+        await getReportPurchaseHistoryExcel(formattedFromDate, formattedToDate);
+      } else if (mappedReportType === "NewOrders") {
+        await getReportNewOrderExcel(formattedFromDate, formattedToDate);
+      } else if (mappedReportType === "ExpiredItems") {
+        await getReportExpiredItemsExcel(formattedFromDate, formattedToDate);
+      } else if (mappedReportType === "PendingShipmets") {
+        await getReportPendingShipmentsExcel(formattedFromDate, formattedToDate);
+      } else {
+        console.error("Unrecognized report type:", mappedReportType);
+      }
+
+      // if (data) {
+      //   console.log("Excel report fetched successfully");
+      //   // Further processing, like downloading the file, if required
+      //   const blob = new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+
+      //   // Create a temporary link element for the download
+      //   const link = document.createElement('a');
+      //   link.href = URL.createObjectURL(blob);
+      //   link.download = `PaymentHistory_${fromDate}_to_${toDate}.xlsx`; // Set desired filename
+
+      //   // Programmatically click the link to trigger the download
+      //   document.body.appendChild(link);
+      //   link.click();
+
+      //   // Cleanup
+      //   document.body.removeChild(link);
+      // } else {
+      //   console.error("Failed to fetch Excel report data");
+      // }
+    } catch (error) {
+      console.error("Error handling Excel report:", error);
+    }
+  };
+
   return (
     <div className="container mx-auto overflow-y-scroll p-6">
       {/* Form Section */}
@@ -498,7 +608,7 @@ const Reports = () => {
               }}
             />
           </div>
-          <button className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">
+          <button className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition" onClick={onExcelHandle}>
             Export
           </button>
         </div>
@@ -510,13 +620,17 @@ const Reports = () => {
               <th className=" px-4 py-2 text-left">From</th>
               <th className=" px-4 py-2 text-left">To</th>
               <th className=" px-4 py-2 text-left">Export Option</th> */}
-              <th className=" px-4 py-2 text-left">S No.</th>
+              <th className=" px-4 py-2 text-left">S.No</th>
               {/* <th className=" px-4 py-2 text-left">Customer Name</th> */}
               <th
                 className="px-4 py-2 text-left cursor-pointer"
                 onClick={() => handleSort("CustomerName")}
               >
-                Customer Name {getArrow("CustomerName")}
+                Customer Name    {sortConfig.key === "CustomerName"
+                  ? sortConfig.direction === "ascending"
+                    ? "▲"
+                    : "▼"
+                  : "▲"}
               </th>
               <th className=" px-4 py-2 text-left">Order Number</th>
               {/* <th className=" px-4 py-2 text-left">Order Date</th> */}
@@ -524,7 +638,11 @@ const Reports = () => {
                 className="px-4 py-2 text-left cursor-pointer"
                 onClick={() => handleSort("OrderDate")}
               >
-                Order Date {getArrow("OrderDate")}
+                Order Date    {sortConfig.key === "OrderDate"
+                  ? sortConfig.direction === "ascending"
+                    ? "▲"
+                    : "▼"
+                  : "▲"}
               </th>
               {/* <th className=" px-4 py-2 text-left">Payment Amount</th>
               <th className=" px-4 py-2 text-left">Payment Date</th> */}
@@ -532,13 +650,21 @@ const Reports = () => {
                 className="px-10 text-right cursor-pointer"
                 onClick={() => handleSort("PaymentAmount")}
               >
-                Payment Amount {getArrow("PaymentAmount")}
+                Payment Amount    {sortConfig.key === "PaymentAmount"
+                  ? sortConfig.direction === "ascending"
+                    ? "▲"
+                    : "▼"
+                  : "▲"}
               </th>
               <th
                 className="px-4 py-2 text-left cursor-pointer"
                 onClick={() => handleSort("PaymentDate")}
               >
-                Payment Date {getArrow("PaymentDate")}
+                Payment Date   {sortConfig.key === "PaymentDate"
+                  ? sortConfig.direction === "ascending"
+                    ? "▲"
+                    : "▼"
+                  : "▲"}
               </th>
               <th className=" px-4 py-2 text-left">Payment Method</th>
             </tr>

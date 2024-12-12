@@ -191,7 +191,7 @@ function LayoutPaymentHistory() {
         <div className="w-full my-4">
           <h2 className="text-[22px] font-semibold">Payment History</h2>
           <div className="flex justify-between my-2">
-            <div className="flex bg-gray-100">
+            {/* <div className="flex bg-gray-100">
               <select
                 value={selectedOption}
                 onChange={handleChange}
@@ -202,7 +202,7 @@ function LayoutPaymentHistory() {
                 <option value="pending">Pending</option>
                 <option value="rejected">Rejected</option>
               </select>
-            </div>
+            </div> */}
 
             <div className="flex gap-2">
               {/* <button className="bg-green-300 p-2 h-8 rounded-md flex items-center">
@@ -213,13 +213,13 @@ function LayoutPaymentHistory() {
                 <option>Columns</option>
               </select> */}
               <div className="relative">
-                <button
+                {/* <button
                   onClick={handleDropdownToggle}
                   className="bg-white p-2 h-8 rounded-md flex items-center"
                 >
                   <img src={share} className="w-6 h-6" alt="Filter" />
                   Export
-                </button>
+                </button> */}
                 {dropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg">
                     <div className="p-2">
@@ -317,31 +317,33 @@ function LayoutPaymentHistory() {
             <div className="hidden lg:block md:block">
               {/* Desktop View: Table layout */}
               <table className="w-full">
-                <thead className="bg-blue-900 text-white">
-                  <tr className="border-b-2">
-                    <th className="px-4 py-2 text-left">Order ID</th>
-                    <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("paymentDate")}>Payment Date {sortConfig.key === "paymentDate"
+                <thead className="bg-blue-900 text-white ">
+                  <tr className="border-b-2 flex justify-around">
+                    <th className="">
+                      S.NO
+                    </th>
+                    <th className=" cursor-pointer" onClick={() => handleSort("paymentDate")}>Payment Date {sortConfig.key === "paymentDate"
                         ? sortConfig.direction === "ascending"
                           ? "▲"
                           : "▼"
                         : "▲"}</th>
-                    <th className="px-4 py-2 text-left">Payment Status</th>
-                    <th className="px-4 py-2 text-right cursor-pointer" onClick={() => handleSort("paymentAmount")}>Payment Amount  {sortConfig.key === "paymentAmount"
+                    <th className="">Payment Status</th>
+                    <th className="text-right cursor-pointer" onClick={() => handleSort("paymentAmount")}>Payment Amount  {sortConfig.key === "paymentAmount"
                         ? sortConfig.direction === "ascending"
                           ? "▲"
                           : "▼"
                         : "▲"}</th>
-                    <th className="px-4 py-2 text-left">Action</th>
+                    {/* <th className="px-4 py-2 text-left">Action</th> */}
                   </tr>
                 </thead>
                 <tbody>
                   {currentItems.length > 0 ? (
                     currentItems.map((payout, index) => (
-                      <tr key={index} className="border-b">
-                        <td className="px-4 py-2">
+                      <tr key={index} className="border-b flex justify-around">
+                        <td className="px-4 py-2 text-right">
                           {indexOfFirstItem + index + 1}
                         </td>
-                        <td className="px-4 py-2">
+                        <td className="py-2 text-right">
                           {new Date(payout.paymentDate)
                             .toLocaleDateString("en-US", {
                               year: "numeric",
@@ -350,11 +352,11 @@ function LayoutPaymentHistory() {
                             })
                             .replace(/\//g, "-")}
                         </td>
-                        <td className="px-4 py-2">{payout.paymentStatus}</td>
-                        <td className="px-4 py-2 text-right">
+                        <td className="px-14 py-2 text-right">{payout.paymentStatus}</td>
+                        <td className=" text-right">
                           ${payout.paymentAmount.toFixed(2)}
                         </td>
-                        <td className="px-4 py-2">
+                        {/* <td className="px-4 py-2">
                           <Tooltip title="View" placement="top">
                             <img
                               src={eye}
@@ -362,7 +364,7 @@ function LayoutPaymentHistory() {
                               onClick={() => handleClickView(payout.orderId)}
                             />
                           </Tooltip>
-                        </td>
+                        </td> */}
                       </tr>
                     ))
                   ) : (

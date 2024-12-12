@@ -133,8 +133,9 @@ const handleSort = (key) => {
   const sortedItems = React.useMemo(() => {
     console.log('Sorting Items:', paymentHistory);
 
+    const validPaymentHistory = Array.isArray(paymentHistory) ? paymentHistory : [];
     // Default sort by `paymentDate` in descending order
-    let sortedData = [...paymentHistory].sort((a, b) => {
+    let sortedData = [...validPaymentHistory].sort((a, b) => {
       const aDate = new Date(a.paymentDate).getTime();
       const bDate = new Date(b.paymentDate).getTime();
       return bDate - aDate; // Descending order
@@ -195,7 +196,7 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
         <div className="w-full my-4">
           {/* <h2 className="text-[22px] font-semibold">Payment History</h2> */}
           <div className="flex justify-between my-2">
-            <div className="flex bg-gray-100">
+            {/* <div className="flex bg-gray-100">
               <select
                 value={selectedOption}
                 onChange={handleChange}
@@ -206,7 +207,7 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
                 <option value="pending">Pending</option>
                 <option value="rejected">Rejected</option>
               </select>
-            </div>
+            </div> */}
 
             <div className="flex gap-2">
               {/* <button className="bg-green-300 p-2 h-8 rounded-md flex items-center">
@@ -217,13 +218,13 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
                 <option>Columns</option>
               </select> */}
               <div className="relative">
-                <button
+                {/* <button
                   onClick={handleDropdownToggle}
                   className="bg-white p-2 h-8 rounded-md flex items-center"
                 >
                   <img src={share} className="w-6 h-6" alt="Filter" />
                   Export
-                </button>
+                </button> */}
                 {dropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg">
                     <div className="p-2">
@@ -369,9 +370,9 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
           {/* {sortConfig.key === 'chequeDate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} */}
          
           </th>
-          <th className="px-4 py-2 text-left">Action
+          {/* <th className="px-4 py-2 text-left">Action
          
-          </th>
+          </th> */}
         </tr>
       </thead>
             <tbody>
@@ -417,12 +418,12 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
                     <td className="px-4 py-2">{payout.paymentStatus}</td>
                     <td className="px-4 py-2">{ }</td>
                     <td className="px-4 py-2">{ }</td>
-                    <td className="px-4 py-2">
+                    {/* <td className="px-4 py-2">
                       <Tooltip title="View" placement="top">
                         <img src={eye} className="w-5 h-5" onClick={() => handleClickView(product?.orderId)} />
-                        {/* <FaFileInvoice className="w-5 h-5"/> */}
+                        {/* <FaFileInvoice className="w-5 h-5"/>
                       </Tooltip>
-                    </td>
+                    </td> */}
                   </tr>
                 ))
               ) : (
