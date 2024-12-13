@@ -224,7 +224,7 @@ export const getReportNewOrderExcel = async (fromDate, toDate) => {
     const downloadUrl = window.URL.createObjectURL(fileBlob);
     const link = document.createElement('a');
     link.href = downloadUrl;
-    link.download = 'NewOrders.xlsx'; // File name for download
+    link.download = 'New Orders.xlsx'; // File name for download
     document.body.appendChild(link);
     link.click();
 
@@ -254,7 +254,7 @@ export const getReportExpiredItemsExcel = async (fromDate, toDate) => {
     const downloadUrl = window.URL.createObjectURL(fileBlob);
     const link = document.createElement('a');
     link.href = downloadUrl;
-    link.download = 'ExpiredItems.xlsx'; // File name for download
+    link.download = 'Expired Items.xlsx'; // File name for download
     document.body.appendChild(link);
     link.click();
 
@@ -296,3 +296,5 @@ export const getReportPendingShipmentsExcel = async (fromDate, toDate) => {
     return null;
   }
 };
+
+

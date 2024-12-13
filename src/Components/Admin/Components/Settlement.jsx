@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { TextField } from '@mui/material'
 
 import { useState } from "react";
+import { SettleGetAllApi } from '../../../Api/SettlementApi';
+import { fetchOrderGetAllSeller } from '../../../Api/OrderApi';
 
 
 function Settlement() {
@@ -126,9 +128,12 @@ function Settlement() {
     } else {
       console.log('Form is invalid, show errors.');
     }
-
-
   };
+    useEffect(() => {
+      SettleGetAllApi();
+      fetchOrderGetAllSeller()
+    }, []);
+  
   return (
     <div className='w-[95%]  p-4 h-full overflow-y-scroll '>
 
