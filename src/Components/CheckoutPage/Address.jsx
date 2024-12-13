@@ -2196,6 +2196,8 @@ function Address({ topMargin, totalAmount, amount }) {
   const applicationId = 'sandbox-sq0idb-vXdVdM6tMjTG6Zi2XCoE-A';
   const locationId = 'L0599WY5GGG3W';
   // const Payment_Amnount = 500;
+
+
   const handlePaymentSuccess = async(token, amount) => {
     console.log("Payment Successful, Token:", token);
     console.log("Payment Successful, amount:", amount);
@@ -2230,7 +2232,8 @@ function Address({ topMargin, totalAmount, amount }) {
   const netCharge = parseFloat(searchParams.get("netCharge")) || 0;
   const isCart = searchParams.get("isCart")=="true"; // Convert total to a number
   const productId = searchParams.get("productId"); // Convert total to a number
-
+  const DeliveryAddress = useSelector((state) => state.order.orderDeliveryAddress)
+  console.log("delivery-->", DeliveryAddress)
   console.log("netAddress--> isCart", isCart)
 
   console.log("total-->", total);
@@ -2461,12 +2464,13 @@ console.log("pincode---->", pincodes)
     }
   }, [cartList, pincodes]);
 
-  const handleUseAddress = async (state, pincode) => {
+  const handleUseAddress = async (state, pincode, addressId) => {
     setPincodes(pincode)
     setStateAdd(state)
     // setIsTotalHidden(true);
-    await dispatch(orderDeliveryAddress(placeOrder.customerId, placeOrder.orderId, selectedAddressId))
-    await SetDefaultApi(user.customerId, selectedAddressId)
+    await dispatch(orderDeliveryAddress(placeOrder.customerId, placeOrder.orderId, addressId))
+    await SetDefaultApi(user.customerId, addressId)
+    await dispatch(fetchGetByCustomerId(user?.customerId));
   
 
     // const payload = {
@@ -3450,8 +3454,10 @@ console.log("pincode---->", pincodes)
   
 
   const handleChangeAddress = (addressId) => {
+    console.log("sueryaaaa", addressId)
     setSelectedAddressId(addressId);
   };
+
 
   const selectedAddress = getAddress.find(
     (item) => item.addressId === selectedAddressId
@@ -3495,19 +3501,46 @@ console.log("pincode---->", pincodes)
   // const [notification, setNotification] = useState({ show: false, message: "" });
 
   const products = placeOrder?.products || [];
+  const deliveryTax = DeliveryAddress?.products || []
 
+  const calculateTaxAmount = () => {
+    if (selectedAddressId !== null) {
+      // Default tax calculation
+      return products.reduce((total, product) => {
+        const price = (product?.pricePerProduct * product?.quantity) || 0;
+        const taxPercentage = product?.taxPercentage || 0;
+        return total + (price * taxPercentage) / 100;
+      }, 0);
+    } else {
+      // Conditional calculation based on selectedDeliveryAddress
+      return deliveryTax.reduce((total, product) => {
+        const price = (product?.pricePerProduct * product?.quantity) || 0;
+        const taxPercentage = product?.taxPercentage || 0;
+
+        // Example: Apply a condition based on state or pincode
+        let adjustedTaxPercentage = taxPercentage;
+        // if (selectedDeliveryAddress?.state === "SpecialState") {
+        //   adjustedTaxPercentage += 5; // Add an additional tax for this state
+        // }
+
+        return total + (price * adjustedTaxPercentage) / 100;
+      }, 0);
+    }
+  };
+
+  const totalTaxAmount = calculateTaxAmount();
   // Calculate total tax amount by iterating through the products
-  const totalTaxAmount = products.reduce((total, product) => {
-    const price = (product?.pricePerProduct * product?.quantity) || 0;
-    console.log("priceeeeeee-->", price)
-    const taxPercentage = product?.taxPercentage || 0;
-    console.log("taxPercentage-->", taxPercentage)
+  // const totalTaxAmount = products.reduce((total, product) => {
+  //   const price = (product?.pricePerProduct * product?.quantity) || 0;
+  //   console.log("priceeeeeee-->", price)
+  //   const taxPercentage = product?.taxPercentage || 0;
+  //   console.log("taxPercentage-->", taxPercentage)
 
-    const taxAmount = (price * taxPercentage) / 100;
-    console.log("taxAmount-->", taxAmount)
+  //   const taxAmount = (price * taxPercentage) / 100;
+  //   console.log("taxAmount-->", taxAmount)
 
-    return total + taxAmount;
-  }, 0);
+  //   return total + taxAmount;
+  // }, 0);
   const validTotal = !isNaN(total) && total !== null ? total : 0.00;
   // const totalWithTax = validTotal * totalTaxAmount; // Include tax in the subtotal
   const totalWithTax = totalTaxAmount > 0 ? validTotal + totalTaxAmount : validTotal;
@@ -3666,9 +3699,9 @@ console.log("pincode---->", pincodes)
                     <input
                    type="radio"
                    checked={selectedAddressId === item.addressId} // Check if the current item is selected
-                   onChange={() => handleChangeAddress(item.addressId)} // Handle the change when a new address is selected
+                   onChange={() => handleChangeAddress(item?.addressId)} // Handle the change when a new address is selected
                    onClick={() => {
-                     handleUseAddress(item.state, item.pincode); // Proceed with address usage
+                     handleUseAddress(item.state, item.pincode, item?.addressId); // Proceed with address usage
                    }}
                       className="mr-3"
                     />

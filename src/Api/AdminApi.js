@@ -209,7 +209,7 @@ export const getReportPurchaseHistoryExcel = async (fromDate, toDate) => {
 
 export const getReportNewOrderExcel = async (fromDate, toDate) => {
   try {
-    const response = await axios.get(`/api/Reports/GenerateNewOrdersReport`, {
+    const response = await axios.get(`/api/Reports/GenerateNewOrdersExcelReport`, {
       params: { fromDate, toDate },
       headers: {
         'Content-Type': 'application/json', // Adjust if needed
@@ -239,7 +239,7 @@ export const getReportNewOrderExcel = async (fromDate, toDate) => {
 
 export const getReportExpiredItemsExcel = async (fromDate, toDate) => {
   try {
-    const response = await axios.get(`/api/Reports/GenerateExpiredItemsReport`, {
+    const response = await axios.get(`/api/Reports/GenerateExpiredItemsExcelReport`, {
       params: { fromDate, toDate },
       headers: {
         'Content-Type': 'application/json', // Adjust if needed
@@ -269,7 +269,7 @@ export const getReportExpiredItemsExcel = async (fromDate, toDate) => {
 
 export const getReportPendingShipmentsExcel = async (fromDate, toDate) => {
   try {
-    const response = await axios.get(`/api/Reports/GeneratePendingShipmetsReport`, {
+    const response = await axios.get(`/api/Reports/GeneratePendingShipmentsExcelReport`, {
       params: { fromDate, toDate },
       headers: {
         'Content-Type': 'application/json', // Adjust if needed
