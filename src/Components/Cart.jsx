@@ -721,7 +721,7 @@ function Cart() {
     //   })),
     // };
     const payload = {
-      orderId: "0" || orderPlace?.orderId,
+      orderId: "" || orderPlace?.orderId,
       customerId: user.customerId,
       totalAmount: total?.toFixed(2),
       orderDate: currentDate.toISOString(),
