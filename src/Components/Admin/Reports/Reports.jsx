@@ -353,9 +353,9 @@ const Reports = () => {
   const reportTypeMapping = {
     1: "Payments History",
     2: "Purchase History",
-    3: "NewOrders",
-    4: "ExpiredItems",
-    5: "PendingShipments",
+    3: "New Orders",
+    4: "Expired Items",
+    5: "Pending Shipments",
   };
 
   const mappedReportType = reportTypeMapping[savedReportType];
@@ -390,11 +390,11 @@ const Reports = () => {
         await getReportPaymentHistoryExcel(formattedFromDate, formattedToDate);
       } else if (mappedReportType === "Purchase History") {
         await getReportPurchaseHistoryExcel(formattedFromDate, formattedToDate);
-      } else if (mappedReportType === "NewOrders") {
+      } else if (mappedReportType === "New Orders") {
         await getReportNewOrderExcel(formattedFromDate, formattedToDate);
-      } else if (mappedReportType === "ExpiredItems") {
+      } else if (mappedReportType === "Expired Items") {
         await getReportExpiredItemsExcel(formattedFromDate, formattedToDate);
-      } else if (mappedReportType === "PendingShipments") {
+      } else if (mappedReportType === "Pending Shipments") {
         await getReportPendingShipmentsExcel(formattedFromDate, formattedToDate);
       } else {
         console.error("Unrecognized report type:", mappedReportType);
@@ -448,9 +448,9 @@ const Reports = () => {
               <option value="Returns">PendingShipments</option> */}
               <option value="1">Payments History</option>
               <option value="2">Purchase History</option>
-              <option value="3">NewOrders</option>
-              <option value="4">ExpiredItems</option>
-              <option value="5">PendingShipments</option>
+              <option value="3">New Orders</option>
+              <option value="4">Expired Items</option>
+              <option value="5">Pending Shipments</option>
             </select>
           </div>
 
