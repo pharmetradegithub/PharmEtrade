@@ -394,7 +394,7 @@ const Reports = () => {
         await getReportNewOrderExcel(formattedFromDate, formattedToDate);
       } else if (mappedReportType === "ExpiredItems") {
         await getReportExpiredItemsExcel(formattedFromDate, formattedToDate);
-      } else if (mappedReportType === "PendingShipmets") {
+      } else if (mappedReportType === "PendingShipments") {
         await getReportPendingShipmentsExcel(formattedFromDate, formattedToDate);
       } else {
         console.error("Unrecognized report type:", mappedReportType);
@@ -424,6 +424,7 @@ const Reports = () => {
     }
   };
 
+  const currentDates = new Date().toISOString().split("T")[0];
   return (
     <div className="container mx-auto overflow-y-scroll p-6">
       {/* Form Section */}
@@ -464,7 +465,10 @@ const Reports = () => {
               // value={fromDate ? format(parseISO(fromDate), "yyyy-MM-dd") : ""}
               value={fromDate}
               onChange={handleFromDateChange}
-              InputProps={{ className: "border rounded-lg cursor-pointer" }}
+              inputProps={{
+                max: currentDates, // Restrict to current date
+                className: "border rounded-lg cursor-pointer",
+              }}
             />
           </div>
 
@@ -479,7 +483,10 @@ const Reports = () => {
               // value={toDate ? format(parseISO(toDate), "yyyy-MM-dd") : ""}
               value={toDate}
               onChange={handleToDateChange}
-              InputProps={{ className: "border rounded-lg cursor-pointer" }}
+              inputProps={{
+                max: currentDates, // Restrict to current date
+                className: "border rounded-lg cursor-pointer",
+              }}
             />
           </div>
         </div>

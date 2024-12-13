@@ -228,11 +228,13 @@
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import axios from "../../../Api/api"; 
+import { useSelector } from "react-redux";
 
 const LayoutAddBulkProduct = () => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
   const [uploadStatus, setUploadStatus] = useState("");
+  const user = useSelector((state) => state.user.user)
 
   const onDrop = (acceptedFiles) => {
     const selectedFile = acceptedFiles[0];
@@ -260,11 +262,12 @@ const LayoutAddBulkProduct = () => {
     event.preventDefault();
     if (file) {
       const formData = new FormData();
+      formData.append("sellerId", user.customerId)
       formData.append("excelfile", file); // Use the key expected by the backend
-  
+      
       try {
         setUploadStatus("Uploading...");
-        const response = await axios.post("/api/Product/AddBulkProduct", formData, {
+        const response = await axios.post('/api/Product/AddBulkProduct', formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
