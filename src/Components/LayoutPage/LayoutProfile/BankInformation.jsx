@@ -426,7 +426,6 @@ import Notification from '../../Notification';
 const BankInformation = () => {
   const user = useSelector((state) => state.user.user);
   const getBeneficiaryDetails = useSelector((state) => state.user.getBeneficiary);
-  console.log("----> Beneficiary Details:", getBeneficiaryDetails);
   const dispatch = useDispatch();
   const [notification, setNotification] = useState({
     show: false,
@@ -479,7 +478,6 @@ const BankInformation = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      console.log('Form Data:', formData);
       setFormData({
         bankName: '',
         BankAddress: '',

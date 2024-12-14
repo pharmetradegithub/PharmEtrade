@@ -20,7 +20,7 @@ function LayoutPaymentHistory() {
   const paymentHistory = useSelector(
     (state) => state.dashboard.getPaymentHistory
   );
-  console.log("payment-->", paymentHistory);
+
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
@@ -29,7 +29,7 @@ function LayoutPaymentHistory() {
 
   const handleExportClick = () => {
     // Logic for exporting data based on selectedFormat
-    console.log("Exporting as", selectedFormat);
+   
     setDropdownOpen(false);
   };
 
@@ -108,8 +108,6 @@ function LayoutPaymentHistory() {
   // });
 
   const sortedProducts = React.useMemo(() => {
-    console.log('Sorting Items:', paymentHistory);
-
     // Default sort by `paymentDate` in descending order
     let sortedData = [...paymentHistory].sort((a, b) => {
       const aDate = new Date(a.paymentDate).getTime();

@@ -552,7 +552,7 @@ import { AdminChargesGetApi, AdminChargesInformationAdd, deleteChargesAPi, editC
 const ChargesInformations = () => {
   const searchParams = new URLSearchParams(location.search);
   const CustomerId = searchParams.get("CustomerId");
-  console.log("customerId--->", CustomerId)
+  
   const getproductSpecialOffer = useSelector(
     (state) => state.product.productSpecialOffer
   );
@@ -575,7 +575,7 @@ const ChargesInformations = () => {
 
   const [editingEntry, setEditingEntry] = useState({}); // Store current entry being edited
 
-  console.log("edittttt", editingEntry);
+
 
   let selectedCategory;
 
@@ -667,7 +667,7 @@ const ChargesInformations = () => {
     modifiedOn,
     // transactionFee
   ) => {
-    console.log("allllll--->", index, chargeType)
+
     // setCategory(chargeType); // Update category
     const mappedChargeTypeId =
       chargeType === "Credit card charges"
@@ -808,7 +808,7 @@ const ChargesInformations = () => {
   // Success Delete Button
   const successDeleteButton = async () => {
     try {
-      console.log("Deleting product:", deletePharma);
+
       if (deletePharma) {
         await deleteChargesAPi(deletePharma); // Call delete API
         setDeletePop(false); // Close modal after deletion

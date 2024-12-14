@@ -15,7 +15,7 @@ const LayoutAllQuotesProducts = () => {
   const [sortConfig, setSortConfig] = useState({ key: 'productName', direction: 'asc' }); // Add sorting state
 
   const bidQuotedProduct = useSelector((state) => state.bid.bidQuotedProduct)
-  console.log("bidquotedProduct", bidQuotedProduct)
+  
   const stats = [
     { label: "Return Requested", value: 150, percentage: 75 },
     { label: "Return Approved", value: 120, percentage: 60 },
@@ -82,7 +82,7 @@ const LayoutAllQuotesProducts = () => {
 
   const user = useSelector((state) => state.user.user)
   useEffect(() => {
-    console.log("useEffect called")
+   
     const product = async() => {
       await fetchQuotedProduct(user.customerId)
     }

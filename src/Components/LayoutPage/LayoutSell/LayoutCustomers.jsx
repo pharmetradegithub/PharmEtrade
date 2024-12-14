@@ -19,7 +19,7 @@ function LayoutCustomers() {
   // const sellCustomer = useSelector((state) => state.dashboard.sellCustomer);
   const user = useSelector((state) => state.user.user);
   const SellerOrder = useSelector((state) => state.order.OrderBySellerId);
-  console.log("sellerOrder---->", SellerOrder);
+
 
   // useEffect(() => {
   //   dispatch(fetchSellCustomer(user?.customerId));

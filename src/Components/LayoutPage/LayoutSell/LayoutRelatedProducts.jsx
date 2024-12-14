@@ -1030,7 +1030,6 @@ const LayoutRelatedProducts = () => {
   
 
   const components = useSelector((state) => state.master.productCategoryGetAll);
-  console.log("relatedproduct-->", components);
   const [buttonClick, setButtonClick] = useState(false);
   const [ButtonUpClick, setButtonUpClick] = useState(false);
   const [isButtonClicked, setButtonClicked] = useState(false);
@@ -1043,13 +1042,10 @@ const LayoutRelatedProducts = () => {
   const categorySpecificationGetAll = useSelector(
     (state) => state.master.setCategorySpecificationsGetAll
   );
-  console.log("relatedcategory-->", categorySpecificationGetAll);
 
   const productsByCriteria = useSelector(
     (state) => state.product.productsByCriteria
   );
-
-  console.log(productsByCriteria, "gnn");
 
   const relatedProducts = useSelector((state) => state.product.RelatedProducts);
   const UpSellProducts = useSelector((state) => state.product.UpSellProducts);
@@ -1057,7 +1053,6 @@ const LayoutRelatedProducts = () => {
     (state) => state.product.CrossSellProducts
   );
 
-  console.log(productsByCriteria, "gnn");
   const [loading, setloading] = useState(true);
   const [notification, setNotification] = useState({
     show: false,
@@ -1268,7 +1263,7 @@ const LayoutRelatedProducts = () => {
   //   // localStorage.removeItem("productId");
   //   setloading(false);
   // };
-  console.log("------>", formData.productCategory)
+  
 
   const [productsList, setProductList] = useState([])
   const handleCriteria = async () => {
@@ -1444,8 +1439,7 @@ const LayoutRelatedProducts = () => {
   // const handlePreviousPage = () => {
   //   setCurrentPage((prev) => Math.max(prev - 1, 1));
   // };
-  console.log("productlist-->currentitem", currentItems)
-  console.log("productlist-->productlist", productsList)
+
 
 
   return (
