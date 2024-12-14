@@ -245,23 +245,45 @@
 
 import axios from 'axios';
 
+// Set Axios base URL from environment variables
 axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 
 let inactivityTimer;
 
 // Logout user
+// const handleLogout = () => {
+//   const token = localStorage.getItem('token'); // Using localStorage for token management
+//   // console.log('Logging out, token:', token);
+//   if (token) {
+//     localStorage.removeItem('token');
+//     // If using a routing library like react-router-dom, replace this with navigate('/login');
+//     window.location.href = '/login';
+//   }
+// };
+
 const handleLogout = () => {
-  const token = localStorage.getItem('token');
-  console.log('Logging out, token:', token);
+  const token = localStorage.getItem('token'); // Using localStorage for token management
+
   if (token) {
-    localStorage.removeItem('token');
-    window.location.href = '/login';
+    localStorage.removeItem('token'); // Clear the token from localStorage
+
+    // Get the current path
+    const currentPath = window.location.pathname;
+
+    // Check if the user is on an admin path
+    if (currentPath.startsWith('/pharmEtradeadmin')) {
+      // Redirect to the admin login page
+      window.location.href = '/loginadminEtrade';
+    } else {
+      // Redirect to the regular login page
+      window.location.href = '/login';
+    }
   }
 };
 
 // Reset inactivity timer
 const resetInactivityTimer = () => {
-  console.log('Inactivity timer reset due to user interaction');
+  // console.log('Resetting inactivity timer...');
   clearTimeout(inactivityTimer);
   startInactivityTimer();
 };
@@ -270,14 +292,16 @@ const resetInactivityTimer = () => {
 const startInactivityTimer = (inactivityLimit = 30 * 60 * 1000) => {
   // console.log('Starting inactivity timer for', inactivityLimit, 'ms');
   inactivityTimer = setTimeout(() => {
+    // console.log('Inactivity limit reached, logging out...');
     handleLogout();
   }, inactivityLimit);
 };
 
 // Add listeners for user interactions
 const addInactivityListeners = () => {
+  console.log('Adding inactivity listeners...');
   const userActivityEvents = ['mousemove', 'keydown', 'click', 'touchstart'];
-  const debouncedReset = debounce(resetInactivityTimer, 500); // Debounce to prevent excessive calls
+  const debouncedReset = debounce(resetInactivityTimer, 200); // Debounce with 200ms delay
   userActivityEvents.forEach((event) =>
     document.addEventListener(event, debouncedReset)
   );
@@ -285,6 +309,7 @@ const addInactivityListeners = () => {
 
 // Remove listeners for user interactions
 const removeInactivityListeners = () => {
+  console.log('Removing inactivity listeners...');
   const userActivityEvents = ['mousemove', 'keydown', 'click', 'touchstart'];
   userActivityEvents.forEach((event) =>
     document.removeEventListener(event, resetInactivityTimer)
@@ -300,15 +325,11 @@ const debounce = (func, delay) => {
   };
 };
 
-// Start tracking inactivity
-addInactivityListeners();
-startInactivityTimer();
-
 // Axios interceptors for API requests
 axios.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
-    console.log('Request URL:', config.url, 'Token:', token);
+    const token = localStorage.getItem('token'); // Using localStorage for tokens
+    // console.log('Request URL:', config.url, 'Token:', token);
     if (
       token &&
       !config.url.includes('/api/Customer/Login') &&
@@ -318,7 +339,10 @@ axios.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    console.error('Request error:', error);
+    return Promise.reject(error);
+  }
 );
 
 // Axios interceptors for responses
@@ -326,24 +350,27 @@ axios.interceptors.response.use(
   (response) => response,
   (error) => {
     console.error('Response error:', error.response);
-    if (error.response && error.response.status === 401) {
+    if (error.response) {
       const isLoginRequest =
         error.config.url.includes('/api/Customer/Login') ||
         error.config.url.includes('/api/Customer/AdminLogin');
 
-      if (!isLoginRequest) {
-        console.log('Token expired, logging out');
+      if (error.response.status === 401 && !isLoginRequest) {
+        // console.log('Token expired, logging out...');
         handleLogout();
       }
-
-      return Promise.reject(error);
     }
     return Promise.reject(error);
   }
 );
 
+// Start tracking inactivity
+addInactivityListeners();
+startInactivityTimer();
+
 // Cleanup when app closes
 window.addEventListener('beforeunload', () => {
+  // console.log('Cleaning up before unload...');
   removeInactivityListeners();
   clearTimeout(inactivityTimer);
 });

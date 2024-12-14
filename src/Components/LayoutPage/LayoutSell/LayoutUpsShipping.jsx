@@ -226,7 +226,7 @@ function LayoutUpsShipping() {
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   const getshipingDetails = useSelector((state) => state.shipment.getShipment);
-  console.log("getshipingDetails--->", getshipingDetails);
+
 
   const [message, setMessage] = useState('');
   const [isError, setIsError] = useState(false);
@@ -264,7 +264,7 @@ function LayoutUpsShipping() {
           createdDate: new Date().toISOString(),
           key: "string",
         };
-        console.log("Adding new shipment with payload:", payloadAdd);
+       
         await dispatch(shipmentAddApi(payloadAdd));
         // setMessage('UPS Shipping details added successfully.');
         setNotification({
@@ -288,7 +288,6 @@ function LayoutUpsShipping() {
           createdDate: existingShipment?.createdDate,
           key: "string",
         };
-        console.log("Editing shipment with payload:", payloadEdit);
         await dispatch(shipmentEditApi(payloadEdit));
         // setMessage('UPS Shipping details updated successfully.');
         setNotification({

@@ -181,7 +181,7 @@ const LayoutSellReturn = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user.user)
   const returns = useSelector((state) => state.returns.returns)
-  console.log("returns--->", returns)
+ 
   const stats = [
     {
       label: "Return Requested", value: returns.totalPurchaseValue, percentage: 75 },
@@ -200,8 +200,6 @@ const LayoutSellReturn = () => {
   };
 
   const handleContinueClick = () => {
-    console.log("Category:", category);
-    console.log("Product Type:", productType);
     setShowDetailPopup(true);
   };
 

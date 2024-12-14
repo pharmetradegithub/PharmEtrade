@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react'
 import { TextField } from '@mui/material'
-
 import { useState } from "react";
-import { SettleGetAllApi } from '../../../Api/SettlementApi';
-import { fetchOrderGetAllSeller } from '../../../Api/OrderApi';
-
+import { SellerSettleGetDetailsApi, SettleAddApi, SettleGetAllApi } from '../../../Api/SettlementApi';
+import { uploadCustomerImageApi } from '../../../Api/BannerApi';
+import { useSelector } from 'react-redux';
 
 function Settlement() {
   const [dateFrom, setDateFrom] = useState('');
@@ -12,8 +11,14 @@ function Settlement() {
   const [amountPaying, setAmountPaying] = useState('');
   const [error1, setError1] = useState('');
   const [error, setError] = useState({ dateFrom: '', dateTo: '' });
-
-  const handleShowBalance = () => {
+  const user = useSelector((state) => state.user.user)
+  const [payableTo, setPayableTo] = useState('');
+  const [bankName, setBankName] = useState('');
+  const [paymentDate, setPaymentDate] = useState('');
+  const [chequeMailedOn, setChequeMailedOn] = useState('');
+  const [paymentMode, setPaymentMode] = useState(''); // 'Wire' or 'Cheque'
+  const [chequeImage, setChequeImage] = useState(null);
+  const handleShowBalance = async () => {
     let isValid = true;
     let errorMessages = { dateFrom: '', dateTo: '' };
 
@@ -35,10 +40,34 @@ function Settlement() {
 
     setError(errorMessages);
 
-    if (isValid) {
-      // Proceed with balance display logic
-      console.log('Show balance');
+    // if (isValid) {
+    //   // Proceed with balance display logic
+    //   console.log('Show balance');
+    // }
+    // if (chequeImage) {
+      // Prepare the image for upload
+      const formData = new FormData();
+      formData.append('image', chequeImage); // Use the exact field key expected by the API
+
+      const imageUrl = await uploadCustomerImageApi(formData);
+      // console.log('Image uploaded successfully:', imageUrl);
+    // }
+    // const imageUrl = await uploadCustomerImageApi(formData);
+    const payload = {
+      settlementId: "string", // Replace with actual value
+      paidTo: payableTo,
+      amountPaid: Number(amountPaying), // Ensure numeric
+      paymentDate: paymentDate || new Date().toISOString(), // Default to current date
+      paymentModeId: paymentMode === 'Wire' ? 1 : 2, // Assume 1 for Wire, 2 for Cheque
+      transactionId: "string", // Replace with actual value if available
+      accountNumber: "string", // Replace with actual value
+      bankName: bankName,
+      // chequeImageUrl: chequeImage ? URL.createObjectURL(chequeImage) : 'string', // Assuming file upload
+      chequeImageUrl: imageUrl, // Using uploaded image URL
+      chequeMailedOn: chequeMailedOn || null,
+      enteredBy: "string", // Replace with actual user info
     }
+    await SettleAddApi(payload)
   };
 
   const usersData = {
@@ -131,9 +160,9 @@ function Settlement() {
   };
     useEffect(() => {
       SettleGetAllApi();
-      fetchOrderGetAllSeller()
+      SellerSettleGetDetailsApi(user.customerId)
     }, []);
-  
+
   return (
     <div className='w-[95%]  p-4 h-full overflow-y-scroll '>
 
@@ -318,24 +347,30 @@ function Settlement() {
               <label className='font-semibold flex items-center mr-16 ml-4'>Payable To :</label>
               <TextField type='text'
                 label="Payable To"
-                size='small'
-                className='border rounded-md ml-8 '
+                  size='small'
+                  value={payableTo}
+                  className='border rounded-md ml-8 '
+                  onChange={(e) => setPayableTo(e.target.value)}
                />
             </div>
 
             <div className='flex gap-2 my-2'>
               <label className='font-semibold  flex items-center ml-4'>Save Cheque Image :</label>
-              <input type='file'
+                <input type='file'
+               name='Cheque_Image'
                accept="image/*"
-                size='small'
-                className='w-52 border p-1 border-gray-300 rounded-md  ' />
-                </div><div className='flex'>
-
+               size='small'
+               className='w-52 border p-1 border-gray-300 rounded-md  ' 
+                  onChange={(e) => setChequeImage(e.target.files[0])}
+                />
+              </div>
+              <div className='flex'>
               <label className='font-semibold flex items-center mr-12 ml-4'>Payment Date:</label>
               <TextField type='date'
                 className='border rounded-md w-52'
                 size='small'
-                
+                  value={paymentDate}
+                  onChange={(e) => setPaymentDate(e.target.value)}
               />
             </div>
 
@@ -343,11 +378,17 @@ function Settlement() {
               <label className='font-semibold  gap-2 ml-4 '>Mode of  payment :</label>
               <input
                 type='radio'
-                className='mr-2 ml-2' />
+                  className='mr-2 ml-2'
+                  checked={paymentMode === 'Wire'}
+                  onChange={() => setPaymentMode('Wire')}
+                />
               <label className='mr-2'>Wire</label>
 
               <input
-                type='radio' />
+                  type='radio'
+                  checked={paymentMode === 'Cheque'}
+                  onChange={() => setPaymentMode('Cheque')}
+                />
               <label className='ml-2'>Cheque</label>
             </div>
 
@@ -356,14 +397,18 @@ function Settlement() {
               <TextField
                 type='text'
                 label="Bank Name"
-                size='small' 
-                className=''/>
+                  size='small' 
+                  value={bankName}
+                  onChange={(e) => setBankName(e.target.value)}
+                />
                 </div>
               <div className='flex'>
               <label className='font-semibold flex items-center mr-5 ml-4'>Cheque Mailed On  :</label>
               <TextField type='date'
                 className='border rounded-md w-52 h-5'
-                size='small'
+                  size='small'
+                  value={chequeMailedOn}
+                  onChange={(e) => setChequeMailedOn(e.target.value)}
               />
             </div>
 

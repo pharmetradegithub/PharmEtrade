@@ -1467,6 +1467,10 @@ function LayoutOrderList() {
   //   fetchRatings();
   // }, [productId]);
 
+  const handleProductImage = (productId) => {
+    navigate(`/detailspage/${productId}`);
+  }
+
   return (
     // <div
     //   className="w-full h-full overflow-y-scroll "
@@ -2159,7 +2163,10 @@ function LayoutOrderList() {
                       <div className="flex sm:flex-row flex-col">
                         <img
                           src={order.imageUrl}
-                          className="w-full lg:w-40 md:w-80 h-40 object-cover rounded-md"
+                          className="w-full lg:w-40 md:w-80 h-40 object-cover rounded-md cursor-pointer"
+                          onClick={() =>
+                            handleProductImage(order.productId)
+                          }
                           alt="product"
                         />
                         <div className="ml-3">

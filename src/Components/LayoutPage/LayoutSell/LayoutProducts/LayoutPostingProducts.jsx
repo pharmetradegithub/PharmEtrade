@@ -782,14 +782,14 @@ const LayoutPostingProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const deactives = useSelector((state) => state.product.deactiveProduct);
-  console.log("listing-->", deactives);
+
   const deletes = useSelector((state) => state.product.deleteProduct);
-  console.log("delete-->", deletes);
+
   // const dispatch = useDispatch();
   const [error, setError] = useState(null);
   const [deactive, setdeactive] = useState(null);
   const sellerDashboard = useSelector((state) => state.dashboard.getSellerId);
-  console.log("sellerdash-->", sellerDashboard);
+ 
 
   const [deleteProduct, setDeleteProduct] = useState(null);
   const [activeProductID, setActiveProductID] = useState(null);
@@ -803,7 +803,7 @@ const LayoutPostingProducts = () => {
     editProduct: false,
   });
   const user = useSelector((state) => state.user.user);
-  console.log("userId-->", user);
+
   const [editProduct, seteditProduct] = useState(null);
   // const stats = [
   //   { label: "Total Product", value: sellerDashboard?.totalProducts, percentage: 75 },
@@ -864,7 +864,7 @@ const LayoutPostingProducts = () => {
 
           // Set product data
           setProducts(productPromise);
-          // console.log("sorted",sortedProducts);
+         
         }
       } catch (error) {
         setError(error); // Handle and store error
@@ -889,7 +889,7 @@ const LayoutPostingProducts = () => {
   const handleClosePopup = () => {
     setShowPopup({ addProduct: false, editProduct: false });
   };
-  console.log("ghjkghfgvbg", products);
+ 
 
   // const itemsPerPage = 10;
   // const [currentPage, setCurrentPage] = useState(1);

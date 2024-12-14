@@ -33,15 +33,15 @@ function LayoutSellOrders() {
   const user = useSelector((state) => state.user.user);
   const [searchQuery, setSearchQuery] = useState("");
   const SellerOrder = useSelector((state) => state.order.OrderBySellerId);
-  console.log("sellerOrder---->", SellerOrder);
+ 
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
   const ordered = useSelector((state) => state.order.orderView);
-  console.log("orderedview-->", ordered);
+ 
   const orderStatusGetAll = useSelector(
     (state) => state.master.orderStatusGetAll
   );
-  console.log("statusGetAll", orderStatusGetAll);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
@@ -146,11 +146,11 @@ function LayoutSellOrders() {
   // );
 
   const pathname = location.pathname; // e.g., /layout/sellorders/123
-  console.log("pathname-->", pathname);
+ 
   const parts = pathname.split("/"); // ['layout', 'sellorders', '123']
-  console.log("parts--->", parts);
+  
   const orderSellerId = parts[2]; // Assuming '123' is the seller ID
-  console.log("orderSeller-->", orderSellerId);
+ 
 
   const [modal, setModal] = useState(false);
   const [orderID, setOrderID] = useState(null);
@@ -174,7 +174,7 @@ function LayoutSellOrders() {
   };
 
   const handleClickInvoice = async () => {
-    // console.log("ordersdf", ordered?.orderId)
+   
     await dispatch(fetchOrderInvoice(orderID));
   };
 
@@ -187,8 +187,6 @@ function LayoutSellOrders() {
   });
 
   const sortedProducts = React.useMemo(() => {
-    console.log('Sorting Items:', SellerOrder);
-
     const validSellerOrder = Array.isArray(SellerOrder) ? SellerOrder : [];
     // Default sort by `paymentDate` in descending order
     let sortedData = [...validSellerOrder].sort((a, b) => {
@@ -260,7 +258,8 @@ function LayoutSellOrders() {
       await dispatch(
         orderStatusUpdateApi(selectedOrder?.orderId, customerId, selectedStatus, comment)
       );
-      setIsModalOpen(false); // Close the modal after confirmation
+      setIsModalOpen(false);// Close the modal after confirmation
+      setComment("")
     }
   };
 

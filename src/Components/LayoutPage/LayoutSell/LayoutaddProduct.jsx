@@ -84,7 +84,7 @@ function LayoutaddProduct() {
   const categorySpecificationGetAll = useSelector(
     (state) => state.master.setCategorySpecificationsGetAll
   );
-  console.log("category-->", categorySpecificationGetAll);
+ 
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -99,7 +99,7 @@ function LayoutaddProduct() {
   const [images, setImages] = useState([]);
   const [error, setError] = useState("");
   const components = useSelector((state) => state.master.productCategoryGetAll);
-  console.log("categoeryyyaddproduct-->", components);
+
   const [notification, setNotification] = useState({
     show: false,
     message: "",
@@ -329,7 +329,7 @@ function LayoutaddProduct() {
         setHeading("EDIT PRODUCT");
         AssignFormData(response);
         setproductFetched(response);
-        console.log(response, "APi,response");
+       
       } else {
         localStorage.removeItem("productId");
         localStorage.removeItem("productPriceId");
@@ -338,7 +338,7 @@ function LayoutaddProduct() {
         ResetFormDate();
       }
     };
-    console.log("heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+    
     fetchProduct();
   }, [queryProductId]);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -537,7 +537,7 @@ function LayoutaddProduct() {
   };
   
   const [thumbnails, setThumnails] = useState([]);
-  console.log("printed ", thumbnails);
+ 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles) => {
       const isDuplicate = thumbnails.some(
@@ -546,7 +546,7 @@ function LayoutaddProduct() {
           file.size === thumbnails[0].size &&
           file.lastModified === thumbnails[0].lastModified
       );
-      console.log("hello");
+      
       if (isDuplicate) {
         console.log("This file has already been uploaded.");
         return;
@@ -582,7 +582,6 @@ function LayoutaddProduct() {
   const [formErrors, setFormErrors] = useState({});
   const [triggerValidation, settriggerValidation] = useState(0);
   const handleInputChange = (e) => {
-    console.log("hm")
     const { name, value, type, options, id } = e.target;
     console.log(name, value, type, options, id);
     if (name === "discount") {
@@ -762,7 +761,7 @@ function LayoutaddProduct() {
     setFormErrors({});
 
     if (firstValidation == true) {
-      console.log("hey");
+   
       if (activeTab == 0) {
         const validationErrorsTab1 = ProductInfoValidation(formData);
         if (Object.keys(validationErrorsTab1).length > 0) {
@@ -1051,7 +1050,7 @@ function LayoutaddProduct() {
           localStorage.removeItem("productId");
         }
 
-        console.log("Product Data", response);
+       
         setNotification({
           show: true,
           message: `Product ${
@@ -1102,12 +1101,12 @@ function LayoutaddProduct() {
           ["unitOfMeasurement"]: response.unitOfMeasurement,
         });
       else return;
-      // console.log(manufacturerName,"response");
+     
     } catch (error) {
       console.log(response);
     }
   };
-  console.log(formData, "formdata");
+
   const renderTabContent = () => {
     switch (activeTab) {
       case 0:

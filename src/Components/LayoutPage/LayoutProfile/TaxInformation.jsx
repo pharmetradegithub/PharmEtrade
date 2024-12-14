@@ -428,11 +428,11 @@ const TaxInformation = () => {
   const user = useSelector((state)=>state.user.user)
   const dispatch = useDispatch();
   const stateNameData = useSelector((state) => state.tax.stateName);
-  console.log("stateeeeeee", stateNameData)
+
 
   const [editingEntry, setEditingEntry] = useState({}); // Store current entry being edited
 
-  console.log("edittttt", editingEntry)
+
 
   let selectedCategory;
 
@@ -446,7 +446,7 @@ const TaxInformation = () => {
     setStates(allStates); // Populate states array with data from useStates
   }, [allStates]);
 
-  console.log("state-->", formData.State)
+
   // Handles input changes
   const handleInputChange = (event) => {
     const { name, value } = event.target;

@@ -263,15 +263,11 @@ const LayoutAddBulkProduct = () => {
     if (file) {
       const formData = new FormData();
       formData.append("sellerId", user.customerId)
-      formData.append("excelfile", file); // Use the key expected by the backend
+      formData.append("ExcelFile", file); // Use the key expected by the backend
       
       try {
         setUploadStatus("Uploading...");
-        const response = await axios.post('/api/Product/AddBulkProduct', formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        const response = await axios.post('/api/Product/AddBulkProducts', formData, null, true);
   
         if (response.status === 200) {
           setUploadStatus("File uploaded successfully!");
@@ -291,7 +287,7 @@ const LayoutAddBulkProduct = () => {
   
 
   const handleDownload = () => {
-    const fileUrl = "/BulkProducts.xlsx"; // Replace with actual path
+    const fileUrl = "/BulkProducts(1).xlsx"; // Replace with actual path
     const link = document.createElement("a");
     link.href = fileUrl;
     link.download = "BulkProducts.xlsx";
