@@ -2468,8 +2468,8 @@ console.log("pincode---->", pincodes)
     setPincodes(pincode)
     setStateAdd(state)
     // setIsTotalHidden(true);
-    await dispatch(orderDeliveryAddress(placeOrder.customerId, placeOrder.orderId, addressId))
     await SetDefaultApi(user.customerId, addressId)
+    await dispatch(orderDeliveryAddress(placeOrder.customerId, placeOrder.orderId, addressId))
     await dispatch(fetchGetByCustomerId(user?.customerId));
   
 
