@@ -6,7 +6,7 @@ export const SettleGetAllApi = async () => {
       const response = await axios.get("/api/Settlements/GetAll")
       console.log("settle", response)
       if (response.status === 200) {
-        return response.data;
+        return response.data.result;
       }
     } catch (error) {
       console.log(error)

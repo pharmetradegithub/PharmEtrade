@@ -2191,6 +2191,7 @@ import { FedExRatesApi, serviceTypeApi } from "../../Api/TrackApi";
 import Proccedtoshipment from '../ProccedtoShipment'
 import SquarePaymentForm from "../SquarePaymentForm";
 import { getUserByCustomerIdApi } from "../../Api/UserApi";
+// import { getCartItemsApi } from "../../Api/CartApi";
 function Address({ topMargin, totalAmount, amount }) {
   const dispatch = useDispatch()
   const applicationId = 'sandbox-sq0idb-vXdVdM6tMjTG6Zi2XCoE-A';
@@ -2385,7 +2386,12 @@ console.log("pincode---->", pincodes)
   // console.log(res, "Resolved results--->");
 
   // Function to handle the "Use this address" button click
- 
+//   useEffect(() => {
+//     const data = async () => {
+//       await getCartItemsApi(user.customerId)
+//     }
+//     data()
+//  }, [])
   useEffect(() => {
     const fetchSellersAndSendPayload = async () => {
       try {
@@ -2464,12 +2470,14 @@ console.log("pincode---->", pincodes)
     }
   }, [cartList, pincodes]);
 
+  const [isAddressSelected, setIsAddressSelected] = useState(false);
   const handleUseAddress = async (state, pincode, addressId) => {
     setPincodes(pincode)
     setStateAdd(state)
     // setIsTotalHidden(true);
-    await dispatch(orderDeliveryAddress(placeOrder.customerId, placeOrder.orderId, addressId))
+    setIsAddressSelected(true)
     await SetDefaultApi(user.customerId, addressId)
+    await dispatch(orderDeliveryAddress(placeOrder.customerId, placeOrder.orderId, addressId))
     await dispatch(fetchGetByCustomerId(user?.customerId));
   
 
@@ -3504,7 +3512,8 @@ console.log("pincode---->", pincodes)
   const deliveryTax = DeliveryAddress?.products || []
 
   const calculateTaxAmount = () => {
-    if (selectedAddressId !== null) {
+    if (!isAddressSelected) {
+      // alert("place")
       // Default tax calculation
       return products.reduce((total, product) => {
         const price = (product?.pricePerProduct * product?.quantity) || 0;
@@ -3513,6 +3522,7 @@ console.log("pincode---->", pincodes)
       }, 0);
     } else {
       // Conditional calculation based on selectedDeliveryAddress
+    //  alert("delivery")
       return deliveryTax.reduce((total, product) => {
         const price = (product?.pricePerProduct * product?.quantity) || 0;
         const taxPercentage = product?.taxPercentage || 0;

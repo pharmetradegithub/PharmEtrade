@@ -7,6 +7,7 @@ import { fetchPaymentHistory } from "../../../Api/PaymentHistoryApi";
 import { Tooltip } from "@mui/material";
 import eye from '../../../assets/eye.png'
 import Pagination from "../../Pagination";
+import { SettleGetAllApi } from "../../../Api/SettlementApi";
 // import { fetchPaymentHistory } from "../../../Api/PaymentHistory";
 
 
@@ -19,6 +20,7 @@ function LayoutPaymentHistory() {
   const [selectedFormat, setSelectedFormat] = useState("csv");
   const user = useSelector((state) => state.user.user)
   const paymentHistory = useSelector((state) => state.dashboard.getPaymentHistory)
+  const [getAll, setGetAll] = useState(null)
   console.log("payment-->", paymentHistory)
   const dispatch = useDispatch()
 
@@ -65,7 +67,11 @@ function LayoutPaymentHistory() {
     {
       label: "Total Earnings",
       // value: `$${(2420 ||.0).toFixed(2)}`,
-      value: `$${paymentHistory.reduce((total, each) => total + each.paymentAmount, 0).toFixed(2)}`,
+      // value: `$${getAll.reduce((total, each) => total + each.amountPaid, 0).toFixed(2)}`,
+      value: `$${(Array.isArray(getAll) ? getAll : [])
+        .filter(item => item?.amountPaid != null)
+        .reduce((total, each) => total + each.amountPaid, 0)
+        .toFixed(2)}`,
       text: "as of 01-December-2023",
       color: "text-green-500",
     },
@@ -84,9 +90,9 @@ function LayoutPaymentHistory() {
       payout.transactionid.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  useEffect(() => {
-    dispatch(fetchPaymentHistory(user?.customerId))
-  }, [user?.customerId])
+  // useEffect(() => {
+  //   dispatch(fetchPaymentHistory(user?.customerId))
+  // }, [user?.customerId])
 
 
   // sorting 
@@ -131,9 +137,9 @@ const handleSort = (key) => {
 // }, [paymentHistory, sortConfig]);
 
   const sortedItems = React.useMemo(() => {
-    console.log('Sorting Items:', paymentHistory);
+    console.log('Sorting Items:', getAll);
 
-    const validPaymentHistory = Array.isArray(paymentHistory) ? paymentHistory : [];
+    const validPaymentHistory = Array.isArray(getAll) ? getAll : [];
     // Default sort by `paymentDate` in descending order
     let sortedData = [...validPaymentHistory].sort((a, b) => {
       const aDate = new Date(a.paymentDate).getTime();
@@ -158,13 +164,24 @@ const handleSort = (key) => {
     }
 
     return sortedData;
-  }, [paymentHistory, sortConfig]);
+  }, [getAll, sortConfig]);
+  
+
+  useEffect(() => {
+    const data = async () => {
+      const res = await SettleGetAllApi()
+      setGetAll(res)
+    }
+    data()
+  }, [])
+
+  console.log("res---->", getAll)
 
 const indexOfLastItem = currentPage * itemsPerPage;
 const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 // const currentItems = sortedItems.slice(indexOfFirstItem, indexOfLastItem);
 const currentItems = (sortedItems || []).slice(indexOfFirstItem, indexOfLastItem);
-const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
+  const totalPages = Math.ceil((getAll?.length || 0) / itemsPerPage);
   return (
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
       <div className="w-[95%] h-full mt-8">
@@ -295,7 +312,7 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
             <thead className="bg-blue-900 text-white">
         <tr className="border-b-2">
           <th className="px-4 py-2 text-left">S.NO</th>
-          <th className="px-4 py-2 text-left" onClick={() => handleSort('invoiceNumber')}>
+          {/* <th className="px-4 py-2 text-left" onClick={() => handleSort('invoiceNumber')}>
             Invoice Number {sortConfig.key === 'invoiceNumber' && (sortConfig.direction === 'ascending' ? '▲' : '▼')}
           </th>
           <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('invoiceDate')}>
@@ -305,8 +322,8 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
                           ? "▲"
                           : "▼"
                         : "▲"}
-             {/* {sortConfig.key === 'invoiceDate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} */}
-          </th>
+             {/* {sortConfig.key === 'invoiceDate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} 
+          </th> */}
           <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('paymentDate')}>
             To User
             {sortConfig.key === "paymentDate"
@@ -352,7 +369,7 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
           {/* {sortConfig.key === 'paymentStatus' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} */}
          
           </th>
-          <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('chequeNumber')}>Cheque Number
+          <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('chequeNumber')}>Cheque Details
           {sortConfig.key === "chequeNumber"
                         ? sortConfig.direction === "ascending"
                           ? "▲"
@@ -380,9 +397,9 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
                 currentItems.map((payout, index) => (
                   <tr key={index} className="border-b">
                     <td className="px-4 py-2">{indexOfFirstItem + index + 1}</td>
-                    <td className="px-4 py-2">{payout.invoiceNumber}</td>
-                    <td className="px-4 py-2">
-                      {/* {payout.invoiceDate} */}
+                    {/* <td className="px-4 py-2">{payout.invoiceNumber}</td> */}
+                    {/* <td className="px-4 py-2">
+                      {/* {payout.invoiceDate}
                       {new Date(payout.invoiceDate)
                         .toLocaleDateString("en-US", {
                           year: "numeric",
@@ -391,10 +408,10 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
                         })
                         .replace(/\//g, "-")}
 
-                    </td>
+                    </td> */}
 
                     <td className="px-4 py-2">
-                      {payout.fromUser}
+                      {payout.sellerName}
                       {/* {new Date(payout.paymentDate)
                         .toLocaleDateString("en-US", {
                           year: "numeric",
@@ -404,7 +421,7 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
                         .replace(/\//g, "-")} */}
                     </td>
                     
-                    <td className="px-4 py-2">{}</td>
+                    <td className="px-4 py-2">{payout.transactionId}</td>
                     <td className="px-4 py-2">
                       {new Date(payout.paymentDate)
                         .toLocaleDateString("en-US", {
@@ -414,10 +431,33 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
                         })
                         .replace(/\//g, "-")}
                     </td>
-                    <td className="px-4 py-2 text-left">${payout.paymentAmount.toFixed(2)}</td>
-                    <td className="px-4 py-2">{payout.paymentStatus}</td>
-                    <td className="px-4 py-2">{ }</td>
-                    <td className="px-4 py-2">{ }</td>
+                    <td className="px-4 py-2 text-left">${payout.amountPaid.toFixed(2)}</td>
+                    <td className="px-4 py-2">{payout.paymentMode}</td>
+                    <td className="px-4 py-2">
+                      {payout.chequeImageUrl ? (
+                        <a
+                          href={payout.chequeImageUrl}
+                          download
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 underline"
+                        >
+                          Download
+                        </a>
+                      ) : (
+                        "N/A"
+                      )}
+
+                    </td>
+                    <td className="px-4 py-2">
+                      {new Date(payout.chequeMailedOn)
+                        .toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                        })
+                        .replace(/\//g, "-")}
+                    </td>
                     {/* <td className="px-4 py-2">
                       <Tooltip title="View" placement="top">
                         <img src={eye} className="w-5 h-5" onClick={() => handleClickView(product?.orderId)} />
@@ -439,7 +479,7 @@ const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
         <Pagination
           indexOfFirstItem={indexOfFirstItem}
           indexOfLastItem={indexOfLastItem}
-          productList={paymentHistory}
+          productList={getAll}
           itemsPerPage={itemsPerPage}
           setItemsPerPage={setItemsPerPage}
           currentPage={currentPage}
