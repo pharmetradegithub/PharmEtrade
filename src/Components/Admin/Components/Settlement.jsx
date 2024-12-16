@@ -1,27 +1,36 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { TextField } from '@mui/material'
 import { useState } from "react";
-import { SellerSettleGetDetailsApi, SettleAddApi, SettleGetAllApi } from '../../../Api/SettlementApi';
+import { SellerSettleGetDetailsApi, SettleAddApi } from '../../../Api/SettlementApi';
 import { uploadCustomerImageApi } from '../../../Api/BannerApi';
 import { useSelector } from 'react-redux';
+import {GetCustomers } from '../../../Api/AdminApi';
 
 function Settlement() {
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
   const [amountPaying, setAmountPaying] = useState('');
   const [error1, setError1] = useState('');
-  const [error, setError] = useState({ dateFrom: '', dateTo: '' });
+  const [error, setError] = useState({ dateFrom: '', dateTo: '', selectedUsersId: "" });
   const user = useSelector((state) => state.user.user)
-  const [payableTo, setPayableTo] = useState('');
+  // const [payableTo, setPayableTo] = useState('');
   const [bankName, setBankName] = useState('');
   const [paymentDate, setPaymentDate] = useState('');
   const [chequeMailedOn, setChequeMailedOn] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const [paymentMode, setPaymentMode] = useState(''); // 'Wire' or 'Cheque'
   const [chequeImage, setChequeImage] = useState(null);
+  const [transactionId, setTransactionId] = useState(null);
+  const [accountNumber, setAccountNumber] = useState(null);
+  const fileInputRef = useRef(null);
   const handleShowBalance = async () => {
     let isValid = true;
-    let errorMessages = { dateFrom: '', dateTo: '' };
+    let errorMessages = { dateFrom: '', dateTo: '', selectedUsersId: "" };
 
+    if (!selectedUserId) {
+      errorMessages.selectedUsersId = 'Please select a seller.';
+      isValid = false;
+    }
     if (!dateFrom) {
       errorMessages.dateFrom = 'Invoice Date From is required';
       isValid = false;
@@ -40,6 +49,9 @@ function Settlement() {
 
     setError(errorMessages);
 
+    if (!isValid) {
+      return; // Exit if validation fails
+    }
     // if (isValid) {
     //   // Proceed with balance display logic
     //   console.log('Show balance');
@@ -53,21 +65,37 @@ function Settlement() {
       // console.log('Image uploaded successfully:', imageUrl);
     // }
     // const imageUrl = await uploadCustomerImageApi(formData);
+    
     const payload = {
-      settlementId: "string", // Replace with actual value
-      paidTo: payableTo,
+      paidTo: selectedUserId,
       amountPaid: Number(amountPaying), // Ensure numeric
-      paymentDate: paymentDate || new Date().toISOString(), // Default to current date
+      paymentDate: paymentDate,
+      // || new Date().toISOString(),
       paymentModeId: paymentMode === 'Wire' ? 1 : 2, // Assume 1 for Wire, 2 for Cheque
-      transactionId: "string", // Replace with actual value if available
-      accountNumber: "string", // Replace with actual value
+      transactionId: transactionId, // Replace with actual value if available
+      accountNumber: accountNumber, // Replace with actual value
       bankName: bankName,
       // chequeImageUrl: chequeImage ? URL.createObjectURL(chequeImage) : 'string', // Assuming file upload
       chequeImageUrl: imageUrl, // Using uploaded image URL
       chequeMailedOn: chequeMailedOn || null,
-      enteredBy: "string", // Replace with actual user info
+      enteredBy: user.customerId, // Replace with actual user info
     }
     await SettleAddApi(payload)
+
+    setAmountPaying("")
+    // setPayableTo("")
+    setBankName("")
+    setAccountNumber("")
+    setChequeMailedOn('')
+    setPaymentDate("")
+    setPaymentMode("")
+    setTransactionId("")
+    setChequeImage(null)
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // Clear file input
+    }
+    
   };
 
   const usersData = {
@@ -115,14 +143,18 @@ function Settlement() {
   };
 
   // State to store the selected user ID (default is 1 for the first user)
-  const [selectedUserId, setSelectedUserId] = useState("1");
   const [isDetailsVisible, setIsDetailsVisible] = useState(false);
 
   // Handle dropdown selection change
   const handleUserChange = (e) => {
+    console.log("targetvalue====>", e.target.value)
     setSelectedUserId(e.target.value); // Update selected user ID
+    if (selectedValue) {
+      setError((prevError) => ({ ...prevError, selectedUsersId: "" }));
+    }
   };
-
+  
+  console.log("selecteduserid ====>",selectedUserId)
   // Toggle the visibility of address details
   const toggleDetails = () => {
     setIsDetailsVisible(!isDetailsVisible);
@@ -158,10 +190,62 @@ function Settlement() {
       console.log('Form is invalid, show errors.');
     }
   };
+  const [getDetails, setGetDetails] = useState(null)
+  const [optionCustomerId, setOptionCustomerId] = useState(null)
     useEffect(() => {
-      SettleGetAllApi();
-      SellerSettleGetDetailsApi(user.customerId)
-    }, []);
+      const res = SellerSettleGetDetailsApi(selectedUserId)
+      setGetDetails(res)
+    }, [selectedUserId]);
+  const [customers, setCustomers] = useState([]);
+  const [searchInput, setSearchInput] = useState({
+    customerName: "",
+    customerTypeId: 1, // Array of customerTypeIds to filter
+  });
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        const res = await GetCustomers();
+        const filteredCustomers = res.filter(customer => customer.customerTypeId !== 4);
+        console.log("Filtered Customers:", filteredCustomers);
+        setCustomers(filteredCustomers);
+      } catch (error) {
+        console.error("Error fetching customers:", error);
+      }
+    };
+    fetchCustomers();
+  }, []);
+
+  console.log("customer--->", customers)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredCustomers, setFilteredCustomers] = useState(customers);
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    // Filter customers based on search term
+    if (value.trim() === "") {
+      setFilteredCustomers(customers);
+    } else {
+      setFilteredCustomers(
+        customers.filter((customer) =>
+          `${customer.firstName} ${customer.lastName}`
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        )
+      );
+    }
+  };
+
+  // Handle customer selection
+  const handleSelect = (customerId) => {
+    const selectedCustomer = customers.find(
+      (customer) => customer.customerId === customerId
+    );
+    setSearchTerm(`${selectedCustomer.firstName} ${selectedCustomer.lastName}`);
+    setSelectedUserId(customerId);
+    setFilteredCustomers([]); // Hide dropdown after selection
+  };
+
 
   return (
     <div className='w-[95%]  p-4 h-full overflow-y-scroll '>
@@ -181,25 +265,47 @@ function Settlement() {
           <div className='flex flex-col'>
 
           <div>
-            <div className='flex '>
-              <label className="font-semibold flex items-center ml-4 mt-5">Member Name / DBA: </label>
-              <select
-                  className="rounded-md ml-4 border mt-5 text-sm"
-                  value={selectedUserId}
-                  onChange={handleUserChange} // Update on selection change
-                >
-                  <option value="">Select Seller</option> {/* Default option */}
-                  <option value="1">Seller Name 1</option>
-                  <option value="2">Seller Name 2</option>
-                  <option value="3">Seller Name 3</option>
-                  <option value="4">Seller Name 4</option>
-                </select>
-
-               
+              <div className='flex items-center ml-4 mt-5 relative'>
+              <label className="font-semibold flex items-center mb-1">Member Name / DBA: </label>
+               {/* <select
+                  className={`rounded-mdborder mt-5 text-sm ${error.selectedUsersId ? "border-red-500" : ""
+                    }`}
+        value={selectedUserId}
+        onChange={handleUserChange} // Update on selection change
+      >
+        <option value="">Select Seller</option> {/* Default option 
+        {customers.map((customer) => (
+          <option key={customer.customerId} value={customer.customerId}>
+            {`${customer.firstName} ${customer.lastName}`}
+          </option>
+        ))}
+      </select> */}
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  placeholder="Search for a Seller Name"
+                  className="border rounded-md ml-3 py-1 px-4 text-sm w-64"
+                />
+                {/* Dropdown Options */}
+                {filteredCustomers.length > 0 && (
+                  <ul className="absolute top-9 left-0 w-64 bg-white border rounded-md shadow-lg h-48 overflow-scroll z-10 ml-[29%]">
+                    {filteredCustomers.map((customer) => (
+                      <li
+                        key={customer.customerId}
+                        onClick={() => handleSelect(customer.customerId)}
+                        className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                      >
+                        {`${customer.firstName} ${customer.lastName}`}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                 
                 <button
                   onClick={toggleDetails}
                   disabled={!selectedUserId} // Disable button when no seller is selected
-                  className={`bg-blue-900 rounded-md w-28 ml-5 mt-5 text-white font-semibold text-base items-center flex justify-center ${!selectedUserId ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
+                  className={`bg-blue-900 rounded-md w-28 ml-5 mb-1 text-white font-semibold text-base items-center flex justify-center ${!selectedUserId ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
                     }`}
                 >
                   {isDetailsVisible ? "Hide  Details" : "Show Details"}
@@ -212,63 +318,74 @@ function Settlement() {
                 <div className="flex my-1 gap-1">
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">First Name:</label>
-                    <p>{formData.firstName}</p>
+                      <p>{getDetails.SellerFirstName}</p>
                   </div>
 
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">Last Name:</label>
-                    <p>{formData.lastName}</p>
+                      <p>{getDetails.SellerLastName}</p>
                   </div>
                 </div>
 
                 <div className="my-4 flex gap-2">
                   <div className=" w-full flex gap-2">
                     <label className="font-semibold">Address:</label>
-                    <p>{formData.address}</p>
+                    <p>{getDetails.SellerAddress}</p>
                   </div>
 
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">City:</label>
-                    <p>{formData.city}</p>
+                    <p>{getDetails.SellerCity}</p>
                   </div>
                 </div>
 
                 <div className="flex my-2 gap-2">
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">State:</label>
-                    <p>{formData.state}</p>
+                      <p>{getDetails.SellerState}</p>
                   </div>
 
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">Zip:</label>
-                    <p>{formData.zip}</p>
+                      <p>{getDetails.SellerZip}</p>
                   </div>
                 </div>
 
                 <div className="flex my-2 gap-2">
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">Phone Number:</label>
-                    <p>{formData.phoneNumber}</p>
+                      <p>{getDetails.SellerPhone}</p>
                   </div>
 
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">Email:</label>
-                    <p>{formData.email}</p>
+                      <p>{getDetails.SellerEmail}</p>
                   </div>
                 </div>
               </div>
             )}
           </div>
-
+            {error.selectedUsersId && (
+              <p className="text-red-500 text-sm text-center">{error.selectedUsersId}</p>
+            )}
           <div>
             <div className='flex my-2 '>
               <label className='font-semibold text-left ml-4'>Total Amount Due : </label>
-              <span className='ml-7'>$ 11,444.00</span>
+                {/* <span className='ml-7'>$ 11,444.00</span> */}
+                <span className='ml-7'>
+                  ${getDetails?.totalAmountDue !== undefined ? getDetails.totalAmountDue.toFixed(2) : '0.00'}
+                </span>
+
+
             </div>
 
             <div className='flex gap-4 my-2 '>
               <label className='font-semibold ml-4'>Total Amount Paid Till date : </label>
-              <span className='ml-1'>$ 6,444.00</span>
+                {/* <span className='ml-1'>$ 6,444.00</span> */}
+               <span className='ml-7'>
+                  ${getDetails?.totalAmountPaid !== undefined ? getDetails.totalAmountPaid.toFixed(2) : '0.00'}</span>
+
+
             </div>
 
             {/* <div className='flex justify-start gap-4 my-2'>
@@ -312,22 +429,22 @@ function Settlement() {
                 helperText={error.dateTo}
               />
 
-<div className='flex justify-center ml-4 '>
+{/* <div className='flex justify-center ml-4 '>
                 <button
                   className='rounded-md bg-blue-900 text-white w-28 h-10 p-2 font-semibold flex justify-center items-center'
 
                 >
                   Show Balance
                 </button>
-              </div>
+              </div> */}
               
             </div>
            
 
-            <div>
+            {/* <div>
               <label className='font-semibold gap-2 my-2  items-center ml-4' >Amount Due :</label>
               <span className=' ml-1'> $ 11,656.00</span>
-            </div>
+            </div> */}
 
             <div className='flex gap-2 my-2'>
               <label className='font-semibold flex items-center ml-4'>Amount Paying Now:</label>
@@ -343,7 +460,7 @@ function Settlement() {
                 helperText={error1}
               />
               </div>
-              <div className='flex'>
+              {/* <div className='flex'>
               <label className='font-semibold flex items-center mr-16 ml-4'>Payable To :</label>
               <TextField type='text'
                 label="Payable To"
@@ -352,11 +469,12 @@ function Settlement() {
                   className='border rounded-md ml-8 '
                   onChange={(e) => setPayableTo(e.target.value)}
                />
-            </div>
+            </div> */}
 
             <div className='flex gap-2 my-2'>
               <label className='font-semibold  flex items-center ml-4'>Save Cheque Image :</label>
                 <input type='file'
+                  ref={fileInputRef}
                name='Cheque_Image'
                accept="image/*"
                size='small'
@@ -401,7 +519,28 @@ function Settlement() {
                   value={bankName}
                   onChange={(e) => setBankName(e.target.value)}
                 />
-                </div>
+              </div>
+              <div className='flex my-2 gap-2'>
+                <label className='font-semibold flex items-center ml-4'>Account Number   : </label>
+                <TextField
+                  type='text'
+                  label="Account Number"
+                  size='small'
+                  value={accountNumber}
+                  sx={{ marginLeft: '20px' }}
+                  onChange={(e) => setAccountNumber(e.target.value)}
+                />
+              </div>
+              <div className='flex my-2 gap-2'>
+                <label className='font-semibold flex items-center mr-12 ml-4'>TransactionId   : </label>
+                <TextField
+                  type='text'
+                  label="TransactionId"
+                  size='small'
+                  value={transactionId}
+                  onChange={(e) => setTransactionId(e.target.value)}
+                />
+              </div>
               <div className='flex'>
               <label className='font-semibold flex items-center mr-5 ml-4'>Cheque Mailed On  :</label>
               <TextField type='date'
