@@ -2476,6 +2476,7 @@ console.log("pincode---->", pincodes)
     setStateAdd(state)
     // setIsTotalHidden(true);
     setIsAddressSelected(true)
+
     await SetDefaultApi(user.customerId, addressId)
     await dispatch(orderDeliveryAddress(placeOrder.customerId, placeOrder.orderId, addressId))
     await dispatch(fetchGetByCustomerId(user?.customerId));
