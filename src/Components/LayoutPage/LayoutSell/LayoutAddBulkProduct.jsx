@@ -287,7 +287,7 @@ const LayoutAddBulkProduct = () => {
   
 
   const handleDownload = () => {
-    const fileUrl = "/BulkProducts(1).xlsx"; // Replace with actual path
+    const fileUrl = "/Sample Bulk Products Sheet.xlsx"; // Replace with actual path
     const link = document.createElement("a");
     link.href = fileUrl;
     link.download = "BulkProducts.xlsx";
