@@ -155,8 +155,8 @@ const EditSellerList = () => {
       userdata?.isUPNMember == null
         ? ""
         : userdata?.isUPNMember == 1
-        ? "true"
-        : "false",
+          ? "true"
+          : "false",
   });
 
   const [userTypeDetails, setUserTypeDetails] = useState({
@@ -170,8 +170,8 @@ const EditSellerList = () => {
       userdata?.isUPNMember == null
         ? ""
         : userdata?.isUPNMember == 1
-        ? "true"
-        : "false",
+          ? "true"
+          : "false",
   });
 
   useEffect(() => {
@@ -195,8 +195,8 @@ const EditSellerList = () => {
         userdata?.isUPNMember == null
           ? ""
           : userdata?.isUPNMember == 1
-          ? "true"
-          : "false",
+            ? "true"
+            : "false",
     });
   }, [userdata]);
   console.log(userDetails);
@@ -250,14 +250,35 @@ const EditSellerList = () => {
     return value;
   };
 
+  // const handlePhoneNumberChange = (e) => {
+  //   const formattedPhone = formatPhoneNumber(e.target.value);
+  //   handleInputChange({
+  //     target: {
+  //       name: e.target.name,
+  //       value: formattedPhone,
+  //     },
+  //   });
+  // };
+
   const handlePhoneNumberChange = (e) => {
-    const formattedPhone = formatPhoneNumber(e.target.value);
+    const { name, value } = e.target;
+
+    // Format the phone number (assuming you have a formatPhoneNumber function)
+    const formattedPhone = formatPhoneNumber(value);
+
+    // Call the common input handler
     handleInputChange({
       target: {
-        name: e.target.name,
+        name,
         value: formattedPhone,
       },
     });
+
+    // Field required validation for phone number
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: value.trim().length === 0 ? "Phone Number is required" : "", // Show error if empty
+    }));
   };
 
   const handlePhoneChange = (e) => {
@@ -315,6 +336,34 @@ const EditSellerList = () => {
   };
 
   const handleSaveClick = async () => {
+    const errors = {};
+    if (!userDetails.firstName?.trim()) {
+      errors.firstName = "First Name is required";
+    }
+    if (!userDetails.lastName?.trim()) {
+      errors.lastName = "Last Name is required";
+    }
+    if (
+      !userDetails.email?.trim() ||
+      !/^\S+@\S+\.\S+$/.test(userDetails.email)
+    ) {
+      errors.email = "Valid email is required";
+    }
+    const phoneNumber = userDetails.mobile?.replace(/\D/g, ""); // Remove non-numeric characters (dashes, spaces)
+
+    if (!phoneNumber || phoneNumber.length !== 10) {
+      errors.mobile = "Valid 10-digit mobile number is required";
+    }
+
+    // Update the errors state
+    setErrors(errors);
+
+    // If there are errors, prevent form submission
+    if (Object.keys(errors).length > 0) {
+      console.log("Validation errors:", errors);
+      return;
+    }
+
     setIsEditable(false);
     const userinfo = {
       customerId: userdata.customerId,
@@ -346,7 +395,98 @@ const EditSellerList = () => {
   };
 
   const handleAddressSaveClick = async () => {
+    // Validation logic
+    const validationErrors = {};
+    if (![4, 3, 2].includes(userdata?.customerTypeId)) {
+      if (!addressData.shopName?.trim()) {
+        validationErrors.shopName = "Shop Name is required";
+      }
+    }
+    if (![4, 3, 2].includes(userdata?.customerTypeId)) {
+      if (!addressData.dba?.trim()) {
+        validationErrors.dba = "DBA is required";
+      }
+    }
+
+    if (!addressData.address?.trim()) {
+      validationErrors.address = "Address is required";
+    }
+    if (!addressData.city?.trim()) {
+      validationErrors.city = "City is required";
+    }
+    if (!addressData.legalBusinessName?.trim()) {
+      validationErrors.legalBusinessName = "Legal Business Name is required";
+    }
+    if (!addressData.state?.trim()) {
+      validationErrors.state = "State is required";
+    }
+    if (!addressData.zip?.trim()) {
+      validationErrors.zip = "Zip is required";
+    } else if (!/^\d{5}$/.test(addressData.zip.trim())) {
+      validationErrors.zip = "Zip must be exactly 5 digits";
+    }
+    if (!addressData.businessPhone?.trim()) {
+      validationErrors.businessPhone = "Business Phone is required";
+    } else {
+      // Remove non-digit characters before validation
+      const phoneDigits = addressData.businessPhone.replace(/\D/g, ""); // Strip non-numeric characters
+      if (phoneDigits.length !== 10) {
+        validationErrors.businessPhone =
+          "Business Phone must be exactly 10 digits";
+      }
+    }
+
+    if (!addressData.businessFax?.trim()) {
+      validationErrors.businessFax = "Business Fax is required";
+    } else {
+      // Remove non-digit characters before validation
+      const phoneDigits = addressData.businessFax.replace(/\D/g, ""); // Strip non-numeric characters
+      if (phoneDigits.length !== 10) {
+        validationErrors.businessFax = "Business Fax must be exactly 10 digits";
+      }
+    }
+
+    if (!addressData.businessEmail?.trim()) {
+      validationErrors.businessEmail = "Business Email is required";
+    } else if (
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(addressData.businessEmail.trim())
+    ) {
+      validationErrors.businessEmail = "Enter a valid email address";
+    }
+
+    if (![4].includes(userdata?.customerTypeId)) {
+      if (!addressData.companyWebsite?.trim()) {
+        validationErrors.companyWebsite = "Company Website is required";
+      } else if (
+        !/^www\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/.test(addressData.companyWebsite.trim())
+      ) {
+        validationErrors.companyWebsite = "Enter a valid website";
+      }
+    }
+
+
+    // if (!addressData.companyWebsite?.trim()) {
+    //   validationErrors.companyWebsite = "Company Website is required";
+    // } else if (
+    //   !/^www\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/.test(
+    //     addressData.companyWebsite.trim()
+    //   )
+    // ) {
+    //   validationErrors.companyWebsite = "Enter a valid website";
+    // }
+
+    // Set validation errors
+    setErrors(validationErrors);
+
+    // If there are validation errors, prevent form submission
+    if (Object.keys(validationErrors).length > 0) {
+      console.log("Validation errors:", validationErrors);
+      return;
+    }
+
+    // If validation passes, proceed with saving the data
     setIsAddressEdit(false);
+
     const businessInfoObj = {
       customerBusinessInfoId: businessInfo.customerBusinessInfoId,
       customerId: userdata.customerId,
@@ -377,59 +517,239 @@ const EditSellerList = () => {
       ncpdp: businessInfo.ncpdp,
       companyWebsite: addressData.companyWebsite,
     };
+
     if (businessInfo) {
-      console.log("before sbubmit", businessInfoObj);
+      console.log("Before submit:", businessInfoObj);
       await BusinessInfoUpdate(businessInfoObj);
       await RefreshUser();
     }
-    // Here you would typically dispatch an action to save the updated address
-    console.log("Address saved:", addressData);
-    // alert("Address information saved successfully!");
+
+    // Show success notification
     setNotification({
       show: true,
-      message: "Address information saved Successfully!",
+      message: "Address information saved successfully!",
     });
     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
   };
 
+  // const handleAddressChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setAddressData((prevState) => ({
+  //     ...prevState,
+  //     [name]: value,
+  //   }));
+
+  //   // Clear any error when the field value changes
+  //   setErrors((prevErrors) => ({
+  //     ...prevErrors,
+  //     [name]: value.trim() === "" ? `${name} is required` : "",
+  //   }));
+  // };
+
+  // const handleAddressChange = (e) => {
+  //   const { name, value } = e.target;
+  //   let error = "";
+
+  //   if (name === "businessPhone" || name === "businessFax") {
+  //     const digitsOnly = value.replace(/\D/g, ""); // Remove non-digit characters
+
+  //     if (digitsOnly.length > 10) {
+  //       return; // Prevent more than 10 digits
+  //     }
+
+  //     setAddressData((prevState) => ({
+  //       ...prevState,
+  //       [name]: value,
+  //     }));
+
+  //     if (digitsOnly.trim() === "") {
+  //       error = `${name === "businessPhone" ? "Business Phone" : "Business Fax"} is required`;
+  //     } else if (digitsOnly.length !== 10) {
+  //       error = `${name === "businessPhone" ? "Business Phone" : "Business Fax"} must be exactly 10 digits`;
+  //     }
+  //   }
+  //    else if (name === "businessEmail") {
+  //     setAddressData((prevState) => ({
+  //       ...prevState,
+  //       [name]: value,
+  //     }));
+
+  //     if (value.trim() === "") {
+  //       error = "Business Email is required";
+  //     } else if (
+  //       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim()) // Basic email regex
+  //     ) {
+  //       error = "Enter a valid email address";
+  //     }
+  //   } else {
+  //     setAddressData((prevState) => ({
+  //       ...prevState,
+  //       [name]: value,
+  //     }));
+
+  //     error = value.trim() === "" ? `${name} is required` : "";
+  //   }
+
+  //   setErrors((prevErrors) => ({
+  //     ...prevErrors,
+  //     [name]: error,
+  //   }));
+  // };
   const handleAddressChange = (e) => {
-    console.log("Field changed:", e.target.name, e.target.value);
     const { name, value } = e.target;
-    setAddressData((prevState) => ({
-      ...prevState,
-      [name]: value,
+    let error = "";
+
+    if (name === "businessPhone" || name === "businessFax") {
+      const digitsOnly = value.replace(/\D/g, ""); // Remove non-digit characters
+
+      if (digitsOnly.length > 10) {
+        return; // Prevent more than 10 digits
+      }
+
+      setAddressData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+
+      if (digitsOnly.trim() === "") {
+        error = `${name === "businessPhone" ? "Business Phone" : "Business Fax"
+          } is required`;
+      } else if (digitsOnly.length !== 10) {
+        error = `${name === "businessPhone" ? "Business Phone" : "Business Fax"
+          } must be exactly 10 digits`;
+      }
+    } else if (name === "businessEmail") {
+      setAddressData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+
+      if (value.trim() === "") {
+        error = "Business Email is required";
+      } else if (
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim()) // Basic email regex
+      ) {
+        error = "Enter a valid email address";
+      }
+    } else if (name === "companyWebsite") {
+      setAddressData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+
+      if (value.trim() === "") {
+        error = "Company Website is required";
+      } else if (!/^www\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/.test(value.trim())) {
+        error = "Enter a valid website (e.g., www.company.com)";
+      }
+    } else {
+      setAddressData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+
+      error = value.trim() === "" ? `${name} is required` : "";
+    }
+
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: error, // Set or clear the error for the specific field
     }));
   };
 
+  // const handleAddressChange = (e) => {
+  //   console.log("Field changed:", e.target.name, e.target.value);
+  //   const { name, value } = e.target;
+  //   setAddressData((prevState) => ({
+  //     ...prevState,
+  //     [name]: value,
+  //   }));
+  // };
+
   // const handleFileChange = (event) => {
-  //   const file = event.target.files[0]; // Get the selected file
+  //   const file = event.target.files[0];
   //   if (file) {
-  //     // Handle the file (e.g., store in state, upload it, etc.)
-  //     setAccountData((prevState) => ({
-  //       ...prevState,
-  //       deaLicenseCopy: file, // Update state with the selected file
+  //     const fileUrl = URL.createObjectURL(file); // Create a temporary URL for preview
+  //     setAccountData((prevData) => ({
+  //       ...prevData,
+  //       deaLicenseCopy: fileUrl, // Update state with the selected file URL
   //     }));
   //   }
   // };
 
+  // const handleFileChangePharma = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     const fileUrl = URL.createObjectURL(file); // Create a temporary URL for preview
+  //     setAccountData((prevData) => ({
+  //       ...prevData,
+  //       pharmacyLicenseCopy: fileUrl, // Update state with the selected file URL
+  //     }));
+  //   }
+  // };
+
+  const [fileErrorDEA, setFileErrorDEA] = useState(""); // Separate error for DEA
+  const [fileErrorPharma, setFileErrorPharma] = useState(""); // Separate error for Pharmacy License
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const fileUrl = URL.createObjectURL(file); // Create a temporary URL for preview
+      const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf']; // Allowed file types
+
+      // Check file type
+      if (!allowedTypes.includes(file.type)) {
+        setFileErrorDEA("File must be in JPG, PNG, JPEG, or PDF format.");
+        return;
+      }
+
+      // Check file size
+      if (file.size > maxSizeInBytes) {
+        setFileErrorDEA("File size must be less than 5MB.");
+        return;
+      }
+
+      setFileErrorDEA(""); // Clear any previous error
+
+      // Create a URL for the selected file
+      const fileUrl = URL.createObjectURL(file);
+
+      // Update the account data with the file URL
       setAccountData((prevData) => ({
         ...prevData,
-        deaLicenseCopy: fileUrl, // Update state with the selected file URL
+        deaLicenseCopy: fileUrl,
       }));
     }
   };
 
+
   const handleFileChangePharma = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const fileUrl = URL.createObjectURL(file); // Create a temporary URL for preview
+      const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf']; // Allowed file types
+
+      // Check file type
+      if (!allowedTypes.includes(file.type)) {
+        setFileErrorPharma("File must be in JPG, PNG, JPEG, or PDF format.");
+        return;
+      }
+
+      // Check file size
+      if (file.size > maxSizeInBytes) {
+        setFileErrorPharma("File size must be less than 5MB.");
+        return;
+      }
+
+      setFileErrorPharma(""); // Clear any previous error
+
+      // Create a URL for the selected file
+      const fileUrl = URL.createObjectURL(file);
+
+      // Update the account data with the file URL
       setAccountData((prevData) => ({
         ...prevData,
-        pharmacyLicenseCopy: fileUrl, // Update state with the selected file URL
+        pharmacyLicenseCopy: fileUrl,
       }));
     }
   };
@@ -468,6 +788,7 @@ const EditSellerList = () => {
     deaLicenseCopy: businessInfo?.deaLicenseCopy || "",
     pharmacyLicenseCopy: businessInfo?.pharmacyLicenseCopy || "",
   });
+  console.log("account", accountData);
   useEffect(() => {
     setAddressData({
       shopName: businessInfo?.shopName || "",
@@ -533,6 +854,69 @@ const EditSellerList = () => {
   };
 
   const handleAccountSaveClick = async () => {
+    const newErrors = {};
+    if (!accountData.dea?.trim()) {
+      newErrors.dea = "DEA is required.";
+    }
+    if (!accountData.pharmacyLicence?.trim()) {
+      newErrors.pharmacyLicence = "Pharmacy License is required.";
+    }
+    if (!accountData.npi?.trim()) {
+      newErrors.npi = "NPI is required.";
+    }
+    if (!accountData.ncpdp?.trim()) {
+      newErrors.ncpdp = "NCPDP is required.";
+    }
+    if (!accountData.federalTaxId?.trim()) {
+      newErrors.federalTaxId = "Federal Tax ID is required.";
+    } else if (accountData.federalTaxId.replace(/[^0-9]/g, "").length < 9) {
+      newErrors.federalTaxId = "Federal Tax must be 9 digits.";
+    }
+
+    if (!accountData.deaExpirationDate?.trim()) {
+      newErrors.deaExpirationDate = "DEA Expiration Date is required.";
+    }
+    if (!accountData.pharmacyLicenseExpirationDate?.trim()) {
+      newErrors.pharmacyLicenseExpirationDate =
+        "Pharmacy License Expiration Date is required.";
+    }
+
+
+
+    const deaFile = document.querySelector('input[name="deaLicenseCopy"]')?.files[0];
+    if (deaFile) {
+      // Check file size
+      if (deaFile.size > 5 * 1024 * 1024) {
+        newErrors.deaLicenseCopy = "DEA License Copy must be less than 5MB.";
+      }
+      // Check file type
+      const validFileTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+      if (!validFileTypes.includes(deaFile.type)) {
+        newErrors.deaLicenseCopy = "DEA License Copy must be in JPG, PNG, JPEG, or PDF format.";
+      }
+    }
+
+    // File size validation for pharmacyLicenseCopy
+    const pharmacyFile = document.querySelector('input[name="pharmacyLicenseCopy"]')?.files[0];
+    if (pharmacyFile) {
+      // Check file size
+      if (pharmacyFile.size > 5 * 1024 * 1024) {
+        newErrors.pharmacyLicenseCopy = "Pharmacy License Copy must be less than 5MB.";
+      }
+      // Check file type
+      const validFileTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+      if (!validFileTypes.includes(pharmacyFile.type)) {
+        newErrors.pharmacyLicenseCopy = "Pharmacy License Copy must be in JPG, PNG, JPEG, or PDF format.";
+      }
+    }
+
+
+    // Check if there are validation errors
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors); // Update error state
+      console.log("Validation errors:", newErrors);
+      return; // Stop execution if validation fails
+    }
     setIsAccountEdit(false);
     console.log("acc", accountData);
     const businessInfoObj = {
@@ -592,10 +976,79 @@ const EditSellerList = () => {
     alert("Data saved successfully!"); // Show notification (can replace with your own notification system)
   };
 
+  // const handleAccountChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setAccountData((prevData) => ({ ...prevData, [name]: value }));
+  // };
   const handleAccountChange = (e) => {
     const { name, value } = e.target;
-    setAccountData((prevData) => ({ ...prevData, [name]: value }));
+
+    // Dynamic field label mapping
+    const fieldLabels = {
+      dea: "DEA",
+      pharmacyLicence: "Pharmacy License",
+      npi: "NPI",
+      ncpdp: "NCPDP",
+      deaExpirationDate: "DEA Expiration Date",
+      pharmacyLicenseExpirationDate: "Pharmacy License Expiration Date",
+      federalTaxId: "Federal Tax", // Add federalTaxId label
+    };
+
+    let sanitizedValue = value;
+
+    // For the federalTaxId field, enforce specific validation format (12-3456789)
+    if (name === "federalTaxId") {
+      // Allow only numbers and hyphen
+      sanitizedValue = value.replace(/[^0-9-]/g, "");
+
+      // Enforce format of 2 digits, hyphen, and 7 digits (e.g., 12-3456789)
+      if (sanitizedValue.length > 2 && sanitizedValue[2] !== '-') {
+        sanitizedValue = sanitizedValue.substring(0, 2) + '-' + sanitizedValue.substring(2); // Insert hyphen after 2 digits
+      }
+
+      // const regex = /^\d{2}-\d{7}$/; // Regex for 12-3456789 format
+
+      // Check if the field is empty (required check)
+      if (sanitizedValue.length === 0) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          [name]: "Federal Tax is required.",
+        }));
+      } else if (sanitizedValue.length < 10) {
+        // If the length is less than 9 digits, show the "must be 9 digits" error
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          [name]: "Federal Tax must be 9 digits.",
+        }));
+      } else {
+        // Clear errors if valid
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+      }
+    } else {
+      // For other fields, filter out non-alphanumeric characters
+      if (["dea", "pharmacyLicence", "npi", "ncpdp"].includes(name)) {
+        sanitizedValue = value.replace(/[^a-zA-Z0-9]/g, ""); // Remove non-alphanumeric characters
+      }
+
+      // Validation: Check if the field is required
+      if (
+        sanitizedValue.trim() === "" ||
+        (name.includes("ExpirationDate") && !sanitizedValue)
+      ) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          [name]: `${fieldLabels[name] || "This field"} is required.`,
+        }));
+      } else {
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: "" })); // Clear error if valid
+      }
+    }
+
+    // Update state with sanitized value or raw value for dates
+    setAccountData((prevData) => ({ ...prevData, [name]: sanitizedValue }));
   };
+
+
 
   // tab3
 
@@ -627,20 +1080,80 @@ const EditSellerList = () => {
     // Set the states data
     setStates(useStates); // Adjust based on actual structure
   }, []);
+  const [errors, setErrors] = useState({});
 
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setUserDetails({ ...userDetails, [name]: value });
+  //   setNotes(e.target.value); // Update notes state with input value
+
+  //   setConfirmPassword(e.target.value); // Update state with user input
+
+  // };
+
+  const validateNameInput = (value) => /^[a-zA-Z0-9']*$/.test(value);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUserDetails({ ...userDetails, [name]: value });
-    setNotes(e.target.value); // Update notes state with input value
 
-    setConfirmPassword(e.target.value); // Update state with user input
+    // Validate firstName and lastName inputs (only letters and apostrophes)
+    if (
+      (name === "firstName" || name === "lastName") &&
+      !validateNameInput(value) &&
+      value !== ""
+    ) {
+      return; // Exit if input is invalid
+    }
 
-    // Dispatch an action to update the Redux state here if necessary
-    // dispatch(updateUserData({ ...userdata, [name]: value }));
+    // Validate email format
+    if (name === "email") {
+      if (value && !validateEmail(value)) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          [name]: "Please enter a valid email address",
+        }));
+      } else {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          [name]: "",
+        }));
+      }
+    }
 
-    // For example:
-    // dispatch(updateUser({ ...userdata, [name]: value }));
+    // Update userDetails state
+    setUserDetails((prevDetails) => ({ ...prevDetails, [name]: value }));
+
+    // Update specific states for notes and confirmPassword
+    if (name === "notes") {
+      setNotes(value); // Update notes state
+    }
+
+    if (name === "confirmPassword") {
+      setConfirmPassword(value); // Update confirmPassword state
+    }
+
+    // Field required validation
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]:
+        value.trim().length === 0
+          ? `${name === "firstName"
+            ? "First Name"
+            : name === "lastName"
+              ? "Last Name"
+              : name === "email"
+                ? "Email"
+                : "This field"
+          } is required`
+          : "",
+    }));
   };
+
+  // Email validation function
+  const validateEmail = (value) => {
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailPattern.test(value);
+  };
+
   // const [confirmPassword, setConfirmPassword] = useState(""); // State to track user input
 
   const formatDate = (dateString) => {
@@ -673,8 +1186,8 @@ const EditSellerList = () => {
 
         const sortedData = Array.isArray(customer)
           ? customer.sort(
-              (a, b) => new Date(b.auditDate) - new Date(a.auditDate)
-            )
+            (a, b) => new Date(b.auditDate) - new Date(a.auditDate)
+          )
           : [];
 
         setHistoryData(sortedData);
@@ -823,11 +1336,10 @@ const EditSellerList = () => {
           {profiles.map((profile) => (
             <div key={profile.grid} className="flex ml-6">
               <div
-                className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${
-                  visibleGrid === profile.grid
+                className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${visibleGrid === profile.grid
                     ? "border-b-4 border-blue-900"
                     : ""
-                }`}
+                  }`}
                 onClick={() => toggleGrid(profile.grid)}
               >
                 <h1 className="text-lg text-blue-900 font-semibold">
@@ -846,9 +1358,8 @@ const EditSellerList = () => {
             </h1>
 
             <div
-              className={`bg-white border  mx-6 ${
-                isEditable ? "border-blue-900" : "border-gray-400"
-              } rounded-lg px-8 w-[90%] mt-8 relative`}
+              className={`bg-white border  mx-6 ${isEditable ? "border-blue-900" : "border-gray-400"
+                } rounded-lg px-8 w-[90%] mt-8 relative`}
             >
               {isEditable && (
                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -857,9 +1368,8 @@ const EditSellerList = () => {
               )}
 
               <h1
-                className={`text-xl font-semibold my-2 ${
-                  isEditable ? "invisible" : "text-blue-900"
-                }`}
+                className={`text-xl font-semibold my-2 ${isEditable ? "invisible" : "text-blue-900"
+                  }`}
               >
                 User Information
               </h1>
@@ -867,24 +1377,27 @@ const EditSellerList = () => {
                 <div className="py-4 flex flex-col gap-4">
                   <TextField
                     label="First Name"
-                    // id="outlined-size-small"
-                    value={userDetails?.firstName} // Ensure it handles null or undefined
-                    name="firstName" // Use camelCase for the name
-                    onChange={handleInputChange} // Handle input change
-                    disabled={!isEditable} // Disable field unless in edit mode
+                    value={userDetails?.firstName}
+                    name="firstName"
+                    onChange={handleInputChange}
+                    disabled={!isEditable}
                     size="small"
                     className="w-full"
+                    error={!!errors.firstName} // Highlight field in error
+                    helperText={errors.firstName} // Display error message
                   />
                   <TextField
                     label="Email ID"
-                    // id="outlined-size-small"
-                    value={userDetails?.email} // Ensure it handles null or undefined
-                    name="email" // Use camelCase for the name
-                    onChange={handleInputChange} // Handle input change
-                    disabled={!isEditable} // Disable field unless in edit mode
+                    value={userDetails?.email}
+                    name="email"
+                    onChange={handleInputChange}
+                    disabled={!isEditable}
                     size="small"
                     className="w-full"
+                    error={!!errors.email} // Highlight the email field in case of error
+                    helperText={errors.email} // Display error message for invalid email
                   />
+
                   <TextField
                     label="Password"
                     // id="outlined-size-small"
@@ -899,27 +1412,27 @@ const EditSellerList = () => {
                 <div className="py-4 gap-4 flex-col flex">
                   <TextField
                     label="Last Name"
-                    // id="outlined-size-small"
-                    value={userDetails?.lastName} // Ensure it handles null or undefined
-                    name="lastName" // Use camelCase for the name
-                    onChange={handleInputChange} // Handle input change
-                    disabled={!isEditable} // Disable field unless in edit mode
+                    value={userDetails?.lastName}
+                    name="lastName"
+                    onChange={handleInputChange}
+                    disabled={!isEditable}
                     size="small"
                     className="w-full"
+                    error={!!errors.lastName} // Highlight field in error
+                    helperText={errors.lastName}
                   />
 
                   <TextField
                     label="Phone Number"
                     name="mobile"
-                    value={userDetails?.mobile} // Ensure value is not undefined
+                    value={userDetails?.mobile || ""} // Ensure value is not undefined
                     onChange={handlePhoneNumberChange}
                     size="small"
                     className="w-full"
                     disabled={!isEditable} // Disable unless in edit mode
-                    inputProps={{ maxLength: 12 }} // Limit the max length to 12 (including dashes)
-                    // InputLabelProps={{
-                    //   shrink: !!userDetails?.mobile, // Shrink the label if there is a value
-                    // }}
+                    inputProps={{ maxLength: 12 }} // Limit max length to 12 (including dashes)
+                    error={!!errors.mobile} // Display error if there is a validation message for 'mobile'
+                    helperText={errors.mobile} // Display the error message for the mobile number
                   />
                 </div>
 
@@ -931,9 +1444,8 @@ const EditSellerList = () => {
                     alt="Edit" // Add alt text for accessibility
                   />
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-                      !isEditable ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isEditable ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                     onClick={handleSaveClick}
                     disabled={!isEditable} // Disable button when not editable/ Save button is disabled if not editable
                   >
@@ -946,9 +1458,8 @@ const EditSellerList = () => {
             {/* <div className="bg-white border border-gray-400  p-6 mx-6 rounded-lg px-8 w-[90%] mt-8 relative mb-4">
               <h1 className="text-blue-900 font-semibold text-xl">User Type</h1> */}
             <div
-              className={`bg-white border mx-6 ${
-                isUserEditable ? "border-blue-900" : "border-gray-400"
-              } rounded-lg px-8 w-[90%] mt-8 relative`}
+              className={`bg-white border mx-6 ${isUserEditable ? "border-blue-900" : "border-gray-400"
+                } rounded-lg px-8 w-[90%] mt-8 relative`}
             >
               {isUserEditable && (
                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -957,9 +1468,8 @@ const EditSellerList = () => {
               )}
 
               <h1
-                className={`text-xl font-semibold my-2 ${
-                  isUserEditable ? "invisible" : "text-blue-900"
-                }`}
+                className={`text-xl font-semibold my-2 ${isUserEditable ? "invisible" : "text-blue-900"
+                  }`}
               >
                 User Type
               </h1>
@@ -1047,9 +1557,8 @@ const EditSellerList = () => {
                     alt="Edit" // Add alt text for accessibility
                   />
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-                      !isUserEditable ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isUserEditable ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                     onClick={handleUserSaveClick}
                     disabled={!isUserEditable} // Disable button when not editable
                   >
@@ -1063,9 +1572,8 @@ const EditSellerList = () => {
             {/* <div className="button-group"></div> */}
 
             <div
-              className={`bg-white border  mx-6 ${
-                isAddressEdit ? "border-blue-900" : "border-gray-400"
-              } rounded-lg px-8 w-[90%] mt-8 relative`}
+              className={`bg-white border  mx-6 ${isAddressEdit ? "border-blue-900" : "border-gray-400"
+                } rounded-lg px-8 w-[90%] mt-8 relative`}
             >
               {isAddressEdit && (
                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -1076,9 +1584,8 @@ const EditSellerList = () => {
                 Address Information
               </h1> */}
               <h1
-                className={`text-xl font-semibold my-2 ${
-                  isAddressEdit ? "invisible" : "text-blue-900"
-                }`}
+                className={`text-xl font-semibold my-2 ${isAddressEdit ? "invisible" : "text-blue-900"
+                  }`}
               >
                 Address Information
               </h1>
@@ -1090,13 +1597,14 @@ const EditSellerList = () => {
                     userdata?.customerTypeId !== 3 && (
                       <TextField
                         label="Shop Name"
-                        name="shopName" // Make sure the name is correct if it's used elsewhere
-                        // disabled={!istabable}
-                        value={addressData?.shopName || ""} // Use optional chaining to avoid errors
+                        name="shopName"
+                        value={addressData?.shopName || ""}
                         disabled={!isAddressEdit}
                         onChange={handleAddressChange}
                         size="small"
-                        className="w-full" // Uncomment or modify this line as needed
+                        className="w-full"
+                        error={!!errors.shopName} // Show error state
+                        helperText={errors.shopName} // Display the error message
                       />
                     )}
                   {userdata?.customerTypeId !== 4 &&
@@ -1105,14 +1613,16 @@ const EditSellerList = () => {
                       <TextField
                         label="DBA Name"
                         name="dba"
-                        // disabled={!istabable}
-                        onChange={handleAddressChange}
-                        disabled={!isAddressEdit}
                         value={addressData?.dba || ""}
+                        disabled={!isAddressEdit}
+                        onChange={handleAddressChange}
                         size="small"
+                        className="w-full"
+                        error={!!errors.dba} // Show error state
+                        helperText={errors.dba} // Display the error message
                       />
                     )}
-                  <TextField
+                  {/* <TextField
                     label="City"
                     // id="outlined-size-small"
                     name="city"
@@ -1125,8 +1635,19 @@ const EditSellerList = () => {
 
                     size="small"
                     // className="w-full"
-                  />
+                  /> */}
                   <TextField
+                    label="City"
+                    name="city"
+                    value={addressData?.city || ""}
+                    disabled={!isAddressEdit}
+                    onChange={handleAddressChange}
+                    size="small"
+                    className="w-full"
+                    error={!!errors.city} // Show error state
+                    helperText={errors.city} // Display the error message
+                  />
+                  {/* <TextField
                     label="Zip"
                     // id="outlined-size-small"
                     name="zip"
@@ -1139,25 +1660,60 @@ const EditSellerList = () => {
 
                     size="small"
                     // className="w-full"
+                  /> */}
+                  <TextField
+                    label="Zip"
+                    name="zip"
+                    value={addressData?.zip || ""}
+                    disabled={!isAddressEdit}
+                    onChange={handleAddressChange}
+                    size="small"
+                    className="w-full"
+                    error={!!errors.zip} // Show error state
+                    helperText={errors.zip} // Display the error message
                   />
                   {userdata?.customerTypeId !== 4 && (
+                    // <TextField
+                    //   label="Business Fax"
+                    //   // id="outlined-size-small"
+                    //   name="businessFax"
+                    //   disabled={!isAddressEdit}
+                    //   onChange={handleAddressChange}
+                    //   value={addressData?.businessFax || ""}
+                    //   // onChange={handleInputChange}
+                    //   // error={!!errors.First_Name}
+                    //   // helperText={errors.First_Name}
+
+                    //   size="small"
+                    //   // className="w-full"
+                    // />
                     <TextField
                       label="Business Fax"
-                      // id="outlined-size-small"
                       name="businessFax"
+                      value={addressData.businessFax || ""}
                       disabled={!isAddressEdit}
-                      onChange={handleAddressChange}
-                      value={addressData?.businessFax || ""}
-                      // onChange={handleInputChange}
-                      // error={!!errors.First_Name}
-                      // helperText={errors.First_Name}
-
+                      onChange={handlePhoneChange}
                       size="small"
-                      // className="w-full"
+                      error={!!errors.businessFax}
+                      helperText={errors.businessFax}
                     />
                   )}
 
                   {userdata?.customerTypeId !== 4 && (
+                    // <TextField
+                    //   label="Company Website"
+                    //   id="outlined-size-small"
+                    //   name="companyWebsite"
+                    //   disabled={!isAddressEdit}
+                    //   onChange={handleAddressChange}
+                    //   value={addressData?.companyWebsite || ""}
+                    //   // onChange={handleInputChange}
+                    //   // error={!!errors.First_Name}
+                    //   // helperText={errors.First_Name}
+
+                    //   size="small"
+                    //   // className="w-full"
+                    // />
                     <TextField
                       label="Company Website"
                       id="outlined-size-small"
@@ -1165,12 +1721,9 @@ const EditSellerList = () => {
                       disabled={!isAddressEdit}
                       onChange={handleAddressChange}
                       value={addressData?.companyWebsite || ""}
-                      // onChange={handleInputChange}
-                      // error={!!errors.First_Name}
-                      // helperText={errors.First_Name}
-
                       size="small"
-                      // className="w-full"
+                      error={!!errors.companyWebsite} // Show error state
+                      helperText={errors.companyWebsite} // Display the error message
                     />
                   )}
                 </div>
@@ -1178,35 +1731,30 @@ const EditSellerList = () => {
                   {userdata?.customerTypeId !== 4 && (
                     <TextField
                       label="Legal Business Name"
-                      id="outlined-size-small"
                       name="legalBusinessName"
+                      value={addressData?.legalBusinessName || ""}
                       disabled={!isAddressEdit}
                       onChange={handleAddressChange}
-                      value={addressData?.legalBusinessName || ""}
-                      // onChange={handleInputChange}
-                      // error={!!errors.First_Name}
-                      // helperText={errors.First_Name}
-
                       size="small"
-                      // className="w-full"
+                      className="w-full"
+                      error={!!errors.legalBusinessName} // Show error state
+                      helperText={errors.legalBusinessName} // Display the error message
                     />
                   )}
+
                   <TextField
                     label="Address"
-                    id="outlined-size-small"
                     name="address"
+                    value={addressData?.address || ""}
                     disabled={!isAddressEdit}
                     onChange={handleAddressChange}
-                    value={addressData?.address || ""}
-                    // onChange={handleInputChange}
-                    // error={!!errors.First_Name}
-                    // helperText={errors.First_Name}
-
                     size="small"
-                    // className="w-full"
+                    className="w-full"
+                    error={!!errors.address} // Show error state
+                    helperText={errors.address} // Display the error message
                   />
 
-                  <FormControl size="small" disabled={!isAddressEdit}>
+                  {/* <FormControl size="small" disabled={!isAddressEdit}>
                     <InputLabel id="state-select-label">State</InputLabel>
                     <Select
                       id="state-select"
@@ -1234,6 +1782,44 @@ const EditSellerList = () => {
                         </MenuItem>
                       ))}
                     </Select>
+                  </FormControl> */}
+
+                  <FormControl
+                    size="small"
+                    disabled={!isAddressEdit}
+                    error={!!errors.state} // Show error state if there's an error
+                  >
+                    <InputLabel id="state-select-label">State</InputLabel>
+                    <Select
+                      id="state-select"
+                      label="State"
+                      value={addressData.state || ""} // Ensure a default value
+                      name="state" // Ensure the name matches the key in addressData
+                      onChange={handleAddressChange}
+                      MenuProps={{
+                        PaperProps: {
+                          style: {
+                            maxHeight: 200, // Set the maximum height of the dropdown
+                          },
+                        },
+                      }}
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      {states.map((state) => (
+                        <MenuItem
+                          key={state.abbreviation}
+                          value={state.name} // Match this value to what you want to save in addressData
+                        >
+                          {state.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {/* Custom error message below the Select component */}
+                    {errors.state && (
+                      <div className="text-red-600 ml-2">{errors.state}</div>
+                    )}
                   </FormControl>
 
                   {userdata?.customerTypeId !== 4 && (
@@ -1245,10 +1831,22 @@ const EditSellerList = () => {
                       onChange={handlePhoneChange}
                       disabled={!isAddressEdit}
                       size="small"
+                      className="w-full"
+                      error={!!errors.businessPhone} // Show error state
+                      helperText={errors.businessPhone}
                       inputProps={{ maxLength: 12 }}
                     />
                   )}
                   {userdata?.customerTypeId !== 4 && (
+                    // <TextField
+                    //   label="Business Email"
+                    //   id="outlined-size-small"
+                    //   name="businessEmail"
+                    //   disabled={!isAddressEdit}
+                    //   onChange={handleAddressChange}
+                    //   value={addressData?.businessEmail || ""}
+                    //   size="small"
+                    // />
                     <TextField
                       label="Business Email"
                       id="outlined-size-small"
@@ -1257,6 +1855,8 @@ const EditSellerList = () => {
                       onChange={handleAddressChange}
                       value={addressData?.businessEmail || ""}
                       size="small"
+                      error={!!errors.businessEmail} // Show error state
+                      helperText={errors.businessEmail} // Display the error message
                     />
                   )}
                 </div>
@@ -1268,9 +1868,8 @@ const EditSellerList = () => {
                     onClick={handleAddressEditClick} // Handle edit icon click
                   />
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-                      !isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
                     onClick={handleAddressSaveClick}
                     disabled={!isAddressEdit} // Disable button when not editable// Save button is disabled if not editable
                   >
@@ -1281,9 +1880,8 @@ const EditSellerList = () => {
             </div>
             {userdata?.customerTypeId !== 4 && (
               <div
-                className={`bg-white border mx-6 ${
-                  isAccountEdit ? "border-blue-900" : "border-gray-400"
-                } rounded-lg px-8 w-[90%] mt-8 relative mb-4`}
+                className={`bg-white border mx-6 ${isAccountEdit ? "border-blue-900" : "border-gray-400"
+                  } rounded-lg px-8 w-[90%] mt-8 relative mb-4`}
               >
                 {isAccountEdit && (
                   <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -1291,30 +1889,39 @@ const EditSellerList = () => {
                   </h1>
                 )}
                 <h1
-                  className={`text-xl font-semibold my-2 ${
-                    isAccountEdit ? "invisible" : "text-blue-900"
-                  }`}
+                  className={`text-xl font-semibold my-2 ${isAccountEdit ? "invisible" : "text-blue-900"
+                    }`}
                 >
                   Account Information
                 </h1>
 
                 <div className="flex justify-between py-4">
                   <div className="flex flex-col gap-3">
-                    <TextField
+                    {/* <TextField
                       label="DEA"
                       id="outlined-size-small"
                       name="dea"
                       value={accountData?.dea || ""}
                       onChange={handleAccountChange}
-                      // error={!!errors.First_Name}
-                      // helperText={errors.First_Name}
+                      error={!!errors.dea}
+                      helperText={errors.dea}
+                      disabled={!isAccountEdit}
+                      size="small"
+                      className="w-[60%]"
+                    /> */}
+                    <TextField
+                      label="DEA"
+                      name="dea"
+                      value={accountData?.dea || ""}
+                      onChange={handleAccountChange}
+                      error={!!errors.dea}
+                      helperText={errors.dea}
                       disabled={!isAccountEdit}
                       size="small"
                       className="w-[60%]"
                     />
-
                     <label> DEA Expiration Date </label>
-                    <TextField
+                    {/* <TextField
                       label=""
                       type="date"
                       id="deaExpirationDate"
@@ -1328,19 +1935,38 @@ const EditSellerList = () => {
                       disabled={!isAccountEdit}
                       size="small"
                       className="w-[60%]"
-                    />
-
-                    <label> DEA Expiration File </label>
+                    /> */}
                     <TextField
-                      label=""
-                      type="file"
-                      // id="outlined-size-small"
-                      name="deaLicenseCopy"
-                      onChange={handleFileChange} // Separate handler for file selection
+                      // label="DEA Expiration Date"
+                      type="date"
+                      id="deaExpirationDate"
+                      name="deaExpirationDate"
+                      value={
+                        accountData.deaExpirationDate
+                          ? formatDate(accountData.deaExpirationDate)
+                          : ""
+                      }
+                      onChange={handleAccountChange}
+                      error={!!errors.deaExpirationDate}
+                      helperText={errors.deaExpirationDate}
                       disabled={!isAccountEdit}
                       size="small"
                       className="w-[60%]"
                     />
+
+                    <label className="flex flex-col"> DEA Expiration File<span>(jpg, png, jpeg,pdf,Max size 5MB)</span></label>
+                    <TextField
+                      label=""
+                      type="file"
+                      name="deaLicenseCopy"
+                      onChange={handleFileChange}
+                      disabled={!isAccountEdit}
+                      size="small"
+                      className="w-[60%]"
+                    />
+                    {fileErrorDEA && (
+                      <p className="text-red-500 text-sm">{fileErrorDEA}</p>
+                    )}
                     {accountData.deaLicenseCopy && (
                       <a
                         href={
@@ -1350,12 +1976,11 @@ const EditSellerList = () => {
                         rel={isAccountEdit ? "noopener noreferrer" : undefined}
                         onClick={(e) => {
                           if (!isAccountEdit) {
-                            e.preventDefault(); // Prevent navigation when disabled
+                            e.preventDefault();
                           }
                         }}
-                        className={`text-sm -mt-3 underline ${
-                          isAccountEdit ? "text-blue-500" : "text-gray-400 "
-                        }`}
+                        className={`text-sm -mt-3 underline ${isAccountEdit ? "text-blue-500" : "text-gray-400"
+                          }`}
                       >
                         View DEA License Copy
                       </a>
@@ -1363,18 +1988,16 @@ const EditSellerList = () => {
 
                     <TextField
                       label="NPI"
-                      // id="outlined-size-small"
                       name="npi"
                       disabled={!isAccountEdit}
                       value={accountData?.npi || ""}
                       onChange={handleAccountChange}
-                      // error={!!errors.First_Name}
-                      // helperText={errors.First_Name}
-
+                      error={!!errors.npi}
+                      helperText={errors.npi}
                       size="small"
                       className="w-[60%] mt-3"
                     />
-                    <TextField
+                    {/* <TextField
                       label="Federal Tax"
                       // id="outlined-size-small"
                       name="federalTaxId"
@@ -1385,65 +2008,70 @@ const EditSellerList = () => {
                       className="w-[60%]"
                       disabled={!isAccountEdit} // Disable unless in edit mode
                       inputProps={{ maxLength: 10 }} // Limit max length to 10 (including the dash)
+                    /> */}
+                    <TextField
+                      label="Federal Tax"
+                      name="federalTaxId"
+                      value={accountData?.federalTaxId || ""}
+                      onChange={handleAccountChange}
+                      size="small"
+                      className="w-[60%]"
+                      disabled={!isAccountEdit} // Disable unless in edit mode
+                      inputProps={{ maxLength: 10 }} // Limit max length to 10 (including the hyphen)
+                      helperText={errors.federalTaxId} // Show the error message below the input
+                      error={!!errors.federalTaxId} // Show error state if there's an error
                     />
+
+
+
+
                   </div>
                   <div className="flex flex-col gap-3">
                     <TextField
                       label="Pharmacy License"
-                      // id="outlined-size-small"
                       name="pharmacyLicence"
-                      disabled={!isAccountEdit}
                       value={accountData?.pharmacyLicence || ""}
                       onChange={handleAccountChange}
-                      // error={!!errors.First_Name}
-                      // helperText={errors.First_Name}
-
+                      error={!!errors.pharmacyLicence}
+                      helperText={errors.pharmacyLicence}
+                      disabled={!isAccountEdit}
                       size="small"
                       className="w-[60%]"
                     />
                     <label> Pharmacy License Expiration Date </label>
-
                     <TextField
-                      label=""
+                      // label="Pharmacy License Expiration Date"
                       type="date"
-                      // id="outlined-size-small"
                       name="pharmacyLicenseExpirationDate"
                       disabled={!isAccountEdit}
                       value={
                         accountData.pharmacyLicenseExpirationDate
                           ? formatDate(
-                              accountData.pharmacyLicenseExpirationDate
-                            )
+                            accountData.pharmacyLicenseExpirationDate
+                          )
                           : ""
-                      } // Extracts the "YYYY-MM-DD" portion
-                      // onChange={handleInputChange}
+                      }
                       onChange={handleAccountChange}
+                      error={!!errors.pharmacyLicenseExpirationDate}
+                      helperText={errors.pharmacyLicenseExpirationDate}
                       size="small"
                       className="w-[60%]"
                     />
 
-                    <label>Pharmacy License Expiration File</label>
+                    <label className="flex flex-col"> Pharmacy License Expiration File<span>(jpg, png, jpeg,pdf,Max size 5MB)</span></label>
+
                     <TextField
                       label=""
                       type="file"
-                      // id="outlined-size-small"
                       name="pharmacyLicenseCopy"
-                      onChange={handleFileChangePharma} // Separate handler for file input
+                      onChange={handleFileChangePharma}
                       disabled={!isAccountEdit}
                       size="small"
                       className="w-[60%]"
                     />
-                    {/* {accountData.pharmacyLicenseCopy && (
-                      <a
-                        href={accountData.pharmacyLicenseCopy}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 underline text-sm -mt-3"
-                        disabled={!isAccountEdit}
-                      >
-                        View Pharmacy License Copy
-                      </a>
-                    )} */}
+                    {fileErrorPharma && (
+                      <p className="text-red-500 text-sm">{fileErrorPharma}</p>
+                    )}
                     {accountData.pharmacyLicenseCopy && (
                       <a
                         href={
@@ -1455,26 +2083,24 @@ const EditSellerList = () => {
                         rel={isAccountEdit ? "noopener noreferrer" : undefined}
                         onClick={(e) => {
                           if (!isAccountEdit) {
-                            e.preventDefault(); // Prevent navigation when disabled
+                            e.preventDefault();
                           }
                         }}
-                        className={`text-sm -mt-3 underline ${
-                          isAccountEdit ? "text-blue-500" : "text-gray-400 "
-                        }`}
+                        className={`text-sm -mt-3 underline ${isAccountEdit ? "text-blue-500" : "text-gray-400"
+                          }`}
                       >
                         View Pharmacy License Copy
                       </a>
                     )}
+
                     <TextField
                       label="NCPDP"
-                      // id="outlined-size-small"
                       name="ncpdp"
                       disabled={!isAccountEdit}
                       value={accountData?.ncpdp || ""}
                       onChange={handleAccountChange}
-                      // error={!!errors.First_Name}
-                      // helperText={errors.First_Name}
-
+                      error={!!errors.ncpdp}
+                      helperText={errors.ncpdp}
                       size="small"
                       className="w-[60%] mt-3"
                     />
@@ -1488,9 +2114,8 @@ const EditSellerList = () => {
                     />
                     <button
                       // className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold"
-                      className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
-                        !isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
+                      className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
                       // Disable button when not editable
                       onClick={handleAccountSaveClick}
                       disabled={!isAccountEdit}
@@ -1547,11 +2172,10 @@ const EditSellerList = () => {
 
               <button
                 onClick={handleCommentSaveClick}
-                className={`w-1/5 m-2 py-2 px-4 rounded-lg transition duration-200 ${
-                  currentComment.trim()
+                className={`w-1/5 m-2 py-2 px-4 rounded-lg transition duration-200 ${currentComment.trim()
                     ? "bg-blue-900 text-white hover:bg-blue-800"
                     : "bg-gray-400 text-gray-200 cursor-not-allowed"
-                }`}
+                  }`}
                 disabled={!currentComment.trim()} // Disable if input is empty
               >
                 Save
@@ -1590,11 +2214,10 @@ const EditSellerList = () => {
 
                 <Button
                   onClick={() => handleOpenPopup("activate")}
-                  className={`mr-2 text-white ${
-                    userdata?.isActive === 1
+                  className={`mr-2 text-white ${userdata?.isActive === 1
                       ? "bg-green-500 cursor-not-allowed opacity-50"
                       : "bg-green-500"
-                  }`}
+                    }`}
                   disabled={userdata?.isActive === 1}
                 >
                   Activate
@@ -1602,11 +2225,10 @@ const EditSellerList = () => {
 
                 <Button
                   onClick={() => handleOpenPopup("deactivate")}
-                  className={`mr-2 text-white ${
-                    userdata?.isActive === 0
+                  className={`mr-2 text-white ${userdata?.isActive === 0
                       ? "bg-red-500 cursor-not-allowed opacity-50"
                       : "bg-red-500"
-                  }`}
+                    }`}
                   disabled={userdata?.isActive === 0}
                 >
                   Deactivate
@@ -1641,7 +2263,7 @@ const EditSellerList = () => {
                   // variant="filled" // Replaced "contained" with "filled"
                   // color="default"
                   className="mr-2  bg-blue-900 text-white"
-                  // onClick={handleSendEmail} // Function to handle sending email
+                // onClick={handleSendEmail} // Function to handle sending email
                 >
                   Send Email
                 </Button>
@@ -1657,8 +2279,8 @@ const EditSellerList = () => {
                     type="file"
                     hidden
 
-                    // Hide the default input element
-                    // onChange={handleFileUpload} // Function to handle file upload
+                  // Hide the default input element
+                  // onChange={handleFileUpload} // Function to handle file upload
                   />
                 </Button>
               </div>

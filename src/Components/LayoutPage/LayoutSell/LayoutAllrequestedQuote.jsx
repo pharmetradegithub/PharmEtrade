@@ -535,28 +535,40 @@ const LayoutAllrequestedQuote = () => {
           <table className="rounded-lg bg-white w-full hidden md:table">
             <thead className="bg-blue-900 text-white">
               <tr>
-                <th className="border-b-2 py-2 min-w-36 pl-4 text-left">
-                  S.NO
-                </th>
+                <th className="border-b-2 py-2 min-w-8 pl-4 text-left">S.NO</th>
                 <th
                   className="border-b-2 py-2 min-w-36 pl-4 text-left cursor-pointer"
                   onClick={() => handleSort("customerName")}
                 >
                   Customer Name{" "}
-                  {sortConfig.key === "customerName" ? (
-                    sortConfig.direction === "ascending" ? "▲" : "▼"
-                  ) : "▲"}
+                  {sortConfig.key === "customerName"
+                    ? sortConfig.direction === "ascending"
+                      ? "▲"
+                      : "▼"
+                    : "▲"}
                 </th>
                 <th
-                  className="border-b-2 min-w-36 text-left cursor-pointer"
+                  className="border-b-2 min-w-32 text-left cursor-pointer"
                   onClick={() => handleSort("productName")}
                 >
                   Product Name{" "}
-                  {sortConfig.key === "productName" ?
-                    (sortConfig.direction === "ascending" ? "▲" : "▼") : "▲"}
+                  {sortConfig.key === "productName"
+                    ? sortConfig.direction === "ascending"
+                      ? "▲"
+                      : "▼"
+                    : "▲"}
+                </th>
+                <th className="border-b-2 py-2 min-w-16 pl-4 text-center">
+                  Price
+                </th>
+                <th className="border-b-2 py-2 min-w-16 pl-4 text-left">
+                  Quantity
+                </th>
+                <th className="border-b-2 py-2 min-w-36 pl-4 text-center">
+                  Comment
                 </th>
                 <th
-                  className="border-b-2 min-w-36 text-left"
+                  className="border-b-2 min-w-16 text-left"
                   onClick={() => handleSort("isActive")}
                 >
                   Status
@@ -565,14 +577,17 @@ const LayoutAllrequestedQuote = () => {
                     (sortConfig.direction === "ascending" ? "▲" : "▼")} */}
                 </th>
                 <th
-                  className="border-b-2 min-w-36 text-left cursor-pointer"
+                  className="border-b-2 min-w-24 text-left cursor-pointer"
                   onClick={() => handleSort("createdOn")}
                 >
                   Created Date{" "}
-                  {sortConfig.key === "productName" ?
-                    (sortConfig.direction === "ascending" ? "▲" : "▼") : "▲"}
+                  {sortConfig.key === "productName"
+                    ? sortConfig.direction === "ascending"
+                      ? "▲"
+                      : "▼"
+                    : "▲"}
                 </th>
-                <th className="border-b-2 min-w-36 text-left">Action</th>
+                <th className="border-b-2 min-w-16 text-left">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -585,23 +600,35 @@ const LayoutAllrequestedQuote = () => {
               ) : (
                 currentItems.map((request, index) => (
                   <tr key={index}>
-                    <td className="border-b-2 py-2 min-w-36 pl-4 text-left">
+                    <td className="border-b-2 py-2 min-w-8 pl-4 text-left">
                       {indexOfFirstItem + index + 1}
                     </td>
                     <td className="border-b-2 py-2 min-w-36 pl-4 text-left">
                       {request.customerName}
                     </td>
-                    <td className="border-b-2 min-w-36 text-left">
+                    <td className="border-b-2 min-w-32 text-left">
                       <Tooltip title={request.productName} placement="right">
-                        <span className="truncate block w-24 cursor-pointer">
+                        <span className="truncate block w-28 cursor-pointer">
                           {request.productName}
                         </span>
                       </Tooltip>
                     </td>
-                    <td className="border-b-2 min-w-36 text-left">
+                    <td className="border-b-2 py-2 min-w-16 pl-4 text-center">
+                      {request.price.toFixed(2)}
+                    </td>
+                    <td className="border-b-2 py-2 min-w-16 pl-4 text-center">
+                      {request.quantity}
+                    </td>
+                    <td className="border-b-2 py-2 min-w-36 pl-4 text-center">
+                      {request.comments && request.comments.trim().length > 0
+                        ? request.comments
+                        : "-"}
+                    </td>
+
+                    <td className="border-b-2 min-w-16 text-left">
                       {request.isActive ? "Active" : "Inactive"}
                     </td>
-                    <td className="border-b-2 min-w-36 text-left">
+                    <td className="border-b-2 min-w-24 text-left">
                       {new Date(request.createdOn)
                         .toLocaleDateString("en-US", {
                           year: "numeric",
@@ -610,7 +637,7 @@ const LayoutAllrequestedQuote = () => {
                         })
                         .replace(/\//g, "-")}
                     </td>
-                    <td className="border-b-2 min-w-36 text-left">
+                    <td className="border-b-2 min-w-16 text-left">
                       <Tooltip placement="top" title="Delete">
                         <img
                           src={Bin}
@@ -625,7 +652,6 @@ const LayoutAllrequestedQuote = () => {
             </tbody>
           </table>
 
-
           <div className="block md:hidden space-y-4">
             {currentItems?.length > 0 ? (
               currentItems.map((request, i) => (
@@ -635,7 +661,7 @@ const LayoutAllrequestedQuote = () => {
                     <span>{indexOfFirstItem + i + 1}</span>
                   </div>
                   <div className="mt-2">
-                  <p>
+                    <p>
                       <span className="font-semibold">Customer Name:</span>{" "}
                       {request.customerName}
                     </p>
@@ -672,12 +698,12 @@ const LayoutAllrequestedQuote = () => {
                     <p>
                       <span className="font-semibold"> Action:</span>{" "}
                       <Tooltip title="Delete" placement="top">
-                      <img
-                        src={Bin}
-                        alt="Delete"
-                        className="cursor-pointer w-4 h-4 "
-                      />
-                    </Tooltip>
+                        <img
+                          src={Bin}
+                          alt="Delete"
+                          className="cursor-pointer w-4 h-4 "
+                        />
+                      </Tooltip>
                     </p>
                   </div>
                   {/* <div className="mt-4 flex space-x-4 items-center justify-start">
@@ -694,7 +720,10 @@ const LayoutAllrequestedQuote = () => {
                 </div>
               ))
             ) : (
-              <div className="text-center py-4"> We couldn't find any records</div>
+              <div className="text-center py-4">
+                {" "}
+                We couldn't find any records
+              </div>
             )}
           </div>
         </div>
@@ -713,3 +742,4 @@ const LayoutAllrequestedQuote = () => {
 };
 
 export default LayoutAllrequestedQuote;
+

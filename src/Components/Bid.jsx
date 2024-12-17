@@ -7,6 +7,10 @@ import { fetchCriteriaProductsApi } from "../Api/ProductApi";
 const Bid = ({ topMargin }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
+  //  const [notification, setNotification] = useState({
+  //     show: false,
+  //     message: "",
+  //   });
   const [formData, setFormData] = useState({
     productName: "",
     price: "",
@@ -27,31 +31,84 @@ const Bid = ({ topMargin }) => {
     });
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   let Criteria = {
+  //     productName: formData.productName,
+  //   };
+  //   const products = await fetchCriteriaProductsApi(Criteria, "", true);
+  //   const productIds = products.map(product => product.productID);
+  //   console.log(productIds);
+  //   productIds.map(async (item, index) => {
+  //     const obj = {
+  //       "bidId": "string",
+  //       "buyerId": user?.customerId,
+  //       "productId": item,
+  //       "price": formData.price,
+  //       "quantity": formData.quantity,
+  //       "comments": formData.comments,
+  //       "statusId": 0,
+  //       "isActive": true,
+  //       "createdOn": "2024-10-07T09:59:52.637Z"
+  //     }
+  //     await AddBidAPI(obj);
+  //   })
+
+  //   console.log(formData);
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let Criteria = {
-      productName: formData.productName,
-    };
-    const products = await fetchCriteriaProductsApi(Criteria, "", true);
-    const productIds = products.map(product => product.productID);
-    console.log(productIds);
-    productIds.map(async (item, index) => {
-      const obj = {
-        "bidId": "string",
-        "buyerId": user?.customerId,
-        "productId": item,
-        "price": formData.price,
-        "quantity": formData.quantity,
-        "comments": formData.comments,
-        "statusId": 0,
-        "isActive": true,
-        "createdOn": "2024-10-07T09:59:52.637Z"
-      }
-      await AddBidAPI(obj);
-    })
 
-    console.log(formData);
+    try {
+      if (!formData.productName.trim()) {
+        // alert("Please enter a product name.");
+        return;
+      }
+
+      // Prepare criteria for fetching products
+      const Criteria = { customerId: user?.customerId, productName: formData.productName };
+      console.log("Criteria:", Criteria);
+
+      const products = await fetchCriteriaProductsApi(Criteria, "", true);
+      console.log("Fetched Products:", products);
+
+      if (!products || products.length === 0) {
+        alert("No products found matching your criteria. Please check the product name and try again.");
+        return;
+      }
+
+      const productIds = products.map((product) => product.productID);
+
+      // Prepare bids for each product
+      const currentDate = new Date().toISOString();
+      const bidPromises = productIds.map((item) => {
+        const bidData = {
+          bidId: "",
+          buyerId: user?.customerId,
+          productId: item,
+          price: formData.price,
+          quantity: formData.quantity,
+          comments: formData.comments,
+          statusId: 0,
+          isActive: true,
+          createdOn: currentDate,
+        };
+        return AddBidAPI(bidData);
+        // setNotification({
+        //   show: true,
+        //   message: "Bids submitted successfully.!",
+        // });
+        // setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      });
+
+      await Promise.all(bidPromises);
+      alert("Bids submitted successfully.");
+    } catch (error) {
+      console.error("An error occurred while submitting bids:", error);
+      alert("An error occurred. Please try again.");
+    }
   };
+
 
   useEffect(() => {
     if (user) {
@@ -67,299 +124,145 @@ const Bid = ({ topMargin }) => {
   }, [user, dispatch]);
 
   return (
-    // <div
-    //   className="w-full flex justify-center items-center"
-    //   style={{ marginTop: `${topMargin}px` }}
-    // >
-    //   <div className="w-[70%] bg-slate-100 px-20 py-8 h-full">
-    //     <h2 className="text-2xl font-semibold mb-4">Request For Quote</h2>
-    //     <form onSubmit={handleSubmit}>
-    //       <div className="gap-4 ">
-    //         <div>
-    //           <label className="block text-base font-semibold text-gray-700">
-    //             Product Name
-    //           </label>
-    //           <input
-    //             type="text"
-    //             name="productName"
-    //             placeholder="Product name you are looking for"
-    //             value={formData.productName}
-    //             onChange={handleChange}
-    //             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-    //           />
-    //         </div>
-    //         <div className="grid grid-cols-1 gap-4 my-4 md:grid-cols-2">
-    //           <div>
-    //             <label className="block text-base font-semibold text-gray-700">
-    //               Price
-    //             </label>
-    //             <input
-    //               type="text"
-    //               name="price"
-    //               placeholder="Price"
-    //               value={formData.price}
-    //               onChange={handleChange}
-    //               className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-    //             />
-    //           </div>
-    //           <div>
-    //             <label className="block text-base font-semibold text-gray-700">
-    //               Quantity
-    //             </label>
-    //             <input
-    //               type="text"
-    //               name="quantity"
-    //               value={formData.quantity}
-    //               onChange={handleChange}
-    //               className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-    //             />
-    //           </div>
-    //         </div>
-    //         <div>
-    //           <label className="block text-base font-semibold text-gray-700">
-    //             Comments
-    //           </label>
-    //           <textarea
-    //             name="comments"
-    //             value={formData.comments}
-    //             onChange={handleChange}
-    //             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-    //           />
-    //         </div>
-    //       </div>
-    //       <div className="border border-gray-200 bg-white rounded-lg p-4 mt-4">
-    //         <h3 className="text-2xl font-semibold mt-6 mb-4">
-    //           Buyer Information
-    //         </h3>
-    //         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-    //           <div>
-    //             <label className="block text-base font-semibold text-gray-700">
-    //               First Name
-    //             </label>
-    //             <input
-    //               type="text"
-    //               name="firstName"
-    //               value={formData.firstName}
-    //               onChange={handleChange}
-    //               className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-    //             />
-    //           </div>
-    //           <div>
-    //             <label className="block text-base font-semibold text-gray-700">
-    //               Last Name
-    //             </label>
-    //             <input
-    //               type="text"
-    //               name="lastName"
-    //               value={formData.lastName}
-    //               onChange={handleChange}
-    //               className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-    //             />
-    //           </div>
-    //           <div>
-    //             <label className="block text-base font-semibold text-gray-700">
-    //               Email
-    //             </label>
-    //             <input
-    //               type="email"
-    //               name="email"
-    //               value={formData.email}
-    //               onChange={handleChange}
-    //               className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-    //             />
-    //           </div>
-    //           <div>
-    //             <label className="block font-semibold text-base text-gray-700">
-    //               Phone
-    //             </label>
-    //             <input
-    //               type="text"
-    //               name="phone"
-    //               value={formData.phone}
-    //               onChange={handleChange}
-    //               className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-    //             />
-    //           </div>
-    //           <div className="md:col-span-2">
-    //             <label className="block text-base font-semibold text-gray-700">
-    //               Strength
-    //             </label>
-    //             <input
-    //               type="text"
-    //               name="strength"
-    //               value={formData.strength}
-    //               onChange={handleChange}
-    //               className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-    //             />
-    //           </div>
-    //         </div>
-    //       </div>
-    //       {/* <div className="md:col-span-2">
-    //         <label className="block text-base font-medium text-gray-700">
-    //           Seller Type
-    //         </label>
-    //         <select
-    //           name="sellerType"
-    //           value={formData.sellerType}
-    //           onChange={handleChange}
-    //           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-    //         >
-    //           <option value="all">All</option>
-    //           <option value="prescription">Prescription Drug Seller</option>
-    //           <option value="general">General Merchandise Seller</option>
-    //         </select>
-    //       </div> */}
-    //       <div className="flex justify-end">
-    //       <button
-    //         type="submit"
-    //         onClick={(e) => handleSubmit(e)}
-    //         className="mt-6 font-semibold px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-700"
-    //       >
-    //         Request For Quote
-    //       </button>
-    //       </div>
-    //     </form>
-    //   </div>
-    // </div>
     <div
-  className="w-full flex justify-center items-center"
-  style={{ marginTop: `${topMargin}px` }}
->
-  <div className="w-full sm:w-[90%] md:w-[80%] lg:w-[70%] bg-slate-100 px-6 sm:px-10 md:px-16 py-8 h-full">
-    <h2 className="text-xl sm:text-2xl font-semibold mb-4">Request For Quote</h2>
-    <form onSubmit={handleSubmit}>
-      <div className="gap-4">
-        <div>
-          <label className="block text-base font-semibold text-gray-700">
-            Product Name
-          </label>
-          <input
-            type="text"
-            name="productName"
-            placeholder="Product name you are looking for"
-            value={formData.productName}
-            onChange={handleChange}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-          />
-        </div>
-        <div className="grid grid-cols-1 gap-4 my-4 md:grid-cols-2">
-          <div>
-            <label className="block text-base font-semibold text-gray-700">
-              Price
-            </label>
-            <input
-              type="text"
-              name="price"
-              placeholder="Price"
-              value={formData.price}
-              onChange={handleChange}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            />
+      className="w-full flex justify-center items-center"
+      style={{ marginTop: `${topMargin}px` }}
+    >
+      <div className="w-full sm:w-[90%] md:w-[80%] lg:w-[70%] bg-slate-100 px-6 sm:px-10 md:px-16 py-8 h-full">
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4">Request For Quote</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="gap-4">
+            <div>
+              <label className="block text-base font-semibold text-gray-700">
+                Product Name
+              </label>
+              <input
+                type="text"
+                name="productName"
+                placeholder="Product name you are looking for"
+                value={formData.productName}
+                onChange={handleChange}
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+              />
+            </div>
+            <div className="grid grid-cols-1 gap-4 my-4 md:grid-cols-2">
+              <div>
+                <label className="block text-base font-semibold text-gray-700">
+                  Price
+                </label>
+                <input
+                  type="text"
+                  name="price"
+                  placeholder="Price"
+                  value={formData.price}
+                  onChange={handleChange}
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <div>
+                <label className="block text-base font-semibold text-gray-700">
+                  Quantity
+                </label>
+                <input
+                  type="text"
+                  name="quantity"
+                  value={formData.quantity}
+                  onChange={handleChange}
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-base font-semibold text-gray-700">
+                Comments
+              </label>
+              <textarea
+                name="comments"
+                value={formData.comments}
+                onChange={handleChange}
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+              />
+            </div>
           </div>
-          <div>
-            <label className="block text-base font-semibold text-gray-700">
-              Quantity
-            </label>
-            <input
-              type="text"
-              name="quantity"
-              value={formData.quantity}
-              onChange={handleChange}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            />
+          <div className="border border-gray-200 bg-white rounded-lg p-4 mt-4">
+            <h3 className="text-xl sm:text-2xl font-semibold mt-6 mb-4">
+              Buyer Information
+            </h3>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div>
+                <label className="block text-base font-semibold text-gray-700">
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <div>
+                <label className="block text-base font-semibold text-gray-700">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <div>
+                <label className="block text-base font-semibold text-gray-700">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <div>
+                <label className="block text-base font-semibold text-gray-700">
+                  Phone
+                </label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-base font-semibold text-gray-700">
+                  Strength
+                </label>
+                <input
+                  type="text"
+                  name="strength"
+                  value={formData.strength}
+                  onChange={handleChange}
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+            </div>
           </div>
-        </div>
-        <div>
-          <label className="block text-base font-semibold text-gray-700">
-            Comments
-          </label>
-          <textarea
-            name="comments"
-            value={formData.comments}
-            onChange={handleChange}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-          />
-        </div>
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              onClick={(e) => handleSubmit(e)}
+              className="mt-6 font-semibold px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-700"
+            >
+              Request For Quote
+            </button>
+          </div>
+        </form>
       </div>
-      <div className="border border-gray-200 bg-white rounded-lg p-4 mt-4">
-        <h3 className="text-xl sm:text-2xl font-semibold mt-6 mb-4">
-          Buyer Information
-        </h3>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div>
-            <label className="block text-base font-semibold text-gray-700">
-              First Name
-            </label>
-            <input
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            />
-          </div>
-          <div>
-            <label className="block text-base font-semibold text-gray-700">
-              Last Name
-            </label>
-            <input
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            />
-          </div>
-          <div>
-            <label className="block text-base font-semibold text-gray-700">
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            />
-          </div>
-          <div>
-            <label className="block text-base font-semibold text-gray-700">
-              Phone
-            </label>
-            <input
-              type="text"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            />
-          </div>
-          <div className="md:col-span-2">
-            <label className="block text-base font-semibold text-gray-700">
-              Strength
-            </label>
-            <input
-              type="text"
-              name="strength"
-              value={formData.strength}
-              onChange={handleChange}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            />
-          </div>
-        </div>
-      </div>
-      <div className="flex justify-end">
-        <button
-          type="submit"
-          onClick={(e) => handleSubmit(e)}
-          className="mt-6 font-semibold px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-700"
-        >
-          Request For Quote
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
+    </div>
 
   );
 };
