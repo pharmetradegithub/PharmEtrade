@@ -267,10 +267,12 @@ export const getReportExpiredItemsExcel = async (fromDate, toDate) => {
   }
 };
 
-export const getReportPendingShipmentsExcel = async (fromDate, toDate) => {
+
+export const getGenerateReportExcel = async (reportType, fromDate, toDate) => {
+
   try {
-    const response = await axios.get(`/api/Reports/GeneratePendingShipmentsExcelReport`, {
-      params: { fromDate, toDate },
+    const response = await axios.get(`/api/Reports/GenerateExcelReport`, {
+      params: {reportType, fromDate, toDate },
       headers: {
         'Content-Type': 'application/json', // Adjust if needed
         'Authorization': `Bearer ${localStorage.getItem('token')}` // Example if token is required
@@ -278,13 +280,15 @@ export const getReportPendingShipmentsExcel = async (fromDate, toDate) => {
       responseType: 'blob', // To handle binary data
     });
 
+
     const fileBlob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
 
+    
     // Create a temporary link to trigger the download
     const downloadUrl = window.URL.createObjectURL(fileBlob);
     const link = document.createElement('a');
     link.href = downloadUrl;
-    link.download = 'Pending Shipmets.xlsx'; // File name for download
+    link.download = 'Report.xlsx'; // File name for download
     document.body.appendChild(link);
     link.click();
 
