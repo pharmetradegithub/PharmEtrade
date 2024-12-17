@@ -5,6 +5,7 @@ import { SellerSettleGetDetailsApi, SettleAddApi } from '../../../Api/Settlement
 import { uploadCustomerImageApi } from '../../../Api/BannerApi';
 import { useSelector } from 'react-redux';
 import {GetCustomers } from '../../../Api/AdminApi';
+import Notification from '../../Notification';
 
 function Settlement() {
   const [dateFrom, setDateFrom] = useState('');
@@ -23,6 +24,10 @@ function Settlement() {
   const [transactionId, setTransactionId] = useState(null);
   const [accountNumber, setAccountNumber] = useState(null);
   const fileInputRef = useRef(null);
+    const [notification, setNotification] = useState({
+      show: false,
+      message: "",
+    });
   const handleShowBalance = async () => {
     let isValid = true;
     let errorMessages = { dateFrom: '', dateTo: '', selectedUsersId: "" };
@@ -81,7 +86,11 @@ function Settlement() {
       enteredBy: user.customerId, // Replace with actual user info
     }
     await SettleAddApi(payload)
-
+    setNotification({
+      show: true,
+      message: "Saved Successfully!",
+    });
+    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     setAmountPaying("")
     // setPayableTo("")
     setBankName("")
@@ -190,12 +199,25 @@ function Settlement() {
       console.log('Form is invalid, show errors.');
     }
   };
-  const [getDetails, setGetDetails] = useState(null)
+  const [getDetails, setGetDetails] = useState({})
   const [optionCustomerId, setOptionCustomerId] = useState(null)
-    useEffect(() => {
-      const res = SellerSettleGetDetailsApi(selectedUserId)
-      setGetDetails(res)
-    }, [selectedUserId]);
+    // useEffect(() => {
+    //   const res = SellerSettleGetDetailsApi(selectedUserId)
+    //   setGetDetails(res)
+  // }, [selectedUserId]);
+  
+  useEffect(() => {
+    SellerSettleGetDetailsApi(selectedUserId)
+      .then((res) => {
+        setGetDetails(res); // set the resolved result to state
+      })
+      .catch((error) => {
+        console.error("Error fetching seller details:", error);
+      });
+  }, [selectedUserId]);
+
+
+
   const [customers, setCustomers] = useState([]);
   const [searchInput, setSearchInput] = useState({
     customerName: "",
@@ -246,9 +268,13 @@ function Settlement() {
     setFilteredCustomers([]); // Hide dropdown after selection
   };
 
+  console.log("getAll", getDetails)
 
   return (
     <div className='w-[95%]  p-4 h-full overflow-y-scroll '>
+      {notification.show && (
+        <Notification show={notification.show} message={notification.message} />
+      )}
 
       <div>
         <h1 className='text-blue-900 text-2xl font-semibold ml-5'>Payment Settlements</h1>
@@ -318,48 +344,48 @@ function Settlement() {
                 <div className="flex my-1 gap-1">
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">First Name:</label>
-                      <p>{getDetails.SellerFirstName}</p>
+                      <p>{getDetails.sellerFirstName}</p>
                   </div>
 
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">Last Name:</label>
-                      <p>{getDetails.SellerLastName}</p>
+                      <p>{getDetails.sellerLastName}</p>
                   </div>
                 </div>
 
                 <div className="my-4 flex gap-2">
                   <div className=" w-full flex gap-2">
                     <label className="font-semibold">Address:</label>
-                    <p>{getDetails.SellerAddress}</p>
+                    <p>{getDetails.sellerAddress}</p>
                   </div>
 
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">City:</label>
-                    <p>{getDetails.SellerCity}</p>
+                    <p>{getDetails.sellerCity}</p>
                   </div>
                 </div>
 
                 <div className="flex my-2 gap-2">
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">State:</label>
-                      <p>{getDetails.SellerState}</p>
+                      <p>{getDetails.sellerState}</p>
                   </div>
 
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">Zip:</label>
-                      <p>{getDetails.SellerZip}</p>
+                      <p>{getDetails.sellerZip}</p>
                   </div>
                 </div>
 
                 <div className="flex my-2 gap-2">
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">Phone Number:</label>
-                      <p>{getDetails.SellerPhone}</p>
+                      <p>{getDetails.sellerPhone}</p>
                   </div>
 
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">Email:</label>
-                      <p>{getDetails.SellerEmail}</p>
+                      <p>{getDetails.sellerEmail}</p>
                   </div>
                 </div>
               </div>

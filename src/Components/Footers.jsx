@@ -151,9 +151,11 @@ import email from "../assets/email.png";
 import logo from "../assets/Icons/Logo_white.png";
 import { IoIosArrowUp } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 
-function Footers({ topMargin}) {
+function Footers({ topMargin }) {
+  const user = useSelector((state) => state.user.user);
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -216,9 +218,9 @@ function Footers({ topMargin}) {
               <p className="text-md mb-4 font-semibold">Quick Links</p>
               <ul className="list-disc list-inside ">
                 <li>
-                  <Link to="/layout" className="underline ">
-                    Seller Dashboard
-                  </Link>
+                    <Link to={user ? "/layout" : "login"} className="underline">
+                      Seller Dashboard
+                    </Link>
                 </li>
                 <li>
                 <Link to="/wishlist" className="underline">

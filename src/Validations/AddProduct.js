@@ -82,13 +82,17 @@ export const ProductPriceValidation = (formData) => {
     
 
     
-    if (formData.upnMemberPrice === null || formData.upnMemberPrice === undefined || formData.upnMemberPrice <= 0) {
+    const price = parseFloat(formData.price);
+    const upnMemberPrice = parseFloat(formData.upnMemberPrice);
+    const salePrice = parseFloat(formData.salePrice);
+
+    if (!upnMemberPrice || upnMemberPrice <= 0) {
         errors.upnMemberPrice = "Upn Member Price is required and must be greater than 0.";
     } else {
-        if (formData.upnMemberPrice >= formData.price) {
+        if (upnMemberPrice >= price) {
             errors.upnMemberPrice = "Upn Member Price must be less than the price.";
         }
-        if (formData.salePrice > 0 && formData.upnMemberPrice >= formData.salePrice) {
+        if (salePrice > 0 && upnMemberPrice >= salePrice) {
             errors.upnMemberPrice = "Upn Member Price must be less than the sale price.";
         }
     }

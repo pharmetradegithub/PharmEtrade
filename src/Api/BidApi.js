@@ -18,7 +18,8 @@ export const fetchCustomer = (customerId) => {
 export const GetBidsBySeller = (customerId) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`/api/Bid/GetBidsByBuyer?buyerId=${customerId}`);
+      // const response = await axios.get(`/api/Bid/GetBidsByBuyer?buyerId=${customerId}`);
+      const response = await axios.get(`/api/Bid/GetBidsBySeller?sellerId=${customerId}`);
       if (response.status === 200) {
         const data = response.data.result; // Adjust this based on your API structure
         dispatch(setGetBidsBySeller(data));
