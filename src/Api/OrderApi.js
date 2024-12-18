@@ -53,6 +53,22 @@ export const fetchGetOrderBySellerId = (customerId) => {
     }
   };
 };
+export const fetchGetOrderByCustomerIdPage = async (customerId) => {
+    try {
+      console.log("made api call");
+      const response = await axios.get(`/api/Orders/Buyer/GetAll?customerId=${customerId}`);
+      if (response.status === 200) {
+        const getOrder = response.data.result;
+        return getOrder;
+      } else {
+        console.error('Failed to get order action:', response.data.message);
+      }
+      return [];
+    } catch (error) {
+      console.error('Error get order action:', error);
+      return [];
+    }
+};
 
 export const fetchGetOrder = (customerId) => {
   return async (dispatch) => {
@@ -62,11 +78,14 @@ export const fetchGetOrder = (customerId) => {
         const getOrder = response.data.result;
         // console.log('Dispatching get order action:', getOrder); // Log before dispatch
         dispatch(setGetOrder(getOrder)); // Dispatch action
+        return getOrder;
       } else {
         console.error('Failed to get order action:', response.data.message);
       }
+      return [];
     } catch (error) {
       console.error('Error get order action:', error);
+      return [];
     }
   };
 };

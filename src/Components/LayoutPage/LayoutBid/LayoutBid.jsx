@@ -2,18 +2,18 @@ import React, { useState } from "react";
 import Bid from "../../Bid";
 
 const LayoutBid = () => {
-  const [formData, setFormData] = useState({
-    productName: "",
-    price: "",
-    quantity: "1",
-    comments: "",
-    firstName: "Venkat",
-    lastName: "Gollapalli",
-    email: "rx@pharmacyplusnetwork.com",
-    phone: "7893497040",
-    strength: "",
-    sellerType: "all",
-  });
+  // const [formData, setFormData] = useState({
+  //   productName: "",
+  //   price: "",
+  //   quantity: "1",
+  //   comments: "",
+  //   firstName: "Venkat",
+  //   lastName: "Gollapalli",
+  //   email: "rx@pharmacyplusnetwork.com",
+  //   phone: "7893497040",
+  //   strength: "",
+  //   sellerType: "all",
+  // });
 
   const handleChange = (e) => {
     setFormData({

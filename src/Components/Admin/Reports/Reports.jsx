@@ -842,9 +842,9 @@ const Reports = () => {
       setSavedToDate(toDate);
 
       // Clear the input fields
-      // setReportType("");
-      // setFromDate("");
-      // setToDate("");
+      setReportType("");
+      setFromDate("");
+      setToDate("");
     } else {
       alert("Please fill all fields");
     }

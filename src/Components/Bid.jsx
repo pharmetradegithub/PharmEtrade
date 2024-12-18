@@ -3,14 +3,15 @@ import React, { useEffect, useState } from "react";
 import { AddBidAPI, fetchCustomer } from "../Api/BidApi";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCriteriaProductsApi } from "../Api/ProductApi";
+import Notification from "./Notification";
 
 const Bid = ({ topMargin }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
-  //  const [notification, setNotification] = useState({
-  //     show: false,
-  //     message: "",
-  //   });
+   const [notification, setNotification] = useState({
+      show: false,
+      message: "",
+    });
   const [formData, setFormData] = useState({
     productName: "",
     price: "",
@@ -31,54 +32,38 @@ const Bid = ({ topMargin }) => {
     });
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   let Criteria = {
-  //     productName: formData.productName,
-  //   };
-  //   const products = await fetchCriteriaProductsApi(Criteria, "", true);
-  //   const productIds = products.map(product => product.productID);
-  //   console.log(productIds);
-  //   productIds.map(async (item, index) => {
-  //     const obj = {
-  //       "bidId": "string",
-  //       "buyerId": user?.customerId,
-  //       "productId": item,
-  //       "price": formData.price,
-  //       "quantity": formData.quantity,
-  //       "comments": formData.comments,
-  //       "statusId": 0,
-  //       "isActive": true,
-  //       "createdOn": "2024-10-07T09:59:52.637Z"
-  //     }
-  //     await AddBidAPI(obj);
-  //   })
 
-  //   console.log(formData);
-  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       if (!formData.productName.trim()) {
-        // alert("Please enter a product name.");
+        setNotification({
+          show: true,
+          message: "Please enter a product name.",
+        });
+        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
         return;
       }
-
+  
       // Prepare criteria for fetching products
       const Criteria = { customerId: user?.customerId, productName: formData.productName };
       console.log("Criteria:", Criteria);
-
+  
       const products = await fetchCriteriaProductsApi(Criteria, "", true);
       console.log("Fetched Products:", products);
-
+  
       if (!products || products.length === 0) {
-        alert("No products found matching your criteria. Please check the product name and try again.");
+        setNotification({
+          show: true,
+          message: "No products found matching your criteria. Please check the product name and try again.",
+        });
+        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
         return;
       }
-
+  
       const productIds = products.map((product) => product.productID);
-
+  
       // Prepare bids for each product
       const currentDate = new Date().toISOString();
       const bidPromises = productIds.map((item) => {
@@ -94,21 +79,31 @@ const Bid = ({ topMargin }) => {
           createdOn: currentDate,
         };
         return AddBidAPI(bidData);
-        // setNotification({
-        //   show: true,
-        //   message: "Bids submitted successfully.!",
-        // });
-        // setTimeout(() => setNotification({ show: false, message: "" }), 3000);
       });
-
+  
       await Promise.all(bidPromises);
-      alert("Bids submitted successfully.");
+  
+      setNotification({
+        show: true,
+        message: "Bids submitted successfully!",
+      });
+      setFormData({
+        productName: "",
+        price: "",
+        quantity: "",
+        comments: "",
+      });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     } catch (error) {
       console.error("An error occurred while submitting bids:", error);
-      alert("An error occurred. Please try again.");
+      setNotification({
+        show: true,
+        message: "An error occurred. Please try again.",
+      });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     }
   };
-
+  
 
   useEffect(() => {
     if (user) {
@@ -128,6 +123,9 @@ const Bid = ({ topMargin }) => {
       className="w-full flex justify-center items-center"
       style={{ marginTop: `${topMargin}px` }}
     >
+          {notification.show && (
+        <Notification show={notification.show} message={notification.message} />
+      )}
       <div className="w-full sm:w-[90%] md:w-[80%] lg:w-[70%] bg-slate-100 px-6 sm:px-10 md:px-16 py-8 h-full">
         <h2 className="text-xl sm:text-2xl font-semibold mb-4">Request For Quote</h2>
         <form onSubmit={handleSubmit}>

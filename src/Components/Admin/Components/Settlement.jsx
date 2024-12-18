@@ -184,11 +184,23 @@ function Settlement() {
     }
   };
 
+  // const handleBlur = () => {
+  //   if (!amountPaying) {
+  //     setError1('Amount Paying Now is required');
+  //   } else if (parseFloat(amountPaying) <= 0) {
+  //     setError1('Amount must be greater than zero');
+  //   }
+  // };
   const handleBlur = () => {
     if (!amountPaying) {
       setError1('Amount Paying Now is required');
     } else if (parseFloat(amountPaying) <= 0) {
       setError1('Amount must be greater than zero');
+    } else {
+      // Format the value to 2 decimal places
+      const formattedValue = parseFloat(amountPaying).toFixed(2);
+      setAmountPaying(formattedValue);
+      setError1(''); // Clear any previous error
     }
   };
   const handleSubmit = (e) => {

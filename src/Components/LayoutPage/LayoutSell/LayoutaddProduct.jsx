@@ -34,6 +34,7 @@ import {
   fetchProductCategoriesGetAll,
 } from "../../../Api/MasterDataApi";
 import { useNavigate } from "react-router-dom";
+import { handleBlur, handleFocus } from "../../../Helpers/helper";
 
 function LayoutaddProduct() {
   const user = useSelector((state) => state.user.user);
@@ -256,7 +257,6 @@ function LayoutaddProduct() {
   const searchParams = new URLSearchParams(location.search);
   const queryProductId = searchParams.get("productId");
   const ResetFormDate = () => {
-    setAllSelected(false);
     setFormData({
       // Reset form data fields
       categorySpecification: 0,
@@ -1610,6 +1610,8 @@ function LayoutaddProduct() {
                         name="Height"
                         value={formData.Height}
                         onChange={handleInputChange}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                         className="w-40 h-8
                    pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       />
@@ -1621,6 +1623,8 @@ function LayoutaddProduct() {
                         name="Width"
                         value={formData.Width}
                         onChange={handleInputChange}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                         className="w-40 h-8
                    pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       />
@@ -1632,6 +1636,8 @@ function LayoutaddProduct() {
                         name="Length"
                         value={formData.Length}
                         onChange={handleInputChange}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                         className="w-40 h-8 
                    pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       />
@@ -1643,6 +1649,8 @@ function LayoutaddProduct() {
                         name="Weight"
                         value={formData.Weight}
                         onChange={handleInputChange}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                         className="w-40 h-8 
                    pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       />
@@ -1772,7 +1780,7 @@ function LayoutaddProduct() {
                         <input
                           type="checkbox"
                           name="selectAll"
-                          checked={allSelected}
+                          checked={formData.states.length == states.length}
                           onChange={handleSelectAll}
                           className="mr-2"
                         />
@@ -1817,6 +1825,7 @@ function LayoutaddProduct() {
   name="price"
   type="text"
   className="w-56 h-8 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+  onFocus={handleFocus}
   onChange={(e) => {
     let value = e.target.value;
 
@@ -1841,6 +1850,7 @@ function LayoutaddProduct() {
     handleInputChange({
       target: { name: e.target.name, value },
     }); // Update state with formatted value
+    handleBlur()
   }}
   value={formData.price !== undefined ? formData.price : ""}
 />
@@ -1860,6 +1870,8 @@ function LayoutaddProduct() {
                     <input
                       name="discount"
                       type="phone"
+                      onFocus={handleFocus}
+                      onBlur={handleBlur}
                       className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                       onChange={handleInputChange}
                       value={formData.discount === "" ? "" : formData.discount}
@@ -1873,11 +1885,12 @@ function LayoutaddProduct() {
 
                   <div className="flex flex-col">
                     <label className="text-sm font-semibold">
-                      UPN Member Price ($):
+                      UPN Member Price ($):<span className="text-red-600">*</span>
                     </label>
 
                     <input
   name="upnMemberPrice"
+  onFocus={handleFocus}
   type="text"
   className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
   onChange={(e) => {
@@ -1901,6 +1914,7 @@ function LayoutaddProduct() {
         target: { name: e.target.name, value },
       }); // Update state with formatted value
     }
+    handleBlur()
   }}
   value={formData.upnMemberPrice !== "" ? formData.upnMemberPrice : ""}
 />
