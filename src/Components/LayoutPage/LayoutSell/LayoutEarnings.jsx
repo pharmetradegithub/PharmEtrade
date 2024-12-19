@@ -684,41 +684,40 @@ useEffect(() => {
                 </div>
               </div> */}
             </div>
-            <table className="bg-white border border-gray-200 justify-around px-4 py-2">
-              <thead className="bg-blue-900 text-white">
-                <tr className="text-left">
-                  <th className="py-2 px-4 border-b">Date</th>
-                  <th className="py-2 px-4 border-b">Orders</th>
-                  <th className="py-2 px-4 border-b">Total Amount</th>
-                  <th className="py-2 px-4 border-b">Total Earning</th>
-                  {/* <th className="py-2 px-4 border-b">Total Discount Amount</th>
-                  <th className="py-2 px-4 border-b">Admin Commission</th> */}
-                </tr>
-              </thead>
-              <tbody>
-                {processedData.map((row, index) => (
-                  <tr key={index} className="text-left justify-between">
-                    <td className="pl-4 px-4 border-b w-28 text-sm">
-                      {new Date(row.orderDate)
-                        .toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "2-digit",
-                          day: "2-digit",
-                        })
-                        .replace(/\//g, "-")}
-                    </td>
-                    <td className="pl-4 px-4 border-b">{row.
-                      noOfOrders}</td>
-                    <td className="pl-4 px-4 border-b">{row.totalAmount.toFixed(2)}</td>
-                    <td className="pl-4 px-4 border-b">{row.totalEarnings.toFixed(2)}</td>
-                    {/* <td className="pl-4 px-4 border-b">
-                      {item.totalDiscountAmount}
-                    </td>
-                    <td className="pl-4 px-4 border-b">{item.adminCommission}</td> */}
+            <div className="overflow-x-auto">
+              <table className="bg-white border border-gray-200 w-full px-4 py-2">
+                <thead className="bg-blue-900 text-white">
+                  <tr>
+                    <th className="py-2 px-4 border-b">Date</th>
+                    <th className="py-2 px-4 border-b">Orders</th>
+                    <th className="py-2 px-4 border-b">Total Amount</th>
+                    <th className="py-2 px-4 border-b">Total Earning</th>
+                    {/* <th className="py-2 px-4 border-b">Total Discount Amount</th>
+        <th className="py-2 px-4 border-b">Admin Commission</th> */}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {processedData.map((row, index) => (
+                    <tr key={index} className="text-left justify-between">
+                      <td className="px-4 py-2 border-b text-center text-sm">
+                        {new Date(row.orderDate)
+                          .toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                          })
+                          .replace(/\//g, "-")}
+                      </td>
+                      <td className="px-4 py-2 border-b text-center">{row.noOfOrders}</td>
+                      <td className="px-4 py-2 border-b text-center">${row.totalAmount.toFixed(2)}</td>
+                      <td className="px-4 py-2 border-b text-center">${row.totalEarnings.toFixed(2)}</td>
+                      {/* <td className="px-4 py-2 border-b">{row.totalDiscountAmount}</td>
+          <td className="px-4 py-2 border-b">{row.adminCommission}</td> */}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
             <div className="">
               {/* <Pagination
                 indexOfFirstItem={indexOfFirstItem}
