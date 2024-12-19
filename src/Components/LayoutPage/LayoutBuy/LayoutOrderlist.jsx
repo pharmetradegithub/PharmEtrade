@@ -13,6 +13,7 @@ import {
   fetchGetOrderByCustomerIdPage,
   fetchOrderInvoice,
   fetchOrderView,
+  orderStatusUpdateApi,
 } from "../../../Api/OrderApi";
 import next from "../../../assets/Next_icon.png";
 import previous from "../../../assets/Previous_icon.png";
@@ -29,14 +30,17 @@ import LayoutBuyerUpcomingGrid from "../LayoutDashboard/LayoutBuyerUpcomingGrid"
 import TrackingOrder from "../../../Components/TermsAndConditions";
 import Notification from "../../Notification";
 import searchImg from "../../../assets/search-icon.png";
+import { Button, Dialog, DialogActions, DialogContent } from "@mui/material";
 
 function LayoutOrderList() {
+  
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
   const [indexOfLastItem, setindexOfLastItem] = useState(
     currentPage * itemsPerPage
   );
+  const [isCancelled, setIsCancelled] = useState(false);
   const [indexOfFirstItem, setindexOfFirstItem] = useState(
     indexOfLastItem - itemsPerPage
   );
@@ -97,7 +101,7 @@ function LayoutOrderList() {
       setcurrentItems(newCurrentItems);
       console.log("new current", newCurrentItems);
     }
-  }, [getOrder, currentPage, indexOfFirstItem, indexOfLastItem]);
+  }, [getOrder, currentPage, indexOfFirstItem, indexOfLastItem, isCancelled]);
 
   //YEAR  SORTING
   useEffect(() => {
@@ -191,6 +195,7 @@ function LayoutOrderList() {
     const currentYear = new Date().getFullYear();
     const years = generateYears(currentYear, currentYear + 5);
 
+    console.log("currrrr", currentItems)
     return (
       <select
         value={selectedYear}
@@ -379,6 +384,44 @@ function LayoutOrderList() {
   //   fetchRatings();
   // }, [productId]);
 
+  const [idOrder, setIdOrder] = useState(null)
+  const [cancelledOrders, setCancelledOrders] = useState({});
+  const handleCancel = async (orderId, customerId) => {
+    setIdOrder(orderId)
+    setOpenDialog(true);
+  };
+
+  const [openDialog, setOpenDialog] = useState(false);
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+  };
+  const handleModalSave = async () => {
+    try {
+      const response = await dispatch(orderStatusUpdateApi(idOrder, user.customerId, 5, "cancel"));
+      console.log('API Response:', response);
+
+      setIsCancelled(true);
+      setOpenDialog(false);
+      setNotification({
+        show: true,
+        message: "Cancelled Successfully!",
+      });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+
+
+      setCancelledOrders((prev) => ({
+        ...prev,
+        [idOrder]: true, // Mark this order as canceled
+      }));
+      // Trigger refetch after a delay (if needed)
+      setTimeout(async () => {
+        const updatedOrders = await fetchGetOrderByCustomerIdPage(user.customerId);
+        setGetOrder(updatedOrders);
+      }, 1000);
+    } catch (error) {
+      console.error('Error in handleCancel:', error);
+    }
+  }
   return (
     // <div
     //   className="w-full h-full overflow-y-scroll "
@@ -927,6 +970,48 @@ function LayoutOrderList() {
         </div>
       )}
 
+      <Dialog open={openDialog} onClose={handleDialogClose}>
+        <div className="flex  justify-end p-2">
+          <img
+            onClick={handleDialogClose}
+            src={wrong}
+            className="w-5 h-5 cursor-pointer flex justify-end"
+          />
+        </div>
+        <DialogContent>
+          Are you sure you want to Cancel this Product from your Order?
+        </DialogContent>
+        <div>
+          <DialogActions
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+            }}
+          >
+            <Button
+              onClick={handleDialogClose}
+              sx={{
+                color: "white",
+                backgroundColor: "red",
+                "&:hover": { backgroundColor: "#cc0000" },
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleModalSave}
+              sx={{
+                color: "white",
+                backgroundColor: "green",
+                "&:hover": { backgroundColor: "#006400" },
+              }}
+            >
+              Yes
+            </Button>
+          </DialogActions>
+            </div>
+                </Dialog>
+
       <div className="mx-5 sm:mx-4">
         <div className="flex flex-col md:flex-row justify-between md:items-center ">
           <h2 className=" mt-6 text-3xl mb-4 mobile:text-xl font-semibold">
@@ -1138,6 +1223,37 @@ function LayoutOrderList() {
                       onClick={() => handleNav(order.productId)}
                     >
                       Buy it again
+                    </button>
+                    {/* <button
+                      className={`border rounded-lg p-2 ${order?.orderStatusId === 5 || isCancelled
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-blue-900 text-white cursor-pointer"
+                        }`}
+                      disabled={order?.orderStatusId === 5 || isCancelled}
+                      onClick={() => {
+                        if (order?.orderStatusId !== 5) {
+                          handleCancel(order.orderId, order.customerId);
+                        }
+                      }}
+                    >
+                      {order?.orderStatusId === 5 || isCancelled ? "Order Cancelled" : "Cancel Order"}
+                    </button> */}
+                    <button
+                      key={order.orderId}
+                      className={`border rounded-lg p-2 ${order.orderStatusId === 5 || cancelledOrders[order.orderId]
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-blue-900 text-white cursor-pointer"
+                        }`}
+                      disabled={order.orderStatusId === 5 || cancelledOrders[order.orderId]}
+                      onClick={() => {
+                        if (order.orderStatusId !== 5) {
+                          handleCancel(order.orderId, order.customerId);
+                        }
+                      }}
+                    >
+                      {order.orderStatusId === 5 || cancelledOrders[order.orderId]
+                        ? "Order Cancelled"
+                        : "Cancel Order"}
                     </button>
                   </div>
                 </div>
