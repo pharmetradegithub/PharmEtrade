@@ -74,8 +74,8 @@ const Bid = ({ topMargin }) => {
           price: formData.price,
           quantity: formData.quantity,
           comments: formData.comments,
-          statusId: 0,
-          isActive: true,
+          statusId: 1,
+          // isActive: true,
           createdOn: currentDate,
         };
         return AddBidAPI(bidData);

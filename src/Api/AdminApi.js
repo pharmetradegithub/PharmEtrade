@@ -268,7 +268,7 @@ export const getReportExpiredItemsExcel = async (fromDate, toDate) => {
 };
 
 
-export const getGenerateReportExcel = async (reportType, fromDate, toDate) => {
+export const getGenerateReportExcel = async (reportType, fromDate, toDate, mappedReportType) => {
 
   try {
     const response = await axios.get(`/api/Reports/GenerateExcelReport`, {
@@ -288,7 +288,7 @@ export const getGenerateReportExcel = async (reportType, fromDate, toDate) => {
     const downloadUrl = window.URL.createObjectURL(fileBlob);
     const link = document.createElement('a');
     link.href = downloadUrl;
-    link.download = 'Report.xlsx'; // File name for download
+    link.download = `${mappedReportType}.xlsx`; // File name for download
     document.body.appendChild(link);
     link.click();
 

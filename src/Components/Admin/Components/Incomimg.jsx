@@ -439,23 +439,26 @@ function LayoutPaymentHistory() {
     },
   ];
 
+  const approvedData = paymentHistory.filter(item => item.paymentStatus === "Approved");
+  console.log("Approved===", approvedData)
   const stats = [
     {
-      label: "Total Earnings",
+      label: "Total Recievables",
       // value: `$${(2420 ||.0).toFixed(2)}`,
       // text: "as of 01-December-2023",
       // value: `$${(paymentHistory.paymentAmount).toFixed(2)}`,
-      value: `$${paymentHistory.reduce((total, each) => total + each.paymentAmount, 0).toFixed(2)}`,
+      value: `$${approvedData.reduce((total, each) => total + each.paymentAmount, 0).toFixed(2)}`,
       color: "text-green-500",
     },
-    {
-      label: "Pending Payments",
-      value: `$${(3843 ||.0).toFixed(2)}`,
-      text: "as of 01-December-2023",
-      color: "text-blue-900",
-    },
-    { label: "Withdrawal Method", value: `$${(1700 ||.0).toFixed(2)}`, text: "" },
+    // {
+    //   label: "Pending Payments",
+    //   value: `$${(3843 ||.0).toFixed(2)}`,
+    //   text: "as of 01-December-2023",
+    //   color: "text-blue-900",
+    // },
+    // { label: "Withdrawal Method", value: `$${(1700 ||.0).toFixed(2)}`, text: "" },
   ];
+  console.log("656576", stats[0].value)
 
   const filteredPayouts = payouts.filter(
     (payout) =>
@@ -598,7 +601,8 @@ const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   // const currentItems = sortedItems.slice(indexOfFirstItem, indexOfLastItem);
   const currentItems = sortedItems ? sortedItems.slice(indexOfFirstItem, indexOfLastItem) : [];
 
-const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
+  const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
+ 
 
   return (
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">

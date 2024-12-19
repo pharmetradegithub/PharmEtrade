@@ -1013,7 +1013,7 @@ const Reports = () => {
       // } else {
       //   console.error("Failed to fetch Excel report data");
       // }
-      await getGenerateReportExcel(savedReportType, formattedFromDate, formattedToDate)
+      await getGenerateReportExcel(savedReportType, formattedFromDate, formattedToDate, mappedReportType)
     } catch (error) {
       console.error("Error handling Excel report:", error);
     }

@@ -28,6 +28,7 @@ function Settlement() {
       show: false,
       message: "",
     });
+
   const handleShowBalance = async () => {
     let isValid = true;
     let errorMessages = { dateFrom: '', dateTo: '', selectedUsersId: "" };
@@ -100,6 +101,8 @@ function Settlement() {
     setPaymentMode("")
     setTransactionId("")
     setChequeImage(null)
+    setDateFrom("")
+    setDateTo("")
 
     if (fileInputRef.current) {
       fileInputRef.current.value = ""; // Clear file input

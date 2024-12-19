@@ -18,8 +18,8 @@ export const fetchCustomer = (customerId) => {
 export const GetBidsBySeller = (customerId) => {
   return async (dispatch) => {
     try {
-      // const response = await axios.get(`/api/Bid/GetBidsByBuyer?buyerId=${customerId}`);
-      const response = await axios.get(`/api/Bid/GetBidsBySeller?sellerId=${customerId}`);
+      const response = await axios.get(`/api/Bid/GetBidsByBuyer?buyerId=${customerId}`);
+      // const response = await axios.get(`/api/Bid/GetBidsBySeller?sellerId=${customerId}`);
       if (response.status === 200) {
         const data = response.data.result; // Adjust this based on your API structure
         dispatch(setGetBidsBySeller(data));
@@ -54,6 +54,24 @@ export const fetchQuotedProduct = async (customerId) => {
     } else {
       console.error('Failed to fetch bid data:', response.data.message);
     }
+
+  } catch (error) {
+    console.error('Failed to fetch bid data:', error.message);
+  }
+}
+
+export const UpdateBid = async (data) => {
+  try {
+    const response = await axios.post(`api/Bid/Update`,data)
+    if (response.status === 200 && response.data.result !== null) {
+      store.dispatch({ type: 'bid/updatebidStatus', payload: {
+        bidId: data.bidId,
+        statusId: data.statusId, 
+      }})
+    } else {
+      console.error('Failed to fetch bid data:', response.data.message);
+    }
+    console.log(response);
 
   } catch (error) {
     console.error('Failed to fetch bid data:', error.message);

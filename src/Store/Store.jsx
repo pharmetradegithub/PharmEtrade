@@ -144,7 +144,16 @@ const bidSlice = createSlice({
     setGetBidsBySeller(state, action) {
       console.log("errrStore", action.payload)
       state.bidRequestedQuoted = action.payload
-    }
+    },
+    updateBidStatus(state, action) {
+      const { bidId, statusId } = action.payload;
+
+      const bidIndex = state.bidRequestedQuoted.findIndex(bid => bid.bidId === bidId);
+
+      if (bidIndex !== -1) {
+        state.bidRequestedQuoted[bidIndex].statusId = statusId;
+      }
+    },
     
   }
 })
