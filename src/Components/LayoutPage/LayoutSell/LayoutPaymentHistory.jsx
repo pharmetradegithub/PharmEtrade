@@ -64,23 +64,23 @@ function LayoutPaymentHistory() {
 
   const stats = [
     {
-      label: "Total Earnings",
+      label: "Total Recievables",
       // value: `$${(2420 || 0.0).toFixed(2)}`,
       value: `$${paymentHistory.reduce((total, each) => total + each.paymentAmount, 0).toFixed(2)}`,
       text: "as of 01-December-2023",
       color: "text-green-500",
     },
-    {
-      label: "Pending Payments",
-      value: `$${(3843 || 0).toFixed(2)}`,
-      text: "as of 01-December-2023",
-      color: "text-blue-900",
-    },
-    {
-      label: "Withdrawal Method",
-      value: `$${(1700 || 0).toFixed(2)}`,
-      text: "",
-    },
+    // {
+    //   label: "Pending Payments",
+    //   value: `$${(3843 || 0).toFixed(2)}`,
+    //   text: "as of 01-December-2023",
+    //   color: "text-blue-900",
+    // },
+    // {
+    //   label: "Withdrawal Method",
+    //   value: `$${(1700 || 0).toFixed(2)}`,
+    //   text: "",
+    // },
   ];
 
   const filteredPayouts = payouts.filter(

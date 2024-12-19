@@ -742,15 +742,15 @@ const indexOfFirstItem = indexOfLastItem - itemsPerPage;
                         : "▲"}
              {/* {sortConfig.key === 'paymentDate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} */}
           </th>
-          <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('transactionid')}>
+          {/* <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('transactionid')}>
             Transaction Id 
             {sortConfig.key === "transactionid"
                         ? sortConfig.direction === "ascending"
                           ? "▲"
                           : "▼"
                         : "▲"}
-            {/* {sortConfig.key === 'transactionid' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} */}
-          </th>
+             {sortConfig.key === 'transactionid' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} 
+          </th> */}
                 <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('paymentDate')}>
             Transaction Date 
                   {sortConfig.key === "paymentDate"
@@ -808,7 +808,7 @@ const indexOfFirstItem = indexOfLastItem - itemsPerPage;
                         .replace(/\//g, "-")} */}
                     </td>
 
-                    <td className="px-4 py-2">{}</td>
+                    {/* <td className="px-4 py-2">{}</td> */}
                     <td className="px-4 py-2">
                       {new Date(payout.paymentDate)
                         .toLocaleDateString("en-US", {
