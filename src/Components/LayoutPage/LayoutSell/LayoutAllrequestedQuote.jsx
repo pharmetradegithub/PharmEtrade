@@ -536,7 +536,7 @@ const LayoutAllrequestedQuote = () => {
             <thead className="bg-blue-900 text-white">
               <tr>
                 <th className="border-b-2 py-2 min-w-8 pl-4 text-left">S.NO</th>
-                <th
+                {/* <th
                   className="border-b-2 py-2 min-w-36 pl-4 text-left cursor-pointer"
                   onClick={() => handleSort("customerName")}
                 >
@@ -546,7 +546,7 @@ const LayoutAllrequestedQuote = () => {
                       ? "▲"
                       : "▼"
                     : "▲"}
-                </th>
+                </th> */}
                 <th
                   className="border-b-2 min-w-32 text-left cursor-pointer"
                   onClick={() => handleSort("productName")}
@@ -594,7 +594,7 @@ const LayoutAllrequestedQuote = () => {
               {currentItems.length === 0 ? (
                 <tr>
                   <td colSpan="6" className="text-gray-600 text-lg py-4 px-2">
-                    We couldn't find any records
+                  There are no bids currently
                   </td>
                 </tr>
               ) : (
@@ -603,9 +603,9 @@ const LayoutAllrequestedQuote = () => {
                     <td className="border-b-2 py-2 min-w-8 pl-4 text-left">
                       {indexOfFirstItem + index + 1}
                     </td>
-                    <td className="border-b-2 py-2 min-w-36 pl-4 text-left">
+                    {/* <td className="border-b-2 py-2 min-w-36 pl-4 text-left">
                       {request.customerName}
-                    </td>
+                    </td> */}
                     <td className="border-b-2 min-w-32 text-left">
                       <Tooltip title={request.productName} placement="right">
                         <span className="truncate block w-28 cursor-pointer">
@@ -626,7 +626,21 @@ const LayoutAllrequestedQuote = () => {
                     </td>
 
                     <td className="border-b-2 min-w-16 text-left">
-                      {request.isActive ? "Active" : "Inactive"}
+                      {/* {request.statusId ? "Active" : "Inactive"} */}
+                      {
+                        request.statusId === 1
+                          ? "Pending"
+                          : request.statusId === 2
+                          ? "In Review"
+                          : request.statusId === 3
+                          ? "Approved"
+                          : request.statusId === 4
+                          ? "Rejected"
+                          : request.statusId === 5
+                          ? "Cancelled"
+                          : "Unknown Status"
+                      }
+
                     </td>
                     <td className="border-b-2 min-w-24 text-left">
                       {new Date(request.createdOn)
@@ -661,10 +675,10 @@ const LayoutAllrequestedQuote = () => {
                     <span>{indexOfFirstItem + i + 1}</span>
                   </div>
                   <div className="mt-2">
-                    <p>
+                    {/* <p>
                       <span className="font-semibold">Customer Name:</span>{" "}
                       {request.customerName}
-                    </p>
+                    </p> */}
                     <p>
                       <span className="font-semibold">Product Name:</span>{" "}
                       {request.productName}
