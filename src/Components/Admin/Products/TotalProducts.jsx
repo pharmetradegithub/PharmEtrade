@@ -198,6 +198,7 @@ const TotalProducts = () => {
   //   }
   // };
   const [activeProductID, setActiveProductID] = useState(null);
+  const [loading, setLoading] = useState(true);
 
 
   const successButton = async () => {
@@ -233,7 +234,7 @@ const TotalProducts = () => {
     setOpenPop(false);
   };
 
-  const [loading, setLoading] = useState(true);
+  
   const [error, setError] = useState(null);
   const [deletePop, setDeletePop] = useState(false);
   const [trigger, settrigger] = useState(1);

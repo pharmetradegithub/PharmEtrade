@@ -71,6 +71,8 @@ function LayoutSellOrders() {
     },
   ];
 
+  const approvedData = SellerOrder.filter(item => item.orderStatusId === 3);
+  console.log("Approved===", SellerOrder)
   const stats = [
     {
       label: "Total Orders",
@@ -113,8 +115,8 @@ function LayoutSellOrders() {
     {
       label: "Purchase Amount",
       value: `$${
-        SellerOrder
-          ? SellerOrder.reduce(
+        approvedData
+        ? approvedData.reduce(
               (total, order) => total + (order.totalAmount || 0),
               0
             ).toFixed(2)
@@ -126,7 +128,7 @@ function LayoutSellOrders() {
       percentage: SellerOrder
         ? Math.floor(
             ((Math.floor(
-              SellerOrder.reduce(
+              approvedData.reduce(
                 (total, order) => total + (order.totalAmount || 0),
                 0
               )

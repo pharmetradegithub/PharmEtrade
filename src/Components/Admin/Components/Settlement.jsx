@@ -23,92 +23,14 @@ function Settlement() {
   const [chequeImage, setChequeImage] = useState(null);
   const [transactionId, setTransactionId] = useState(null);
   const [accountNumber, setAccountNumber] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const fileInputRef = useRef(null);
     const [notification, setNotification] = useState({
       show: false,
       message: "",
     });
 
-  const handleShowBalance = async () => {
-    let isValid = true;
-    let errorMessages = { dateFrom: '', dateTo: '', selectedUsersId: "" };
-
-    if (!selectedUserId) {
-      errorMessages.selectedUsersId = 'Please select a seller.';
-      isValid = false;
-    }
-    if (!dateFrom) {
-      errorMessages.dateFrom = 'Invoice Date From is required';
-      isValid = false;
-    }
-
-    if (!dateTo) {
-      errorMessages.dateTo = 'Invoice Date To is required';
-      isValid = false;
-    }
-
-    if (dateFrom && dateTo && new Date(dateFrom) > new Date(dateTo)) {
-      errorMessages.dateTo = 'Invoice Date To cannot be earlier than Invoice Date From';
-      isValid = false;
-    }
-   
-
-    setError(errorMessages);
-
-    if (!isValid) {
-      return; // Exit if validation fails
-    }
-    // if (isValid) {
-    //   // Proceed with balance display logic
-    //   console.log('Show balance');
-    // }
-    // if (chequeImage) {
-      // Prepare the image for upload
-      const formData = new FormData();
-      formData.append('image', chequeImage); // Use the exact field key expected by the API
-
-      const imageUrl = await uploadCustomerImageApi(formData);
-      // console.log('Image uploaded successfully:', imageUrl);
-    // }
-    // const imageUrl = await uploadCustomerImageApi(formData);
-    
-    const payload = {
-      paidTo: selectedUserId,
-      amountPaid: Number(amountPaying), // Ensure numeric
-      paymentDate: paymentDate,
-      // || new Date().toISOString(),
-      paymentModeId: paymentMode === 'Wire' ? 1 : 2, // Assume 1 for Wire, 2 for Cheque
-      transactionId: transactionId, // Replace with actual value if available
-      accountNumber: accountNumber, // Replace with actual value
-      bankName: bankName,
-      // chequeImageUrl: chequeImage ? URL.createObjectURL(chequeImage) : 'string', // Assuming file upload
-      chequeImageUrl: imageUrl, // Using uploaded image URL
-      chequeMailedOn: chequeMailedOn || null,
-      enteredBy: user.customerId, // Replace with actual user info
-    }
-    await SettleAddApi(payload)
-    setNotification({
-      show: true,
-      message: "Saved Successfully!",
-    });
-    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-    setAmountPaying("")
-    // setPayableTo("")
-    setBankName("")
-    setAccountNumber("")
-    setChequeMailedOn('')
-    setPaymentDate("")
-    setPaymentMode("")
-    setTransactionId("")
-    setChequeImage(null)
-    setDateFrom("")
-    setDateTo("")
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ""; // Clear file input
-    }
-    
-  };
+ 
 
   const usersData = {
     1: {
@@ -215,6 +137,24 @@ function Settlement() {
     }
   };
   const [getDetails, setGetDetails] = useState({})
+  const [storeDetails, setStoreDetails] = useState({})
+
+  useEffect(() => {
+    if (getDetails) {
+      setStoreDetails({
+        FirstName: getDetails.sellerFirstName || '',
+        LastName: getDetails.sellerLastName || '',
+        Address: getDetails.sellerAddress || '',
+        City: getDetails.sellerCity || '',
+        State: getDetails.sellerState || '',
+        Zip: getDetails.sellerZip || '',
+        PhoneNumber: getDetails.sellerPhone || '',
+        Email: getDetails.sellerEmail || '',
+        TotalAmountDue: getDetails.totalAmountDue,
+        TotalAmountPaid: getDetails.totalAmountPaid
+      });
+    }
+  }, [getDetails]);
   const [optionCustomerId, setOptionCustomerId] = useState(null)
     // useEffect(() => {
     //   const res = SellerSettleGetDetailsApi(selectedUserId)
@@ -253,7 +193,6 @@ function Settlement() {
   }, []);
 
   console.log("customer--->", customers)
-  const [searchTerm, setSearchTerm] = useState("");
   const [filteredCustomers, setFilteredCustomers] = useState(customers);
   const handleSearchChange = (e) => {
     const value = e.target.value;
@@ -284,6 +223,89 @@ function Settlement() {
   };
 
   console.log("getAll", getDetails)
+
+  const handleShowBalance = async () => {
+    let isValid = true;
+    let errorMessages = { dateFrom: '', dateTo: '', selectedUsersId: "" };
+
+    if (!selectedUserId) {
+      errorMessages.selectedUsersId = 'Please select a seller.';
+      isValid = false;
+    }
+    if (!dateFrom) {
+      errorMessages.dateFrom = 'Invoice Date From is required';
+      isValid = false;
+    }
+
+    if (!dateTo) {
+      errorMessages.dateTo = 'Invoice Date To is required';
+      isValid = false;
+    }
+
+    if (dateFrom && dateTo && new Date(dateFrom) > new Date(dateTo)) {
+      errorMessages.dateTo = 'Invoice Date To cannot be earlier than Invoice Date From';
+      isValid = false;
+    }
+
+
+    setError(errorMessages);
+
+    if (!isValid) {
+      return; // Exit if validation fails
+    }
+    // if (isValid) {
+    //   // Proceed with balance display logic
+    //   console.log('Show balance');
+    // }
+    // if (chequeImage) {
+    // Prepare the image for upload
+    const formData = new FormData();
+    formData.append('image', chequeImage); // Use the exact field key expected by the API
+
+    const imageUrl = await uploadCustomerImageApi(formData);
+    // console.log('Image uploaded successfully:', imageUrl);
+    // }
+    // const imageUrl = await uploadCustomerImageApi(formData);
+
+    const payload = {
+      paidTo: selectedUserId,
+      amountPaid: Number(amountPaying), // Ensure numeric
+      paymentDate: paymentDate,
+      // || new Date().toISOString(),
+      paymentModeId: paymentMode === 'Wire' ? 1 : 2, // Assume 1 for Wire, 2 for Cheque
+      transactionId: transactionId, // Replace with actual value if available
+      accountNumber: accountNumber, // Replace with actual value
+      bankName: bankName,
+      // chequeImageUrl: chequeImage ? URL.createObjectURL(chequeImage) : 'string', // Assuming file upload
+      chequeImageUrl: imageUrl, // Using uploaded image URL
+      chequeMailedOn: chequeMailedOn || null,
+      enteredBy: user.customerId, // Replace with actual user info
+    }
+    await SettleAddApi(payload)
+    setNotification({
+      show: true,
+      message: "Saved Successfully!",
+    });
+    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    setAmountPaying("")
+    // setPayableTo("")
+    setBankName("")
+    setAccountNumber("")
+    setChequeMailedOn('')
+    setPaymentDate("")
+    setPaymentMode("")
+    setTransactionId("")
+    setChequeImage(null)
+    setDateFrom("")
+    setDateTo("")
+    setSearchTerm("")
+    setStoreDetails({})
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // Clear file input
+    }
+
+  };
 
   return (
     <div className='w-[95%]  p-4 h-full overflow-y-scroll '>
@@ -359,48 +381,48 @@ function Settlement() {
                 <div className="flex my-1 gap-1">
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">First Name:</label>
-                      <p>{getDetails.sellerFirstName}</p>
+                      <p>{storeDetails.FirstName}</p>
                   </div>
 
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">Last Name:</label>
-                      <p>{getDetails.sellerLastName}</p>
+                      <p>{storeDetails.LastName}</p>
                   </div>
                 </div>
 
                 <div className="my-4 flex gap-2">
                   <div className=" w-full flex gap-2">
                     <label className="font-semibold">Address:</label>
-                    <p>{getDetails.sellerAddress}</p>
+                    <p>{storeDetails.Address}</p>
                   </div>
 
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">City:</label>
-                    <p>{getDetails.sellerCity}</p>
+                    <p>{storeDetails.City}</p>
                   </div>
                 </div>
 
                 <div className="flex my-2 gap-2">
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">State:</label>
-                      <p>{getDetails.sellerState}</p>
+                      <p>{storeDetails.State}</p>
                   </div>
 
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">Zip:</label>
-                      <p>{getDetails.sellerZip}</p>
+                      <p>{storeDetails.Zip}</p>
                   </div>
                 </div>
 
                 <div className="flex my-2 gap-2">
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">Phone Number:</label>
-                      <p>{getDetails.sellerPhone}</p>
+                      <p>{storeDetails.PhoneNumber}</p>
                   </div>
 
                   <div className="w-full flex gap-2">
                     <label className="font-semibold">Email:</label>
-                      <p>{getDetails.sellerEmail}</p>
+                      <p>{storeDetails.Email}</p>
                   </div>
                 </div>
               </div>
@@ -414,7 +436,7 @@ function Settlement() {
               <label className='font-semibold text-left ml-4'>Total Amount Due : </label>
                 {/* <span className='ml-7'>$ 11,444.00</span> */}
                 <span className='ml-7'>
-                  ${getDetails?.totalAmountDue !== undefined ? getDetails.totalAmountDue.toFixed(2) : '0.00'}
+                  ${storeDetails.TotalAmountDue !== undefined ? storeDetails.TotalAmountDue.toFixed(2) : '0.00'}
                 </span>
 
 
@@ -424,7 +446,7 @@ function Settlement() {
               <label className='font-semibold ml-4'>Total Amount Paid Till date : </label>
                 {/* <span className='ml-1'>$ 6,444.00</span> */}
                <span className='ml-7'>
-                  ${getDetails?.totalAmountPaid !== undefined ? getDetails.totalAmountPaid.toFixed(2) : '0.00'}</span>
+                  ${storeDetails.TotalAmountPaid !== undefined ? storeDetails.TotalAmountPaid.toFixed(2) : '0.00'}</span>
 
 
             </div>
