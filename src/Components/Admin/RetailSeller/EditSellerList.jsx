@@ -39,6 +39,7 @@ const EditSellerList = () => {
   const [userdata, setuserdata] = useState(null);
   const [businessInfo, setbusinessInfo] = useState(null);
   const user = useSelector((state) => state.user.user);
+  const [isRefresh,setisRefresh] = useState(0);
 
   const [notification, setNotification] = useState({
     show: false,
@@ -49,6 +50,7 @@ const EditSellerList = () => {
     const FetchUserDetails = async () => {
       const user = await getUserByCustomerIdApi(CustomerId);
       if (user) {
+        console.log('user fetched');
         setuserdata(user.customerDetails);
         setbusinessInfo(user.businessInfo);
       }
@@ -56,8 +58,8 @@ const EditSellerList = () => {
     if (CustomerId) {
       FetchUserDetails();
     }
-  }, [CustomerId]);
-
+  }, [CustomerId,isRefresh]);
+  console.log(isRefresh);
   // const DeactivateCustomer = async (customerId, comments) => {
   //   await DeactivateUserAPI(customerId, comments);
   //   setNotification({
@@ -303,9 +305,10 @@ const EditSellerList = () => {
   const handleUserEditClick = () => {
     setIsUserEditable((prev) => !prev); // Toggle edit mode
   };
-
+  
   const RefreshUser = async () => {
-    await getUserByCustomerIdApi(userdata.customerId);
+    setisRefresh((item)=>item+1);
+    // await getUserByCustomerIdApi(userdata.customerId);
   };
   const handleUserSaveClick = async () => {
     setIsUserEditable(false);
@@ -1280,6 +1283,7 @@ const EditSellerList = () => {
 
   const DeactivateCustomer = async (customerId, comments) => {
     await DeactivateUserAPI(customerId, comments);
+    RefreshUser();
     setNotification({
       show: true,
       message: "User Deactivated Successfully!",
@@ -1290,6 +1294,8 @@ const EditSellerList = () => {
 
   const ActivateCustomer = async (customerId, comments) => {
     await ActivateUserAPI(customerId, comments);
+    RefreshUser();
+
     setNotification({
       show: true,
       message: "User Activated Successfully!",
