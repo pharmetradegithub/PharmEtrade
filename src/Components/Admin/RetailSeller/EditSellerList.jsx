@@ -28,6 +28,7 @@ import {
   DialogActions,
   DialogContent,
 } from "@mui/material";
+import { AdminChargesGetApi } from "../../../Api/AdminApi";
 
 // import ChargesInformation from "../../LayoutPage/LayoutProfile/ChargesInformation";
 // import BankInformation from "./BankInformation";
@@ -1324,6 +1325,7 @@ const EditSellerList = () => {
     setCurrentComment(""); // Clear input field
     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
   };
+  const GetCharges = useSelector((state) => state.charges.getCharges);
 
   return (
     <div className="w-full h-full flex-col bg-slate-200 flex justify-center overflow-y-scroll">
@@ -2212,7 +2214,7 @@ const EditSellerList = () => {
                   Deactivate
                 </Button> */}
 
-                <Button
+                {/* <Button
                   onClick={() => handleOpenPopup("activate")}
                   className={`mr-2 text-white ${userdata?.isActive === 1
                       ? "bg-green-500 cursor-not-allowed opacity-50"
@@ -2221,7 +2223,27 @@ const EditSellerList = () => {
                   disabled={userdata?.isActive === 1}
                 >
                   Activate
-                </Button>
+                </Button> */}
+
+                <>
+                  {GetCharges.length === 0 && (
+                    <p className="text-red-500 mb-2">
+                      Before activating, please assign charges to this user.
+                    </p>
+                  )}
+                  <Button
+                    onClick={() => handleOpenPopup("activate")}
+                    className={`mr-2 text-white ${userdata?.isActive === 1 || GetCharges.length === 0
+                        ? "bg-green-500 cursor-not-allowed opacity-50"
+                        : "bg-green-500"
+                      }`}
+                    disabled={
+                      userdata?.isActive === 1 || GetCharges.length === 0
+                    }
+                  >
+                    Activate
+                  </Button>
+                </>
 
                 <Button
                   onClick={() => handleOpenPopup("deactivate")}

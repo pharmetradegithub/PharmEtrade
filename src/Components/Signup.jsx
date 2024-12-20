@@ -634,45 +634,69 @@ const Signup = () => {
       // if (!formData.BusinessPhone && userType != "Retail Customer")
       //   newErrors.BusinessPhone = "businessphone is required";
 
+      // if (userType !== "Retail Customer") {
+      //   const cleanedPhone = formData.BusinessPhone.replace(/\D/g, ""); // Remove non-numeric characters
+
+      //   if (formData.BusinessPhone.length === 0) {
+      //     newErrors.BusinessPhone = "Business PhoneNumber is required";
+      //   } else if (cleanedPhone.replace(/\D/g, "").length !== 10) {
+      //     newErrors.BusinessPhone = "Business PhoneNumber must be 10 digits";
+      //   } else if (!formData.BusinessPhone.match(regphn)) {
+      //     newErrors.BusinessPhone = "Invalid phone number format";
+      //   }
+      // }
+      // if (userType !== "Retail Customer") {
+      //   // Only validate for non-retail customers
+      //   if (!formData.Business_Fax) {
+      //     newErrors.Business_Fax = "Business Fax is required";
+      //   } else if (formData.Business_Fax.replace(/\D/g, "").length !== 10) {
+      //     newErrors.Business_Fax = "Business Fax must be exactly 10 digits";
+      //   }
+      // }
+
+
       if (userType !== "Retail Customer") {
         const cleanedPhone = formData.BusinessPhone.replace(/\D/g, ""); // Remove non-numeric characters
+        const cleanedFax = formData.Business_Fax
+          ? formData.Business_Fax.replace(/\D/g, "")
+          : ""; // Handle empty fax
 
+        // Validate Business Phone
         if (formData.BusinessPhone.length === 0) {
           newErrors.BusinessPhone = "Business PhoneNumber is required";
-        } else if (cleanedPhone.replace(/\D/g, "").length !== 10) {
+        } else if (cleanedPhone.length !== 10) {
           newErrors.BusinessPhone = "Business PhoneNumber must be 10 digits";
         } else if (!formData.BusinessPhone.match(regphn)) {
           newErrors.BusinessPhone = "Invalid phone number format";
         }
-      }
-      // if (
-      //   !formData.BusinessPhone.match(regphn) &&
-      //   userType != "Retail Customer"
-      // ) {
-      //   if (formData.BusinessPhone.length === 0) {
-      //     newErrors.BusinessPhone = "Business PhoneNumber is required";
-      //   } else if (formData.BusinessPhone.replace(/\D/g, '').length !== 10)
-      //     newErrors.BusinessPhone = "Business PhoneNumber must be 10 digits";
-      // }
-      // {
-      //       if (!formData.Business_Fax .length === 0 && userType != "Retail Customer")
-      //       { newErrors.Business_Fax = "Business Fax is required";
-      //       }else if (formData.Business_Fax .length !== 12)
-      //         newErrors.Business_Fax = "Business PhoneNumber must be 10 digits";
 
-      //       }
-      // if (!formData.Business_Fax && userType !== "Retail Customer") {
-      //   newErrors.Business_Fax = "Business Fax is required";
-      // } else if (formData.Business_Fax.replace(/\D/g, '').length !== 10) {
-      //   newErrors.Business_Fax = "Business Fax must be exactly 10 digits";
-      // }
-
-      if (userType !== "Retail Customer") {
-        // Only validate for non-retail customers
+        // Validate Business Fax
         if (!formData.Business_Fax) {
           newErrors.Business_Fax = "Business Fax is required";
-        } else if (formData.Business_Fax.replace(/\D/g, "").length !== 10) {
+        } else if (cleanedFax.length !== 10) {
           newErrors.Business_Fax = "Business Fax must be exactly 10 digits";
+        }
+
+        // Ensure Business Phone and Business Fax are not the same
+        if (cleanedPhone && cleanedFax && cleanedPhone === cleanedFax) {
+          newErrors.Business_Fax =
+            "Business Fax cannot be the same as Business Phone";
+        }
+      }
+      if (userType !== "Retail Customer") {
+        const cleanedFax = formData.Business_Fax ? formData.Business_Fax.replace(/\D/g, "") : "";
+        const cleanedPhone = formData.Phone_number.replace(/\D/g, "");
+
+        // Validate Business Fax
+        if (!formData.Business_Fax) {
+          newErrors.Business_Fax = "Business Fax is required";
+        } else if (cleanedFax.length !== 10) {
+          newErrors.Business_Fax = "Business Fax must be exactly 10 digits";
+        }
+
+        // Ensure Business Fax and Phone Number are not the same
+        if (cleanedPhone && cleanedFax && cleanedPhone === cleanedFax) {
+          newErrors.Business_Fax = "Business Fax cannot be the same as Phone Number";
         }
       }
 

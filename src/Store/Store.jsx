@@ -523,6 +523,18 @@ const adminPaymentSlice = createSlice({
   }
 })
 
+const adminChargesSlice = createSlice({
+  name: 'adminCharges',
+  initialState: { getCharges: [] },
+  reducers: {
+    setGetChargeInfo(state, action) {
+      state.getCharges = action.payload
+    }
+  }
+})
+
+
+export const { setGetChargeInfo } = adminChargesSlice.actions
 export const {setAdminProducts} = productsSlice.actions
 export const { setPaymentReceived } = adminPaymentSlice.actions
 export const { setOrderStatusGetAll } = mastersSlice.actions
@@ -597,7 +609,7 @@ const store = configureStore({
     trackNumber: trackNumberSlice.reducer,
     adminPayment: adminPaymentSlice.reducer,
     rating:ratingSlice.reducer,
-
+    charges: adminChargesSlice.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });

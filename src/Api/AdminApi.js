@@ -1,6 +1,6 @@
 
 import axios from './api'; 
-import store, { setAdmin } from '../Store/Store';
+import store, { setAdmin, setGetChargeInfo } from '../Store/Store';
 
 const SET_ADMIN_PRODUCTS = 'product/setAdminProducts';
 
@@ -61,16 +61,33 @@ export const AdminChargesInformationAdd = async (payload) => {
   }
 }
 
-export const AdminChargesGetApi = async (customerId) => {
-  try {
-    const response = await axios.get(`/api/Admin/charges/GetBySeller?sellerId=${customerId}`)
-    if (response.status === 200) {
-      return response.data.result;
-    } else {
-      console.error('Failed to fetch charges:', response.data.message);
+// export const AdminChargesGetApi = async (customerId) => {
+//   try {
+//     const response = await axios.get(`/api/Admin/charges/GetBySeller?sellerId=${customerId}`)
+//     if (response.status === 200) {
+//       return response.data.result;
+//     } else {
+//       console.error('Failed to fetch charges:', response.data.message);
+//     }
+//   } catch (error) {
+//     console.error('Error fetching changes:', error);
+//   }
+// }
+export const AdminChargesGetApi = (customerId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/api/Admin/charges/GetBySeller?sellerId=${customerId}`)
+      if (response.status === 200) {
+        const data = response.data.result
+        // return response.data.result;
+        dispatch(setGetChargeInfo(data))
+        return data
+      } else {
+        console.error('Failed to fetch charges:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching changes:', error);
     }
-  } catch (error) {
-    console.error('Error fetching changes:', error);
   }
 }
 
