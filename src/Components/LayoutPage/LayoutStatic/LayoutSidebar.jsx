@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { FaChevronDown, FaChevronUp, FaBars, FaTimes } from "react-icons/fa";
+import { FaChevronDown, FaChevronUp, FaBars, FaTimes,FaArrowLeft} from "react-icons/fa";
 // import logo from "../../../assets/logo_05.png";
 import logo from "../../../assets/Icons/Logo_white.png";
 import profile from "../../../assets/ProfileSetting.png";
@@ -46,7 +46,9 @@ function LayoutSidebar() {
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
   };
-
+  const handleBack = () => {
+    navigate(-1); 
+  };
   const logos = {
     src: profile,
     name: user?.firstName + " " + user?.lastName,
@@ -108,7 +110,17 @@ function LayoutSidebar() {
           isCollapsed ? "min-w-16 items-center" : "min-w-64"
         } w-64 max-w-full`}
         style={{ backgroundColor: "rgba(14, 81, 140, 1)" }}
+        
       >
+         <div className="w-full flex items-center p-2 mb-4">
+          <button
+            onClick={handleBack}
+            className="flex items-center text-white space-x-2 px-2 py-1"
+          >
+            <FaArrowLeft size={16} />
+            {!isCollapsed && <span>Back</span>}
+          </button>
+        </div>
         {/* Back Icon for Closing the Sidebar on Mobile and Medium screens */}
         <div className="lg:hidden fixed top-5 left-5 z-[105]">
           {isMobileOpen && (
