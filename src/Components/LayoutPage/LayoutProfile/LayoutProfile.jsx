@@ -1,5 +1,3 @@
-
-
 import { useEffect, useState } from "react";
 import {
   FormControl,
@@ -109,14 +107,15 @@ const LayoutProfile = () => {
       ...prevErrors,
       [name]:
         value.trim().length === 0
-          ? `${name === "firstName"
-            ? "First Name"
-            : name === "lastName"
-              ? "Last Name"
-              : name === "email"
+          ? `${
+              name === "firstName"
+                ? "First Name"
+                : name === "lastName"
+                ? "Last Name"
+                : name === "email"
                 ? "Email"
                 : "This field"
-          } is required`
+            } is required`
           : "",
     }));
   };
@@ -360,11 +359,13 @@ const LayoutProfile = () => {
       }));
 
       if (digitsOnly.trim() === "") {
-        error = `${name === "businessPhone" ? "Business Phone" : "Business Fax"
-          } is required`;
+        error = `${
+          name === "businessPhone" ? "Business Phone" : "Business Fax"
+        } is required`;
       } else if (digitsOnly.length !== 10) {
-        error = `${name === "businessPhone" ? "Business Phone" : "Business Fax"
-          } must be exactly 10 digits`;
+        error = `${
+          name === "businessPhone" ? "Business Phone" : "Business Fax"
+        } must be exactly 10 digits`;
       }
     } else if (name === "businessEmail") {
       setAddressData((prevState) => ({
@@ -438,8 +439,10 @@ const LayoutProfile = () => {
     if (!addressData.city?.trim()) {
       validationErrors.city = "City is required";
     }
-    if (!addressData.legalBusinessName?.trim()) {
-      validationErrors.legalBusinessName = "Legal Business Name is required";
+    if (![4].includes(userdata?.customerTypeId)) {
+      if (!addressData.legalBusinessName?.trim()) {
+        validationErrors.legalBusinessName = "Legal Business Name is required";
+      }
     }
     if (!addressData.state?.trim()) {
       validationErrors.state = "State is required";
@@ -449,6 +452,7 @@ const LayoutProfile = () => {
     } else if (!/^\d{5}$/.test(addressData.zip.trim())) {
       validationErrors.zip = "Zip must be exactly 5 digits";
     }
+    if (![4].includes(userdata?.customerTypeId)) {
     if (!addressData.businessPhone?.trim()) {
       validationErrors.businessPhone = "Business Phone is required";
     } else {
@@ -459,7 +463,8 @@ const LayoutProfile = () => {
           "Business Phone must be exactly 10 digits";
       }
     }
-
+  }
+  if (![4].includes(userdata?.customerTypeId)) {
     if (!addressData.businessFax?.trim()) {
       validationErrors.businessFax = "Business Fax is required";
     } else {
@@ -469,7 +474,8 @@ const LayoutProfile = () => {
         validationErrors.businessFax = "Business Fax must be exactly 10 digits";
       }
     }
-
+  }
+  if (![4].includes(userdata?.customerTypeId)) {
     if (!addressData.businessEmail?.trim()) {
       validationErrors.businessEmail = "Business Email is required";
     } else if (
@@ -477,17 +483,19 @@ const LayoutProfile = () => {
     ) {
       validationErrors.businessEmail = "Enter a valid email address";
     }
+  }
 
     if (![4].includes(userdata?.customerTypeId)) {
       if (!addressData.companyWebsite?.trim()) {
         validationErrors.companyWebsite = "Company Website is required";
       } else if (
-        !/^www\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/.test(addressData.companyWebsite.trim())
+        !/^www\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/.test(
+          addressData.companyWebsite.trim()
+        )
       ) {
         validationErrors.companyWebsite = "Enter a valid website";
       }
     }
-
 
     // if (!addressData.companyWebsite?.trim()) {
     //   validationErrors.companyWebsite = "Company Website is required";
@@ -583,8 +591,9 @@ const LayoutProfile = () => {
       sanitizedValue = value.replace(/[^0-9-]/g, "");
 
       // Enforce format of 2 digits, hyphen, and 7 digits (e.g., 12-3456789)
-      if (sanitizedValue.length > 2 && sanitizedValue[2] !== '-') {
-        sanitizedValue = sanitizedValue.substring(0, 2) + '-' + sanitizedValue.substring(2); // Insert hyphen after 2 digits
+      if (sanitizedValue.length > 2 && sanitizedValue[2] !== "-") {
+        sanitizedValue =
+          sanitizedValue.substring(0, 2) + "-" + sanitizedValue.substring(2); // Insert hyphen after 2 digits
       }
 
       // const regex = /^\d{2}-\d{7}$/; // Regex for 12-3456789 format
@@ -670,7 +679,12 @@ const LayoutProfile = () => {
     const file = event.target.files[0];
     if (file) {
       const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
-      const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf']; // Allowed file types
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "application/pdf",
+      ]; // Allowed file types
 
       // Check file type
       if (!allowedTypes.includes(file.type)) {
@@ -697,12 +711,16 @@ const LayoutProfile = () => {
     }
   };
 
-
   const handleFileChangePharma = (event) => {
     const file = event.target.files[0];
     if (file) {
       const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
-      const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf']; // Allowed file types
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "application/pdf",
+      ]; // Allowed file types
 
       // Check file type
       if (!allowedTypes.includes(file.type)) {
@@ -757,35 +775,38 @@ const LayoutProfile = () => {
         "Pharmacy License Expiration Date is required.";
     }
 
-
-
-    const deaFile = document.querySelector('input[name="deaLicenseCopy"]')?.files[0];
+    const deaFile = document.querySelector('input[name="deaLicenseCopy"]')
+      ?.files[0];
     if (deaFile) {
       // Check file size
       if (deaFile.size > 5 * 1024 * 1024) {
         newErrors.deaLicenseCopy = "DEA License Copy must be less than 5MB.";
       }
       // Check file type
-      const validFileTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+      const validFileTypes = ["image/jpeg", "image/png", "application/pdf"];
       if (!validFileTypes.includes(deaFile.type)) {
-        newErrors.deaLicenseCopy = "DEA License Copy must be in JPG, PNG, JPEG, or PDF format.";
+        newErrors.deaLicenseCopy =
+          "DEA License Copy must be in JPG, PNG, JPEG, or PDF format.";
       }
     }
 
     // File size validation for pharmacyLicenseCopy
-    const pharmacyFile = document.querySelector('input[name="pharmacyLicenseCopy"]')?.files[0];
+    const pharmacyFile = document.querySelector(
+      'input[name="pharmacyLicenseCopy"]'
+    )?.files[0];
     if (pharmacyFile) {
       // Check file size
       if (pharmacyFile.size > 5 * 1024 * 1024) {
-        newErrors.pharmacyLicenseCopy = "Pharmacy License Copy must be less than 5MB.";
+        newErrors.pharmacyLicenseCopy =
+          "Pharmacy License Copy must be less than 5MB.";
       }
       // Check file type
-      const validFileTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+      const validFileTypes = ["image/jpeg", "image/png", "application/pdf"];
       if (!validFileTypes.includes(pharmacyFile.type)) {
-        newErrors.pharmacyLicenseCopy = "Pharmacy License Copy must be in JPG, PNG, JPEG, or PDF format.";
+        newErrors.pharmacyLicenseCopy =
+          "Pharmacy License Copy must be in JPG, PNG, JPEG, or PDF format.";
       }
     }
-
 
     // Check if there are validation errors
     if (Object.keys(newErrors).length > 0) {
@@ -892,13 +913,14 @@ const LayoutProfile = () => {
           {profiles.map((profile, index) =>
             // Hide index 1 if user.customerTypeId is 4
             userdata?.customerTypeId === 4 &&
-              (index === 1 || index === 2) ? null : (
+            (index === 1 || index === 2) ? null : (
               <div key={profile.grid} className="flex  ml-6">
                 <div
-                  className={`w-44 bg-white rounded-lg flex   items-center justify-center cursor-pointer ${visibleGrid === profile.grid
-                    ? "border-b-4 border-blue-900"
-                    : ""
-                    }`}
+                  className={`w-44 bg-white rounded-lg flex   items-center justify-center cursor-pointer ${
+                    visibleGrid === profile.grid
+                      ? "border-b-4 border-blue-900"
+                      : ""
+                  }`}
                   onClick={() => toggleGrid(profile.grid)}
                 >
                   <h1 className="text-lg text-blue-900 font-semibold">
@@ -916,8 +938,9 @@ const LayoutProfile = () => {
               Primary
             </h1>
             <div
-              className={`bg-white border ${isEditable ? "border-blue-900" : "border-gray-400"
-                } rounded-lg px-3 lg:px-8 mx-3 lg:mx-6 w-[85%] lg:w-[90%] mt-8 relative`}
+              className={`bg-white border ${
+                isEditable ? "border-blue-900" : "border-gray-400"
+              } rounded-lg px-3 lg:px-8 mx-3 lg:mx-6 w-[85%] lg:w-[90%] mt-8 relative`}
             >
               {/* <h1 className={`text-xl font-semibold my-2 text-blue-900`}>
                 User Information
@@ -929,8 +952,9 @@ const LayoutProfile = () => {
                 </h1>
               )}
               <h1
-                className={`text-xl font-semibold my-2 ${isEditable ? "invisible" : "text-blue-900"
-                  }`}
+                className={`text-xl font-semibold my-2 ${
+                  isEditable ? "invisible" : "text-blue-900"
+                }`}
               >
                 User Information
               </h1>
@@ -987,8 +1011,6 @@ const LayoutProfile = () => {
                       helperText={errors.lastName}
                     />
                   </div>
-
-
                 </div>
                 <div className=" flex  flex-col md:flex-row gap-4">
                   {/* <TextField
@@ -1038,7 +1060,6 @@ const LayoutProfile = () => {
                   </div>
                 </div>
                 <div className="py-4">
-
                   <TextField
                     label="Password"
                     name="password"
@@ -1050,10 +1071,10 @@ const LayoutProfile = () => {
                   />
                 </div>
                 <div className="flex  justify-end py-2">
-
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isEditable ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                      !isEditable ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                     onClick={handleSaveClick}
                     disabled={!isEditable}
                   >
@@ -1070,7 +1091,7 @@ const LayoutProfile = () => {
             <h1 className="text-blue-900 font-semibold -mt-2 text-xl ">
               User Type
             </h1>
-            <div className="mt-2" >
+            <div className="mt-2">
               {/* <label className="gap-2 mr-3" >Account type :</label> */}
               {/* <TextField
                 label="User type"
@@ -1098,8 +1119,8 @@ const LayoutProfile = () => {
             {userdata?.customerTypeId !== 4 &&
               userdata?.customerTypeId !== 2 &&
               userdata?.customerTypeId !== 3 && (
-                <div className="mt-2" >
-                  <label className="mr-3 text-gray-400" >UPN Member</label>
+                <div className="mt-2">
+                  <label className="mr-3 text-gray-400">UPN Member</label>
 
                   <input
                     type="radio"
@@ -1109,7 +1130,6 @@ const LayoutProfile = () => {
                     // onChange={handleChange}
                     className="mr-2"
                     disabled={!isAddressEdit}
-
                   />
                   <label className="mr-2 text-gray-400" htmlFor="yes">
                     Yes
@@ -1136,8 +1156,9 @@ const LayoutProfile = () => {
           <div className="flex flex-col bg-slate-200 p-6 w-full h-full">
             {/* Address Information Section */}
             <div
-              className={`bg-white border ${isAddressEdit ? "border-blue-900" : "border-gray-400"
-                } rounded-lg  lg:px-8  -ml-2  w-full lg:w-[95%] mt-8 relative`}
+              className={`bg-white border ${
+                isAddressEdit ? "border-blue-900" : "border-gray-400"
+              } rounded-lg  lg:px-8  -ml-2  w-full lg:w-[95%] mt-8 relative`}
             >
               {isAddressEdit && (
                 <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -1145,8 +1166,9 @@ const LayoutProfile = () => {
                 </h1>
               )}
               <h1
-                className={`text-xl font-semibold my-2 ${isAddressEdit ? "invisible" : "text-blue-900"
-                  }`}
+                className={`text-xl font-semibold my-2 ${
+                  isAddressEdit ? "invisible" : "text-blue-900"
+                }`}
               >
                 Address Information
               </h1>
@@ -1158,7 +1180,6 @@ const LayoutProfile = () => {
                 />
               </div>
               <div className="flex flex-col md:flex-row mx-3 py-4">
-
                 <div className="flex flex-col gap-3">
                   {userdata?.customerTypeId !== 4 &&
                     userdata?.customerTypeId !== 2 &&
@@ -1434,13 +1455,12 @@ const LayoutProfile = () => {
                     />
                   )}
                 </div>
-
               </div>
               <div className="flex  justify-end py-2">
-
                 <button
-                  className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                  className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                    !isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
                   onClick={handleAddressSaveClick}
                   disabled={!isAddressEdit}
                 >
@@ -1453,8 +1473,9 @@ const LayoutProfile = () => {
 
             {userdata?.customerTypeId !== 4 && (
               <div
-                className={`bg-white border -ml-2 md:ml-0 ${isAccountEdit ? "border-blue-900" : "border-gray-400"
-                  } rounded-lg px-3 lg:px-8  w-full lg:w-[95%]  mt-8 relative mb-6`}
+                className={`bg-white border -ml-2 md:ml-0 ${
+                  isAccountEdit ? "border-blue-900" : "border-gray-400"
+                } rounded-lg px-3 lg:px-8  w-full lg:w-[95%]  mt-8 relative mb-6`}
               >
                 {isAccountEdit && (
                   <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
@@ -1462,13 +1483,13 @@ const LayoutProfile = () => {
                   </h1>
                 )}
                 <h1
-                  className={`text-xl font-semibold my-2 ${isAccountEdit ? "invisible" : "text-blue-900"
-                    }`}
+                  className={`text-xl font-semibold my-2 ${
+                    isAccountEdit ? "invisible" : "text-blue-900"
+                  }`}
                 >
                   Account Information
                 </h1>
                 <div className="flex justify-end">
-
                   <img
                     src={edit}
                     className="w-6 h-6 cursor-pointer"
@@ -1560,7 +1581,11 @@ const LayoutProfile = () => {
     View DEA License Copy
   </a>
 )} */}
-                    <label className="flex flex-col"> DEA Expiration File<span>(jpg, png, jpeg,pdf,Max size 5MB)</span></label>
+                    <label className="flex flex-col">
+                      {" "}
+                      DEA Expiration File
+                      <span>(jpg, png, jpeg,pdf,Max size 5MB)</span>
+                    </label>
                     <TextField
                       label=""
                       type="file"
@@ -1585,8 +1610,9 @@ const LayoutProfile = () => {
                             e.preventDefault();
                           }
                         }}
-                        className={`text-sm -mt-3 underline ${isAccountEdit ? "text-blue-500" : "text-gray-400"
-                          }`}
+                        className={`text-sm -mt-3 underline ${
+                          isAccountEdit ? "text-blue-500" : "text-gray-400"
+                        }`}
                       >
                         View DEA License Copy
                       </a>
@@ -1635,7 +1661,6 @@ const LayoutProfile = () => {
                       helperText={errors.federalTaxId} // Show the error message below the input
                       error={!!errors.federalTaxId} // Show error state if there's an error
                     />
-
                   </div>
                   <div className="flex flex-col mt-3 md:mt-0 ml-0 md:ml-6 xl:ml-52 gap-3">
                     {/* <TextField
@@ -1686,8 +1711,8 @@ const LayoutProfile = () => {
                       value={
                         accountData.pharmacyLicenseExpirationDate
                           ? formatDate(
-                            accountData.pharmacyLicenseExpirationDate
-                          )
+                              accountData.pharmacyLicenseExpirationDate
+                            )
                           : ""
                       }
                       onChange={handleAccountChange}
@@ -1696,7 +1721,6 @@ const LayoutProfile = () => {
                       size="small"
                       className="w-[60%]"
                     />
-
 
                     {/* <label>Pharmacy License Expiration File</label>
                     <TextField
@@ -1727,7 +1751,11 @@ const LayoutProfile = () => {
     View Pharmacy License Copy
   </a>
 )} */}
-                    <label className="flex flex-col"> Pharmacy License Expiration File<span>(jpg, png, jpeg,pdf,Max size 5MB)</span></label>
+                    <label className="flex flex-col">
+                      {" "}
+                      Pharmacy License Expiration File
+                      <span>(jpg, png, jpeg,pdf,Max size 5MB)</span>
+                    </label>
 
                     <TextField
                       label=""
@@ -1755,8 +1783,9 @@ const LayoutProfile = () => {
                             e.preventDefault();
                           }
                         }}
-                        className={`text-sm -mt-3 underline ${isAccountEdit ? "text-blue-500" : "text-gray-400"
-                          }`}
+                        className={`text-sm -mt-3 underline ${
+                          isAccountEdit ? "text-blue-500" : "text-gray-400"
+                        }`}
                       >
                         View Pharmacy License Copy
                       </a>
@@ -1784,13 +1813,12 @@ const LayoutProfile = () => {
                       className="w-[60%] mt-3"
                     />
                   </div>
-
                 </div>
                 <div className="flex  justify-end py-2">
-
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
-                      }`}
+                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                      !isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                     onClick={handleAccountSaveClick}
                     disabled={!isAccountEdit}
                   >
