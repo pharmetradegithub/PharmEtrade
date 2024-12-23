@@ -385,8 +385,11 @@ function LayoutOrderList() {
   // }, [productId]);
 
   const [idOrder, setIdOrder] = useState(null)
+  const [productId, setProductId] = useState(null)
+
   const [cancelledOrders, setCancelledOrders] = useState({});
-  const handleCancel = async (orderId, customerId) => {
+  const handleCancel = async (orderId, productId, customerId) => {
+    setProductId(productId)
     setIdOrder(orderId)
     setOpenDialog(true);
   };
@@ -397,7 +400,7 @@ function LayoutOrderList() {
   };
   const handleModalSave = async () => {
     try {
-      const response = await dispatch(orderStatusUpdateApi(idOrder, user.customerId, 5, "cancel"));
+      const response = await dispatch(orderStatusUpdateApi(idOrder, productId, user.customerId, 5, "cancel"));
       console.log('API Response:', response);
 
       setIsCancelled(true);
@@ -411,7 +414,7 @@ function LayoutOrderList() {
 
       setCancelledOrders((prev) => ({
         ...prev,
-        [idOrder]: true, // Mark this order as canceled
+        [productId]: true, // Mark this order as canceled
       }));
       // Trigger refetch after a delay (if needed)
       setTimeout(async () => {
@@ -1108,7 +1111,7 @@ function LayoutOrderList() {
                   <div className="mb-4 lg:mb-0 mr-2">
                     <h1 className="text-sm lg:text-lg">Total</h1>
                     <p className="text-sm lg:text-lg">
-                      ${(order?.pricePerProduct * order?.quantity)?.toFixed(2)}
+                      ${((order?.pricePerProduct * order?.quantity) + order?.chargesPercentage)?.toFixed(2)}
                     </p>
                   </div>
                   <div className="mb-4 lg:mb-0">
@@ -1239,19 +1242,19 @@ function LayoutOrderList() {
                       {order?.orderStatusId === 5 || isCancelled ? "Order Cancelled" : "Cancel Order"}
                     </button> */}
                     <button
-                      key={order.orderId}
-                      className={`border rounded-lg p-2 ${order.orderStatusId === 5 || cancelledOrders[order.orderId]
+                      key={order.productId}
+                      className={`border rounded-lg p-2 ${order.orderStatusId === 5 || cancelledOrders[order.productId]
                           ? "bg-gray-400 cursor-not-allowed"
                           : "bg-blue-900 text-white cursor-pointer"
                         }`}
-                      disabled={order.orderStatusId === 5 || cancelledOrders[order.orderId]}
+                      disabled={order.orderStatusId === 5 || cancelledOrders[order.productId]}
                       onClick={() => {
                         if (order.orderStatusId !== 5) {
-                          handleCancel(order.orderId, order.customerId);
+                          handleCancel(order.orderId, order.productId, order.customerId);
                         }
                       }}
                     >
-                      {order.orderStatusId === 5 || cancelledOrders[order.orderId]
+                      {order.orderStatusId === 5 || cancelledOrders[order.productId]
                         ? "Order Cancelled"
                         : "Cancel Order"}
                     </button>

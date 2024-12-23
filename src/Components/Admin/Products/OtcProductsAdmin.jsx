@@ -49,6 +49,8 @@ const OtcProductsAdmin = () => {
   const products = useSelector((state) => state.product.otcProducts);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
+  const user = useSelector((state) => state.user.user);
+  
 
 
   const [data, setData] = useState(products)
@@ -77,7 +79,7 @@ const OtcProductsAdmin = () => {
   const handleSearchClick = async () => {
     console.log("SearchInput:", SearchInput); // Check SearchInput value
     const payload = {
-      customerId : "",
+      customerId: user ? user.customerId : "234",
       productName: SearchInput.productName,
   }
     try {

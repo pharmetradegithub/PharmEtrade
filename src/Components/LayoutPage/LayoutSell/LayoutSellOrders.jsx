@@ -71,8 +71,8 @@ function LayoutSellOrders() {
     },
   ];
 
-  const approvedData = SellerOrder.filter(item => item.orderStatusId === 3);
-  console.log("Approved===", SellerOrder)
+  const approvedData = SellerOrder ? SellerOrder.filter(item => item.orderStatusId === 3) : [];
+  console.log("Approved===", approvedData);
   const stats = [
     {
       label: "Total Orders",
