@@ -2,7 +2,7 @@
 
 
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { FaFilter } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -73,6 +73,7 @@ function LayoutSellOrders() {
 
   const approvedData = SellerOrder ? SellerOrder.filter(item => item.orderStatusId === 3) : [];
   console.log("Approved===", approvedData);
+  const Cancelled = SellerOrder ? SellerOrder.filter(item => item.orderStatusId === 5) : [];
   const stats = [
     {
       label: "Total Orders",
@@ -82,27 +83,46 @@ function LayoutSellOrders() {
         : 0,
     },
     {
-      label: "Total Products",
-      value: SellerOrder ? SellerOrder.length : 0,
+      label: "Received",
+      value: `$${approvedData
+          ? approvedData.reduce(
+            (total, order) => total + (order.totalAmount || 0),
+            0
+          ).toFixed(2)
+          : 0.0
+        }`,
+      // `$${SellerOrder
+      //   ? Math.floor(SellerOrder.reduce((total, order) => total + (order.totalAmount || 0), 0) .toFixed(2) : 0.00)
+      //   : 0}`,
       percentage: SellerOrder
-        ? (((SellerOrder.length - 100) / 100) * 100).toFixed(2)
+        ? Math.floor(
+          ((Math.floor(
+            approvedData.reduce(
+              (total, order) => total + (order.totalAmount || 0),
+              0
+            )
+          ) -
+            2000) /
+            2000) *
+          100
+        )
         : 0,
     },
     {
-      label: "Base Amount",
+      label: "Cancelled",
       value: `$${
-        SellerOrder
-          ? SellerOrder.reduce(
-              (total, order) => total + (order.baseAmount || 0),
+        Cancelled
+        ? Cancelled.reduce(
+          (total, order) => total + (order.totalAmount || 0),
               0
             ).toFixed(2)
           : 0.0
       }`,
-      percentage: SellerOrder
+      percentage: Cancelled
         ? Math.floor(
             ((Math.floor(
-              SellerOrder.reduce(
-                (total, order) => total + (order.baseAmount || 0),
+              Cancelled.reduce(
+                (total, order) => total + (order.totalAmount || 0),
                 0
               )
             ) -
@@ -112,33 +132,7 @@ function LayoutSellOrders() {
           )
         : 0,
     },
-    {
-      label: "Purchase Amount",
-      value: `$${
-        approvedData
-        ? approvedData.reduce(
-              (total, order) => total + (order.totalAmount || 0),
-              0
-            ).toFixed(2)
-          : 0.0
-      }`,
-      // `$${SellerOrder
-      //   ? Math.floor(SellerOrder.reduce((total, order) => total + (order.totalAmount || 0), 0) .toFixed(2) : 0.00)
-      //   : 0}`,
-      percentage: SellerOrder
-        ? Math.floor(
-            ((Math.floor(
-              approvedData.reduce(
-                (total, order) => total + (order.totalAmount || 0),
-                0
-              )
-            ) -
-              2000) /
-              2000) *
-              100
-          )
-        : 0,
-    },
+    
   ];
 
   // const filteredProducts = products.filter(
@@ -245,8 +239,10 @@ function LayoutSellOrders() {
 
   // This function is triggered when the user selects a new status
   const [customerId, setCustomerId] = useState(null);
+  const [productID, setProductID] = useState(null);
   const handleStatusChange = (product, statusId) => {
     setCustomerId(product?.customerId);
+    setProductID(product?.productId);
     setSelectedOrder(product); // Store the selected product (order) for confirmation
     setSelectedStatus(statusId); // Store the selected status for confirmation
     setIsModalOpen(true); // Open the modal
@@ -258,7 +254,7 @@ function LayoutSellOrders() {
     if (selectedOrder && selectedStatus) {
       // Update the status through the API only after confirmation
       await dispatch(
-        orderStatusUpdateApi(selectedOrder?.orderId, customerId, selectedStatus, comment)
+        orderStatusUpdateApi(selectedOrder?.orderId,productID, customerId, selectedStatus, comment)
       );
       setIsModalOpen(false);// Close the modal after confirmation
       setComment("")
@@ -270,6 +266,11 @@ function LayoutSellOrders() {
     setIsModalOpen(false); // Just close the modal without any action
     setComment(""); // Reset comment
   };
+  // const [trackingNumber, setTrackingNumber] = useState({});
+  const trackingNumbers = useMemo(
+    () => currentItems.map(() => Math.floor(Math.random() * 100000000)),
+    [currentItems]
+  );
   return (
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
       {isModalOpen && (
@@ -489,7 +490,7 @@ function LayoutSellOrders() {
                         onChange={(e) =>
                           handleStatusChange(product, e.target.value)
                         }
-                        value={product?.orderStatusId}
+                        value={product?.orderedProductStatusId}
                       >
                         {Array.isArray(orderStatusGetAll) &&
                           orderStatusGetAll.length > 0 &&
@@ -500,6 +501,10 @@ function LayoutSellOrders() {
                           ))}
                       </select>
                     </div>
+                    <p className="mb-2">
+                      <span className="font-semibold">Tracking Number:</span>{" "}
+                      {trackingNumbers[index]}
+                    </p>
                     <div className="flex gap-2">
                       <Tooltip title="View Invoice" placement="top">
                         <img
@@ -508,12 +513,12 @@ function LayoutSellOrders() {
                           onClick={() => handleClickView(product?.orderId)}
                         />
                       </Tooltip>
-                      <Tooltip title="Download" placement="top">
+                      {/* <Tooltip title="Download" placement="top">
                         <img
                           src={download}
                           className="w-5 h-5 cursor-pointer"
                         />
-                      </Tooltip>
+                      </Tooltip> */}
                     </div>
                   </div>
                 ))
@@ -558,6 +563,7 @@ function LayoutSellOrders() {
                         : "▲"}
                     </th>
                     <th className="px-4 py-2 text-left">Order Status</th>
+                    <th className="px-4 py-2 text-left">Tracking Number</th>
                     <th className="px-4 py-2 text-left">Action</th>
                   </tr>
                 </thead>
@@ -595,7 +601,7 @@ function LayoutSellOrders() {
                             onChange={(e) =>
                               handleStatusChange(product, e.target.value)
                             }
-                            value={product?.orderStatusId}
+                            value={product?.orderedProductStatusId}
                           >
                             {Array.isArray(orderStatusGetAll) &&
                               orderStatusGetAll.length > 0 &&
@@ -609,6 +615,7 @@ function LayoutSellOrders() {
                               ))}
                           </select>
                         </td>
+                        <td className="px-4 py-2">{trackingNumbers[index]}</td>
                         <td className="px-4 py-2 flex gap-1">
                           <Tooltip title="View Invoice" placement="top">
                             <img
@@ -617,12 +624,12 @@ function LayoutSellOrders() {
                               onClick={() => handleClickView(product?.orderId)}
                             />
                           </Tooltip>
-                          <Tooltip title="Download" placement="top">
+                          {/* <Tooltip title="Download" placement="top">
                             <img
                               src={download}
                               className="w-5 h-5 cursor-pointer"
                             />
-                          </Tooltip>
+                          </Tooltip> */}
                         </td>
                       </tr>
                     ))
