@@ -830,7 +830,7 @@ function LayoutaddProduct() {
     const queryProductId = searchParams.get("productId");
 
     const defaultImageUrl =
-      "https://pharmaetrade.s3.us-east-1.amazonaws.com/PharmaEtrade/Products/510b1b0a-596d-11ef-8a1f-0affd374995f/30d4c3d5-6f52-11ef-8a1f-0affd374995f/NO_IMG.jpg";
+      "https://dev-pharametrade.s3.us-east-1.amazonaws.com/PharmaEtrade/Products/d1abb215-5fd7-11ef-8a1f-0affd374995f/9093b869-bd53-11ef-827a-127d9a25d999/NoImg.png";
 
     const mainImageUrl =
       formData.mainImageUrl == null

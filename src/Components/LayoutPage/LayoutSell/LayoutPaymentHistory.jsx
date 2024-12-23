@@ -317,16 +317,18 @@ function LayoutPaymentHistory() {
               <table className="w-full">
                 <thead className="bg-blue-900 text-white ">
                   <tr className="border-b-2 flex justify-around">
-                    <th className="px-4 py-2">
+                    <th className="px-4 py-2 w-4">
                       S.NO
                     </th>
-                    <th className="px-4 py-2 cursor-pointer" onClick={() => handleSort("paymentDate")}>Payment Date {sortConfig.key === "paymentDate"
+                    {/* <th className="px-4 py-2">Order Id</th> */}
+                    <th className="px-4 py-2 text-left w-40">Customer Name</th>
+                    <th className="px-4 py-2 text-left cursor-pointer w-40" onClick={() => handleSort("paymentDate")}>Payment Date {sortConfig.key === "paymentDate"
                         ? sortConfig.direction === "ascending"
                           ? "▲"
                           : "▼"
                         : "▲"}</th>
-                    <th className="px-4 py-2">Payment Status</th>
-                    <th className="px-4 py-2 text-right cursor-pointer" onClick={() => handleSort("paymentAmount")}>Payment Amount  {sortConfig.key === "paymentAmount"
+                    <th className="px-4 py-2 text-left w-40">Payment Status</th>
+                    <th className="px-4 py-2 text-left cursor-pointer w-44" onClick={() => handleSort("paymentAmount")}>Payment Amount  {sortConfig.key === "paymentAmount"
                         ? sortConfig.direction === "ascending"
                           ? "▲"
                           : "▼"
@@ -338,10 +340,16 @@ function LayoutPaymentHistory() {
                   {currentItems.length > 0 ? (
                     currentItems.map((payout, index) => (
                       <tr key={index} className="border-b flex justify-around">
-                        <td className="px-4 py-2 text-right">
+                        <td className="px-4 py-2 w-4">
                           {indexOfFirstItem + index + 1}
                         </td>
-                        <td className="py-2 text-right">
+                        {/* <td className="px-4 py-2 text-right">
+                          {payout.orderId}
+                        </td>  */}
+                        <td className="px-4 py-2  w-40">
+                          {payout.fromUser}
+                        </td>
+                        <td className="px-4 py-2 w-40">
                           {new Date(payout.paymentDate)
                             .toLocaleDateString("en-US", {
                               year: "numeric",
@@ -350,8 +358,8 @@ function LayoutPaymentHistory() {
                             })
                             .replace(/\//g, "-")}
                         </td>
-                        <td className="px-14 py-2 text-right">{payout.paymentStatus}</td>
-                        <td className=" text-right">
+                        <td className="px-4 py-2 w-40">{payout.paymentStatus}</td>
+                        <td className="px-4 py-2 w-44">
                           ${payout.paymentAmount.toFixed(2)}
                         </td>
                         {/* <td className="px-4 py-2">

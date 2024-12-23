@@ -1,4 +1,6 @@
-// import React, { useEffect, useState } from "react";
+
+
+// import React, { useEffect, useMemo, useState } from "react";
 // import { FaFilter } from "react-icons/fa";
 // import filter from "../../../assets/Filter_icon.png";
 // import share from '../../../assets/upload1.png'
@@ -64,21 +66,31 @@
 //     },
 //   ];
 
+//   const approvedData = paymentHistory.filter(item => item.paymentStatus === "Approved");
+//   console.log("Approved===", approvedData)
+//   const CancelledOrder = paymentHistory.filter(item => item.statusId === 5);
+//   console.log("CancelledOrder===", CancelledOrder)
 //   const stats = [
 //     {
-//       label: "Total Earnings",
-//       value: `$${(2420 ||.0).toFixed(2)}`,
-//       text: "as of 01-December-2023",
+//       label: "Total Orders",
+//       // value: `$${(2420 ||.0).toFixed(2)}`,
+//       // text: "as of 01-December-2023",
+//       // value: `$${(paymentHistory.paymentAmount).toFixed(2)}`,
+//       value: paymentHistory.length,
 //       color: "text-green-500",
 //     },
 //     {
-//       label: "Pending Payments",
-//       value: `$${(3843 ||.0).toFixed(2)}`,
-//       text: "as of 01-December-2023",
-//       color: "text-blue-900",
+//       // label: "Total Recievables",
+//       label: "Recieved",
+//       // value: `$${(2420 ||.0).toFixed(2)}`,
+//       // text: "as of 01-December-2023",
+//       // value: `$${(paymentHistory.paymentAmount).toFixed(2)}`,
+//       value: `$${approvedData.reduce((total, each) => total + each.paymentAmount, 0).toFixed(2)}`,
+//       color: "text-green-500",
 //     },
-//     { label: "Withdrawal Method", value: `$${(1700 ||.0).toFixed(2)}`, text: "" },
+//     { label: "Cancelled", value: `$${CancelledOrder.reduce((total, each) => total + each.paymentAmount, 0).toFixed(2)}`, text: "" },
 //   ];
+//   console.log("656576", stats[0].value)
 
 //   const filteredPayouts = payouts.filter(
 //     (payout) =>
@@ -92,35 +104,137 @@
  
 
 // // sorting
-// const [sortConfig, setSortConfig] = useState({ key: "", direction: "" }); // For sorting
+// // const [sortConfig, setSortConfig] = useState({ key: "", direction: "" }); // For sorting
+//   const [sortConfig, setSortConfig] = React.useState({ key: null, direction: 'ascending' });
 
-// const handleSort = (key) => {
-//   let direction = "ascending";
-//   if (sortConfig.key === key && sortConfig.direction === "ascending") {
-//     direction = "descending";
-//   }
-//   setSortConfig({ key, direction });
-// };
+// // const handleSort = (key) => {
+// //   let direction = "ascending";
+// //   if (sortConfig.key === key && sortConfig.direction === "ascending") {
+// //     direction = "descending";
+// //   }
+// //   setSortConfig({ key, direction });
+// // };
 
+//   const handleSort = (key) => {
+//     setSortConfig((prevConfig) => {
+//       console.log('Previous Sort Config:', prevConfig);
+//       const newConfig = prevConfig.key === key
+//         ? {
+//           key,
+//           direction: prevConfig.direction === 'ascending' ? 'descending' : 'ascending',
+//         }
+//         : { key, direction: 'ascending' };
 
-// const sortedItems = React.useMemo(() => {
-//   if (sortConfig.key) {
-//     return [...paymentHistory].sort((a, b) => {
-//       if (sortConfig.direction === "ascending") {
-//         return a[sortConfig.key] > b[sortConfig.key] ? 1 : -1;
-//       }
-//       return a[sortConfig.key] < b[sortConfig.key] ? 1 : -1;
+//       console.log('New Sort Config:', newConfig);
+//       return newConfig;
 //     });
-//   }
-//   return paymentHistory;
-// }, [paymentHistory, sortConfig]);
+//   };
+//   // const sortedItems = React.useMemo(() => {
+//   //   if (sortConfig?.key) {
+//   //     return [...paymentHistory].sort((a, b) => {
+//   //       const aValue = a[sortConfig.key];
+//   //       const bValue = b[sortConfig.key];
+
+//   //       if (aValue === bValue) return 0;
+
+//   //       // Handle ascending sort
+//   //       if (sortConfig.direction === "ascending") {
+//   //         return aValue > bValue ? 1 : -1;
+//   //       }
+
+//   //       // Handle descending sort
+//   //       return aValue < bValue ? 1 : -1;
+//   //     });
+//   //   }
+//   //   return paymentHistory;
+//   // }, [paymentHistory, sortConfig]);
+//   // const sortedItems = React.useMemo(() => {
+//   //   console.log('Sorting Items:', paymentHistory);
+//   //   if (sortConfig.key) {
+//   //     return [...paymentHistory].sort((a, b) => {
+//   //       const aValue = a[sortConfig.key];
+//   //       const bValue = b[sortConfig.key];
+//   //       console.log('Comparing:', aValue, bValue); // Log values being compared
+
+//   //       if (aValue === bValue) return 0;
+
+//   //       if (sortConfig.direction === 'ascending') {
+//   //         return aValue > bValue ? 1 : -1;
+//   //       }
+//   //       return aValue < bValue ? 1 : -1;
+//   //     });
+//   //   }
+//   //   return paymentHistory;
+//   // }, [paymentHistory, sortConfig]);----------
+
+//   const sortedItems = React.useMemo(() => {
+//     console.log('Sorting Items:', paymentHistory);
+
+//     const validPaymentHistory = Array.isArray(paymentHistory) ? paymentHistory : [];
+//     // Default sort by `paymentDate` in descending order
+//     let sortedData = [...validPaymentHistory].sort((a, b) => {
+//       const aDate = new Date(a.paymentDate).getTime();
+//       const bDate = new Date(b.paymentDate).getTime();
+//       return bDate - aDate; // Descending order
+//     });
+
+//     // Apply additional sorting based on `sortConfig`
+//     if (sortConfig.key) {
+//       sortedData.sort((a, b) => {
+//         const aValue = a[sortConfig.key];
+//         const bValue = b[sortConfig.key];
+//         console.log('Comparing:', aValue, bValue); // Log values being compared
+
+//         if (aValue === bValue) return 0;
+
+//         if (sortConfig.direction === 'ascending') {
+//           return aValue > bValue ? 1 : -1;
+//         }
+//         return aValue < bValue ? 1 : -1;
+//       });
+//     }
+
+//     return sortedData;
+//   }, [paymentHistory, sortConfig]);
+
+
+//   // const sortedItems = useMemo(() => {
+//   //   if (!sortConfig.key) return paymentHistory;
+
+//   //   const sortedData = [...paymentHistory];
+//   //   sortedData.sort((a, b) => {
+//   //     const aValue = a[sortConfig.key];
+//   //     const bValue = b[sortConfig.key];
+
+//   //     if (sortConfig.key === "PaymentAmount") {
+//   //       return sortConfig.direction === "asc"
+//   //         ? aValue - bValue
+//   //         : bValue - aValue;
+//   //     }
+
+//   //     const aStr = typeof aValue === "string" ? aValue.toLowerCase() : aValue;
+//   //     const bStr = typeof bValue === "string" ? bValue.toLowerCase() : bValue;
+
+//   //     return sortConfig.direction === "asc"
+//   //       ? aStr > bStr
+//   //         ? 1
+//   //         : -1
+//   //       : aStr < bStr
+//   //         ? 1
+//   //         : -1;
+//   //   });
+
+//   //   return sortedData;
+//   // }, [paymentHistory, sortConfig]);
+  
 
 // const indexOfLastItem = currentPage * itemsPerPage;
 // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 //   // const currentItems = sortedItems.slice(indexOfFirstItem, indexOfLastItem);
 //   const currentItems = sortedItems ? sortedItems.slice(indexOfFirstItem, indexOfLastItem) : [];
 
-// const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
+//   const totalPages = Math.ceil((paymentHistory?.length || 0) / itemsPerPage);
+ 
 
 //   return (
 //     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
@@ -135,7 +249,7 @@
 //               key={index}
 //               className="bg-white w-56 rounded-lg shadow-lg h-28 p-4"
 //             >
-//               <h1 className="text-[20px] text-gray-700 font-normal">
+//               <h1 className="text-[20px] text-gray-700 font-normal pb-3">
 //                 {stat.label}
 //               </h1>
 //               <h1
@@ -145,7 +259,7 @@
 //               >
 //                 {stat.value}
 //               </h1>
-//               <h1 className="text-[14px]">{stat.text}</h1>
+//               {/* <h1 className="text-[14px]">{stat.text}</h1> */}
 //             </div>
 //           ))}
 //         </div>
@@ -153,7 +267,7 @@
 //         <div className="w-full my-4">
 //           {/* <h2 className="text-[22px] font-semibold">Payment History</h2> */}
 //           <div className="flex justify-between my-2">
-//             <div className="flex bg-gray-100">
+//             {/* <div className="flex bg-gray-100">
 //               <select
 //                 value={selectedOption}
 //                 onChange={handleChange}
@@ -164,7 +278,7 @@
 //                 <option value="pending">Pending</option>
 //                 <option value="rejected">Rejected</option>
 //               </select>
-//             </div>
+//             </div> */}
 
 //             <div className="flex gap-2">
 //               {/* <button className="bg-green-300 p-2 h-8 rounded-md flex items-center">
@@ -175,13 +289,13 @@
 //                 <option>Columns</option>
 //               </select> */}
 //               <div className="relative">
-//                 <button
+//                 {/* <button
 //                   onClick={handleDropdownToggle}
 //                   className="bg-white p-2 h-8 rounded-md flex items-center"
 //                 >
 //                   <img src={share} className="w-6 h-6" alt="Filter" />
 //                   Export
-//                 </button>
+//                 </button> */}
 //                 {dropdownOpen && (
 //                   <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg">
 //                     <div className="p-2">
@@ -241,15 +355,16 @@
 //                         : "▲"} */}
 //             {/* {sortConfig.key === 'invoiceNumber' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} */}
 //           </th>
-//           <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('purchaseDate')}>
-//             Invoice Date
-//             {sortConfig.key === "purchaseDate"
-//                         ? sortConfig.direction === "ascending"
-//                           ? "▲"
-//                           : "▼"
-//                         : "▲"}
-//              {/* {sortConfig.key === 'purchaseDate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} */}
-//           </th>
+//                 <th
+//                   className="px-4 py-2 text-left cursor-pointer"
+//                   onClick={() => handleSort('invoiceDate')}
+//                 >
+//                   Invoice Date
+//                   {sortConfig.key === 'invoiceDate'
+//                     ? (sortConfig.direction === 'ascending' ? '▲' : '▼') // Shows the appropriate arrow
+//                     : '▲'  // Default to the up arrow when no sort is applied
+//                   }
+//                 </th>
 //           <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('paymentDate')}>
 //             From User
 //             {sortConfig.key === "paymentDate"
@@ -259,18 +374,18 @@
 //                         : "▲"}
 //              {/* {sortConfig.key === 'paymentDate' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} */}
 //           </th>
-//           <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('transactionid')}>
+//           {/* <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('transactionid')}>
 //             Transaction Id 
 //             {sortConfig.key === "transactionid"
 //                         ? sortConfig.direction === "ascending"
 //                           ? "▲"
 //                           : "▼"
 //                         : "▲"}
-//             {/* {sortConfig.key === 'transactionid' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} */}
-//           </th>
-//           <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('transactionDate')}>
+//              {sortConfig.key === 'transactionid' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} 
+//           </th> */}
+//                 <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('paymentDate')}>
 //             Transaction Date 
-//             {sortConfig.key === "transactionDate"
+//                   {sortConfig.key === "paymentDate"
 //                         ? sortConfig.direction === "ascending"
 //                           ? "▲"
 //                           : "▼"
@@ -295,7 +410,7 @@
 //                         : "▲"}
 //             {/* {sortConfig.key === 'paymentStatus' && (sortConfig.direction === 'ascending' ? '▲' : '▼')} */}
 //           </th>
-//           <th className="px-4 py-2 text-left">Action</th>
+//           {/* <th className="px-4 py-2 text-left">Action</th> */}
 //         </tr>
 //       </thead>
 //             <tbody>
@@ -325,7 +440,7 @@
 //                         .replace(/\//g, "-")} */}
 //                     </td>
 
-//                     <td className="px-4 py-2">{}</td>
+//                     {/* <td className="px-4 py-2">{}</td> */}
 //                     <td className="px-4 py-2">
 //                       {new Date(payout.paymentDate)
 //                         .toLocaleDateString("en-US", {
@@ -335,16 +450,16 @@
 //                         })
 //                         .replace(/\//g, "-")}
 //                     </td>
-//                     <td className="px-4 py-2">{payout.paymentAmount }</td>
+//                     <td className="px-4 py-2">${payout.paymentAmount.toFixed(2)}</td>
 //                     <td className="px-4 py-2">{payout.paymentMethod}</td>
 //                     {/* <td className="px-4 py-2">{ }</td> */}
 //                     {/* <td className="px-4 py-2">{ }</td> */}
-//                     <td className="px-4 py-2">
+//                     {/* <td className="px-4 py-2">
 //                       <Tooltip title="View" placement="top">
 //                         <img src={eye} className="w-5 h-5" onClick={() => handleClickView(product?.orderId)} />
-//                         {/* <FaFileInvoice className="w-5 h-5"/> */}
+//                         {/* <FaFileInvoice className="w-5 h-5"/> 
 //                       </Tooltip>
-//                     </td>
+//                     </td> */}
 //                   </tr>
 //                 ))
 //               ) : (
@@ -372,6 +487,8 @@
 // }
 
 // export default LayoutPaymentHistory;
+
+
 
 import React, { useEffect, useMemo, useState } from "react";
 import { FaFilter } from "react-icons/fa";
@@ -443,6 +560,15 @@ function LayoutPaymentHistory() {
   console.log("Approved===", approvedData)
   const CancelledOrder = paymentHistory.filter(item => item.statusId === 5);
   console.log("CancelledOrder===", CancelledOrder)
+
+  const approvedAmount = approvedData.reduce((total, each) => total + each.paymentAmount, 0);
+
+  // Calculate total cancelled amount
+  const cancelledAmount = CancelledOrder.reduce((total, each) => total + each.paymentAmount, 0);
+
+  // Calculate the remaining amount after deducting cancelled amount
+  const remainingAmount = approvedAmount - cancelledAmount;
+  const totalAmount = paymentHistory.reduce((total, each) => total + each.paymentAmount, 0);
   const stats = [
     {
       label: "Total Orders",
@@ -453,15 +579,39 @@ function LayoutPaymentHistory() {
       color: "text-green-500",
     },
     {
-      // label: "Total Recievables",
-      label: "Recieved",
+      label: "Received",
       // value: `$${(2420 ||.0).toFixed(2)}`,
       // text: "as of 01-December-2023",
       // value: `$${(paymentHistory.paymentAmount).toFixed(2)}`,
-      value: `$${approvedData.reduce((total, each) => total + each.paymentAmount, 0).toFixed(2)}`,
+      value: approvedData.length,
       color: "text-green-500",
     },
-    { label: "Cancelled", value: `$${CancelledOrder.reduce((total, each) => total + each.paymentAmount, 0).toFixed(2)}`, text: "" },
+    {
+      label: "Cancelled",
+      // value: `$${(2420 ||.0).toFixed(2)}`,
+      // text: "as of 01-December-2023",
+      // value: `$${(paymentHistory.paymentAmount).toFixed(2)}`,
+      value: CancelledOrder.length,
+      color: "text-green-500",
+    },
+    {
+      label: "Total Sold",
+      // value: `$${(2420 ||.0).toFixed(2)}`,
+      // text: "as of 01-December-2023",
+      // value: `$${(paymentHistory.paymentAmount).toFixed(2)}`,
+      value: `$${totalAmount.toFixed(2)}`,
+      color: "text-green-500",
+    },
+    {
+      // label: "Total Recievables",
+      label: "Recieved Amount",
+      // value: `$${(2420 ||.0).toFixed(2)}`,
+      // text: "as of 01-December-2023",
+      // value: `$${(paymentHistory.paymentAmount).toFixed(2)}`,
+      value: `$${remainingAmount.toFixed(2)}`,
+      color: "text-green-500",
+    },
+    { label: "Cancellation Amount", value: `$${CancelledOrder.reduce((total, each) => total + each.paymentAmount, 0).toFixed(2)}`, text: "" },
   ];
   console.log("656576", stats[0].value)
 
@@ -860,6 +1010,7 @@ const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 }
 
 export default LayoutPaymentHistory;
+
 
 
 
