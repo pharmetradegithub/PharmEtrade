@@ -4,6 +4,7 @@ import LayoutBuyerUpcomingGrid from './LayoutBuyerUpcomingGrid';
 import LayoutBuyerCancelledgrid from './LayoutBuyerCancelledgrid';
 import LayoutBuyerOrders from './LayoutBuyerOrders'
 import { useSelector } from 'react-redux';
+import LayoutOrderList from '../LayoutBuy/LayoutOrderlist';
 const LayoutDashboard = () => {
   const [visibleGrid, setVisibleGrid] = useState(null); // To track which grid is visible
   const customerList = useSelector((state) => state.dashboard.getCustomerId)
@@ -108,7 +109,7 @@ const LayoutDashboard = () => {
 
         {/* Conditionally render the grids based on which one is selected */}
         <div>
-          {visibleGrid === "orders" && <LayoutBuyerOrders />}
+          {visibleGrid === "orders" && <LayoutOrderList />}
         </div>
         <div>
           {visibleGrid === "received" && <LayoutBuyerReceiversgrid />}
