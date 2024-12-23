@@ -441,22 +441,27 @@ function LayoutPaymentHistory() {
 
   const approvedData = paymentHistory.filter(item => item.paymentStatus === "Approved");
   console.log("Approved===", approvedData)
+  const CancelledOrder = paymentHistory.filter(item => item.statusId === 5);
+  console.log("CancelledOrder===", CancelledOrder)
   const stats = [
     {
-      label: "Total Recievables",
+      label: "Total Orders",
+      // value: `$${(2420 ||.0).toFixed(2)}`,
+      // text: "as of 01-December-2023",
+      // value: `$${(paymentHistory.paymentAmount).toFixed(2)}`,
+      value: paymentHistory.length,
+      color: "text-green-500",
+    },
+    {
+      // label: "Total Recievables",
+      label: "Recieved",
       // value: `$${(2420 ||.0).toFixed(2)}`,
       // text: "as of 01-December-2023",
       // value: `$${(paymentHistory.paymentAmount).toFixed(2)}`,
       value: `$${approvedData.reduce((total, each) => total + each.paymentAmount, 0).toFixed(2)}`,
       color: "text-green-500",
     },
-    // {
-    //   label: "Pending Payments",
-    //   value: `$${(3843 ||.0).toFixed(2)}`,
-    //   text: "as of 01-December-2023",
-    //   color: "text-blue-900",
-    // },
-    // { label: "Withdrawal Method", value: `$${(1700 ||.0).toFixed(2)}`, text: "" },
+    { label: "Cancelled", value: `$${CancelledOrder.reduce((total, each) => total + each.paymentAmount, 0).toFixed(2)}`, text: "" },
   ];
   console.log("656576", stats[0].value)
 

@@ -268,15 +268,35 @@ const TotalProducts = () => {
     setDeletePop(false);
   };
 
+  // useEffect(() => {
+  //   if (!SearchInput.productName) {
+  //     // If search input is empty, fetch all products
+  //     const fetchAllProducts = async () => {
+  //       setLoading(true);
+  //       try {
+  //         console.log("sosso");
+  //         dispatch(productAdminGetAllApi());
+  //         // setData(response); // Set to all products
+  //       } catch (error) {
+  //         console.error("Error fetching products:", error);
+  //         setError(error);
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     };
+  //     fetchAllProducts();
+  //   }
+  // }, [SearchInput.productName, trigger]);
+
   useEffect(() => {
     if (!SearchInput.productName) {
       // If search input is empty, fetch all products
       const fetchAllProducts = async () => {
         setLoading(true);
         try {
-          console.log("sosso");
-          dispatch(productAdminGetAllApi());
-          // setData(response); // Set to all products
+          console.log("Fetching all products");
+          await dispatch(productAdminGetAllApi());
+          // Ensure currentItems is updated by dispatch
         } catch (error) {
           console.error("Error fetching products:", error);
           setError(error);
