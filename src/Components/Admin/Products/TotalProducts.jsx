@@ -44,6 +44,7 @@ import searchImg from "../../../assets/search-icon.png";
 
 const TotalProducts = () => {
   const products = useSelector((state) => state.product.adminProducts);
+  const user = useSelector((state) => state.user.user);
   console.log("===>", products);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
@@ -54,6 +55,7 @@ const TotalProducts = () => {
     if (products) setData(products);
   }, [products]);
   const [SearchInput, setSearchInput] = useState({
+
     productName: null,
   });
   const handleInputChange = (e) => {
@@ -73,7 +75,7 @@ const TotalProducts = () => {
   const handleSearchClick = async () => {
     console.log("SearchInput:", SearchInput); // Check SearchInput value
     const payload = {
-      customerId: "",
+      customerId: user ? user.customerId : "234",
       productName: SearchInput.productName,
     };
     try {

@@ -25,16 +25,70 @@ const Bid = ({ topMargin }) => {
     sellerType: "all",
   });
 
+
+
+
+  
+
+  // const handleChange = (e) => {
+  //   setFormData({
+  //     ...formData,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
+  const [errors, setErrors] = useState({
+    productName: "",
+    price: "",
+    quantity: "",
+    comments: "",
+  });
+  
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+  
+    // Clear errors when user starts typing
+    setErrors({
+      ...errors,
+      [e.target.name]: "",
+    });
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let hasErrors = false;
+  const newErrors = {
+    productName: "",
+    price: "",
+    quantity: "",
+    comments: "",
+  };
+
+  if (!formData.productName.trim()) {
+    newErrors.productName = "Please enter a product name.";
+    hasErrors = true;
+  }
+
+  if (!formData.price.trim() || isNaN(formData.price) || parseFloat(formData.price) <= 0) {
+    newErrors.price = "Please enter a valid price greater than 0.";
+    hasErrors = true;
+  }
+
+  if (!formData.quantity.trim() || isNaN(formData.quantity) || parseInt(formData.quantity) <= 0) {
+    newErrors.quantity = "Please enter a valid quantity greater than 0.";
+    hasErrors = true;
+  }
+
+  if (!formData.comments.trim()) {
+    newErrors.comments = "Please enter your comments.";
+    hasErrors = true;
+  }
+
+  setErrors(newErrors);
+
+  if (hasErrors) return;
   
     try {
       if (!formData.productName.trim()) {
@@ -46,7 +100,6 @@ const Bid = ({ topMargin }) => {
         return;
       }
   
-      // Prepare criteria for fetching products
       const Criteria = { customerId: user?.customerId, productName: formData.productName };
       console.log("Criteria:", Criteria);
   
@@ -134,52 +187,86 @@ const Bid = ({ topMargin }) => {
               <label className="block text-base font-semibold text-gray-700">
                 Product Name
               </label>
-              <input
+              {/* <input
                 type="text"
                 name="productName"
                 placeholder="Product name you are looking for"
                 value={formData.productName}
                 onChange={handleChange}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-              />
+              /> */}
+               <input
+        type="text"
+        name="productName"
+        placeholder="Product name you are looking for"
+        value={formData.productName}
+        onChange={handleChange}
+        className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+      />
+      {errors.productName && <p className="text-red-500 text-sm">{errors.productName}</p>}
             </div>
             <div className="grid grid-cols-1 gap-4 my-4 md:grid-cols-2">
               <div>
                 <label className="block text-base font-semibold text-gray-700">
                   Price
                 </label>
-                <input
+                {/* <input
                   type="text"
                   name="price"
                   placeholder="Price"
                   value={formData.price}
                   onChange={handleChange}
                   className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                />
+                /> */}
+                  <input
+          type="text"
+          name="price"
+          placeholder="Price"
+          value={formData.price}
+          onChange={handleChange}
+          className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+        />
+        {errors.price && <p className="text-red-500 text-sm">{errors.price}</p>}
               </div>
               <div>
                 <label className="block text-base font-semibold text-gray-700">
                   Quantity
                 </label>
-                <input
+                {/* <input
                   type="text"
                   name="quantity"
                   value={formData.quantity}
                   onChange={handleChange}
                   className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                />
+                /> */}
+                 <input
+          type="text"
+          name="quantity"
+          value={formData.quantity}
+          onChange={handleChange}
+          className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+        />
+        {errors.quantity && <p className="text-red-500 text-sm">{errors.quantity}</p>}
               </div>
             </div>
             <div>
               <label className="block text-base font-semibold text-gray-700">
                 Comments
               </label>
-              <textarea
+              {/* <textarea
                 name="comments"
                 value={formData.comments}
                 onChange={handleChange}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-              />
+              /> */}
+                    <textarea
+        name="comments"
+        value={formData.comments}
+        onChange={handleChange}
+        className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+      />
+      {errors.comments && <p className="text-red-500 text-sm">{errors.comments}</p>}
+
             </div>
           </div>
           <div className="border border-gray-200 bg-white rounded-lg p-4 mt-4">
@@ -195,7 +282,7 @@ const Bid = ({ topMargin }) => {
                   type="text"
                   name="firstName"
                   value={formData.firstName}
-                  onChange={handleChange}
+                  // onChange={handleChange}
                   className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                 />
               </div>
@@ -207,7 +294,7 @@ const Bid = ({ topMargin }) => {
                   type="text"
                   name="lastName"
                   value={formData.lastName}
-                  onChange={handleChange}
+                  // onChange={handleChange}
                   className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                 />
               </div>
@@ -219,7 +306,7 @@ const Bid = ({ topMargin }) => {
                   type="email"
                   name="email"
                   value={formData.email}
-                  onChange={handleChange}
+                  // onChange={handleChange}
                   className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                 />
               </div>
@@ -231,19 +318,7 @@ const Bid = ({ topMargin }) => {
                   type="text"
                   name="phone"
                   value={formData.phone}
-                  onChange={handleChange}
-                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                />
-              </div>
-              <div className="md:col-span-2">
-                <label className="block text-base font-semibold text-gray-700">
-                  Strength
-                </label>
-                <input
-                  type="text"
-                  name="strength"
-                  value={formData.strength}
-                  onChange={handleChange}
+                  // onChange={handleChange}
                   className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                 />
               </div>

@@ -48,6 +48,7 @@ import searchImg from "../../../assets/search-icon.png";
 const OfferedProductsAdmin = () => {
   // const products = useSelector((state) => state.product.getProductSpecialOffer);
   const products = useSelector((state) => state.product.getProductSpecialOffer);
+  const user = useSelector((state) => state.user.user);
   console.log("ssssssssss", products)
   const specialOffers = useSelector((state) => state.product.productSpecialOffer);
   console.log("special-->", specialOffers)
@@ -80,7 +81,8 @@ const OfferedProductsAdmin = () => {
   const handleSearchClick = async () => {
     console.log("SearchInput:", SearchInput); // Check SearchInput value
     const payload = {
-      customerId : "",
+      // customerId : "",
+      customerId: user ? user.customerId : "234",
       productName: SearchInput.productName,
   }
     try {

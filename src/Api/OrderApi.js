@@ -260,10 +260,28 @@ export const orderGetByIdApi = (orderId) => {
   }
 }
 
-export const orderStatusUpdateApi = (orderId,customerId, statusId, comment) => {
+// export const orderStatusUpdateApi = (orderId,customerId, statusId, comment) => {
+//   return async (dispatch) => {
+//     try {
+//       const response = await axios.post(`/api/Orders/UpdateOrderStatus?orderId=${orderId}&&customerId=${customerId}&statusId=${statusId}&comments=${encodeURIComponent(comment)}`);
+//       console.log("orderStatusUpdateApi-->", response);
+
+//       if (response.status === 200) {
+//         const updateStatus = response.data.result;
+//         dispatch(setOrderStatusUpdate(updateStatus)); // Dispatch the updated status to the Redux store
+//       } else {
+//         console.error('Failed to update order status:', response.data.message);
+//       }
+//     } catch (error) {
+//       console.error('Error updating order status:', error);
+//     }
+//   };
+// };
+
+export const orderStatusUpdateApi = (orderId, productId, customerId, statusId, comment) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`/api/Orders/UpdateOrderStatus?orderId=${orderId}&&customerId=${customerId}&statusId=${statusId}&comments=${encodeURIComponent(comment)}`);
+      const response = await axios.post(`/api/Orders/Product/UpdateStatus?orderId=${orderId}&productId=${productId}&customerId=${customerId}&statusId=${statusId}&comments=${encodeURIComponent(comment)}`);
       console.log("orderStatusUpdateApi-->", response);
 
       if (response.status === 200) {

@@ -3,9 +3,11 @@ import { CiMenuKebab } from "react-icons/ci";
 // import QuoteDetail from "../Components/QuoteDetail";
 import filter from "../../../assets/Filter_icon.png";
 import { useSelector } from "react-redux";
-import { fetchQuotedProduct, UpdateBid } from "../../../Api/BidApi";
+import { fetchQuotedProduct, removeBidApi, UpdateBid } from "../../../Api/BidApi";
 import Bin from "../../../assets/Bin.png";
-import { Tooltip } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, Tooltip } from "@mui/material";
+import wrong from '../../../assets/Icons/wrongred.png';
+
 
 import Pagination from "../../Pagination";
 import Notification from "../../Notification";
@@ -64,6 +66,7 @@ const LayoutAllQuotesProducts = () => {
   const [currentItems, setcurrentItems] = useState(
     bidQuotedProduct.slice(indexOfFirstItem, indexOfLastItem)
   );
+  console.log("currentt", currentItems)
   useEffect(() => {
     if (bidQuotedProduct) {
       const indexOfLastItem = currentPage * itemsPerPage;
@@ -88,12 +91,13 @@ const LayoutAllQuotesProducts = () => {
   }, [currentPage, bidQuotedProduct, sortConfig]);
 
   const user = useSelector((state) => state.user.user);
+  const [openDialog, setOpenDialog] = useState(false);
   useEffect(() => {
     const product = async () => {
       await fetchQuotedProduct(user.customerId);
     };
     product();
-  }, []);
+  }, [openDialog]);
   const handleSort = (key) => {
     let direction = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") {
@@ -144,11 +148,78 @@ const LayoutAllQuotesProducts = () => {
     // Update your state or perform other actions based on the selection.
   };
 
+
+    
+  const [deleteBidId, setDeleteBidId] = useState(null)
+    const handleDialogClose = () => {
+      setOpenDialog(false);
+  };
+  
+  const DeleteBid = (bidId) => {
+    setDeleteBidId(bidId)
+    setOpenDialog(true);
+  }
+  
+  const handleModalSave = async () => {
+    try {
+      await removeBidApi(deleteBidId)
+      setOpenDialog(false);
+      setNotification({
+        show: true,
+        message: "Bid Deleted Successfully!",
+      });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="relative bg-gray-100 w-full h-full flex justify-center items-center overflow-y-auto">
         {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
+      <Dialog open={openDialog} onClose={handleDialogClose}>
+        <div className="flex  justify-end p-2">
+          <img
+            onClick={handleDialogClose}
+            src={wrong}
+            className="w-5 h-5 cursor-pointer flex justify-end"
+          />
+        </div>
+        <DialogContent>
+          Are you sure you want to Delete this Bid?
+        </DialogContent>
+        <div>
+          <DialogActions
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+            }}
+          >
+            <Button
+              onClick={handleDialogClose}
+              sx={{
+                color: "white",
+                backgroundColor: "red",
+                "&:hover": { backgroundColor: "#cc0000" },
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleModalSave}
+              sx={{
+                color: "white",
+                backgroundColor: "green",
+                "&:hover": { backgroundColor: "#006400" },
+              }}
+            >
+              Yes
+            </Button>
+          </DialogActions>
+        </div>
+      </Dialog>
       <div className=" w-[95%] h-full mt-8">
         <div className=" flex justify-between">
           <p className="text-[22px] text-blue-900 font-semibold">
@@ -342,7 +413,7 @@ const LayoutAllQuotesProducts = () => {
                             src={Bin}
                             alt="Delete"
                             className="cursor-pointer w-4 h-4 ml-4"
-                            // onClick={() => DeleteProduct(product.productID)}
+                            onClick={() => DeleteBid(quoted.bidId)}
                           />
                         </Tooltip>
                       </td>

@@ -788,7 +788,7 @@ const CustomerList = () => {
       // setLoading(true); // Set loading to true before API call
       if (isActivating) {
         // Activation logic
-        await dispatch(ActivateUserAPI(activeCustomerID));
+        await ActivateUserAPI(activeCustomerID);
         settrigger((prev) => prev + 1); // Update trigger to reload data
 
         setNotification({
@@ -797,7 +797,7 @@ const CustomerList = () => {
         });
       } else {
         // Deactivation logic
-        await dispatch(DeactivateUserAPI(activeCustomerID));
+        await DeactivateUserAPI(activeCustomerID);
         settrigger((prev) => prev + 1); // Update trigger to reload data
         setNotification({
           show: true,
