@@ -296,11 +296,11 @@ const LayoutBuyerUpcomingGrid = () => {
             try {
                 const res = await fetchOrderByStatus(user.customerId);
                 const filteredOrders = res
-                    .filter((Ordergrid) => Ordergrid.orderStatusId === 3) // Only include orders with orderStatusId = 5
+                    .filter((Ordergrid) => Ordergrid.orderedProductStatusId === 3) // Only include orders with orderStatusId = 5
                     .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
 
                 setBuyerGrids(filteredOrders); // Update state with filtered orders
-                console.log("response", filteredOrders)
+                console.log("responseUp", filteredOrders)
                 setCurrentPage(1); // Reset to the first page if needed
             } catch (error) {
                 setError(error);

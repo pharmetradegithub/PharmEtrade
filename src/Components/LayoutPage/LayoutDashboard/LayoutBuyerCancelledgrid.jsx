@@ -185,7 +185,7 @@ const LayoutBuyerCancelledgrid = () => {
             try {
                 const res = await fetchOrderByStatus(user.customerId);
                 const filteredOrders = res
-                    .filter((Ordergrid) => Ordergrid.orderStatusId === 5) // Only include orders with orderStatusId = 5
+                    .filter((Ordergrid) => Ordergrid.orderedProductStatusId === 5) // Only include orders with orderStatusId = 5
                     .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
 
                 setBuyerGrids(filteredOrders); // Update state with filtered orders
