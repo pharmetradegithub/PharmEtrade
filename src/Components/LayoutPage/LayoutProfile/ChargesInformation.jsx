@@ -720,7 +720,7 @@ const ChargesInformations = () => {
   const [getCharge, setGetCharge] = useState([]);
   const fetchCharges = async () => {
     try {
-      const res = await AdminChargesGetApi(user.customerId);
+      const res = await dispatch(AdminChargesGetApi(user.customerId));
       setGetCharge(res || []);
       setCategory("")
       setTaxPercentage("")
