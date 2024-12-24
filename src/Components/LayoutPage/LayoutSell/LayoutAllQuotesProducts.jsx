@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 // import QuoteDetail from "../Components/QuoteDetail";
 import filter from "../../../assets/Filter_icon.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchQuotedProduct, removeBidApi, UpdateBid } from "../../../Api/BidApi";
 import Bin from "../../../assets/Bin.png";
 import { Button, Dialog, DialogActions, DialogContent, Tooltip } from "@mui/material";
@@ -11,6 +11,7 @@ import wrong from '../../../assets/Icons/wrongred.png';
 
 import Pagination from "../../Pagination";
 import Notification from "../../Notification";
+import Loading from "../../Loading";
 
 const LayoutAllQuotesProducts = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
@@ -24,6 +25,8 @@ const LayoutAllQuotesProducts = () => {
     message: "",
   });
   const bidQuotedProduct = useSelector((state) => state.bid.bidQuotedProduct);
+  const dispatch = useDispatch();
+
 
   const stats = [
     { label: "Return Requested", value: 150, percentage: 75 },
@@ -33,6 +36,9 @@ const LayoutAllQuotesProducts = () => {
   ];
 
   const [showEditPopup, setShowEditPopup] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
 
   const handleEditProduct = () => {
     setShowEditPopup(true);
@@ -92,12 +98,7 @@ const LayoutAllQuotesProducts = () => {
 
   const user = useSelector((state) => state.user.user);
   const [openDialog, setOpenDialog] = useState(false);
-  useEffect(() => {
-    const product = async () => {
-      await fetchQuotedProduct(user.customerId);
-    };
-    product();
-  }, [openDialog]);
+ 
   const handleSort = (key) => {
     let direction = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") {
@@ -147,7 +148,64 @@ const LayoutAllQuotesProducts = () => {
     }
     // Update your state or perform other actions based on the selection.
   };
+  // useEffect(() => {
+  //   const product = async () => {
+  //     await fetchQuotedProduct(user.customerId);
+  //   };
+  //   product();
+  // }, [openDialog]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true); // Set loading state
+      try {
+        await fetchQuotedProduct(user?.customerId);
+      } catch (error) {
+        console.error("Error fetching bids:", error);
+      } finally {
+        setLoading(false); // Reset loading state
+      }
+    };
+    fetchData();
+  }, [user?.customerId, dispatch]);
+  
+  const handleModalSave = async () => {
+    setLoading(true); // Set loading state
+    try {
+      // Delete the bid
+      await removeBidApi(deleteBidId);
+      setOpenDialog(false);
+      setNotification({
+        show: true,
+        message: "Bid Deleted Successfully!",
+      });
+  
+      // Update the data after deletion
+      await fetchQuotedProduct(user?.customerId);
+  
+      // Reset notification after 3 seconds
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    } catch (error) {
+      console.error("Error deleting bid:", error);
+    } finally {
+      setLoading(false); // Reset loading state
+    }
+  };
+
+
+  // const handleModalSave = async () => {
+  //   try {
+  //     await removeBidApi(deleteBidId)
+  //     setOpenDialog(false);
+  //     setNotification({
+  //       show: true,
+  //       message: "Bid Deleted Successfully!",
+  //     });
+  //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
     
   const [deleteBidId, setDeleteBidId] = useState(null)
@@ -160,19 +218,7 @@ const LayoutAllQuotesProducts = () => {
     setOpenDialog(true);
   }
   
-  const handleModalSave = async () => {
-    try {
-      await removeBidApi(deleteBidId)
-      setOpenDialog(false);
-      setNotification({
-        show: true,
-        message: "Bid Deleted Successfully!",
-      });
-      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+
 
   return (
     <div className="relative bg-gray-100 w-full h-full flex justify-center items-center overflow-y-auto">
@@ -271,6 +317,13 @@ const LayoutAllQuotesProducts = () => {
           </div> */}
 
           <div className=" text-[15px] w-full font-sans">
+          {loading && (
+            <div>
+              <Loading />
+            </div>
+          )}
+          {error && <div>Error: {error.message}</div>}
+          {!loading && !error && (
             <table className="rounded-lg bg-white w-full hidden md:table">
               <thead className="bg-blue-900 text-white">
                 <tr>
@@ -422,6 +475,7 @@ const LayoutAllQuotesProducts = () => {
                 )}
               </tbody>
             </table>
+             )}
 
             <div className="block md:hidden space-y-4">
               {currentItems?.length > 0 ? (
