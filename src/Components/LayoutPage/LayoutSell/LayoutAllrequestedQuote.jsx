@@ -787,19 +787,25 @@ const LayoutAllrequestedQuote = () => {
   const user = useSelector((state) => state.user.user);
   const request = useSelector((state) => state.bid.bidRequestedQuoted);
 
+
+
+  
+
   const [openDialog, setOpenDialog] = useState(false);
-  useEffect(() => {
-    const data = async () => {
-      try {
-        await dispatch(GetBidsBySeller(user?.customerId));
-        setLoading(false)
+  // useEffect(() => {
+  //   const data = async () => {
+  //     try {
+  //       await dispatch(GetBidsBySeller(user?.customerId));
+  //       setLoading(false)
 
-      } catch (error) {
+  //     } catch (error) {
+  //       console.log(error);
 
-      }
-    }
-    data()
-  }, [user?.customerId, dispatch, openDialog]);
+  //     }
+  //   }
+  //   data()
+  // }, [user?.customerId, dispatch, openDialog]);
+
 
   const [currentItems, setCurrentItems] = useState([]);
 
@@ -848,19 +854,77 @@ const LayoutAllrequestedQuote = () => {
     setOpenDialog(true);
   }
 
+  // const handleModalSave = async () => {
+  //   try {
+  //     await removeBidApi(deleteBidId)
+  //     setOpenDialog(false);
+  //     setNotification({
+  //       show: true,
+  //       message: "Bid Deleted Successfully!",
+  //     });
+  //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+  // const handleModalSave = async () => {
+  //   try {
+  //     await removeBidApi(deleteBidId);
+  //     setOpenDialog(false);
+  //     setNotification({
+  //       show: true,
+  //       message: "Bid Deleted Successfully!",
+  //     });
+  // setLoading(false)
+  //     // Call the GetBidsBySeller API to update the data
+  //     await GetBidsBySeller();
+  
+  //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true); // Set loading state
+      try {
+        await dispatch(GetBidsBySeller(user?.customerId));
+      } catch (error) {
+        console.error("Error fetching bids:", error);
+      } finally {
+        setLoading(false); // Reset loading state
+      }
+    };
+    fetchData();
+  }, [user?.customerId, dispatch]);
+  
   const handleModalSave = async () => {
+    setLoading(true); // Set loading state
     try {
-      await removeBidApi(deleteBidId)
+      // Delete the bid
+      await removeBidApi(deleteBidId);
       setOpenDialog(false);
       setNotification({
         show: true,
         message: "Bid Deleted Successfully!",
       });
+  
+      // Update the data after deletion
+      await dispatch(GetBidsBySeller(user?.customerId));
+  
+      // Reset notification after 3 seconds
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     } catch (error) {
-      console.log(error);
+      console.error("Error deleting bid:", error);
+    } finally {
+      setLoading(false); // Reset loading state
     }
-  }
+  };
+  
+  
+
 
   return (
     <div className="relative bg-gray-100  w-full h-full flex justify-center items-center overflow-y-auto ">
