@@ -92,6 +92,7 @@ import LayoutAssignProduct from "./Components/LayoutPage/LayoutSell/LayoutReques
 import LayoutAssignProductList from "./Components/LayoutPage/LayoutSell/LayoutSalesHistory";
 import LayoutAddBulkProduct from "./Components/LayoutPage/LayoutSell/LayoutAddBulkProduct";
 import LayoutPostingProducts from "./Components/LayoutPage/LayoutSell/LayoutProducts/LayoutPostingProducts";
+import FilterableSortableTable from "./Components/LayoutPage/LayoutSell/LayoutProducts/LayoutPostingProducts";
 import LayoutSalesHistory from "./Components/LayoutPage/LayoutSell/LayoutSalesHistory";
 import LayoutShippingDetails from "./Components/LayoutPage/LayoutSell/LayoutShippingDetails";
 import LayoutRequestForQuote from "./Components/LayoutPage/LayoutSell/LayoutRequestForQuote";
@@ -153,6 +154,7 @@ import LayoutTerms from "./Components/LayoutTerms";
 import Reports from "./Components/Admin/Reports/Reports";
 import LayoutBuyReturn from "./Components/LayoutPage/LayoutBuy/LayoutReturn";
 import NotFoundErrorpage from "./Components/NotFoundErrorpage";
+import Datagrid from "./Components/Datagrid";
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
@@ -331,6 +333,8 @@ function App() {
         <Route path="/contactus" element={<Contactus />} />
 
         <Route path="/gethelphere" element={<Gethelphere />} />
+        <Route path="/datagrid" element={<Datagrid />} />
+
 
         {/* <Route
           path="/allProducts"
@@ -412,6 +416,10 @@ function App() {
           <Route
             path="/layout/postingproducts"
             element={<LayoutPostingProducts />}
+          />
+          <Route
+            path="/layout/DataGrid"
+            element={<FilterableSortableTable/>}
           />
           {/* <Route
             path="/layout/layout-edit-single-product/:productID"

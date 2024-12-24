@@ -25,6 +25,7 @@
     "dotenv": "^16.4.5",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
+    "react-data-grid": "^7.0.0-beta.47",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
     "react-icons": "^5.2.1",
