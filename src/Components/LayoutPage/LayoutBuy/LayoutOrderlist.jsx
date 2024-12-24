@@ -1130,7 +1130,7 @@ function LayoutOrderList() {
                         Invoice
                       </span>
                     </p> */}
-                    {order.orderStatusId === 3 && (
+                    {order.orderedProductStatusId === 3 && (
                       <p className="text-blue-900 text-sm lg:text-md cursor-pointer p-2">
                         <span onClick={() => handleClickView(order?.orderId)}>
                           Invoice
