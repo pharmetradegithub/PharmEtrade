@@ -75,21 +75,23 @@ export const AdminChargesInformationAdd = async (payload) => {
 // }
 export const AdminChargesGetApi = (customerId) => {
   return async (dispatch) => {
+    // dispatch(setLoading(true));
     try {
-      const response = await axios.get(`/api/Admin/charges/GetBySeller?sellerId=${customerId}`)
+      const response = await axios.get(`/api/Admin/charges/GetBySeller?sellerId=${customerId}`);
       if (response.status === 200) {
-        const data = response.data.result
-        // return response.data.result;
-        dispatch(setGetChargeInfo(data))
+        const data = response.data.result;
+        dispatch(setGetChargeInfo(data));
         return data
       } else {
+        // dispatch(setError(response.data.message || 'Failed to fetch charges'));
         console.error('Failed to fetch charges:', response.data.message);
       }
     } catch (error) {
-      console.error('Error fetching changes:', error);
+      // dispatch(setError(error.message || 'Error fetching charges'));
+      console.error('Error fetching charges:', error);
     }
-  }
-}
+  };
+};
 
 // export const fetchAdminProductsApis = async () => {
 //   try {

@@ -38,7 +38,9 @@ axios.interceptors.response.use(
       if (!isLoginRequest) {
         // Clear the expired token and redirect to the login page
         localStorage.removeItem('token');
-        window.location.href = '/login'; // Adjust the path to your login route if different
+        // window.location.href = '/login'; // Adjust the path to your login route if different
+        // Redirect to the login page
+        history.push('/login'); 
       }
 
       // For login requests, do not redirect or refresh
