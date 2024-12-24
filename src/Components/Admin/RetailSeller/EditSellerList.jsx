@@ -2280,7 +2280,7 @@ const EditSellerList = () => {
                 <>
                   {GetCharges.length === 0 && (
                     <p className="text-red-500 mb-2">
-                      Before activating, please assign charges to this user.
+                      To Activate User You Should Provide Charges Information Under Charges Information Tab
                     </p>
                   )}
                   <Button

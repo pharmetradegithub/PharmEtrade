@@ -407,7 +407,7 @@ function LayoutOrderList() {
       setOpenDialog(false);
       setNotification({
         show: true,
-        message: "Cancelled Successfully!",
+        message: "Order Cancelled Successfully!",
       });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
 
