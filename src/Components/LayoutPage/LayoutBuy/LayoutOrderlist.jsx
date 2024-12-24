@@ -1112,8 +1112,8 @@ function LayoutOrderList() {
                     <h1 className="text-sm lg:text-lg">Total</h1>
                     <p className="text-sm lg:text-lg">
                       ${(
-                        (order?.pricePerProduct * order?.quantity) +
-                        ((order?.pricePerProduct * order?.quantity) * (order?.chargesPercentage / 100))
+                        (order?.pricePerProduct * order?.quantity) 
+                        // ((order?.pricePerProduct * order?.quantity) * (order?.chargesPercentage / 100))
                       )?.toFixed(2)}
                     </p>
                   </div>
