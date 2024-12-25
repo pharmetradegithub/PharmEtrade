@@ -62,7 +62,7 @@
 //   const [selectedOptions, setSelectedOptions] = useState({
 //     seller: ""
 //   });
-  
+
 //   const [totalNetCharges, setTotalNetCharges] = useState({
 //     seller: 0
 //   });
@@ -98,8 +98,8 @@
 //   const user = useSelector((state) => state.user.user);
 //   console.log("user-->address", user);
 //   console.log("addressdataaaaaa", getAddress);
-  
-  
+
+
 //   const [formData, setFormData] = useState({
 //     firstName: "",
 //     lastName: "",
@@ -303,7 +303,7 @@
 //     setStateAdd(state)
 //     // setIsTotalHidden(true);
 //     await dispatch(orderDeliveryAddress(placeOrder.customerId, placeOrder.orderId, selectedAddressId))
-  
+
 
 //     // const payload = {
 //     //   accountNumber: {
@@ -335,9 +335,9 @@
 //     //             }
 //     //           }
 //     //         ]
-      
+
 //     // }
-    
+
 //     // }
 //     // await dispatch(serviceTypeApi(payload))
 //     // if (selectedAddressId) {
@@ -485,7 +485,7 @@
 //     return formattedPhoneNumber;
 //   };
 
- 
+
 
 //   useEffect(() => {
 //     dispatch(fetchGetOrder(user?.customerId));
@@ -625,7 +625,7 @@
 //     message: "",
 //   });
 
-  
+
 //   const handleEditAddress = async (addressId, item) => {
 //     // Assuming you want to edit the first address (index 0)
 
@@ -682,7 +682,7 @@
 
 //   const handleInputChange = (e) => {
 //     const { name, value } = e.target;
-    
+
 //     // Phone number formatting (777-777-7777)
 //     if (name === "Phone_Number") {
 //       const formattedPhone = formatPhoneNumber(value);
@@ -697,11 +697,11 @@
 //       }));
 //     }
 //   };
- 
+
 
 //   const validateForm = () => {
 //     const errors = {};
-    
+
 //     if (!addressForm.First_Name.trim()) {
 //       errors.First_Name = "First name is required";
 //     }
@@ -723,17 +723,17 @@
 //     if (!addressForm.States) {
 //       errors.States = "State is required";
 //     }
-  
+
 //     setFormErrors(errors);
 //     return Object.keys(errors).length === 0;
 //   };
 
 
- 
+
 //   const handleSaveAddress = async (e) => {
 //     // Implement save address functionality here
 //     // e.preventDefault();
-  
+
 //     if (!validateForm()) {
 //       return; // Stop if validation fails
 //     }
@@ -829,7 +829,7 @@
 //     Town_City: "",
 //     States: "",
 //   });
-  
+
 //   const handleChangeForm = (e) => {
 //     const { name, value } = e.target;
 //     setNewAddressForm((prevForm) => ({
@@ -1308,7 +1308,7 @@
 //   //   }
 //   // };
 
-  
+
 //   // const [notification, setNotification] = useState({ show: false, message: "" });
 
 //   // Delete Address Handler
@@ -1336,7 +1336,7 @@
 //         setNotification({ show: true, message: "Address Deleted Successfully!" });
 //         setTimeout(() => setNotification({ show: false, message: "" }), 3000);
 //         await dispatch(fetchGetByCustomerId(user?.customerId));
-        
+
 //       }
 //     } catch (error) {
 //       console.error("Error while deleting product:", error);
@@ -1479,7 +1479,7 @@
 //                       className="mr-3"
 //                     />
 //                   </div>
-                  
+
 //                   {/* Address display */}
 //                   <h1 className="font-semibold">
 //                     {item.firstName} {item.lastName || ""}, 
@@ -2036,7 +2036,7 @@
 //                   {/* /> */}
 //                     <div className="ml-6 w-[65%]">
 //                     {selectedAddressId ? (
-                      
+
 //                       <SquarePaymentForm
 //                         amount={(validTotal + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}
 //                       />
@@ -2085,14 +2085,14 @@
 //                         </button>
 //                       </div>
 //                     </div>
-                   
+
 //                     <Payment />
 
-                   
+
 //                   </div>
 //                   <div className=" w-[30%] mx-16 flex flex-col pt-2 items-center">
 //                     <div className="border fixed shadow-md rounded-md p-7 py-5">
-                 
+
 //                       <div className="text-base flex items-center justify-center flex-col my-1 border-b">
 //                         <p>Choose a payment method to continue</p>
 //                         <p>checking out. You will still have a chance to</p>
@@ -2199,10 +2199,10 @@ function Address({ topMargin, totalAmount, amount }) {
   // const Payment_Amnount = 500;
 
 
-  const handlePaymentSuccess = async(token, amount) => {
+  const handlePaymentSuccess = async (token, amount) => {
     console.log("Payment Successful, Token:", token);
     console.log("Payment Successful, amount:", amount);
-    
+
 
     const payload = {
       sourceId: token,
@@ -2221,7 +2221,7 @@ function Address({ topMargin, totalAmount, amount }) {
   const [selectedOptions, setSelectedOptions] = useState({
     seller: ""
   });
-  
+
   const [totalNetCharges, setTotalNetCharges] = useState({
     seller: 0
   });
@@ -2231,7 +2231,7 @@ function Address({ topMargin, totalAmount, amount }) {
   const [searchParams] = useSearchParams();
   const total = parseFloat(searchParams.get("total")); // Convert total to a number
   const netCharge = parseFloat(searchParams.get("netCharge")) || 0;
-  const isCart = searchParams.get("isCart")=="true"; // Convert total to a number
+  const isCart = searchParams.get("isCart") == "true"; // Convert total to a number
   const productId = searchParams.get("productId"); // Convert total to a number
   const DeliveryAddress = useSelector((state) => state.order.orderDeliveryAddress)
   console.log("delivery-->", DeliveryAddress)
@@ -2241,7 +2241,7 @@ function Address({ topMargin, totalAmount, amount }) {
 
   // Check if netCharge and total are valid numbers
   const validNetCharge = !isNaN(netCharge) && netCharge !== null ? netCharge : 0.00;
-  
+
 
   // const netCharge = searchParams.get("netCharge")
   const [deletePop, setDeletePop] = useState(false);
@@ -2262,8 +2262,8 @@ function Address({ topMargin, totalAmount, amount }) {
   const user = useSelector((state) => state.user.user);
   console.log("user-->address", user);
   console.log("addressdataaaaaa", getAddress);
-  
-  
+
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -2298,9 +2298,9 @@ function Address({ topMargin, totalAmount, amount }) {
   // }, [selectedAddressId])
 
 
-  
 
-console.log("pincode---->", pincodes)
+
+  console.log("pincode---->", pincodes)
   // useEffect(() => {
   //   const fetchSellersAndSendPayload = async () => {
   //     try {
@@ -2386,12 +2386,12 @@ console.log("pincode---->", pincodes)
   // console.log(res, "Resolved results--->");
 
   // Function to handle the "Use this address" button click
-//   useEffect(() => {
-//     const data = async () => {
-//       await getCartItemsApi(user.customerId)
-//     }
-//     data()
-//  }, [])
+  //   useEffect(() => {
+  //     const data = async () => {
+  //       await getCartItemsApi(user.customerId)
+  //     }
+  //     data()
+  //  }, [])
   useEffect(() => {
     const fetchSellersAndSendPayload = async () => {
       try {
@@ -2480,7 +2480,7 @@ console.log("pincode---->", pincodes)
     await SetDefaultApi(user.customerId, addressId)
     await dispatch(orderDeliveryAddress(placeOrder.customerId, placeOrder.orderId, addressId))
     await dispatch(fetchGetByCustomerId(user?.customerId));
-  
+
 
     // const payload = {
     //   accountNumber: {
@@ -2512,9 +2512,9 @@ console.log("pincode---->", pincodes)
     //             }
     //           }
     //         ]
-      
+
     // }
-    
+
     // }
     // await dispatch(serviceTypeApi(payload))
     // if (selectedAddressId) {
@@ -2662,7 +2662,7 @@ console.log("pincode---->", pincodes)
     return formattedPhoneNumber;
   };
 
- 
+
 
   useEffect(() => {
     dispatch(fetchGetOrder(user?.customerId));
@@ -2802,8 +2802,8 @@ console.log("pincode---->", pincodes)
     message: "",
   });
 
-  
-  const handleEditAddress = async (addressId, item) => {
+
+  const handleEditAddress = async (item) => {
     // Assuming you want to edit the first address (index 0)
 
     // Populate the form with the selected address
@@ -2818,7 +2818,7 @@ console.log("pincode---->", pincodes)
       // Bussiness_phone: selectedAddress.Bussiness_phone,
     });
 
-    setSelectedAddressId(addressId);
+    setSelectedAddressId(item.addressId);
     // Show the popup with the pre-filled address
     setIsShowPopUp(true);
 
@@ -2859,7 +2859,7 @@ console.log("pincode---->", pincodes)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    
+
     // Phone number formatting (777-777-7777)
     if (name === "Phone_Number") {
       const formattedPhone = formatPhoneNumber(value);
@@ -2874,11 +2874,11 @@ console.log("pincode---->", pincodes)
       }));
     }
   };
- 
+
 
   const validateForm = () => {
     const errors = {};
-    
+
     if (!addressForm.First_Name.trim()) {
       errors.First_Name = "First name is required";
     }
@@ -2900,17 +2900,17 @@ console.log("pincode---->", pincodes)
     if (!addressForm.States) {
       errors.States = "State is required";
     }
-  
+
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
 
- 
+
   const handleSaveAddress = async (e) => {
     // Implement save address functionality here
     // e.preventDefault();
-  
+
     if (!validateForm()) {
       return; // Stop if validation fails
     }
@@ -2938,59 +2938,59 @@ console.log("pincode---->", pincodes)
     };
 
     // try {
-      // If selectedAddressId is present, update the address, otherwise add a new one
-      // const apiUrl = selectedAddressId
-      //   ? `http://your-api-url.com/api/Customer/Address/Update/${selectedAddressId}`
-      //   : 'http://your-api-url.com/api/Customer/Address/Add';
+    // If selectedAddressId is present, update the address, otherwise add a new one
+    // const apiUrl = selectedAddressId
+    //   ? `http://your-api-url.com/api/Customer/Address/Update/${selectedAddressId}`
+    //   : 'http://your-api-url.com/api/Customer/Address/Add';
 
-      // const method = selectedAddressId ? 'PUT' : 'POST';
+    // const method = selectedAddressId ? 'PUT' : 'POST';
 
-      // const response = await fetch(
-      //   "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/Edit",
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(payload),
-      //   }
-      // );
+    // const response = await fetch(
+    //   "http://ec2-100-29-38-82.compute-1.amazonaws.com:5000/api/Customer/Address/Edit",
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(payload),
+    //   }
+    // );
 
-      // if (!response.ok) {
-      //   throw new Error(
-      //     `Failed to ${selectedAddressId ? "update" : "add"} address`
-      //   );
-      // }
+    // if (!response.ok) {
+    //   throw new Error(
+    //     `Failed to ${selectedAddressId ? "update" : "add"} address`
+    //   );
+    // }
 
-      // const responseData = await response.json();
-      // if (responseData.result && responseData.result.length > 0) {
-      //   const newAddress = responseData.result[0];
-      //   if (newAddress && newAddress.addressId) {
-      //     setNewAddressData(newAddress); // Save the new address object to state
-      //     fetchCustomerById();
-      //     setIsShowPopUp(false);
-      //     setNotification({
-      //       show: true,
-      //       message: "Edit Successfully!",
-      //     });
-      //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-      //   } else {
-      //     console.warn("Address data is missing addressId:", newAddress);
-      //     setIsShowPopUp(false);
-      //   }
-      // } else {
-      //   console.warn("No address data found in response");
-      //   setIsShowPopUp(false); // Close the popup after saving
+    // const responseData = await response.json();
+    // if (responseData.result && responseData.result.length > 0) {
+    //   const newAddress = responseData.result[0];
+    //   if (newAddress && newAddress.addressId) {
+    //     setNewAddressData(newAddress); // Save the new address object to state
+    //     fetchCustomerById();
+    //     setIsShowPopUp(false);
+    //     setNotification({
+    //       show: true,
+    //       message: "Edit Successfully!",
+    //     });
+    //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    //   } else {
+    //     console.warn("Address data is missing addressId:", newAddress);
+    //     setIsShowPopUp(false);
+    //   }
+    // } else {
+    //   console.warn("No address data found in response");
+    //   setIsShowPopUp(false); // Close the popup after saving
     // }
     try {
       await dispatch(fetchEditAddress(payload))
-          fetchCustomerById();
-          setIsShowPopUp(false);
-          setNotification({
-            show: true,
-            message: "Edit Successfully!",
-          });
-          setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      fetchCustomerById();
+      setIsShowPopUp(false);
+      setNotification({
+        show: true,
+        message: "Edit Successfully!",
+      });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
 
     } catch (error) {
       console.error("Error adding address:", error);
@@ -3006,7 +3006,7 @@ console.log("pincode---->", pincodes)
     Town_City: "",
     States: "",
   });
-  
+
   const handleChangeForm = (e) => {
     const { name, value } = e.target;
     setNewAddressForm((prevForm) => ({
@@ -3399,7 +3399,7 @@ console.log("pincode---->", pincodes)
 
   useEffect(() => {
     dispatch(fetchGetByCustomerId(user?.customerId));
-  }, [dispatch, user?.customerId,deleteProduct]);
+  }, [dispatch, user?.customerId, deleteProduct]);
 
   // })
 
@@ -3460,7 +3460,7 @@ console.log("pincode---->", pincodes)
       }
     }
   }, [getAddress, isInitialized]);
-  
+
 
   const handleChangeAddress = (addressId) => {
     console.log("sueryaaaa", addressId)
@@ -3506,7 +3506,7 @@ console.log("pincode---->", pincodes)
   //   }
   // };
 
-  
+
   // const [notification, setNotification] = useState({ show: false, message: "" });
 
   const products = placeOrder?.products || [];
@@ -3523,7 +3523,7 @@ console.log("pincode---->", pincodes)
       }, 0);
     } else {
       // Conditional calculation based on selectedDeliveryAddress
-    //  alert("delivery")
+      //  alert("delivery")
       return deliveryTax.reduce((total, product) => {
         const price = (product?.pricePerProduct * product?.quantity) || 0;
         const taxPercentage = product?.taxPercentage || 0;
@@ -3580,7 +3580,7 @@ console.log("pincode---->", pincodes)
         setNotification({ show: true, message: "Address Deleted Successfully!" });
         setTimeout(() => setNotification({ show: false, message: "" }), 3000);
         await dispatch(fetchGetByCustomerId(user?.customerId));
-        
+
       }
     } catch (error) {
       console.error("Error while deleting product:", error);
@@ -3699,68 +3699,68 @@ console.log("pincode---->", pincodes)
                           ) : (
                             getAddress.map((item) => (
                               <div
-          key={item.addressId}
-          className="border flex-col rounded-md flex my-2 p-2 px-6 bg-pink-50 border-orange-200"
-        >
-          <div className="flex flex-col">
-            <div className="flex text-base w-full">
-              <div className="flex items-center w-full">
-                <div className="flex flex-wrap">
-                  <div className="flex">
-                    <input
-                   type="radio"
-                   checked={selectedAddressId === item.addressId} // Check if the current item is selected
-                   onChange={() => handleChangeAddress(item?.addressId)} // Handle the change when a new address is selected
-                   onClick={() => {
-                     handleUseAddress(item.state, item.pincode, item?.addressId); // Proceed with address usage
-                   }}
-                      className="mr-3"
-                    />
-                  </div>
-                  
-                  {/* Address display */}
-                  <h1 className="font-semibold">
-                    {item.firstName} {item.lastName || ""}, 
-                  </h1>
-                  {item.address2 && <p className="mr-1">{item.address2},</p>}
-                  <p className="mr-1">{item.address1},</p>
-                  <p className="mr-1">{item.city},</p>
-                  <p className="mr-1">{item.state}</p>
-                  <p className="mr-1">{item.pincode},</p>
-                  <p>{item.phoneNumber}</p>
+                                key={item.addressId}
+                                className="border flex-col rounded-md flex my-2 p-2 px-6 bg-pink-50 border-orange-200"
+                              >
+                                <div className="flex flex-col">
+                                  <div className="flex text-base w-full">
+                                    <div className="flex items-center w-full">
+                                      <div className="flex flex-wrap">
+                                        <div className="flex">
+                                          <input
+                                            type="radio"
+                                            checked={selectedAddressId === item.addressId} // Check if the current item is selected
+                                            onChange={() => handleChangeAddress(item?.addressId)} // Handle the change when a new address is selected
+                                            onClick={() => {
+                                              handleUseAddress(item.state, item.pincode, item?.addressId); // Proceed with address usage
+                                            }}
+                                            className="mr-3"
+                                          />
+                                        </div>
 
-                  {/* Edit button */}
-                  <p
-                    className="ml-2 items-center flex justify-center text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
-                    onClick={() => handleEditAddress(item.addressId, item)}
-                  >
-                    <Tooltip title="Edit" placement="top">
-                      <img
-                        src={edit}
-                        alt="Edit"
-                        className="cursor-pointer w-7 h-7"
-                      />
-                    </Tooltip>
-                  </p>
+                                        {/* Address display */}
+                                        <h1 className="font-semibold">
+                                          {item.firstName} {item.lastName || ""},
+                                        </h1>
+                                        {item.address2 && <p className="mr-1">{item.address2},</p>}
+                                        <p className="mr-1">{item.address1},</p>
+                                        <p className="mr-1">{item.city},</p>
+                                        <p className="mr-1">{item.state}</p>
+                                        <p className="mr-1">{item.pincode},</p>
+                                        <p>{item.phoneNumber}</p>
 
-                  {/* Delete button */}
-                  <p
-                    className="flex items-center justify-center ml-2 text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
-                    onClick={() => handleDeleteAddress(item.addressId)}
-                  >
-                    <Tooltip placement="top" title="Delete">
-                      <img
-                        src={Bin}
-                        alt="Delete"
-                        className="cursor-pointer w-4 h-4"
-                      />
-                    </Tooltip>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+                                        {/* Edit button */}
+                                        <p
+                                          className="ml-2 items-center flex justify-center text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
+                                          onClick={() => handleEditAddress(item)}
+                                        >
+                                          <Tooltip title="Edit" placement="top">
+                                            <img
+                                              src={edit}
+                                              alt="Edit"
+                                              className="cursor-pointer w-7 h-7"
+                                            />
+                                          </Tooltip>
+                                        </p>
+
+                                        {/* Delete button */}
+                                        <p
+                                          className="flex items-center justify-center ml-2 text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
+                                          onClick={() => handleDeleteAddress(item.addressId)}
+                                        >
+                                          <Tooltip placement="top" title="Delete">
+                                            <img
+                                              src={Bin}
+                                              alt="Delete"
+                                              className="cursor-pointer w-4 h-4"
+                                            />
+                                          </Tooltip>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             ))
                           )}
                         </div>
@@ -3775,23 +3775,25 @@ console.log("pincode---->", pincodes)
                         </div>
 
                         {/* Conditionally show the "Use this address" button if there are addresses */}
-                        {getAddress.length > 0 && (
-                          <div></div>
-                          // <button
-                          //   className="border rounded-full h-8 text-sm w-32 bg-blue-900 text-white "
+                        {/* {getAddress.length > 0 && ( */}
+
+
+                          {/* //<div></div> */}
+                          {/* // <button */}
+                          {/* //   className="border rounded-full h-8 text-sm w-32 bg-blue-900 text-white "
                           //   onClick={() => {
                           //     if (selectedAddressId) {
                           //       handleUseAddress(); // Proceed with navigation
-                          //     } else {
-                          //       alert(
+                          //     } else { */}
+                          {/* //       alert(
                           //         "Please select an address before continuing."
                           //       ); // Or display error message
                           //     }
                           //   }}
                           // >
-                          //   Use this address
-                          // </button>
-                        )}
+                          //   Use this address */}
+                          {/* // </button>
+                        )} */}
                       </div>
                     </div>
 
@@ -3822,16 +3824,16 @@ console.log("pincode---->", pincodes)
                               helperText={formErrors.First_Name}
                             />
 
-<TextField
-            label="Last Name"
-            name="Last_Name"
-            size="small"
-            className="w-full"
-            value={addressForm.Last_Name}
-            onChange={handleInputChange}
-            error={!!formErrors.Last_Name}
-            helperText={formErrors.Last_Name}
-          />
+                            <TextField
+                              label="Last Name"
+                              name="Last_Name"
+                              size="small"
+                              className="w-full"
+                              value={addressForm.Last_Name}
+                              onChange={handleInputChange}
+                              error={!!formErrors.Last_Name}
+                              helperText={formErrors.Last_Name}
+                            />
                           </div>
 
                           <div className="my-4 flex gap-2">
@@ -3935,7 +3937,7 @@ console.log("pincode---->", pincodes)
                               name="Email ID"
                               size="small"
                               className="w-full"
-                              // value ={}
+                            // value ={}
                             // value={formatPhoneNumber(addressForm.Phone_Number)}
                             // onChange={handleInputChange}
                             // error={!!formErrors.Phone_Number}
@@ -3945,7 +3947,10 @@ console.log("pincode---->", pincodes)
                           </div>
 
                           <div className="my-4">
-                            <input type="checkbox" id="default-address" />
+                            <input type="checkbox" id="default-address" checked={!getAddress.isDefault}
+                              readOnly={!getAddress.isDefault} style={{
+                                accentColor: 'blue', // Inline style for checkmark color
+                              }} />
                             <label htmlFor="default-address" className="ml-2">
                               Make this my default address
                             </label>
@@ -4193,49 +4198,53 @@ console.log("pincode---->", pincodes)
                     )}
                     {/* </div> */}
                     <div className=" w-[30%]  mx-16  flex flex-col pt-2 items-center relative">
-                    <div className="border fixed shadow-md rounded-md p-7 py-5">
-                      {/* <div className="flex items-center justify-center">
+                      <div className="border fixed shadow-md rounded-md p-7 py-5">
+                        {/* <div className="flex items-center justify-center">
                         <button className="border rounded-full text-sm flex justify-center items-center px-4 py-2 bg-blue-900 text-white">
                           Use this payment method
                         </button>
                       </div> */}
-                      <div className="text-base flex items-center justify-center flex-col my-1 border-b">
-                        <p>Choose a payment method to continue</p>
-                        <p>checking out. You will still have a chance to</p>
-                        <p>review and edit your order before it is final.</p>
-                      </div>
-                      <div>
-                        <h1 className="font-semibold text-xl my-2">
-                          Order Summary
-                        </h1>
-                      </div>
-                      <div className="flex justify-between text-sm mt-3">
-                        <p>Items(s) Subtotal :</p>
-                          <p>${validTotal.toFixed(2)}</p>
-                      </div>
-                      <div className="flex justify-between text-sm mt-3">
-                        <p>Shipping:</p>
-                        <p>${Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0).toFixed(2)}</p>
-                      </div>
-                      <div className="flex justify-between text-sm mt-3">
-                          <p>Tax :</p>
-                          <p>${totalTaxAmount.toFixed(2)}</p>
+                        <div className="text-base flex items-center justify-center flex-col my-1 border-b">
+                          <p>Choose a payment method to continue</p>
+                          <p>checking out. You will still have a chance to</p>
+                          <p>review and edit your order before it is final.</p>
                         </div>
-                      <div className="flex justify-between text-sm  border-b my-2">
-                        <p>Total:</p>
-                        {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
-                          <p>${(totalWithTax  + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
-                      </div>
-                      {/* <div className="flex justify-between text-sm border-b my-2">
+                        <div>
+                          <h1 className="font-semibold text-xl my-2">
+                            Order Summary
+                          </h1>
+                        </div>
+                        <div className="flex justify-between text-sm mt-3">
+                          <p>Items(s) Subtotal :</p>
+                          <p>${validTotal.toFixed(2)}</p>
+                        </div>
+                        <div className="flex justify-between text-sm mt-3">
+                          <p>Shipping:</p>
+                          <p>${Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0).toFixed(2)}</p>
+                        </div>
+                          <div className="flex justify-between text-sm mt-3">
+                            <p>Tax :</p>
+                        {getAddress.length === 0 ? (
+                          <p>$0.00</p>
+                        ) : (
+                            <p>${totalTaxAmount.toFixed(2)}</p>
+                          )}
+                        </div>
+                        <div className="flex justify-between text-sm  border-b my-2">
+                          <p>Total:</p>
+                          {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
+                          <p>${(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
+                        </div>
+                        {/* <div className="flex justify-between text-sm border-b my-2">
                         <p>Promotion Applied :</p>
                         <p>$0.00</p>
                       </div> */}
-                      <div className="flex justify-between text-red-500 font-semibold">
-                        <p>Grand Total:</p>
-                        {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
-                          <p>${(totalWithTax  + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
+                        <div className="flex justify-between text-red-500 font-semibold">
+                          <p>Grand Total:</p>
+                          {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
+                          <p>${(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
+                        </div>
                       </div>
-                    </div>
                     </div>
                   </div>
                 )}
@@ -4245,8 +4254,8 @@ console.log("pincode---->", pincodes)
             {/* other components start */}
 
             {/* <div className="flex justify-between"> */}
-                      {/* <h1>1 Selected address</h1> */}
-                      {/* <div>
+            {/* <h1>1 Selected address</h1> */}
+            {/* <div>
                         {selectedAddress && (
                           <div className="mt-4 flex">
                             <h2 className="font-bold mr-2 ">Selected Address:</h2>
@@ -4265,26 +4274,26 @@ console.log("pincode---->", pincodes)
 
               <div className="">
 
-                <Proccedtoshipment selectedOptions = {selectedOptions} setSelectedOptions = {setSelectedOptions} totalNetCharges = {totalNetCharges} setTotalNetCharges = {setTotalNetCharges} productId={productId} />
+                <Proccedtoshipment selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} totalNetCharges={totalNetCharges} setTotalNetCharges={setTotalNetCharges} productId={productId} />
                 {/* <div className="border-b my-3 w-[70%]"> */}
-                  {/* <Payment /> */}
-                  {/* <SquarePaymentForm */}
-                    {/* // applicationId={applicationId} */}
-                    {/* // locationId={locationId}  */}
-                    {/* amount={(validTotal + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)} */}
-                    {/* // onPaymentSuccess={handlePaymentSuccess} */}
-                    {/* // onPaymentError={handlePaymentError} */}
-                  {/* /> */}
-                    <div className="ml-6 w-[65%]">
-                    {selectedAddressId ? (
-                      
-                      <SquarePaymentForm
-                        amount={(validTotal + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}
-                      />
-                    ) : (
-                      <p className="text-red-500 font-semibold mt-3">Please select an address for payment.</p>
-                    )}
-                    {/* </div> */}
+                {/* <Payment /> */}
+                {/* <SquarePaymentForm */}
+                {/* // applicationId={applicationId} */}
+                {/* // locationId={locationId}  */}
+                {/* amount={(validTotal + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)} */}
+                {/* // onPaymentSuccess={handlePaymentSuccess} */}
+                {/* // onPaymentError={handlePaymentError} */}
+                {/* /> */}
+                <div className="ml-6 w-[65%]">
+                  {selectedAddressId ? (
+
+                    <SquarePaymentForm
+                      amount={(validTotal + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}
+                    />
+                  ) : (
+                    <p className="text-red-500 font-semibold mt-3">Please select an address for payment.</p>
+                  )}
+                  {/* </div> */}
                 </div>
                 {/* <div className="border-b my-3">
                   <h1>3 Offers</h1>
