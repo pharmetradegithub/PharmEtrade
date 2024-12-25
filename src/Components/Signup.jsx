@@ -914,6 +914,11 @@ const Signup = () => {
       companyWebsite: formData.companyWebsite,
       sendRegistrationMail: formData.sendRegistrationMail
     };
+    Object.keys(requestBody).forEach((key) => {
+      if (requestBody[key] === '') {
+        requestBody[key] = null;
+      }
+    });
     try {
       const response = await fetch(
         // "https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Customer/BusinessInfo",
