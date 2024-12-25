@@ -581,6 +581,7 @@ function LayoutaddProduct() {
   const [firstValidation, setfirstValidation] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [triggerValidation, settriggerValidation] = useState(0);
+  console.log(formData);
   const handleInputChange = (e) => {
     const { name, value, type, options, id } = e.target;
     console.log(name, value, type, options, id);
@@ -1076,6 +1077,13 @@ function LayoutaddProduct() {
       throw error;
     }
   };
+
+
+
+
+
+
+
   const [allSelected, setAllSelected] = useState(false);
 
   const handleSelectAll = (e) => {
@@ -1438,6 +1446,11 @@ function LayoutaddProduct() {
                             formData.isfullpack != null &&
                             formData.isfullpack == 1
                           }
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              handleInputChange(e);
+                            }
+                          }}
                           onChange={handleInputChange}
                           className="mx-1"
                         />{" "}
@@ -1458,6 +1471,11 @@ function LayoutaddProduct() {
                             formData.isfullpack != null &&
                             formData.isfullpack == 0
                           }
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              handleInputChange(e);
+                            }
+                          }}
                           onChange={handleInputChange}
                           className="ml-2 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
                         />
@@ -1493,6 +1511,11 @@ function LayoutaddProduct() {
                           <input
                             type="checkbox"
                             id="original"
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                handleInputChange(e);
+                              }
+                            }}
                             name="product"
                             value="original"
                             checked={formData.packType === "original"}
@@ -1511,6 +1534,11 @@ function LayoutaddProduct() {
                           <input
                             type="checkbox"
                             id="non-original"
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                handleInputChange(e);
+                              }
+                            }}
                             name="product"
                             value="non-original"
                             checked={formData.packType === "non-original"}
@@ -1541,6 +1569,13 @@ function LayoutaddProduct() {
                         type="checkbox"
                         id="tornLabel"
                         name="tornLabel"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault(); // Prevent default behavior for "Enter"
+                            e.target.checked = !e.target.checked; // Toggle the checked state
+                            handleInputChange(e); // Call the input change handler with updated state
+                          }
+                        }}
                         checked={
                           formData.packCondition.tornLabel != null
                             ? formData.packCondition.tornLabel
@@ -1556,6 +1591,22 @@ function LayoutaddProduct() {
                         type="checkbox"
                         id="otherCondition"
                         name="otherCondition"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault(); 
+                            setFormData((prevFormData) => ({
+                              ...prevFormData,
+                              packCondition: {
+                                ...prevFormData.packCondition,
+                                tornLabel: "",
+                                otherConditionChecked: !prevFormData.packCondition.otherConditionChecked,
+                                otherCondition: !prevFormData.packCondition.otherConditionChecked
+                                  ? prevFormData.packCondition.otherCondition
+                                  : "",
+                              },
+                            }));
+                          }
+                        }}
                         checked={
                           (formData.packCondition.otherCondition.length>0 && formData.packCondition.tornLabel==""
                             && formData.packCondition.otherCondition!="torn") 
@@ -1582,6 +1633,11 @@ function LayoutaddProduct() {
                       <input
                         type="text"
                         name="otherConditionText"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            handleInputChange(e);
+                          }
+                        }}
                         value={ formData.packCondition.otherCondition != "torn" ? formData.packCondition.otherCondition : ""}
                         onChange={(e) =>
                           setFormData({
