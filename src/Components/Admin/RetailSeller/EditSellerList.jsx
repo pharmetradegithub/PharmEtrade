@@ -1366,7 +1366,7 @@ const EditSellerList = () => {
       )}
       <div className="w-[95%] mt-8 h-full flex flex-col justify-normal">
         {/* Render Profile Buttons */}
-        <div className="flex">
+        {/* <div className="flex">
           {profiles.map((profile) => (
             <div key={profile.grid} className="flex ml-6">
               <div
@@ -1382,6 +1382,25 @@ const EditSellerList = () => {
                 </h1>
               </div>
             </div>
+          ))}
+        </div> */}
+        <div className="flex">
+          {profiles.map((profile) => (
+            (profile.label !== "Charges Informations" || userDetails?.customerTypeId !== 4) && (
+              <div key={profile.grid} className="flex ml-6">
+                <div
+                  className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${visibleGrid === profile.grid
+                      ? "border-b-4 border-blue-900"
+                      : ""
+                    }`}
+                  onClick={() => toggleGrid(profile.grid)}
+                >
+                  <h1 className="text-lg text-blue-900 font-semibold">
+                    {profile.label}
+                  </h1>
+                </div>
+              </div>
+            )
           ))}
         </div>
 
@@ -2242,42 +2261,7 @@ const EditSellerList = () => {
 
             <div className="flex justify-between flex-col  rounded-lg  px-8  w-[95%] mt-4">
               <div className="button-group">
-                {/* <Button
-                  onClick={() => ActivateCustomer(CustomerId, comments)}
-                  className={`mr-2 text-white ${
-                    userdata?.isActive === 1
-                      ? "bg-green-500 cursor-not-allowed opacity-50"
-                      : "bg-green-500"
-                  }`}
-                  disabled={userdata?.isActive === 1} // Disable the button if isActive is 1
-                >
-                  Activate
-                </Button>
-
-                <Button
-                  onClick={() => DeactivateCustomer(CustomerId, comments)}
-                  className={`mr-2 text-white ${
-                    userdata?.isActive === 0
-                      ? "bg-red-500 cursor-not-allowed opacity-50"
-                      : "bg-red-500"
-                  }`}
-                  disabled={userdata?.isActive === 0} // Disable the button if isActive is 0
-                >
-                  Deactivate
-                </Button> */}
-
-                {/* <Button
-                  onClick={() => handleOpenPopup("activate")}
-                  className={`mr-2 text-white ${userdata?.isActive === 1
-                      ? "bg-green-500 cursor-not-allowed opacity-50"
-                      : "bg-green-500"
-                    }`}
-                  disabled={userdata?.isActive === 1}
-                >
-                  Activate
-                </Button> */}
-
-                <>
+                {/* <>
                   {GetCharges.length === 0 && (
                     <p className="text-red-500 mb-2">
                       To Activate User You Should Provide Charges Information Under Charges Information Tab
@@ -2292,6 +2276,26 @@ const EditSellerList = () => {
                     }`}
                     disabled={
                       userdata?.isActive === 1 || GetCharges.length === 0
+                    }
+                  >
+                    Activate
+                  </Button>
+                </> */}
+
+                <>
+                  {GetCharges.length === 0 && userDetails?.customerTypeId !== 4 && (
+                    <p className="text-red-500 mb-2">
+                      To Activate User You Should Provide Charges Information Under Charges Information Tab
+                    </p>
+                  )}
+                  <Button
+                    onClick={() => handleOpenPopup("activate")}
+                    className={`mr-2 text-white ${userdata?.isActive === 1 || (GetCharges.length === 0 && userDetails?.customerTypeId !== 4)
+                        ? "bg-green-500 cursor-not-allowed opacity-50"
+                        : "bg-green-500"
+                      }`}
+                    disabled={
+                      userdata?.isActive === 1 || (GetCharges.length === 0 && userDetails?.customerTypeId !== 4)
                     }
                   >
                     Activate
