@@ -909,7 +909,7 @@ const LayoutProfile = () => {
       )}
       <div className="w-[95%] mt-8 h-full flex flex-col justify-normal">
         {/* Render Profile Buttons */}
-        <div className="grid flex-col md:grid-cols-3  xl:flex md:flex-row gap-4 md:gap-3">
+        {/* <div className="grid flex-col md:grid-cols-3  xl:flex md:flex-row gap-4 md:gap-3">
           {profiles.map((profile, index) =>
             // Hide index 1 if user.customerTypeId is 4
             userdata?.customerTypeId === 4 &&
@@ -930,7 +930,32 @@ const LayoutProfile = () => {
               </div>
             )
           )}
+        </div> */}
+        <div className="grid flex-col md:grid-cols-3 xl:flex md:flex-row gap-4 md:gap-3">
+  {profiles.map((profile, index) =>
+    userdata?.customerTypeId === 4 &&
+    (index === 1 || index === 2 || profile.grid === "charges") ? null : (
+      <div key={profile.grid} className="flex ml-6">
+        <div
+          className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${
+            visibleGrid === profile.grid
+              ? "border-b-4 border-blue-900"
+              : ""
+          }`}
+          onClick={() => toggleGrid(profile.grid)}
+        >
+          <h1 className="text-lg text-blue-900 font-semibold">
+            {profile.label}
+          </h1>
         </div>
+      </div>
+    )
+  )}
+</div>
+
+
+
+
 
         {visibleGrid === "account" && (
           <div>

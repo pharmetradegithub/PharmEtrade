@@ -56,50 +56,156 @@ const Bid = ({ topMargin }) => {
     });
   };
 
+
+  
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   let hasErrors = false;
+  // const newErrors = {
+  //   productName: "",
+  //   price: "",
+  //   quantity: "",
+  //   comments: "",
+  // };
+
+  // if (!formData.productName.trim()) {
+  //   newErrors.productName = "Please enter a product name.";
+  //   hasErrors = true;
+  // }
+
+  // if (!formData.price.trim() || isNaN(formData.price) || parseFloat(formData.price) <= 0) {
+  //   newErrors.price = "Please enter a valid price greater than 0.";
+  //   hasErrors = true;
+  // }
+
+  // if (!formData.quantity.trim() || isNaN(formData.quantity) || parseInt(formData.quantity) <= 0) {
+  //   newErrors.quantity = "Please enter a valid quantity greater than 0.";
+  //   hasErrors = true;
+  // }
+
+  // if (!formData.comments.trim()) {
+  //   newErrors.comments = "Please enter your comments.";
+  //   hasErrors = true;
+  // }
+
+  // setErrors(newErrors);
+
+  // if (hasErrors) return;
+  
+  //   try {
+  //     if (!formData.productName.trim()) {
+  //       setNotification({
+  //         show: true,
+  //         message: "Please enter a product name.",
+  //       });
+  //       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //       return;
+  //     }
+  
+  //     const Criteria = { customerId: user?.customerId, productName: formData.productName };
+  //     console.log("Criteria:", Criteria);
+  
+  //     const products = await fetchCriteriaProductsApi(Criteria, "", true);
+  //     console.log("Fetched Products:", products);
+  
+  //     if (!products || products.length === 0) {
+  //       setNotification({
+  //         show: true,
+  //         message: "No products found matching your criteria. Please check the product name and try again.",
+  //       });
+  //       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //       return;
+  //     }
+  
+  //     const productIds = products.map((product) => product.productID);
+  
+  //     // Prepare bids for each product
+  //     const currentDate = new Date().toISOString();
+  //     const bidPromises = productIds.map((item) => {
+  //       const bidData = {
+  //         bidId: "",
+  //         buyerId: user?.customerId,
+  //         productId: item,
+  //         price: formData.price,
+  //         quantity: formData.quantity,
+  //         comments: formData.comments,
+  //         statusId: 1,
+  //         // isActive: true,
+  //         createdOn: currentDate,
+  //       };
+  //       return AddBidAPI(bidData);
+  //     });
+  
+  //     await Promise.all(bidPromises);
+  
+  //     setNotification({
+  //       show: true,
+  //       message: "Bids submitted successfully!",
+  //     });
+  //     setFormData({
+  //       productName: "",
+  //       price: "",
+  //       quantity: "",
+  //       comments: "",
+  //     });
+  //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //   } catch (error) {
+  //     console.error("An error occurred while submitting bids:", error);
+  //     setNotification({
+  //       show: true,
+  //       message: "An error occurred. Please try again.",
+  //     });
+  //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //   }
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
     let hasErrors = false;
-  const newErrors = {
-    productName: "",
-    price: "",
-    quantity: "",
-    comments: "",
-  };
-
-  if (!formData.productName.trim()) {
-    newErrors.productName = "Please enter a product name.";
-    hasErrors = true;
-  }
-
-  if (!formData.price.trim() || isNaN(formData.price) || parseFloat(formData.price) <= 0) {
-    newErrors.price = "Please enter a valid price greater than 0.";
-    hasErrors = true;
-  }
-
-  if (!formData.quantity.trim() || isNaN(formData.quantity) || parseInt(formData.quantity) <= 0) {
-    newErrors.quantity = "Please enter a valid quantity greater than 0.";
-    hasErrors = true;
-  }
-
-  if (!formData.comments.trim()) {
-    newErrors.comments = "Please enter your comments.";
-    hasErrors = true;
-  }
-
-  setErrors(newErrors);
-
-  if (hasErrors) return;
+    
+    const newErrors = {
+      productName: "",
+      price: "",
+      quantity: "",
+      comments: "",
+    };
   
+    // Field validation
+    if (!formData.productName.trim()) {
+      newErrors.productName = "Please enter a product name.";
+      hasErrors = true;
+    }
+  
+    if (!formData.price.trim() || isNaN(formData.price) || parseFloat(formData.price) <= 0) {
+      newErrors.price = "Please enter a valid price greater than 0.";
+      hasErrors = true;
+    }
+  
+    if (!formData.quantity.trim() || isNaN(formData.quantity) || parseInt(formData.quantity) <= 0) {
+      newErrors.quantity = "Please enter a valid quantity greater than 0.";
+      hasErrors = true;
+    }
+  
+    if (!formData.comments.trim()) {
+      newErrors.comments = "Please enter your comments.";
+      hasErrors = true;
+    }
+  
+    // If any field has an error, display the notification and stop execution
+    if (hasErrors) {
+      setNotification({
+        show: true,
+        message: "All fields are mandatory.",
+      });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      setErrors(newErrors);
+      return;
+    }
+  
+    setErrors(newErrors);
+  
+    // Proceed with form submission if no errors
     try {
-      if (!formData.productName.trim()) {
-        setNotification({
-          show: true,
-          message: "Please enter a product name.",
-        });
-        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-        return;
-      }
-  
       const Criteria = { customerId: user?.customerId, productName: formData.productName };
       console.log("Criteria:", Criteria);
   
@@ -128,7 +234,6 @@ const Bid = ({ topMargin }) => {
           quantity: formData.quantity,
           comments: formData.comments,
           statusId: 1,
-          // isActive: true,
           createdOn: currentDate,
         };
         return AddBidAPI(bidData);
@@ -185,16 +290,8 @@ const Bid = ({ topMargin }) => {
           <div className="gap-4">
             <div>
               <label className="block text-base font-semibold text-gray-700">
-                Product Name
+                Product Name*
               </label>
-              {/* <input
-                type="text"
-                name="productName"
-                placeholder="Product name you are looking for"
-                value={formData.productName}
-                onChange={handleChange}
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-              /> */}
                <input
         type="text"
         name="productName"
@@ -208,16 +305,8 @@ const Bid = ({ topMargin }) => {
             <div className="grid grid-cols-1 gap-4 my-4 md:grid-cols-2">
               <div>
                 <label className="block text-base font-semibold text-gray-700">
-                  Price
+                  Price($)*
                 </label>
-                {/* <input
-                  type="text"
-                  name="price"
-                  placeholder="Price"
-                  value={formData.price}
-                  onChange={handleChange}
-                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                /> */}
                   <input
           type="text"
           name="price"
@@ -230,15 +319,8 @@ const Bid = ({ topMargin }) => {
               </div>
               <div>
                 <label className="block text-base font-semibold text-gray-700">
-                  Quantity
+                  Quantity*
                 </label>
-                {/* <input
-                  type="text"
-                  name="quantity"
-                  value={formData.quantity}
-                  onChange={handleChange}
-                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                /> */}
                  <input
           type="text"
           name="quantity"
@@ -251,14 +333,8 @@ const Bid = ({ topMargin }) => {
             </div>
             <div>
               <label className="block text-base font-semibold text-gray-700">
-                Comments
+                Comments*
               </label>
-              {/* <textarea
-                name="comments"
-                value={formData.comments}
-                onChange={handleChange}
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-              /> */}
                     <textarea
         name="comments"
         value={formData.comments}
