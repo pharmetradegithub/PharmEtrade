@@ -1148,7 +1148,10 @@ function LayoutSellOrders() {
                   >
                     <div className="flex items-center justify-between mb-2">
                       <h2 className="text-lg font-bold">
-                        Order ID: {indexOfFirstItem + index + 1}
+                       S.NO: {indexOfFirstItem + index + 1}
+                      </h2>
+                      <h2 className="text-lg font-bold">
+                        Order Number: {product.orderNumber}
                       </h2>
                       <img
                         className="w-10 h-10"
@@ -1231,7 +1234,9 @@ function LayoutSellOrders() {
               <table className="w-full">
                 <thead className="bg-blue-900 text-white">
                   <tr className="border-b-2">
-                    <th className="px-4 py-2 text-left">Order ID</th>
+                    <th className="px-4 py-2 text-left">S.NO</th>
+                    <th className="px-4 py-2 text-left">Order Number</th>
+
                     <th className="px-4 py-2 text-left">Thumbnail</th>
                     <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("productName")}>Product Name 
                       {sortConfig.key === "productName"
@@ -1272,6 +1277,9 @@ function LayoutSellOrders() {
                       <tr key={product.productId} className="border-b">
                         <td className="px-4 py-2">
                           {indexOfFirstItem + index + 1}
+                        </td>
+                        <td className="px-4 py-2">
+                          {product.orderNumber}
                         </td>
                         <td className="px-4 py-2">
                           <img className="w-10 h-10" src={product.imageUrl} />
