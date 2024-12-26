@@ -154,6 +154,7 @@ import Reports from "./Components/Admin/Reports/Reports";
 import LayoutBuyReturn from "./Components/LayoutPage/LayoutBuy/LayoutReturn";
 import NotFoundErrorpage from "./Components/NotFoundErrorpage";
 import SellerReports from "./Components/ReportsSeller/SellerReports";
+import LayoutPurchaseHistory from "./Components/LayoutPage/LayoutBuy/LayoutPurchaseHistory";
 
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
@@ -467,6 +468,7 @@ function App() {
             }
           />
           <Route path="/layout/sellerReports" element={<SellerReports />} />
+          <Route path="/layout/purchaseHistory" element={<LayoutPurchaseHistory />} />
           <Route path="/layout/layoutjoin" element={<Signup />} />
           <Route path="/layout/layoutbid" element={<LayoutBid />} />
           <Route

@@ -1874,11 +1874,11 @@ const LayoutRelatedProducts = () => {
           <table className="w-full">
             <thead className="bg-blue-900 text-white">
               <tr className="border-b font-semibold">
-                <th className=" p-4  text-left text-sm  w-16">
+                {/* <th className=" p-4  text-left text-sm  w-16">
                   <select className="text-black">
                     <option>-</option>
                   </select>
-                </th>
+                </th> */}
                 <th className=" p-2  text-left text-sm w-10">ID</th>
                 <th className=" p-2  text-left text-sm w-24">Thumbnail</th>
                 <th className=" p-2  text-left text-sm  w-80">Name</th>
@@ -1893,9 +1893,9 @@ const LayoutRelatedProducts = () => {
             <tbody>
               {relatedProducts.map((product, index) => (
                 <tr key={index} className="border-b">
-                  <td className=" p-2">
+                  {/* <td className=" p-2">
                     <input className=" h-6 w-4" type="checkbox" />
-                  </td>
+                  </td> */}
                   <td className="text-sm p-2"> {index + 1}</td>
                   <td className="text-sm p-2">
                     <img
@@ -1960,11 +1960,11 @@ const LayoutRelatedProducts = () => {
           <table className="w-full">
             <thead className="bg-blue-900 text-white  ">
               <tr className="border-b font-semibold">
-                <th className=" p-4  text-left text-sm  w-16">
+                {/* <th className=" p-4  text-left text-sm  w-16">
                   <select className="text-black">
                     <option>-</option>
                   </select>
-                </th>
+                </th> */}
                 <th className=" p-2  text-left text-sm w-10">ID</th>
                 <th className=" p-2  text-left text-sm w-24">Thumbnail</th>
                 <th className=" p-2  text-left text-sm  w-80">Name</th>
@@ -1979,9 +1979,9 @@ const LayoutRelatedProducts = () => {
             <tbody>
               {UpSellProducts.map((product, index) => (
                 <tr key={index} className="border-b">
-                  <td className=" p-2">
+                  {/* <td className=" p-2">
                     <input className=" h-6 w-4" type="checkbox" />
-                  </td>
+                  </td> */}
                   <td className="text-sm p-2"> {index + 1}</td>
                   <td className="text-sm p-2">
                     <img
@@ -2044,11 +2044,11 @@ const LayoutRelatedProducts = () => {
         <table className="w-full">
           <thead className="bg-blue-900 text-white  ">
             <tr className="border-b font-semibold">
-              <th className=" p-4  text-left text-sm   w-16">
+              {/* <th className=" p-4  text-left text-sm   w-16">
                 <select className="text-black">
                   <option>-</option>
                 </select>
-              </th>
+              </th> */}
               <th className=" p-2  text-left text-sm w-10">ID</th>
               <th className="p-2  text-left text-sm  w-24">Thumbnail</th>
               <th className=" p-2  text-left text-sm w-80">Name</th>
@@ -2063,9 +2063,9 @@ const LayoutRelatedProducts = () => {
           <tbody>
             {CrossSellProducts.map((product, index) => (
               <tr key={index} className="border-b">
-                <td className=" p-2">
+                {/* <td className=" p-2">
                   <input className=" h-6 w-4" type="checkbox" />
-                </td>
+                </td> */}
                 <td className="text-sm p-2"> {index + 1}</td>
                 <td className="text-sm p-2">
                   <img
