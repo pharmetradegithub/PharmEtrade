@@ -235,9 +235,20 @@ function LayoutWishlist({ addCart }) {
                   </div>
                 </div>
                 <div className="flex flex-col items-center justify-center mt-4 md:mt-0">
-                  <button
+                  {/* <button
                     className="text-lg md:text-base font-semibold text-white bg-blue-900  items-center justify-center flex h-9 w-36 md:w-28 rounded-full"
                     onClick={() => handleCart(item.product.productID)}
+                  >
+                    <img src={cart} className="w-4 md:w-5 h-4 md:h-5 mx-1" />
+                    ADD
+                  </button> */}
+                  <button
+                    className={`text-sm md:text-lg font-semibold text-white ${item.product.amountInStock > 0 ? 'bg-blue-900' : 'bg-gray-300 cursor-not-allowed'
+                      } w-28 md:w-36 h-9 flex justify-center items-center rounded-full`}
+                    onClick={() => {
+                      if (item.product.amountInStock > 0) handleCart(item.product.productID);
+                    }}
+                    disabled={item.product.amountInStock === 0}
                   >
                     <img src={cart} className="w-4 md:w-5 h-4 md:h-5 mx-1" />
                     ADD
@@ -305,12 +316,12 @@ function LayoutWishlist({ addCart }) {
                     </Tooltip>
                     {/* <MdDeleteOutline className="border rounded-md text-2xl hover:bg-sky-200" /> */}
                   </div>
-                  <p
+                  {/* <p
                     onClick={handlePopupToggle}
                     className="hover:text-red-400 hover:underline font-semibold text-blue-900 text-lg sm:text-sm md:text-sm md:text-center"
                   >
                     Add comment, quantity & priority
-                  </p>
+                  </p> */}
                   {showPopup && (
                     <div className="flex flex-col justify-center items-center h-full absolute inset-0 bg-transparent z-auto">
                     <div className="border w-3/4 md:w-[40%] lg:w-[36%] md:ml-20 rounded-lg bg-gray-100">

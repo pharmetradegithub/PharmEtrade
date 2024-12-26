@@ -153,6 +153,8 @@ import LayoutTerms from "./Components/LayoutTerms";
 import Reports from "./Components/Admin/Reports/Reports";
 import LayoutBuyReturn from "./Components/LayoutPage/LayoutBuy/LayoutReturn";
 import NotFoundErrorpage from "./Components/NotFoundErrorpage";
+import SellerReports from "./Components/ReportsSeller/SellerReports";
+
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
 
@@ -379,6 +381,7 @@ function App() {
         </Route>
 
         {/* <Route path="/faqs" element={<Faqs />} /> */}
+      
 
         <Route path="/layout" element={<LayoutPanel cartItems={cartItems} />}>
           <Route
@@ -463,6 +466,7 @@ function App() {
               />
             }
           />
+          <Route path="/layout/sellerReports" element={<SellerReports />} />
           <Route path="/layout/layoutjoin" element={<Signup />} />
           <Route path="/layout/layoutbid" element={<LayoutBid />} />
           <Route
