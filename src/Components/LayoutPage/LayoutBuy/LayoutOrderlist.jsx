@@ -33,7 +33,7 @@ import searchImg from "../../../assets/search-icon.png";
 import { Button, Dialog, DialogActions, DialogContent } from "@mui/material";
 
 function LayoutOrderList() {
-  
+
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
@@ -64,11 +64,11 @@ function LayoutOrderList() {
   // Filter orders by selected year
   const [filteredOrders, setfilteredOrders] = useState(null);
   useEffect(() => {
-    if (getOrder != null ) {
+    if (getOrder != null) {
       const sortedOrders = Array.isArray(getOrder)
         ? [...getOrder].sort(
-            (a, b) => new Date(b.orderDate) - new Date(a.orderDate)
-          )
+          (a, b) => new Date(b.orderDate) - new Date(a.orderDate)
+        )
         : [];
       setsortedOrders(sortedOrders);
 
@@ -85,8 +85,7 @@ function LayoutOrderList() {
       setdisplayData(newDisplayData);
       console.log(newDisplayData, "newdisplay");
       // Step 3: Update Pagination Indices and Current Items
-      if(newDisplayData?.length < itemsPerPage)
-      {
+      if (newDisplayData?.length < itemsPerPage) {
         setCurrentPage(1);
       }
       const newIndexOfLastItem = currentPage * itemsPerPage;
@@ -425,6 +424,22 @@ function LayoutOrderList() {
       console.error('Error in handleCancel:', error);
     }
   }
+
+  const [returnDates, setReturnDates] = useState([]);
+
+  useEffect(() => {
+    if (currentItems?.length) {
+      const dateOffset = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+
+      // Calculate return dates for all orders
+      const calculatedDates = currentItems.map((order) =>
+        new Date(new Date(order.orderDate).getTime() + dateOffset)
+      );
+
+      // Store calculated dates in state
+      setReturnDates(calculatedDates);
+    }
+  }, [currentItems]);
   return (
     // <div
     //   className="w-full h-full overflow-y-scroll "
@@ -842,7 +857,7 @@ function LayoutOrderList() {
 
     <div
       className="w-full h-full overflow-y-scroll "
-      // style={{marginTop: `${topMargin}px`,}}
+    // style={{marginTop: `${topMargin}px`,}}
     >
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
@@ -871,9 +886,8 @@ function LayoutOrderList() {
                   <svg
                     key={star}
                     onClick={() => setRating(star)}
-                    className={`h-6 w-6 cursor-pointer ${
-                      rating >= star ? "text-yellow-500" : "text-gray-400"
-                    }`}
+                    className={`h-6 w-6 cursor-pointer ${rating >= star ? "text-yellow-500" : "text-gray-400"
+                      }`}
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
@@ -1012,8 +1026,8 @@ function LayoutOrderList() {
               Yes
             </Button>
           </DialogActions>
-            </div>
-                </Dialog>
+        </div>
+      </Dialog>
 
       <div className="mx-5 sm:mx-4">
         <div className="flex flex-col md:flex-row justify-between md:items-center ">
@@ -1071,11 +1085,10 @@ function LayoutOrderList() {
           {profiles.map((profile) => (
             <button
               key={profile.grid}
-              className={`border-b ${
-                visibleGrid === profile.grid
+              className={`border-b ${visibleGrid === profile.grid
                   ? "border-red-500 text-blue-900 mobile:text-blue-900"
                   : "hover:border-red-500 hover:text-blue-900"
-              } text-black w-60 h-9 text-xl mobile:w-full`}
+                } text-black w-60 h-9 text-xl mobile:w-full`}
               onClick={() => toggleGrid(profile.grid)}
             >
               {profile.label}
@@ -1088,7 +1101,7 @@ function LayoutOrderList() {
           <YearDropdown className="border rounded-lg" />
         </div>
         <div className="hidden">
-        {currentItems?.length};{/* section start */}
+          {currentItems?.length};{/* section start */}
 
         </div>
         {visibleGrid === "order" && (
@@ -1112,7 +1125,7 @@ function LayoutOrderList() {
                     <h1 className="text-sm lg:text-lg">Total</h1>
                     <p className="text-sm lg:text-lg">
                       ${(
-                        (order?.pricePerProduct * order?.quantity) 
+                        (order?.pricePerProduct * order?.quantity)
                         // ((order?.pricePerProduct * order?.quantity) * (order?.chargesPercentage / 100))
                       )?.toFixed(2)}
                     </p>
@@ -1196,16 +1209,11 @@ function LayoutOrderList() {
                         </p> */}
                         <p className="text-sm mt-2">
                           Return Window closes on{" "}
-                          {new Date(
-                            new Date(order.orderDate).getTime() +
-                              7 * 24 * 60 * 60 * 1000
-                          )
-                            .toLocaleDateString("en-US", {
-                              month: "2-digit",
-                              day: "2-digit",
-                              year: "numeric",
-                            })
-                            .replace(/\//g, "-")}
+                          {returnDates[index]?.toLocaleDateString("en-US", {
+                            month: "2-digit",
+                            day: "2-digit",
+                            year: "numeric",
+                          })?.replace(/\//g, "-")}
                         </p>
                         <p>Quantity: {order.quantity}</p>
                       </div>
@@ -1263,7 +1271,9 @@ function LayoutOrderList() {
                         : "Cancel Order"}
                     </button>
                       } */}
-                    {order.orderedProductStatusId !== 6 && order.orderedProductStatusId !== 4 && (
+
+                    {/* =====below code is code ===== */}
+                    {/* {order.orderedProductStatusId !== 6 && order.orderedProductStatusId !== 4 && (
                       <button
                         key={order.productId}
                         className={`border rounded-lg p-2 ${order.orderedProductStatusId === 5 || cancelledOrders[order.productId]
@@ -1281,7 +1291,76 @@ function LayoutOrderList() {
                           ? "Order Cancelled"
                           : "Cancel Order"}
                       </button>
+                    )} */}
+                    {/* ======================== */}
+
+                    {/* {order.orderedProductStatusId !== 6 && order.orderedProductStatusId !== 4 && (
+                      <button
+                        key={order.productId}
+                        className={`border rounded-lg p-2 ${order.orderedProductStatusId === 5 ||
+                            cancelledOrders[order.productId] 
+                            // (returnDates[index] && new Date(returnDates[index]).getTime() > new Date(new Date().setDate(new Date().getDate() + 1)).setHours(0, 0, 0, 0))
+                            ? "bg-gray-400 cursor-not-allowed"
+                            : "bg-blue-900 text-white cursor-pointer"
+                          }`}
+                        disabled={
+                          order.orderedProductStatusId === 5 ||
+                          cancelledOrders[order.productId] 
+                          // (returnDates[index] && new Date(returnDates[index]).getTime() > new Date(new Date().setDate(new Date().getDate() + 1)).setHours(0, 0, 0, 0))
+                        }
+                        onClick={() => {
+                          const returnDate = new Date(returnDates[index]);
+                          const tomorrow = new Date();
+                          tomorrow.setDate(tomorrow.getDate() + 1); // Set the date to tomorrow
+                          tomorrow.setHours(0, 0, 0, 0); // Set time to 00:00:00 for tomorrow
+
+                          // Compare if the return date is after tomorrow
+                          if (returnDate < tomorrow) {
+                            alert("The return window has closed. This action is no longer allowed.");
+                            return;
+                          }
+
+                          handleCancel(order.orderId, order.productId, order.customerId);
+                        }}
+                      >
+                        {order.orderedProductStatusId === 5 || cancelledOrders[order.productId]
+                          ? "Order Cancelled"
+                          : "Cancel Order"}
+                      </button>
+                    )} */}
+                    {order.orderedProductStatusId !== 6 && order.orderedProductStatusId !== 4 && (
+                      <button
+                        key={order.productId}
+                        className={`border rounded-lg p-2 ${order.orderedProductStatusId === 5 ||
+                          cancelledOrders[order.productId]
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-blue-900 text-white cursor-pointer"
+                          }`}
+                        disabled={
+                          order.orderedProductStatusId === 5 ||
+                          cancelledOrders[order.productId]
+                        }
+                        onClick={() => {
+                          const returnDate = new Date(returnDates[index]);
+                          const today = new Date();
+                          today.setHours(0, 0, 0, 0); // Set time to midnight to ignore the time portion of today's date
+
+                          // Show alert if the return date is in the past (before today)
+                          if (returnDate < today) {
+                            alert("The return window has closed. This action is no longer allowed.");
+                            return;
+                          }
+
+                          handleCancel(order.orderId, order.productId, order.customerId);
+                        }}
+                      >
+                        {order.orderedProductStatusId === 5 || cancelledOrders[order.productId]
+                          ? "Order Cancelled"
+                          : "Cancel Order"}
+                      </button>
                     )}
+
+
                   </div>
                 </div>
               </div>
