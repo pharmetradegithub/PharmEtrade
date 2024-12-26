@@ -207,7 +207,18 @@ function Wishlist({ topMargin, addCart }) {
                   </div>
                 </div>
                 <div className="flex flex-col items-center justify-center mt-4 md:mt-0">
-                  <button className="text-sm md:text-lg font-semibold text-white bg-blue-900 w-28 md:w-36 h-9 flex justify-center items-center rounded-full" onClick={() => handleCart(item.product.productID)}>
+                  {/* <button className="text-sm md:text-lg font-semibold text-white bg-blue-900 w-28 md:w-36 h-9 flex justify-center items-center rounded-full" onClick={() => handleCart(item.product.productID)}>
+                    <img src={cart} className="w-4 md:w-5 h-4 md:h-5 mx-1" />
+                    ADD
+                  </button> */}
+                  <button
+                    className={`text-sm md:text-lg font-semibold text-white ${item.product.amountInStock > 0 ? 'bg-blue-900' : 'bg-gray-300 cursor-not-allowed'
+                      } w-28 md:w-36 h-9 flex justify-center items-center rounded-full`}
+                    onClick={() => {
+                      if (item.product.amountInStock > 0) handleCart(item.product.productID);
+                    }}
+                    disabled={item.product.amountInStock === 0}
+                  >
                     <img src={cart} className="w-4 md:w-5 h-4 md:h-5 mx-1" />
                     ADD
                   </button>
@@ -219,9 +230,9 @@ function Wishlist({ topMargin, addCart }) {
                       <img src={deleteicon} onClick={() => handleremove(item.wishListId)} className="w-4 md:w-5 cursor-pointer" />
                     </Tooltip>
                   </div>
-                  <p onClick={handlePopupToggle} className="hover:text-red-400 cursor-pointer hover:underline font-semibold text-sm md:text-lg text-blue-900">
+                  {/* <p onClick={handlePopupToggle} className="hover:text-red-400 cursor-pointer hover:underline font-semibold text-sm md:text-lg text-blue-900">
                     Add comment, quantity & priority
-                  </p>
+                  </p> */}
                   {showPopup && (
                      <div className="flex flex-col justify-center items-center h-full absolute inset-0 bg-transparent z-auto">
                      <div className="border w-3/4 md:w-[40%] lg:w-[36%] md:ml-20 rounded-lg bg-gray-100">
