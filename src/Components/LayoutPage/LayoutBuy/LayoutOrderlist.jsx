@@ -1244,6 +1244,7 @@ function LayoutOrderList() {
                     >
                       {order?.orderStatusId === 5 || isCancelled ? "Order Cancelled" : "Cancel Order"}
                     </button> */}
+                    {/* {!order.orderStatusId === 6 && 
                     <button
                       key={order.productId}
                       className={`border rounded-lg p-2 ${order.orderStatusId === 5 || cancelledOrders[order.productId]
@@ -1261,6 +1262,26 @@ function LayoutOrderList() {
                         ? "Order Cancelled"
                         : "Cancel Order"}
                     </button>
+                      } */}
+                    {order.orderedProductStatusId !== 6 && order.orderedProductStatusId !== 4 && (
+                      <button
+                        key={order.productId}
+                        className={`border rounded-lg p-2 ${order.orderedProductStatusId === 5 || cancelledOrders[order.productId]
+                            ? "bg-gray-400 cursor-not-allowed"
+                            : "bg-blue-900 text-white cursor-pointer"
+                          }`}
+                        disabled={order.orderedProductStatusId === 5 || cancelledOrders[order.productId]}
+                        onClick={() => {
+                          if (order.orderedProductStatusId !== 5) {
+                            handleCancel(order.orderId, order.productId, order.customerId);
+                          }
+                        }}
+                      >
+                        {order.orderedProductStatusId === 5 || cancelledOrders[order.productId]
+                          ? "Order Cancelled"
+                          : "Cancel Order"}
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
