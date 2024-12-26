@@ -21,8 +21,8 @@ function Settlement() {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [paymentMode, setPaymentMode] = useState(''); // 'Wire' or 'Cheque'
   const [chequeImage, setChequeImage] = useState(null);
-  const [transactionId, setTransactionId] = useState(null);
-  const [accountNumber, setAccountNumber] = useState(null);
+  const [transactionId, setTransactionId] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
   const [searchTerm, setSearchTerm] = useState("");
   const fileInputRef = useRef(null);
     const [notification, setNotification] = useState({
@@ -32,49 +32,49 @@ function Settlement() {
 
  
 
-  const usersData = {
-    1: {
-      firstName: "John",
-      lastName: "Doe",
-      address: "123 Main St",
-      city: "New York",
-      state: "NY",
-      zip: "10001",
-      phoneNumber: "777-777-7777",
-      email: "john@example.com",
-    },
-    2: {
-      firstName: "Jane",
-      lastName: "Smith",
-      address: "456 Elm St",
-      city: "Los Angeles",
-      state: "CA",
-      zip: "90001",
-      phoneNumber: "888-888-8888",
-      email: "jane@example.com",
-    },
-    3: {
-      firstName: "Jane",
-      lastName: "Smith",
-      address: "456 Elm St",
-      city: "Los Angeles",
-      state: "CA",
-      zip: "90001",
-      phoneNumber: "888-888-8888",
-      email: "jane@example.com",
-    },
-    4: {
-      firstName: "Jane",
-      lastName: "Smith",
-      address: "456 Elm St",
-      city: "Los Angeles",
-      state: "CA",
-      zip: "90001",
-      phoneNumber: "888-888-8888",
-      email: "jane@example.com",
-    },
-    // Add more user details as needed
-  };
+  // const usersData = {
+  //   1: {
+  //     firstName: "John",
+  //     lastName: "Doe",
+  //     address: "123 Main St",
+  //     city: "New York",
+  //     state: "NY",
+  //     zip: "10001",
+  //     phoneNumber: "777-777-7777",
+  //     email: "john@example.com",
+  //   },
+  //   2: {
+  //     firstName: "Jane",
+  //     lastName: "Smith",
+  //     address: "456 Elm St",
+  //     city: "Los Angeles",
+  //     state: "CA",
+  //     zip: "90001",
+  //     phoneNumber: "888-888-8888",
+  //     email: "jane@example.com",
+  //   },
+  //   3: {
+  //     firstName: "Jane",
+  //     lastName: "Smith",
+  //     address: "456 Elm St",
+  //     city: "Los Angeles",
+  //     state: "CA",
+  //     zip: "90001",
+  //     phoneNumber: "888-888-8888",
+  //     email: "jane@example.com",
+  //   },
+  //   4: {
+  //     firstName: "Jane",
+  //     lastName: "Smith",
+  //     address: "456 Elm St",
+  //     city: "Los Angeles",
+  //     state: "CA",
+  //     zip: "90001",
+  //     phoneNumber: "888-888-8888",
+  //     email: "jane@example.com",
+  //   },
+  //   // Add more user details as needed
+  // };
 
   // State to store the selected user ID (default is 1 for the first user)
   const [isDetailsVisible, setIsDetailsVisible] = useState(false);
@@ -91,11 +91,28 @@ function Settlement() {
   console.log("selecteduserid ====>",selectedUserId)
   // Toggle the visibility of address details
   const toggleDetails = () => {
-    setIsDetailsVisible(!isDetailsVisible);
+    // setIsDetailsVisible(!isDetailsVisible);
+
+    if (searchTerm.trim() && selectedUserId) {
+      // Toggle visibility only if searchTerm has valid data and a user is selected
+      setIsDetailsVisible(!isDetailsVisible);
+    } else {
+      // Ensure details are hidden if no searchTerm or user is selected
+      setIsDetailsVisible(false);
+    }
   };
 
+
+
+  useEffect(() => {
+    // Close details if the search term is cleared
+    if (!searchTerm.trim()) {
+      setIsDetailsVisible(false);
+    }
+  }, [searchTerm]);
+
+  // const formData = usersData[selectedUserId];
   // Get the selected user's details based on the selectedUserId
-  const formData = usersData[selectedUserId];
   // const [amountPaying, setAmountPaying] = useState('');
   // const [error, setError] = useState('');
 
@@ -142,14 +159,14 @@ function Settlement() {
   useEffect(() => {
     if (getDetails) {
       setStoreDetails({
-        FirstName: getDetails.sellerFirstName || '',
-        LastName: getDetails.sellerLastName || '',
-        Address: getDetails.sellerAddress || '',
-        City: getDetails.sellerCity || '',
-        State: getDetails.sellerState || '',
-        Zip: getDetails.sellerZip || '',
-        PhoneNumber: getDetails.sellerPhone || '',
-        Email: getDetails.sellerEmail || '',
+        FirstName: getDetails.sellerFirstName,
+        LastName: getDetails.sellerLastName,
+        Address: getDetails.sellerAddress,
+        City: getDetails.sellerCity,
+        State: getDetails.sellerState,
+        Zip: getDetails.sellerZip,
+        PhoneNumber: getDetails.sellerPhone,
+        Email: getDetails.sellerEmail,
         TotalAmountDue: getDetails.totalAmountDue,
         TotalAmountPaid: getDetails.totalAmountPaid
       });
@@ -290,16 +307,17 @@ function Settlement() {
     setAmountPaying("")
     // setPayableTo("")
     setBankName("")
-    setAccountNumber("")
+    setAccountNumber('')
     setChequeMailedOn('')
     setPaymentDate("")
     setPaymentMode("")
-    setTransactionId("")
+    setTransactionId('')
     setChequeImage(null)
     setDateFrom("")
     setDateTo("")
     setSearchTerm("")
     setStoreDetails({})
+    setIsDetailsVisible(false)
 
     if (fileInputRef.current) {
       fileInputRef.current.value = ""; // Clear file input
@@ -368,7 +386,7 @@ function Settlement() {
                 <button
                   onClick={toggleDetails}
                   disabled={!selectedUserId} // Disable button when no seller is selected
-                  className={`bg-blue-900 rounded-md w-28 ml-5 mb-1 text-white font-semibold text-base items-center flex justify-center ${!selectedUserId ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
+                  className={`bg-blue-900 rounded-md w-28 ml-5 mb-1 text-white font-semibold text-base items-center flex justify-center ${!selectedUserId || !searchTerm.trim() ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
                     }`}
                 >
                   {isDetailsVisible ? "Hide  Details" : "Show Details"}
