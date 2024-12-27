@@ -759,10 +759,15 @@ function Cart() {
 
     try {
       // Dispatch the action to place the order
-      await dispatch(fetchOrderPlace(payload));
+      const res = await dispatch(fetchOrderPlace(payload));
+      console.log(res)
+      if (res?.status === 200) {
+        navigate(`/checkout?total=${total?.toFixed(2)}`);
+      } else {
+        alert("Order Id is not generated")
+      }
       // navigate(`/checkout?total=${total?.toFixed(2)}&isCart=${true}`);
       // Navigate to checkout page
-      navigate(`/checkout?total=${total?.toFixed(2)}`);
     } catch (error) {
       console.error("Error processing the order:", error);
     }

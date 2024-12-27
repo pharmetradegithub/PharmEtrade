@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import { fetchSellCustomer } from "../../../Api/Dashboard";
 import { fetchGetOrderBySellerId } from "../../../Api/OrderApi";
 import Pagination from '../../Pagination'
+import Loading from "../../Loading";
 
 function LayoutCustomers() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,9 +25,20 @@ function LayoutCustomers() {
   // useEffect(() => {
   //   dispatch(fetchSellCustomer(user?.customerId));
   // }, [dispatch]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(fetchGetOrderBySellerId(user?.customerId));
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        await dispatch(fetchGetOrderBySellerId(user?.customerId));
+      } catch (error) {
+        console.error("Error fetching bids:", error);
+      } finally {
+        setLoading(false); // Reset loading state
+      }
+    }
+    fetchData()
   }, [dispatch]);
 
   const customers = [
@@ -174,6 +186,13 @@ function LayoutCustomers() {
           </div>
         </div>
 
+          {loading && (
+            <div>
+              <Loading />
+            </div>
+          )}
+          {!loading && (
+            <>
         <div className="border text-[15px] rounded-md overflow-x-scroll bg-white mt-4">
           <table className="w-full hidden md:table">
             <thead className="bg-blue-900 text-white">
@@ -332,8 +351,9 @@ function LayoutCustomers() {
               <div className="text-center py-4">No customer details</div>
             )}
           </div>
-        </div>
-
+            </div>
+            </>
+ )}
 
         <Pagination
           indexOfFirstItem={indexOfFirstItem}

@@ -684,12 +684,21 @@ const TaxInformation = () => {
           </div>
           <div>
             <TextField
-              type="text"
+              type="phone"
               label="Tax percentage"
               size="small"
               value={taxPercentage} // Set the tax percentage in the input
-              onChange={(e) => setTaxPercentage(e.target.value)} // Update when changed
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value <= 99) {
+                  setTaxPercentage(value); // Update when value is less than or equal to 99
+                }
+              }}// Update when changed
               disabled={!isEditable} // Enable/disable based on edit mode
+              inputProps={{
+                max: 99, // Set the maximum value to 99
+                min: 0,  // Optional: Set the minimum value to 0
+              }}
             />
           </div>
 

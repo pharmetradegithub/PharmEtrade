@@ -2179,7 +2179,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Notification from "../Notification";
 import { useStates } from "react-us-states";
-import { fetchGetOrder, orderGetByIdApi } from "../../Api/OrderApi";
+import { orderGetByIdApi } from "../../Api/OrderApi";
 import Remove from "../../assets/trash.png";
 import Bin from "../../assets/Bin.png";
 import edit from "../../assets/Edit.png";
@@ -2664,9 +2664,9 @@ function Address({ topMargin, totalAmount, amount }) {
 
 
 
-  useEffect(() => {
-    dispatch(fetchGetOrder(user?.customerId));
-  }, [user]);
+  // useEffect(() => {
+  //   dispatch(fetchGetOrder(user?.customerId));
+  // }, [user]);
 
   useEffect(() => {
     if (shortPopup) {

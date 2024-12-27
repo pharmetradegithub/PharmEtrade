@@ -7,6 +7,7 @@ import { fetchPaymentHistory } from "../../../Api/PaymentHistoryApi";
 import { Tooltip } from "@mui/material";
 import eye from "../../../assets/eye.png";
 import Pagination from "../../Pagination";
+import Loading from "../../Loading";
 // import { fetchPaymentHistory } from "../../../Api/PaymentHistory";
 
 function LayoutPaymentHistory() {
@@ -20,6 +21,8 @@ function LayoutPaymentHistory() {
   const paymentHistory = useSelector(
     (state) => state.dashboard.getPaymentHistory
   );
+    const [loading, setLoading] = useState(true);
+  
 
   const dispatch = useDispatch();
 
@@ -66,7 +69,7 @@ function LayoutPaymentHistory() {
     {
       label: "Total Recievables",
       // value: `$${(2420 || 0.0).toFixed(2)}`,
-      value: `$${paymentHistory.reduce((total, each) => total + each.paymentAmount, 0).toFixed(2)}`,
+      value: `$${paymentHistory.reduce((total, each) => total + each.amountPaid, 0).toFixed(2)}`,
       text: "as of 01-December-2023",
       color: "text-green-500",
     },
@@ -135,8 +138,18 @@ function LayoutPaymentHistory() {
   }, [paymentHistory, sortConfig]);
 
   useEffect(() => {
-    dispatch(fetchPaymentHistory(user?.customerId));
-  }, [user?.customerId]);
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        await dispatch(fetchPaymentHistory(user?.customerId));
+      } catch (error) {
+        console.error("Error fetching bids:", error);
+      } finally {
+        setLoading(false); // Reset loading state
+      }
+    }
+    fetchData()
+  }, [user?.customerId, dispatch]);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   // const currentItems = paymentHistory.slice(indexOfFirstItem, indexOfLastItem);
@@ -264,6 +277,13 @@ function LayoutPaymentHistory() {
         </div>
 
         <div className="border text-[15px] rounded-md bg-white mt-4">
+          {loading && (
+            <div>
+              <Loading />
+            </div>
+          )}
+          {!loading && (
+            
           <div className="overflow-x-auto">
             <div className="block lg:hidden md:hidden">
               {/* Mobile View: Card layout */}
@@ -281,7 +301,7 @@ function LayoutPaymentHistory() {
                         <img
                           src={eye}
                           className="w-6 h-6 cursor-pointer"
-                          onClick={() => handleClickView(payout.orderId)}
+                          onClick={() => handleClickView(payout.paidTo)}
                         />
                       </Tooltip>
                     </div>
@@ -296,12 +316,12 @@ function LayoutPaymentHistory() {
                         .replace(/\//g, "-")}
                     </p>
                     <p className="mb-2">
-                      <span className="font-semibold">Payment Status:</span>{" "}
-                      {payout.paymentStatus}
+                      <span className="font-semibold">Payment Mode:</span>{" "}
+                      {payout.paymentMode}
                     </p>
                     <p className="mb-2">
                       <span className="font-semibold">Payment Amount:</span> $
-                      {payout.paymentAmount.toFixed(2)}
+                      {payout.amountPaid.toFixed(2)}
                     </p>
                   </div>
                 ))
@@ -314,6 +334,7 @@ function LayoutPaymentHistory() {
 
             <div className="hidden lg:block md:block">
               {/* Desktop View: Table layout */}
+      
               <table className="w-full">
                 <thead className="bg-blue-900 text-white ">
                   <tr className="border-b-2 flex justify-around">
@@ -327,7 +348,7 @@ function LayoutPaymentHistory() {
                           ? "▲"
                           : "▼"
                         : "▲"}</th>
-                    <th className="px-4 py-2 text-left w-40">Payment Status</th>
+                    <th className="px-4 py-2 text-left w-40">Payment Mode</th>
                     <th className="px-4 py-2 text-left cursor-pointer w-44" onClick={() => handleSort("paymentAmount")}>Payment Amount  {sortConfig.key === "paymentAmount"
                         ? sortConfig.direction === "ascending"
                           ? "▲"
@@ -347,7 +368,7 @@ function LayoutPaymentHistory() {
                           {payout.orderId}
                         </td>  */}
                         <td className="px-4 py-2  w-40">
-                          {payout.fromUser}
+                          {payout.sellerName}
                         </td>
                         <td className="px-4 py-2 w-40">
                           {new Date(payout.paymentDate)
@@ -358,9 +379,9 @@ function LayoutPaymentHistory() {
                             })
                             .replace(/\//g, "-")}
                         </td>
-                        <td className="px-4 py-2 w-40">{payout.paymentStatus}</td>
+                        <td className="px-4 py-2 w-40">{payout.paymentMode}</td>
                         <td className="px-4 py-2 w-44">
-                          ${payout.paymentAmount.toFixed(2)}
+                          ${payout.amountPaid.toFixed(2)}
                         </td>
                         {/* <td className="px-4 py-2">
                           <Tooltip title="View" placement="top">
@@ -381,9 +402,11 @@ function LayoutPaymentHistory() {
                     </tr>
                   )}
                 </tbody>
-              </table>
+                  </table>
+               
             </div>
           </div>
+         )}
         </div>
         <Pagination
           indexOfFirstItem={indexOfFirstItem}

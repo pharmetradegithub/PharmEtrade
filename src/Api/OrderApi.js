@@ -130,6 +130,7 @@ export const fetchOrderPlace = (payLoad) => {
         const orderPlace = response.data;
         console.log('Full API response:', orderPlace); // Log the full response to debug
         dispatch(setOrderPlace(orderPlace));
+        return orderPlace
       }
       // if (response.status === 200) {
       //   // Ensure that you're accessing the correct part of the response
@@ -278,10 +279,10 @@ export const orderGetByIdApi = (orderId) => {
 //   };
 // };
 
-export const orderStatusUpdateApi = (orderId, productId, customerId, statusId, comment) => {
+export const orderStatusUpdateApi = (orderId, productId, customerId, statusId, comment, trackingNumber) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`/api/Orders/Product/UpdateStatus?orderId=${orderId}&productId=${productId}&customerId=${customerId}&statusId=${statusId}&comments=${encodeURIComponent(comment)}`);
+      const response = await axios.post(`/api/Orders/Product/UpdateStatus?orderId=${orderId}&productId=${productId}&customerId=${customerId}&statusId=${statusId}&comments=${encodeURIComponent(comment)}&trackingNumber=${trackingNumber || ''}`);
       console.log("orderStatusUpdateApi-->", response);
 
       if (response.status === 200) {
