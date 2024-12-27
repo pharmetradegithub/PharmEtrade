@@ -982,6 +982,7 @@ function Items({
                   </p>
 
                   {/* <img src={ ?Wishlist :filledheart} className="w-5 h-5 flex   "/> */}
+                  <div className="flex">
                   <Tooltip placement="top" title="wishlist">
                     <img
                       src={
@@ -995,8 +996,12 @@ function Items({
                       alt="Wishlist Icon"
                     />
                   </Tooltip>
+                  <Tooltip placement="top" title="Compare">
+                      <img src={compare} className="w-5 h-5 ml-2 cursor-pointer" />
+                    </Tooltip>
+                  </div>
                 </div>
-                <div className="flex justify-between">
+                {/* <div className="flex justify-between">
                   <div className="flex">
                     <p className="text-gray-600 text-[12px] lg:text-[14px]">
                       Delivery by{" "}
@@ -1010,7 +1015,7 @@ function Items({
                       <img src={compare} className="w-5 h-5 cursor-pointer" />
                     </Tooltip>
                   </div>
-                </div>
+                </div> */}
               </div>
 
               <div className="flex flex-col text-[14px] lg:text-[15px] w-full px-4 mb-2">
