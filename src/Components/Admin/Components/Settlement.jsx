@@ -167,6 +167,7 @@ function Settlement() {
         Zip: getDetails.sellerZip,
         PhoneNumber: getDetails.sellerPhone,
         Email: getDetails.sellerEmail,
+        TotalAmountToBePaid: getDetails.totalAmountToBePaid,
         TotalAmountDue: getDetails.totalAmountDue,
         TotalAmountPaid: getDetails.totalAmountPaid
       });
@@ -449,7 +450,16 @@ function Settlement() {
             {error.selectedUsersId && (
               <p className="text-red-500 text-sm text-center">{error.selectedUsersId}</p>
             )}
-          <div>
+            <div>
+              <div className='flex my-2 '>
+                <label className='font-semibold text-left ml-4'>Total Amount To Be Paid : </label>
+                {/* <span className='ml-7'>$ 11,444.00</span> */}
+                <span className='ml-7'>
+                  ${storeDetails.TotalAmountToBePaid !== undefined ? storeDetails.TotalAmountToBePaid.toFixed(2) : '0.00'}
+                </span>
+
+
+              </div>
             <div className='flex my-2 '>
               <label className='font-semibold text-left ml-4'>Total Amount Due : </label>
                 {/* <span className='ml-7'>$ 11,444.00</span> */}

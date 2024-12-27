@@ -1,17 +1,35 @@
 import axios from './api'; 
 import { setPaymentHistory } from "../Store/Store"
 
+// export const fetchPaymentHistory = (customerId) => {
+//   return async (dispatch) => {
+//     try {
+//       const response = await axios.get(`/api/Orders/Seller/Payments?sellerId=${customerId}`)
+//       console.log("responsePayHis-->", response)
+//     if (response.status === 200) {
+//       const paymentHistoryData = response.data.result
+//       console.log("payment dispatch", paymentHistoryData)
+//       dispatch(setPaymentHistory(paymentHistoryData))
+//     } else {
+//       console.log("error from payment history")
+//       }
+//     } catch (error) {
+//       console.log(error)
+//     }
+//   }
+// }
+
 export const fetchPaymentHistory = (customerId) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`/api/Orders/Seller/Payments?sellerId=${customerId}`)
+      const response = await axios.get(`/api/Settlements/GetBySeller?sellerId=${customerId}`)
       console.log("responsePayHis-->", response)
-    if (response.status === 200) {
-      const paymentHistoryData = response.data.result
-      console.log("payment dispatch", paymentHistoryData)
-      dispatch(setPaymentHistory(paymentHistoryData))
-    } else {
-      console.log("error from payment history")
+      if (response.status === 200) {
+        const paymentHistoryData = response.data.result
+        console.log("payment dispatch", paymentHistoryData)
+        dispatch(setPaymentHistory(paymentHistoryData))
+      } else {
+        console.log("error from payment history")
       }
     } catch (error) {
       console.log(error)
