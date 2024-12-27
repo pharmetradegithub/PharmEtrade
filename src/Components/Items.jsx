@@ -78,10 +78,17 @@ function Items({
   productList,
   quantities,
 }) {
+  const { id } = useParams();
+
   const user = useSelector((state) => state.user.user);
   console.log("iiii", user);
   const wishlist = useSelector((state) => state.wishlist.wishlist);
   const cartList = useSelector((state) => state.cart.cart);
+  const findQuantityByProductId = () => {
+    const product = cartList.find((item) => item.product.productID === id);
+    return product ? product.quantity : 0; 
+  };
+  const Cartquantity = findQuantityByProductId();
   const [productLink, setProductLink] = useState("");
   const [currentProductID, setCurrentProductID] = useState("");
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
@@ -112,7 +119,6 @@ function Items({
   // };
 
   const [img, setimg] = useState(null);
-  const { id } = useParams();
   const images = Array(8).fill(nature);
   console.log(id);
   const [selectedMl, setSelectedMl] = useState(null);
@@ -423,13 +429,13 @@ function Items({
   //       imageUrl: item.product.imageUrl,
   //     };
   //   }),
-  // };
+  // };  
   const handleOrder = async () => {
     const currentDate = new Date();
     const cartData = {
       customerId: user.customerId,
       productId: id,
-      quantity: quantity,
+      quantity:quantity - Cartquantity,
       isActive: 1,
     };
     try {

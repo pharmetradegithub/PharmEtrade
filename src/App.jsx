@@ -155,6 +155,7 @@ import LayoutBuyReturn from "./Components/LayoutPage/LayoutBuy/LayoutReturn";
 import NotFoundErrorpage from "./Components/NotFoundErrorpage";
 import SellerReports from "./Components/ReportsSeller/SellerReports";
 import LayoutPurchaseHistory from "./Components/LayoutPage/LayoutBuy/LayoutPurchaseHistory";
+import PrivacyPolicy from "./Components/PrivacyPolicy";
 
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
@@ -258,6 +259,7 @@ function App() {
       <Routes>
         <Route path="/signup" element={<Signup />} />
         <Route path="/termsandconditions" element={<TermsAndConditions />} />
+        <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />  
         <Route path="/login" element={<Signin />} />
         <Route path="/loginadminEtrade" element={<Login />} />
         <Route path="/otp2" element={<OTP2 />} />

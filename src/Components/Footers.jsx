@@ -236,9 +236,10 @@ function Footers({ topMargin }) {
                  
                 </li>
                 <li>
-                <a href="#" className="underline">
-                    Blog
-                  </a>
+                <Link to="/requestdemo" className="underline">
+                    {/* Blog */}
+                    Request Demo
+                  </Link>
                   
                 </li>
               </ul>
@@ -247,10 +248,10 @@ function Footers({ topMargin }) {
               <p className="text-md mb-4 font-semibold">Support & Service</p>
               <ul className="list-disc list-inside">
                 <li>
-                <a href="#" className="underline">
+                <Link to="/PrivacyPolicy" className="underline">
                     Privacy Policy
-                  </a>
-                  
+                  </Link>
+              
                 </li>
                 <li>
                 <Link to="/layoutterms" className="underline">

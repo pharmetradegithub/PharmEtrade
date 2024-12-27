@@ -1,5 +1,3 @@
-
-
 // import React from "react";
 
 // import Logo from "../../../assets/logo2.png";
@@ -720,15 +718,6 @@
 
 // export default Nav;
 
-
-
-
-
-
-
-
-
-
 import React from "react";
 
 import Logo from "../../../assets/logo2.png";
@@ -767,8 +756,8 @@ import { fetchCriteriaProductsApi } from "../../../Api/ProductApi";
 import { Tooltip } from "@mui/material";
 import { fetchProductCategoriesGetAll } from "../../../Api/MasterDataApi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import backIcon from '../../../assets/Previous_icon.png'
-import hamburgerIcon from '../../../assets/MenuIcon.png'
+import backIcon from "../../../assets/Previous_icon.png";
+import hamburgerIcon from "../../../assets/MenuIcon.png";
 let text = [];
 
 function Nav({ topDivRef, Form_Data, TriggerAPI }) {
@@ -930,9 +919,9 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   ];
 
   const downSocialItems = [
-    { icon: linkedin, path: "#" },
-    { icon: facebook, path: "#" },
-    { icon: insta, path: "#" },
+    { icon: linkedin, href: "https://www.linkedin.com/login" },
+    { icon: facebook, href: "https://www.facebook.com/login/" },
+    { icon: insta, href: "https://www.instagram.com/accounts/login/" },
     // { icon: twitter, path: "#" },
   ];
 
@@ -950,11 +939,11 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   // ];
 
   const handleCriteria = async (obj) => {
-    console.log(obj, "objjjjj")
+    console.log(obj, "objjjjj");
     handleItemClick(obj.categoryName, obj.productCategoryId);
     let Criteria = {
       productCategoryId: obj.productCategoryId,
-      customerId: user ? user.customerId : "234"
+      customerId: user ? user.customerId : "234",
     };
 
     console.log("cr--->", obj);
@@ -1075,12 +1064,12 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
       // productName: SearchInput,
       productCategoryId: selectedItemId,
       productName: SearchInput,
-      customerId: user ? user.customerId : "234"
+      customerId: user ? user.customerId : "234",
     };
     if (selectedItemId == -1) {
       Criteria = {
         productName: SearchInput,
-        customerId: user ? user.customerId : "123"
+        customerId: user ? user.customerId : "123",
       };
     }
     await fetchCriteriaProductsApi(Criteria);
@@ -1094,10 +1083,6 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
       className=" fixed w-screen pt-1   z-10 bg-white text-grey-500"
     >
       <div className=" flex flex-col w-full justify-between ">
-
-
-
-
         <ul className="text-3xl w-full">
           <div className="flex flex-row h-[60px] justify-between gap-4 md:gap-12 lg:gap-10 items-center text-xl bg-white text-gray-500">
             <div className="flex items-center gap-4 md:hidden">
@@ -1121,14 +1106,14 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
 
             {/* Flexbox for Menu Items and Icons (User, Cart, Wishlist) */}
             <div className="flex h-full md:flex-row md:gap-4 lg:gap-4 xl:flex xl:flex-row xl:justify-between xl:gap-6 px-4 items-center">
-
               <div className="hidden md:flex gap-3 justify-around h-full items-center">
                 {MenuItems.map((item, index) => (
                   <li
-                    className={`text-blue-900 hover:bg-slate-200 rounded-md flex justify-center p-1 px-1 items-center w-fit cursor-pointer font-medium text-[17px] leading-none ${selectedIndex === index
-                      ? "bg-slate-200 hover:text-blue-900 text-blue-900 border-0 font-semibold"
-                      : "border-transparent border-2"
-                      }`}
+                    className={`text-blue-900 hover:bg-slate-200 rounded-md flex justify-center p-1 px-1 items-center w-fit cursor-pointer font-medium text-[17px] leading-none ${
+                      selectedIndex === index
+                        ? "bg-slate-200 hover:text-blue-900 text-blue-900 border-0 font-semibold"
+                        : "border-transparent border-2"
+                    }`}
                     key={index}
                     onClick={() => handleSelect(index)}
                   >
@@ -1136,7 +1121,6 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                   </li>
                 ))}
               </div>
-
 
               {/* User icon, Cart, Wishlist visible on all screens */}
               <div className="flex flex-row gap-4 text-md items-center font-thin">
@@ -1149,15 +1133,19 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                   <div
                     className="flex items-center cursor-pointer -ml-3"
                     onClick={() => setIsPopupVisible((prevState) => !prevState)}
-                  >
-                    <img src={add} className="w-6 md:w-6 lg:w-8 h-8" alt="clickable" />
+                  >  
+                    <img
+                      src={add}
+                      className="w-6 md:w-6 lg:w-8 h-8"
+                      alt="clickable"
+                    />
                     <div className="text-blue-900 hover:cursor-pointer ">
                       {user ? (
                         <div className="text-sm sm:text-xs flex flex-wrap md:text-base xl:text-lg font-medium leading-none">
                           {user.firstName}
-                          {/* {user.lastName} */}
-                          <span className="hidden lg:inline"> {user.lastName}</span>
-
+                          <p className="hidden lg:inline ml-1">
+                            {user.lastName}
+                          </p>
                         </div>
                       ) : (
                         <div className="text-base font-medium">Sign in</div>
@@ -1169,7 +1157,10 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                       <div className="bg-white p-4 rounded shadow-lg w-60">
                         <div className="w-full flex">
                           {user ? (
-                            <li className="cursor-pointer" onClick={() => handleLogout()}>
+                            <li
+                              className="cursor-pointer"
+                              onClick={() => handleLogout()}
+                            >
                               <Link
                                 to="/login"
                                 className="bg-blue-900 text-white rounded w-32 py-1 block text-center"
@@ -1187,7 +1178,10 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                           )}
                         </div>
                         {!user && (
-                          <p className="text-base hover:cursor-pointer mb-2 text-left" onClick={handlesignup}>
+                          <p
+                            className="text-base hover:cursor-pointer mb-2 text-left"
+                            onClick={handlesignup}
+                          >
                             New User?{" "}
                             <span className="text-blue-900 hover:text-red-500 hover:underline">
                               Sign Up
@@ -1196,17 +1190,28 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                         )}
                         {user && (
                           <>
-                            <h2 className="text-lg font-semibold cursor-pointer" onClick={handleuser}>
+                            <h2
+                              className="text-lg font-semibold cursor-pointer"
+                              onClick={handleuser}
+                            >
                               Your Account
                             </h2>
                             <ul className="text-left">
                               <li className="mb-1">
-                                <a href="#" className="text-lg text-blue-900" onClick={handleorder}>
+                                <a
+                                  href="#"
+                                  className="text-lg text-blue-900"
+                                  onClick={handleorder}
+                                >
                                   Order List
                                 </a>
                               </li>
                               <li>
-                                <a href="#" className="text-blue-900" onClick={handleclick}>
+                                <a
+                                  href="#"
+                                  className="text-blue-900"
+                                  onClick={handleclick}
+                                >
                                   Wishlist
                                 </a>
                               </li>
@@ -1277,9 +1282,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
         </ul>
 
         {/* down div elemenet  */}
-        <div
-          className="flex flex-col justify-around bg-gray-200 w-full h-24 md:h-fit lg:h-fit xl:h-fit items-center text-black border-grey-500 shadow-lg md:flex-row "
-        >
+        <div className="flex flex-col justify-around bg-gray-200 w-full h-24 md:h-fit lg:h-fit xl:h-fit items-center text-black border-grey-500 shadow-lg md:flex-row ">
           <div className="flex gap-4 items-center justify-around text-blue-900 p-3 ml-0 lg:ml-8 w-full md:w-fit">
             {downDivItems.map((item, index) => (
               <li
@@ -1294,7 +1297,10 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                   className="max-w-5 max-h-5 sm:max-w-8 sm:max-h-8"
                   alt={item.label}
                 />
-                <div className="text-sm sm:text-[15px] md:text-base lg:text-base">{item.label}</div> {/* Hide label on md+ screens */}
+                <div className="text-sm sm:text-[15px] md:text-base lg:text-base">
+                  {item.label}
+                </div>{" "}
+                {/* Hide label on md+ screens */}
               </li>
             ))}
           </div>
@@ -1304,13 +1310,19 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
               <div className="bg-gray-100 p-4 sm:p-2 md:p-6 rounded-md shadow-md text-center w-11/12 sm:w-9/12 md:w-7/12 lg:w-4/12">
                 <div className="flex justify-start items-center border-b border-black">
-                  <img src={warning} className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12" alt="Warning" />
+                  <img
+                    src={warning}
+                    className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12"
+                    alt="Warning"
+                  />
                   <p className="text-red-600 text-lg sm:text-xl md:text-2xl font-semibold mt-2 ml-2">
                     Warning!
                   </p>
                 </div>
                 <div className="mt-4">
-                  <p className="text-black mb-4 text-sm sm:text-base md:text-lg">{errorMessage}</p>
+                  <p className="text-black mb-4 text-sm sm:text-base md:text-lg">
+                    {errorMessage}
+                  </p>
                   <button
                     onClick={() => setErrorMessage("")}
                     className="bg-red-500 text-white px-3 py-2 sm:px-4 sm:py-2 md:px-6 md:py-3 rounded mb-2 text-xs sm:text-sm md:text-base"
@@ -1326,8 +1338,9 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
           <div className="flex items-center rounded-md w-full md:w-1/2 lg:w-2/4 p-2 -mt-4 md:mt-0">
             <div
               ref={dropdownRef}
-              className={`w-full relative flex items-center ${isContainerFocused ? "ring-2 ring-blue-500 rounded-md" : ""
-                }`}
+              className={`w-full relative flex items-center ${
+                isContainerFocused ? "ring-2 ring-blue-500 rounded-md" : ""
+              }`}
               onFocus={handleFocusIn}
               onBlur={handleFocusOut}
             >
@@ -1345,7 +1358,10 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
               </button>
 
               {isDropdownOpen && (
-                <div className="absolute z-10" style={{ top: "30px", left: "0px" }}>
+                <div
+                  className="absolute z-10"
+                  style={{ top: "30px", left: "0px" }}
+                >
                   <div className="bg-white  sm:w-44 lg:w-64 ">
                     {modifiedComponents.map((items, index) => (
                       <ul onClick={() => handleCriteria(items)} key={index}>
@@ -1385,10 +1401,34 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
 
           {/* Social items */}
           <div className="flex gap-5 items-center mr-6 justify-around text-blue-900 p-4 w-full md:w-fit">
+            {/* {downSocialItems.map((item, index) => (
+              <li
+                key={index}
+                onClick={() => navigate(item.href)}
+                className="flex gap-1 items-center justify-center cursor-pointer hover:text-green-400 "
+              >
+                {/* Hide icons on sm and md screens, show on lg and above 
+                <img
+                  src={item.icon}
+                  className="hidden lg:block max-w-6 max-h-6 lg:max-w-8 lg:max-h-8"
+                  alt={item.label}
+                />
+                {/* Hide label on sm and md screens, show on lg and above 
+                <div className="hidden xl:block text-sm">{item.label}</div>
+              </li>
+            ))} */}
             {downSocialItems.map((item, index) => (
               <li
                 key={index}
-                onClick={() => navigate(item.path)}
+                onClick={() => {
+                  if (item.href.startsWith("http")) {
+                    // Open external links in a new tab
+                    window.open(item.href, "_blank", "noopener noreferrer");
+                  } else {
+                    // Use navigate for internal links if needed
+                    navigate(item.href);
+                  }
+                }}
                 className="flex gap-1 items-center justify-center cursor-pointer hover:text-green-400 "
               >
                 {/* Hide icons on sm and md screens, show on lg and above */}
@@ -1402,10 +1442,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
               </li>
             ))}
           </div>
-
-
         </div>
-
       </div>
     </div>
   );
