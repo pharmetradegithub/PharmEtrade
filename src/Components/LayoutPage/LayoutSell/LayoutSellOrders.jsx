@@ -732,13 +732,13 @@ function LayoutSellOrders() {
     },
   ];
 
-  const approvedData = SellerOrder ? SellerOrder.filter(item => item.orderStatusId === 3) : 0;
+  const approvedData = SellerOrder ? SellerOrder.filter(item => item.orderedProductStatusId === 3) : 0;
   console.log("Approved===", approvedData);
   const totalApprovedAmount = approvedData.reduce((total, order) => total + (order.totalAmount || 0), 0).toFixed(2);
   // const percentage = approvedData.length > 0
   //   ? Math.floor(((totalAmount - 2000) / 2000) * 100)
   //   : 0;
-  const cancelledData = SellerOrder ? SellerOrder.filter(item => item.orderStatusId === 5) : [];
+  const cancelledData = SellerOrder ? SellerOrder.filter(item => item.orderedProductStatusId === 5) : [];
   const totalCancelledAmount = cancelledData.reduce((total, order) => total + (order.totalAmount || 0), 0).toFixed(2);
 
   const finalAmount = (parseFloat(totalApprovedAmount) - parseFloat(totalCancelledAmount)).toFixed(2);
@@ -1121,7 +1121,7 @@ function LayoutSellOrders() {
             </div>
             {(!comment.trim() || (selectedProduct === 8 && !trackingNumber.trim())) && (
               <div className="text-center text-red-500 mt-2">
-                Please fill out all required fields.
+                Please fill required fields.
               </div>
             )}
           </div>
