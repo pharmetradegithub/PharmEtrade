@@ -1,7 +1,3 @@
-
-
-
-
 // import React, { useEffect, useMemo, useState } from "react";
 // import { FaFilter } from "react-icons/fa";
 // import { IoMdSettings } from "react-icons/io";
@@ -27,6 +23,7 @@
 // import wrong from "../../../assets/Icons/wrongred.png";
 // import Pagination from "../../Pagination";
 // import { MasterOrderStatusGetAll } from "../../../Api/MasterDataApi";
+// import Notification from "../../Notification";
 
 // function LayoutSellOrders() {
 //   const dispatch = useDispatch();
@@ -71,9 +68,19 @@
 //     },
 //   ];
 
-//   const approvedData = SellerOrder ? SellerOrder.filter(item => item.orderStatusId === 3) : [];
+//   const approvedData = SellerOrder ? SellerOrder.filter(item => item.orderedProductStatusId === 3) : 0;
 //   console.log("Approved===", approvedData);
-//   const Cancelled = SellerOrder ? SellerOrder.filter(item => item.orderStatusId === 5) : [];
+//   const totalApprovedAmount = approvedData.reduce((total, order) => total + (order.totalAmount || 0), 0).toFixed(2);
+//   // const percentage = approvedData.length > 0
+//   //   ? Math.floor(((totalAmount - 2000) / 2000) * 100)
+//   //   : 0;
+//   const cancelledData = SellerOrder ? SellerOrder.filter(item => item.orderedProductStatusId === 5) : [];
+//   const totalCancelledAmount = cancelledData.reduce((total, order) => total + (order.totalAmount || 0), 0).toFixed(2);
+
+//   const finalAmount = (parseFloat(totalApprovedAmount) - parseFloat(totalCancelledAmount)).toFixed(2);
+
+//   const totalAmount = SellerOrder ? SellerOrder.reduce((total, order) => total + order.totalAmount, 0) : 0;
+//   const percentage = SellerOrder ? ((totalAmount / 100) * 100).toFixed(2) : 0;
 //   const stats = [
 //     {
 //       label: "Total Orders",
@@ -84,53 +91,82 @@
 //     },
 //     {
 //       label: "Received",
-//       value: `$${approvedData
-//           ? approvedData.reduce(
-//             (total, order) => total + (order.totalAmount || 0),
-//             0
-//           ).toFixed(2)
-//           : 0.0
-//         }`,
-//       // `$${SellerOrder
-//       //   ? Math.floor(SellerOrder.reduce((total, order) => total + (order.totalAmount || 0), 0) .toFixed(2) : 0.00)
-//       //   : 0}`,
-//       percentage: SellerOrder
-//         ? Math.floor(
-//           ((Math.floor(
-//             approvedData.reduce(
-//               (total, order) => total + (order.totalAmount || 0),
-//               0
-//             )
-//           ) -
-//             2000) /
-//             2000) *
-//           100
-//         )
+//       value: approvedData ? approvedData.length : 0,
+//       percentage: approvedData
+//         ? (((approvedData.length - 100) / 100) * 100).toFixed(2)
 //         : 0,
 //     },
 //     {
 //       label: "Cancelled",
-//       value: `$${
-//         Cancelled
-//         ? Cancelled.reduce(
-//           (total, order) => total + (order.totalAmount || 0),
-//               0
-//             ).toFixed(2)
-//           : 0.0
-//       }`,
-//       percentage: Cancelled
-//         ? Math.floor(
-//             ((Math.floor(
-//               Cancelled.reduce(
-//                 (total, order) => total + (order.totalAmount || 0),
-//                 0
-//               )
-//             ) -
-//               1500) /
-//               1500) *
-//               100
-//           )
+//       value: cancelledData ? cancelledData.length : 0,
+//       percentage: cancelledData
+//         ? (((cancelledData.length - 100) / 100) * 100).toFixed(2)
 //         : 0,
+//     },
+//     {
+//       label: "Total Sold",
+//       value: `$${totalAmount.toFixed(2)}`,
+//       percentage: percentage,
+//     },
+//     // {
+//     //   label: "Received",
+//     //   value: `$${approvedData
+//     //       ? approvedData.reduce(
+//     //         (total, order) => total + (order.totalAmount || 0),
+//     //         0
+//     //       ).toFixed(2)
+//     //       : 0.0
+//     //     }`,
+//     //   // `$${SellerOrder
+//     //   //   ? Math.floor(SellerOrder.reduce((total, order) => total + (order.totalAmount || 0), 0) .toFixed(2) : 0.00)
+//     //   //   : 0}`,
+//     //   percentage: SellerOrder
+//     //     ? Math.floor(
+//     //       ((Math.floor(
+//     //         approvedData.reduce(
+//     //           (total, order) => total + (order.totalAmount || 0),
+//     //           0
+//     //         )
+//     //       ) -
+//     //         2000) /
+//     //         2000) *
+//     //       100
+//     //     )
+//     //     : 0,
+//     // },
+//     {
+//       label: "Received Amount",
+//       value: `$${totalApprovedAmount}`, // Format the total amount
+//       percentage: finalAmount, // Calculate the percentage
+//     },
+//     // {
+//     //   label: "Cancelled",
+//     //   value: `$${
+//     //     cancelledData
+//     //     ? cancelledData.reduce(
+//     //       (total, order) => total + (order.totalAmount || 0),
+//     //           0
+//     //         ).toFixed(2)
+//     //       : 0.0
+//     //   }`,
+//     //   percentage: cancelledData
+//     //     ? Math.floor(
+//     //         ((Math.floor(
+//     //           cancelledData.reduce(
+//     //             (total, order) => total + (order.totalAmount || 0),
+//     //             0
+//     //           )
+//     //         ) -
+//     //           1500) /
+//     //           1500) *
+//     //           100
+//     //       )
+//     //     : 0,
+//     // },
+//     {
+//       label: "Cancellation Amount",
+//       value: `$${totalCancelledAmount}`, // Display the total cancelled amount
+//       percentage: 0, // Display the percentage difference
 //     },
     
 //   ];
@@ -240,7 +276,12 @@
 //   // This function is triggered when the user selects a new status
 //   const [customerId, setCustomerId] = useState(null);
 //   const [productID, setProductID] = useState(null);
+//   const [selectedProduct, setSelectedProduct] = useState(null);
+//   const [trackingNumber, setTrackingNumber] = useState('');
 //   const handleStatusChange = (product, statusId) => {
+//     // setSelectedProduct(Number(statusId))
+//     setSelectedProduct(Number(statusId)); // Store the product and status
+//     // setTrackingNumber(product.trackingNumber || "");
 //     setCustomerId(product?.customerId);
 //     setProductID(product?.productId);
 //     setSelectedOrder(product); // Store the selected product (order) for confirmation
@@ -248,16 +289,24 @@
 //     setIsModalOpen(true); // Open the modal
 //   };
 
+//   console.log("statusId", selectedProduct)
 //   // Handle confirming the action (Yes)
 //   const [comment, setComment] = useState("");
+//   const [notification, setNotification] = useState({
+//      show: false,
+//      message: "",
+//    });
 //   const handleConfirm = async () => {
 //     if (selectedOrder && selectedStatus) {
 //       // Update the status through the API only after confirmation
 //       await dispatch(
-//         orderStatusUpdateApi(selectedOrder?.orderId,productID, customerId, selectedStatus, comment)
+//         orderStatusUpdateApi(selectedOrder?.orderId, productID, customerId, selectedStatus, comment, trackingNumber)
 //       );
+//       setNotification({ show: true, message: "Order Status Updated Successfully!" });
+//       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
 //       setIsModalOpen(false);// Close the modal after confirmation
 //       setComment("")
+//       setTrackingNumber("");
 //     }
 //   };
 
@@ -271,15 +320,23 @@
 //     () => currentItems.map(() => Math.floor(Math.random() * 100000000)),
 //     [currentItems]
 //   );
+  
+//   // const handleRowClick = (product) => {
+//   //   setSelectedProduct(product);
+//   //   setIsModalOpen(true);
+//   // };
 //   return (
 //     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
-//       {isModalOpen && (
+//       {notification.show && (
+//         <Notification show={notification.show} message={notification.message} />
+//       )}
+//       {/* {isModalOpen && (
 //         <div
 //           className="fixed top-0 left-25 w-[70%] sm:w-[90%] h-full flex justify-center items-center bg-slate-600 bg-opacity-20"
 //           role="dialog"
 //           aria-modal="true"
 //         >
-//           <div className="w-full sm:w-96 h-44 bg-white rounded-md shadow-md flex flex-col justify-center">
+//           <div className="w-full sm:w-96 bg-white rounded-md shadow-md flex flex-col justify-center" style={{ minHeight: "auto" }}>
 //             <div className="flex justify-end  ">
 //               <button
 //                 className="w-5 p-1 mx-2 sm:mt-3 mt-5"
@@ -300,6 +357,26 @@
 //                 onChange={(e) => setComment(e.target.value)}
 //               />
 //             </div>
+//             {/* <div className="flex justify-center">
+//               <textarea
+//                 type="text"
+//                 className="border w-72 p-2 h-10 mt-3 rounded-md text-left"
+//                 placeholder="Write a Tracking Number"
+//                 value={trackingNumber}
+//                 onChange={(e) => setTrackingNumber(e.target.value)}
+//               />
+//             </div> 
+//             {selectedProduct === 8 && (
+//               <div className="flex justify-center">
+//                 <textarea
+//                   type="text"
+//                   className="border w-72 p-2 h-10 mt-3 rounded-md text-left"
+//                   placeholder="Write a Tracking Number"
+//                   value={trackingNumber}
+//                   onChange={(e) => setTrackingNumber(e.target.value)}
+//                 />
+//               </div>
+//             )}
 //             <div className="flex justify-around sm:mt-6 mt-2 mb-5">
 //               <button
 //                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
@@ -316,11 +393,84 @@
 //             </div>
 //           </div>
 //         </div>
+//       )} */}
+
+//       {isModalOpen && (
+//         <div
+//           className="fixed top-0 left-25 w-[70%] sm:w-[90%] h-full flex justify-center items-center bg-slate-600 bg-opacity-20"
+//           role="dialog"
+//           aria-modal="true"
+//         >
+//           <div
+//             className="w-full sm:w-96 bg-white rounded-md shadow-md flex flex-col justify-center"
+//             style={{ minHeight: "auto" }}
+//           >
+//             <div className="flex justify-end">
+//               <button
+//                 className="w-5 p-1 mx-2 sm:mt-3 mt-5"
+//                 onClick={handleCancel}
+//               >
+//                 <img src={wrong} className="w-6 h-4" />
+//               </button>
+//             </div>
+//             <h1 className="text-black text-center mt-0">
+//               Are you sure you want to update the status?
+//             </h1>
+//             <div className="flex justify-center">
+//               <textarea
+//                 type="text"
+//                 className={`border w-72 p-2 h-10 mt-3 rounded-md text-left ${!comment.trim() ? "border-red-500" : ""
+//                   }`}
+//                 placeholder="Write a comment"
+//                 value={comment}
+//                 onChange={(e) => setComment(e.target.value)}
+//               />
+//             </div>
+//             {selectedProduct === 8 && (
+//               <div className="flex justify-center">
+//                 <textarea
+//                   type="text"
+//                   className={`border w-72 p-2 h-10 mt-3 rounded-md text-left ${!trackingNumber.trim() ? "border-red-500" : ""
+//                     }`}
+//                   placeholder="Write a Tracking Number"
+//                   value={trackingNumber}
+//                   onChange={(e) => setTrackingNumber(e.target.value)}
+//                 />
+//               </div>
+//             )}
+//             <div className="flex justify-around sm:mt-6 mt-2 mb-5">
+//               <button
+//                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+//                 onClick={handleCancel}
+//               >
+//                 No
+//               </button>
+//               <button
+//                 className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ${(!comment.trim() || (selectedProduct === 8 && !trackingNumber.trim())) &&
+//                   "opacity-50 cursor-not-allowed"
+//                   }`}
+//                 onClick={handleConfirm}
+//                 disabled={!comment.trim() || (selectedProduct === 8 && !trackingNumber.trim())}
+//               >
+//                 Yes
+//               </button>
+//             </div>
+//             {(!comment.trim() || (selectedProduct === 8 && !trackingNumber.trim())) && (
+//               <div className="text-center text-red-500 mt-2">
+//                 Please fill required fields.
+//               </div>
+//             )}
+//           </div>
+//         </div>
 //       )}
+
+   
+
+
 
 //       {modal && (
 //         <div
-//           className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+//           className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000]"
 //           onClick={() => setModal(false)}
 //         >
 //           <div
@@ -449,7 +599,10 @@
 //                   >
 //                     <div className="flex items-center justify-between mb-2">
 //                       <h2 className="text-lg font-bold">
-//                         Order ID: {indexOfFirstItem + index + 1}
+//                        S.NO: {indexOfFirstItem + index + 1}
+//                       </h2>
+//                       <h2 className="text-lg font-bold">
+//                         Order Number: {product.orderNumber}
 //                       </h2>
 //                       <img
 //                         className="w-10 h-10"
@@ -503,7 +656,7 @@
 //                     </div>
 //                     <p className="mb-2">
 //                       <span className="font-semibold">Tracking Number:</span>{" "}
-//                       {trackingNumbers[index]}
+//                       {product.trackingNumber}
 //                     </p>
 //                     <div className="flex gap-2">
 //                       <Tooltip title="View Invoice" placement="top">
@@ -532,7 +685,9 @@
 //               <table className="w-full">
 //                 <thead className="bg-blue-900 text-white">
 //                   <tr className="border-b-2">
-//                     <th className="px-4 py-2 text-left">Order ID</th>
+//                     <th className="px-4 py-2 text-left">S.NO</th>
+//                     <th className="px-4 py-2 text-left">Order Number</th>
+
 //                     <th className="px-4 py-2 text-left">Thumbnail</th>
 //                     <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("productName")}>Product Name 
 //                       {sortConfig.key === "productName"
@@ -575,6 +730,9 @@
 //                           {indexOfFirstItem + index + 1}
 //                         </td>
 //                         <td className="px-4 py-2">
+//                           {product.orderNumber}
+//                         </td>
+//                         <td className="px-4 py-2">
 //                           <img className="w-10 h-10" src={product.imageUrl} />
 //                         </td>
 //                         <td className="px-4 py-2">{product?.productName}</td>
@@ -615,7 +773,7 @@
 //                               ))}
 //                           </select>
 //                         </td>
-//                         <td className="px-4 py-2">{trackingNumbers[index]}</td>
+//                         <td className="px-4 py-2">{product.trackingNumber}</td>
 //                         <td className="px-4 py-2 flex gap-1">
 //                           <Tooltip title="View Invoice" placement="top">
 //                             <img
@@ -732,7 +890,7 @@ function LayoutSellOrders() {
     },
   ];
 
-  const approvedData = SellerOrder ? SellerOrder.filter(item => item.orderedProductStatusId === 3) : 0;
+  const approvedData = SellerOrder ? SellerOrder.filter(item => item.orderedProductStatusId === 6) : 0;
   console.log("Approved===", approvedData);
   const totalApprovedAmount = approvedData.reduce((total, order) => total + (order.totalAmount || 0), 0).toFixed(2);
   // const percentage = approvedData.length > 0
@@ -750,27 +908,37 @@ function LayoutSellOrders() {
       label: "Total Orders",
       value: SellerOrder ? SellerOrder.length : 0,
       percentage: SellerOrder
-        ? (((SellerOrder.length - 100) / 100) * 100).toFixed(2)
-        : 0,
+      ? (((SellerOrder.length - 100) / 100) * 100).toFixed(2)
+      : 0,
     },
     {
       label: "Received",
       value: approvedData ? approvedData.length : 0,
       percentage: approvedData
-        ? (((approvedData.length - 100) / 100) * 100).toFixed(2)
-        : 0,
+      ? (((approvedData.length - 100) / 100) * 100).toFixed(2)
+      : 0,
     },
     {
       label: "Cancelled",
       value: cancelledData ? cancelledData.length : 0,
       percentage: cancelledData
-        ? (((cancelledData.length - 100) / 100) * 100).toFixed(2)
-        : 0,
+      ? (((cancelledData.length - 100) / 100) * 100).toFixed(2)
+      : 0,
     },
     {
       label: "Total Sold",
       value: `$${totalAmount.toFixed(2)}`,
       percentage: percentage,
+    },
+    {
+      label: "Received Amount",
+      value: `$${totalApprovedAmount}`, // Format the total amount
+      percentage: finalAmount, // Calculate the percentage
+    },
+    {
+      label: "Cancellation Amount",
+      value: `$${totalCancelledAmount}`, // Display the total cancelled amount
+      percentage: 0, // Display the percentage difference
     },
     // {
     //   label: "Received",
@@ -798,11 +966,6 @@ function LayoutSellOrders() {
     //     )
     //     : 0,
     // },
-    {
-      label: "Received Amount",
-      value: `$${totalApprovedAmount}`, // Format the total amount
-      percentage: finalAmount, // Calculate the percentage
-    },
     // {
     //   label: "Cancelled",
     //   value: `$${
@@ -827,11 +990,6 @@ function LayoutSellOrders() {
     //       )
     //     : 0,
     // },
-    {
-      label: "Cancellation Amount",
-      value: `$${totalCancelledAmount}`, // Display the total cancelled amount
-      percentage: 0, // Display the percentage difference
-    },
     
   ];
 
@@ -941,8 +1099,12 @@ function LayoutSellOrders() {
   const [customerId, setCustomerId] = useState(null);
   const [productID, setProductID] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [trackingNumber, setTrackingNumber] = useState('');
+  
+  
+  const [orderIds, setOrderIDs] = useState('')
   const handleStatusChange = (product, statusId) => {
+    setOrderIDs(product.orderId)
+    
     // setSelectedProduct(Number(statusId))
     setSelectedProduct(Number(statusId)); // Store the product and status
     // setTrackingNumber(product.trackingNumber || "");
@@ -950,8 +1112,10 @@ function LayoutSellOrders() {
     setProductID(product?.productId);
     setSelectedOrder(product); // Store the selected product (order) for confirmation
     setSelectedStatus(statusId); // Store the selected status for confirmation
+    setTrackingNumber(product.trackingNumber || ''); 
     setIsModalOpen(true); // Open the modal
   };
+  const [trackingNumber, setTrackingNumber] = useState('');
 
   console.log("statusId", selectedProduct)
   // Handle confirming the action (Yes)
@@ -959,7 +1123,9 @@ function LayoutSellOrders() {
   const [notification, setNotification] = useState({
      show: false,
      message: "",
-   });
+  });
+  console.log("kbj", selectedOrder)
+  
   const handleConfirm = async () => {
     if (selectedOrder && selectedStatus) {
       // Update the status through the API only after confirmation
@@ -970,7 +1136,7 @@ function LayoutSellOrders() {
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
       setIsModalOpen(false);// Close the modal after confirmation
       setComment("")
-      setTrackingNumber("");
+      setTrackingNumber('')
     }
   };
 
@@ -980,10 +1146,6 @@ function LayoutSellOrders() {
     setComment(""); // Reset comment
   };
   // const [trackingNumber, setTrackingNumber] = useState({});
-  const trackingNumbers = useMemo(
-    () => currentItems.map(() => Math.floor(Math.random() * 100000000)),
-    [currentItems]
-  );
   
   // const handleRowClick = (product) => {
   //   setSelectedProduct(product);
@@ -1194,7 +1356,7 @@ function LayoutSellOrders() {
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="p-4 h-28 w-56 border rounded-lg shadow-lg flex justify-between items-center bg-white"
+              className="p-4 h-28 w-[320px] border rounded-lg shadow-lg flex justify-between items-center bg-white"
             >
               <div className="w-full">
                 <div className="flex justify-between items-center">
@@ -1298,7 +1460,7 @@ function LayoutSellOrders() {
                     </p>
                     <div className="mb-2">
                       <span className="font-semibold">Order Status:</span>
-                      <select
+                      {/* <select
                         className="sm:ml-2 m-0 p-1 border rounded cursor-pointer"
                         disabled={
                           !Array.isArray(orderStatusGetAll) ||
@@ -1316,7 +1478,56 @@ function LayoutSellOrders() {
                               {item.statusDescription}
                             </option>
                           ))}
+                      </select> */}
+                     
+                      {/* <select
+                        className="sm:ml-2 m-0 p-1 border rounded cursor-pointer"
+                        disabled={
+                          !Array.isArray(orderStatusGetAll) || orderStatusGetAll.length === 0
+                        }
+                        onChange={(e) => handleStatusChange(product, e.target.value)}
+                        value={product?.orderedProductStatusId}
+                      >
+                        {Array.isArray(orderStatusGetAll) &&
+                          orderStatusGetAll.length > 0 &&
+                          orderStatusGetAll
+                            .filter((item) =>
+                              product?.orderedProductStatusId === 8
+                                ? item.statusId === 8 // Show only delivered (6) if current status is shipped (8)
+                                : true // Otherwise, show all statuses
+                            )
+                            .map((item) => (
+                              <option key={item.statusId} value={item.statusId}>
+                                {item.statusDescription}
+                              </option>
+                            ))}
+                      </select> */}
+                     
+                      <select
+                        className="sm:ml-2 m-0 p-1 border rounded cursor-pointer"
+                        onChange={(e) => handleStatusChange(product, e.target.value)}
+                        disabled={!Array.isArray(orderStatusGetAll) || orderStatusGetAll.length === 0 || product.statusId === 6}
+                        value={product?.orderedProductStatusId}
+                      >
+                        {Array.isArray(orderStatusGetAll) && orderStatusGetAll.length > 0 &&
+                          orderStatusGetAll
+                            .filter((item) => {
+                              if (product?.orderedProductStatusId === 8) {
+                                return item.statusId === 8 || item.statusId === 6; // Show only status 8 if current status is 8 (shipped)
+                              }
+                              if (product?.orderedProductStatusId === 6) {
+                                return item.statusId === 6; // Show statuses 6 and 8 if current status is 6 (delivered)
+                              }
+                              return true; // Otherwise, show all statuses
+                            })
+                            .map((item) => (
+                              <option key={item.statusId} value={item.statusId}>
+                                {item.statusDescription}
+                              </option>
+                            ))}
                       </select>
+
+
                     </div>
                     <p className="mb-2">
                       <span className="font-semibold">Tracking Number:</span>{" "}
@@ -1414,7 +1625,7 @@ function LayoutSellOrders() {
                         </td>
                         <td className="px-4 py-2">{product?.customerName}</td>
                         <td className="px-4 py-2">
-                          <select
+                          {/* <select
                             className="cursor-pointer"
                             disabled={
                               !Array.isArray(orderStatusGetAll) ||
@@ -1435,6 +1646,29 @@ function LayoutSellOrders() {
                                   {item.statusDescription}
                                 </option>
                               ))}
+                          </select> */}
+                          <select
+                            className="sm:ml-2 m-0 p-1 border rounded cursor-pointer"
+                            onChange={(e) => handleStatusChange(product, e.target.value)}
+                            disabled={!Array.isArray(orderStatusGetAll) || orderStatusGetAll.length === 0 || product.statusId === 6}
+                            value={product?.orderedProductStatusId}
+                          >
+                            {Array.isArray(orderStatusGetAll) && orderStatusGetAll.length > 0 &&
+                              orderStatusGetAll
+                                .filter((item) => {
+                                  if (product?.orderedProductStatusId === 8) {
+                                    return item.statusId === 8 || item.statusId === 6; // Show only status 8 if current status is 8 (shipped)
+                                  }
+                                  if (product?.orderedProductStatusId === 6) {
+                                    return item.statusId === 6; // Show statuses 6 and 8 if current status is 6 (delivered)
+                                  }
+                                  return true; // Otherwise, show all statuses
+                                })
+                                .map((item) => (
+                                  <option key={item.statusId} value={item.statusId}>
+                                    {item.statusDescription}
+                                  </option>
+                                ))}
                           </select>
                         </td>
                         <td className="px-4 py-2">{product.trackingNumber}</td>

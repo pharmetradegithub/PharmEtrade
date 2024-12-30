@@ -7,7 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import edit from "../../../assets/Edit.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Box, Radio } from "@mui/material";
 import { Button, Textarea } from "@material-tailwind/react";
 import {
@@ -28,7 +28,11 @@ import {
   DialogActions,
   DialogContent,
 } from "@mui/material";
-import { AdminChargesGetApi } from "../../../Api/AdminApi";
+import {
+  addCommentsApi,
+  AdminChargesGetApi,
+  fetchCommentsByadmin,
+} from "../../../Api/AdminApi";
 
 // import ChargesInformation from "../../LayoutPage/LayoutProfile/ChargesInformation";
 // import BankInformation from "./BankInformation";
@@ -1337,28 +1341,44 @@ const EditSellerList = () => {
     setCurrentComment(event.target.value); // Update temporary comment value
   };
 
-  const handleCommentSaveClick = () => {
-    if (currentComment.trim() === "") {
+  const handleCommentSaveClick = async () => {
+    const commentData = {
+      customerId: userdata.customerId,
+      comments: currentComment,
+      action: "",
+      updatedBy: "92d20847-be27-11ef-827a-127d9a25d999",
+    };
+
+    try {
+      await addCommentsApi(commentData);
       setNotification({
         show: true,
-        message: "Please add a comment before saving!",
+        message: "Comment added Successfully!",
       });
-
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-      return;
+      setCurrentComment(""); // Clear input field
+    } catch (error) {
+      console.error("Error adding comments:", error);
     }
-
-    setUserComments((prevComments) => [...prevComments, currentComment.trim()]);
-
-    setNotification({
-      show: true,
-      message: "Comment Saved Successfully!",
-    });
-    setCurrentComment(""); // Clear input field
-    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  };
+  const dispatch = useDispatch();
+  const comment = useSelector((state) => state.comment.comments);
+  console.log("ccccc", comment);
+  const fetchCharges = async () => {
+    try {
+      const res = await dispatch(AdminChargesGetApi(CustomerId));
+      console.log(res,"charges response");
+    } catch (error) {
+      console.error("Error fetching charges:", error);
+    }
   };
   const GetCharges = useSelector((state) => state.charges.getCharges);
-
+  useEffect(() => {
+    console.log(CustomerId,"heyehy")
+    if(CustomerId)
+      fetchCharges();
+  }, [CustomerId])
+  
   return (
     <div className="w-full h-full flex-col bg-slate-200 flex justify-center overflow-y-scroll">
       {notification.show && (
@@ -1385,23 +1405,26 @@ const EditSellerList = () => {
           ))}
         </div> */}
         <div className="flex">
-          {profiles.map((profile) => (
-            (profile.label !== "Charges Informations" || userDetails?.customerTypeId !== 4) && (
-              <div key={profile.grid} className="flex ml-6">
-                <div
-                  className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${visibleGrid === profile.grid
-                      ? "border-b-4 border-blue-900"
-                      : ""
+          {profiles.map(
+            (profile) =>
+              (profile.label !== "Charges Informations" ||
+                userDetails?.customerTypeId !== 4) && (
+                <div key={profile.grid} className="flex ml-6">
+                  <div
+                    className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${
+                      visibleGrid === profile.grid
+                        ? "border-b-4 border-blue-900"
+                        : ""
                     }`}
-                  onClick={() => toggleGrid(profile.grid)}
-                >
-                  <h1 className="text-lg text-blue-900 font-semibold">
-                    {profile.label}
-                  </h1>
+                    onClick={() => toggleGrid(profile.grid)}
+                  >
+                    <h1 className="text-lg text-blue-900 font-semibold">
+                      {profile.label}
+                    </h1>
+                  </div>
                 </div>
-              </div>
-            )
-          ))}
+              )
+          )}
         </div>
 
         {/* Primary Grid */}
@@ -2283,19 +2306,26 @@ const EditSellerList = () => {
                 </> */}
 
                 <>
-                  {GetCharges.length === 0 && userDetails?.customerTypeId !== 4 && (
-                    <p className="text-red-500 mb-2">
-                      To Activate User You Should Provide Charges Information Under Charges Information Tab
-                    </p>
-                  )}
+                  {GetCharges.length === 0 &&
+                    userDetails?.customerTypeId !== 4 && (
+                      <p className="text-red-500 mb-2">
+                        To Activate User You Should Provide Charges Information
+                        Under Charges Information Tab
+                      </p>
+                    )}
                   <Button
                     onClick={() => handleOpenPopup("activate")}
-                    className={`mr-2 text-white ${userdata?.isActive === 1 || (GetCharges.length === 0 && userDetails?.customerTypeId !== 4)
+                    className={`mr-2 text-white ${
+                      userdata?.isActive === 1 ||
+                      (GetCharges.length === 0 &&
+                        userDetails?.customerTypeId !== 4)
                         ? "bg-green-500 cursor-not-allowed opacity-50"
                         : "bg-green-500"
-                      }`}
+                    }`}
                     disabled={
-                      userdata?.isActive === 1 || (GetCharges.length === 0 && userDetails?.customerTypeId !== 4)
+                      userdata?.isActive === 1 ||
+                      (GetCharges.length === 0 &&
+                        userDetails?.customerTypeId !== 4)
                     }
                   >
                     Activate

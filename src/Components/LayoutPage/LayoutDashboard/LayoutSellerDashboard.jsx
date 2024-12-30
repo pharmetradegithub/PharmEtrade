@@ -153,17 +153,17 @@ const LayoutSellerDashboard = () => {
   const details = [
     {
       totalOrder: sellerDashboard?.totalOrders, label: "Incoming Orders", percentage: sellerDashboard?.
-        productsOrdered, color: "red", grid: "totalProducts"
+      totalOrders, color: "red", grid: "totalProducts"
     }, // Red
     {
       label: "Outgoing Orders", percentage: sellerDashboard?.outgoingOrdersCount, color: "orange", grid: "productsOrdered"
     }, // Yellow
     
     {
-      label: "Total Incoming Order Value", percentage:    `$${(sellerDashboard?.totalPurchaseValue || 0).toFixed(2)}`, color: "blue", grid: "customersOrdered"
+      label: "Total Incoming Order Value", percentage:    `$${(sellerDashboard?.totalSaleValue || 0).toFixed(2)}`, color: "blue", grid: "customersOrdered"
     },
     {
-      label: "Total Outgoing Order Value", percentage: `$${(sellerDashboard?.totalSaleValue || 0).toFixed(2)}`, color: "purple", grid: "customersOrdered"
+      label: "Total Outgoing Order Value", percentage: `$${(sellerDashboard?.totalPurchaseValue || 0).toFixed(2)}`, color: "purple", grid: "customersOrdered"
     },
     // {
     //   label: "Total No.of Products ", percentage: sellerDashboard?.totalProducts, color: "green", grid: "customersOrdered", to: '/layout/postingproducts'

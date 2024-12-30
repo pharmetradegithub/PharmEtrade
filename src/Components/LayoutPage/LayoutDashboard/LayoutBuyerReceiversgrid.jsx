@@ -356,7 +356,13 @@ const LayoutBuyerReceiversgrid = () => {
                         <div key={index} className='pb-4 border rounded-lg shadow-lg justify-around mb-4 flex'>
                             <div>
                                 <img src={Ordergrid.imageUrl}  className='w-36 h-28 cursor-pointer p-2' onClick={handleclick} />
-                                <p>Cancelled Date :<span className='text-red-500 text-sm'> 04-17-2018</span></p>
+                                <p>Received Date :<span className='text-red-500 text-sm'> {new Date(Ordergrid.upcomingDate)
+                        .toLocaleDateString("en-US", {
+                          month: "2-digit",
+                          day: "2-digit",
+                          year: "numeric",
+                        })  
+                        .replace(/\//g, "-")}</span></p>
                             </div>
                             <div className='flex flex-col mt-2 ml-4'>
                                 <p className='text-base font-semibold'>Item Details</p>
@@ -378,7 +384,7 @@ const LayoutBuyerReceiversgrid = () => {
                             <div className='mt-2 ml-4'>
                                 <div>
                                 <span className='text-base font-semibold'>Package </span>
-                                <p>{Ordergrid.itempackage}Torn</p>
+                                <p>{Ordergrid.packCondition}</p>
                                 </div>
                                 <div>
                                 <span className='text-base font-semibold'>Quantity </span>

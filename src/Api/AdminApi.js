@@ -1,6 +1,6 @@
 
 import axios from './api'; 
-import store, { setAdmin, setGetChargeInfo } from '../Store/Store';
+import store, { addComment, setAdmin, setGetChargeInfo } from '../Store/Store';
 
 const SET_ADMIN_PRODUCTS = 'product/setAdminProducts';
 
@@ -319,5 +319,38 @@ export const getGenerateReportExcel = async (reportType, fromDate, toDate, mappe
     return null;
   }
 };
+
+export const addCommentsApi = async (commentData) => {
+  try {
+    const response = await axios.post('/api/Customer/Audit/Add', commentData);
+    if (response.status === 200) {
+      const newComment = {
+        ...response.data.result,
+        // Add any additional data transformations if needed
+      };
+      
+      // Dispatch action to add the new comment to the Redux store
+      store.dispatch(addComment(newComment));
+    } else {
+      console.error('Failed to add comment:', response.data.message);
+    }
+  } catch (error) {
+    console.error('Error adding comment:', error);
+  }
+};
+
+export const fetchCommentsByadmin = async (customerId) => {
+  try {
+    const response = await axios.get(`/api/Customer/Audit?customerId=${customerId}`)
+    if (response.status === 200 && response.data.result !== null) {
+      store.dispatch({ type: 'comment/setComments', payload: response.data.result})
+    } else {
+      console.error('Failed to fetch comment data:', response.data.message);
+    }
+
+  } catch (error) {
+    console.error('Failed to fetch comment data:', error.message);
+  }
+} 
 
 
