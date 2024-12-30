@@ -890,7 +890,7 @@ function LayoutSellOrders() {
     },
   ];
 
-  const approvedData = SellerOrder ? SellerOrder.filter(item => item.orderedProductStatusId === 6) : 0;
+  const approvedData = SellerOrder ? SellerOrder.filter(item => item.orderedProductStatusId === 6) : [];
   console.log("Approved===", approvedData);
   const totalApprovedAmount = approvedData.reduce((total, order) => total + (order.totalAmount || 0), 0).toFixed(2);
   // const percentage = approvedData.length > 0
