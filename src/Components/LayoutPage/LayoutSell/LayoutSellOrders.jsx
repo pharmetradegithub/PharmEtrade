@@ -1621,7 +1621,8 @@ function LayoutSellOrders() {
                             .replace(/\//g, "-")}
                         </td>
                         <td className="text-right px-4 py-2">
-                          ${product?.totalAmount.toFixed(2)}
+                          {/* ${product?.totalAmount.toFixed(2)} */}
+                          ${((product?.quantity || 0) * (product?.pricePerProduct || 0)).toFixed(2)}
                         </td>
                         <td className="px-4 py-2">{product?.customerName}</td>
                         <td className="px-4 py-2">
