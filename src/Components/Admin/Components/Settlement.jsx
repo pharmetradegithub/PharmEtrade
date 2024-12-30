@@ -116,15 +116,38 @@ function Settlement() {
   // const [amountPaying, setAmountPaying] = useState('');
   // const [error, setError] = useState('');
 
+  // const handleAmountChange = (e) => {
+  //   const value = e.target.value;
+
+  //   // Allow only numeric values and decimal points
+  //   if (/^\d*\.?\d*$/.test(value)) {
+  //     setAmountPaying(value);
+  //     setError1('');
+  //   }
+  // };
   const handleAmountChange = (e) => {
     const value = e.target.value;
-
-    // Allow only numeric values and decimal points
-    if (/^\d*\.?\d*$/.test(value)) {
+  
+    // Allow empty value for intermediate edits
+    if (value === '' || /^[0-9]*\.?[0-9]{0,2}$/.test(value)) {
       setAmountPaying(value);
-      setError1('');
+  
+      // Validate only when the value is a valid number
+      const numericValue = parseFloat(value);
+      const maxAmount = parseFloat(storeDetails.TotalAmountToBePaid);
+  
+      if (!isNaN(numericValue)) {
+        if (numericValue > maxAmount) {
+          setError1(`Amount cannot exceed $${maxAmount.toFixed(2)}.`);
+        } else {
+          setError1('');
+        }
+      } else {
+        setError1('');
+      }
     }
   };
+  
 
   // const handleBlur = () => {
   //   if (!amountPaying) {
@@ -539,7 +562,7 @@ function Settlement() {
 
             <div className='flex gap-2 my-2'>
               <label className='font-semibold flex items-center ml-4'>Amount Paying Now:</label>
-              <TextField
+              {/* <TextField
                 type='text'
                 size='small'
                 label="Amount Paying Now"
@@ -549,7 +572,18 @@ function Settlement() {
                 onBlur={handleBlur}
                 error1={!!error1}
                 helperText={error1}
-              />
+              /> */}
+             <TextField
+  type='text'
+  size='small'
+  label="Amount Paying Now"
+  className='border rounded-md'
+  value={amountPaying}
+  onChange={handleAmountChange}
+  onBlur={handleBlur}
+  error={!!error1}
+  helperText={error1}
+/>
               </div>
               {/* <div className='flex'>
               <label className='font-semibold flex items-center mr-16 ml-4'>Payable To :</label>

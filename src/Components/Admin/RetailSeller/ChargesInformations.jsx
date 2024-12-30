@@ -950,7 +950,13 @@ const ChargesInformations = () => {
               label="Charge percentage"
               size="small"
               value={taxPercentage} // Set the tax percentage in the input
-              onChange={(e) => setTaxPercentage(e.target.value)} // Update when changed
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value <= 99) {
+                  setTaxPercentage(value); // Update when value is less than or equal to 99
+                }
+              }}
+              // onChange={(e) => setTaxPercentage(e.target.value)} // Update when changed
               disabled={!isEditable} // Enable/disable based on edit mode
             />
           </div>
