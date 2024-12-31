@@ -387,14 +387,14 @@ const LayoutPostingProducts = () => {
           <h2 className="sm:text-[22px] text-[15px] text-blue-900 font-semibold ml-4">
             Marketplace Product List
           </h2>
-          <Link to="/layout/addproduct">
+          {/* <Link to="/layout/addproduct">
             <button
               className="bg-blue-900 flex items-center text-white p-2 text-[15px] rounded-md ml-4"
               onClick={handleAddNewProductClick}
             >
               <FaPlus /> Add New Product
             </button>
-          </Link>
+          </Link> */}
 
           {/* {showPopup.addProduct && (
             <div className="absolute bg-black inset-0 flex items-center justify-center overflow-scroll bg-gray-">

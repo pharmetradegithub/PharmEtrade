@@ -901,7 +901,7 @@ function LayoutSellOrders() {
 
   const finalAmount = (parseFloat(totalApprovedAmount) - parseFloat(totalCancelledAmount)).toFixed(2);
 
-  const totalAmount = SellerOrder ? SellerOrder.reduce((total, order) => total + order.totalAmount, 0) : 0;
+  const totalAmount = SellerOrder ? SellerOrder.reduce((total, order) => total + order.totalAmount, 0) : [];
   const percentage = SellerOrder ? ((totalAmount / 100) * 100).toFixed(2) : 0;
   const stats = [
     {

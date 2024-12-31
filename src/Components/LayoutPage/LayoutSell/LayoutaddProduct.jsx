@@ -1488,14 +1488,14 @@ function LayoutaddProduct() {
                       </div>
                     </div>
 
-                    <input
+                    {/* <input
                       type="phone"
                       name="packQuantity"
                       value={formData.packQuantity || ""}
                       onChange={handleInputChange}
                       className="w-[30%] Largest:w-[15%] mx-1 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:shadow focus:shadow-blue-400"
                     />
-                    <label className="text-sm mx-1 font-semibold">EA</label>
+                    <label className="text-sm mx-1 font-semibold">EA</label> */}
                   </div>
                 </div>
                 {/* section 2 end */}
