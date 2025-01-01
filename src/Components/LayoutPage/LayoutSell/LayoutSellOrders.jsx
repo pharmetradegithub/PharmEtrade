@@ -903,6 +903,10 @@ function LayoutSellOrders() {
 
   const totalAmount = SellerOrder ? SellerOrder.reduce((total, order) => total + order.totalAmount, 0) : [];
   const percentage = SellerOrder ? ((totalAmount / 100) * 100).toFixed(2) : 0;
+
+const numericTotalAmount = isNaN(Number(totalAmount)) ? 0 : Number(totalAmount);
+const numericTotalApprovedAmount = isNaN(Number(totalApprovedAmount)) ? 0 : Number(totalApprovedAmount);
+const numericTotalCancelledAmount = isNaN(Number(totalCancelledAmount)) ? 0 : Number(totalCancelledAmount);
   const stats = [
     {
       label: "Total Orders",
@@ -927,17 +931,17 @@ function LayoutSellOrders() {
     },
     {
       label: "Total Sold",
-      value: `$${totalAmount.toFixed(2)}`,
+      value: `$${numericTotalAmount.toFixed(2)}`,
       percentage: percentage,
     },
     {
       label: "Received Amount",
-      value: `$${totalApprovedAmount}`, // Format the total amount
+      value: `$${numericTotalApprovedAmount.toFixed(2)}`, // Format the total amount
       percentage: finalAmount, // Calculate the percentage
     },
     {
       label: "Cancellation Amount",
-      value: `$${totalCancelledAmount}`, // Display the total cancelled amount
+      value: `$${numericTotalCancelledAmount.toFixed(2)}`, // Display the total cancelled amount
       percentage: 0, // Display the percentage difference
     },
     // {
