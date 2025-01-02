@@ -6,6 +6,7 @@ import edit from "../../../assets/Edit.png";
 import {
   addBannerApi,
   deleteBannerApi,
+  editBannerApi,
   uploadCustomerImageApi,
 } from "../../../Api/BannerApi";
 import { deleteBanner } from "../../../Store/Store";
@@ -92,36 +93,76 @@ const AdminBanners = () => {
   };
 
   console.log(banners, "banners");
+  const [bannerIds, setBannerIds] = useState()
   // Handle editing banner
-  const handleEditBanner = (index) => {
+  const handleEditBanner = (index, bannerID) => {
+    setBannerIds(bannerID)
+    // setBannerIds(Number(bannerID));
+    // console.log("yyy", setBannerIds)
     setEditingIndex(index);
     setEditBanner(banners[index]);
   };
 
-  const handleSaveEdit = () => {
-    if (editBanner && editingIndex !== null) {
-      const updatedBanners = banners.map((banner, index) =>
-        index === editingIndex ? editBanner : banner
-      );
-      setBanners(updatedBanners);
-      setEditingIndex(null);
-      setEditBanner(null);
+  const handleSaveEdit = async () => {
+    try {
+      // Ensure `editBanner` and `bannerIds` are defined
+      if (!editBanner || !bannerIds) {
+        throw new Error("Missing required data: `editBanner` or `bannerIds`");
+      }
+
+      const formData = new FormData();
+      formData.append('image', editBanner); // Adjust key to match API expectations
+
+      // Upload image and get URL
+      const imageUrl = await uploadCustomerImageApi(formData);
+
+      // Prepare payload
+      const updatedBannerData = {
+        imageUrl: imageUrl,
+        bannerText: "string", // Replace with actual data if necessary
+        orderSequence: 0,
+        uploadedOn: new Date().toISOString(),
+        isActive: 1,
+      };
+
+      // Call API
+      await editBannerApi(bannerIds, updatedBannerData);
+      console.log("Banner edited successfully");
+
+      // Update state
+      if (editBanner && editingIndex !== null) {
+        const updatedBanners = banners.map((banner, index) =>
+          index === editingIndex ? { ...banner, ...updatedBannerData } : banner
+        );
+        setBanners(updatedBanners);
+        setEditingIndex(null);
+        setEditBanner(null);
+      }
+    } catch (error) {
+      console.error("Error in handleSaveEdit:", error);
     }
   };
 
-  // Handle deleting banner
   const handleDeleteBanner = (index) => {
     const filteredBanners = banners.filter((_, i) => i !== index);
     setBanners(filteredBanners);
   };
 
   // Handle edited banner input
+  // const handleEditBannerChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setEditBanner(URL.createObjectURL(file));
+  //   }
+  // };
   const handleEditBannerChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setEditBanner(URL.createObjectURL(file));
+      setEditBanner(file); // Set the File object
+      setBannerImage(URL.createObjectURL(file)); // Generate a preview URL
     }
   };
+
 
   // Dropzone setup
   const { getRootProps, getInputProps } = useDropzone({
@@ -149,6 +190,8 @@ const AdminBanners = () => {
       console.error("Error deleting banner:", error);
     }
   };
+
+
 
   return (
     <div className="p-6 bg-gray-100 overflow-y-scroll">
@@ -227,7 +270,7 @@ const AdminBanners = () => {
                       alt={`Carousel Image ${index + 1}`}
                     />
                     <div className="flex ">
-                      <button onClick={() => handleEditBanner(index)}>
+                      <button onClick={() => handleEditBanner(index, item.bannerId)}>
                         <img src={edit} className="w-8 h-8" />
                       </button>
                       <button
@@ -249,21 +292,10 @@ const AdminBanners = () => {
       </div>
 
       {/* Edit Banner Modal */}
-      {editingIndex !== null && (
+      {/* {editingIndex !== null && (
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-900 bg-opacity-50">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-semibold mb-4">Edit Banner</h2>
-            {/* <div className="relative w-full p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-400">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleEditBannerChange}
-                className="absolute inset-0 opacity-0 cursor-pointer"
-              />
-              <p className="text-gray-500 text-center">
-                Click here or drag and drop images
-              </p>
-            </div> */}
 
             <div
               className={`relative w-96 p-4 border-2 rounded-lg cursor-pointer hover:border-gray-400 ${
@@ -312,7 +344,69 @@ const AdminBanners = () => {
             </button>
           </div>
         </div>
+      )} */}
+      {editingIndex !== null && (
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-900 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-4">Edit Banner</h2>
+
+            <div
+              className={`relative w-96 p-4 border-2 rounded-lg cursor-pointer hover:border-gray-400 ${isDragOver ? "border-blue-500" : "border-dashed border-gray-300"
+                }`}
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+              onDragLeave={handleDragLeave}
+            >
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleEditBannerChange}
+                className="absolute inset-0 opacity-0 cursor-pointer"
+              />
+              <p className="text-gray-500 text-center">
+                Click here or drag and drop images
+              </p>
+              {/* {bannerImage ? (
+          <img
+            src={bannerImage}
+            alt="Banner Preview"
+            className="w-full h-auto rounded-lg object-cover"
+          />
+        ) : (
+          <p className="text-gray-500 text-center">
+            Click here or drag and drop images
+          </p>
+        )} */}
+            </div>
+
+            {editBanner && (
+              <img
+                src={URL.createObjectURL(editBanner)}
+                alt="Edited Banner"
+                className="w-32 h-20 object-cover mb-4"
+              />
+            )}
+
+            <button
+              onClick={handleSaveEdit}
+              className="bg-green-500 text-white px-4 py-2 rounded mr-2 my-2"
+            >
+              Save Changes
+            </button>
+            <button
+              onClick={() => {
+                setEditingIndex(null);
+                setEditBanner(null);
+                setBannerImage(null);
+              }}
+              className="bg-gray-500 text-white px-4 py-2 rounded my-2"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
       )}
+
     </div>
   );
 };

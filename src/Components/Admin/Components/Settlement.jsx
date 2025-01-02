@@ -1,36 +1,41 @@
-import React, { useEffect, useRef } from 'react'
-import { TextField } from '@mui/material'
+import React, { useEffect, useRef } from "react";
+import { TextField } from "@mui/material";
 import { useState } from "react";
-import { SellerSettleGetDetailsApi, SettleAddApi } from '../../../Api/SettlementApi';
-import { uploadCustomerImageApi } from '../../../Api/BannerApi';
-import { useSelector } from 'react-redux';
-import {GetCustomers } from '../../../Api/AdminApi';
-import Notification from '../../Notification';
+import {
+  SellerSettleGetDetailsApi,
+  SettleAddApi,
+} from "../../../Api/SettlementApi";
+import { uploadCustomerImageApi } from "../../../Api/BannerApi";
+import { useSelector } from "react-redux";
+import { GetCustomers } from "../../../Api/AdminApi";
+import Notification from "../../Notification";
 
 function Settlement() {
-  const [dateFrom, setDateFrom] = useState('');
-  const [dateTo, setDateTo] = useState('');
-  const [amountPaying, setAmountPaying] = useState('');
-  const [error1, setError1] = useState('');
-  const [error, setError] = useState({ dateFrom: '', dateTo: '', selectedUsersId: "" });
-  const user = useSelector((state) => state.user.user)
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
+  const [amountPaying, setAmountPaying] = useState("");
+  const [error1, setError1] = useState("");
+  const [error, setError] = useState({
+    dateFrom: "",
+    dateTo: "",
+    selectedUsersId: "",
+  });
+  const user = useSelector((state) => state.user.user);
   // const [payableTo, setPayableTo] = useState('');
-  const [bankName, setBankName] = useState('');
-  const [paymentDate, setPaymentDate] = useState('');
-  const [chequeMailedOn, setChequeMailedOn] = useState('');
+  const [bankName, setBankName] = useState("");
+  const [paymentDate, setPaymentDate] = useState("");
+  const [chequeMailedOn, setChequeMailedOn] = useState("");
   const [selectedUserId, setSelectedUserId] = useState(null);
-  const [paymentMode, setPaymentMode] = useState(''); // 'Wire' or 'Cheque'
+  const [paymentMode, setPaymentMode] = useState(""); // 'Wire' or 'Cheque'
   const [chequeImage, setChequeImage] = useState(null);
-  const [transactionId, setTransactionId] = useState('');
-  const [accountNumber, setAccountNumber] = useState('');
+  const [transactionId, setTransactionId] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const fileInputRef = useRef(null);
-    const [notification, setNotification] = useState({
-      show: false,
-      message: "",
-    });
-
- 
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+  });
 
   // const usersData = {
   //   1: {
@@ -81,14 +86,14 @@ function Settlement() {
 
   // Handle dropdown selection change
   const handleUserChange = (e) => {
-    console.log("targetvalue====>", e.target.value)
+    console.log("targetvalue====>", e.target.value);
     setSelectedUserId(e.target.value); // Update selected user ID
     if (selectedValue) {
       setError((prevError) => ({ ...prevError, selectedUsersId: "" }));
     }
   };
-  
-  console.log("selecteduserid ====>",selectedUserId)
+
+  console.log("selecteduserid ====>", selectedUserId);
   // Toggle the visibility of address details
   const toggleDetails = () => {
     // setIsDetailsVisible(!isDetailsVisible);
@@ -101,8 +106,6 @@ function Settlement() {
       setIsDetailsVisible(false);
     }
   };
-
-
 
   useEffect(() => {
     // Close details if the search term is cleared
@@ -127,27 +130,26 @@ function Settlement() {
   // };
   const handleAmountChange = (e) => {
     const value = e.target.value;
-  
+
     // Allow empty value for intermediate edits
-    if (value === '' || /^[0-9]*\.?[0-9]{0,2}$/.test(value)) {
+    if (value === "" || /^[0-9]*\.?[0-9]{0,2}$/.test(value)) {
       setAmountPaying(value);
-  
+
       // Validate only when the value is a valid number
       const numericValue = parseFloat(value);
       const maxAmount = parseFloat(storeDetails.TotalAmountToBePaid);
-  
+
       if (!isNaN(numericValue)) {
         if (numericValue > maxAmount) {
           setError1(`Amount cannot exceed $${maxAmount.toFixed(2)}.`);
         } else {
-          setError1('');
+          setError1("");
         }
       } else {
-        setError1('');
+        setError1("");
       }
     }
   };
-  
 
   // const handleBlur = () => {
   //   if (!amountPaying) {
@@ -158,26 +160,26 @@ function Settlement() {
   // };
   const handleBlur = () => {
     if (!amountPaying) {
-      setError1('Amount Paying Now is required');
+      setError1("Amount Paying Now is required");
     } else if (parseFloat(amountPaying) <= 0) {
-      setError1('Amount must be greater than zero');
+      setError1("Amount must be greater than zero");
     } else {
       // Format the value to 2 decimal places
       const formattedValue = parseFloat(amountPaying).toFixed(2);
       setAmountPaying(formattedValue);
-      setError1(''); // Clear any previous error
+      setError1(""); // Clear any previous error
     }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateFields()) {
-      console.log('Form is valid, submit data.');
+      console.log("Form is valid, submit data.");
     } else {
-      console.log('Form is invalid, show errors.');
+      console.log("Form is invalid, show errors.");
     }
   };
-  const [getDetails, setGetDetails] = useState({})
-  const [storeDetails, setStoreDetails] = useState({})
+  const [getDetails, setGetDetails] = useState({});
+  const [storeDetails, setStoreDetails] = useState({});
 
   useEffect(() => {
     if (getDetails) {
@@ -192,16 +194,16 @@ function Settlement() {
         Email: getDetails.sellerEmail,
         TotalAmountToBePaid: getDetails.totalAmountToBePaid,
         TotalAmountDue: getDetails.totalAmountDue,
-        TotalAmountPaid: getDetails.totalAmountPaid
+        TotalAmountPaid: getDetails.totalAmountPaid,
       });
     }
   }, [getDetails]);
-  const [optionCustomerId, setOptionCustomerId] = useState(null)
-    // useEffect(() => {
-    //   const res = SellerSettleGetDetailsApi(selectedUserId)
-    //   setGetDetails(res)
+  const [optionCustomerId, setOptionCustomerId] = useState(null);
+  // useEffect(() => {
+  //   const res = SellerSettleGetDetailsApi(selectedUserId)
+  //   setGetDetails(res)
   // }, [selectedUserId]);
-  
+
   useEffect(() => {
     SellerSettleGetDetailsApi(selectedUserId)
       .then((res) => {
@@ -212,8 +214,6 @@ function Settlement() {
       });
   }, [selectedUserId]);
 
-
-
   const [customers, setCustomers] = useState([]);
   const [searchInput, setSearchInput] = useState({
     customerName: "",
@@ -223,7 +223,9 @@ function Settlement() {
     const fetchCustomers = async () => {
       try {
         const res = await GetCustomers();
-        const filteredCustomers = res.filter(customer => customer.customerTypeId !== 4);
+        const filteredCustomers = res.filter(
+          (customer) => customer.customerTypeId !== 4
+        );
         console.log("Filtered Customers:", filteredCustomers);
         setCustomers(filteredCustomers);
       } catch (error) {
@@ -233,7 +235,7 @@ function Settlement() {
     fetchCustomers();
   }, []);
 
-  console.log("customer--->", customers)
+  console.log("customer--->", customers);
   const [filteredCustomers, setFilteredCustomers] = useState(customers);
   const handleSearchChange = (e) => {
     const value = e.target.value;
@@ -263,31 +265,31 @@ function Settlement() {
     setFilteredCustomers([]); // Hide dropdown after selection
   };
 
-  console.log("getAll", getDetails)
+  console.log("getAll", getDetails);
 
   const handleShowBalance = async () => {
     let isValid = true;
-    let errorMessages = { dateFrom: '', dateTo: '', selectedUsersId: "" };
+    let errorMessages = { dateFrom: "", dateTo: "", selectedUsersId: "" };
 
     if (!selectedUserId) {
-      errorMessages.selectedUsersId = 'Please select a seller.';
+      errorMessages.selectedUsersId = "Please select a seller.";
       isValid = false;
     }
     if (!dateFrom) {
-      errorMessages.dateFrom = 'Invoice Date From is required';
+      errorMessages.dateFrom = "Invoice Date From is required";
       isValid = false;
     }
 
     if (!dateTo) {
-      errorMessages.dateTo = 'Invoice Date To is required';
+      errorMessages.dateTo = "Invoice Date To is required";
       isValid = false;
     }
 
     if (dateFrom && dateTo && new Date(dateFrom) > new Date(dateTo)) {
-      errorMessages.dateTo = 'Invoice Date To cannot be earlier than Invoice Date From';
+      errorMessages.dateTo =
+        "Invoice Date To cannot be earlier than Invoice Date From";
       isValid = false;
     }
-
 
     setError(errorMessages);
 
@@ -301,7 +303,7 @@ function Settlement() {
     // if (chequeImage) {
     // Prepare the image for upload
     const formData = new FormData();
-    formData.append('image', chequeImage); // Use the exact field key expected by the API
+    formData.append("image", chequeImage); // Use the exact field key expected by the API
 
     const imageUrl = await uploadCustomerImageApi(formData);
     // console.log('Image uploaded successfully:', imageUrl);
@@ -313,7 +315,7 @@ function Settlement() {
       amountPaid: Number(amountPaying), // Ensure numeric
       paymentDate: paymentDate,
       // || new Date().toISOString(),
-      paymentModeId: paymentMode === 'Wire' ? 1 : 2, // Assume 1 for Wire, 2 for Cheque
+      paymentModeId: paymentMode === "Wire" ? 1 : 2, // Assume 1 for Wire, 2 for Cheque
       transactionId: transactionId, // Replace with actual value if available
       accountNumber: accountNumber, // Replace with actual value
       bankName: bankName,
@@ -321,58 +323,54 @@ function Settlement() {
       chequeImageUrl: imageUrl, // Using uploaded image URL
       chequeMailedOn: chequeMailedOn || null,
       enteredBy: user.customerId, // Replace with actual user info
-    }
-    await SettleAddApi(payload)
+    };
+    await SettleAddApi(payload);
     setNotification({
       show: true,
       message: "Saved Successfully!",
     });
     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-    setAmountPaying("")
+    setAmountPaying("");
     // setPayableTo("")
-    setBankName("")
-    setAccountNumber('')
-    setChequeMailedOn('')
-    setPaymentDate("")
-    setPaymentMode("")
-    setTransactionId('')
-    setChequeImage(null)
-    setDateFrom("")
-    setDateTo("")
-    setSearchTerm("")
-    setStoreDetails({})
-    setIsDetailsVisible(false)
+    setBankName("");
+    setAccountNumber("");
+    setChequeMailedOn("");
+    setPaymentDate("");
+    setPaymentMode("");
+    setTransactionId("");
+    setChequeImage(null);
+    setDateFrom("");
+    setDateTo("");
+    setSearchTerm("");
+    setStoreDetails({});
+    setIsDetailsVisible(false);
 
     if (fileInputRef.current) {
       fileInputRef.current.value = ""; // Clear file input
     }
-
   };
 
   return (
-    <div className='w-[95%]  p-4 h-full overflow-y-scroll '>
+    <div className="w-[95%]  p-4 h-full overflow-y-scroll ">
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
 
       <div>
-        <h1 className='text-blue-900 text-2xl font-semibold ml-5'>Payment Settlements</h1>
+        <h1 className="ml-5 text-2xl font-semibold text-blue-900">
+          Payment Settlements
+        </h1>
       </div>
 
-      <div className=' mt-4 '>
-
-
-
-        <div className=' bg-white rounded-md p-2  mb-2 w-[50%] border ml-5  h-full '>
-         
-
-         
-          <div className='flex flex-col'>
-
-          <div>
-              <div className='flex items-center ml-4 mt-5 relative'>
-              <label className="font-semibold flex items-center mb-1">Member Name / DBA: </label>
-               {/* <select
+      <div className="mt-4 ">
+        <div className=" bg-white rounded-md p-2  mb-2 w-[90%] border ml-5  h-full ">
+          <div className="flex flex-col">
+            <div>
+              <div className="relative flex items-center mt-5 ml-4">
+                <label className="flex items-center mb-1 font-semibold">
+                  Member Name / DBA:{" "}
+                </label>
+                {/* <select
                   className={`rounded-mdborder mt-5 text-sm ${error.selectedUsersId ? "border-red-500" : ""
                     }`}
         value={selectedUserId}
@@ -390,7 +388,7 @@ function Settlement() {
                   value={searchTerm}
                   onChange={handleSearchChange}
                   placeholder="Search for a Seller Name"
-                  className="border rounded-md ml-3 py-1 px-4 text-sm w-64"
+                  className="w-64 px-4 py-1 ml-3 text-sm border rounded-md"
                 />
                 {/* Dropdown Options */}
                 {filteredCustomers.length > 0 && (
@@ -406,163 +404,187 @@ function Settlement() {
                     ))}
                   </ul>
                 )}
-                 
+
                 <button
                   onClick={toggleDetails}
                   disabled={!selectedUserId} // Disable button when no seller is selected
-                  className={`bg-blue-900 rounded-md w-28 ml-5 mb-1 text-white font-semibold text-base items-center flex justify-center ${!selectedUserId || !searchTerm.trim() ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
+                  className={`bg-blue-900 rounded-md w-28 ml-5 mb-1 text-white font-semibold text-base items-center flex justify-center ${!selectedUserId || !searchTerm.trim()
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:bg-blue-700"
                     }`}
                 >
                   {isDetailsVisible ? "Hide  Details" : "Show Details"}
                 </button>
-            </div>
+              </div>
 
-            {/* Show address details only if isDetailsVisible is true */}
-            {isDetailsVisible && (
-              <div className="mt-4 border-4 p-1">
-                <div className="flex my-1 gap-1">
-                  <div className="w-full flex gap-2">
-                    <label className="font-semibold">First Name:</label>
+              {/* Show address details only if isDetailsVisible is true */}
+              {isDetailsVisible && (
+                <div className="p-1 mt-4 border-4">
+                  <div className="flex gap-1 my-1">
+                    <div className="flex w-full gap-2">
+                      <label className="font-semibold">First Name:</label>
                       <p>{storeDetails.FirstName}</p>
-                  </div>
+                    </div>
 
-                  <div className="w-full flex gap-2">
-                    <label className="font-semibold">Last Name:</label>
+                    <div className="flex w-full gap-2">
+                      <label className="font-semibold">Last Name:</label>
                       <p>{storeDetails.LastName}</p>
-                  </div>
-                </div>
-
-                <div className="my-4 flex gap-2">
-                  <div className=" w-full flex gap-2">
-                    <label className="font-semibold">Address:</label>
-                    <p>{storeDetails.Address}</p>
+                    </div>
                   </div>
 
-                  <div className="w-full flex gap-2">
-                    <label className="font-semibold">City:</label>
-                    <p>{storeDetails.City}</p>
-                  </div>
-                </div>
+                  <div className="flex gap-2 my-4">
+                    <div className="flex w-full gap-2 ">
+                      <label className="font-semibold">Address:</label>
+                      <p>{storeDetails.Address}</p>
+                    </div>
 
-                <div className="flex my-2 gap-2">
-                  <div className="w-full flex gap-2">
-                    <label className="font-semibold">State:</label>
+                    <div className="flex w-full gap-2">
+                      <label className="font-semibold">City:</label>
+                      <p>{storeDetails.City}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2 my-2">
+                    <div className="flex w-full gap-2">
+                      <label className="font-semibold">State:</label>
                       <p>{storeDetails.State}</p>
-                  </div>
+                    </div>
 
-                  <div className="w-full flex gap-2">
-                    <label className="font-semibold">Zip:</label>
+                    <div className="flex w-full gap-2">
+                      <label className="font-semibold">Zip:</label>
                       <p>{storeDetails.Zip}</p>
+                    </div>
                   </div>
-                </div>
 
-                <div className="flex my-2 gap-2">
-                  <div className="w-full flex gap-2">
-                    <label className="font-semibold">Phone Number:</label>
+                  <div className="flex gap-2 my-2">
+                    <div className="flex w-full gap-2">
+                      <label className="font-semibold">Phone Number:</label>
                       <p>{storeDetails.PhoneNumber}</p>
-                  </div>
+                    </div>
 
-                  <div className="w-full flex gap-2">
-                    <label className="font-semibold">Email:</label>
+                    <div className="flex w-full gap-2">
+                      <label className="font-semibold">Email:</label>
                       <p>{storeDetails.Email}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
             {error.selectedUsersId && (
-              <p className="text-red-500 text-sm text-center">{error.selectedUsersId}</p>
+              <p className="text-sm text-center text-red-500">
+                {error.selectedUsersId}
+              </p>
             )}
-            <div>
-              <div className='flex my-2 '>
-                <label className='font-semibold text-left ml-4'>Total Amount To Be Paid : </label>
-                {/* <span className='ml-7'>$ 11,444.00</span> */}
-                <span className='ml-7'>
-                  ${storeDetails.TotalAmountToBePaid !== undefined ? storeDetails.TotalAmountToBePaid.toFixed(2) : '0.00'}
-                </span>
+            <div className="flex flex-col mt-4">
+              <div className="flex flex-col">
+                <div className="my-2 ">
+                  <label className="ml-4 font-semibold text-left">
+                    Total Amount To Be Paid :{" "}
+                  </label>
+                  {/* <span className='ml-7'>$ 11,444.00</span> */}
+                  <span className="ml-7">
+                    $
+                    {storeDetails.TotalAmountToBePaid !== undefined
+                      ? storeDetails.TotalAmountToBePaid.toFixed(2)
+                      : "0.00"}
+                  </span>
+                </div>
+                <div className="flex my-2 ">
+                  <label className="ml-4 font-semibold text-left">
+                    Total Amount Due :{" "}
+                  </label>
+                  {/* <span className='ml-7'>$ 11,444.00</span> */}
+                  <span className="ml-7">
+                    $
+                    {storeDetails.TotalAmountDue !== undefined
+                      ? storeDetails.TotalAmountDue.toFixed(2)
+                      : "0.00"}
+                  </span>
+                </div>
 
-
+                <div className="flex gap-4 my-2 ">
+                  <label className="ml-4 font-semibold">
+                    Total Amount Paid Till date :{" "}
+                  </label>
+                  {/* <span className='ml-1'>$ 6,444.00</span> */}
+                  <span className="ml-7">
+                    $
+                    {storeDetails.TotalAmountPaid !== undefined
+                      ? storeDetails.TotalAmountPaid.toFixed(2)
+                      : "0.00"}
+                  </span>
+                </div>
               </div>
-            <div className='flex my-2 '>
-              <label className='font-semibold text-left ml-4'>Total Amount Due : </label>
-                {/* <span className='ml-7'>$ 11,444.00</span> */}
-                <span className='ml-7'>
-                  ${storeDetails.TotalAmountDue !== undefined ? storeDetails.TotalAmountDue.toFixed(2) : '0.00'}
-                </span>
-
-
-            </div>
-
-            <div className='flex gap-4 my-2 '>
-              <label className='font-semibold ml-4'>Total Amount Paid Till date : </label>
-                {/* <span className='ml-1'>$ 6,444.00</span> */}
-               <span className='ml-7'>
-                  ${storeDetails.TotalAmountPaid !== undefined ? storeDetails.TotalAmountPaid.toFixed(2) : '0.00'}</span>
-
-
-            </div>
-
-            {/* <div className='flex justify-start gap-4 my-2'>
-              <label className='font-semibold flex items-center'>Invoice Date From :</label>
+              {/* <div className='flex justify-start gap-4 my-2'>
+              <label className='flex items-center font-semibold'>Invoice Date From :</label>
               <TextField type='date'
                 className='border rounded-md'
                 size='small'
               />
 
 
-              <label className='ml-2 font-semibold flex items-center '>Invoice Date To :</label>
+              <label className='flex items-center ml-2 font-semibold '>Invoice Date To :</label>
               <TextField type='date'
                 className='border rounded-md'
                 size='small'
               />
               <div className='flex justify-center'>
 
-                <button className='rounded-md bg-blue-900 text-white w-28 p-2 font-semibold flex justify-center items-center'>Show Balance</button>
+                <button className='flex items-center justify-center p-2 font-semibold text-white bg-blue-900 rounded-md w-28'>Show Balance</button>
               </div>
-            </div> */}<div className='flex justify-start gap-4 '>
-              <label className='font-semibold flex items-center ml-4'>Invoice Date From:</label>
-              <TextField
-                type='date'
-                className='border rounded-md'
-                size='small'
-                value={dateFrom}
-                onChange={(e) => setDateFrom(e.target.value)}
-                error={!!error.dateFrom}
-                helperText={error.dateFrom}
-              />
-        </div>
-        <div className='flex my-2'>
-              <label className=' font-semibold flex items-center mr-9 ml-4'>Invoice Date To:</label>
-              <TextField
-                type='date'
-                className='border rounded-md ml-5'
-                size='small'
-                value={dateTo}
-                onChange={(e) => setDateTo(e.target.value)}
-                error={!!error.dateTo}
-                helperText={error.dateTo}
-              />
+            </div> */}
+              <div className="flex flex-row">
+                <div className="flex justify-start gap-4 mx-1 my-2">
+                  <label className="flex items-center ml-3 font-semibold">
+                    Invoice Date From:
+                  </label>
+                  <TextField
+                    type="date"
+                    className="mt-2 ml-2 border rounded-md "
+                    size="small"
+                    value={dateFrom}
+                    onChange={(e) => setDateFrom(e.target.value)}
+                    error={!!error.dateFrom}
+                    helperText={error.dateFrom}
+                  />
+                </div>
+                <div className="flex my-2">
+                  <label
+                    className="flex items-center ml-16 mr-10 font-semibold"
+                    style={{ marginLeft: "72px" }}
+                  >
+                    Invoice Date To:
+                  </label>
+                  <TextField
+                    type="date"
+                    className="mt-4 ml-4 border rounded-md"
+                    size="small"
+                    value={dateTo}
+                    onChange={(e) => setDateTo(e.target.value)}
+                    error={!!error.dateTo}
+                    helperText={error.dateTo}
+                  />
 
-{/* <div className='flex justify-center ml-4 '>
+                  {/* <div className='flex justify-center ml-4 '>
                 <button
-                  className='rounded-md bg-blue-900 text-white w-28 h-10 p-2 font-semibold flex justify-center items-center'
+                  className='flex items-center justify-center h-10 p-2 font-semibold text-white bg-blue-900 rounded-md w-28'
 
                 >
                   Show Balance
                 </button>
               </div> */}
-              
-            </div>
-           
-
-            {/* <div>
-              <label className='font-semibold gap-2 my-2  items-center ml-4' >Amount Due :</label>
-              <span className=' ml-1'> $ 11,656.00</span>
+                </div>
+              </div>
+              {/* <div>
+              <label className='items-center gap-2 my-2 ml-4 font-semibold' >Amount Due :</label>
+              <span className='ml-1 '> $ 11,656.00</span>
             </div> */}
-
-            <div className='flex gap-2 my-2'>
-              <label className='font-semibold flex items-center ml-4'>Amount Paying Now:</label>
-              {/* <TextField
+              <div className="flex flex-row">
+                <div className="flex justify-between my-2">
+                  <label className="flex items-center ml-4 font-semibold">
+                    Amount Paying Now:
+                  </label>
+                  {/* <TextField
                 type='text'
                 size='small'
                 label="Amount Paying Now"
@@ -573,127 +595,151 @@ function Settlement() {
                 error1={!!error1}
                 helperText={error1}
               /> */}
-             <TextField
-  type='text'
-  size='small'
-  label="Amount Paying Now"
-  className='border rounded-md'
-  value={amountPaying}
-  onChange={handleAmountChange}
-  onBlur={handleBlur}
-  error={!!error1}
-  helperText={error1}
-/>
-              </div>
-              {/* <div className='flex'>
-              <label className='font-semibold flex items-center mr-16 ml-4'>Payable To :</label>
+                  <TextField
+                    type="text"
+                    size="small"
+                    label="Amount"
+                    className="w-auto border rounded-md"
+                    value={amountPaying}
+                    onChange={handleAmountChange}
+                    onBlur={handleBlur}
+                    error={!!error1}
+                    helperText={error1}
+                  />
+                </div>
+                {/* <div className='flex'>
+              <label className='flex items-center ml-4 mr-16 font-semibold'>Payable To :</label>
               <TextField type='text'
                 label="Payable To"
                   size='small'
                   value={payableTo}
-                  className='border rounded-md ml-8 '
+                  className='ml-8 border rounded-md '
                   onChange={(e) => setPayableTo(e.target.value)}
                />
             </div> */}
 
-            <div className='flex gap-2 my-2'>
-              <label className='font-semibold  flex items-center ml-4'>Save Cheque Image :</label>
-                <input type='file'
-                  ref={fileInputRef}
-               name='Cheque_Image'
-               accept="image/*"
-               size='small'
-               className='w-52 border p-1 border-gray-300 rounded-md  ' 
-                  onChange={(e) => setChequeImage(e.target.files[0])}
-                />
+                <div className="flex gap-2 my-2">
+                  <label className="flex items-center ml-4 font-semibold">
+                    Save Cheque Image :
+                  </label>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    name="Cheque_Image"
+                    accept="image/*"
+                    size="small"
+                    className="p-1 border border-gray-300 rounded-md w-52 "
+                    onChange={(e) => setChequeImage(e.target.files[0])}
+                  />
+                </div>
               </div>
-              <div className='flex'>
-              <label className='font-semibold flex items-center mr-12 ml-4'>Payment Date:</label>
-              <TextField type='date'
-                className='border rounded-md w-52'
-                size='small'
-                  value={paymentDate}
-                  onChange={(e) => setPaymentDate(e.target.value)}
-              />
-            </div>
+              <div className="flex flex-row ">
+                <div className="flex justify-between">
+                  <label className="flex items-center ml-4 mr-10 font-semibold">
+                    Payment Date:
+                  </label>
+                  <TextField
+                    type="date"
+                    className="ml-10 border rounded-md w-52"
+                    size="small"
+                    value={paymentDate}
+                    onChange={(e) => setPaymentDate(e.target.value)}
+                  />
+                </div>
 
-            <div className='my-3'>
-              <label className='font-semibold  gap-2 ml-4 '>Mode of  payment :</label>
-              <input
-                type='radio'
-                  className='mr-2 ml-2'
-                  checked={paymentMode === 'Wire'}
-                  onChange={() => setPaymentMode('Wire')}
-                />
-              <label className='mr-2'>Wire</label>
+                <div className="my-3">
+                  <label className="gap-2 ml-8 font-semibold ">
+                    Mode of payment :
+                  </label>
+                  <input
+                    type="radio"
+                    className="ml-6 mr-2"
+                    checked={paymentMode === "Wire"}
+                    onChange={() => setPaymentMode("Wire")}
+                  />
+                  <label className="mr-2">Wire</label>
 
-              <input
-                  type='radio'
-                  checked={paymentMode === 'Cheque'}
-                  onChange={() => setPaymentMode('Cheque')}
-                />
-              <label className='ml-2'>Cheque</label>
-            </div>
-
-            <div className='flex my-2 gap-2'>
-              <label className='font-semibold flex items-center mr-12 ml-4'>Bank Name   : </label>
-              <TextField
-                type='text'
-                label="Bank Name"
-                  size='small' 
-                  value={bankName}
-                  onChange={(e) => setBankName(e.target.value)}
-                />
+                  <input
+                    type="radio"
+                    checked={paymentMode === "Cheque"}
+                    onChange={() => setPaymentMode("Cheque")}
+                  />
+                  <label className="ml-2">Cheque</label>
+                </div>
               </div>
-              <div className='flex my-2 gap-2'>
-                <label className='font-semibold flex items-center ml-4'>Account Number   : </label>
-                <TextField
-                  type='text'
-                  label="Account Number"
-                  size='small'
-                  value={accountNumber}
-                  sx={{ marginLeft: '20px' }}
-                  onChange={(e) => setAccountNumber(e.target.value)}
-                />
+              <div className="flex flex-row ">
+                <div className="flex justify-between my-2">
+                  <label className="flex items-center ml-4 mr-6 font-semibold">
+                    Bank Name :{" "}
+                  </label>
+                  <TextField
+                    type="text"
+                    label="Bank Name"
+                    size="small"
+                    className="w-[55%] ml-10"
+                    value={bankName}
+                    onChange={(e) => setBankName(e.target.value)}
+                  />
+                </div>
+                <div className="flex my-2">
+                  <label className="flex items-center ml-12 font-semibold">
+                    Account Number :{" "}
+                  </label>
+                  <TextField
+                    type="text"
+                    label="Account Number"
+                    className="ml-10 w-[45%]"
+                    size="small"
+                    value={accountNumber}
+                    sx={{ marginLeft: "30px" }}
+                    onChange={(e) => setAccountNumber(e.target.value)}
+                  />
+                </div>
               </div>
-              <div className='flex my-2 gap-2'>
-                <label className='font-semibold flex items-center mr-12 ml-4'>TransactionId   : </label>
-                <TextField
-                  type='text'
-                  label="TransactionId"
-                  size='small'
-                  value={transactionId}
-                  onChange={(e) => setTransactionId(e.target.value)}
-                />
+              <div className="flex flex-row">
+                <div className="flex justify-between my-2">
+                  <label className="flex items-center ml-4 mr-2 font-semibold">
+                    TransactionId :{" "}
+                  </label>
+                  <TextField
+                    type="text"
+                    label="TransactionId"
+                    className="w-[55%]"
+                    size="small"
+                    value={transactionId}
+                    onChange={(e) => setTransactionId(e.target.value)}
+                  />
+                </div>
+                <div className="flex">
+                  <label className="flex items-center ml-12 mr-5 font-semibold">
+                    Cheque Mailed On :
+                  </label>
+                  <TextField
+                    type="date"
+                    className="w-auto h-5 ml-2 border rounded-md"
+                    size="small"
+                    value={chequeMailedOn}
+                    onChange={(e) => setChequeMailedOn(e.target.value)}
+                  />
+                </div>
               </div>
-              <div className='flex'>
-              <label className='font-semibold flex items-center mr-5 ml-4'>Cheque Mailed On  :</label>
-              <TextField type='date'
-                className='border rounded-md w-52 h-5'
-                  size='small'
-                  value={chequeMailedOn}
-                  onChange={(e) => setChequeMailedOn(e.target.value)}
-              />
+              <div className="flex justify-center gap-2 my-4">
+                <button
+                  className="p-1 my-4 font-semibold text-white bg-blue-900 rounded-md w-14"
+                  onClick={handleShowBalance}
+                >
+                  Save
+                </button>
+                <button className="p-1 my-4 ml-3 font-semibold text-white bg-blue-900 rounded-md w-14">
+                  Cancel
+                </button>
+              </div>
             </div>
-
-            <div className='gap-2 flex justify-center my-4'>
-              <button className="bg-blue-900 text-white w-14 p-1 my-4 rounded-md font-semibold" onClick={handleShowBalance} >
-
-                Save
-              </button >
-              <button className="bg-blue-900 text-white ml-3  my-4 w-14 p-1 rounded-md font-semibold">
-                Cancel
-              </button>
-            </div>
-
           </div>
-          </div>
-
         </div>
       </div>
-
     </div>
-  )
+  );
 }
 
-export default Settlement
+export default Settlement;

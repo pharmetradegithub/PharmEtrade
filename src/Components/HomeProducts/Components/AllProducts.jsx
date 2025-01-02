@@ -345,13 +345,30 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
               </div> */}
               <div className="flex flex-col md:flex-row justify-between items-center">
-                <div className="flex items-center">
+                {/* <div className="flex items-center">
                   <span className="text-orange-500 text-lg md:text-xl lg:text-2xl">★</span>
                   <span className="text-orange-500 text-lg md:text-xl lg:text-2xl">★</span>
                   <span className="text-orange-500 text-lg md:text-xl lg:text-2xl">☆</span>
                   <span className="text-orange-500 text-lg md:text-xl lg:text-2xl">☆</span>
                   <span className="text-orange-500 text-lg md:text-xl lg:text-2xl">☆</span>
+                </div> */}
+
+                <div className="flex items-center mobile:items-center">
+                  {Array.from({ length: 5 }, (_, index) => (
+                    <span
+                      key={index}
+                      style={{
+                        fontSize: "24px",
+                        color: "orange",
+                      }}
+                    >
+                      {index < item.productRating ? "★" : "☆"}
+                    </span>
+                  ))}
                 </div>
+
+
+
                 <div className="text-xs sm:text-sm">
                   {item.amountInStock <= 0 ? (
                     <p className="text-red-500 font-semibold">Out Of Stock</p>

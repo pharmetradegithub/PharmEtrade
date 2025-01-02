@@ -835,6 +835,7 @@ import {
   fetchOrderDownloadInvoice,
   fetchOrderInvoice,
   fetchOrderView,
+  fetchSellerOrderView,
   orderStatusUpdateApi,
 } from "../../../Api/OrderApi";
 import { FaFileInvoice } from "react-icons/fa";
@@ -855,7 +856,7 @@ function LayoutSellOrders() {
  
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
-  const ordered = useSelector((state) => state.order.orderView);
+  const ordered = useSelector((state) => state.order.sellerOrderview);
  
   const orderStatusGetAll = useSelector(
     (state) => state.master.orderStatusGetAll
@@ -892,16 +893,17 @@ function LayoutSellOrders() {
 
   const approvedData = SellerOrder ? SellerOrder.filter(item => item.orderedProductStatusId === 6) : [];
   console.log("Approved===", approvedData);
-  const totalApprovedAmount = approvedData.reduce((total, order) => total + (order.totalAmount || 0), 0).toFixed(2);
+  const totalApprovedAmount = approvedData.reduce((total, order) => total + ((order?.quantity || 0) * (order?.pricePerProduct || 0)), 0).toFixed(2);
   // const percentage = approvedData.length > 0
   //   ? Math.floor(((totalAmount - 2000) / 2000) * 100)
   //   : 0;
+ 
   const cancelledData = SellerOrder ? SellerOrder.filter(item => item.orderedProductStatusId === 5) : [];
-  const totalCancelledAmount = cancelledData.reduce((total, order) => total + (order.totalAmount || 0), 0).toFixed(2);
+  const totalCancelledAmount = cancelledData.reduce((total, order) => total + ((order?.quantity || 0) * (order?.pricePerProduct || 0)), 0).toFixed(2);
 
   const finalAmount = (parseFloat(totalApprovedAmount) - parseFloat(totalCancelledAmount)).toFixed(2);
 
-  const totalAmount = SellerOrder ? SellerOrder.reduce((total, order) => total + order.totalAmount, 0) : [];
+  const totalAmount = SellerOrder ? SellerOrder.reduce((total, order) => total + ((order?.quantity || 0) * (order?.pricePerProduct || 0)), 0) : [];
   const percentage = SellerOrder ? ((totalAmount / 100) * 100).toFixed(2) : 0;
 
 const numericTotalAmount = isNaN(Number(totalAmount)) ? 0 : Number(totalAmount);
@@ -1027,12 +1029,11 @@ const numericTotalCancelledAmount = isNaN(Number(totalCancelledAmount)) ? 0 : Nu
 
   const handleClickView = async (orderId) => {
     setModal(true);
-    await dispatch(fetchOrderView(orderId));
+    await dispatch(fetchSellerOrderView(orderId, user.customerId));
     setOrderID(orderId);
   };
 
   const handleClickInvoice = async () => {
-   
     await dispatch(fetchOrderInvoice(orderID));
   };
 
@@ -1456,7 +1457,8 @@ const numericTotalCancelledAmount = isNaN(Number(totalCancelledAmount)) ? 0 : Nu
                     </p>
                     <p className="mb-2">
                       <span className="font-semibold">Amount:</span> $
-                      {product?.totalAmount.toFixed(2)}
+                      {/* {product?.totalAmount.toFixed(2)} */}
+                      ${((product?.quantity || 0) * (product?.pricePerProduct || 0)).toFixed(2)}
                     </p>
                     <p className="mb-2">
                       <span className="font-semibold">Customer:</span>{" "}
@@ -1542,7 +1544,7 @@ const numericTotalCancelledAmount = isNaN(Number(totalCancelledAmount)) ? 0 : Nu
                         <img
                           src={eye}
                           className="w-5 h-5 cursor-pointer"
-                          onClick={() => handleClickView(product?.orderId)}
+                          onClick={() => handleClickView(product?.orderId, product?.customerId)}
                         />
                       </Tooltip>
                       {/* <Tooltip title="Download" placement="top">

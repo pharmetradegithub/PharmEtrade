@@ -1,5 +1,5 @@
 import axios from './api'; 
-import { addOrder, setGetById, setGetOrder, setGetOrderBySellerId, setOrderDownloadInvoice, setOrderInvoice, setOrderPlace, setOrdersPayment, setOrderStatusUpdate, setOrderViewInvoice, setSellerGetAll } from "../Store/Store";
+import { addOrder, setGetById, setGetOrder, setGetOrderBySellerId, setOrderDownloadInvoice, setOrderInvoice, setOrderPlace, setOrdersPayment, setOrderStatusUpdate, setOrderViewInvoice, setSellerGetAll, setSellerOrderViewInvoice } from "../Store/Store";
 
 
 
@@ -206,6 +206,23 @@ export const fetchOrderView = (orderId) => {
   };
 };
 
+export const fetchSellerOrderView = (orderId, customerId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/api/Orders/DownloadSellerInvoiceHtml?orderId=${orderId}&sellerId=${customerId}`);
+      console.log("responseViewInvoice-->", response)
+      if (response.status === 200) {
+        const getOrder = response.data;
+        // console.log('Dispatching get order action:', getOrder); // Log before dispatch
+        dispatch(setSellerOrderViewInvoice(getOrder)); // Dispatch action
+      } else {
+        console.error('Failed to get order action:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error get order action:', error);
+    }
+  };
+};
 
 export const fetchOrderInvoice = (orderId) => {
   return async (dispatch) => {

@@ -112,12 +112,17 @@ import { FaCheck, FaShippingFast, FaTruck, FaBox } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { TrackNumberApi } from "../Api/TrackApi";
+import { fetchGetAddressByIdApi } from "../Api/CheckoutApi";
 const TrackingOrder = () => {
   const [orderProceed, setOrderProceed] = useState([]);
   const trackdata = useSelector((state) => state.trackNumber.trackNumber);
   console.log("Track Data", trackdata);
   const dispatch = useDispatch();
-
+  const searchParams = new URLSearchParams(location.search);
+  const trackingId = searchParams.get("trackingId");
+  const addressId = searchParams.get("addressId")
+  console.log("addddesss", addressId)
+  console.log("traaack", trackingId)
   const orderStatus = [
     { label: "Order Proceeded", icon: FaCheck },
     { label: "Order Shipped", icon: FaShippingFast },
@@ -143,11 +148,27 @@ const TrackingOrder = () => {
     ? eventTypeMap[trackdata.trackResults[0].eventType]
     : 0; // Default to 'Order Proceeded' if no event type is found
 
+  // const currentStatus = trackdata?.trackResults?.[0]?.scanEvents
+  //   ? eventTypeMap[trackdata.trackResults[0].scanEvents.map()]
+  //   : 1.4; // Default to 'Order Proceeded' if no event type is found
+  
   console.log("curr status", currentStatus);
+  // 794843185271 // this is tracking number given static Id
   useEffect(() => {
-    dispatch(TrackNumberApi(794843185271)); // Replace with your actual tracking number
+    dispatch(TrackNumberApi(trackingId)); // Replace with your actual tracking number
   }, [dispatch]);
 
+  const [addressResponse, setAddressResponse]  = useState(null)
+  useEffect(() => {
+    const data = async () => {
+      const res = await fetchGetAddressByIdApi(addressId)
+      setAddressResponse(res)
+    }
+    data()
+  }, [])
+
+  console.log("adddressssData",addressResponse)
+  
   return (
     <div className="flex flex-col w-full py-8 overflow-y-scroll">
       <div className="w-[85%]">
@@ -193,11 +214,10 @@ const TrackingOrder = () => {
             <div className="absolute top-0  left-5 w-1 h-full flex items-center justify-between">
               <div className="h-[90%] w-1 bg-gray-300 relative">
                 <div
-                  className="h-1 bg-green-500 absolute  left-0"
+                  className="w-1 bg-green-500 absolute left-0"
                   style={{
-                    width: `${
-                      (currentStatus / (orderStatus.length - 1)) * 100
-                    }%`,
+                    height: `${(currentStatus / (orderStatus.length - 1)) * 100
+                      }%`,
                   }}
                 ></div>
               </div>
@@ -226,12 +246,14 @@ const TrackingOrder = () => {
             <div className="border rounded-md p-4  sm:w-80 w-full ml-2 shadow-md mt-4 h-auto">
               <h1 className="font-semibold text-xl">Shipping Address</h1>
               <div className="mt-4">
-                <p>Umesh Kumar</p>
-                <p>Plot No 25,</p>
-                <p>Colony road no 4,</p>
+                {/* <p>{`${addressResponse.firstName} ${addressResponse.lastName}`}</p> */}
+                <p>{`${addressResponse?.firstName || ''} ${addressResponse?.lastName || ''}`}</p>
+                <p>{addressResponse?.address1 || ''}</p>
+                {/* <p>Colony road no 4,</p> */}
+                <p>{ addressResponse?.city || ''},</p>
                 <div className="flex">
-                  <p>Hyderabad,</p>
-                  <p className="ml-2">500081.</p>
+                  <p>{addressResponse?.state || ''},</p>
+                  <p className="ml-1">{addressResponse?.pincode || ''}.</p>
                 </div>
               </div>
             </div>

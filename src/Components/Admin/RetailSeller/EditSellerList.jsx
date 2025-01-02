@@ -1345,8 +1345,8 @@ const EditSellerList = () => {
     const commentData = {
       customerId: userdata.customerId,
       comments: currentComment,
-      action: "",
-      updatedBy: "92d20847-be27-11ef-827a-127d9a25d999",
+      action: "Comment Added",
+      updatedBy: user.customerId,
     };
 
     try {
@@ -1356,6 +1356,7 @@ const EditSellerList = () => {
         message: "Comment added Successfully!",
       });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      setCallHistory((prev) => prev + 1);
       setCurrentComment(""); // Clear input field
     } catch (error) {
       console.error("Error adding comments:", error);
@@ -2443,7 +2444,7 @@ const EditSellerList = () => {
                   <p>No history data available.</p>
                 )}
               </div>
-              <div className="w-[50%] data-group ml-4 h-full bg-white p-4 rounded-lg">
+              {/* <div className="w-[50%] data-group ml-4 h-full bg-white p-4 rounded-lg">
                 {usercomments.length > 0 ? (
                   <ul className="mt-4">
                     {usercomments.map((comment, index) => (
@@ -2455,7 +2456,7 @@ const EditSellerList = () => {
                 ) : (
                   <p className="text-gray-500 mt-4">No comments added.</p>
                 )}
-              </div>
+              </div> */}
             </div>
 
             {/* )} */}

@@ -27,15 +27,15 @@ export const fetchAddAddressApi = async (payLaodNewForm) => {
 }
 
 
-// export const fetchGetAddressByIdApi = async () => {
-//   try {
-//     const response = await axios.get(`/api/Customer/Address/GetById?addressId=${}`);
-//     if (response.status === 200) {
-//       return response.data.result[0];
-//     } else {
-//       console.error('Failed to fetch product by ID:', response.data.message);
-//     }
-//   } catch (error) {
-//     console.error('Error fetching product by ID:', error);
-//   }
-// };
+export const fetchGetAddressByIdApi = async (addressId) => {
+  try {
+    const response = await axios.get(`/api/Customer/Address/GetById?addressId=${addressId}`);
+    if (response.status === 200) {
+      return response.data.result[0];
+    } else {
+      console.error('Failed to fetch product by ID:', response.data.message);
+    }
+  } catch (error) {
+    console.error('Error fetching product by ID:', error);
+  }
+};

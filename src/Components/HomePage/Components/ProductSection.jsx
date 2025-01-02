@@ -480,13 +480,29 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
                     )}
                   </div>
                 </div>
-                <div className="flex items-center   mobile:items-center">
+                {/* <div className="flex items-center   mobile:items-center">
                   <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                   <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                   <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                   <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                   <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                </div> */}
+
+                <div className="flex items-center mobile:items-center">
+                  {Array.from({ length: 5 }, (_, index) => (
+                    <span
+                      key={index}
+                      style={{
+                        fontSize: "24px",
+                        color: "orange",
+                      }}
+                    >
+                      {index < item.productRating ? "★" : "☆"}
+                    </span>
+                  ))}
                 </div>
+                
+
                 {/* <div>
                 {Array.from({ length: totalStars }, (v, i) => (
                   <Star
