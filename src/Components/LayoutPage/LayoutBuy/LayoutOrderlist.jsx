@@ -440,6 +440,10 @@ function LayoutOrderList() {
       setReturnDates(calculatedDates);
     }
   }, [currentItems]);
+
+  const handleTracking = (trackingNumber, addressId) => {
+    navigate(`/layout/trackingorder?trackingId=${trackingNumber}&addressId=${addressId}`)
+  }
   return (
     // <div
     //   className="w-full h-full overflow-y-scroll "
@@ -1222,9 +1226,10 @@ function LayoutOrderList() {
 
                   {/* Right Section */}
                   <div className="w-full lg:w-1/3 flex flex-col items-stretch mt-4">
-                    <button className="border rounded-lg p-2 mb-2 hover:bg-gray-400">
-                      <Link to="/layout/trackingorder">Track Package</Link>
-                    </button>
+                    {order.trackingNumber && (
+                      <button className="border rounded-lg p-2 mb-2 hover:bg-gray-400" onClick={() => handleTracking(order?.trackingNumber, order?.deliveryAddressId)}>
+                        Track Package
+                      </button>) }
                     <button
                       className="border rounded-lg p-2 mb-2 hover:bg-gray-400"
                       // onClick={() => setIsOpen(true)}

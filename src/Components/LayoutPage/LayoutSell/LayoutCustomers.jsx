@@ -13,13 +13,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchGetOrderBySellerId } from "../../../Api/OrderApi";
 import Pagination from '../../Pagination'
 import Loading from "../../Loading";
+import { fetchSellCustomer } from "../../../Api/Dashboard";
 
 function LayoutCustomers() {
   const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useDispatch();
   // const sellCustomer = useSelector((state) => state.dashboard.sellCustomer);
   const user = useSelector((state) => state.user.user);
-  const SellerOrder = useSelector((state) => state.order.OrderBySellerId);
+  const SellerOrder = useSelector((state) => state.dashboard.sellCustomer);
 
 
   // useEffect(() => {
@@ -31,7 +32,7 @@ function LayoutCustomers() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        await dispatch(fetchGetOrderBySellerId(user?.customerId));
+        await dispatch(fetchSellCustomer(user?.customerId));
       } catch (error) {
         console.error("Error fetching bids:", error);
       } finally {
@@ -205,11 +206,11 @@ function LayoutCustomers() {
                 <th className="px-4 py-2 text-left">Email</th>
                 <th className="px-4 py-2 text-left">Contact No</th>
                 <th className="px-4 py-2 text-left">Address</th>
-                <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('totalAmount')}>
+                {/* <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('totalAmount')}>
                   Grand Total {sortConfig.key === 'totalAmount' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : '▲'}
 
                 </th>
-                <th className="px-4 py-2 text-center">Action</th>
+                <th className="px-4 py-2 text-center">Action</th> */}
               </tr>
             </thead>
             <tbody>
@@ -223,7 +224,7 @@ function LayoutCustomers() {
                     <td className="px-4 py-2">{customer.email}</td>
                     <td className="px-4 py-2">{customer.mobile}</td>
                     <td className="px-4 py-2">{customer.address1}</td>
-                    <td className="px-4 py-2">${customer.totalAmount.toFixed(2)}</td>
+                    {/* <td className="px-4 py-2">${customer.totalAmount.toFixed(2)}</td>
                     <td className="px-4 py-2 flex items-center space-x-2 justify-center">
                       <Tooltip title="Edit" placement="top">
                         <img
@@ -261,7 +262,7 @@ function LayoutCustomers() {
                           onClick={() => deactivatePopUp(customer)}
                         />
                       </Tooltip>
-                    </td>
+                    </td> */}
                   </tr>
                 ))
               ) : (
@@ -299,7 +300,7 @@ function LayoutCustomers() {
                       <span className="font-semibold">Address:</span>{" "}
                       {customer.address1}
                     </p>
-                    <p>
+                    {/* <p>
                       <span className="font-semibold">Grand Total:</span>{" "}
                       {customer.totalAmount}
                     </p>
@@ -343,7 +344,7 @@ function LayoutCustomers() {
                         }`}
                         onClick={() => deactivatePopUp(customer)}
                       />
-                    </Tooltip>
+                    </Tooltip> */}
                   </div>
                 </div>
               ))

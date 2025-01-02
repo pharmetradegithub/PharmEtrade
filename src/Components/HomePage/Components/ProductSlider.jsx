@@ -483,13 +483,29 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                       )}
                     </div>
                   </div>
-                  <div className="flex items-center">
+                  {/* <div className="flex items-center">
                     <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                     <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                     <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                     <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                     <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
+                  </div> */}
+
+                  <div className="flex items-center mobile:items-center">
+                    {Array.from({ length: 5 }, (_, index) => (
+                      <span
+                        key={index}
+                        style={{
+                          fontSize: "24px",
+                          color: "orange",
+                        }}
+                      >
+                        {index < item.productRating ? "★" : "☆"}
+                      </span>
+                    ))}
                   </div>
+
+
                   <div
                     onClick={() => {
                       if (item.amountInStock > 0) {

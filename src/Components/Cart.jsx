@@ -764,7 +764,7 @@ function Cart() {
       if (res?.status === 200) {
         navigate(`/checkout?total=${total?.toFixed(2)}`);
       } else {
-        alert("Order Id is not generated")
+        alert("Server Error. Please try again")
       }
       // navigate(`/checkout?total=${total?.toFixed(2)}&isCart=${true}`);
       // Navigate to checkout page

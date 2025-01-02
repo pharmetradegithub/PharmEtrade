@@ -184,7 +184,8 @@ const initialOrderState = {
   orderView: [],
   orderDeliveryAddress: [],
   getById: [],
-  updateStatusOrder: []
+  updateStatusOrder: [],
+  sellerOrderview: []
 }
 
 const orderSlice = createSlice({
@@ -218,6 +219,9 @@ const orderSlice = createSlice({
     },
     setOrderViewInvoice(state, action) {
       state.orderView = action.payload
+    },
+    setSellerOrderViewInvoice(state, action) {
+      state.sellerOrderview = action.payload
     },
     setOrderDeliveryAddress(state, action) {
       state.orderDeliveryAddress = action.payload
@@ -588,6 +592,8 @@ export const { setOrderInvoice } = orderSlice.actions
 export const { setSellerGetAll } = dashboardSlice.actions
 export const { setOrderDownloadInvoice } = orderSlice.actions
 export const { setOrderViewInvoice } = orderSlice.actions
+export const { setSellerOrderViewInvoice } = orderSlice.actions
+
 export const { setEarning } = earningSlice.actions
 export const { setReturns } = returnsSlice.actions
 export const { setAddress } = addressSlice.actions
