@@ -231,8 +231,9 @@ const LayoutPurchaseHistory = () => {
                         {request.orderNumber}
                       </td>
                       <td className="border-b-2 py-2 min-w-36 pl-4 text-left">
-                      {/* {request.customerName} */}
-                      {Math.floor(Math.random() * 10000000)} {/* Generates a random number between 0 and 99 */}
+                        {request.trackingNumber}
+                        {/* {Math.floor(Math.random() * 10000000)} Generates a random number between 0 and 99 */}
+                        
                     </td>
                       <td className="border-b-2 min-w-32 text-left">
                         <Tooltip title={request.productName} placement="right">
@@ -303,7 +304,7 @@ const LayoutPurchaseHistory = () => {
                     <div className="mt-2">
                       <p>
                         <span className="font-semibold">Tracking Number:</span>{" "}
-                        {request.customerName}
+                        {request.trackingNumber}
                       </p>
                       <p>
                         <span className="font-semibold">Product Name:</span>{" "}

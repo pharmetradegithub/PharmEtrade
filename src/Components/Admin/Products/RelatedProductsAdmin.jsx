@@ -37,11 +37,8 @@ const RelatedProductsAdmin = () => {
     salePriceTo: "",
     productName: "",
   });
-  
-  
 
   const components = useSelector((state) => state.master.productCategoryGetAll);
-  console.log("relatedproduct-->", components);
   const [buttonClick, setButtonClick] = useState(false);
   const [ButtonUpClick, setButtonUpClick] = useState(false);
   const [isButtonClicked, setButtonClicked] = useState(false);
@@ -54,13 +51,10 @@ const RelatedProductsAdmin = () => {
   const categorySpecificationGetAll = useSelector(
     (state) => state.master.setCategorySpecificationsGetAll
   );
-  console.log("relatedcategory-->", categorySpecificationGetAll);
 
   const productsByCriteria = useSelector(
     (state) => state.product.productsByCriteria
   );
-
-  console.log(productsByCriteria, "gnn");
 
   const relatedProducts = useSelector((state) => state.product.RelatedProducts);
   const UpSellProducts = useSelector((state) => state.product.UpSellProducts);
@@ -68,7 +62,6 @@ const RelatedProductsAdmin = () => {
     (state) => state.product.CrossSellProducts
   );
 
-  console.log(productsByCriteria, "gnn");
   const [loading, setloading] = useState(true);
   const [notification, setNotification] = useState({
     show: false,
@@ -207,7 +200,7 @@ const RelatedProductsAdmin = () => {
     (state) => state.product.productsBySeller[sellerId]
   );
 
-  const [prodct, setProducts]= useState(productsbySeller)
+  const [prodct, setProducts] = useState(productsbySeller);
   // const handleCriteria = async () => {
   //   const sellerId = localStorage.getItem("userId");
   //   let Criteria = {
@@ -238,12 +231,11 @@ const RelatedProductsAdmin = () => {
   // };
 
   // Handle input change for all form fields
-  
 
   // const handleCriteria = async () => {
   //   const sellerId = localStorage.getItem("userId");
   //   const productIdToHide = localStorage.getItem("productId");
-    
+
   //   let Criteria = {
   //     customerId: sellerId,
   //     deals: "",
@@ -263,59 +255,81 @@ const RelatedProductsAdmin = () => {
   //     ndcupc: formData.ndcUpc,
   //     productName: formData.productName,
   //   };
-    
+
   //   setloading(true);
-    
+
   //   await fetchCriteriaProductsApi(Criteria, "Apply Filter");
-    
+
   //   // Fetch products and filter out the one you want to hide
   //   const allProducts = await fetchProductsBySellerApi(sellerId);
   //   const filteredProducts = allProducts.filter(product => product.productID !== productIdToHide);
-    
+
   //   // Assuming you have a way to set/display the products, use filteredProducts
   //   setProducts(filteredProducts);
-  
+
   //   setCurrentPage(1);
   //   // localStorage.removeItem("productId");
   //   setloading(false);
   // };
-  console.log("------>", formData.productCategory)
 
-  const [productsList, setProductList] = useState([])
+  const [productsList, setProductList] = useState([]);
   const handleCriteria = async () => {
     const sellerId = localStorage.getItem("userId");
     const productIdToHide = localStorage.getItem("productId");
-  
+
     // Check if any form data is filled
-    const isCriteriaFilled = Object.values(formData).some((value) => value !== "" && value !== null && value !== 0);
-  
+    const isCriteriaFilled = Object.values(formData).some(
+      (value) => value !== "" && value !== null && value !== 0
+    );
+
     setloading(true);
-  
-  
+
     if (isCriteriaFilled) {
       // If any criteria are filled, hit the `fetchCriteriaProductsApi`
       const Criteria = {
         customerId: sellerId,
-        deals: "",
-        brands: "",
-        generics: "",
-        discount: 0,
-        expiring: 0,
-        wholeSeller: "",
-        // vawdSeller: sellerId,
-        pharmacyItems: false,
-        prescriptionDrugs: false,
-        otcProducts: false,
-        topSellingProducts: false,
-        buyAgain: false,
-        productCategoryId: formData.productCategory,
-        categorySpecificationId: formData.categorySpecification,
-        ndcupc: formData.ndcUpc,
-        productName: formData.productName,
+        brands: formData.brandName || null,
+        productCategoryId:
+          formData.productCategory !== ""
+            ? parseInt(formData.productCategory, 10)
+            : 0,
+        categorySpecificationId:
+          formData.categorySpecification !== ""
+            ? parseInt(formData.categorySpecification, 10)
+            : 0,
+        expiryDate: formData.expirationDate || null,
+        ndcupc: formData.ndcUpc || null,
+        salePriceValidFrom: formData.salePriceForm || null,
+        salePriceValidTo: formData.salePriceTo || null,
+        productName: formData.productName || null,
+        isFromRelatedProducts: 1,
       };
-  
-      const allProduct = await fetchCriteriaProductsApi(Criteria, "Apply Filter");
-  
+      // const Criteria = {
+      //   customerId: sellerId,
+      //   deals: "",
+      //   brands: "",
+      //   generics: "",
+      //   discount: 0,
+      //   expiring: 0,
+      //   wholeSeller: "",
+      //   // vawdSeller: sellerId,
+      //   pharmacyItems: false,
+      //   prescriptionDrugs: false,
+      //   otcProducts: false,
+      //   topSellingProducts: false,
+      //   buyAgain: false,
+      //   productCategoryId: formData.productCategory,
+      //   categorySpecificationId: formData.categorySpecification,
+      //   ndcupc: formData.ndcUpc,
+      //   productName: formData.productName,
+      //   isFromRelatedProducts: 1,
+      // };
+
+      const allProduct = await fetchCriteriaProductsApi(
+        Criteria,
+        "Apply Filter"
+      );
+
       // Fetch products matching criteria
       // const criteriaProducts = useSelector((state) => state.product.productsByCriteria);
       // const filteredProduct = productsByCriteria.filter(product => product.productID !== productIdToHide);
@@ -326,25 +340,26 @@ const RelatedProductsAdmin = () => {
     } else {
       // If no criteria are filled, fetch all products for the seller
       const allProducts = await fetchProductsBySellerApi(sellerId);
-      const filteredProducts = allProducts.filter(product => product.productID !== productIdToHide);
+      const filteredProducts = allProducts.filter(
+        (product) => product.productID !== productIdToHide
+      );
       setProductList(filteredProducts);
     }
-  
+
     // Filter out the product you want to hide, if necessary
-  
+
     // Update the products state with the filtered list
     // setProducts(filteredProducts);
-  
+
     // Reset page number
     setCurrentPage(1);
-  
+
     // Remove the productId from local storage if it's no longer needed
     // localStorage.removeItem("productId");
-  
+
     setloading(false);
   };
-  
-  
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -352,7 +367,7 @@ const RelatedProductsAdmin = () => {
       [name]: value,
     });
   };
-
+  console.log(formData);
   // Placeholder for reset functionality
   const handleReset = () => {
     setFormData({
@@ -419,10 +434,11 @@ const RelatedProductsAdmin = () => {
   // const indexOfLastItem = currentPage * itemsPerPage;
   // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = Array.isArray(productsList)? productsList.slice(indexOfFirstItem, indexOfLastItem):[];
+  const currentItems = Array.isArray(productsList)
+    ? productsList.slice(indexOfFirstItem, indexOfLastItem)
+    : [];
   const totalPages = Math.ceil((productsList?.length || 0) / itemsPerPage);
 
   const handleNextPage = () => {
@@ -454,9 +470,6 @@ const RelatedProductsAdmin = () => {
   // const handlePreviousPage = () => {
   //   setCurrentPage((prev) => Math.max(prev - 1, 1));
   // };
-  console.log("productlist-->currentitem", currentItems)
-  console.log("productlist-->productlist", productsList)
-
 
   return (
     <div className="font-sans font-medium">
@@ -575,31 +588,31 @@ const RelatedProductsAdmin = () => {
                 }}
               /> */}
               <input
-                      name="salePriceForm"
-                      type="date" // Updated to lowercase for type consistency
-                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                      onChange={handleInputChange}
-                      value={
-                        formData.salePriceForm
-                          ? formData.salePriceForm.split("T")[0]
-                          : ""
-                      }
-                      min={new Date().toISOString().split("T")[0]} // This disables past dates
-                      // onKeyDown={(e) => {
-                      //   e.preventDefault();
-                      // }}
-                      onKeyDown={(e) => {
-                        // Allow Tab navigation and Backspace/Delete keys
-                        if (
-                          e.key !== "Tab" &&
-                          e.key !== "Delete" &&
-                          e.key !== "ArrowLeft" &&
-                          e.key !== "ArrowRight"
-                        ) {
-                          e.preventDefault(); // Prevent any other keypresses
-                        }
-                      }}
-                    />
+                name="salePriceForm"
+                type="date" // Updated to lowercase for type consistency
+                className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                onChange={handleInputChange}
+                value={
+                  formData.salePriceForm
+                    ? formData.salePriceForm.split("T")[0]
+                    : ""
+                }
+                min={new Date().toISOString().split("T")[0]} // This disables past dates
+                // onKeyDown={(e) => {
+                //   e.preventDefault();
+                // }}
+                onKeyDown={(e) => {
+                  // Allow Tab navigation and Backspace/Delete keys
+                  if (
+                    e.key !== "Tab" &&
+                    e.key !== "Delete" &&
+                    e.key !== "ArrowLeft" &&
+                    e.key !== "ArrowRight"
+                  ) {
+                    e.preventDefault(); // Prevent any other keypresses
+                  }
+                }}
+              />
             </div>
 
             <div className="flex flex-col ">
@@ -614,37 +627,35 @@ const RelatedProductsAdmin = () => {
                   e.preventDefault();
                 }}
               /> */}
-                <input
-                        name="salePriceTo"
-                        type="date"
-                        className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-                        onChange={handleInputChange}
-                        value={
-                          formData.salePriceTo
-                            ? formData.salePriceTo.split("T")[0]
-                            : ""
-                        }
-                        // min={MinDate}
-                        min={
-                          formData.salePriceForm
-                            ? formData.salePriceForm.split("T")[0]
-                            : new Date().toISOString().split("T")[0]
-                        } // Min date is the Sale Price From date
-                        // onKeyDown={(e) => {
-                        //   e.preventDefault();
-                        // }}
-                        onKeyDown={(e) => {
-                          // Allow Tab navigation and Backspace/Delete keys
-                          if (
-                            e.key !== "Tab" &&
-                            e.key !== "Delete" &&
-                            e.key !== "ArrowLeft" &&
-                            e.key !== "ArrowRight"
-                          ) {
-                            e.preventDefault(); // Prevent any other keypresses
-                          }
-                        }}
-                      />
+              <input
+                name="salePriceTo"
+                type="date"
+                className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                onChange={handleInputChange}
+                value={
+                  formData.salePriceTo ? formData.salePriceTo.split("T")[0] : ""
+                }
+                // min={MinDate}
+                min={
+                  formData.salePriceForm
+                    ? formData.salePriceForm.split("T")[0]
+                    : new Date().toISOString().split("T")[0]
+                } // Min date is the Sale Price From date
+                // onKeyDown={(e) => {
+                //   e.preventDefault();
+                // }}
+                onKeyDown={(e) => {
+                  // Allow Tab navigation and Backspace/Delete keys
+                  if (
+                    e.key !== "Tab" &&
+                    e.key !== "Delete" &&
+                    e.key !== "ArrowLeft" &&
+                    e.key !== "ArrowRight"
+                  ) {
+                    e.preventDefault(); // Prevent any other keypresses
+                  }
+                }}
+              />
             </div>
           </div>
         </div>
@@ -735,8 +746,13 @@ const RelatedProductsAdmin = () => {
                         "No specification"}
                     </td>
                     <td className="text-sm p-2">
-                      {product?.status || "No status"}
+                      {product?.isActive === true
+                        ? "Active"
+                        : product?.isActive === false
+                          ? "Inactive"
+                          : "No status"}
                     </td>
+
                     <td className="text-sm p-2">
                       {product?.productCategory?.categoryName || "No category"}
                     </td>
@@ -858,7 +874,6 @@ const RelatedProductsAdmin = () => {
             <img src={next} className="w-2" alt="Next Page" />
           </button>
         </div> */}
-
       </div>
       <h1 className="text-2xl font-semibold">Related Products </h1>
       <div className="flex  justify-between w-full Largest:w-[60%]">
@@ -874,11 +889,11 @@ const RelatedProductsAdmin = () => {
           <table className="w-full">
             <thead className="bg-blue-900 text-white">
               <tr className="border-b font-semibold">
-                <th className=" p-4  text-left text-sm  w-16">
+                {/* <th className=" p-4  text-left text-sm  w-16">
                   <select className="text-black">
                     <option>-</option>
                   </select>
-                </th>
+                </th> */}
                 <th className=" p-2  text-left text-sm w-10">ID</th>
                 <th className=" p-2  text-left text-sm w-24">Thumbnail</th>
                 <th className=" p-2  text-left text-sm  w-80">Name</th>
@@ -893,9 +908,9 @@ const RelatedProductsAdmin = () => {
             <tbody>
               {relatedProducts.map((product, index) => (
                 <tr key={index} className="border-b">
-                  <td className=" p-2">
+                  {/* <td className=" p-2">
                     <input className=" h-6 w-4" type="checkbox" />
-                  </td>
+                  </td> */}
                   <td className="text-sm p-2"> {index + 1}</td>
                   <td className="text-sm p-2">
                     <img
@@ -907,7 +922,14 @@ const RelatedProductsAdmin = () => {
                   <td className="text-sm p-2">
                     {product.categorySpecification.specificationName}
                   </td>
-                  <td className="text-sm p-2">{product.status}</td>
+                  {/* <td className="text-sm p-2">{product.status}</td> */}
+                  <td className="text-sm p-2">
+                    {product?.isActive === true
+                      ? "Active"
+                      : product?.isActive === false
+                        ? "Inactive"
+                        : "No status"}
+                  </td>
                   <td className="text-sm p-2">
                     {product.productCategory.categoryName}
                   </td>
@@ -953,11 +975,11 @@ const RelatedProductsAdmin = () => {
           <table className="w-full">
             <thead className="bg-blue-900 text-white  ">
               <tr className="border-b font-semibold">
-                <th className=" p-4  text-left text-sm  w-16">
+                {/* <th className=" p-4  text-left text-sm  w-16">
                   <select className="text-black">
                     <option>-</option>
                   </select>
-                </th>
+                </th> */}
                 <th className=" p-2  text-left text-sm w-10">ID</th>
                 <th className=" p-2  text-left text-sm w-24">Thumbnail</th>
                 <th className=" p-2  text-left text-sm  w-80">Name</th>
@@ -972,9 +994,9 @@ const RelatedProductsAdmin = () => {
             <tbody>
               {UpSellProducts.map((product, index) => (
                 <tr key={index} className="border-b">
-                  <td className=" p-2">
+                  {/* <td className=" p-2">
                     <input className=" h-6 w-4" type="checkbox" />
-                  </td>
+                  </td> */}
                   <td className="text-sm p-2"> {index + 1}</td>
                   <td className="text-sm p-2">
                     <img
@@ -986,7 +1008,14 @@ const RelatedProductsAdmin = () => {
                   <td className="text-sm p-2">
                     {product.categorySpecification.specificationName}
                   </td>
-                  <td className="text-sm p-2">{product.status}</td>
+                  {/* <td className="text-sm p-2">{product.status}</td> */}
+                  <td className="text-sm p-2">
+                    {product?.isActive === true
+                      ? "Active"
+                      : product?.isActive === false
+                        ? "Inactive"
+                        : "No status"}
+                  </td>
                   <td className="text-sm p-2">
                     {product.productCategory.categoryName}
                   </td>
@@ -994,7 +1023,8 @@ const RelatedProductsAdmin = () => {
                     ${product.salePrice?.toFixed(2)}
                   </td> */}
                   <td className="text-sm p-2 text-right">
-                    ${product?.salePrice > 0
+                    $
+                    {product?.salePrice > 0
                       ? product?.salePrice.toFixed(2)
                       : product?.unitPrice?.toFixed(2)}
                   </td>
@@ -1029,11 +1059,11 @@ const RelatedProductsAdmin = () => {
         <table className="w-full">
           <thead className="bg-blue-900 text-white  ">
             <tr className="border-b font-semibold">
-              <th className=" p-4  text-left text-sm   w-16">
+              {/* <th className=" p-4  text-left text-sm   w-16">
                 <select className="text-black">
                   <option>-</option>
                 </select>
-              </th>
+              </th> */}
               <th className=" p-2  text-left text-sm w-10">ID</th>
               <th className="p-2  text-left text-sm  w-24">Thumbnail</th>
               <th className=" p-2  text-left text-sm w-80">Name</th>
@@ -1048,9 +1078,9 @@ const RelatedProductsAdmin = () => {
           <tbody>
             {CrossSellProducts.map((product, index) => (
               <tr key={index} className="border-b">
-                <td className=" p-2">
+                {/* <td className=" p-2">
                   <input className=" h-6 w-4" type="checkbox" />
-                </td>
+                </td> */}
                 <td className="text-sm p-2"> {index + 1}</td>
                 <td className="text-sm p-2">
                   <img
@@ -1062,7 +1092,14 @@ const RelatedProductsAdmin = () => {
                 <td className="text-sm p-2">
                   {product.categorySpecification.specificationName}
                 </td>
-                <td className="text-sm p-2">{product.status}</td>
+                {/* <td className="text-sm p-2">{product.status}</td> */}
+                <td className="text-sm p-2">
+                  {product?.isActive === true
+                    ? "Active"
+                    : product?.isActive === false
+                      ? "Inactive"
+                      : "No status"}
+                </td>
                 <td className="text-sm p-2">
                   {product.productCategory.categoryName}
                 </td>
@@ -1071,7 +1108,8 @@ const RelatedProductsAdmin = () => {
                   ${product.salePrice?.toFixed(2)}
                 </td> */}
                 <td className="text-sm p-2 text-right">
-                  ${product?.salePrice > 0
+                  $
+                  {product?.salePrice > 0
                     ? product?.salePrice.toFixed(2)
                     : product?.unitPrice?.toFixed(2)}
                 </td>
