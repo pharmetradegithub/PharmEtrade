@@ -185,7 +185,7 @@ const LayoutPurchaseHistory = () => {
                   <th className="border-b-2 py-2 min-w-16 pl-4 text-center">
                     Price
                   </th>
-                  <th className="border-b-2 py-2 min-w-16 pl-4 text-left">
+                    <th className="border-b-2 py-2 min-w-16 pl-4 text-center">
                     Quantity
                   </th>
                   <th className="border-b-2 py-2 min-w-36 pl-4 text-center">
@@ -243,12 +243,12 @@ const LayoutPurchaseHistory = () => {
                         </Tooltip>
                       </td>
                       <td className="border-b-2 py-2 min-w-16 pl-4 text-center">
-                        {request?.pricePerProduct?.toFixed(2)}
+                        ${request?.pricePerProduct?.toFixed(2)}
                       </td>
                       <td className="border-b-2 py-2 min-w-16 pl-4 text-center">
                         {request.quantity}
                       </td>
-                      <td className="border-b-2 py-2 min-w-36 pl-4 text-left">
+                      <td className="border-b-2 py-2 min-w-36 pl-4 text-center">
                       {request.customerName}
                     </td>
 
