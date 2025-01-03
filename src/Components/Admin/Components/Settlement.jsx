@@ -352,6 +352,7 @@ function Settlement() {
     setSearchTerm("");
     setStoreDetails({});
     setIsDetailsVisible(false);
+    setSelectedUserId('')
 
     if (fileInputRef.current) {
       fileInputRef.current.value = ""; // Clear file input
