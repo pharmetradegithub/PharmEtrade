@@ -19,6 +19,7 @@ function Settlement() {
     dateFrom: "",
     dateTo: "",
     selectedUsersId: "",
+    amountPaying: ""
   });
   const user = useSelector((state) => state.user.user);
   // const [payableTo, setPayableTo] = useState('');
@@ -269,7 +270,7 @@ function Settlement() {
 
   const handleShowBalance = async () => {
     let isValid = true;
-    let errorMessages = { dateFrom: "", dateTo: "", selectedUsersId: "" };
+    let errorMessages = { dateFrom: "", dateTo: "", selectedUsersId: "", amountPaying: "" };
 
     if (!selectedUserId) {
       errorMessages.selectedUsersId = "Please select a seller.";
@@ -285,10 +286,17 @@ function Settlement() {
       isValid = false;
     }
 
+
     if (dateFrom && dateTo && new Date(dateFrom) > new Date(dateTo)) {
       errorMessages.dateTo =
         "Invoice Date To cannot be earlier than Invoice Date From";
       isValid = false;
+    }
+    if (Number(amountPaying) > Number(storeDetails.TotalAmountToBePaid || 0)) {
+      setError1(`Amount cannot exceed ${storeDetails.TotalAmountToBePaid || 0}.`);
+      isValid = false;
+    } else {
+      setError1(""); // Clear error if valid
     }
 
     setError(errorMessages);
