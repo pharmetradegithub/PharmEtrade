@@ -342,13 +342,19 @@ function LayoutPaymentHistory() {
                       S.NO
                     </th>
                     {/* <th className="px-4 py-2">Order Id</th> */}
-                    <th className="px-4 py-2 text-left w-40">Customer Name</th>
-                    <th className="px-4 py-2 text-left cursor-pointer w-40" onClick={() => handleSort("paymentDate")}>Payment Date {sortConfig.key === "paymentDate"
+                      <th className="px-14 py-2 text-left w-40">Name</th>
+                      <th className="py-2 text-left w-40">
+                        Bank Name</th>
+                      <th className="px-4 py-2 text-left w-40">
+                        Account Number</th>
+                      <th className="px-4 py-2 text-left w-40">Transaction Id</th>
+                      <th className="px-4 py-2 text-left cursor-pointer w-40" onClick={() => handleSort("paymentDate")}>Transaction Date {sortConfig.key === "paymentDate"
                         ? sortConfig.direction === "ascending"
                           ? "▲"
                           : "▼"
                         : "▲"}</th>
-                    <th className="px-4 py-2 text-left w-40">Payment Mode</th>
+                      <th className="px-4 py-2 text-left w-40">Payment Mode</th>
+                      <th className="px-4 py-2 text-left w-40">cheque Details</th>
                     <th className="px-4 py-2 text-left cursor-pointer w-44" onClick={() => handleSort("paymentAmount")}>Payment Amount  {sortConfig.key === "paymentAmount"
                         ? sortConfig.direction === "ascending"
                           ? "▲"
@@ -367,8 +373,17 @@ function LayoutPaymentHistory() {
                         {/* <td className="px-4 py-2 text-right">
                           {payout.orderId}
                         </td>  */}
-                        <td className="px-4 py-2  w-40">
+                        <td className="px-14 py-2  w-40">
                           {payout.sellerName}
+                        </td>
+                        <td className="px-4 py-2  w-40">
+                          {payout.bankName}
+                        </td>
+                        <td className="px-4 py-2  w-40">
+                          {payout.accountNumber}
+                        </td>
+                        <td className="px-4 py-2  w-40">
+                          {payout.transactionId}
                         </td>
                         <td className="px-4 py-2 w-40">
                           {new Date(payout.paymentDate)
@@ -380,6 +395,18 @@ function LayoutPaymentHistory() {
                             .replace(/\//g, "-")}
                         </td>
                         <td className="px-4 py-2 w-40">{payout.paymentMode}</td>
+                        <td className="px-4 py-2 w-40">
+                          <a
+                            href={payout.chequeImageUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            download
+                            className="text-blue-500 underline"
+                          >
+                          Download Image
+                          </a>
+                        </td>
+
                         <td className="px-4 py-2 w-44">
                           ${payout.amountPaid.toFixed(2)}
                         </td>
