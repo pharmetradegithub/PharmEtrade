@@ -279,12 +279,14 @@ import { CiSearch } from 'react-icons/ci';
 import Pagination from '../../Pagination';
 import { useSelector } from 'react-redux';
 import { fetchOrderByStatus } from '../../../Api/OrderApi';
+import Loading from '../../Loading';
 
 const LayoutBuyerUpcomingGrid = () => {
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     const [error, setError] = useState(null);
 
+    const [loading, setLoading] = useState(false)
     const getOrders = useSelector((state) => state.order.getOrder);
     const [Buyergrids, setBuyerGrids] = useState([]);
     const user = useSelector((state) => state.user.user)
@@ -293,6 +295,7 @@ const LayoutBuyerUpcomingGrid = () => {
 
     useEffect(() => {
         const fetchOrders = async () => {
+            setLoading(true)
             try {
                 const res = await fetchOrderByStatus(user.customerId);
                 const filteredOrders = res
@@ -302,8 +305,10 @@ const LayoutBuyerUpcomingGrid = () => {
                 setBuyerGrids(filteredOrders); // Update state with filtered orders
                 console.log("responseUp", filteredOrders)
                 setCurrentPage(1); // Reset to the first page if needed
+                setLoading(false)
             } catch (error) {
                 setError(error);
+                setLoading(false)
             }
         };
 
@@ -351,6 +356,13 @@ const LayoutBuyerUpcomingGrid = () => {
                         <CiSearch className="absolute left-2 top-3 text-gray-400 " />
                     </div> */}
                 </div>
+                {loading && (
+                    <div>
+                        <Loading />
+                    </div>
+                )}
+                {!loading && (
+                    <>
                 <div className='w-full'>
                     {currentItems.map((Ordergrid, index) => (
                         <div key={index} className='pb-4 border rounded-lg shadow-lg justify-around mb-4 flex'>
@@ -401,6 +413,8 @@ const LayoutBuyerUpcomingGrid = () => {
                         </div>
                     ))}
                 </div>
+                       </>
+                )}
                 <Pagination
                     indexOfFirstItem={indexOfFirstItem}
                     indexOfLastItem={indexOfLastItem}

@@ -30,11 +30,11 @@
 //   const user = useSelector((state) => state.user.user);
 //   const [searchQuery, setSearchQuery] = useState("");
 //   const SellerOrder = useSelector((state) => state.order.OrderBySellerId);
- 
+
 //   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
 //   const [currentPage, setCurrentPage] = useState(1);
 //   const ordered = useSelector((state) => state.order.orderView);
- 
+
 //   const orderStatusGetAll = useSelector(
 //     (state) => state.master.orderStatusGetAll
 //   );
@@ -168,7 +168,7 @@
 //       value: `$${totalCancelledAmount}`, // Display the total cancelled amount
 //       percentage: 0, // Display the percentage difference
 //     },
-    
+
 //   ];
 
 //   // const filteredProducts = products.filter(
@@ -178,11 +178,11 @@
 //   // );
 
 //   const pathname = location.pathname; // e.g., /layout/sellorders/123
- 
+
 //   const parts = pathname.split("/"); // ['layout', 'sellorders', '123']
-  
+
 //   const orderSellerId = parts[2]; // Assuming '123' is the seller ID
- 
+
 
 //   const [modal, setModal] = useState(false);
 //   const [orderID, setOrderID] = useState(null);
@@ -206,7 +206,7 @@
 //   };
 
 //   const handleClickInvoice = async () => {
-   
+
 //     await dispatch(fetchOrderInvoice(orderID));
 //   };
 
@@ -320,7 +320,7 @@
 //     () => currentItems.map(() => Math.floor(Math.random() * 100000000)),
 //     [currentItems]
 //   );
-  
+
 //   // const handleRowClick = (product) => {
 //   //   setSelectedProduct(product);
 //   //   setIsModalOpen(true);
@@ -464,7 +464,7 @@
 //         </div>
 //       )}
 
-   
+
 
 
 
@@ -579,7 +579,7 @@
 //               {/* <button className='text-2xl'>Filter</button> */}
 //             </div>
 //             {/* <div className="flex bg-white h-9 p-2 items-center w-48 justify-evenly border rounded-md">
-     
+
 //               <select className="">
 //                 <option>-Select Group-</option>
 //               </select>
@@ -847,17 +847,20 @@ import wrong from "../../../assets/Icons/wrongred.png";
 import Pagination from "../../Pagination";
 import { MasterOrderStatusGetAll } from "../../../Api/MasterDataApi";
 import Notification from "../../Notification";
+import { textarea } from "@material-tailwind/react";
+import Loading from "../../Loading";
 
 function LayoutSellOrders() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
   const [searchQuery, setSearchQuery] = useState("");
   const SellerOrder = useSelector((state) => state.order.OrderBySellerId);
- 
+
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
   const ordered = useSelector((state) => state.order.sellerOrderview);
- 
+  const [loading, setLoading] = useState(false)
+
   const orderStatusGetAll = useSelector(
     (state) => state.master.orderStatusGetAll
   );
@@ -897,7 +900,20 @@ function LayoutSellOrders() {
   // const percentage = approvedData.length > 0
   //   ? Math.floor(((totalAmount - 2000) / 2000) * 100)
   //   : 0;
- 
+  const pendingData = SellerOrder ? SellerOrder.filter(item => item.orderedProductStatusId === 1) : [];
+  const inreviewData = SellerOrder ? SellerOrder.filter(item => item.orderedProductStatusId === 2) : [];
+
+
+
+  const approveData = SellerOrder ? SellerOrder.filter(item => item.orderedProductStatusId === 3) : [];
+  const rejectData = SellerOrder ? SellerOrder.filter(item => item.orderedProductStatusId === 4) : [];
+  const incompleteData = SellerOrder ? SellerOrder.filter(item => item.orderedProductStatusId === 7) : [];
+  const shippedData = SellerOrder ? SellerOrder.filter(item => item.orderedProductStatusId === 8) : [];
+
+
+
+
+
   const cancelledData = SellerOrder ? SellerOrder.filter(item => item.orderedProductStatusId === 5) : [];
   const totalCancelledAmount = cancelledData.reduce((total, order) => total + ((order?.quantity || 0) * (order?.pricePerProduct || 0)), 0).toFixed(2);
 
@@ -906,46 +922,122 @@ function LayoutSellOrders() {
   const totalAmount = SellerOrder ? SellerOrder.reduce((total, order) => total + ((order?.quantity || 0) * (order?.pricePerProduct || 0)), 0) : [];
   const percentage = SellerOrder ? ((totalAmount / 100) * 100).toFixed(2) : 0;
 
-const numericTotalAmount = isNaN(Number(totalAmount)) ? 0 : Number(totalAmount);
-const numericTotalApprovedAmount = isNaN(Number(totalApprovedAmount)) ? 0 : Number(totalApprovedAmount);
-const numericTotalCancelledAmount = isNaN(Number(totalCancelledAmount)) ? 0 : Number(totalCancelledAmount);
+  const numericTotalAmount = isNaN(Number(totalAmount)) ? 0 : Number(totalAmount);
+  const numericTotalApprovedAmount = isNaN(Number(totalApprovedAmount)) ? 0 : Number(totalApprovedAmount);
+  const numericTotalCancelledAmount = isNaN(Number(totalCancelledAmount)) ? 0 : Number(totalCancelledAmount);
   const stats = [
+
+
+
+
     {
-      label: "Total Orders",
-      value: SellerOrder ? SellerOrder.length : 0,
-      percentage: SellerOrder
-      ? (((SellerOrder.length - 100) / 100) * 100).toFixed(2)
-      : 0,
-    },
-    {
-      label: "Received",
-      value: approvedData ? approvedData.length : 0,
-      percentage: approvedData
-      ? (((approvedData.length - 100) / 100) * 100).toFixed(2)
-      : 0,
-    },
-    {
-      label: "Cancelled",
-      value: cancelledData ? cancelledData.length : 0,
-      percentage: cancelledData
-      ? (((cancelledData.length - 100) / 100) * 100).toFixed(2)
-      : 0,
-    },
-    {
-      label: "Total Sold",
-      value: `$${numericTotalAmount.toFixed(2)}`,
+      // label: "Total Sold",
+      label: {
+        text: "Total Sold",
+        color: "green",
+        value: `$${numericTotalAmount.toFixed(2)}`,
+      },
       percentage: percentage,
     },
+    // {
+    //   // label: "Received Amount",
+    //   label: {
+    //     text: "Received Amount",
+    //     color: "green",
+    //     value: `$${numericTotalApprovedAmount.toFixed(2)}`, // Format the total amount
+    //   },
+    //   percentage: finalAmount, // Calculate the percentage
+    // },
     {
-      label: "Received Amount",
-      value: `$${numericTotalApprovedAmount.toFixed(2)}`, // Format the total amount
-      percentage: finalAmount, // Calculate the percentage
-    },
-    {
-      label: "Cancellation Amount",
-      value: `$${numericTotalCancelledAmount.toFixed(2)}`, // Display the total cancelled amount
+      // label: "Cancellation Amount",
+      label: {
+        text: "Cancellation Amount",
+        color: "red",
+        value: `$${numericTotalCancelledAmount.toFixed(2)}`, // Display the total cancelled amount
+      },
       percentage: 0, // Display the percentage difference
     },
+
+
+    {
+      label: {
+        text: "Total Orders",
+        color: "green",
+        value: SellerOrder ? SellerOrder.length : 0,
+      },
+      percentage: SellerOrder
+        ? (((SellerOrder.length - 100) / 100) * 100).toFixed(2)
+        : 0,
+      status: {
+        text: "Pending",
+        color: "orange",
+        statusValue: pendingData ? pendingData.length : 0,
+      },
+      statusPercentage: pendingData
+        ? (((pendingData.length - 100) / 100) * 100).toFixed(2)
+        : 0,
+      orderStatus: {
+        text: "InReview",
+        color: "blue",
+        orderValue: inreviewData ? inreviewData.length : 0,
+      },
+      orderPercentage: inreviewData
+        ? (((inreviewData.length - 100) / 100) * 100).toFixed(2)
+        : 0,
+    },
+    {
+      label: {
+        text: "Received",
+        color: "green",
+        value: approvedData ? approvedData.length : 0,
+      },
+      percentage: approvedData
+        ? (((approvedData.length - 100) / 100) * 100).toFixed(2)
+        : 0,
+      orderStatus: {
+        text: "Approved",
+        color: "green",
+        orderValue: approveData ? approveData.length : 0,
+      },
+      orderPercentage: approveData
+        ? (((approveData.length - 100) / 100) * 100).toFixed(2)
+        : 0,
+      status: {
+        text: "Rejected",
+        color: "red",
+        statusValue: rejectData ? rejectData.length : 0,
+      },
+      statusPercentage: rejectData
+        ? (((rejectData.length - 100) / 100) * 100).toFixed(2)
+        : 0,
+    },
+    {
+      label: {
+        text: "Cancelled",
+        color: "red",
+        value: cancelledData ? cancelledData.length : 0,
+      },
+      percentage: cancelledData
+        ? (((cancelledData.length - 100) / 100) * 100).toFixed(2)
+        : 0,
+      status: {
+        text: "Incomplete",
+        color: "orange",
+        statusValue: incompleteData ? incompleteData.length : 0,
+      },
+      statusPercentage: incompleteData
+        ? (((incompleteData.length - 100) / 100) * 100).toFixed(2)
+        : 0,
+      orderStatus: {
+        text: "Shipped",
+        color: "green",
+        orderValue: shippedData ? shippedData.length : 0,
+      },
+      orderPercentage: shippedData
+        ? (((shippedData.length - 100) / 100) * 100).toFixed(2)
+        : 0,
+    },
+
     // {
     //   label: "Received",
     //   value: `$${approvedData
@@ -996,7 +1088,7 @@ const numericTotalCancelledAmount = isNaN(Number(totalCancelledAmount)) ? 0 : Nu
     //       )
     //     : 0,
     // },
-    
+
   ];
 
   // const filteredProducts = products.filter(
@@ -1006,19 +1098,26 @@ const numericTotalCancelledAmount = isNaN(Number(totalCancelledAmount)) ? 0 : Nu
   // );
 
   const pathname = location.pathname; // e.g., /layout/sellorders/123
- 
+
   const parts = pathname.split("/"); // ['layout', 'sellorders', '123']
-  
+
   const orderSellerId = parts[2]; // Assuming '123' is the seller ID
- 
+
 
   const [modal, setModal] = useState(false);
   const [orderID, setOrderID] = useState(null);
 
   useEffect(() => {
     const fetchGetOrder = async () => {
-      if (user?.customerId) {
-        await dispatch(fetchGetOrderBySellerId(user.customerId));
+      setLoading(true)
+      try {
+        if (user?.customerId) {
+          await dispatch(fetchGetOrderBySellerId(user.customerId));
+          setLoading(false)
+        }
+      } catch (error) {
+        console.error(error)
+        setLoading(false)
       }
     };
 
@@ -1104,12 +1203,12 @@ const numericTotalCancelledAmount = isNaN(Number(totalCancelledAmount)) ? 0 : Nu
   const [customerId, setCustomerId] = useState(null);
   const [productID, setProductID] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  
-  
+
+
   const [orderIds, setOrderIDs] = useState('')
   const handleStatusChange = (product, statusId) => {
     setOrderIDs(product.orderId)
-    
+
     // setSelectedProduct(Number(statusId))
     setSelectedProduct(Number(statusId)); // Store the product and status
     // setTrackingNumber(product.trackingNumber || "");
@@ -1117,7 +1216,7 @@ const numericTotalCancelledAmount = isNaN(Number(totalCancelledAmount)) ? 0 : Nu
     setProductID(product?.productId);
     setSelectedOrder(product); // Store the selected product (order) for confirmation
     setSelectedStatus(statusId); // Store the selected status for confirmation
-    setTrackingNumber(product.trackingNumber || ''); 
+    setTrackingNumber(product.trackingNumber || '');
     setIsModalOpen(true); // Open the modal
   };
   const [trackingNumber, setTrackingNumber] = useState('');
@@ -1126,11 +1225,11 @@ const numericTotalCancelledAmount = isNaN(Number(totalCancelledAmount)) ? 0 : Nu
   // Handle confirming the action (Yes)
   const [comment, setComment] = useState("");
   const [notification, setNotification] = useState({
-     show: false,
-     message: "",
+    show: false,
+    message: "",
   });
   console.log("kbj", selectedOrder)
-  
+
   const handleConfirm = async () => {
     if (selectedOrder && selectedStatus) {
       // Update the status through the API only after confirmation
@@ -1151,7 +1250,7 @@ const numericTotalCancelledAmount = isNaN(Number(totalCancelledAmount)) ? 0 : Nu
     setComment(""); // Reset comment
   };
   // const [trackingNumber, setTrackingNumber] = useState({});
-  
+
   // const handleRowClick = (product) => {
   //   setSelectedProduct(product);
   //   setIsModalOpen(true);
@@ -1295,7 +1394,7 @@ const numericTotalCancelledAmount = isNaN(Number(totalCancelledAmount)) ? 0 : Nu
         </div>
       )}
 
-   
+
 
 
 
@@ -1356,117 +1455,198 @@ const numericTotalCancelledAmount = isNaN(Number(totalCancelledAmount)) ? 0 : Nu
             <FaPlus /> Add New Product
           </button> */}
         </div>
+        {loading && (
+          <div>
+            <Loading />
+          </div>
+        )}
+        {!loading && (
+          <>
 
-        <div className="flex flex-wrap my-4 gap-2 -ml-4 justify-normal items-center p-4">
-          {stats.map((stat, index) => (
-            <div
-              key={index}
-              className="p-4 h-28 w-[320px] border rounded-lg shadow-lg flex justify-between items-center bg-white"
-            >
-              <div className="w-full">
-                <div className="flex justify-between items-center">
-                  <div className="text-[16px] text-gray-700 font-semibold">
-                    {stat.label}
+            <div className="flex flex-wrap my-4 gap-2 -ml-4 justify-normal items-center p-4">
+              {/* {stats.map((stat, index) => (
+                <div
+                  key={index}
+                  className="p-4 h-28 w-[320px] border rounded-lg shadow-lg flex justify-between items-center bg-white"
+                >
+                  <div className="w-full">
+
+                    <div className="text-[16px]  text-gray-700 font-semibold flex  justify-around">
+                      <div style={{ color: stat.label?.color }}>{stat.label?.text}</div>
+                      <div style={{ color: stat.status?.color }}>{stat.status?.text}</div>
+                      <div style={{ color: stat.orderStatus?.color }}>
+                        {stat.orderStatus?.text}
+                      </div>
+                    </div>
+                    
+
+                    <div className="flex  mt-2 justify-around ">
+                      <div className="text-xl font-semibold" style={{ color: stat.label?.color }}>
+                       
+                        {stat.label?.value}
+                      </div>
+                      <div className="text-xl font-semibold" style={{ color: stat.status?.color }}> {stat.status?.statusValue}
+                      </div>
+                      <div className="text-xl font-semibold" style={{ color: stat.orderStatus?.color }}> {stat.orderStatus?.orderValue}
+                      </div>
+                      
+
+                     
+                    </div>
                   </div>
-                  {/* <div className="menu-icon">
-                    <CiMenuKebab />
-                  </div> */}
                 </div>
-                <div className="flex justify-between mt-2 items-center">
-                  <div className="text-xl font-semibold">{stat.value}</div>
-                  {/* <div
-                    className={`text-sm ${
-                      stat.percentage > 0 ? "bg-green-400" : "bg-red-400"
-                    } p-1 rounded-lg`}
-                  >
-                    {stat.percentage > 0 ? "↑" : "↓"} {Math.abs(stat.percentage)}%
-                  </div> */}
+              ))} */}
+
+
+              <div className="stats-container">
+                {/* First Row: Total Sold and Cancelled Amount */}
+                <div className="stats-row flex flex-col gap-2 md:flex-row">
+                  {stats.slice(0, 2).map((stat, index) => (
+                    <div
+                      key={index}
+                      className="p-4 h-28 w-[320px] flex flex-col lg:flex-row  border rounded-lg shadow-lg  justify-between items-center bg-white"
+                    >
+                      <div className="w-full ">
+                        <div className="text-[16px] text-gray-700  font-semibold flex justify-around">
+                          <div style={{ color: stat.label?.color }}>{stat.label?.text}</div>
+                          <div style={{ color: stat.status?.color }}>{stat.status?.text}</div>
+                          <div style={{ color: stat.orderStatus?.color }}>
+                            {stat.orderStatus?.text}
+                          </div>
+                        </div>
+
+                        <div className="flex mt-2 justify-around ">
+                          <div className="text-xl font-semibold" style={{ color: stat.label?.color }}>
+                            {stat.label?.value}
+                          </div>
+                          <div className="text-xl font-semibold" style={{ color: stat.status?.color }}>
+                            {stat.status?.statusValue}
+                          </div>
+                          <div className="text-xl font-semibold" style={{ color: stat.orderStatus?.color }}>
+                            {stat.orderStatus?.orderValue}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Subsequent Rows */}
+                <div className="flex  my-4 gap-2 lg:my-2 flex-col md:flex-row  ">
+                  {stats.slice(2).map((stat, index) => (
+                    <div
+                      key={index}
+                      className="p-4 h-28 w-[320px]  border rounded-lg shadow-lg flex justify-between items-center bg-white"
+                    >
+                      <div className="w-full ">
+                        <div className="text-[16px] text-gray-700 font-semibold flex justify-around">
+                          <div style={{ color: stat.label?.color }}>{stat.label?.text}</div>
+                          <div style={{ color: stat.status?.color }}>{stat.status?.text}</div>
+                          <div style={{ color: stat.orderStatus?.color }}>
+                            {stat.orderStatus?.text}
+                          </div>
+                        </div>
+
+                        <div className="flex mt-2 justify-around">
+                          <div className="text-xl font-semibold" style={{ color: stat.label?.color }}>
+                            {stat.label?.value}
+                          </div>
+                          <div className="text-xl font-semibold" style={{ color: stat.status?.color }}>
+                            {stat.status?.statusValue}
+                          </div>
+                          <div className="text-xl font-semibold" style={{ color: stat.orderStatus?.color }}>
+                            {stat.orderStatus?.orderValue}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
 
-        <div className="flex items-center justify-between mt-6">
-          {/* search start */}
-          <div className="relative flex">
-            <input
-              type="text"
-              placeholder="Search Product"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="border rounded-xl h-12 w-64 text-left px-2"
-            />
-            <CiSearch className="absolute right-0 top-4 text-gray-400 mr-2" />
-          </div>
-          {/* search end */}
-          <div className="flex gap-2">
-            <div className="flex  ">
-              {/* <button className="bg-green-300 p-2 h-8 rounded-md flex items-center">
+            </div>
+
+            <div className="flex items-center justify-between mt-6">
+              {/* search start */}
+              <div className="relative flex">
+                <input
+                  type="text"
+                  placeholder="Search Product"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="border rounded-xl h-12 w-64 text-left px-2"
+                />
+                <CiSearch className="absolute right-0 top-4 text-gray-400 mr-2" />
+              </div>
+              {/* search end */}
+              <div className="flex gap-2">
+                <div className="flex  ">
+                  {/* <button className="bg-green-300 p-2 h-8 rounded-md flex items-center">
               <img src={filter} className="w-6 h-6" />
               Filter
             </button> */}
-              {/* <FaFilter className="m-2" /> */}
-              {/* <button className='text-2xl'>Filter</button> */}
-            </div>
-            {/* <div className="flex bg-white h-9 p-2 items-center w-48 justify-evenly border rounded-md">
+                  {/* <FaFilter className="m-2" /> */}
+                  {/* <button className='text-2xl'>Filter</button> */}
+                </div>
+                {/* <div className="flex bg-white h-9 p-2 items-center w-48 justify-evenly border rounded-md">
      
               <select className="">
                 <option>-Select Group-</option>
               </select>
             </div> */}
-          </div>
-        </div>
+              </div>
+            </div>
 
-        <div className="border rounded-md text-[15px] bg-white mt-4">
-          <div className="overflow-x-auto">
-            <div className="block lg:hidden md:hidden ">
-              {/* Mobile View: Card layout */}
-              {Array.isArray(currentItems) && currentItems.length > 0 ? (
-                currentItems.map((product, index) => (
-                  <div
-                    key={product.productId}
-                    className="border rounded-lg shadow-md p-4 mb-4 bg-white"
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <h2 className="text-lg font-bold">
-                       S.NO: {indexOfFirstItem + index + 1}
-                      </h2>
-                      <h2 className="text-lg font-bold">
-                        Order Number: {product.orderNumber}
-                      </h2>
-                      <img
-                        className="w-10 h-10"
-                        src={product.imageUrl}
-                        alt="Product Thumbnail"
-                      />
-                    </div>
-                    <p className="mb-2">
-                      <span className="font-semibold">Product Name:</span>{" "}
-                      {product?.productName}
-                    </p>
-                    <p className="mb-2">
-                      <span className="font-semibold">Purchased On:</span>{" "}
-                      {new Date(product.orderDate)
-                        .toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "2-digit",
-                          day: "2-digit",
-                        })
-                        .replace(/\//g, "-")}
-                    </p>
-                    <p className="mb-2">
-                      <span className="font-semibold">Amount:</span> $
-                      {/* {product?.totalAmount.toFixed(2)} */}
-                      ${((product?.quantity || 0) * (product?.pricePerProduct || 0)).toFixed(2)}
-                    </p>
-                    <p className="mb-2">
-                      <span className="font-semibold">Customer:</span>{" "}
-                      {product?.customerName}
-                    </p>
-                    <div className="mb-2">
-                      <span className="font-semibold">Order Status:</span>
-                      {/* <select
+
+            <div className="border rounded-md text-[15px] bg-white mt-4">
+              <div className="overflow-x-auto">
+                <div className="block lg:hidden md:hidden ">
+                  {/* Mobile View: Card layout */}
+                  {Array.isArray(currentItems) && currentItems.length > 0 ? (
+                    currentItems.map((product, index) => (
+                      <div
+                        key={product.productId}
+                        className="border rounded-lg shadow-md p-4 mb-4 bg-white"
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <h2 className="text-lg font-bold">
+                            S.NO: {indexOfFirstItem + index + 1}
+                          </h2>
+                          <h2 className="text-lg font-bold">
+                            Order Number: {product.orderNumber}
+                          </h2>
+                          <img
+                            className="w-10 h-10"
+                            src={product.imageUrl}
+                            alt="Product Thumbnail"
+                          />
+                        </div>
+                        <p className="mb-2">
+                          <span className="font-semibold">Product Name:</span>{" "}
+                          {product?.productName}
+                        </p>
+                        <p className="mb-2">
+                          <span className="font-semibold">Purchased On:</span>{" "}
+                          {new Date(product.orderDate)
+                            .toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "2-digit",
+                              day: "2-digit",
+                            })
+                            .replace(/\//g, "-")}
+                        </p>
+                        <p className="mb-2">
+                          <span className="font-semibold">Amount:</span> $
+                          {/* {product?.totalAmount.toFixed(2)} */}
+                          ${((product?.quantity || 0) * (product?.pricePerProduct || 0)).toFixed(2)}
+                        </p>
+                        <p className="mb-2">
+                          <span className="font-semibold">Customer:</span>{" "}
+                          {product?.customerName}
+                        </p>
+                        <div className="mb-2">
+                          <span className="font-semibold">Order Status:</span>
+                          {/* <select
                         className="sm:ml-2 m-0 p-1 border rounded cursor-pointer"
                         disabled={
                           !Array.isArray(orderStatusGetAll) ||
@@ -1485,8 +1665,8 @@ const numericTotalCancelledAmount = isNaN(Number(totalCancelledAmount)) ? 0 : Nu
                             </option>
                           ))}
                       </select> */}
-                     
-                      {/* <select
+
+                          {/* <select
                         className="sm:ml-2 m-0 p-1 border rounded cursor-pointer"
                         disabled={
                           !Array.isArray(orderStatusGetAll) || orderStatusGetAll.length === 0
@@ -1508,152 +1688,7 @@ const numericTotalCancelledAmount = isNaN(Number(totalCancelledAmount)) ? 0 : Nu
                               </option>
                             ))}
                       </select> */}
-                     
-                      <select
-                        className="sm:ml-2 m-0 p-1 border rounded cursor-pointer"
-                        onChange={(e) => handleStatusChange(product, e.target.value)}
-                        disabled={!Array.isArray(orderStatusGetAll) || orderStatusGetAll.length === 0 || product.statusId === 6}
-                        value={product?.orderedProductStatusId}
-                      >
-                        {Array.isArray(orderStatusGetAll) && orderStatusGetAll.length > 0 &&
-                          orderStatusGetAll
-                            .filter((item) => {
-                              if (product?.orderedProductStatusId === 8) {
-                                return item.statusId === 8 || item.statusId === 6; // Show only status 8 if current status is 8 (shipped)
-                              }
-                              if (product?.orderedProductStatusId === 6) {
-                                return item.statusId === 6; // Show statuses 6 and 8 if current status is 6 (delivered)
-                              }
-                              return true; // Otherwise, show all statuses
-                            })
-                            .map((item) => (
-                              <option key={item.statusId} value={item.statusId}>
-                                {item.statusDescription}
-                              </option>
-                            ))}
-                      </select>
 
-
-                    </div>
-                    <p className="mb-2">
-                      <span className="font-semibold">Tracking Number:</span>{" "}
-                      {product.trackingNumber}
-                    </p>
-                    <div className="flex gap-2">
-                      <Tooltip title="View Invoice" placement="top">
-                        <img
-                          src={eye}
-                          className="w-5 h-5 cursor-pointer"
-                          onClick={() => handleClickView(product?.orderId, product?.customerId)}
-                        />
-                      </Tooltip>
-                      {/* <Tooltip title="Download" placement="top">
-                        <img
-                          src={download}
-                          className="w-5 h-5 cursor-pointer"
-                        />
-                      </Tooltip> */}
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p className="text-center text-gray-500">No Orders available</p>
-              )}
-            </div>
-
-            <div className="hidden lg:block md:block">
-              {/* Desktop View: Table layout */}
-              <table className="w-full">
-                <thead className="bg-blue-900 text-white">
-                  <tr className="border-b-2">
-                    <th className="px-4 py-2 text-left">S.NO</th>
-                    <th className="px-4 py-2 text-left">Order Number</th>
-
-                    <th className="px-4 py-2 text-left">Thumbnail</th>
-                    <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("productName")}>Product Name 
-                      {sortConfig.key === "productName"
-                        ? sortConfig.direction === "ascending"
-                          ? "▲"
-                          : "▼"
-                        : "▲"}
-                    </th>
-                    <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("orderDate")}>Purchased On
-                      {sortConfig.key === "orderDate"
-                        ? sortConfig.direction === "ascending"
-                          ? "▲"
-                          : "▼"
-                        : "▲"}
-                    </th>
-                    <th className="px-4 py-2 text-right cursor-pointer" onClick={() => handleSort("totalAmount")}>Amount
-                      {sortConfig.key === "totalAmount"
-                        ? sortConfig.direction === "ascending"
-                          ? "▲"
-                          : "▼"
-                        : "▲"}
-                    </th>
-                    <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("customerName")}>Customer
-                      {sortConfig.key === "customerName"
-                        ? sortConfig.direction === "ascending"
-                          ? "▲"
-                          : "▼"
-                        : "▲"}
-                    </th>
-                    <th className="px-4 py-2 text-left">Order Status</th>
-                    <th className="px-4 py-2 text-left">Tracking Number</th>
-                    <th className="px-4 py-2 text-left">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {Array.isArray(currentItems) && currentItems.length > 0 ? (
-                    currentItems.map((product, index) => (
-                      <tr key={product.productId} className="border-b">
-                        <td className="px-4 py-2">
-                          {indexOfFirstItem + index + 1}
-                        </td>
-                        <td className="px-4 py-2">
-                          {product.orderNumber}
-                        </td>
-                        <td className="px-4 py-2">
-                          <img className="w-10 h-10" src={product.imageUrl} />
-                        </td>
-                        <td className="px-4 py-2">{product?.productName}</td>
-                        <td className="px-4 py-2">
-                          {new Date(product.orderDate)
-                            .toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "2-digit",
-                              day: "2-digit",
-                            })
-                            .replace(/\//g, "-")}
-                        </td>
-                        <td className="text-right px-4 py-2">
-                          {/* ${product?.totalAmount.toFixed(2)} */}
-                          ${((product?.quantity || 0) * (product?.pricePerProduct || 0)).toFixed(2)}
-                        </td>
-                        <td className="px-4 py-2">{product?.customerName}</td>
-                        <td className="px-4 py-2">
-                          {/* <select
-                            className="cursor-pointer"
-                            disabled={
-                              !Array.isArray(orderStatusGetAll) ||
-                              orderStatusGetAll.length === 0
-                            }
-                            onChange={(e) =>
-                              handleStatusChange(product, e.target.value)
-                            }
-                            value={product?.orderedProductStatusId}
-                          >
-                            {Array.isArray(orderStatusGetAll) &&
-                              orderStatusGetAll.length > 0 &&
-                              orderStatusGetAll.map((item) => (
-                                <option
-                                  key={item.statusId}
-                                  value={item.statusId}
-                                >
-                                  {item.statusDescription}
-                                </option>
-                              ))}
-                          </select> */}
                           <select
                             className="sm:ml-2 m-0 p-1 border rounded cursor-pointer"
                             onChange={(e) => handleStatusChange(product, e.target.value)}
@@ -1677,37 +1712,184 @@ const numericTotalCancelledAmount = isNaN(Number(totalCancelledAmount)) ? 0 : Nu
                                   </option>
                                 ))}
                           </select>
-                        </td>
-                        <td className="px-4 py-2">{product.trackingNumber}</td>
-                        <td className="px-4 py-2 flex gap-1">
+
+
+                        </div>
+                        <p className="mb-2">
+                          <span className="font-semibold">Tracking Number:</span>{" "}
+                          {product.trackingNumber}
+                        </p>
+                        <div className="flex gap-2">
                           <Tooltip title="View Invoice" placement="top">
                             <img
                               src={eye}
                               className="w-5 h-5 cursor-pointer"
-                              onClick={() => handleClickView(product?.orderId)}
+                              onClick={() => handleClickView(product?.orderId, product?.customerId)}
                             />
                           </Tooltip>
                           {/* <Tooltip title="Download" placement="top">
+                        <img
+                          src={download}
+                          className="w-5 h-5 cursor-pointer"
+                        />
+                      </Tooltip> */}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-center text-gray-500">No Orders available</p>
+                  )}
+                </div>
+
+                <div className="hidden lg:block md:block">
+                  {/* Desktop View: Table layout */}
+                  <table className="w-full">
+                    <thead className="bg-blue-900 text-white">
+                      <tr className="border-b-2">
+                        <th className="px-4 py-2 text-left">S.NO</th>
+                        <th className="px-4 py-2 text-left">Order Number</th>
+
+                        <th className="px-4 py-2 text-left">Thumbnail</th>
+                        <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("productName")}>Product Name
+                          {sortConfig.key === "productName"
+                            ? sortConfig.direction === "ascending"
+                              ? "▲"
+                              : "▼"
+                            : "▲"}
+                        </th>
+                        <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("orderDate")}>Purchased On
+                          {sortConfig.key === "orderDate"
+                            ? sortConfig.direction === "ascending"
+                              ? "▲"
+                              : "▼"
+                            : "▲"}
+                        </th>
+                        <th className="px-4 py-2 text-right cursor-pointer" onClick={() => handleSort("totalAmount")}>Amount
+                          {sortConfig.key === "totalAmount"
+                            ? sortConfig.direction === "ascending"
+                              ? "▲"
+                              : "▼"
+                            : "▲"}
+                        </th>
+                        <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort("customerName")}>Customer
+                          {sortConfig.key === "customerName"
+                            ? sortConfig.direction === "ascending"
+                              ? "▲"
+                              : "▼"
+                            : "▲"}
+                        </th>
+                        <th className="px-4 py-2 text-left">Order Status</th>
+                        <th className="px-4 py-2 text-left">Tracking Number</th>
+                        <th className="px-4 py-2 text-left">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Array.isArray(currentItems) && currentItems.length > 0 ? (
+                        currentItems.map((product, index) => (
+                          <tr key={product.productId} className="border-b">
+                            <td className="px-4 py-2">
+                              {indexOfFirstItem + index + 1}
+                            </td>
+                            <td className="px-4 py-2">
+                              {product.orderNumber}
+                            </td>
+                            <td className="px-4 py-2">
+                              <img className="w-10 h-10" src={product.imageUrl} />
+                            </td>
+                            <td className="px-4 py-2">{product?.productName}</td>
+                            <td className="px-4 py-2">
+                              {new Date(product.orderDate)
+                                .toLocaleDateString("en-US", {
+                                  year: "numeric",
+                                  month: "2-digit",
+                                  day: "2-digit",
+                                })
+                                .replace(/\//g, "-")}
+                            </td>
+                            <td className="text-right px-4 py-2">
+                              {/* ${product?.totalAmount.toFixed(2)} */}
+                              ${((product?.quantity || 0) * (product?.pricePerProduct || 0)).toFixed(2)}
+                            </td>
+                            <td className="px-4 py-2">{product?.customerName}</td>
+                            <td className="px-4 py-2">
+                              {/* <select
+                            className="cursor-pointer"
+                            disabled={
+                              !Array.isArray(orderStatusGetAll) ||
+                              orderStatusGetAll.length === 0
+                            }
+                            onChange={(e) =>
+                              handleStatusChange(product, e.target.value)
+                            }
+                            value={product?.orderedProductStatusId}
+                          >
+                            {Array.isArray(orderStatusGetAll) &&
+                              orderStatusGetAll.length > 0 &&
+                              orderStatusGetAll.map((item) => (
+                                <option
+                                  key={item.statusId}
+                                  value={item.statusId}
+                                >
+                                  {item.statusDescription}
+                                </option>
+                              ))}
+                          </select> */}
+                              <select
+                                className="sm:ml-2 m-0 p-1 border rounded cursor-pointer"
+                                onChange={(e) => handleStatusChange(product, e.target.value)}
+                                disabled={!Array.isArray(orderStatusGetAll) || orderStatusGetAll.length === 0 || product.statusId === 6}
+                                value={product?.orderedProductStatusId}
+                              >
+                                {Array.isArray(orderStatusGetAll) && orderStatusGetAll.length > 0 &&
+                                  orderStatusGetAll
+                                    .filter((item) => {
+                                      if (product?.orderedProductStatusId === 8) {
+                                        return item.statusId === 8 || item.statusId === 6; // Show only status 8 if current status is 8 (shipped)
+                                      }
+                                      if (product?.orderedProductStatusId === 6) {
+                                        return item.statusId === 6; // Show statuses 6 and 8 if current status is 6 (delivered)
+                                      }
+                                      return true; // Otherwise, show all statuses
+                                    })
+                                    .map((item) => (
+                                      <option key={item.statusId} value={item.statusId}>
+                                        {item.statusDescription}
+                                      </option>
+                                    ))}
+                              </select>
+                            </td>
+                            <td className="px-4 py-2">{product.trackingNumber}</td>
+                            <td className="px-4 py-2 flex gap-1">
+                              <Tooltip title="View Invoice" placement="top">
+                                <img
+                                  src={eye}
+                                  className="w-5 h-5 cursor-pointer"
+                                  onClick={() => handleClickView(product?.orderId)}
+                                />
+                              </Tooltip>
+                              {/* <Tooltip title="Download" placement="top">
                             <img
                               src={download}
                               className="w-5 h-5 cursor-pointer"
                             />
                           </Tooltip> */}
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="7" className="text-center py-4">
-                        No Orders available
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="7" className="text-center py-4">
+                            No Orders available
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </>
+        )}
         <Pagination
           indexOfFirstItem={indexOfFirstItem}
           indexOfLastItem={indexOfLastItem}

@@ -138,7 +138,7 @@ function LayoutCustomers() {
       }
     }
     return 0;
-  }) : []; 
+  }) : [];
   const handleSort = (key) => {
     let direction = 'asc';
     if (sortConfig.key === key && sortConfig.direction === 'asc') {
@@ -187,44 +187,44 @@ function LayoutCustomers() {
           </div>
         </div>
 
-          {loading && (
-            <div>
-              <Loading />
-            </div>
-          )}
-          {!loading && (
-            <>
-        <div className="border text-[15px] rounded-md overflow-x-scroll bg-white mt-4">
-          <table className="w-full hidden md:table">
-            <thead className="bg-blue-900 text-white">
-              <tr className="border-b-2">
-                <th className="px-2 py-2 text-left">S.No</th>
-                <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('customerName')}>
-                  Customer Name {sortConfig.key === 'customerName' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : '▲'}
+        {loading && (
+          <div>
+            <Loading />
+          </div>
+        )}
+        {!loading && (
+          <>
+            <div className="border text-[15px] rounded-md overflow-x-scroll bg-white mt-4">
+              <table className="w-full hidden md:table">
+                <thead className="bg-blue-900 text-white">
+                  <tr className="border-b-2">
+                    <th className="px-2 py-2 text-left">S.No</th>
+                    <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('customerName')}>
+                      Customer Name {sortConfig.key === 'customerName' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : '▲'}
 
-                </th>
-                <th className="px-4 py-2 text-left">Email</th>
-                <th className="px-4 py-2 text-left">Contact No</th>
-                <th className="px-4 py-2 text-left">Address</th>
-                {/* <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('totalAmount')}>
+                    </th>
+                    <th className="px-4 py-2 text-left">Email</th>
+                    <th className="px-4 py-2 text-left">Contact No</th>
+                    <th className="px-4 py-2 text-left">Address</th>
+                    {/* <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('totalAmount')}>
                   Grand Total {sortConfig.key === 'totalAmount' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : '▲'}
 
                 </th>
                 <th className="px-4 py-2 text-center">Action</th> */}
-              </tr>
-            </thead>
-            <tbody>
-              {currentItems?.length > 0 ? (
-                currentItems.map((customer, i) => (
-                  <tr key={i} className="border-b">
-                    <td className="px-4 py-2">
-                      {indexOfFirstItem + i + 1}
-                    </td>
-                    <td className="px-4 py-2">{customer.customerName}</td>
-                    <td className="px-4 py-2">{customer.email}</td>
-                    <td className="px-4 py-2">{customer.mobile}</td>
-                    <td className="px-4 py-2">{customer.address1}</td>
-                    {/* <td className="px-4 py-2">${customer.totalAmount.toFixed(2)}</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentItems?.length > 0 ? (
+                    currentItems.map((customer, i) => (
+                      <tr key={i} className="border-b">
+                        <td className="px-4 py-2">
+                          {indexOfFirstItem + i + 1}
+                        </td>
+                        <td className="px-4 py-2">{customer.customerName}</td>
+                        <td className="px-4 py-2">{customer.email}</td>
+                        <td className="px-4 py-2">{customer.mobile}</td>
+                        <td className="px-4 py-2">{customer.address1}</td>
+                        {/* <td className="px-4 py-2">${customer.totalAmount.toFixed(2)}</td>
                     <td className="px-4 py-2 flex items-center space-x-2 justify-center">
                       <Tooltip title="Edit" placement="top">
                         <img
@@ -263,44 +263,44 @@ function LayoutCustomers() {
                         />
                       </Tooltip>
                     </td> */}
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="6" className="px-4 py-2 text-center">
-                    No customer details
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="6" className="px-4 py-2 text-center">
+                        No customer details
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
 
-          <div className="block md:hidden space-y-4">
-            {currentItems?.length > 0 ? (
-              currentItems.map((customer, i) => (
-                <div key={i} className="bg-white shadow rounded-lg p-4 border">
-                  <div className="flex gap-2">
-                    <span className="font-semibold text-sm">S.No:</span>
-                    <span>{indexOfFirstItem + i + 1}</span>
-                  </div>
-                  <div className="mt-2">
-                    <p>
-                      <span className="font-semibold">Customer Name:</span>{" "}
-                      {customer.customerName}
-                    </p>
-                    <p>
-                      <span className="font-semibold">Email:</span>{" "}
-                      {customer.email}
-                    </p>
-                    <p>
-                      <span className="font-semibold">Contact No:</span>{" "}
-                      {customer.mobile}
-                    </p>
-                    <p>
-                      <span className="font-semibold">Address:</span>{" "}
-                      {customer.address1}
-                    </p>
-                    {/* <p>
+              <div className="block md:hidden space-y-4">
+                {currentItems?.length > 0 ? (
+                  currentItems.map((customer, i) => (
+                    <div key={i} className="bg-white shadow rounded-lg p-4 border">
+                      <div className="flex gap-2">
+                        <span className="font-semibold text-sm">S.No:</span>
+                        <span>{indexOfFirstItem + i + 1}</span>
+                      </div>
+                      <div className="mt-2">
+                        <p>
+                          <span className="font-semibold">Customer Name:</span>{" "}
+                          {customer.customerName}
+                        </p>
+                        <p>
+                          <span className="font-semibold">Email:</span>{" "}
+                          {customer.email}
+                        </p>
+                        <p>
+                          <span className="font-semibold">Contact No:</span>{" "}
+                          {customer.mobile}
+                        </p>
+                        <p>
+                          <span className="font-semibold">Address:</span>{" "}
+                          {customer.address1}
+                        </p>
+                        {/* <p>
                       <span className="font-semibold">Grand Total:</span>{" "}
                       {customer.totalAmount}
                     </p>
@@ -345,16 +345,16 @@ function LayoutCustomers() {
                         onClick={() => deactivatePopUp(customer)}
                       />
                     </Tooltip> */}
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="text-center py-4">No customer details</div>
-            )}
-          </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-4">No customer details</div>
+                )}
+              </div>
             </div>
-            </>
- )}
+          </>
+        )}
 
         <Pagination
           indexOfFirstItem={indexOfFirstItem}

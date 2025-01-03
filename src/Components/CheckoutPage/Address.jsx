@@ -3598,7 +3598,7 @@ function Address({ topMargin, totalAmount, amount }) {
 
 
   return (
-    <div className="w-full flex justify-center">
+    <div className="w-full flex justify-center items-center">
       {deletePop && (
         <div
           className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-slate-900 bg-opacity-50 z-50"
@@ -3645,17 +3645,17 @@ function Address({ topMargin, totalAmount, amount }) {
               message={notification.message}
             />
             {/* {showpagepopup && ( */}
-            <div className="z-50 -ml-20 flex items-center justify-center bg-opacity-50">
+            <div className="z-50  ml-0 lg:-ml-20  flex items-center justify-center bg-opacity-50">
               <div className="bg-gray-100 p-2 rounded-lg shadow-lg">
                 <div className="flex justify-center gap-4">
                   <button
-                    className="bg-white hover:bg-gray-200 text-black px-4 py-2 rounded"
+                    className="bg-white hover:bg-gray-200 text-sm lg:text-xl text-black px-2 md:px-4 py-0 md:py-2 rounded"
                     onClick={handleStayInCheckout}
                   >
                     Stay in Checkout
                   </button>
                   <button
-                    className="bg-blue-900 hover:bg-blue-950 text-white px-4 py-2 rounded"
+                    className="bg-blue-900 hover:bg-blue-950 text-sm lg:text-xl text-white px-4 py-2 rounded"
                     onClick={handleReturnToCart}
                   >
                     Return to Cart
@@ -3665,12 +3665,12 @@ function Address({ topMargin, totalAmount, amount }) {
             </div>
             {/* )} */}
           </div>
-          <h1 className="text-3xl flex  text-center text-black ">Checkout</h1>
+          <h1 className=" text-xl lg:text-3xl flex ml-10 md:ml-0 text-center text-black ">Checkout</h1>
           {/* <FaLock /> */}
         </div>
         <div className="bg-white p-4 w-full h-full border-t">
           <div className="flex flex-col">
-            <div className="">
+            <div className="flex flex-col lg:flex ">
               {!isTotalHidden && (
                 <h1 className="text-orange-400 font-semibold text-lg my-2">
                   1 Select a delivery and service address
@@ -3680,11 +3680,11 @@ function Address({ topMargin, totalAmount, amount }) {
                 {!isTotalHidden && (
                   // {isOpenAddress &&
 
-                  <div className="flex min-w-full">
+                  <div className="flex min-w-full  flex-col lg:flex-row">
                     {/* <div className=""> */}
 
 
-                    <div className="border shadow-md rounded-md h-56 w-full overflow-y-auto">
+                    <div className="border shadow-md rounded-md h-56 w-full   overflow-y-auto">
                       <div className="p-2 mx-5 ">
                         <h1 className="border-b-2 text-base  bg-white mt-3">
                           Your Address
@@ -3692,7 +3692,7 @@ function Address({ topMargin, totalAmount, amount }) {
                         <div className="overflow-y-scroll h-28">
                           {getAddress.length === 0 ? (
                             <div className="w-full">
-                              <p className="mt-6 pt-2 flex justify-center text-xl text-blue-900 font-semibold">
+                              <p className="mt-6 pt-2 flex justify-center text-base md:text-xl text-blue-900 font-semibold">
                                 Please select an address before continuing
                               </p>
                             </div>
@@ -3778,21 +3778,21 @@ function Address({ topMargin, totalAmount, amount }) {
                         {/* {getAddress.length > 0 && ( */}
 
 
-                          {/* //<div></div> */}
-                          {/* // <button */}
-                          {/* //   className="border rounded-full h-8 text-sm w-32 bg-blue-900 text-white "
+                        {/* //<div></div> */}
+                        {/* // <button */}
+                        {/* //   className="border rounded-full h-8 text-sm w-32 bg-blue-900 text-white "
                           //   onClick={() => {
                           //     if (selectedAddressId) {
                           //       handleUseAddress(); // Proceed with navigation
                           //     } else { */}
-                          {/* //       alert(
+                        {/* //       alert(
                           //         "Please select an address before continuing."
                           //       ); // Or display error message
                           //     }
                           //   }}
                           // >
                           //   Use this address */}
-                          {/* // </button>
+                        {/* // </button>
                         )} */}
                       </div>
                     </div>
@@ -4197,8 +4197,8 @@ function Address({ topMargin, totalAmount, amount }) {
                       </div>
                     )}
                     {/* </div> */}
-                    <div className=" w-[30%]  mx-16  flex flex-col pt-2 items-center relative">
-                      <div className="border fixed shadow-md rounded-md p-7 py-5">
+                    <div className="hidden w-full lg:w-[30%]  mx-16  lg:flex flex-col pt-2 items-center lg:relative">
+                      <div className="border lg:fixed shadow-md rounded-md p-7  py-5">
                         {/* <div className="flex items-center justify-center">
                         <button className="border rounded-full text-sm flex justify-center items-center px-4 py-2 bg-blue-900 text-white">
                           Use this payment method
@@ -4222,11 +4222,11 @@ function Address({ topMargin, totalAmount, amount }) {
                           <p>Shipping:</p>
                           <p>${Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0).toFixed(2)}</p>
                         </div>
-                          <div className="flex justify-between text-sm mt-3">
-                            <p>Tax :</p>
-                        {getAddress.length === 0 ? (
-                          <p>$0.00</p>
-                        ) : (
+                        <div className="flex justify-between text-sm mt-3">
+                          <p>Tax :</p>
+                          {getAddress.length === 0 ? (
+                            <p>$0.00</p>
+                          ) : (
                             <p>${totalTaxAmount.toFixed(2)}</p>
                           )}
                         </div>
@@ -4303,6 +4303,57 @@ function Address({ topMargin, totalAmount, amount }) {
                 </div> */}
               </div>
             )}
+          </div>
+
+
+          <div className="block lg:hidden sm:w-[90%] md:w-[70%] h-auto  pt-2 items-center lg:relative">
+            <div className="border lg:fixed shadow-md rounded-md p-4  py-5">
+              {/* <div className="flex items-center justify-center">
+                        <button className="border rounded-full text-sm flex justify-center items-center px-4 py-2 bg-blue-900 text-white">
+                          Use this payment method
+                        </button>
+                      </div> */}
+              <div className="text-base flex items-center justify-center flex-col my-1 border-b">
+                <p>Choose a payment method to continue</p>
+                <p>checking out. You will still have a chance to</p>
+                <p>review and edit your order before it is final.</p>
+              </div>
+              <div>
+                <h1 className="font-semibold text-xl my-2">
+                  Order Summary
+                </h1>
+              </div>
+              <div className="flex justify-between text-sm mt-3">
+                <p>Items(s) Subtotal :</p>
+                <p>${validTotal.toFixed(2)}</p>
+              </div>
+              <div className="flex justify-between text-sm mt-3">
+                <p>Shipping:</p>
+                <p>${Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0).toFixed(2)}</p>
+              </div>
+              <div className="flex justify-between text-sm mt-3">
+                <p>Tax :</p>
+                {getAddress.length === 0 ? (
+                  <p>$0.00</p>
+                ) : (
+                  <p>${totalTaxAmount.toFixed(2)}</p>
+                )}
+              </div>
+              <div className="flex justify-between text-sm  border-b my-2">
+                <p>Total:</p>
+                {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
+                <p>${(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
+              </div>
+              {/* <div className="flex justify-between text-sm border-b my-2">
+                        <p>Promotion Applied :</p>
+                        <p>$0.00</p>
+                      </div> */}
+              <div className="flex justify-between text-red-500 font-semibold">
+                <p>Grand Total:</p>
+                {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
+                <p>${(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
+              </div>
+            </div>
           </div>
 
           {/* <div className="flex justify-between w-full">
