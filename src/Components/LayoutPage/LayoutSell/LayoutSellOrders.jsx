@@ -859,7 +859,7 @@ function LayoutSellOrders() {
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
   const ordered = useSelector((state) => state.order.sellerOrderview);
-  const [loading, setLoading] = useState(false)
+  // const [loading, setLoading] = useState(false)
 
   const orderStatusGetAll = useSelector(
     (state) => state.master.orderStatusGetAll
@@ -1109,15 +1109,15 @@ function LayoutSellOrders() {
 
   useEffect(() => {
     const fetchGetOrder = async () => {
-      setLoading(true)
+      // setLoading(true)
       try {
         if (user?.customerId) {
           await dispatch(fetchGetOrderBySellerId(user.customerId));
-          setLoading(false)
+          // setLoading(false)
         }
       } catch (error) {
         console.error(error)
-        setLoading(false)
+        // setLoading(false)
       }
     };
 
@@ -1455,13 +1455,13 @@ function LayoutSellOrders() {
             <FaPlus /> Add New Product
           </button> */}
         </div>
-        {loading && (
+        {/* {loading && (
           <div>
             <Loading />
           </div>
         )}
         {!loading && (
-          <>
+          <> */}
 
             <div className="flex flex-wrap my-4 gap-2 -ml-4 justify-normal items-center p-4">
               {/* {stats.map((stat, index) => (
@@ -1888,8 +1888,8 @@ function LayoutSellOrders() {
                 </div>
               </div>
             </div>
-          </>
-        )}
+          {/* </>
+        )} */}
         <Pagination
           indexOfFirstItem={indexOfFirstItem}
           indexOfLastItem={indexOfLastItem}

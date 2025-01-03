@@ -1053,7 +1053,8 @@ function LayoutOrderList() {
             <button className="absolute left-2  top-4 transform -translate-y-1/2">
               <img src={search} className="w-4 h-4" />
             </button>
-            <div className="flex mb-1 mobile:mb-1">
+            {/* <div className="flex mb-1 mobile:mb-1"> */}
+            <div className="flex flex-col sm:flex-row items-center mb-1 mobile:mb-1 relative">
               <input
                 className="pl-7 p-1  border "
                 placeholder="Search Product..."
