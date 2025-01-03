@@ -147,6 +147,7 @@ import Notification from "../../Notification";
 import Bin from "../../../assets/Bin.png"
 import wrong from "../../../assets/Icons/wrongred.png"
 import { AdminChargesGetApi, AdminChargesInformationAdd, deleteChargesAPi, editChargesApi } from "../../../Api/AdminApi";
+import Loading from "../../Loading";
 
 // const TaxInformation = () => {
 //   const getproductSpecialOffer = useSelector((state) => state.product.productSpecialOffer)
@@ -718,16 +719,21 @@ const ChargesInformations = () => {
   //   data()
   // }, [CustomerId])
   const [getCharge, setGetCharge] = useState([]);
+  const [loading, setLoading] = useState(false)
   const fetchCharges = async () => {
+    setLoading(true)
     try {
       const res = await dispatch(AdminChargesGetApi(user.customerId));
       setGetCharge(res || []);
       setCategory("")
       setTaxPercentage("")
+      setLoading(false)
     } catch (error) {
       console.error("Error fetching charges:", error);
+      setLoading(false)
     }
   };
+
 
   // const handleAddOrSave = async () => {
   //   const payload = {
@@ -839,6 +845,8 @@ const ChargesInformations = () => {
           Entry saved successfully!
         </p>
       )} */}
+
+    
       {deletePop && (
         <div
           className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-slate-900 bg-opacity-50 z-50"
@@ -974,8 +982,18 @@ const ChargesInformations = () => {
         </div> */}
       </div>
 
+  
+      
+      {loading && (
+        <div>
+          <Loading />
+        </div>
+      )}
+      {!loading && (
+        <>
       <div className="overflow-x-auto ml-5">
         <table className="min-w-full text-left table-auto border-collapse">
+
           <thead className="bg-gray-200">
             <tr className="bg-blue-900 text-white">
               <th className="px-6 py-3 text-base font-bold">S NO.</th>
@@ -1054,6 +1072,7 @@ const ChargesInformations = () => {
                 </tr>
               );
             })} */}
+          
             {getCharge && getCharge.length > 0 ? (
               getCharge.map((entry, index) => (
                 <tr key={index} className="bg-white hover:bg-gray-100 transition-colors">
@@ -1099,7 +1118,9 @@ const ChargesInformations = () => {
             )}
           </tbody>
         </table>
-      </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

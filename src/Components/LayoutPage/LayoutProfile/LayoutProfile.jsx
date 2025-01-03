@@ -1051,7 +1051,7 @@ const LayoutProfile = () => {
                     label="Email ID"
                     value={userDetails?.email}
                     name="email"
-                    onChange={handleInputChange}
+                    // onChange={handleInputChange}
                     disabled={!isEditable}
                     size="small"
                     // className="w-full"
@@ -1074,7 +1074,7 @@ const LayoutProfile = () => {
                       label="Phone Number"
                       name="mobile"
                       value={userDetails?.mobile || ""} // Ensure value is not undefined
-                      onChange={handlePhoneNumberChange}
+                      // onChange={handlePhoneNumberChange}
                       size="small"
                       className="w-full"
                       disabled={!isEditable} // Disable unless in edit mode

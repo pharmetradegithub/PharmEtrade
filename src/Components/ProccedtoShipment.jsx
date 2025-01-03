@@ -30,14 +30,14 @@ const ProccedtoShipment = ({
 
   console.log("businessInfo", businessInfo);
   const navigate = useNavigate()
- 
+
   const [searchParams] = useSearchParams();
   const total = searchParams.get("total");
   const normalizeString = (str) =>
     str.replace(/\s+/g, " ").trim().toLowerCase();
   const removeNonPrintableChars = (str) => str.replace(/[^\x20-\x7E]/g, "");
 
-  
+
   const handleChange = async (seller, e, products) => {
     const selectedServiceName = e.target.value;
     console.log("productsselllll---->", products)
@@ -88,8 +88,7 @@ const ProccedtoShipment = ({
       //   );
       if (totalNetCharge > 0) {
         const parsedTotal = parseFloat(total);
-        if(productId!=null)
-        {
+        if (productId != null) {
           navigate(
             `/checkout?total=${parsedTotal.toFixed(
               2
@@ -97,11 +96,11 @@ const ProccedtoShipment = ({
           );
         }
         else
-        navigate(
-          `/checkout?total=${parsedTotal.toFixed(
-            2
-          )}&shipmentSubType=${encodeURIComponent(selectedServiceName)}`
-        );
+          navigate(
+            `/checkout?total=${parsedTotal.toFixed(
+              2
+            )}&shipmentSubType=${encodeURIComponent(selectedServiceName)}`
+          );
       } else {
         console.error("TotalNetCharge is zero or invalid.");
       }
@@ -137,13 +136,13 @@ const ProccedtoShipment = ({
   const user = useSelector((state) => state.user.user);
 
 
- 
+
   const handleResetDropdown = (seller) => {
     setSelectedOptions((prev) => ({
       ...prev,
       [seller]: "", // Reset the dropdown selection
     }));
-  
+
     setTotalNetCharges((prev) => ({
       ...prev,
       [seller]: 0, // Reset the amount to 0
@@ -156,21 +155,21 @@ const ProccedtoShipment = ({
     };
     fetchSellerData();
   }, []);
-  
-  
+
+
   return (
     <div className="w-full h-full  p-4 ">
-     
+
       <h1 className="text-xl font-semibold text-orange-400">
         2. Select shipment
       </h1>
       <div className="flex w-full">
-        <div className="w-[70%]">
+        <div className="w-full sm:w-[90%] md:w-[100%] lg:w-[70%] xl:w-[70%]">
           {Object.entries(groupedProducts).map(([seller, products]) => (
             <div key={seller}>
               <h2 className="font-bold text-lg mt-4">Seller: {seller}</h2>
 
-              <div className="border p-4 my-4 rounded-md shadow-lg bg-white">
+              <div className="border p-2 sm:p-4 md:p-6 my-4 min-w-full rounded-md shadow-lg bg-white">
                 <table className="min-w-full border shadow-md rounded-lg">
                   <thead>
                     <tr className="border-b text-base">
@@ -198,7 +197,7 @@ const ProccedtoShipment = ({
                     </tr>
                   </thead>
                   {products.map((tabledetail) => {
-                   
+
                     return (
                       <tbody key={tabledetail.product.id}>
                         <tr className="text-sm">
@@ -321,64 +320,67 @@ const ProccedtoShipment = ({
                   .length > 0 && (
                     <div className="h-auto p-3 border flex rounded-md mt-3">
                       <h1 className="text-base font-semibold text-blue-900">Shipment:</h1>
-                      <div className="mx-5">
-                        <select
-                          id="delivery-options"
-                          value={selectedOptions[seller] || ""}
-                          onChange={(e) => handleChange(seller, e, products)}
-                          className="bg-gray-100 border p-1 rounded-md"
-                        >
-                          <option value="" disabled>
-                            {selectedOptions[seller]
-                              ? "Please choose a delivery option"
-                              : "Select an option"}
-                          </option>
-                          <optgroup label="Delivery options">
-                            {serviceName.map((item) => {
-                              const matchingRate = fedexRate.find(
-                                (fed) =>
-                                  normalizeString(removeNonPrintableChars(fed.serviceName)) ===
-                                  normalizeString(removeNonPrintableChars(item.serviceName))
-                              );
-
-                              return (
-                                <option key={item.serviceType} value={item.serviceName}>
-                                  {item.serviceName} $
-                                  {matchingRate
-                                    ? `(${matchingRate.ratedShipmentDetails[0].totalNetCharge})`
-                                    : ""}
-                                </option>
-                              );
-                            })}
-                          </optgroup>
-                        </select>
-                      </div>
-
-                      <div className="mb-4">
-                        <TextField
-                          label="amount"
-                          size="small"
-                          className="w-40 rounded-md h-4 border"
-                          value={(totalNetCharges[seller] || 0).toFixed(2)}
-                          onChange={(e) =>
-                            setAmount(parseFloat(e.target.value) || 0)
-                          }
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">$</InputAdornment>
-                            ),
-                          }}
-                        />
-                        {selectedOptions[seller] && (
-                          <button
-                            onClick={() => handleResetDropdown(seller)}
-                            className="ml-2 text-white bg-blue-900 border py-1 px-2 rounded-lg text-lg hover:text-red-700"
+                      <div className="flex flex-col xl:flex-row">
+                        <div className="mx-5">
+                          <select
+                            id="delivery-options"
+                            value={selectedOptions[seller] || ""}
+                            onChange={(e) => handleChange(seller, e, products)}
+                            className="bg-gray-100 border p-1 rounded-md"
                           >
-                            Reset
-                          </button>
-                        )}
+                            <option value="" disabled>
+                              {selectedOptions[seller]
+                                ? "Please choose a delivery option"
+                                : "Select an option"}
+                            </option>
+                            <optgroup label="Delivery options">
+                              {serviceName.map((item) => {
+                                const matchingRate = fedexRate.find(
+                                  (fed) =>
+                                    normalizeString(removeNonPrintableChars(fed.serviceName)) ===
+                                    normalizeString(removeNonPrintableChars(item.serviceName))
+                                );
+
+                                return (
+                                  <option key={item.serviceType} value={item.serviceName}>
+                                    {item.serviceName} $
+                                    {matchingRate
+                                      ? `(${matchingRate.ratedShipmentDetails[0].totalNetCharge})`
+                                      : ""}
+                                  </option>
+                                );
+                              })}
+                            </optgroup>
+                          </select>
+                        </div>
+
+                        <div className="mb-4 mt-3 xl:mt-0">
+                          <TextField
+                            label="amount"
+                            size="small"
+                            className="w-40 rounded-md h-4 border"
+                            value={(totalNetCharges[seller] || 0).toFixed(2)}
+                            onChange={(e) =>
+                              setAmount(parseFloat(e.target.value) || 0)
+                            }
+                            InputProps={{
+                              startAdornment: (
+                                <InputAdornment position="start">$</InputAdornment>
+                              ),
+                            }}
+                          />
+                          {selectedOptions[seller] && (
+                            <button
+                              onClick={() => handleResetDropdown(seller)}
+                              className="ml-2 text-white bg-blue-900 border py-1 px-2 rounded-lg text-lg hover:text-red-700"
+                            >
+                              Reset
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
+
                   )}
 
 

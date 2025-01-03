@@ -31,6 +31,7 @@ import TrackingOrder from "../../../Components/TermsAndConditions";
 import Notification from "../../Notification";
 import searchImg from "../../../assets/search-icon.png";
 import { Button, Dialog, DialogActions, DialogContent } from "@mui/material";
+import Loading from "../../Loading";
 
 function LayoutOrderList() {
 
@@ -49,6 +50,7 @@ function LayoutOrderList() {
   // const localData = localStorage.getItem("userId")
   const user = useSelector((state) => state.user.user);
 
+  const [loading, setLoading] = useState(false)
   const [getOrder, setGetOrder] = useState(null);
   const ordered = useSelector((state) => state.order.orderView);
   console.log("orderedview-->", ordered);
@@ -106,9 +108,16 @@ function LayoutOrderList() {
   useEffect(() => {
     const data = async () => {
       console.log("hey guys");
-      const response = await fetchGetOrderByCustomerIdPage(user?.customerId);
-      console.log(response, "response from api");
-      setGetOrder(response);
+      setLoading(true)
+      try {
+        const response = await fetchGetOrderByCustomerIdPage(user?.customerId);
+        console.log(response, "response from api");
+        setGetOrder(response);
+        setLoading(false)
+      } catch (error) {
+        console.error(error);
+        setLoading(false)
+      }
     };
     if (user) data();
   }, [user]);
@@ -1108,100 +1117,107 @@ function LayoutOrderList() {
           {currentItems?.length};{/* section start */}
 
         </div>
-        {visibleGrid === "order" && (
+        {loading && (
           <div>
-            {currentItems?.map((order, index) => (
-              <div className="border h-auto my-4  rounded-lg shadow-md">
-                <div className="flex flex-row justify-between lg:flex-row md:flex-row  sm:justify-between  border-b pb-2 pt-2 pr-3 sm:pl-3 p-0 bg-slate-200">
-                  <div className="mb-4 lg:mb-0">
-                    <h1 className="text-sm lg:text-lg">Order Placed</h1>
-                    <p className="text-sm lg:text-lg">
-                      {new Date(order.orderDate)
-                        .toLocaleDateString("en-US", {
-                          month: "2-digit",
-                          day: "2-digit",
-                          year: "numeric",
-                        })
-                        .replace(/\//g, "-")}
-                    </p>
-                  </div>
-                  <div className="mb-4 lg:mb-0 mr-2">
-                    <h1 className="text-sm lg:text-lg">Total</h1>
-                    <p className="text-sm lg:text-lg">
-                      ${(
-                        (order?.pricePerProduct * order?.quantity)
-                        // ((order?.pricePerProduct * order?.quantity) * (order?.chargesPercentage / 100))
-                      )?.toFixed(2)}
-                    </p>
-                  </div>
-                  <div className="mb-4 lg:mb-0">
-                    <h1 className="text-sm lg:text-lg">Ship To</h1>
-                    <p className="text-sm lg:text-lg">
-                      {order.shippingContactName}
-                    </p>
-                  </div>
-                  <div className="sm:flex flex-col lg:flex-row items-start">
-                    <div>
-                      <h1 className="text-sm lg:text-lg">Order ID</h1>
-                      <p className="text-sm lg:text-md">{order.orderNumber}</p>
-                    </div>
-                    {/* <p className="text-blue-900 text-sm lg:text-md cursor-pointer p-2">
+            <Loading />
+          </div>
+        )}
+        {!loading && (
+          <>
+            {visibleGrid === "order" && (
+              <div>
+                {currentItems?.map((order, index) => (
+                  <div className="border h-auto my-4  rounded-lg shadow-md">
+                    <div className="flex flex-row justify-between lg:flex-row md:flex-row  sm:justify-between  border-b pb-2 pt-2 pr-3 sm:pl-3 p-0 bg-slate-200">
+                      <div className="mb-4 lg:mb-0">
+                        <h1 className="text-sm lg:text-lg">Order Placed</h1>
+                        <p className="text-sm lg:text-lg">
+                          {new Date(order.orderDate)
+                            .toLocaleDateString("en-US", {
+                              month: "2-digit",
+                              day: "2-digit",
+                              year: "numeric",
+                            })
+                            .replace(/\//g, "-")}
+                        </p>
+                      </div>
+                      <div className="mb-4 lg:mb-0 mr-2">
+                        <h1 className="text-sm lg:text-lg">Total</h1>
+                        <p className="text-sm lg:text-lg">
+                          ${(
+                            (order?.pricePerProduct * order?.quantity)
+                            // ((order?.pricePerProduct * order?.quantity) * (order?.chargesPercentage / 100))
+                          )?.toFixed(2)}
+                        </p>
+                      </div>
+                      <div className="mb-4 lg:mb-0">
+                        <h1 className="text-sm lg:text-lg">Ship To</h1>
+                        <p className="text-sm lg:text-lg">
+                          {order.shippingContactName}
+                        </p>
+                      </div>
+                      <div className="sm:flex flex-col lg:flex-row items-start">
+                        <div>
+                          <h1 className="text-sm lg:text-lg">Order ID</h1>
+                          <p className="text-sm lg:text-md">{order.orderNumber}</p>
+                        </div>
+                        {/* <p className="text-blue-900 text-sm lg:text-md cursor-pointer p-2">
                       <span onClick={() => handleClickView(order?.orderId)}>
                         Invoice
                       </span>
                     </p> */}
-                    {order.orderedProductStatusId === 3 && (
-                      <p className="text-blue-900 text-sm lg:text-md cursor-pointer p-2">
-                        <span onClick={() => handleClickView(order?.orderId)}>
-                          Invoice
-                        </span>
-                      </p>
-                    )}
-                  </div>
-                </div>
+                        {order.orderedProductStatusId === 3 && (
+                          <p className="text-blue-900 text-sm lg:text-md cursor-pointer p-2">
+                            <span onClick={() => handleClickView(order?.orderId)}>
+                              Invoice
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    </div>
 
-                {/* Content Section */}
-                <div className="h-auto p-3 flex flex-col lg:flex-row md:flex-row gap-4">
-                  {/* Left Section */}
-                  <div className="w-full lg:w-2/3">
-                    <h1 className="lg:text-xl font-semibold mobile:text-sm">
-                      Delivery Date
-                    </h1>
-                    <p>Package was handed to resident</p>
-                    <div className="flex sm:flex-row flex-col">
-                      <img
-                        src={order.imageUrl}
-                        className="w-full lg:w-40 md:w-80 h-40 object-cover rounded-md"
-                        alt="product"
-                      />
-                      <div className="ml-3">
-                        <p className="font-bold mt-2">
-                          {showMore[index]
-                            ? order.productName
-                            : `${order.productName.slice(0, 15)}`}
-                          {order.productName.length > 15 && (
-                            <button
-                              className="text-blue-500 ml-1"
-                              onClick={() => toggleShowMore(index)}
-                            >
-                              {showMore[index] ? "See Less" : "..."}
-                            </button>
-                          )}
-                        </p>
-                        <p className="text-sky-900 text-sm">
-                          {showMore[index]
-                            ? order.productDescription
-                            : `${order.productDescription.slice(0, 15)}`}
-                          {order.productDescription.length > 15 && (
-                            <button
-                              className="text-blue-500 ml-1"
-                              onClick={() => toggleShowMore(index)}
-                            >
-                              {showMore[index] ? "See Less" : " More details"}
-                            </button>
-                          )}
-                        </p>
-                        {/* <p className="text-sm mt-2">
+                    {/* Content Section */}
+                    <div className="h-auto p-3 flex flex-col lg:flex-row md:flex-row gap-4">
+                      {/* Left Section */}
+                      <div className="w-full lg:w-2/3">
+                        <h1 className="lg:text-xl font-semibold mobile:text-sm">
+                          Delivery Date
+                        </h1>
+                        <p>Package was handed to resident</p>
+                        <div className="flex sm:flex-row flex-col">
+                          <img
+                            src={order.imageUrl}
+                            className="w-full lg:w-40 md:w-80 h-40 object-cover rounded-md"
+                            alt="product"
+                          />
+                          <div className="ml-3">
+                            <p className="font-bold mt-2">
+                              {showMore[index]
+                                ? order.productName
+                                : `${order.productName.slice(0, 15)}`}
+                              {order.productName.length > 15 && (
+                                <button
+                                  className="text-blue-500 ml-1"
+                                  onClick={() => toggleShowMore(index)}
+                                >
+                                  {showMore[index] ? "See Less" : "..."}
+                                </button>
+                              )}
+                            </p>
+                            <p className="text-sky-900 text-sm">
+                              {showMore[index]
+                                ? order.productDescription
+                                : `${order.productDescription.slice(0, 15)}`}
+                              {order.productDescription.length > 15 && (
+                                <button
+                                  className="text-blue-500 ml-1"
+                                  onClick={() => toggleShowMore(index)}
+                                >
+                                  {showMore[index] ? "See Less" : " More details"}
+                                </button>
+                              )}
+                            </p>
+                            {/* <p className="text-sm mt-2">
                           Return Window closed on{" "}
                           {new Date(order.orderDate)
                             .toLocaleDateString("en-US", {
@@ -1211,39 +1227,39 @@ function LayoutOrderList() {
                             })
                             .replace(/\//g, "-")}
                         </p> */}
-                        <p className="text-sm mt-2">
-                          Return Window closes on{" "}
-                          {returnDates[index]?.toLocaleDateString("en-US", {
-                            month: "2-digit",
-                            day: "2-digit",
-                            year: "numeric",
-                          })?.replace(/\//g, "-")}
-                        </p>
-                        <p>Quantity: {order.quantity}</p>
+                            <p className="text-sm mt-2">
+                              Return Window closes on{" "}
+                              {returnDates[index]?.toLocaleDateString("en-US", {
+                                month: "2-digit",
+                                day: "2-digit",
+                                year: "numeric",
+                              })?.replace(/\//g, "-")}
+                            </p>
+                            <p>Quantity: {order.quantity}</p>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
 
-                  {/* Right Section */}
-                  <div className="w-full lg:w-1/3 flex flex-col items-stretch mt-4">
-                    {order.trackingNumber && (
-                      <button className="border rounded-lg p-2 mb-2 hover:bg-gray-400" onClick={() => handleTracking(order?.trackingNumber, order?.deliveryAddressId)}>
-                        Track Package
-                      </button>) }
-                    <button
-                      className="border rounded-lg p-2 mb-2 hover:bg-gray-400"
-                      // onClick={() => setIsOpen(true)}
-                      onClick={() => handleReview(order.productId)}
-                    >
-                      Write a product review
-                    </button>
-                    <button
-                      className="border rounded-lg p-2 bg-blue-900 text-white"
-                      onClick={() => handleNav(order.productId)}
-                    >
-                      Buy it again
-                    </button>
-                    {/* <button
+                      {/* Right Section */}
+                      <div className="w-full lg:w-1/3 flex flex-col items-stretch mt-4">
+                        {order.trackingNumber && (
+                          <button className="border rounded-lg p-2 mb-2 hover:bg-gray-400" onClick={() => handleTracking(order?.trackingNumber, order?.deliveryAddressId)}>
+                            Track Package
+                          </button>)}
+                        <button
+                          className="border rounded-lg p-2 mb-2 hover:bg-gray-400"
+                          // onClick={() => setIsOpen(true)}
+                          onClick={() => handleReview(order.productId)}
+                        >
+                          Write a product review
+                        </button>
+                        <button
+                          className="border rounded-lg p-2 bg-blue-900 text-white"
+                          onClick={() => handleNav(order.productId)}
+                        >
+                          Buy it again
+                        </button>
+                        {/* <button
                       className={`border rounded-lg p-2 ${order?.orderStatusId === 5 || isCancelled
                           ? "bg-gray-400 cursor-not-allowed"
                           : "bg-blue-900 text-white cursor-pointer"
@@ -1257,7 +1273,7 @@ function LayoutOrderList() {
                     >
                       {order?.orderStatusId === 5 || isCancelled ? "Order Cancelled" : "Cancel Order"}
                     </button> */}
-                    {/* {!order.orderStatusId === 6 && 
+                        {/* {!order.orderStatusId === 6 && 
                     <button
                       key={order.productId}
                       className={`border rounded-lg p-2 ${order.orderStatusId === 5 || cancelledOrders[order.productId]
@@ -1277,8 +1293,8 @@ function LayoutOrderList() {
                     </button>
                       } */}
 
-                    {/* =====below code is code ===== */}
-                    {/* {order.orderedProductStatusId !== 6 && order.orderedProductStatusId !== 4 && (
+                        {/* =====below code is code ===== */}
+                        {/* {order.orderedProductStatusId !== 6 && order.orderedProductStatusId !== 4 && (
                       <button
                         key={order.productId}
                         className={`border rounded-lg p-2 ${order.orderedProductStatusId === 5 || cancelledOrders[order.productId]
@@ -1297,9 +1313,9 @@ function LayoutOrderList() {
                           : "Cancel Order"}
                       </button>
                     )} */}
-                    {/* ======================== */}
+                        {/* ======================== */}
 
-                    {/* {order.orderedProductStatusId !== 6 && order.orderedProductStatusId !== 4 && (
+                        {/* {order.orderedProductStatusId !== 6 && order.orderedProductStatusId !== 4 && (
                       <button
                         key={order.productId}
                         className={`border rounded-lg p-2 ${order.orderedProductStatusId === 5 ||
@@ -1333,71 +1349,85 @@ function LayoutOrderList() {
                           : "Cancel Order"}
                       </button>
                     )} */}
-                    {order.orderedProductStatusId !== 6 && order.orderedProductStatusId !== 4 && (
-                      <button
-                        key={order.productId}
-                        className={`border rounded-lg p-2 ${order.orderedProductStatusId === 5 ||
-                          cancelledOrders[order.productId]
-                          ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-blue-900 text-white cursor-pointer"
-                          }`}
-                        disabled={
-                          order.orderedProductStatusId === 5 ||
-                          cancelledOrders[order.productId]
-                        }
-                        onClick={() => {
-                          const returnDate = new Date(returnDates[index]);
-                          const today = new Date();
-                          today.setHours(0, 0, 0, 0); // Set time to midnight to ignore the time portion of today's date
+                        {order.orderedProductStatusId !== 6 && order.orderedProductStatusId !== 4 && (
+                          <button
+                            key={order.productId}
+                            className={`border rounded-lg p-2 ${order.orderedProductStatusId === 5 ||
+                              cancelledOrders[order.productId]
+                              ? "bg-gray-400 cursor-not-allowed"
+                              : "bg-blue-900 text-white cursor-pointer"
+                              }`}
+                            disabled={
+                              order.orderedProductStatusId === 5 ||
+                              cancelledOrders[order.productId]
+                            }
+                            onClick={() => {
+                              const returnDate = new Date(returnDates[index]);
+                              const today = new Date();
+                              today.setHours(0, 0, 0, 0); // Set time to midnight to ignore the time portion of today's date
 
-                          // Show alert if the return date is in the past (before today)
-                          if (returnDate < today) {
-                            alert("The return window has closed. This action is no longer allowed.");
-                            return;
-                          }
+                              // Show alert if the return date is in the past (before today)
+                              if (returnDate < today) {
+                                alert("The return window has closed. This action is no longer allowed.");
+                                return;
+                              }
 
-                          handleCancel(order.orderId, order.productId, order.customerId);
-                        }}
-                      >
-                        {order.orderedProductStatusId === 5 || cancelledOrders[order.productId]
-                          ? "Order Cancelled"
-                          : "Cancel Order"}
-                      </button>
-                    )}
+                              handleCancel(order.orderId, order.productId, order.customerId);
+                            }}
+                          >
+                            {order.orderedProductStatusId === 5 || cancelledOrders[order.productId]
+                              ? "Order Cancelled"
+                              : "Cancel Order"}
+                          </button>
+                        )}
 
 
+                      </div>
+                    </div>
                   </div>
-                </div>
+                ))}
+                <Pagination
+                  indexOfFirstItem={indexOfFirstItem}
+                  indexOfLastItem={indexOfLastItem}
+                  productList={displayData}
+                  itemsPerPage={itemsPerPage}
+                  setItemsPerPage={setItemsPerPage}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                />
               </div>
-            ))}
-            <Pagination
-              indexOfFirstItem={indexOfFirstItem}
-              indexOfLastItem={indexOfLastItem}
-              productList={displayData}
-              itemsPerPage={itemsPerPage}
-              setItemsPerPage={setItemsPerPage}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
-          </div>
+            )}
+          </>
         )}
+        {!loading && (
+          <>
         {visibleGrid === "received" && (
           <div>
             {/* Your bank information grid details here */}
-            <LayoutBuyerReceiversgrid />
+                <LayoutBuyerReceiversgrid loading={loading} />
           </div>
+            )}
+          </>
         )}
+        {!loading && (
+          <>
         {visibleGrid === "upcoming" && (
           <div>
             {/* Your bank information grid details here */}
             <LayoutBuyerUpcomingGrid />
           </div>
+            )}
+          </>
         )}
+        {!loading && (
+          <>
         {visibleGrid === "cancelled" && (
           <div>
             {/* Your bank information grid details here */}
             <LayoutBuyerCancelledgrid />
           </div>
+            )}
+          </>
         )}
         {/* section end */}
       </div>

@@ -3,10 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { Autocomplete, FormControl, FormHelperText, InputLabel, TextField } from '@mui/material';
 import edit from '../../../assets/Edit.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProductOffer } from '../../../Api/ProductApi';
+// import { fetchProductOffer } from '../../../Api/ProductApi';
 import { taxAddInformationApi, TaxGetByStateNameApi, TaxInfoEdit } from '../../../Api/TaxInfoApi';
 import Notification from '../../Notification';
 import { useStates } from "react-us-states";
+import { fetchCategorySpecificationsGetAll } from '../../../Api/MasterDataApi';
+import Loading from '../../Loading';
 // const TaxInformation = () => {
 //   const getproductSpecialOffer = useSelector((state) => state.product.productSpecialOffer)
 //   const [category, setCategory] = useState(getproductSpecialOffer);
@@ -413,7 +415,10 @@ import { useStates } from "react-us-states";
 //   dispatch(TaxInfoEdit(payloadEdit))
 // };
 const TaxInformation = () => {
-  const getproductSpecialOffer = useSelector((state) => state.product.productSpecialOffer);
+  // const getproductSpecialOffer = useSelector((state) => state.product.productSpecialOffer);
+  const getproductSpecialOffer = useSelector(
+    (state) => state.master.setCategorySpecificationsGetAll
+  );
   const [category, setCategory] = useState(null); // Initialize as an empty string for selected category
   const [taxPercentage, setTaxPercentage] = useState('');
   const [addedEntries, setAddedEntries] = useState([]);
@@ -425,6 +430,7 @@ const TaxInformation = () => {
     message: "",
   });
   const businessInfo = useSelector((state) => state.user.businessInfo);
+  const [loading, setLoading] = useState(false)
   const user = useSelector((state)=>state.user.user)
   const dispatch = useDispatch();
   const stateNameData = useSelector((state) => state.tax.stateName);
@@ -581,11 +587,21 @@ const TaxInformation = () => {
     }
   };
   useEffect(() => {
-    dispatch(TaxGetByStateNameApi(user.customerId));
+    const data = () => {
+      setLoading(true)
+      try {
+        dispatch(TaxGetByStateNameApi(user.customerId));
+        setLoading(false)
+      } catch (error) {
+        console.error(error)
+        setLoading(false)
+      }
+    }
+    data()
   }, [dispatch, user.customerId]);
 
   useEffect(() => {
-    dispatch(fetchProductOffer());
+    dispatch(fetchCategorySpecificationsGetAll());
   }, [dispatch]);
 
   // useEffect(() => {
@@ -712,11 +728,18 @@ const TaxInformation = () => {
         </div>
       </div>
 
+      {loading && (
+        <div>
+          <Loading />
+        </div>
+      )}
+      {!loading && (
+        <>
       <div className="overflow-x-auto ml-5">
         <table className="w-full text-left table-auto border-collapse hidden md:table">
           <thead className="bg-gray-200">
             <tr className="bg-blue-900 text-white">
-              <th className="px-6 py-3 text-base font-bold">S NO.</th>
+              <th className="px-6 py-3 text-base font-bold">S.NO</th>
               <th className="px-6 py-3 text-base font-bold">State</th>
               <th className="px-6 py-3 text-base font-bold">Category Name</th>
               <th className="px-6 py-3 text-base font-bold">Tax Percentage</th>
@@ -837,7 +860,9 @@ const TaxInformation = () => {
           })}
 
         </div>
-      </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -730,7 +730,7 @@ function Settlement() {
                 >
                   Save
                 </button>
-                <button className="p-1 my-4 ml-3 font-semibold text-white bg-blue-900 rounded-md w-14">
+                <button className="p-1 my-4 ml-3 font-semibold text-white bg-red-500 rounded-md w-14">
                   Cancel
                 </button>
               </div>
