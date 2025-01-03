@@ -320,6 +320,50 @@ export const getGenerateReportExcel = async (reportType, fromDate, toDate, mappe
   }
 };
 
+
+export const getSellerReportsApi = async (sellerId,reportType, fromDate, toDate) => {
+  try {
+    const response = await axios.get(`/api/Reports/Seller/Generate?sellerId=${sellerId}&reportType=${encodeURIComponent(reportType)}&fromDate=${encodeURIComponent(fromDate)}&toDate=${encodeURIComponent(toDate)}`)
+    if (response.status === 200) {
+      return response.data.resultTable
+    }
+  } catch (error) {
+    console.error('Error fetching reports:', error);
+  }
+}
+export const getGenerateSellerReportExcel = async (sellerId, reportType, fromDate, toDate, mappedReportType) => {
+
+  try {
+    const response = await axios.get(`/api/Reports/Seller/GenerateExcelReport`, {
+      params: {sellerId, reportType, fromDate, toDate },
+      headers: {
+        'Content-Type': 'application/json', // Adjust if needed
+        'Authorization': `Bearer ${localStorage.getItem('token')}` // Example if token is required
+      },
+      responseType: 'blob', // To handle binary data
+    });
+
+
+    const fileBlob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+
+    // Create a temporary link to trigger the download
+    const downloadUrl = window.URL.createObjectURL(fileBlob);
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = `${mappedReportType}.xlsx`; // File name for download
+    document.body.appendChild(link);
+    link.click();
+
+    // Clean up
+    link.remove();
+    window.URL.revokeObjectURL(downloadUrl);
+  } catch (error) {
+    console.error('Error fetching reports excel:', error);
+    return null;
+  }
+};
+
 export const addCommentsApi = async (commentData) => {
   try {
     const response = await axios.post('/api/Customer/Audit/Add', commentData);

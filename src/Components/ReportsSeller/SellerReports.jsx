@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from "react";
 import { TextField } from "@mui/material";
 import { format, parseISO } from "date-fns";
-import { getGenerateReportExcel, getReportsApi } from "../../Api/AdminApi";
+import { getGenerateSellerReportExcel, getSellerReportsApi } from "../../Api/AdminApi";
 import Pagination from "../Pagination";
+import { useSelector } from "react-redux";
 
 const SellerReports = () => {
   // State to store input values and the saved reports data
@@ -16,6 +17,7 @@ const SellerReports = () => {
   const handleReportTypeChange = (e) => {
     setReportType(e.target.value);
   };
+  const user = useSelector((state) => state.user.user)
 
   // Handle From date change
   const handleFromDateChange = (e) => {
@@ -72,7 +74,8 @@ const SellerReports = () => {
       const formattedToDate = format(parseISO(toDate), "MM/dd/yyyy");
 
       try {
-        const res = await getReportsApi(
+        const res = await getSellerReportsApi(
+          user.customerId,
           reportType,
           formattedFromDate,
           formattedToDate
@@ -260,7 +263,7 @@ const SellerReports = () => {
       // } else {
       //   console.error("Failed to fetch Excel report data");
       // }
-      await getGenerateReportExcel(savedReportType, formattedFromDate, formattedToDate, mappedReportType)
+      await getGenerateSellerReportExcel(user.customerId,savedReportType, formattedFromDate, formattedToDate, mappedReportType)
     } catch (error) {
       console.error("Error handling Excel report:", error);
     }
