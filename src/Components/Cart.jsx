@@ -1286,7 +1286,7 @@ function Cart() {
                 </button> */}
                 <button
                   className="w-full mt-2 px-4 py-2 font-bold text-black text-lg bg-slate-300 rounded-full"
-                  onClick={() => navigate(-1)} // Navigate to the previous page
+                  onClick={() => navigate('/layout/layoutbuy')} // Navigate to the previous page
                 >
                   Continue Shopping
                 </button>
