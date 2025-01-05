@@ -635,11 +635,11 @@ const SellerList = () => {
           <img
             src={Activate}
             alt="Activate"
-            className="cursor-pointer w-4 h-4 -mb-5"
-            onClick={() => activatePopUp(customer?.customerId)}
+            className=" w-4 h-4 -mb-5 cursor-not-allowed"
+            // onClick={() => activatePopUp(customer?.customerId)}
           />
         </Tooltip>
-      )}
+      )}  
                           <Tooltip placement="top" title="Delete">
                             <img
                               src={Bin}

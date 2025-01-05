@@ -91,11 +91,10 @@ const LayoutNav = ({ Form_Data }) => {
     if (category == -1) {
       navigate("/layout/layoutbuy");
     }
-
-  }, [])
+  }, []);
 
   const handleCriteria = async (obj) => {
-    handleItemClick(obj.categoryName, obj.productCategoryId)
+    handleItemClick(obj.categoryName, obj.productCategoryId);
     let Criteria = {
       customerId: user.customerId,
       productCategoryId: obj.productCategoryId,
@@ -126,9 +125,6 @@ const LayoutNav = ({ Form_Data }) => {
 
   console.log(SearchInput, "search");
   const handleSearchAPI = async () => {
-
-
-
     let Criteria = {
       customerId: user.customerId,
       productCategoryId: selectedItemId,
@@ -138,7 +134,7 @@ const LayoutNav = ({ Form_Data }) => {
       Criteria = {
         customerId: user.customerId,
         productName: SearchInput,
-      }
+      };
     }
 
     console.log("g--->", Criteria);
@@ -146,10 +142,6 @@ const LayoutNav = ({ Form_Data }) => {
     await fetchCriteriaProductsApi(Criteria);
     navigate(`/layout/layoutCategoryProducts?CategoryName=${selectedItemId}`);
     setSearchInput("");
-
-
-
-
   };
   console.log(selectedItem);
   const components = useSelector((state) => state.master.productCategoryGetAll);
@@ -186,7 +178,10 @@ const LayoutNav = ({ Form_Data }) => {
       setErrorMessage(
         <>
           You have logged in as a buyer. Please contact us at{" "}
-          <a href="mailto:help@pharmetrade.com" className="text-blue-900 underline">
+          <a
+            href="mailto:help@pharmetrade.com"
+            className="text-blue-900 underline"
+          >
             help@pharmetrade.com
           </a>
         </>
@@ -196,8 +191,6 @@ const LayoutNav = ({ Form_Data }) => {
       navigate(item.path);
     }
   };
-
-
 
   // const handleItemclick = (item) => {
   //   if (user?.accountTypeId == 1 && item.text === "SELL") {
@@ -221,7 +214,6 @@ const LayoutNav = ({ Form_Data }) => {
     { image: buy, text: "BUY", path: "/layout/layoutbuy" },
     { image: sell, text: "SELL", path: "/layout/addproduct" },
     { image: bid, text: "BID", path: "/layout/layoutbid" },
-
   ];
 
   const iconItems = [
@@ -250,7 +242,7 @@ const LayoutNav = ({ Form_Data }) => {
       return;
     }
     await fetchCriteriaProductsApi(Criteria);
-  }
+  };
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const category = searchParams.get("CategoryName");
@@ -459,7 +451,11 @@ const LayoutNav = ({ Form_Data }) => {
                 ${Form_Data?.userType === 4 ? "hidden" : ""}`}
                 onClick={() => handleItemclick(item)}
               >
-                <img src={item.image} className="w-8 h-8 mr-[2px]" alt={item.text} />
+                <img
+                  src={item.image}
+                  className="w-8 h-8 mr-[2px]"
+                  alt={item.text}
+                />
                 <span className="text-sm font-semibold my-1">{item.text}</span>
               </div>
             ))}
@@ -472,7 +468,9 @@ const LayoutNav = ({ Form_Data }) => {
             <div className="bg-gray-100 p-4 rounded-md shadow-md text-center">
               <div className="flex justify-start items-center border-b border-black">
                 <img src={warning} className=" w-12 h-12" />
-                <p className="text-red-600 text-xl font-semibold mt-2">Warning !</p>
+                <p className="text-red-600 text-xl font-semibold mt-2">
+                  Warning !
+                </p>
               </div>
               <div className="mt-4">
                 <p className="text-black mb-4">{errorMessage}</p>
@@ -489,10 +487,17 @@ const LayoutNav = ({ Form_Data }) => {
 
         {/* Search and Dropdown */}
         <div className="flex sm:w-[30%] md:w-[60%] lg:w-[40%]">
-          <div ref={dropdownRef} className={`w-full relative flex items-center ${isContainerFocused ? "ring-2 ring-blue-500 rounded-md" : ""}`}>
+          <div
+            ref={dropdownRef}
+            className={`w-full relative flex items-center ${
+              isContainerFocused ? "ring-2 ring-blue-500 rounded-md" : ""
+            }`}
+          >
             <div className="relative inline-block">
               <button
-                className={`h-10 pl-2 mr-[1px] font-semibold text-left gap-1 text-[14px] flex  w-auto items-center text-gray-600 bg-gray-100 border-gray-300 rounded-l-md border ${isButtonFocused ? "ring-2 ring-blue-500" : ""}`}
+                className={`h-10 pl-2 mr-[1px] font-semibold text-left gap-1 text-[14px] flex  w-auto items-center text-gray-600 bg-gray-100 border-gray-300 rounded-l-md border ${
+                  isButtonFocused ? "ring-2 ring-blue-500" : ""
+                }`}
                 onClick={handleDropdownToggle}
                 onFocus={handleFocusIn}
                 onBlur={handleFocusOut}
@@ -504,7 +509,10 @@ const LayoutNav = ({ Form_Data }) => {
               </button>
 
               {isDropdownOpen && (
-                <div className="absolute z-10" style={{ top: "30px", left: "0px" }}>
+                <div
+                  className="absolute z-10"
+                  style={{ top: "30px", left: "0px" }}
+                >
                   <div className="bg-white px-4 py-3 rounded shadow-lg w-64">
                     {modifiedComponents.map((items, index) => (
                       <ul onClick={() => handleCriteria(items)} key={index}>
@@ -544,19 +552,47 @@ const LayoutNav = ({ Form_Data }) => {
         {/* Icons with Text */}
         <div className="flex items-center space-x-2">
           {iconItems.map((item, index) => (
-            <div key={index} className="flex items-center" onClick={() => navigate(item.path)}>
+            <div
+              key={index}
+              className="flex items-center"
+              onClick={() => navigate(item.path)}
+            >
               <img src={item.icon} className="w-8 h-8" />
               <span className="text-sm font-semibold mr-2">{item.text}</span>
             </div>
           ))}
+
+          <div onClick={() => navigate("/cart")} className="relative">
+            <div className="absolute text-white rounded-full bg-blue-900 bottom-1/2 left-1.5 px-1 font-medium text-[10px]">
+              {cartItems.length}
+            </div>
+            <Tooltip title="Cart" placement="top">
+              <img src={cartNav} className="w-6 h-6" alt="cart icon" />
+            </Tooltip>
+          </div>
+
           <Tooltip title="Notification" placement="top">
-            <img src={notification} className="w-10 h-10" alt="Notification icon" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} />
-            <div className="absolute text-white rounded-full bg-blue-900 ml-5 right-4.5 -mt-10 px-1 font-medium text-[10px]">{cartItems.length}</div>
+            <img
+              src={notification}
+              className="w-10 h-10"
+              alt="Notification icon"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            />
+            <div className="absolute text-white rounded-full bg-blue-900 ml-5 right-4.5 -mt-10 px-1 font-medium text-[10px]">
+              {cartItems.length}
+            </div>
           </Tooltip>
 
           {isPopupVisible && (
-            <div className="absolute right-2 top-8 mt-10 w-64 bg-white border border-gray-300 shadow-lg p-4 rounded-lg z-40" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-              <h4 className="font-bold text-lg mb-2 border-b text-center">Your Notifications</h4>
+            <div
+              className="absolute right-2 top-8 mt-10 w-64 bg-white border border-gray-300 shadow-lg p-4 rounded-lg z-40"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <h4 className="font-bold text-lg mb-2 border-b text-center">
+                Your Notifications
+              </h4>
               <ul className="text-sm text-gray-600">
                 <li>New order placed</li>
                 <li>Product review received</li>
@@ -566,15 +602,20 @@ const LayoutNav = ({ Form_Data }) => {
           )}
 
           <Tooltip title="Wishlist" placement="top">
-            <img onClick={() => navigate("/layout/layoutwishlist")} src={wishlist} className="w-6 h-6 mr-2" alt="wishlist icon" />
+            <img
+              onClick={() => navigate("/layout/layoutwishlist")}
+              src={wishlist}
+              className="w-6 h-6"
+              alt="wishlist icon"
+            />
           </Tooltip>
-
-          <div onClick={() => navigate("/cart")} className="relative">
+  
+          {/* <div onClick={() => navigate("/cart")} className="relative">
             <div className="absolute text-white rounded-full bg-blue-900 bottom-1/2 left-1.5 px-1 font-medium text-[10px]">{cartItems.length}</div>
             <Tooltip title="Cart" placement="top">
               <img src={cartNav} className="w-6 h-6 mr-2" alt="cart icon" />
             </Tooltip>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

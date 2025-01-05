@@ -189,7 +189,7 @@ const LayoutPurchaseHistory = () => {
                     Quantity
                   </th>
                   <th className="border-b-2 py-2 min-w-36 pl-4 text-center">
-                    Seller Name
+                    Buyer Name
                   </th>
                   <th
                     className="border-b-2 min-w-16 text-left"
@@ -312,16 +312,16 @@ const LayoutPurchaseHistory = () => {
                       </p>
                       <p>
                         <span className="font-semibold">Price:</span>{" "}
-                        {request.quantity}
+                        ${request?.pricePerProduct?.toFixed(2)}
                       </p>
                       <p>
                         <span className="font-semibold">Quantity:</span>{" "}
                         {request.quantity}
                       </p>
                       <p>
-                        <span className="font-semibold">Seller Name:</span>{" "}
-                        {request.quantity}
-                      </p>
+                        <span className="font-semibold">Buyer Name:</span>{" "}
+                        {request.customerName}
+                        </p>
                       <p>
                         <span className="font-semibold">Status:</span>{" "}
                         {request.isActive ? "Active" : "Inactive"}

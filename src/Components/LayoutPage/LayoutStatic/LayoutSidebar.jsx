@@ -53,8 +53,18 @@ function LayoutSidebar() {
     src: profile,
     name: user?.firstName + " " + user?.lastName,
     // Shop_name: "Valley Pharmacy",
-    Shop_name: businessInfo?.shopName,
-  };
+    User_Type: 
+      user?.customerTypeId === 1
+        ? "Retail Pharmacy"
+        : user?.customerTypeId === 2
+        ? "General Merchandise Seller"
+        : user?.customerTypeId === 3
+        ? "Pharmacy Distributor"
+        : user?.customerTypeId === 4
+        ? "Retail Customer"
+        : "Unknown",
+  };  
+  
   const buildNavItems = (menuItems) => {
     // Step 1: Organize menu items by their parent property
     const menuMap = {};
@@ -143,7 +153,7 @@ function LayoutSidebar() {
                 alt="Profile"
               />
               <p className="text-xs text-red-500 font-semibold my-1">
-                {logos.Shop_name}
+                {logos.User_Type}
               </p>
               <div className="flex items-center">
                 <span

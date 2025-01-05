@@ -438,31 +438,57 @@ const EditSellerList = () => {
     } else if (!/^\d{5}$/.test(addressData.zip.trim())) {
       validationErrors.zip = "Zip must be exactly 5 digits";
     }
+    // if (![4].includes(userdata?.customerTypeId)) {
+    //   if (!addressData.businessPhone?.trim()) {
+    //     validationErrors.businessPhone = "Business Phone is required";
+    //   } else {
+    //     // Remove non-digit characters before validation
+    //     const phoneDigits = addressData.businessPhone.replace(/\D/g, ""); // Strip non-numeric characters
+    //     if (phoneDigits.length !== 10) {
+    //       validationErrors.businessPhone =
+    //         "Business Phone must be exactly 10 digits";
+    //     }
+    //   }
+    // }
+
+    // if (![4].includes(userdata?.customerTypeId)) {
+    //   if (!addressData.businessFax?.trim()) {
+    //     validationErrors.businessFax = "Business Fax is required";
+    //   } else {
+    //     // Remove non-digit characters before validation
+    //     const phoneDigits = addressData.businessFax.replace(/\D/g, ""); // Strip non-numeric characters
+    //     if (phoneDigits.length !== 10) {
+    //       validationErrors.businessFax =
+    //         "Business Fax must be exactly 10 digits";
+    //     }
+    //   }
+    // }
     if (![4].includes(userdata?.customerTypeId)) {
+      // Remove non-digit characters for both businessPhone and businessFax
+      const phoneDigits = addressData.businessPhone?.replace(/\D/g, ""); // Strip non-numeric characters from businessPhone
+      const faxDigits = addressData.businessFax?.replace(/\D/g, ""); // Strip non-numeric characters from businessFax
+
+      // Validate businessPhone
       if (!addressData.businessPhone?.trim()) {
         validationErrors.businessPhone = "Business Phone is required";
-      } else {
-        // Remove non-digit characters before validation
-        const phoneDigits = addressData.businessPhone.replace(/\D/g, ""); // Strip non-numeric characters
-        if (phoneDigits.length !== 10) {
-          validationErrors.businessPhone =
-            "Business Phone must be exactly 10 digits";
-        }
+      } else if (phoneDigits.length !== 10) {
+        validationErrors.businessPhone =
+          "Business Phone must be exactly 10 digits";
+      }
+
+      
+
+      // Validate businessFax
+      if (!addressData.businessFax?.trim()) {
+        validationErrors.businessFax = "Business Fax is required";
+      } else if (faxDigits.length !== 10) {
+        validationErrors.businessFax = "Business Fax must be exactly 10 digits";
+      } else if (faxDigits === phoneDigits) {
+        validationErrors.businessFax =
+          "Business Fax cannot be the same as Business Phone";
       }
     }
 
-    if (![4].includes(userdata?.customerTypeId)) {
-      if (!addressData.businessFax?.trim()) {
-        validationErrors.businessFax = "Business Fax is required";
-      } else {
-        // Remove non-digit characters before validation
-        const phoneDigits = addressData.businessFax.replace(/\D/g, ""); // Strip non-numeric characters
-        if (phoneDigits.length !== 10) {
-          validationErrors.businessFax =
-            "Business Fax must be exactly 10 digits";
-        }
-      }
-    }
     if (![4].includes(userdata?.customerTypeId)) {
       if (!addressData.businessEmail?.trim()) {
         validationErrors.businessEmail = "Business Email is required";
@@ -473,29 +499,18 @@ const EditSellerList = () => {
       }
     }
 
-    if (![4].includes(userdata?.customerTypeId)) {
-      if (!addressData.companyWebsite?.trim()) {
-        validationErrors.companyWebsite = "Company Website is required";
-      } else if (
-        !/^www\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/.test(
-          addressData.companyWebsite.trim()
-        )
-      ) {
-        validationErrors.companyWebsite = "Enter a valid website";
-      }
-    }
-
-    // if (!addressData.companyWebsite?.trim()) {
-    //   validationErrors.companyWebsite = "Company Website is required";
-    // } else if (
-    //   !/^www\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/.test(
-    //     addressData.companyWebsite.trim()
-    //   )
-    // ) {
-    //   validationErrors.companyWebsite = "Enter a valid website";
+    // if (![4].includes(userdata?.customerTypeId)) {
+    //   if (!addressData.companyWebsite?.trim()) {
+    //     validationErrors.companyWebsite = "Company Website is required";
+    //   } else if (
+    //     !/^www\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/.test(
+    //       addressData.companyWebsite.trim()
+    //     )
+    //   ) {
+    //     validationErrors.companyWebsite = "Enter a valid website";
+    //   }
     // }
 
-    // Set validation errors
     setErrors(validationErrors);
 
     // If there are validation errors, prevent form submission
@@ -1368,18 +1383,17 @@ const EditSellerList = () => {
   const fetchCharges = async () => {
     try {
       const res = await dispatch(AdminChargesGetApi(CustomerId));
-      console.log(res,"charges response");
+      console.log(res, "charges response");
     } catch (error) {
       console.error("Error fetching charges:", error);
     }
   };
   const GetCharges = useSelector((state) => state.charges.getCharges);
   useEffect(() => {
-    console.log(CustomerId,"heyehy")
-    if(CustomerId)
-      fetchCharges();
-  }, [CustomerId])
-  
+    console.log(CustomerId, "heyehy");
+    if (CustomerId) fetchCharges();
+  }, [CustomerId]);
+
   return (
     <div className="w-full h-full flex-col bg-slate-200 flex justify-center overflow-y-scroll">
       {notification.show && (
@@ -1677,7 +1691,7 @@ const EditSellerList = () => {
               </h1>
 
               <div className="flex justify-between py-4">
-                <div className="flex flex-col gap-3">
+                <div className="grid grid-cols-2 gap-x-36 gap-y-3">
                   {userdata?.customerTypeId !== 4 &&
                     userdata?.customerTypeId !== 2 &&
                     userdata?.customerTypeId !== 3 && (
@@ -1693,6 +1707,19 @@ const EditSellerList = () => {
                         helperText={errors.shopName} // Display the error message
                       />
                     )}
+                  {userdata?.customerTypeId !== 4 && (
+                    <TextField
+                      label="Legal Business Name"
+                      name="legalBusinessName"
+                      value={addressData?.legalBusinessName || ""}
+                      disabled={!isAddressEdit}
+                      onChange={handleAddressChange}
+                      size="small"
+                      className="w-full"
+                      error={!!errors.legalBusinessName} // Show error state
+                      helperText={errors.legalBusinessName} // Display the error message
+                    />
+                  )}
                   {userdata?.customerTypeId !== 4 &&
                     userdata?.customerTypeId !== 2 &&
                     userdata?.customerTypeId !== 3 && (
@@ -1708,126 +1735,6 @@ const EditSellerList = () => {
                         helperText={errors.dba} // Display the error message
                       />
                     )}
-                  {/* <TextField
-                    label="City"
-                    // id="outlined-size-small"
-                    name="city"
-                    disabled={!isAddressEdit}
-                    onChange={handleAddressChange}
-                    value={addressData?.city || ""}
-                    // onChange={handleInputChange}
-                    // error={!!errors.First_Name}
-                    // helperText={errors.First_Name}
-
-                    size="small"
-                    // className="w-full"
-                  /> */}
-                  <TextField
-                    label="City"
-                    name="city"
-                    value={addressData?.city || ""}
-                    disabled={!isAddressEdit}
-                    onChange={handleAddressChange}
-                    size="small"
-                    className="w-full"
-                    error={!!errors.city} // Show error state
-                    helperText={errors.city} // Display the error message
-                  />
-                  {/* <TextField
-                    label="Zip"
-                    // id="outlined-size-small"
-                    name="zip"
-                    disabled={!isAddressEdit}
-                    onChange={handleAddressChange}
-                    value={addressData?.zip || ""}
-                    // onChange={handleInputChange}
-                    // error={!!errors.First_Name}
-                    // helperText={errors.First_Name}
-
-                    size="small"
-                    // className="w-full"
-                  /> */}
-                  <TextField
-                    label="Zip"
-                    name="zip"
-                    value={addressData?.zip || ""}
-                    disabled={!isAddressEdit}
-                    onChange={handleAddressChange}
-                    size="small"
-                    className="w-full"
-                    error={!!errors.zip} // Show error state
-                    helperText={errors.zip} // Display the error message
-                  />
-                  {userdata?.customerTypeId !== 4 && (
-                    // <TextField
-                    //   label="Business Fax"
-                    //   // id="outlined-size-small"
-                    //   name="businessFax"
-                    //   disabled={!isAddressEdit}
-                    //   onChange={handleAddressChange}
-                    //   value={addressData?.businessFax || ""}
-                    //   // onChange={handleInputChange}
-                    //   // error={!!errors.First_Name}
-                    //   // helperText={errors.First_Name}
-
-                    //   size="small"
-                    //   // className="w-full"
-                    // />
-                    <TextField
-                      label="Business Fax"
-                      name="businessFax"
-                      value={addressData.businessFax || ""}
-                      disabled={!isAddressEdit}
-                      onChange={handlePhoneChange}
-                      size="small"
-                      error={!!errors.businessFax}
-                      helperText={errors.businessFax}
-                    />
-                  )}
-
-                  {userdata?.customerTypeId !== 4 && (
-                    // <TextField
-                    //   label="Company Website"
-                    //   id="outlined-size-small"
-                    //   name="companyWebsite"
-                    //   disabled={!isAddressEdit}
-                    //   onChange={handleAddressChange}
-                    //   value={addressData?.companyWebsite || ""}
-                    //   // onChange={handleInputChange}
-                    //   // error={!!errors.First_Name}
-                    //   // helperText={errors.First_Name}
-
-                    //   size="small"
-                    //   // className="w-full"
-                    // />
-                    <TextField
-                      label="Company Website"
-                      id="outlined-size-small"
-                      name="companyWebsite"
-                      disabled={!isAddressEdit}
-                      onChange={handleAddressChange}
-                      value={addressData?.companyWebsite || ""}
-                      size="small"
-                      error={!!errors.companyWebsite} // Show error state
-                      helperText={errors.companyWebsite} // Display the error message
-                    />
-                  )}
-                </div>
-                <div className="flex flex-col gap-3">
-                  {userdata?.customerTypeId !== 4 && (
-                    <TextField
-                      label="Legal Business Name"
-                      name="legalBusinessName"
-                      value={addressData?.legalBusinessName || ""}
-                      disabled={!isAddressEdit}
-                      onChange={handleAddressChange}
-                      size="small"
-                      className="w-full"
-                      error={!!errors.legalBusinessName} // Show error state
-                      helperText={errors.legalBusinessName} // Display the error message
-                    />
-                  )}
-
                   <TextField
                     label="Address"
                     name="address"
@@ -1840,36 +1747,17 @@ const EditSellerList = () => {
                     helperText={errors.address} // Display the error message
                   />
 
-                  {/* <FormControl size="small" disabled={!isAddressEdit}>
-                    <InputLabel id="state-select-label">State</InputLabel>
-                    <Select
-                      id="state-select"
-                      label="State"
-                      value={addressData.state || ""} // Ensure a default value
-                      name="state" // Ensure the name matches the key in addressData
-                      onChange={handleAddressChange}
-                      MenuProps={{
-                        PaperProps: {
-                          style: {
-                            maxHeight: 200, // Set the maximum height of the dropdown
-                          },
-                        },
-                      }}
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      {states.map((state) => (
-                        <MenuItem
-                          key={state.abbreviation}
-                          value={state.name} // Match this value to what you want to save in addressData
-                        >
-                          {state.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl> */}
-
+                  <TextField
+                    label="City"
+                    name="city"
+                    value={addressData?.city || ""}
+                    disabled={!isAddressEdit}
+                    onChange={handleAddressChange}
+                    size="small"
+                    className="w-full"
+                    error={!!errors.city} // Show error state
+                    helperText={errors.city} // Display the error message
+                  />
                   <FormControl
                     size="small"
                     disabled={!isAddressEdit}
@@ -1907,6 +1795,17 @@ const EditSellerList = () => {
                       <div className="text-red-600 ml-2">{errors.state}</div>
                     )}
                   </FormControl>
+                  <TextField
+                    label="Zip"
+                    name="zip"
+                    value={addressData?.zip || ""}
+                    disabled={!isAddressEdit}
+                    onChange={handleAddressChange}
+                    size="small"
+                    className="w-full"
+                    error={!!errors.zip} // Show error state
+                    helperText={errors.zip} // Display the error message
+                  />
 
                   {userdata?.customerTypeId !== 4 && (
                     <TextField
@@ -1923,16 +1822,21 @@ const EditSellerList = () => {
                       inputProps={{ maxLength: 12 }}
                     />
                   )}
+
                   {userdata?.customerTypeId !== 4 && (
-                    // <TextField
-                    //   label="Business Email"
-                    //   id="outlined-size-small"
-                    //   name="businessEmail"
-                    //   disabled={!isAddressEdit}
-                    //   onChange={handleAddressChange}
-                    //   value={addressData?.businessEmail || ""}
-                    //   size="small"
-                    // />
+                    <TextField
+                      label="Business Fax"
+                      name="businessFax"
+                      value={addressData.businessFax || ""}
+                      disabled={!isAddressEdit}
+                      onChange={handlePhoneChange}
+                      size="small"
+                      error={!!errors.businessFax}
+                      helperText={errors.businessFax}
+                    />
+                  )}
+
+                  {userdata?.customerTypeId !== 4 && (
                     <TextField
                       label="Business Email"
                       id="outlined-size-small"
@@ -1943,6 +1847,19 @@ const EditSellerList = () => {
                       size="small"
                       error={!!errors.businessEmail} // Show error state
                       helperText={errors.businessEmail} // Display the error message
+                    />
+                  )}
+                  {userdata?.customerTypeId !== 4 && (
+                    <TextField
+                      label="Company Website"
+                      id="outlined-size-small"
+                      name="companyWebsite"
+                      disabled={!isAddressEdit}
+                      onChange={handleAddressChange}
+                      value={addressData?.companyWebsite || ""}
+                      size="small"
+                      error={!!errors.companyWebsite} // Show error state
+                      helperText={errors.companyWebsite} // Display the error message
                     />
                   )}
                 </div>
