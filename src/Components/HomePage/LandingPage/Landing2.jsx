@@ -192,7 +192,7 @@ function Landing2({ wishList, addCart }) {
         break;
 
       case 3:
-        navigate("/signup");
+        isLoggedIn ? null : navigate("/signup");
         break;
 
       default:
@@ -255,7 +255,12 @@ function Landing2({ wishList, addCart }) {
         <img
           src={item}
           alt={`Slide ${key}`}
-          className="h-auto w-full md:items-center md:justify-center md:min-ml-10 rounded-xl hover:cursor-pointer"
+          className={`h-auto w-full md:items-center md:justify-center md:min-ml-10 rounded-xl  ${isLoggedIn
+              ? item.slider4
+                ? "hover:cursor-pointer"
+                : "cursor-not-allowed"
+              : "hover:cursor-pointer"
+            }`}
         />
       </div>
     ))}
