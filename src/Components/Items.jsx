@@ -1038,7 +1038,7 @@ function Items({
                   )}
 
                   <div className="flex">
-                    <p className="text-sky-500 font-normal">NDC/UPC: </p>
+                    <p className="text-sky-500 font-normal">NDC/UPC :  </p>
                     <span className=" text-base md:text-base">
                       {prod?.ndCorUPC}
                     </span>
@@ -1046,12 +1046,12 @@ function Items({
                 </div>
                 <div className="flex flex-col">
                   <div className="flex">
-                    <p className="text-sky-500 font-normal ">SKU:</p>
+                    <p className="text-sky-500 font-normal ">SKU : </p>
                     <span>6545555</span>
                   </div>
                   <div className="flex">
                     <p className="text-sky-500 font-normal ">
-                      Expiration Date:
+                      Expiration Date : 
                     </p>
                     <span> {formattedDate}</span>
                   </div>
