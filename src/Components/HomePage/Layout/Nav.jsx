@@ -915,7 +915,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
       path: user ? "/layout/addproduct" : "/login",
     },
     { label: "BID", icon: bid, path: user ? "/bid" : "login" },
-    { label: "JOIN", icon: join, path: "/signup" },
+    { label: "JOIN", icon: join, path: user ? null : "/signup" },
   ];
 
   const downSocialItems = [
@@ -1287,8 +1287,9 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
             {downDivItems.map((item, index) => (
               <li
                 key={index}
-                className={`flex gap-3 items-center justify-center cursor-pointer font-semibold hover:text-black
-        ${Form_Data?.userType === 4 && item.label === "SELL" ? "hidden" : ""}
+                className={`flex gap-3 items-center justify-center font-semibold hover:text-black
+        ${Form_Data?.userType === 4 && item.label === "SELL" ? "hidden" : ""} ${item.label === "JOIN" ? (user ? "cursor-not-allowed" : "cursor-pointer") : "cursor-pointer"}
+
         `}
                 onClick={() => handleItemclick(item)}
               >
