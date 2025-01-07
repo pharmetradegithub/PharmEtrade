@@ -72,7 +72,7 @@ export const fetchSellCustomer = (customerId) => {
     try {
       const response = await axios.get(`/api/Orders/Seller/Customers?vendorId=${customerId}`)
       if (response.status === 200) {
-        const customerData = response.data;
+        const customerData = response.data.result;
         dispatch(setSellCustomer(customerData))
       } else {
         console.log('Failed to fetch dashboard:', response.message);
