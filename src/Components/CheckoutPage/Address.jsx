@@ -2182,6 +2182,8 @@ import { useStates } from "react-us-states";
 import { orderGetByIdApi } from "../../Api/OrderApi";
 import Remove from "../../assets/trash.png";
 import Bin from "../../assets/Bin.png";
+import shipping from "../../assets/Icons/Shipment.png";
+import tax from "../../assets/Icons/tax icon.png";
 import edit from "../../assets/Edit.png";
 import axios from "axios";
 import wrong from "../../assets/Icons/wrongred.png";
@@ -4219,11 +4221,17 @@ function Address({ topMargin, totalAmount, amount }) {
                           <p>${validTotal.toFixed(2)}</p>
                         </div>
                         <div className="flex justify-between text-sm mt-3">
+                          <div className="flex ">
+                          <img src={shipping} className="w-5 h-5 mr-1"/>
                           <p>Shipping:</p>
+                          </div>
                           <p>${Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0).toFixed(2)}</p>
                         </div>
                         <div className="flex justify-between text-sm mt-3">
+                        <div className="flex ">
+                        <img src={tax} className="w-5 h-5 mr-1"/>
                           <p>Tax :</p>
+                          </div>
                           {getAddress.length === 0 ? (
                             <p>$0.00</p>
                           ) : (

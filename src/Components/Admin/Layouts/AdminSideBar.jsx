@@ -6,6 +6,22 @@ import logo from "../../../assets/Icons/Logo_white.png";
 import profile from "../../../assets/ProfileSetting.png";
 import { useSelector } from "react-redux";
 import sellerIcon from "../../../assets/Dashboard_icon.png";
+import banner from "../../../assets/Icons/banners.png";
+import useradmin from "../../../assets/Icons/Useradmin.png";
+import Retailpharmacy from "../../../assets/Icons/Retailpharmacy.png";
+import Generalmerchandise from "../../../assets/Icons/Generalmerchandise.png";
+import Pharmacydistributor from "../../../assets/Icons/Pharmacydistributor.png";
+import Retailcustomer from "../../../assets/Icons/Retailcustomer.png";
+import Products from "../../../assets/Icons/Products.png";
+import Allproducts from "../../../assets/Icons/Allproducts.png";
+import RXproducts from "../../../assets/Icons/RXproducts.png";
+import OTCproducts from "../../../assets/Icons/OTCproducts.png";
+import Offeredproducts from "../../../assets/Icons/Offeredproducts.png";
+import Payment from "../../../assets/Icons/Payment.png";
+import Paymentreceived from "../../../assets/Icons/Paymentreceived.png";
+import Paymentsend from "../../../assets/Icons/Paymentsend.png";
+import Settlements from "../../../assets/Icons/Settlements.png";
+import Reports from "../../../assets/Icons/Reports.png";
 import chatIcon from "../../../assets/Dashboard_icon.png";
 import customerIcon from "../../../assets/Dashboard_icon.png";
 import ordersIcon from "../../../assets/Dashboard_icon.png";
@@ -75,13 +91,7 @@ function AdminSidebar() {
   };
 
   const navItems = [
-    // {
-    //   label: "Dashboard",
-    //   icon: sellerIcon,
-    //   isOpen: isDashboardDropdownOpen,
-    //   toggleDropdown: toggleDashboardDropdown,
-    //   links: [{ to: "/pharmEtradeadmin", label: "AdminDashboard", icon: orderListIcon }],
-    // },
+    
     {
       label: "Dashboard",
       icon: sellerIcon,
@@ -90,7 +100,7 @@ function AdminSidebar() {
 
     {
       label: "Banners",
-      icon: sellerIcon,
+      icon: banner,
       to: "/pharmEtradeadmin/AdminBanners",
       // isOpen: isBannerDropdownOpen,
       // toggleDropdown: toggleBannerDropdown,
@@ -104,58 +114,58 @@ function AdminSidebar() {
     },
     {
       label: "User Administration",
-      icon: sellerIcon,
+      icon: useradmin,
       isOpen: isSellerDropdownOpen,
       toggleDropdown: toggleSellerDropdown,
       links: [
         {
           to: "/pharmEtradeadmin/RetailPharmacyList",
           label: "Retail Pharmacy",
-          icon: orderListIcon,
+          icon: Retailpharmacy,
         },
         {
           to: "/pharmEtradeadmin/GeneralMerchandiseSellerList",
           label: "General Merchandise Seller",
-          icon: orderListIcon,
+          icon: Generalmerchandise,
         },
         {
           to: "/pharmEtradeadmin/PharmacyDistributorList",
           label: "Pharmacy Distributor",
-          icon: orderListIcon,
+          icon: Pharmacydistributor,
         },
         {
           to: "/pharmEtradeadmin/customerList",
           label: "Retail Customer",
-          icon: orderListIcon,
+          icon: Retailcustomer,
         },
       ],
     },
 
     {
       label: "Products",
-      icon: sellerIcon,
+      icon: Products,
       isOpen: isProductsDropdownOpen,
       toggleDropdown: toggleProductsDropdown,
       links: [
         {
           to: "/pharmEtradeadmin/products",
           label: "All Products",
-          icon: orderListIcon,
+          icon: Allproducts,
         },
         {
           to: "/pharmEtradeadmin/RxProducts",
           label: "Rx Products",
-          icon: orderListIcon,
+          icon: RXproducts,
         },
         {
           to: "/pharmEtradeadmin/OtcProducts",
           label: "OTC Products",
-          icon: orderListIcon,
+          icon: OTCproducts,
         },
         {
           to: "/pharmEtradeadmin/OfferedProducts",
           label: "Offered Products",
-          icon: orderListIcon,
+          icon: Offeredproducts,
         },
       ],
     },
@@ -165,24 +175,24 @@ function AdminSidebar() {
 
     {
       label: "Payment",
-      icon: sellerIcon,
+      icon: Payment,
       isOpen: isPaymentDropdownOpen,
       toggleDropdown: togglePaymentDropdown,
       links: [
         {
           to: "/pharmEtradeadmin/Incoming",
           label: "Payments Received",
-          icon: orderListIcon,
+          icon: Paymentreceived,
         },
         {
           to: "/pharmEtradeadmin/Outgoing",
           label: "Payments Send",
-          icon: orderListIcon,
+          icon: Paymentsend,
         },
         {
           to: "/pharmEtradeadmin/Settlement",
           label: "Settlements",
-          icon: orderListIcon,
+          icon: Settlements,
         },
         
       ],
@@ -191,7 +201,7 @@ function AdminSidebar() {
 
     {
       label: "Reports",
-      icon: sellerIcon,
+      icon: Reports,
       to: "/pharmEtradeadmin/reports", // Direct link to the Dashboard page
     },
 
@@ -288,7 +298,7 @@ function AdminSidebar() {
                       >
                         <img
                           src={link.icon}
-                          className="w-4 h-4"
+                          className="w-6 h-6"
                           alt={link.label}
                         />
                         <span className="ml-3">{link.label}</span>
