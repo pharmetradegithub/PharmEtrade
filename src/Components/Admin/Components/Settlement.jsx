@@ -19,7 +19,13 @@ function Settlement() {
     dateFrom: "",
     dateTo: "",
     selectedUsersId: "",
-    amountPaying: ""
+    amountPaying: "",
+    chequeImage: "",
+    paymentDate: "",
+    paymentMode: "",
+    bankName: "",
+    accountNumber: "",
+    transactionId: "",
   });
   const user = useSelector((state) => state.user.user);
   // const [payableTo, setPayableTo] = useState('');
@@ -129,8 +135,8 @@ function Settlement() {
   //     setError1('');
   //   }
   // };
-  const handleAmountChange = (e) => {
-    const value = e.target.value;
+  const handleAmountChange = (value) => {
+    // const value = e.target.value;
 
     // Allow empty value for intermediate edits
     if (value === "" || /^[0-9]*\.?[0-9]{0,2}$/.test(value)) {
@@ -258,6 +264,10 @@ function Settlement() {
 
   // Handle customer selection
   const handleSelect = (customerId) => {
+    setError((prevErrors) => ({
+      ...prevErrors,
+      searchTerm: "",
+    }));
     const selectedCustomer = customers.find(
       (customer) => customer.customerId === customerId
     );
@@ -268,35 +278,336 @@ function Settlement() {
 
   console.log("getAll", getDetails);
 
+  // const handleInputChange = (field, value) => {
+  //   setError((prevErrors) => ({
+  //     ...prevErrors,
+  //     [field]: "", // Clear error for the specific field
+  //   }));
+
+  //   switch (field) {
+  //     case "dateFrom":
+  //       setDateFrom(value);
+  //       break;
+  //     case "dateTo":
+  //       setDateTo(value);
+  //       break;
+  //     // case "amountPaying":
+  //     //   setAmountPaying(value);
+  //     //   if (Number(value) > Number(storeDetails.TotalAmountToBePaid || 0)) {
+  //     //     setError1(`Amount cannot exceed ${storeDetails.TotalAmountToBePaid || 0}.`);
+  //     //   } else {
+  //     //     setError1("");
+  //     //   }
+  //     //   break;
+  //     case "amountPaying":
+  //       handleAmountChange(value); // Delegate to specialized handler
+  //       break;
+  //     case "paymentDate":
+  //       setPaymentDate(value);
+  //       break;
+  //     case "chequeImage":
+  //       setChequeImage(value);
+  //       break;
+  //     case "bankName":
+  //       setBankName(value);
+  //       break;
+  //     case "accountNumber":
+  //       setAccountNumber(value);
+  //       break;
+  //     case "transactionId":
+  //       setTransactionId(value);
+  //       break;
+  //     case "chequeMailedOn":
+  //       setChequeMailedOn(value);
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
+
+
+
+  // const handleShowBalance = async () => {
+  //   let isValid = true;
+  //   let errorMessages = { dateFrom: "", dateTo: "", selectedUsersId: "", amountPaying: "" };
+
+  //   if (!selectedUserId) {
+  //     errorMessages.selectedUsersId = "Please select a seller.";
+  //     isValid = false;
+  //   }
+  //   if (!dateFrom) {
+  //     errorMessages.dateFrom = "Invoice Date From is required";
+  //     isValid = false;
+  //   }
+
+  //   if (!dateTo) {
+  //     errorMessages.dateTo = "Invoice Date To is required";
+  //     isValid = false;
+  //   }
+
+
+  //   if (dateFrom && dateTo && new Date(dateFrom) > new Date(dateTo)) {
+  //     errorMessages.dateTo =
+  //       "Invoice Date To cannot be earlier than Invoice Date From";
+  //     isValid = false;
+  //   }
+  //   if (Number(amountPaying) > Number(storeDetails.TotalAmountToBePaid || 0)) {
+  //     setError1(`Amount cannot exceed ${storeDetails.TotalAmountToBePaid || 0}.`);
+  //     isValid = false;
+  //   } else {
+  //     setError1(""); // Clear error if valid
+  //   }
+
+  //   setError(errorMessages);
+
+  //   if (!isValid) {
+  //     return; // Exit if validation fails
+  //   }
+  //   // if (isValid) {
+  //   //   // Proceed with balance display logic
+  //   //   console.log('Show balance');
+  //   // }
+  //   // if (chequeImage) {
+  //   // Prepare the image for upload
+  //   const formData = new FormData();
+  //   formData.append("image", chequeImage); // Use the exact field key expected by the API
+
+  //   const imageUrl = await uploadCustomerImageApi(formData);
+  //   // console.log('Image uploaded successfully:', imageUrl);
+  //   // }
+  //   // const imageUrl = await uploadCustomerImageApi(formData);
+
+  //   const payload = {
+  //     paidTo: selectedUserId,
+  //     amountPaid: Number(amountPaying), // Ensure numeric
+  //     paymentDate: paymentDate,
+  //     // || new Date().toISOString(),
+  //     paymentModeId: paymentMode === "Wire" ? 1 : 2, // Assume 1 for Wire, 2 for Cheque
+  //     transactionId: transactionId, // Replace with actual value if available
+  //     accountNumber: accountNumber, // Replace with actual value
+  //     bankName: bankName,
+  //     // chequeImageUrl: chequeImage ? URL.createObjectURL(chequeImage) : 'string', // Assuming file upload
+  //     chequeImageUrl: imageUrl, // Using uploaded image URL
+  //     chequeMailedOn: chequeMailedOn || null,
+  //     enteredBy: user.customerId, // Replace with actual user info
+  //   };
+  //   await SettleAddApi(payload);
+  //   setNotification({
+  //     show: true,
+  //     message: "Saved Successfully!",
+  //   });
+  //   setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //   setAmountPaying("");
+  //   // setPayableTo("")
+  //   setBankName("");
+  //   setAccountNumber("");
+  //   setChequeMailedOn("");
+  //   setPaymentDate("");
+  //   setPaymentMode("");
+  //   setTransactionId("");
+  //   setChequeImage(null);
+  //   setDateFrom("");
+  //   setDateTo("");
+  //   setSearchTerm("");
+  //   setStoreDetails({});
+  //   setIsDetailsVisible(false);
+  //   setSelectedUserId('')
+
+  //   if (fileInputRef.current) {
+  //     fileInputRef.current.value = ""; // Clear file input
+  //   }
+  // };
+
+
+  const handleInputChange = (field, value) => {
+    setError((prevErrors) => ({
+      ...prevErrors,
+      [field]: "", // Clear error for the specific field
+    }));
+
+    switch (field) {
+      case "dateFrom":
+        setDateFrom(value);
+        break;
+      case "dateTo":
+        setDateTo(value);
+        break;
+      case "amountPaying":
+        // setAmountPaying(value);
+        handleAmountChange(value)
+        break;
+      case "paymentMode":
+        setPaymentMode(value);
+        validateFieldsForMode(value); // Trigger validation for the selected mode
+        break;
+      case "paymentDate":
+        setPaymentDate(value);
+        if (!value) {
+          setError((prevErrors) => ({
+            ...prevErrors,
+            paymentDate: "Payment date is required.",
+          }));
+        }
+        break;
+      case "chequeImage":
+        setChequeImage(value);
+        if (!value && paymentMode === "Cheque") {
+          setError((prevErrors) => ({
+            ...prevErrors,
+            chequeImage: "Cheque image is required.",
+          }));
+        }
+        break;
+      case "bankName":
+        setBankName(value);
+        if (!value) {
+          setError((prevErrors) => ({
+            ...prevErrors,
+            bankName: "Bank name is required.",
+          }));
+        }
+        break;
+      case "accountNumber":
+        setAccountNumber(value);
+        if (!value) {
+          setError((prevErrors) => ({
+            ...prevErrors,
+            accountNumber: "Account number is required.",
+          }));
+        }
+        break;
+      case "transactionId":
+        setTransactionId(value);
+        if (!value && paymentMode === "Wire") {
+          setError((prevErrors) => ({
+            ...prevErrors,
+            transactionId: "Transaction ID is required.",
+          }));
+        }
+        break;
+      case "chequeMailedOn":
+        setChequeMailedOn(value);
+        if (!value && paymentMode === "Cheque") {
+          setError((prevErrors) => ({
+            ...prevErrors,
+            chequeMailedOn: "Cheque mailed date is required.",
+          }));
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  const validateFieldsForMode = (mode) => {
+  const errors = {};
+
+  if (mode === "Wire") {
+    // if (!paymentDate) errors.paymentDate = "Payment date is required.";
+    if (!bankName) errors.bankName = "Bank name is required.";
+    if (!accountNumber) errors.accountNumber = "Account number is required.";
+    if (!transactionId) errors.transactionId = "Transaction ID is required.";
+  } else if (mode === "Cheque") {
+    if (!paymentDate) errors.paymentDate = "Payment date is required.";
+    // if (!bankName) errors.bankName = "Bank name is required.";
+    // if (!accountNumber) errors.accountNumber = "Account number is required.";
+    if (!chequeImage) errors.chequeImage = "Cheque image is required.";
+    if (!chequeMailedOn) errors.chequeMailedOn = "Cheque mailed date is required.";
+  }
+
+  setError(errors);
+};
+
+
   const handleShowBalance = async () => {
     let isValid = true;
-    let errorMessages = { dateFrom: "", dateTo: "", selectedUsersId: "", amountPaying: "" };
+    let errorMessages = {
+      dateFrom: "",
+      dateTo: "",
+      selectedUsersId: "",
+      amountPaying: "",
+      chequeImage: "",
+      paymentDate: "",
+      paymentMode: "",
+      bankName: "",
+      accountNumber: "",
+      transactionId: "",
+    };
 
+    // Validate seller selection
     if (!selectedUserId) {
       errorMessages.selectedUsersId = "Please select a seller.";
       isValid = false;
     }
+
+    // Validate date fields
     if (!dateFrom) {
-      errorMessages.dateFrom = "Invoice Date From is required";
+      errorMessages.dateFrom = "Invoice Date From is required.";
       isValid = false;
     }
 
     if (!dateTo) {
-      errorMessages.dateTo = "Invoice Date To is required";
+      errorMessages.dateTo = "Invoice Date To is required.";
       isValid = false;
     }
-
 
     if (dateFrom && dateTo && new Date(dateFrom) > new Date(dateTo)) {
       errorMessages.dateTo =
-        "Invoice Date To cannot be earlier than Invoice Date From";
+        "Invoice Date To cannot be earlier than Invoice Date From.";
       isValid = false;
     }
-    if (Number(amountPaying) > Number(storeDetails.TotalAmountToBePaid || 0)) {
-      setError1(`Amount cannot exceed ${storeDetails.TotalAmountToBePaid || 0}.`);
+
+    // Validate payment amount
+    if (!amountPaying) {
+      errorMessages.amountPaying = "Amount Paying Now is required.";
       isValid = false;
-    } else {
-      setError1(""); // Clear error if valid
+    } else if (isNaN(amountPaying) || Number(amountPaying) <= 0) {
+      errorMessages.amountPaying = "Enter a valid amount.";
+      isValid = false;
+    } else if (Number(amountPaying) > Number(storeDetails.TotalAmountToBePaid || 0)) {
+      errorMessages.amountPaying = `Amount cannot exceed ${storeDetails.TotalAmountToBePaid || 0}.`;
+      isValid = false;
+    }
+
+    // Cheque-specific validations
+    if (paymentMode.toLowerCase() === "cheque") {
+      if (!chequeImage || !(chequeImage instanceof File)) {
+        errorMessages.chequeImage = "Cheque image is required for cheque payments.";
+        isValid = false;
+      }
+      if (!chequeMailedOn) {
+        errorMessages.chequeMailedOn = "Cheque mailed date is required.";
+        isValid = false;
+      }
+      if (!paymentDate) {
+        errorMessages.paymentDate = "Payment date is required.";
+        isValid = false;
+      }
+    }
+
+    // General payment validations
+
+  
+
+    if (paymentMode?.toLowerCase() === "wire") {
+      if (!bankName.trim()) {
+        errorMessages.bankName = "Bank name is required.";
+        isValid = false;
+      }
+
+      if (!accountNumber.trim() || isNaN(accountNumber)) {
+        errorMessages.accountNumber = "Valid account number is required.";
+        isValid = false;
+      }
+
+      if (!transactionId.trim()) {
+        errorMessages.transactionId = "Transaction ID is required.";
+        isValid = false;
+      }
+    }
+    if (!paymentMode) {
+      errorMessages.paymentMode = "Payment mode is required.";
+      isValid = false;
     }
 
     setError(errorMessages);
@@ -304,58 +615,66 @@ function Settlement() {
     if (!isValid) {
       return; // Exit if validation fails
     }
-    // if (isValid) {
-    //   // Proceed with balance display logic
-    //   console.log('Show balance');
-    // }
-    // if (chequeImage) {
-    // Prepare the image for upload
-    const formData = new FormData();
-    formData.append("image", chequeImage); // Use the exact field key expected by the API
 
-    const imageUrl = await uploadCustomerImageApi(formData);
-    // console.log('Image uploaded successfully:', imageUrl);
-    // }
-    // const imageUrl = await uploadCustomerImageApi(formData);
+    try {
+      let imageUrl = null;
 
-    const payload = {
-      paidTo: selectedUserId,
-      amountPaid: Number(amountPaying), // Ensure numeric
-      paymentDate: paymentDate,
-      // || new Date().toISOString(),
-      paymentModeId: paymentMode === "Wire" ? 1 : 2, // Assume 1 for Wire, 2 for Cheque
-      transactionId: transactionId, // Replace with actual value if available
-      accountNumber: accountNumber, // Replace with actual value
-      bankName: bankName,
-      // chequeImageUrl: chequeImage ? URL.createObjectURL(chequeImage) : 'string', // Assuming file upload
-      chequeImageUrl: imageUrl, // Using uploaded image URL
-      chequeMailedOn: chequeMailedOn || null,
-      enteredBy: user.customerId, // Replace with actual user info
-    };
-    await SettleAddApi(payload);
-    setNotification({
-      show: true,
-      message: "Saved Successfully!",
-    });
-    setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-    setAmountPaying("");
-    // setPayableTo("")
-    setBankName("");
-    setAccountNumber("");
-    setChequeMailedOn("");
-    setPaymentDate("");
-    setPaymentMode("");
-    setTransactionId("");
-    setChequeImage(null);
-    setDateFrom("");
-    setDateTo("");
-    setSearchTerm("");
-    setStoreDetails({});
-    setIsDetailsVisible(false);
-    setSelectedUserId('')
+      if (chequeImage) {
+        // Prepare the cheque image for upload
+        const formData = new FormData();
+        formData.append("image", chequeImage);
+        imageUrl = await uploadCustomerImageApi(formData);
+      }
 
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ""; // Clear file input
+      // Create payload
+      const payload = {
+        paidTo: selectedUserId,
+        amountPaid: Number(amountPaying),
+        paymentDate,
+        paymentModeId: paymentMode === "Wire" ? 1 : 2,
+        transactionId,
+        accountNumber,
+        bankName,
+        chequeImageUrl: imageUrl,
+        chequeMailedOn: chequeMailedOn || null,
+        enteredBy: user.customerId,
+      };
+
+      // Submit data
+      await SettleAddApi(payload);
+
+      setNotification({
+        show: true,
+        message: "Saved Successfully!",
+      });
+
+      // Reset state
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      setAmountPaying("");
+      setBankName("");
+      setAccountNumber("");
+      setChequeMailedOn("");
+      setPaymentDate("");
+      setPaymentMode("");
+      setTransactionId("");
+      setChequeImage(null);
+      setDateFrom("");
+      setDateTo("");
+      setSearchTerm("");
+      setStoreDetails({});
+      setIsDetailsVisible(false);
+      setSelectedUserId("");
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ""; // Clear file input
+      }
+    } catch (error) {
+      console.error("Error saving balance:", error);
+      setNotification({
+        show: true,
+        message: "An error occurred while saving.",
+      });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
     }
   };
 
@@ -379,19 +698,6 @@ function Settlement() {
                 <label className="flex items-center mb-1 font-semibold">
                   Member Name / DBA:{" "}
                 </label>
-                {/* <select
-                  className={`rounded-mdborder mt-5 text-sm ${error.selectedUsersId ? "border-red-500" : ""
-                    }`}
-        value={selectedUserId}
-        onChange={handleUserChange} // Update on selection change
-      >
-        <option value="">Select Seller</option> {/* Default option 
-        {customers.map((customer) => (
-          <option key={customer.customerId} value={customer.customerId}>
-            {`${customer.firstName} ${customer.lastName}`}
-          </option>
-        ))}
-      </select> */}
                 <input
                   type="text"
                   value={searchTerm}
@@ -524,24 +830,6 @@ function Settlement() {
                   </span>
                 </div>
               </div>
-              {/* <div className='flex justify-start gap-4 my-2'>
-              <label className='flex items-center font-semibold'>Invoice Date From :</label>
-              <TextField type='date'
-                className='border rounded-md'
-                size='small'
-              />
-
-
-              <label className='flex items-center ml-2 font-semibold '>Invoice Date To :</label>
-              <TextField type='date'
-                className='border rounded-md'
-                size='small'
-              />
-              <div className='flex justify-center'>
-
-                <button className='flex items-center justify-center p-2 font-semibold text-white bg-blue-900 rounded-md w-28'>Show Balance</button>
-              </div>
-            </div> */}
               <div className="flex flex-row">
                 <div className="flex justify-start gap-4 mx-1 my-2">
                   <label className="flex items-center ml-3 font-semibold">
@@ -549,19 +837,16 @@ function Settlement() {
                   </label>
                   <TextField
                     type="date"
-                    className="mt-2 ml-2 border rounded-md "
+                    className="mt-2 ml-2 border rounded-md"
                     size="small"
                     value={dateFrom}
-                    onChange={(e) => setDateFrom(e.target.value)}
+                    onChange={(e) => handleInputChange("dateFrom", e.target.value)}
                     error={!!error.dateFrom}
                     helperText={error.dateFrom}
                   />
                 </div>
                 <div className="flex my-2">
-                  <label
-                    className="flex items-center ml-16 mr-10 font-semibold"
-                    style={{ marginLeft: "72px" }}
-                  >
+                  <label className="flex items-center ml-16 mr-10 font-semibold" style={{ marginLeft: "72px" }}>
                     Invoice Date To:
                   </label>
                   <TextField
@@ -569,64 +854,77 @@ function Settlement() {
                     className="mt-4 ml-4 border rounded-md"
                     size="small"
                     value={dateTo}
-                    onChange={(e) => setDateTo(e.target.value)}
+                    onChange={(e) => handleInputChange("dateTo", e.target.value)}
                     error={!!error.dateTo}
                     helperText={error.dateTo}
                   />
-
-                  {/* <div className='flex justify-center ml-4 '>
-                <button
-                  className='flex items-center justify-center h-10 p-2 font-semibold text-white bg-blue-900 rounded-md w-28'
-
-                >
-                  Show Balance
-                </button>
-              </div> */}
                 </div>
+
               </div>
-              {/* <div>
-              <label className='items-center gap-2 my-2 ml-4 font-semibold' >Amount Due :</label>
-              <span className='ml-1 '> $ 11,656.00</span>
-            </div> */}
+            
               <div className="flex flex-row">
                 <div className="flex justify-between my-2">
                   <label className="flex items-center ml-4 font-semibold">
                     Amount Paying Now:
                   </label>
-                  {/* <TextField
-                type='text'
-                size='small'
-                label="Amount Paying Now"
-                className='border rounded-md'
-                value={amountPaying}
-                onChange={handleAmountChange}
-                onBlur={handleBlur}
-                error1={!!error1}
-                helperText={error1}
-              /> */}
                   <TextField
                     type="text"
                     size="small"
                     label="Amount"
                     className="w-auto border rounded-md"
                     value={amountPaying}
-                    onChange={handleAmountChange}
+                    // onChange={handleAmountChange}
+                    onChange={(e) => handleInputChange("amountPaying", e.target.value)}
                     onBlur={handleBlur}
-                    error={!!error1}
-                    helperText={error1}
+                    error={!!error1 || !!error.amountPaying}
+                    helperText={error1 || error.amountPaying}
                   />
                 </div>
-                {/* <div className='flex'>
-              <label className='flex items-center ml-4 mr-16 font-semibold'>Payable To :</label>
-              <TextField type='text'
-                label="Payable To"
-                  size='small'
-                  value={payableTo}
-                  className='ml-8 border rounded-md '
-                  onChange={(e) => setPayableTo(e.target.value)}
-               />
-            </div> */}
+                <div className="my-3">
+                  <label className="gap-2 ml-8 font-semibold ">
+                    Mode of payment :
+                  </label>
+                  <input
+                    type="radio"
+                    className="ml-6 mr-2"
+                    checked={paymentMode === "Wire"}
+                    // onChange={() => setPaymentMode("Wire")}
+                    // onChange={(e) => handleInputChange("paymentMode", setPaymentMode("Wire"))}
+                   
+                    onChange={() => handleInputChange("paymentMode", "Wire")}
+                    error={!!error.paymentMode}
+                    helperText={error.paymentMode}
+                  />
+                  <label className="mr-2">Wire</label>
 
+                  <input
+                    type="radio"
+                    checked={paymentMode === "Cheque"}
+                    // onChange={() => setPaymentMode("Cheque")}
+                    // onChange={(e) => handleInputChange("paymentMode", setPaymentMode("Cheque"))}
+                    onChange={() => handleInputChange("paymentMode", "Cheque")}
+                    error={!!error.paymentMode}
+                    helperText={error.paymentMode}
+                  />
+                  <label className="ml-2">Cheque</label>
+                </div>
+               
+              </div>
+              <div className="flex flex-row">
+                <div className="flex justify-between">
+                  <label className="flex items-center ml-4 mr-10 font-semibold">
+                    Payment Date:
+                  </label>
+                  <TextField
+                    type="date"
+                    className="ml-10 border rounded-md w-52"
+                    size="small"
+                    value={paymentDate}
+                    onChange={(e) => handleInputChange("paymentDate", e.target.value)}
+                    error={!!error.paymentDate}
+                    helperText={error.paymentDate}
+                  />
+                </div>
                 <div className="flex gap-2 my-2">
                   <label className="flex items-center ml-4 font-semibold">
                     Save Cheque Image :
@@ -638,43 +936,13 @@ function Settlement() {
                     accept="image/*"
                     size="small"
                     className="p-1 border border-gray-300 rounded-md w-52 "
-                    onChange={(e) => setChequeImage(e.target.files[0])}
+                    // onChange={(e) => setChequeImage(e.target.files[0])}
+                    onChange={(e) => handleInputChange("chequeImage", e.target.files[0])}
+                    error={!!error.chequeImage}
+                    helperText={error.chequeImage}
                   />
                 </div>
-              </div>
-              <div className="flex flex-row ">
-                <div className="flex justify-between">
-                  <label className="flex items-center ml-4 mr-10 font-semibold">
-                    Payment Date:
-                  </label>
-                  <TextField
-                    type="date"
-                    className="ml-10 border rounded-md w-52"
-                    size="small"
-                    value={paymentDate}
-                    onChange={(e) => setPaymentDate(e.target.value)}
-                  />
-                </div>
-
-                <div className="my-3">
-                  <label className="gap-2 ml-8 font-semibold ">
-                    Mode of payment :
-                  </label>
-                  <input
-                    type="radio"
-                    className="ml-6 mr-2"
-                    checked={paymentMode === "Wire"}
-                    onChange={() => setPaymentMode("Wire")}
-                  />
-                  <label className="mr-2">Wire</label>
-
-                  <input
-                    type="radio"
-                    checked={paymentMode === "Cheque"}
-                    onChange={() => setPaymentMode("Cheque")}
-                  />
-                  <label className="ml-2">Cheque</label>
-                </div>
+              
               </div>
               <div className="flex flex-row ">
                 <div className="flex justify-between my-2">
@@ -687,7 +955,10 @@ function Settlement() {
                     size="small"
                     className="w-[55%] ml-10"
                     value={bankName}
-                    onChange={(e) => setBankName(e.target.value)}
+                    // onChange={(e) => setBankName(e.target.value)}
+                    onChange={(e) => handleInputChange("bankName", e.target.value)}
+                    error={!!error.bankName}
+                    helperText={error.bankName}
                   />
                 </div>
                 <div className="flex my-2">
@@ -701,7 +972,10 @@ function Settlement() {
                     size="small"
                     value={accountNumber}
                     sx={{ marginLeft: "30px" }}
-                    onChange={(e) => setAccountNumber(e.target.value)}
+                    // onChange={(e) => setAccountNumber(e.target.value)}
+                    onChange={(e) => handleInputChange("accountNumber", e.target.value)}
+                    error={!!error.accountNumber}
+                    helperText={error.accountNumber}
                   />
                 </div>
               </div>
@@ -716,19 +990,24 @@ function Settlement() {
                     className="w-[55%]"
                     size="small"
                     value={transactionId}
-                    onChange={(e) => setTransactionId(e.target.value)}
+                    // onChange={(e) => setTransactionId(e.target.value)}
+                    onChange={(e) => handleInputChange("transactionId", e.target.value)}
+                    error={!!error.transactionId}
+                    helperText={error.transactionId}
                   />
                 </div>
                 <div className="flex">
                   <label className="flex items-center ml-12 mr-5 font-semibold">
-                    Cheque Mailed On :
+                    Cheque Mailed On:
                   </label>
                   <TextField
                     type="date"
                     className="w-auto h-5 ml-2 border rounded-md"
                     size="small"
                     value={chequeMailedOn}
-                    onChange={(e) => setChequeMailedOn(e.target.value)}
+                    onChange={(e) => handleInputChange("chequeMailedOn", e.target.value)}
+                    error={!!error.chequeMailedOn}
+                    helperText={error.chequeMailedOn}
                   />
                 </div>
               </div>

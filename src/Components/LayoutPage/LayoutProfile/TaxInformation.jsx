@@ -484,16 +484,114 @@ const TaxInformation = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  // const handleAddOrSave = async () => {
+  //   if (validate()) {
+  //     console.log("Form is valid:", formData);
+  //   } else {
+  //     console.log("Form has errors:", errors);
+  //   }
+
+  //   selectedCategory = getproductSpecialOffer.find(
+  //     (item) => item.categorySpecificationId === category
+  //   );
+
+  //   if (editingIndex !== null) {
+  //     // Update the existing entry in stateNameData (editing case)
+  //     const updatedEntries = [...stateNameData];
+  //     updatedEntries[editingIndex] = {
+  //       ...updatedEntries[editingIndex],
+  //       category: selectedCategory,
+  //       // stateName: formData.State,
+  //       taxPercentage: taxPercentage,
+  //     };
+  //     setAddedEntries(updatedEntries);
+  //     setEditingIndex(null); // Reset the editing index after saving
+  //   } else {
+  //     // Add a new entry (if no editingIndex is set)
+  //     setAddedEntries([...addedEntries, { category: selectedCategory, taxPercentage }]);
+  //   }
+
+  //   // Determine whether to call add or edit API based on filled fields
+  //   if (!editingEntry.taxInformationId || !editingEntry.categorySpecificationId) {
+  //     // If the fields are empty, call add API
+  //     const payloadAdd = {
+  //       taxInformationID: '',
+  //       sellerId: user.customerId,
+  //       stateName: formData.State,
+  //       categorySpecificationID: selectedCategory?.categorySpecificationId,
+  //       taxPercentage: taxPercentage,
+  //       createdDate: new Date().toISOString(),
+  //       modifiedDate: new Date().toISOString(),
+  //       isActive: 1,
+  //     };
+  //     await dispatch(taxAddInformationApi(payloadAdd));
+  //     setNotification({
+  //       show: true,
+  //       message: "Added Item Successfully!",
+  //     });
+  //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+
+  //   } else {
+  //     // If the fields are filled, call edit API
+  //     const payloadEdit = {
+  //       taxInformationID: editingEntry.taxInformationId,
+  //       sellerId: user.customerId,
+  //       stateName: editingEntry.stateName,
+  //       // categorySpecificationID: category, // Use updated category
+  //       categorySpecificationID: category, // Use updated category
+  //       taxPercentage: taxPercentage,
+  //       createdDate: editingEntry.createdDate,
+  //       modifiedDate: new Date().toISOString(), // Update modified date
+  //       isActive: 1,
+  //     };
+  //     await dispatch(TaxInfoEdit(payloadEdit));
+  //     setNotification({
+  //       show: true,
+  //       message: "Edit Item Successfully!",
+  //     });
+  //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //   }
+
+  //   // Fetch updated tax data
+  //   await dispatch(TaxGetByStateNameApi(user.customerId));
+
+  //   // Reset form fields after adding or editing
+  //   setFormData('')
+  //   setCategory("");
+  //   setTaxPercentage('');
+  //   setIsEditable(false);
+  //   setShowSuccessMessage(true);
+  // };
+
+
   const handleAddOrSave = async () => {
     if (validate()) {
       console.log("Form is valid:", formData);
     } else {
       console.log("Form has errors:", errors);
+      return; // Stop execution if form validation fails
     }
 
-    selectedCategory = getproductSpecialOffer.find(
+    // Find selected category details
+    const selectedCategory = getproductSpecialOffer.find(
       (item) => item.categorySpecificationId === category
     );
+
+    // Check for duplicate entries
+    const isDuplicate = stateNameData.some(
+      (entry) =>
+        entry.stateName === formData.State &&
+        entry.categorySpecificationID === selectedCategory?.categorySpecificationId
+    );
+
+    if (isDuplicate) {
+      setNotification({
+        show: true,
+        message: `Tax is already defined for the state "${formData.State}" and category "${selectedCategory?.specificationName}".`,
+      });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      return; // Stop execution if duplicate entry is found
+    }
 
     if (editingIndex !== null) {
       // Update the existing entry in stateNameData (editing case)
@@ -501,14 +599,16 @@ const TaxInformation = () => {
       updatedEntries[editingIndex] = {
         ...updatedEntries[editingIndex],
         category: selectedCategory,
-        // stateName: formData.State,
         taxPercentage: taxPercentage,
       };
       setAddedEntries(updatedEntries);
       setEditingIndex(null); // Reset the editing index after saving
     } else {
       // Add a new entry (if no editingIndex is set)
-      setAddedEntries([...addedEntries, { category: selectedCategory, taxPercentage }]);
+      setAddedEntries([
+        ...addedEntries,
+        { category: selectedCategory, taxPercentage },
+      ]);
     }
 
     // Determine whether to call add or edit API based on filled fields
@@ -530,18 +630,16 @@ const TaxInformation = () => {
         message: "Added Item Successfully!",
       });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-
     } else {
       // If the fields are filled, call edit API
       const payloadEdit = {
         taxInformationID: editingEntry.taxInformationId,
         sellerId: user.customerId,
         stateName: editingEntry.stateName,
-        // categorySpecificationID: category, // Use updated category
         categorySpecificationID: category, // Use updated category
         taxPercentage: taxPercentage,
         createdDate: editingEntry.createdDate,
-        modifiedDate: new Date().toISOString(), // Update modified date
+        modifiedDate: new Date().toISOString(),
         isActive: 1,
       };
       await dispatch(TaxInfoEdit(payloadEdit));
@@ -556,7 +654,7 @@ const TaxInformation = () => {
     await dispatch(TaxGetByStateNameApi(user.customerId));
 
     // Reset form fields after adding or editing
-    setFormData('')
+    setFormData('');
     setCategory("");
     setTaxPercentage('');
     setIsEditable(false);
@@ -636,33 +734,36 @@ const TaxInformation = () => {
                 Tax Information
               </h1>
           {/* <h1 className="text-blue-900 text-xl font-semibold p-1 rounded-md">Tax Information</h1> */}
-          <img src={edit} className='w-6 h-6 cursor-pointer' onClick={() => setIsEditable(true)} />
+          {/* <img src={edit} className='w-6 h-6 cursor-pointer' onClick={() => setIsEditable(true)} /> */}
         </div>
 
         <div className="flex flex-col gap-3 md:gap-0 md:flex-row justify-around my-4">
           <div className=''>
-            <select
-              className="border rounded-md h-11"
-              value={category} // Set category in select box
-              onChange={(e) => setCategory(Number(e.target.value))} // Update category when changed
-              // disabled={isEditable && editingIndex !== null}
-              disabled={!isEditable || editingIndex !== null}
-              // disabled={!isEditable}
-            >
-              <option value="">Select a category</option>
-              {getproductSpecialOffer.map((item) => (
-                <option key={item.categorySpecificationId} value={item.categorySpecificationId}>
-                  {item.specificationName}
-                </option>
-              ))}
-            </select>
+            <div className="">
+              <select
+                className="border rounded-md h-11"
+                value={category}
+                onChange={(e) => setCategory(Number(e.target.value))}
+                disabled={editingIndex !== null}
+              >
+                <option value="">Select a category</option>
+                {getproductSpecialOffer.map((item) => (
+                  <option
+                    key={item.categorySpecificationId}
+                    value={item.categorySpecificationId}
+                  >
+                    {item.specificationName}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           <div>
             <FormControl className="w-44" error={!!errors.State}>
               <Autocomplete
                 id="state-select"
-                options={states} // Populate dropdown with states
-                getOptionLabel={(option) => option.name} // Use `name` property for display
+                options={states}
+                getOptionLabel={(option) => option.name}
                 value={
                   states.find((state) => state.name === formData.State) || null
                 }
@@ -690,12 +791,9 @@ const TaxInformation = () => {
                     option.name.toLowerCase().includes(inputValue.toLowerCase())
                   )
                 }
-                // disabled={isEditable && editingIndex !== null} 
-                disabled={!isEditable || editingIndex !== null}
+                disabled={ editingIndex !== null}
               />
-              {errors.State && (
-                <FormHelperText>{errors.State}</FormHelperText>
-              )}
+              {errors.State && <FormHelperText>{errors.State}</FormHelperText>}
             </FormControl>
           </div>
           <div>
@@ -710,7 +808,7 @@ const TaxInformation = () => {
                   setTaxPercentage(value); // Update when value is less than or equal to 99
                 }
               }}// Update when changed
-              disabled={!isEditable} // Enable/disable based on edit mode
+              // disabled={!isEditable} // Enable/disable based on edit mode
               inputProps={{
                 max: 99, // Set the maximum value to 99
                 min: 0,  // Optional: Set the minimum value to 0
@@ -721,9 +819,9 @@ const TaxInformation = () => {
           <button
             className="bg-blue-900 text-white w-16 rounded-lg h-8"
             onClick={handleAddOrSave}
-            disabled={!isEditable} // Disable if not in edit mode
+            // disabled={isDuplicateEntry}
           >
-            {editingIndex !== null ? 'Save' : 'ADD'}
+            {editingIndex !== null ? "Save" : "ADD"}
           </button>
         </div>
       </div>
