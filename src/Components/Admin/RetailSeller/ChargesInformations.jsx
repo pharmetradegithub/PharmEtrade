@@ -908,11 +908,11 @@ const ChargesInformations = () => {
               >
                 Charges Information
               </h1>
-          <img
+          {/* <img
             src={edit}
             className="w-6 h-6 cursor-pointer"
             onClick={() => setIsEditable(true)}
-          />
+          /> */}
         </div>
 
         <div className="flex justify-around my-4">
@@ -925,7 +925,7 @@ const ChargesInformations = () => {
                 const value = e.target.value;
                 setCategory(value ? Number(value) : ""); // Avoid NaN
               }}// Update category when changed
-              disabled={!isEditable} // Enable/disable based on edit mode
+              // disabled={!isEditable} // Enable/disable based on edit mode
             >
               <option value="">Select a category</option>
               <option value={1}>Credit card charges</option>
@@ -957,7 +957,7 @@ const ChargesInformations = () => {
                 }
               }}
               // onChange={(e) => setTaxPercentage(e.target.value)} // Update when changed
-              disabled={!isEditable} // Enable/disable based on edit mode
+              // disabled={!isEditable} // Enable/disable based on edit mode
             />
           </div>
           {/* <div>
@@ -974,7 +974,7 @@ const ChargesInformations = () => {
           <button
             className="bg-blue-900 text-white w-16 rounded-lg h-8"
             onClick={handleAddOrSave}
-            disabled={!isEditable} // Disable if not in edit mode
+            // disabled={!isEditable} // Disable if not in edit mode
           >
             {editingIndex !== null ? "Save" : "ADD"}
           </button>
