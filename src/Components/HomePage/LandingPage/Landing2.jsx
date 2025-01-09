@@ -250,16 +250,14 @@ function Landing2({ wishList, addCart }) {
       <div
         key={key}
         className="hover:scale-110 w-full sm:w-full md:w-full items-center justify-center  lg:w-1/4 h-auto rounded-xl transition duration-300 ease-in-out max-w-sm p-1"
-        onClick={() => handleClick(key)}
+        onClick={() => (item === slider4 && isLoggedIn ? null : handleClick(key))}
       >
         <img
           src={item}
           alt={`Slide ${key}`}
-          className={`h-auto w-full md:items-center md:justify-center md:min-ml-10 rounded-xl  ${isLoggedIn
-              ? item.slider4
-                ? "hover:cursor-pointer"
-                : "cursor-not-allowed"
-              : "hover:cursor-pointer"
+          className={`h-auto w-full md:items-center md:justify-center md:min-ml-10 rounded-xl ${item === slider4 && isLoggedIn
+              ? "cursor-not-allowed" // Disallow cursor for slider4 when logged in
+              : "hover:cursor-pointer" // Default hover cursor
             }`}
         />
       </div>
