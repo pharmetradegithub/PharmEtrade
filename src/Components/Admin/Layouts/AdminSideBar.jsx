@@ -34,6 +34,7 @@ function AdminSidebar() {
   let location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
   const [isSellerDropdownOpen, setIsSellerDropdownOpen] = useState(false);
+  const [isImgDropdownOpen, setIsImgDropdownOpen] = useState(false);
   const [isPaymentDropdownOpen, setIsPaymentDropdownOpen] = useState(false);
   const [isProductsDropdownOpen, setIsProductsDropdownOpen] = useState(false);
   // const [isSettlementDropdownOpen, setIsSettlementDropdownOpen] = useState(false);
@@ -60,6 +61,11 @@ function AdminSidebar() {
     // setIsChatDropdownOpen(false);
     setIsCustomerDropdownOpen(false);
   };
+  const toggleImgDropdown = () => {
+    setIsImgDropdownOpen(!isImgDropdownOpen);
+    // setIsChatDropdownOpen(false);
+    // setIsCustomerDropdownOpen(false);
+  };
 
   const togglePaymentDropdown = () => {
     setIsPaymentDropdownOpen(!isPaymentDropdownOpen);
@@ -72,19 +78,19 @@ function AdminSidebar() {
     
   };
 
-  const toggleCustomerDropdown = () => {
-    setIsCustomerDropdownOpen(!isCustomerDropdownOpen);
-    setIsSellerDropdownOpen(false);
-    // setIsChatDropdownOpen(false);
-  };
+  // const toggleCustomerDropdown = () => {
+  //   setIsCustomerDropdownOpen(!isCustomerDropdownOpen);
+  //   setIsSellerDropdownOpen(false);
+  //   // setIsChatDropdownOpen(false);
+  // };
 
-  const toggleDashboardDropdown = () => {
-    setIsDashboardDropdownOpen(!isDashboardDropdownOpen);
-  };
+  // const toggleDashboardDropdown = () => {
+  //   setIsDashboardDropdownOpen(!isDashboardDropdownOpen);
+  // };
 
-  const toggleBannerDropdown = () => {
-    setIsBannerDropdownOpen(!isBannerDropdownOpen);
-  };
+  // const toggleBannerDropdown = () => {
+  //   setIsBannerDropdownOpen(!isBannerDropdownOpen);
+  // };
 
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
@@ -98,19 +104,29 @@ function AdminSidebar() {
       to: "/pharmEtradeadmin", // Direct link to the Dashboard page
     },
 
+    // {
+    //   label: "Banners",
+    //   icon: banner,
+    //   to: "/pharmEtradeadmin/AdminBanners",
+    
+    // },
     {
-      label: "Banners",
+      label: "Image",
       icon: banner,
-      to: "/pharmEtradeadmin/AdminBanners",
-      // isOpen: isBannerDropdownOpen,
-      // toggleDropdown: toggleBannerDropdown,
-      // links: [
-      //   {
-      //     to: "/pharmEtradeadmin/AdminBanners",
-      //     label: "Admin Banners",
-      //     icon: orderListIcon,
-      //   },
-      // ],
+      isOpen: isImgDropdownOpen,
+      toggleDropdown: toggleImgDropdown,
+      links: [
+        {
+          to: "/pharmEtradeadmin/AdminBanners",
+          label: "Banners",
+          icon: banner,
+        },
+        {
+          to: "/pharmEtradeadmin/AdminOffersImgUpload",
+          label: "Offers",
+          icon: banner,
+        },
+      ],
     },
     {
       label: "User Administration",

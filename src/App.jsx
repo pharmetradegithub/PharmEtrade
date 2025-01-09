@@ -156,6 +156,7 @@ import NotFoundErrorpage from "./Components/NotFoundErrorpage";
 import SellerReports from "./Components/ReportsSeller/SellerReports";
 import LayoutPurchaseHistory from "./Components/LayoutPage/LayoutBuy/LayoutPurchaseHistory";
 import PrivacyPolicy from "./Components/PrivacyPolicy";
+import OffersImgs from "./Components/Admin/Banners/OffersImgs";
 
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
@@ -502,6 +503,10 @@ function App() {
           <Route
             path="/pharmEtradeadmin/AdminBanners"
             element={<AdminBanners />}
+          />
+          <Route
+            path="/pharmEtradeadmin/AdminOffersImgUpload"
+            element={<OffersImgs />}
           />
           <Route path="/pharmEtradeadmin/customerList" element={<CustomerList />} />
           <Route path="/pharmEtradeadmin/RetailPharmacyList" element={<SellerList />} />
