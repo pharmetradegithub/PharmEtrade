@@ -247,6 +247,7 @@ function Settlement() {
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
+    setError("")
 
     // Filter customers based on search term
     if (value.trim() === "") {

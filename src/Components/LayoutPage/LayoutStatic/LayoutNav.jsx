@@ -557,7 +557,7 @@ const LayoutNav = ({ Form_Data }) => {
               className="flex items-center"
               onClick={() => navigate(item.path)}
             >
-              <img src={item.icon} className="w-8 h-8" />
+              <img src={item.icon} className="w-8 h-8 mr-1" />
               <span className="text-sm font-semibold mr-2">{item.text}</span>
             </div>
           ))}
