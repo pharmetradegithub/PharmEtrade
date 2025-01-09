@@ -452,10 +452,15 @@ function Settlement() {
         break;
       case "chequeImage":
         setChequeImage(value);
-        if (!value && paymentMode === "Cheque") {
+        if (paymentMode === "Cheque" && !value) {
           setError((prevErrors) => ({
             ...prevErrors,
             chequeImage: "Cheque image is required.",
+          }));
+        } else {
+          setError((prevErrors) => ({
+            ...prevErrors,
+            chequeImage: "", // Clear error if cheque image is provided
           }));
         }
         break;
@@ -573,13 +578,15 @@ function Settlement() {
     // Cheque-specific validations
     if (paymentMode.toLowerCase() === "cheque") {
       if (!chequeImage || !(chequeImage instanceof File)) {
-        errorMessages.chequeImage = "Cheque image is required for cheque payments.";
+        errorMessages.chequeImage = "Cheque image is required.";
         isValid = false;
       }
+
       if (!chequeMailedOn) {
         errorMessages.chequeMailedOn = "Cheque mailed date is required.";
         isValid = false;
       }
+
       if (!paymentDate) {
         errorMessages.paymentDate = "Payment date is required.";
         isValid = false;
@@ -930,18 +937,24 @@ function Settlement() {
                   <label className="flex items-center ml-4 font-semibold">
                     Save Cheque Image :
                   </label>
+                  <div className="flex flex-col">
                   <input
                     type="file"
                     ref={fileInputRef}
                     name="Cheque_Image"
                     accept="image/*"
                     size="small"
-                    className="p-1 border border-gray-300 rounded-md w-52 "
+                    className={`p-1 border border-gray-300 rounded-md w-52 ${error.chequeImage ? 'border-red-500' : 'border-gray-300'}`}
+
                     // onChange={(e) => setChequeImage(e.target.files[0])}
                     onChange={(e) => handleInputChange("chequeImage", e.target.files[0])}
-                    error={!!error.chequeImage}
-                    helperText={error.chequeImage}
+                    // error={!!error.chequeImage}
+                    // helperText={error.chequeImage}
                   />
+                  {error.chequeImage && (
+                    <span className="text-red-500  text-sm">{error.chequeImage}</span>
+                    )}
+                  </div>
                 </div>
               
               </div>

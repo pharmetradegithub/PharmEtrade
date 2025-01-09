@@ -24,15 +24,15 @@ const LayoutSellerDashboard = () => {
   const dispatch = useDispatch();
   const [isGridOpen, setIsGridOpen] = useState(false);
   const [isPercentageShown, setIsPercentageShown] = useState(false);
-  const sellerDashboard = useSelector((state) => state.dashboard.getSellerId);
+  const sellerDashboard = useSelector((state) => state.dashboard.getSellerId)||[];
   console.log("sellerdash-->", sellerDashboard);
   // const navigate = useNavigate();
-  const SellerOrder = useSelector((state) => state.order.OrderBySellerId);
+  const SellerOrder = useSelector((state) => state.order.OrderBySellerId) || [];
   
   // const filteredIncomingOrders = SellerOrder.filter((order) => order.orderedProductStatusId !== 5);
 
   // Get the count of the remaining orders
-  const orderCount = SellerOrder?.length;
+  const orderCount = SellerOrder?.length ;
   console.log("count==", orderCount)
 
   // Handle Latest button click to show percentage or close the grid
@@ -92,7 +92,7 @@ const LayoutSellerDashboard = () => {
     {
       label: "Outgoing Orders",
       // percentage: sellerDashboard?.outgoingOrdersCount,
-      percentage: getOrder?.length,
+      percentage: getOrder?.length || 0,
       color: "orange",
       grid: "productsOrdered",
     }, // Yellow
@@ -175,13 +175,13 @@ const LayoutSellerDashboard = () => {
   useEffect(() => {
     console.log(user, "uerr--->");
     const data = async () => {
+      const res = await fetchGetOrderByCustomerIdPage(user?.customerId);
+      setGetOrder(res)
       await dispatch(fetchTotalProductDashboard(user?.customerId));
       await dispatch(fetchCustomerOrered(user?.customerId));
       await dispatch(fetchSellerGetAll(user?.customerId));
       await dispatch(fetchSellerDashboard(user?.customerId));
       await dispatch(fetchGetOrderBySellerId(user?.customerId));
-      const res = await fetchGetOrderByCustomerIdPage(user?.customerId);
-      setGetOrder(res)
     }
     if (user?.customerId) data()
   }, [user?.customerId]);

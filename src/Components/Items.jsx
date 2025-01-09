@@ -1096,13 +1096,13 @@ function Items({
               <div className="flex gap-2 mx-2">
                 <button
                   className={`w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 
-                  ${prod?.amountInStock <= 0
+                  ${prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-blue-900 cursor-pointer"
                     }`}
-                  disabled={prod?.amountInStock <= 0}
+                  disabled={prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId}
                   onClick={() => {
-                    if (prod?.amountInStock > 0) {
+                    if (prod?.amountInStock > 0 && user?.customerId !== prod?.sellerId) {
                       handleCart(id.CartQuantity);
                     }
                   }}
@@ -1119,15 +1119,15 @@ function Items({
                 </button> */}
                 <button
                   className={`w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 
-                  ${prod?.amountInStock <= 0
+                  ${prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId
                       ? "bg-orange-200 cursor-not-allowed"
                       : "bg-orange-400"
                     }`}
                   // onClick={handleOrder}
                   // disabled={prod?.amountInStock === 0}
-                  disabled={prod?.amountInStock <= 0}
+                  disabled={prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId}
                   onClick={() => {
-                    if (prod?.amountInStock > 0) {
+                    if (prod?.amountInStock > 0 && user?.customerId !== prod?.sellerId) {
                       handleOrder();
                     }
                   }}
@@ -1156,17 +1156,19 @@ function Items({
                   <div className="flex  items-center space-x-2 hover:text-red-500">
                     <img src={product} className="w-fit h-10" />
                     {/* <Link to="/layout/layoutbuy"> */}
-                    <span className=" font-semibold">17 PRODUCTS</span>
+                    {/* <span className=" font-semibold">17 PRODUCTS</span> */}
+                    <span className=" font-semibold">{prod?.sellerProductsCount} PRODUCTS</span>
                     {/* </Link> */}
                   </div>
                   <div className="flex items-center space-x-2 hover:text-red-500">
                     <img src={phone} className="w-fit h-10" />
-                    <span>Contact Seller</span>
+                    {/* <span>Contact Seller</span> */}
+                    <span>{prod?.sellerPhoneNumber}</span>
                   </div>
-                  <div className="flex items-center space-x-2 hover:text-red-500 cursor-pointer">
+                  {/* <div className="flex items-center space-x-2 hover:text-red-500 cursor-pointer">
                     <img src={report} className="w-fit h-8" />
                     <span>Report Product</span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
