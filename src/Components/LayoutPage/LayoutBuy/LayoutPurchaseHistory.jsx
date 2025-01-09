@@ -189,7 +189,7 @@ const LayoutPurchaseHistory = () => {
                     Quantity
                   </th>
                   <th className="border-b-2 py-2 min-w-36 pl-4 text-center">
-                    Buyer Name
+                    Seller Name
                   </th>
                   <th
                     className="border-b-2 min-w-16 text-left"
@@ -249,7 +249,7 @@ const LayoutPurchaseHistory = () => {
                         {request.quantity}
                       </td>
                       <td className="border-b-2 py-2 min-w-36 pl-4 text-center">
-                      {request.customerName}
+                        {request.sellerName}
                     </td>
 
                       <td className="border-b-2 min-w-16 text-left">
@@ -319,8 +319,8 @@ const LayoutPurchaseHistory = () => {
                         {request.quantity}
                       </p>
                       <p>
-                        <span className="font-semibold">Buyer Name:</span>{" "}
-                        {request.customerName}
+                        <span className="font-semibold">Seller Name:</span>{" "}
+                        {request.sellerName}
                         </p>
                       <p>
                         <span className="font-semibold">Status:</span>{" "}

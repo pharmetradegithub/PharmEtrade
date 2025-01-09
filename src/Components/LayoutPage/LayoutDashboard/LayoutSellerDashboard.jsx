@@ -27,13 +27,6 @@ const LayoutSellerDashboard = () => {
   const sellerDashboard = useSelector((state) => state.dashboard.getSellerId)||[];
   console.log("sellerdash-->", sellerDashboard);
   // const navigate = useNavigate();
-  const SellerOrder = useSelector((state) => state.order.OrderBySellerId) || [];
-  
-  // const filteredIncomingOrders = SellerOrder.filter((order) => order.orderedProductStatusId !== 5);
-
-  // Get the count of the remaining orders
-  const orderCount = SellerOrder?.length ;
-  console.log("count==", orderCount)
 
   // Handle Latest button click to show percentage or close the grid
   const products = useSelector((state) => state.product.Products);
@@ -78,21 +71,18 @@ const LayoutSellerDashboard = () => {
     setVisibleGrid((prev) => (prev === grid ? null : grid)); // Toggle the grid visibility
   };
 
-  const [getOrder, setGetOrder] = useState(null);
 
   const details = [
     {
       totalOrder: sellerDashboard?.totalOrders,
       label: "Incoming Orders",
-      // percentage: sellerDashboard?.totalOrders,
-      percentage: orderCount,
+      percentage: sellerDashboard?.totalOrders,
       color: "red",
       grid: "totalProducts",
     }, // Red
     {
       label: "Outgoing Orders",
-      // percentage: sellerDashboard?.outgoingOrdersCount,
-      percentage: getOrder?.length || 0,
+      percentage: sellerDashboard?.outgoingOrdersCount,
       color: "orange",
       grid: "productsOrdered",
     }, // Yellow
@@ -174,16 +164,10 @@ const LayoutSellerDashboard = () => {
 
   useEffect(() => {
     console.log(user, "uerr--->");
-    const data = async () => {
-      const res = await fetchGetOrderByCustomerIdPage(user?.customerId);
-      setGetOrder(res)
-      await dispatch(fetchTotalProductDashboard(user?.customerId));
-      await dispatch(fetchCustomerOrered(user?.customerId));
-      await dispatch(fetchSellerGetAll(user?.customerId));
-      await dispatch(fetchSellerDashboard(user?.customerId));
-      await dispatch(fetchGetOrderBySellerId(user?.customerId));
-    }
-    if (user?.customerId) data()
+       dispatch(fetchTotalProductDashboard(user?.customerId));
+       dispatch(fetchCustomerOrered(user?.customerId));
+       dispatch(fetchSellerGetAll(user?.customerId));
+       dispatch(fetchSellerDashboard(user?.customerId));
   }, [user?.customerId]);
 
   // Images for each option (you can replace these with actual image URLs or paths)
