@@ -4296,7 +4296,8 @@ function Address({ topMargin, totalAmount, amount }) {
                   {selectedAddressId ? (
 
                     <SquarePaymentForm
-                      amount={(validTotal + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}
+                      // amount={(validTotal + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}
+                      amount={(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}
                     />
                   ) : (
                     <p className="text-red-500 font-semibold mt-3">Please select an address for payment.</p>

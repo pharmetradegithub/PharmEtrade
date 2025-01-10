@@ -33,7 +33,7 @@ function Settlement() {
   const [paymentDate, setPaymentDate] = useState("");
   const [chequeMailedOn, setChequeMailedOn] = useState("");
   const [selectedUserId, setSelectedUserId] = useState(null);
-  const [paymentMode, setPaymentMode] = useState(""); // 'Wire' or 'Cheque'
+  const [paymentMode, setPaymentMode] = useState("Cheque"); // 'Wire' or 'Cheque'
   const [chequeImage, setChequeImage] = useState(null);
   const [transactionId, setTransactionId] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
@@ -509,7 +509,7 @@ function Settlement() {
   const errors = {};
 
   if (mode === "Wire") {
-    // if (!paymentDate) errors.paymentDate = "Payment date is required.";
+    if (!paymentDate) errors.paymentDate = "Payment date is required.";
     if (!bankName) errors.bankName = "Bank name is required.";
     if (!accountNumber) errors.accountNumber = "Account number is required.";
     if (!transactionId) errors.transactionId = "Transaction ID is required.";
@@ -598,6 +598,10 @@ function Settlement() {
   
 
     if (paymentMode?.toLowerCase() === "wire") {
+      if (!paymentDate) {
+        errorMessages.paymentDate = "Payment date is required.";
+        isValid = false;
+      }
       if (!bankName.trim()) {
         errorMessages.bankName = "Bank name is required.";
         isValid = false;
