@@ -421,7 +421,7 @@ const currentItems = (sortedItems || []).slice(indexOfFirstItem, indexOfLastItem
                         .replace(/\//g, "-")} */}
                     </td>
                     
-                    <td className="px-4 py-2">{payout.transactionId}</td>
+                    <td className="px-4 py-2">{payout.transactionId || "---"}</td>
                     <td className="px-4 py-2">
                       {new Date(payout.paymentDate)
                         .toLocaleDateString("en-US", {
@@ -450,13 +450,15 @@ const currentItems = (sortedItems || []).slice(indexOfFirstItem, indexOfLastItem
 
                     </td>
                     <td className="px-4 py-2">
-                      {new Date(payout.chequeMailedOn)
-                        .toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "2-digit",
-                          day: "2-digit",
-                        })
-                        .replace(/\//g, "-")}
+                      {payout.chequeMailedOn
+                        ? new Date(payout.chequeMailedOn)
+                          .toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                          })
+                          .replace(/\//g, "-")
+                        : <div className="justify-center">---</div>}
                     </td>
                     {/* <td className="px-4 py-2">
                       <Tooltip title="View" placement="top">
