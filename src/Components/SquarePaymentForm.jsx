@@ -91,7 +91,8 @@ const SquarePaymentForm = ({
         // First, process the payment
         const payload = {
           sourceId: source,
-          amount: Math.floor(amount),
+          // amount: Math.floor(amount),
+          amount: amount,
           currency: "USD",
           note: "Payment For ORD5668",
         };
@@ -109,7 +110,8 @@ const SquarePaymentForm = ({
           validThrough: `${expiryMonth}/${expiryYear}`,
           nameOnCard: "",
           bank: "",
-          paymentAmount: Math.floor(amount),
+          // paymentAmount: Math.floor(amount),
+          paymentAmount: amount,
           isCreditCard: true,
           statusId: 3,
           paymentStatus: "",
