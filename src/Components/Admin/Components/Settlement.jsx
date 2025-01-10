@@ -509,16 +509,25 @@ function Settlement() {
   const errors = {};
 
   if (mode === "Wire") {
+    if (!dateFrom) errors.dateFrom = "Invoice Date From is required.";
+    if (!dateTo) errors.dateTo = "Invoice Date To is required.";
+    if (!amountPaying) errors.amountPaying = "Amount Paying Now is required.";
     if (!paymentDate) errors.paymentDate = "Payment date is required.";
     if (!bankName) errors.bankName = "Bank name is required.";
     if (!accountNumber) errors.accountNumber = "Account number is required.";
     if (!transactionId) errors.transactionId = "Transaction ID is required.";
+
+
   } else if (mode === "Cheque") {
+    if (!dateFrom) errors.dateFrom = "Invoice Date From is required.";
+    if (!dateTo) errors.dateTo = "Invoice Date To is required.";
+    if (!amountPaying) errors.amountPaying = "Amount Paying Now is required.";
     if (!paymentDate) errors.paymentDate = "Payment date is required.";
     // if (!bankName) errors.bankName = "Bank name is required.";
     // if (!accountNumber) errors.accountNumber = "Account number is required.";
     if (!chequeImage) errors.chequeImage = "Cheque image is required.";
     if (!chequeMailedOn) errors.chequeMailedOn = "Cheque mailed date is required.";
+
   }
 
   setError(errors);
