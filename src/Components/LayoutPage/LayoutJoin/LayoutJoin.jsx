@@ -491,6 +491,13 @@ const LayoutJoin = () => {
   };
   console.log(usertype);
   console.log(errors);
+  const excludedStates = [
+    "AMERICAN SAMOA",
+    "GUAM",
+    "NORTHERN MARIANA ISLANDS",
+    "PALAU",
+    "PUERTO RICO",
+  ];
   const getStepContent = (step) => {
     switch (step) {
       case 0:
@@ -866,7 +873,7 @@ const LayoutJoin = () => {
             </div>
 
             <div>
-              <FormControl
+              {/* <FormControl
                 className="w-[92%]"
                 size="small"
                 error={!!errors.State}
@@ -897,6 +904,42 @@ const LayoutJoin = () => {
                       {state.name}
                     </MenuItem>
                   ))}
+                </Select>
+                {errors.State && <span>{errors.State}</span>}
+              </FormControl> */}
+              <FormControl
+                className="w-[92%]"
+                size="small"
+                error={!!errors.State}
+              >
+                <InputLabel id="state-select-label">State</InputLabel>
+                <Select
+                  id="state-select"
+                  label="State"
+                  value={formData.State}
+                  name="State"
+                  onChange={handleInputChange}
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: 200, // Set the maximum height of the dropdown
+                      },
+                    },
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {states
+                    .filter((state) => !excludedStates.includes(state.name.toUpperCase())) // Exclude unwanted states
+                    .map((state) => (
+                      <MenuItem
+                        key={state.abbreviation}
+                        value={state.abbreviation} // Use abbreviation as the value
+                      >
+                        {state.name}
+                      </MenuItem>
+                    ))}
                 </Select>
                 {errors.State && <span>{errors.State}</span>}
               </FormControl>

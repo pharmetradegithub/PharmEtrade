@@ -499,7 +499,7 @@ const OfferedProductsAdmin = () => {
                         onClick={() => deactivatePopUp(detail.productID)}
                       />
                     </Tooltip>
-                    <Tooltip title="View" placement="top">
+                    {/* <Tooltip title="View" placement="top">
                       <img
                         src={view}
                         alt="View"
@@ -508,7 +508,7 @@ const OfferedProductsAdmin = () => {
                         onClick={handleOpen}
                       //   onClick={() => deactivatePopUp(product.productID)}
                       />
-                    </Tooltip>
+                    </Tooltip> */}
                     {/* Popup */}
                     <div
                       className="flex justify-center"

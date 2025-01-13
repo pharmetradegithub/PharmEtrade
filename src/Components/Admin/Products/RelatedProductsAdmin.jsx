@@ -789,16 +789,16 @@ const RelatedProductsAdmin = () => {
                         />
                       </Tooltip>
 
-                      <Tooltip title="Add to Up-Sell Products" placement="top">
+                      <Tooltip title="Add to Selected For You" placement="top">
                         <img
                           src={upSell}
-                          alt="upSell"
+                          alt="selected"
                           className="cursor-pointer w-6 h-5"
                           onClick={() => {
                             handleAddSelected(2, product?.productID);
                             setNotification({
                               show: true,
-                              message: "Added to Up-Sell Product!",
+                              message: "Added to Selected For You!",
                             });
                             setTimeout(
                               () =>
@@ -962,7 +962,7 @@ const RelatedProductsAdmin = () => {
         </div>
       </div>
       <div className="font-sans font-medium">
-        <h1 className="text-2xl font-semibold">Up-Sell Products </h1>
+        <h1 className="text-2xl font-semibold">Selected For You</h1>
         <div className="flex  justify-between w-full Largest:w-[60%]">
           <p>
             An up-sell item is offered to the customer as a pricier or

@@ -1240,14 +1240,14 @@ function Cart() {
               {/* new mobile lyout 15/11/24*/}
 
               <div className="mt-4 flex flex-col md:flex-row gap-4 p-4">
-                <input
+                {/* <input
                   placeholder="Coupon Code"
                   className="px-4 py-2 w-full md:w-36 bg-gray-100 text-lg border rounded-full"
-                />
+                /> */}
                 <div className="flex flex-col md:flex-row gap-4">
-                  <button className="px-6 py-2 font-bold text-white text-lg bg-blue-900 rounded-full">
+                  {/* <button className="px-6 py-2 font-bold text-white text-lg bg-blue-900 rounded-full">
                     Apply Coupon
-                  </button>
+                  </button> */}
                   {/* <button className="px-6 py-2 font-bold text-white text-lg bg-blue-900 rounded-full">
                     Update Cart
                   </button> */}

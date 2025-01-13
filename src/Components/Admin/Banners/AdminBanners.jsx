@@ -191,7 +191,15 @@ const AdminBanners = () => {
     }
   };
 
+  const [toggleStates, setToggleStates] = useState(
+    BannerData.map(() => false) // Initialize all toggles to "NO" (false)
+  );
 
+  const handleToggle = (index) => {
+    setToggleStates((prev) =>
+      prev.map((state, i) => (i === index ? !state : state))
+    );
+  };
 
   return (
     <div className="p-6 bg-gray-100 overflow-y-scroll">
@@ -257,7 +265,7 @@ const AdminBanners = () => {
       </div>
 
       {/* Display Banners */}
-      <div className="bg-white p-4 rounded-lg shadow-md">
+      {/* <div className="bg-white p-4 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold mb-4">Existing Banners</h2>
         <div className="grid grid-cols-3 gap-4">
           <div className="w-full relative  overflow-hidden">
@@ -288,6 +296,50 @@ const AdminBanners = () => {
               <p className="text-center text-gray-500">No banners available</p>
             )}
           </div>
+        </div>
+      </div> */}
+
+
+
+      <div className="bg-white p-4 rounded-lg shadow-md">
+        <h2 className="text-xl font-semibold mb-4">Existing Banners</h2>
+        <div className="grid grid-cols-3 gap-4">
+          {BannerData.length > 0 ? (
+            BannerData.map((item, index) => (
+              <div key={index} className="relative overflow-hidden p-2 border rounded">
+                <img src={item.imageUrl} alt={`Carousel Image ${index + 1}`} className="rounded-md" />
+                <div className="flex justify-between items-center mt-2">
+                  <button onClick={() => handleEditBanner(index, item.bannerId)}>
+                    <img src={edit} className="w-8 h-8" alt="Edit" />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(item.bannerId)}
+                    className="bg-white text-white px-4 py-2 rounded"
+                  >
+                    <img src={trash} className="w-5 h-5" alt="Delete" />
+                  </button>
+                </div>
+                <div className="flex justify-center items-center mt-4">
+                  {/* <span className="mr-2 text-gray-600">Toggle:</span> */}
+                  <div
+                    className={`relative w-14 h-8 rounded-full cursor-pointer transition ${toggleStates[index] ? "bg-green-500" : "bg-gray-300"
+                      }`}
+                    onClick={() => handleToggle(index)}
+                  >
+                    <div
+                      className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md transition-transform ${toggleStates[index] ? "transform translate-x-6" : ""
+                        }`}
+                    ></div>
+                  </div>
+                  <span className="ml-2 text-sm font-medium">
+                    {toggleStates[index] ? "YES" : "NO"}
+                  </span>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-center text-gray-500">No banners available</p>
+          )}
         </div>
       </div>
 

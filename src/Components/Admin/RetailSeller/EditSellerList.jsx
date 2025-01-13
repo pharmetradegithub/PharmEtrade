@@ -1394,6 +1394,15 @@ const EditSellerList = () => {
     if (CustomerId) fetchCharges();
   }, [CustomerId]);
 
+  const excludedStates = [
+    "AMERICAN SAMOA",
+    "GUAM",
+    "NORTHERN MARIANA ISLANDS",
+    "PALAU",
+    "PUERTO RICO",
+  ];
+
+
   return (
     <div className="w-full h-full flex-col bg-slate-200 flex justify-center overflow-y-scroll">
       {notification.show && (
@@ -1758,7 +1767,7 @@ const EditSellerList = () => {
                     error={!!errors.city} // Show error state
                     helperText={errors.city} // Display the error message
                   />
-                  <FormControl
+                  {/* <FormControl
                     size="small"
                     disabled={!isAddressEdit}
                     error={!!errors.state} // Show error state if there's an error
@@ -1790,10 +1799,47 @@ const EditSellerList = () => {
                         </MenuItem>
                       ))}
                     </Select>
-                    {/* Custom error message below the Select component */}
+                    {/* Custom error message below the Select component 
                     {errors.state && (
                       <div className="text-red-600 ml-2">{errors.state}</div>
                     )}
+                  </FormControl> */}
+                  <FormControl
+                    size="small"
+                    disabled={!isAddressEdit}
+                    error={!!errors.state} // Show error state if there's an error
+                  >
+                    <InputLabel id="state-select-label">State</InputLabel>
+                    <Select
+                      id="state-select"
+                      label="State"
+                      value={addressData.state || ""} // Ensure a default value
+                      name="state" // Ensure the name matches the key in addressData
+                      onChange={handleAddressChange}
+                      MenuProps={{
+                        PaperProps: {
+                          style: {
+                            maxHeight: 200, // Set the maximum height of the dropdown
+                          },
+                        },
+                      }}
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      {states
+                        .filter((state) => !excludedStates.includes(state.name.toUpperCase())) // Filter out unwanted states
+                        .map((state) => (
+                          <MenuItem
+                            key={state.abbreviation}
+                            value={state.name} // Match this value to what you want to save in addressData
+                          >
+                            {state.name}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                    {/* Custom error message below the Select component */}
+                    {errors.state && <div className="text-red-600 ml-2">{errors.state}</div>}
                   </FormControl>
                   <TextField
                     label="Zip"

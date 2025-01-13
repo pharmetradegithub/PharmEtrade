@@ -452,6 +452,17 @@ const TaxInformation = () => {
     setStates(allStates); // Populate states array with data from useStates
   }, [allStates]);
 
+  const excludedStates = [
+    "AMERICAN SAMOA",
+    "GUAM",
+    "NORTHERN MARIANA ISLANDS",
+    "PALAU",
+    "PUERTO RICO",
+  ];
+
+  const filteredStates = states.filter(
+    (state) => !excludedStates.includes(state.name.toUpperCase())
+  );
 
   // Handles input changes
   const handleInputChange = (event) => {
@@ -759,7 +770,7 @@ const TaxInformation = () => {
             </div>
           </div>
           <div>
-            <FormControl className="w-44" error={!!errors.State}>
+            {/* <FormControl className="w-44" error={!!errors.State}>
               <Autocomplete
                 id="state-select"
                 options={states}
@@ -792,6 +803,40 @@ const TaxInformation = () => {
                   )
                 }
                 disabled={ editingIndex !== null}
+              />
+              {errors.State && <FormHelperText>{errors.State}</FormHelperText>}
+            </FormControl> */}
+            <FormControl className="w-44" error={!!errors.State}>
+              <InputLabel id="state-select-label"></InputLabel>
+              <Autocomplete
+                id="state-select"
+                options={filteredStates} // Use the filtered states array
+                getOptionLabel={(option) => option.name}
+                value={
+                  filteredStates.find((state) => state.name === formData.State) || null
+                }
+                onChange={(event, newValue) => {
+                  handleInputChange({
+                    target: {
+                      name: "State",
+                      value: newValue ? newValue.name : "",
+                    },
+                  });
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="State"
+                    size="small"
+                    variant="outlined"
+                    error={!!errors.State}
+                  />
+                )}
+                filterOptions={(options, { inputValue }) => {
+                  return options.filter((option) =>
+                    option.name.toLowerCase().includes(inputValue.toLowerCase())
+                  );
+                }}
               />
               {errors.State && <FormHelperText>{errors.State}</FormHelperText>}
             </FormControl>

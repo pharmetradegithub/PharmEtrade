@@ -1611,7 +1611,7 @@ function ProductFields() {
       case 3:
         return (
           <div className="font-sans font-medium">
-            <h1 className="text-2xl font-semibold">Up-Sell Products </h1>
+            <h1 className="text-2xl font-semibold">Selected For You </h1>
             <div className="flex  justify-between w-full Largest:w-[80%]">
               <p>
                 An up-sell item is offered to the customer as a pricier or
@@ -1756,7 +1756,7 @@ function ProductFields() {
               </table>
             </div>
             {/* section start */}
-            <h1 className="text-2xl font-semibold">Cross-Sell Products </h1>
+            <h1 className="text-2xl font-semibold">Inspired By Your Search History </h1>
             <div className="flex justify-between w-full Largest:w-[80%]">
               <p>
                 These "impulse-buy" products appear next to the shopping cart as

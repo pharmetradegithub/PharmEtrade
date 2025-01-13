@@ -668,7 +668,7 @@ const TotalProducts = () => {
                             />
                           </Tooltip>
                           
-                          <Tooltip title="View" placement="top">
+                          {/* <Tooltip title="View" placement="top">
                             <img
                               src={view}
                               alt="View"
@@ -677,7 +677,7 @@ const TotalProducts = () => {
                               onClick={handleOpen}
                               //   onClick={() => deactivatePopUp(product.productID)}
                             />
-                          </Tooltip>
+                          </Tooltip> */}
                           {/* Popup */}
                           <div
                             className="flex justify-center"
