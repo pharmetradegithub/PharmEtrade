@@ -1381,7 +1381,7 @@ function Items({
           <ProductSlider
             productList={productList}
             addCart={addCart}
-            Title={"Alterntives"}
+            Title={"You Might Like"}
             data={RelatedProducts}
           />
         </div>
@@ -1390,7 +1390,7 @@ function Items({
           <ProductSlider
             productList={productList}
             addCart={addCart}
-            Title={"Up Sell Products"}
+            Title={"Selected For You"}
             data={upsellProducts}
           />
         </div>
@@ -1399,7 +1399,7 @@ function Items({
           <ProductSlider
             productList={productList}
             addCart={addCart}
-            Title={"Cross Sell Products"}
+            Title={"Inspired By Your Search History"}
             data={crossSellProducts}
           />
         </div>

@@ -3422,9 +3422,9 @@ function Address({ topMargin, totalAmount, amount }) {
   }, []);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredStates = states.filter((state) => {
-    return state.name.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+  // const filteredStates = states.filter((state) => {
+  //   return state.name.toLowerCase().includes(searchTerm.toLowerCase());
+  // });
 
   // const [selectedaddressId, setSelectedaddressId] = useState(getAddress[0]?.addressId);
 
@@ -3598,6 +3598,13 @@ function Address({ topMargin, totalAmount, amount }) {
     setDeleteProduct(null); // Reset selected product
   };
 
+  const excludedStates = [
+    "AMERICAN SAMOA",
+    "GUAM",
+    "NORTHERN MARIANA ISLANDS",
+    "PALAU",
+    "PUERTO RICO",
+  ];
 
   return (
     <div className="w-full flex justify-center items-center">
@@ -3863,7 +3870,7 @@ function Address({ topMargin, totalAmount, amount }) {
                           </div>
 
                           <div className="flex my-2 gap-2">
-                            <FormControl
+                            {/* <FormControl
                               className="w-[50%]"
                               size="small"
                               error={!!formErrors.States}
@@ -3898,8 +3905,44 @@ function Address({ topMargin, totalAmount, amount }) {
                                   </MenuItem>
                                 ))}
                               </Select>
-                              {/* {error.State && <span className="text-red-500">{error.State}</span>} */}
-                            </FormControl>
+                              {/* {error.State && <span className="text-red-500">{error.State}</span>} 
+                          </FormControl> */}
+                          
+                          <FormControl
+                            className="w-[50%]"
+                            size="small"
+                            error={!!formErrors.States}
+                          >
+                            <InputLabel id="state-select-label">State</InputLabel>
+                            <Select
+                              id="state-select"
+                              label="State"
+                              value={addressForm.States} // Correctly bind the form value
+                              name="States" // Ensure name matches the key in addressForm
+                              onChange={handleInputChange}
+                              MenuProps={{
+                                PaperProps: {
+                                  style: {
+                                    maxHeight: 200, // Set the maximum height of the dropdown
+                                  },
+                                },
+                              }}
+                            >
+                              <MenuItem value="">
+                                <em>None</em>
+                              </MenuItem>
+                              {states
+                                .filter((state) => !excludedStates.includes(state.name.toUpperCase())) // Filter out excluded states
+                                .map((state) => (
+                                  <MenuItem
+                                    key={state.abbreviation}
+                                    value={state.name} // Bind value to the state's name
+                                  >
+                                    {state.name}
+                                  </MenuItem>
+                                ))}
+                            </Select>
+                          </FormControl>;
 
                             <TextField
                               label="Zip "

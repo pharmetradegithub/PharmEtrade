@@ -22,7 +22,7 @@ function TermsAndConditions({ topMargin, setActiveStep }) {
                     <img src={back} className='w-4 h-4' />
                     <p className='-mt-1 hover:text-red-500'> Back</p>
                 </button> */}
-                <div className='   ' >
+                {/* <div className='   ' >
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error tenetur ea enim, ut laboriosam commodi veniam repellendus voluptates fugiat excepturi dignissimos delectus ipsam odio nobis earum itaque aliquid tempora temporibus.
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente nobis ratione sunt earum, sequi vel facere natus dicta a quidem magnam nisi perferendis molestias optio fugiat dolor aspernatur numquam recusandae!
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea, beatae odio? Inventore maiores cupiditate vero sed asperiores blanditiis labore hic quam reiciendis, perferendis molestiae, nam veritatis pariatur earum ipsa! Nobis.
@@ -30,7 +30,7 @@ function TermsAndConditions({ topMargin, setActiveStep }) {
                         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt, iusto debitis! Obcaecati, voluptatum natus. Quas doloremque suscipit blanditiis veniam ut labore in sunt, recusandae nulla assumenda illo natus ipsum ab.
                         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Obcaecati excepturi iste qui. Qui dolorum quod a tempore in atque nam neque ut error accusamus! Odit beatae quasi fugiat officia commodi.
                     </div>
-                </div>
+                </div> */}
 
                 <div className='py-4'>
                     <h1 className='text-blue-900 font-semibold text-xl'>1.  Eligibility</h1>

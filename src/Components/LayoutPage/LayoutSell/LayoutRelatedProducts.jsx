@@ -1774,16 +1774,16 @@ const LayoutRelatedProducts = () => {
                         />
                       </Tooltip>
 
-                      <Tooltip title="Add to Up-Sell Products" placement="top">
+                      <Tooltip title="Add to Selected For You" placement="top">
                         <img
                           src={upSell}
-                          alt="upSell"
+                          alt="Selected For You"
                           className="cursor-pointer w-6 h-5"
                           onClick={() => {
                             handleAddSelected(2, product?.productID);
                             setNotification({
                               show: true,
-                              message: "Added to Up-Sell Product!",
+                              message: "Added to Selected For You!",
                             });
                             setTimeout(
                               () =>
@@ -1795,7 +1795,7 @@ const LayoutRelatedProducts = () => {
                       </Tooltip>
 
                       <Tooltip
-                        title="Add to Cross-Sell Products"
+                        title="Add to Inspired By Your Search History"
                         placement="top"
                       >
                         <img
@@ -1806,7 +1806,7 @@ const LayoutRelatedProducts = () => {
                             handleAddSelected(3, product?.productID);
                             setNotification({
                               show: true,
-                              message: "Added to Cross-Sell Product!",
+                              message: "Added to Inspired By Your Search History!",
                             });
                             setTimeout(
                               () =>
@@ -1947,7 +1947,7 @@ const LayoutRelatedProducts = () => {
         </div>
       </div>
       <div className="font-sans font-medium">
-        <h1 className="text-2xl font-semibold">Up-Sell Products </h1>
+        <h1 className="text-2xl font-semibold">Selected For You  </h1>
         <div className="flex  justify-between w-full Largest:w-[60%]">
           <p>
             An up-sell item is offered to the customer as a pricier or
@@ -2032,7 +2032,7 @@ const LayoutRelatedProducts = () => {
         </div>
       </div>
       {/* section start */}
-      <h1 className="text-2xl font-semibold">Cross-Sell Products </h1>
+      <h1 className="text-2xl font-semibold">Inspired By Your Search History </h1>
       <div className="flex justify-between w-full Largest:w-[60%]">
         <p>
           These "impulse-buy" products appear next to the shopping cart as

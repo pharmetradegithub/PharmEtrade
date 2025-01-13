@@ -105,7 +105,7 @@
 
 //       <div className="flex flex-col items-center ">
 //         <p className="text-[45px] mb-2 xl:text-4xl font-semibold mt-10 ">
-//           Grow your business with PharmEtrade
+//          Grow your business with PharmEtrade
 //         </p>
 //         <p className="text-xl mb-2 font-light text-gray-900 xl:text-xl">
 //           We understand your needs. We care about your business.
@@ -201,14 +201,22 @@ function Landing2({ wishList, addCart }) {
   };
 
   const texts = [
-    "Boost sales by promoting new and special products.",
-    "Receive payments more quickly.",
-    "Increase your profits by reducing your inventory.",
-    "Utilize deals and discounts to attract pharmacies.",
-    "Compare and list products with competitive prices.",
-    "Save up to 60% with deals and discounts.",
-    "Cashbacks and rewards.",
-    "Multi-order merge shipment.",
+    // "Boost sales by promoting new and special products.",
+    "Buyers and Sellers thoroughly vetted",
+    // "Receive payments more quickly.",
+    "No registration fees",
+    // "Increase your profits by reducing your inventory.",
+    "Easily browse and compare pricing",
+    // "Utilize deals and discounts to attract pharmacies.",
+    "Shop worry free in our secure platform",
+    // "Compare and list products with competitive prices.",
+    "No hidden costs",
+    // "Save up to 60% with deals and discounts.",
+    "Name your price with our bid feature",
+    // "Cashbacks and rewards.",
+    "Shop 24/7/365 from anywhere",
+    // "Multi-order merge shipment.",
+    "Increase your cash flow",
   ];
 
   const screens = [
@@ -285,12 +293,12 @@ function Landing2({ wishList, addCart }) {
         <p className="text-[45px] mb-2 xl:text-4xl font-semibold mt-10 ">
           Grow your business with PharmEtrade
         </p>
-        <p className="text-xl mb-2 font-light text-gray-900 xl:text-xl">
+        {/* <p className="text-xl mb-2 font-light text-gray-900 xl:text-xl">
           We understand your needs. We care about your business.
-        </p>
-        <p className="text-xl font-light xl:text-xl">
+        </p> */}
+        {/* <p className="text-xl font-light xl:text-xl">
           We've designed a platform especially for you. Start saving today.
-        </p>
+        </p> */}
         <p>
           <img src={line} className="w-fit h-8 mt-6" />
         </p>

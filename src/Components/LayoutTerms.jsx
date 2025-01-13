@@ -20,7 +20,7 @@ const LayoutTerms =({ topMargin, setActiveStep }) => {
                     <img src={back} className='w-4 h-4' />
                     <p className='-mt-1 hover:text-red-500'> Back</p>
                 </button> */}
-                <div className='   ' >
+                {/* <div className='   ' >
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error tenetur ea enim, ut laboriosam commodi veniam repellendus voluptates fugiat excepturi dignissimos delectus ipsam odio nobis earum itaque aliquid tempora temporibus.
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente nobis ratione sunt earum, sequi vel facere natus dicta a quidem magnam nisi perferendis molestias optio fugiat dolor aspernatur numquam recusandae!
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea, beatae odio? Inventore maiores cupiditate vero sed asperiores blanditiis labore hic quam reiciendis, perferendis molestiae, nam veritatis pariatur earum ipsa! Nobis.
@@ -28,7 +28,7 @@ const LayoutTerms =({ topMargin, setActiveStep }) => {
                         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt, iusto debitis! Obcaecati, voluptatum natus. Quas doloremque suscipit blanditiis veniam ut labore in sunt, recusandae nulla assumenda illo natus ipsum ab.
                         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Obcaecati excepturi iste qui. Qui dolorum quod a tempore in atque nam neque ut error accusamus! Odit beatae quasi fugiat officia commodi.
                     </div>
-                </div>
+                </div> */}
 
                 <div className='py-4'>
                     <h1 className='text-blue-900 font-semibold text-xl'>1.  Eligibility</h1>
@@ -44,7 +44,7 @@ const LayoutTerms =({ topMargin, setActiveStep }) => {
                     </h1>
                     <div className='py-2'>
                         Prescription medications will only be dispensed upon receipt of a valid prescription.
-                        [Pharmacy Name] reserves the right to verify the authenticity of any prescription provided.
+                        Pharmetrade reserves the right to verify the authenticity of any prescription provided.
                         The fulfillment of any prescription is subject to stock availability and approval by a licensed pharmacist.  </div>
                     <div className='py-2'>
                         Over-the-counter (OTC) products are available for purchase without a prescription.
@@ -60,12 +60,12 @@ const LayoutTerms =({ topMargin, setActiveStep }) => {
                     <div className='py-2'>
                         Information provided on the Services is for informational purposes only and is not intended as medical advice.
                         Always seek the advice of a qualified healthcare provider with any questions regarding medications or medical conditions.
-                        Use of the Services does not create a healthcare provider-patient relationship between you and [PharmEtrade].   </div>
+                        Use of the Services does not create a healthcare provider-patient relationship between you and PharmEtrade.   </div>
 
                     <div className='py-2'>
                         Information provided on the Services is for informational purposes only and is not intended as medical advice.
                         Always seek the advice of a qualified healthcare provider with any questions regarding medications or medical conditions.
-                        Use of the Services does not create a healthcare provider-patient relationship between you and [Pharmacy Name].  </div>
+                        Use of the Services does not create a healthcare provider-patient relationship between you and Pharmetrade.  </div>
                 </div>
 
                 <div className='py-4'>
@@ -73,7 +73,7 @@ const LayoutTerms =({ topMargin, setActiveStep }) => {
                     <div className='py-2'>
                         All prices for medications and products are subject to change without notice.
                         Payment must be made in full at the time of purchase through the available payment methods on our platform.
-                        [PharmEtrade] reserves the right to cancel any order if the payment is not received or if there is a pricing error.
+                        PharmEtrade reserves the right to cancel any order if the payment is not received or if there is a pricing error.
                     </div>
                 </div>
 
@@ -82,10 +82,10 @@ const LayoutTerms =({ topMargin, setActiveStep }) => {
                     </h1>
                     <div className='py-2'>
                         Shipping and delivery times are estimated and may vary depending on your location and product availability.
-                        [Pharmetrade] is not responsible for any delays in shipping due to external factors such as weather, postal service issues, or supplier delays.
+                        Pharmetrade is not responsible for any delays in shipping due to external factors such as weather, postal service issues, or supplier delays.
                         Some products, such as certain medications, may be subject to additional shipping restrictions or regulations.
                     </div>
-                    <div className='py-4'>
+                    {/* <div className='py-4'>
                         <h1 className='text-lg font-medium text-blue-900'>Click here Page Content- </h1>
                         <div>
                             <p className='text-lg'>a.{" "} GPay <a href='/' className='text-blue-900 underline'>www.pharmetrade.com</a></p>
@@ -101,7 +101,7 @@ const LayoutTerms =({ topMargin, setActiveStep }) => {
 
 
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
 

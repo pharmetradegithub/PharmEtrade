@@ -1033,9 +1033,19 @@ const Signup = () => {
   // };
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredStates = states.filter((state) => {
-    return state.name.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+  const excludedStates = [
+    "AMERICAN SAMOA",
+    "GUAM",
+    "NORTHERN MARIANA ISLANDS",
+    "PALAU",
+    "PUERTO RICO",
+  ];
+  // const filteredStates = states.filter((state) => {
+  //   return state.name.toLowerCase().includes(searchTerm.toLowerCase());
+  // });
+  const filteredStates = states.filter(
+    (state) => !excludedStates.includes(state.name.toUpperCase())
+  );
 
   const formatPhoneNumber = (phoneNumber) => {
     // Remove non-digit characters
@@ -1434,7 +1444,7 @@ const Signup = () => {
             </div>
 
             <div>
-              <FormControl className="w-[92%]" error={!!errors.State}>
+              {/* <FormControl className="w-[92%]" error={!!errors.State}>
                 <InputLabel id="state-select-label"></InputLabel>
                 <Autocomplete
                   id="state-select"
@@ -1472,6 +1482,40 @@ const Signup = () => {
                 {errors.State && (
                   <FormHelperText>{errors.State}</FormHelperText>
                 )}
+              </FormControl> */}
+              <FormControl className="w-[92%]" error={!!errors.State}>
+                <InputLabel id="state-select-label"></InputLabel>
+                <Autocomplete
+                  id="state-select"
+                  options={filteredStates} // Use the filtered states array
+                  getOptionLabel={(option) => option.name}
+                  value={
+                    filteredStates.find((state) => state.name === formData.State) || null
+                  }
+                  onChange={(event, newValue) => {
+                    handleInputChange({
+                      target: {
+                        name: "State",
+                        value: newValue ? newValue.name : "",
+                      },
+                    });
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="State"
+                      size="small"
+                      variant="outlined"
+                      error={!!errors.State}
+                    />
+                  )}
+                  filterOptions={(options, { inputValue }) => {
+                    return options.filter((option) =>
+                      option.name.toLowerCase().includes(inputValue.toLowerCase())
+                    );
+                  }}
+                />
+                {errors.State && <FormHelperText>{errors.State}</FormHelperText>}
               </FormControl>
             </div>
 
