@@ -333,7 +333,7 @@ function LayoutUpsShipping() {
         <Notification show={notification.show} message={notification.message} />
       )}
       <div className='flex justify-between border-b border-black my-5 p-4'>
-        <h1 className=' text-sm md:text-xl text-blue-900 font-semibold'>MARKETPLACE UPS CONFIGURATION</h1>
+        <h1 className=' text-sm md:text-xl text-blue-900 font-semibold'>Manage UPS CONFIGURATION</h1>
       </div>
       <div className=" w-full md:w-[80%] xl:w-[60%]  border rounded-md shadow-md flex flex-col justify-center">
         <div className='w-full flex flex-col justify-center ml-4 mt-4'>

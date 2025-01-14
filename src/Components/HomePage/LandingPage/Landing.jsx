@@ -13,6 +13,8 @@ import { useSelector } from "react-redux";
 
 function Landing({ topMargin, wishList, addCart }) {
   const BannerData = useSelector((state) => state.banner.banner);
+
+  const activeBanners = BannerData.filter((banner) => banner.isActive === 1);
   console.log(BannerData);
   const settings = {
     dots: true,
@@ -35,9 +37,9 @@ function Landing({ topMargin, wishList, addCart }) {
           }}
         >
           <div className="w-full relative mt-10 md:mt-0 h-[150px] md:h-[350px] overflow-hidden">
-            {BannerData.length > 0 ? (
+            {activeBanners.length > 0 ? (
               <Slider {...settings}>
-                {BannerData.map((item, index) => (
+                {activeBanners.map((item, index) => (
                   <div key={index} className="w-full" >
                     <img
                       src={item.imageUrl}

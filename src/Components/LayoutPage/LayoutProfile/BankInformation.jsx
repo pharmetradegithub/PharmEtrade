@@ -557,7 +557,7 @@ const BankInformation = () => {
     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
   };
 
-  const accountTypes = ['Savings', 'Checking', 'Current']; // Example account types
+  const accountTypes = ['Savings', 'Checking']; // Example account types
   const [states, setStates] = useState([]);
 
   useEffect(() => {
@@ -566,10 +566,28 @@ const BankInformation = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+    if (name === "RoutingNumber" && (!/^\d*$/.test(value) || value.length > 9)) {
+      return; // Ignore invalid input
+    }
     setFormData({
       ...formData,
       [name]: value,
     });
+    if (name === "RoutingNumber" && value.length === 9) {
+      setErrors((prev) => ({ ...prev, RoutingNumber: "" }));
+    }
+  };
+
+  const handleBlur = () => {
+    const { RoutingNumber } = formData;
+
+    // Validate RoutingNumber
+    if (RoutingNumber.length !== 9) {
+      setErrors((prev) => ({
+        ...prev,
+        RoutingNumber: "Routing Number must be exactly 9 digits.",
+      }));
+    }
   };
 
   // Populate form data with beneficiary details when available
@@ -658,6 +676,7 @@ const BankInformation = () => {
                 name="RoutingNumber"
                 value={formData.RoutingNumber}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 size="small"
                 disabled={!isTabEdit}
                 error={!!errors.RoutingNumber}
