@@ -753,7 +753,7 @@ function LayoutBuy({
                                 } else {
                                   handleCart(
                                     product.productID,
-                                    product.minOrderQuantity
+                                    product.CartQuantity
                                   );
                                   setStockWarning({ productId: null, message: "" });
                                 }
