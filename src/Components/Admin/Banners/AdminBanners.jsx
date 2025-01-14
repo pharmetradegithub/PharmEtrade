@@ -191,15 +191,49 @@ const AdminBanners = () => {
     }
   };
 
+  // const [toggleStates, setToggleStates] = useState(
+  //   BannerData.map(() => false) // Initialize all toggles to "NO" (false)
+  // );
+
+  // const handleToggle = (index) => {
+  //   setToggleStates((prev) =>
+  //     prev.map((state, i) => (i === index ? !state : state))
+  //   );
+  // };
+
   const [toggleStates, setToggleStates] = useState(
-    BannerData.map(() => false) // Initialize all toggles to "NO" (false)
+    BannerData.map((item) => item.isActive === 1) // Initialize based on isActive value
   );
 
-  const handleToggle = (index) => {
-    setToggleStates((prev) =>
-      prev.map((state, i) => (i === index ? !state : state))
-    );
+  const handleToggle = async (index) => {
+    const currentToggleState = toggleStates[index];
+    const newToggleState = !currentToggleState;
+
+    // Update local toggle state
+    const updatedToggleStates = [...toggleStates];
+    updatedToggleStates[index] = newToggleState;
+    setToggleStates(updatedToggleStates);
+
+    // Prepare payload for API
+    const updatedBannerData = {
+      ...BannerData[index],
+      isActive: newToggleState ? 1 : 0, // Set isActive based on toggle state
+    };
+
+    console.log("======", BannerData[index].bannerIds)
+    try {
+      // Call API to update banner
+      await editBannerApi(BannerData[index].bannerIds, updatedBannerData);
+      console.log("Banner updated successfully");
+    } catch (error) {
+      console.error("Error updating banner:", error);
+
+      // Revert toggle state on error
+      updatedToggleStates[index] = currentToggleState;
+      setToggleStates(updatedToggleStates);
+    }
   };
+
 
   return (
     <div className="p-6 bg-gray-100 overflow-y-scroll">
