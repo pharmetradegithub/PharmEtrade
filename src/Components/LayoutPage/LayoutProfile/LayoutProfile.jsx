@@ -315,11 +315,11 @@ const LayoutProfile = () => {
       grid: "bank",
     },
     {
-      label: "Tax Information",
+      label: "State",
       grid: "Tax",
     },
     {
-      label: "Charges Information",
+      label: "Fees",
       grid: "charges",
     },
   ];
