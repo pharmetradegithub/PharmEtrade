@@ -865,6 +865,9 @@ function LayoutSellOrders() {
     (state) => state.master.orderStatusGetAll
   );
 
+  const filterStatus = orderStatusGetAll.filter((order) => ![2, 4, 7].includes(order.statusId))
+  console.log("filtereee", filterStatus)
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
@@ -1692,11 +1695,11 @@ function LayoutSellOrders() {
                           <select
                             className="sm:ml-2 m-0 p-1 border rounded cursor-pointer"
                             onChange={(e) => handleStatusChange(product, e.target.value)}
-                            disabled={!Array.isArray(orderStatusGetAll) || orderStatusGetAll.length === 0 || product.statusId === 6}
+                            disabled={!Array.isArray(filterStatus) || filterStatus.length === 0 || product.statusId === 6}
                             value={product?.orderedProductStatusId}
                           >
-                            {Array.isArray(orderStatusGetAll) && orderStatusGetAll.length > 0 &&
-                              orderStatusGetAll
+                            {Array.isArray(filterStatus) && filterStatus.length > 0 &&
+                              filterStatus
                                 .filter((item) => {
                                   if (product?.orderedProductStatusId === 8) {
                                     return item.statusId === 8 || item.statusId === 6; // Show only status 8 if current status is 8 (shipped)
@@ -1837,11 +1840,11 @@ function LayoutSellOrders() {
                               <select
                                 className="sm:ml-2 m-0 p-1 border rounded cursor-pointer"
                                 onChange={(e) => handleStatusChange(product, e.target.value)}
-                                disabled={!Array.isArray(orderStatusGetAll) || orderStatusGetAll.length === 0 || product.statusId === 6}
+                                disabled={!Array.isArray(filterStatus) || filterStatus.length === 0 || product.statusId === 6}
                                 value={product?.orderedProductStatusId}
                               >
-                                {Array.isArray(orderStatusGetAll) && orderStatusGetAll.length > 0 &&
-                                  orderStatusGetAll
+                                {Array.isArray(filterStatus) && filterStatus.length > 0 &&
+                                  filterStatus
                                     .filter((item) => {
                                       if (product?.orderedProductStatusId === 8) {
                                         return item.statusId === 8 || item.statusId === 6; // Show only status 8 if current status is 8 (shipped)
