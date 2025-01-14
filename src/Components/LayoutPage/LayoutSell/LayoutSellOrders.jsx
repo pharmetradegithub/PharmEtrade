@@ -971,22 +971,22 @@ function LayoutSellOrders() {
       percentage: SellerOrder
         ? (((SellerOrder.length - 100) / 100) * 100).toFixed(2)
         : 0,
-      status: {
+      orderStatus: {
         text: "Pending",
         color: "orange",
-        statusValue: pendingData ? pendingData.length : 0,
+        orderValue: pendingData ? pendingData.length : 0,
       },
-      statusPercentage: pendingData
+      orderPercentage: pendingData
         ? (((pendingData.length - 100) / 100) * 100).toFixed(2)
         : 0,
-      orderStatus: {
-        text: "InReview",
-        color: "blue",
-        orderValue: inreviewData ? inreviewData.length : 0,
-      },
-      orderPercentage: inreviewData
-        ? (((inreviewData.length - 100) / 100) * 100).toFixed(2)
-        : 0,
+      // orderStatus: {
+      //   text: "InReview",
+      //   color: "blue",
+      //   orderValue: inreviewData ? inreviewData.length : 0,
+      // },
+      // orderPercentage: inreviewData
+      //   ? (((inreviewData.length - 100) / 100) * 100).toFixed(2)
+      //   : 0,
     },
     {
       label: {
@@ -1005,14 +1005,14 @@ function LayoutSellOrders() {
       orderPercentage: approveData
         ? (((approveData.length - 100) / 100) * 100).toFixed(2)
         : 0,
-      status: {
-        text: "Rejected",
-        color: "red",
-        statusValue: rejectData ? rejectData.length : 0,
-      },
-      statusPercentage: rejectData
-        ? (((rejectData.length - 100) / 100) * 100).toFixed(2)
-        : 0,
+      // status: {
+      //   text: "Rejected",
+      //   color: "red",
+      //   statusValue: rejectData ? rejectData.length : 0,
+      // },
+      // statusPercentage: rejectData
+      //   ? (((rejectData.length - 100) / 100) * 100).toFixed(2)
+      //   : 0,
     },
     {
       label: {
@@ -1023,14 +1023,14 @@ function LayoutSellOrders() {
       percentage: cancelledData
         ? (((cancelledData.length - 100) / 100) * 100).toFixed(2)
         : 0,
-      status: {
-        text: "Incomplete",
-        color: "orange",
-        statusValue: incompleteData ? incompleteData.length : 0,
-      },
-      statusPercentage: incompleteData
-        ? (((incompleteData.length - 100) / 100) * 100).toFixed(2)
-        : 0,
+      // status: {
+      //   text: "Incomplete",
+      //   color: "orange",
+      //   statusValue: incompleteData ? incompleteData.length : 0,
+      // },
+      // statusPercentage: incompleteData
+      //   ? (((incompleteData.length - 100) / 100) * 100).toFixed(2)
+      //   : 0,
       orderStatus: {
         text: "Shipped",
         color: "green",
