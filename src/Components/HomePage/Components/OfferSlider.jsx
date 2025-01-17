@@ -137,7 +137,7 @@ import left from "../../../assets/arrowleft.png";
 import right from "../../../assets/arrowright.png";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGetProductOffer, fetchProductOffer } from "../../../Api/ProductApi";
+import { fetchGetProductOffer, fetchOfferGetAll, fetchProductOffer } from "../../../Api/ProductApi";
 // import { fetchGetProductOffer, fetchProductOffer } from "../../../Api/ProductApi";
 
 let newoffer = [];
@@ -145,12 +145,21 @@ let newoffer = [];
 const OfferSlider = ({ images, Title }) => {
   const carouselContainer = useRef(null);
   const specialOffers = useSelector((state) => state.product.productSpecialOffer);
-  console.log("offer-->", specialOffers)
+  const getAll = useSelector((state) => state.offer.OfferGetLanding);
   newoffer = [];
   specialOffers?.map((element, index) => {
-    const newObject = {...element, image: images[index]};
+    const newObject = { ...element, image: '' };
     newoffer.push(newObject);
     return newObject
+  })
+  console.log("offer-->", newoffer)
+
+  newoffer?.map((element) => {
+    getAll?.map((data) => {
+      if (element.categorySpecificationId == data.categorySpecificationId) {
+        element.image = data.imageUrl
+      }
+    })
   })
   console.log("new offere", newoffer);
 
@@ -174,6 +183,9 @@ const OfferSlider = ({ images, Title }) => {
     dispatch(fetchProductOffer()); // Dispatch the API call to fetch special offers
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(fetchOfferGetAll())
+  }, [])
 
   const overlayTexts = [
     "Up to 65% off | Deals on OTC Products",

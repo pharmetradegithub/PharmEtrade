@@ -656,7 +656,7 @@ const LayoutPostingProducts = () => {
                           ${product.receivableSalePrice.toFixed(2)}
                         </td>
                         <td className="">
-                          {product.isActive ? "Activate" : "Deactivate"}
+                          {product.isActive ? "Active" : "InActive"}
                         </td>
 
                         <td className=" mt-4 py-2 cursor-pointer flex items-center space-x-2">

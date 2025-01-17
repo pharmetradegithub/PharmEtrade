@@ -1,4 +1,5 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { act } from "react";
 import { thunk } from "redux-thunk";
 
 const homeSlice = createSlice({
@@ -550,6 +551,26 @@ const adminChargesSlice = createSlice({
   }
 })
 
+const adminOfferSlice = createSlice({
+  name: 'adminOffer',
+  initialState: { offerGetAll: [], offerAdd: [], offerEdit: [], OfferGetLanding: [] },
+  reducers: {
+    setOfferGetAll(state, action) {
+      state.offerGetAll = action.payload
+    },
+    setOfferAdd(state, action) {
+      state.offerAdd = action.payload
+    },
+    setOfferEdit(state, action) {
+      state.offerEdit = action.payload
+    },
+    setOfferGetLanding(state, action) {
+      state.OfferGetLanding = action.payload
+    }
+  }
+})
+
+export const { setOfferGetAll, setOfferAdd, setOfferEdit, setOfferGetLanding} = adminOfferSlice.actions
 
 export const { setGetChargeInfo } = adminChargesSlice.actions
 export const {setAdminProducts} = productsSlice.actions
@@ -630,7 +651,8 @@ const store = configureStore({
     adminPayment: adminPaymentSlice.reducer,
     rating:ratingSlice.reducer,
     comment:commentSlice.reducer,
-    charges: adminChargesSlice.reducer
+    charges: adminChargesSlice.reducer,
+    offer: adminOfferSlice.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });
