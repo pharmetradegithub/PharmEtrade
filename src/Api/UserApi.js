@@ -35,12 +35,12 @@ export const loginUserApi = async (username, password) => {
     }
     else {
       console.error('Login failed:', response.data.message);
-      return "Incorrect EmailId and Password ";
+      return "Incorrect EmailId or Password ";
 
     }
   } catch (error) {
     console.error('Failed to log in:', error);
-    return "Incorrect EmailId and Password ";
+    return "Incorrect EmailId or Password ";
 
   }
 };

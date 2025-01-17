@@ -723,6 +723,9 @@ function LayoutBuy({
                               +
                             </button>
                           </div>
+                          {product.CartQuantity <= product.minOrderQuantity && (
+                            <p className=" text-red-500 text-sm mt-2">Minimum Quantity : {product.minOrderQuantity}</p>
+                          )}
                           {stockWarning.productId === product.productID && (
                             <p className="text-red-500 text-sm mt-2">
                               {stockWarning.message}

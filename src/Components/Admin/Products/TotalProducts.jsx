@@ -629,7 +629,7 @@ const TotalProducts = () => {
                             : "-"}
                         </td>
                         <td className="">
-                          {detail.isActive ? "Activate" : "Deactivate"}
+                          {detail.isActive ? "Active" : "InActive"}
                         </td>
                         <td className="px-4  justify-center py-2 cursor-pointer flex items-center space-x-2 bg-transparent">
                           <Tooltip title="Edit" placement="top">
