@@ -79,8 +79,13 @@ function LayoutBuy({
   //   return wishlistItem ? wishlistItem.wishListId : null;
   // };
   const products = useSelector((state) => state.product.Products);
+  console.log("productkkk===================", products)
   const [productList, setproductList] = useState(products);
   const [sortOption, setSortOption] = useState(""); // State for sorting
+  const [currentItems, setcurrentItems] = useState(
+    // productList.slice(indexOfFirstItem, indexOfLastItem)
+    productList.slice(0, itemsPerPage)
+  );
   const sortProducts = (products, sortOption) => {
     if (sortOption === "Product Ascending (A-Z)") {
       return products.sort((a, b) =>
@@ -297,10 +302,7 @@ function LayoutBuy({
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   // const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
-  const [currentItems, setcurrentItems] = useState(
-    // productList.slice(indexOfFirstItem, indexOfLastItem)
-    productList.slice(0, itemsPerPage)
-  );
+
 
   useEffect(() => {
     if (productList) {
@@ -649,7 +651,7 @@ function LayoutBuy({
                               className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
                               onClick={() => {
                                 if (product.CartQuantity > product.minOrderQuantity) {
-                                
+
                                   product.CartQuantity = product.CartQuantity - 1;
 
                                   // Check if quantity exceeds stock
@@ -714,7 +716,8 @@ function LayoutBuy({
                                     productId: product.productID,
                                     message: `Only ${product.amountInStock} items available in stock.`,
                                   });
-                                } else {
+                                }
+                                else {
                                   handleQuantityChange(index, product.CartQuantity);
                                   setStockWarning({ productId: null, message: "" }); // Clear warning if within stock
                                 }
@@ -724,8 +727,22 @@ function LayoutBuy({
                             </button>
                           </div>
                           {product.CartQuantity <= product.minOrderQuantity && (
-                            <p className=" text-red-500 text-sm mt-2">Minimum Quantity : {product.minOrderQuantity}</p>
+                            <p className=" text-red-500 text-sm mt-1">Minimum Quantity : {product.minOrderQuantity}</p>
                           )}
+                          {product.CartQuantity >
+                            product.maxOrderQuantity && (
+                              <p className="text-red-500 text-xs mt-1">
+                                You can buy a maximum of{" "}
+                                {product.maxOrderQuantity}.
+                              </p>
+                            )}
+                          {/* {product.CartQuantity <
+                            product.minOrderQuantity && (
+                              <p className="text-red-500 text-xs mt-1">
+                                You must order at least{" "}
+                              {product.minOrderQuantity}.
+                              </p>
+                            )} */}
                           {stockWarning.productId === product.productID && (
                             <p className="text-red-500 text-sm mt-2">
                               {stockWarning.message}
@@ -763,16 +780,16 @@ function LayoutBuy({
                               }
                             }}
                             className={`flex text-white h-[32px] sm:w-full w-32 sm:px-2 rounded-lg sm:mt-20 mt-4 ml-0 p-0 mx-2 justify-center items-center ${product.amountInStock <= 0
-                                ? "bg-gray-400 cursor-not-allowed"
-                                : "bg-blue-900 cursor-pointer"
+                              ? "bg-gray-400 cursor-not-allowed"
+                              : "bg-blue-900 cursor-pointer"
                               }`}
                           >
                             <div className="mr-1">
                               <img
                                 src={addcart}
                                 className={`w-5 h-5 ${product.amountInStock <= 0
-                                    ? "opacity-50"
-                                    : "cursor-pointer"
+                                  ? "opacity-50"
+                                  : "cursor-pointer"
                                   }`}
                                 alt="Add to Cart Icon"
                               />

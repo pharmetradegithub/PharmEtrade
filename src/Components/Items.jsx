@@ -1151,7 +1151,25 @@ function Items({
                   {prod?.sellerFirstName} {prod?.sellerLastName}
                   {/* </Link> */}
                 </p>
-                <p className="hover:text-red-600">Company Website</p>
+                {/* <p className="hover:text-red-600">Company Website</p> */}
+                {/* {prod?.companyWebsite && (
+                  <a href={`${prod.companyWebsite}`} target="_blank" rel="noopener noreferrer">
+                    <p className="hover:text-red-600">Company Website</p>
+                  </a>
+                )} */}
+                {prod?.companyWebsite && (
+                  <a
+                    href={
+                      prod.companyWebsite.startsWith("http://") || prod.companyWebsite.startsWith("https://")
+                        ? prod.companyWebsite
+                        : `https://${prod.companyWebsite}`
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <p className="hover:text-red-600">Company Website</p>
+                  </a>
+                )}
                 <div className="flex flex-col">
                   <div className="flex  items-center space-x-2 hover:text-red-500">
                     <img src={product} className="w-fit h-10" />
