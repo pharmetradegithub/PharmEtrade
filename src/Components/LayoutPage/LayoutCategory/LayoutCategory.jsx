@@ -1568,8 +1568,8 @@ function LayoutCategory({
                           )}
                         </div> */}
 
-                        <div>
-                          {/* Combined Stock and Quantity Validation */}
+                        {/* <div>
+                          {/* Combined Stock and Quantity Validation 
                           {product.amountInStock <= 0 ? (
                             // Out of Stock Validation
                             <p className="text-red-500 font-semibold mt-1">
@@ -1586,6 +1586,40 @@ function LayoutCategory({
                               You can buy a maximum of {product.maxOrderQuantity}.
                             </p>
                           ) : null}
+
+                          {/* Stock Available Display 
+                          {product.amountInStock > 0 && (
+                            <div className="text-sm sm:mt-2 mt-4">
+                              <p className="text-white p-1 sm:w-28 w-40 text-center text-xs bg-green-600 rounded-lg">
+                                Stock Available{" "}
+                                <span className="font-semibold text-xs text-center">
+                                  {product.amountInStock}
+                                </span>
+                              </p>
+                            </div>
+                          )}
+                        </div> */}
+
+
+                        <div>
+                          {/* Combined Stock and Quantity Validation */}
+                          {product.amountInStock <= 0 ? (
+                            <p className="text-red-500 font-semibold mt-1">Out Of Stock</p>
+                          ) : (
+                            <>
+                              <p className="text-red-500 text-sm mt-1">
+                                Minimum Quantity: {product.minOrderQuantity}
+                              </p>
+                              <p className="text-red-500 text-xs mt-1">
+                                You can buy a maximum of {product.maxOrderQuantity}.
+                              </p>
+                              {product.CartQuantity > product.amountInStock && (
+                                <p className="text-red-500 text-xs mt-1">
+                                  Only {product.amountInStock} items available in stock.
+                                </p>
+                              )}
+                            </>
+                          )}
 
                           {/* Stock Available Display */}
                           {product.amountInStock > 0 && (

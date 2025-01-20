@@ -30,8 +30,8 @@ axios.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       const originalRequest = error.config; // Save the original request
       const isLoginRequest =
-        // originalRequest.url.includes('/api/Customer/Login') ||
-        // originalRequest.url.includes('/api/Customer/AdminLogin') ||
+        originalRequest.url.includes('/api/Customer/Login') ||
+        originalRequest.url.includes('/api/Customer/AdminLogin') ||
         originalRequest.url.includes('/api/Customer/RefreshToken'); // Exclude refresh calls
 
       if (!isLoginRequest) {
