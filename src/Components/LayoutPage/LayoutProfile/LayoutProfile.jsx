@@ -315,7 +315,7 @@ const LayoutProfile = () => {
       grid: "bank",
     },
     {
-      label: "State",
+      label: "State Tax Information",
       grid: "Tax",
     },
     {
