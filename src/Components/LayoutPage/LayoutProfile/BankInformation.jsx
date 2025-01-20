@@ -701,7 +701,7 @@ const BankInformation = () => {
                 fullWidth
               />
             </div>
-            <div className="xl:ml-6 mr-2 my-2 md:my-0 w-full md:w-[45%] xl:w-[27%]">
+            <div className="xl:ml-6 mr-2 my-2 md:my-0 w-full md:w-[45%] xl:w-[23%]">
               {/* <label className="block mb-1">Account Type</label> */}
               <FormControl fullWidth error={!!errors.AccountType} size="small" disabled={!isTabEdit}>
                 <InputLabel id="account-type-label">Account Type</InputLabel>
@@ -769,7 +769,7 @@ const BankInformation = () => {
               />
             </div>
 
-            <div className="mr-2  xl:ml-4">
+            <div className="mr-2 xl:ml-4">
               {/* <label className="block mb-1">Address Line 1</label> */}
               <TextField
                 label="Address Line 1"
@@ -814,7 +814,7 @@ const BankInformation = () => {
                 fullWidth
               />
             </div>
-            <div className=" mr-0 xl:mr-2 xl:ml-4  w-full md:w-[45%] xl:w-[27%]">
+            <div className=" mr-0 xl:mr-2 xl:ml-4  w-full md:w-[45%] xl:w-[23%]">
               {/* <label className="block mb-1">State</label> */}
               <FormControl   fullWidth error={!!errors.state} size="small" className='  w-[92%]' disabled={!isTabEdit}>
                 <InputLabel id="state-label">State</InputLabel>
@@ -839,7 +839,7 @@ const BankInformation = () => {
           </div>
 
           <div className="flex mb-4">
-            <div className="mr-2 ml-0 xl:ml-2 ">
+            <div className="mr-2 ml-0 xl:ml-2">
             {/* <label className="block mb-1">Zip</label> */}
               <TextField
                 label="Zip"
