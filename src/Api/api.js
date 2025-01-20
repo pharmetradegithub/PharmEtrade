@@ -20,25 +20,75 @@ axios.interceptors.request.use(
   }
 );
 
+
 axios.interceptors.response.use(
   (response) => {
-    return response;
+    return response; // Simply return the response if it's successful
   },
-  (error) => {
+  async (error) => {
+    // Check if the error is due to an expired token
     if (error.response && error.response.status === 401) {
+      const originalRequest = error.config; // Save the original request
       const isLoginRequest =
-        error.config.url.includes('/api/Customer/Login') ||
-        error.config.url.includes('/api/Customer/AdminLogin');
-      console.log("heh", isLoginRequest)
+        // originalRequest.url.includes('/api/Customer/Login') ||
+        // originalRequest.url.includes('/api/Customer/AdminLogin') ||
+        originalRequest.url.includes('/api/Customer/RefreshToken'); // Exclude refresh calls
+
       if (!isLoginRequest) {
-        localStorage.removeItem('token');
-        window.location.href = '/login'; 
+        try {
+          // Get the old token from localStorage
+          const oldToken = localStorage.getItem('token');
+          if (oldToken) {
+            // Call the refresh token API with the old token as a query parameter
+            const refreshResponse = await axios.post(
+              `/api/Customer/RefreshToken?token=${encodeURIComponent(oldToken)}`
+            );
+
+            // Update the token in localStorage
+            const newToken = refreshResponse.data.token;
+            localStorage.setItem('token', newToken);
+
+            // Retry the original request with the new token
+            originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
+            return axios(originalRequest);
+          } else {
+            // If no old token is available, redirect to login
+            localStorage.removeItem('token');
+            window.location.href = '/login';
+          }
+        } catch (refreshError) {
+          // Handle errors during token refresh
+          console.error('Refresh token failed', refreshError);
+          localStorage.removeItem('token');
+          window.location.href = '/login';
+          return Promise.reject(refreshError);
+        }
       }
-      return Promise.reject(error);
     }
-    return Promise.reject(error);
+    return Promise.reject(error); // For other errors
   }
 );
+
+
+// axios.interceptors.response.use(
+//   (response) => {
+//     return response;
+//   },
+//   (error) => {
+//     if (error.response && error.response.status === 401) {
+//       const isLoginRequest =
+//         error.config.url.includes('/api/Customer/Login') ||
+//         error.config.url.includes('/api/Customer/AdminLogin');
+//       console.log("heh", isLoginRequest)
+//       if (!isLoginRequest) {
+//         localStorage.removeItem('token');
+//         window.location.href = '/login'; 
+//       }
+//       return Promise.reject(error);
+//     }
+//     return Promise.reject(error);
+//   }
+// );
 
 export default axios;
 
