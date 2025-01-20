@@ -1542,7 +1542,7 @@ function LayoutCategory({
                             </p>
                           )} */}
                         
-                        {product.CartQuantity <= product.minOrderQuantity ? (
+                        {/* {product.CartQuantity <= product.minOrderQuantity ? (
                           <p className="text-red-500 text-sm mt-1">
                             Minimum Quantity: {product.minOrderQuantity}
                           </p>
@@ -1550,10 +1550,10 @@ function LayoutCategory({
                           <p className="text-red-500 text-xs mt-1">
                             You can buy a maximum of {product.maxOrderQuantity}.
                           </p>
-                        ) : null}
+                        ) : null} */}
 
                         
-                        <div className="text-sm  ">
+                        {/* <div className="text-sm  ">
                           {product.amountInStock <= 0 ? (
                             <p className="text-red-500 font-semibold ml-5 mt-2">
                               Out Of Stock
@@ -1565,6 +1565,38 @@ function LayoutCategory({
                                 {product.amountInStock}
                               </span>
                             </p>
+                          )}
+                        </div> */}
+
+                        <div>
+                          {/* Combined Stock and Quantity Validation */}
+                          {product.amountInStock <= 0 ? (
+                            // Out of Stock Validation
+                            <p className="text-red-500 font-semibold mt-1">
+                              Out Of Stock
+                            </p>
+                          ) : product.CartQuantity <= product.minOrderQuantity ? (
+                            // Minimum Quantity Validation
+                            <p className="text-red-500 text-sm mt-1">
+                              Minimum Quantity: {product.minOrderQuantity}
+                            </p>
+                          ) : product.CartQuantity >= product.maxOrderQuantity ? (
+                            // Maximum Quantity Validation
+                            <p className="text-red-500 text-xs mt-1">
+                              You can buy a maximum of {product.maxOrderQuantity}.
+                            </p>
+                          ) : null}
+
+                          {/* Stock Available Display */}
+                          {product.amountInStock > 0 && (
+                            <div className="text-sm sm:mt-2 mt-4">
+                              <p className="text-white p-1 sm:w-28 w-40 text-center text-xs bg-green-600 rounded-lg">
+                                Stock Available{" "}
+                                <span className="font-semibold text-xs text-center">
+                                  {product.amountInStock}
+                                </span>
+                              </p>
+                            </div>
                           )}
                         </div>
 
