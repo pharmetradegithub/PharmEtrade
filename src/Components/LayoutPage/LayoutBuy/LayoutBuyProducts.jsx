@@ -708,34 +708,47 @@ function LayoutBuy({
                             <button
                               className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
                               onClick={() => {
-                                product.CartQuantity = product.CartQuantity + 1;
+                                if (product.CartQuantity < product.maxOrderQuantity) {
+                                  product.CartQuantity = product.CartQuantity + 1;
 
-                                // Check if quantity exceeds stock
-                                if (product.CartQuantity > product.amountInStock) {
-                                  setStockWarning({
-                                    productId: product.productID,
-                                    message: `Only ${product.amountInStock} items available in stock.`,
-                                  });
-                                }
-                                else {
-                                  handleQuantityChange(index, product.CartQuantity);
-                                  setStockWarning({ productId: null, message: "" }); // Clear warning if within stock
+                                  // Check if quantity exceeds stock
+                                  if (product.CartQuantity > product.amountInStock) {
+                                    setStockWarning({
+                                      productId: product.productID,
+                                      message: `Only ${product.amountInStock} items available in stock.`,
+                                    });
+                                  }
+                                  else {
+                                    handleQuantityChange(index, product.CartQuantity);
+                                    setStockWarning({ productId: null, message: "" }); // Clear warning if within stock
+                                  }
                                 }
                               }}
                             >
                               +
                             </button>
                           </div>
-                          {product.CartQuantity <= product.minOrderQuantity && (
+                          {/* {product.CartQuantity <= product.minOrderQuantity && (
                             <p className=" text-red-500 text-sm mt-1">Minimum Quantity : {product.minOrderQuantity}</p>
                           )}
-                          {product.CartQuantity >
+                          {product.CartQuantity <=
                             product.maxOrderQuantity && (
                               <p className="text-red-500 text-xs mt-1">
                                 You can buy a maximum of{" "}
                                 {product.maxOrderQuantity}.
                               </p>
-                            )}
+                            )} */}
+                          
+                          {product.CartQuantity <= product.minOrderQuantity ? (
+                            <p className="text-red-500 text-sm mt-1">
+                              Minimum Quantity: {product.minOrderQuantity}
+                            </p>
+                          ) : product.CartQuantity >= product.maxOrderQuantity ? (
+                            <p className="text-red-500 text-xs mt-1">
+                              You can buy a maximum of {product.maxOrderQuantity}.
+                            </p>
+                          ) : null}
+
                           {/* {product.CartQuantity <
                             product.minOrderQuantity && (
                               <p className="text-red-500 text-xs mt-1">
