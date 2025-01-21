@@ -336,8 +336,9 @@ const LayoutBuyerReceiversgrid = () => {
     };
 
     const navigate = useNavigate();
-    const handleclick = () => {
-        navigate("/detailspage/:id");
+    const handleclick = (productId) => {
+        // navigate("/detailspage/:id");
+        navigate(`/detailspage/${productId}`);
     };
 
     console.log("currentItems", currentItems)
@@ -367,7 +368,7 @@ const LayoutBuyerReceiversgrid = () => {
                     {currentItems.map((Ordergrid, index) => (
                         <div key={index} className='pb-4 border rounded-lg shadow-lg justify-around mb-4 flex'>
                             <div>
-                                <img src={Ordergrid.imageUrl}  className='w-36 h-28 cursor-pointer p-2' onClick={handleclick} />
+                                <img src={Ordergrid.imageUrl} className='w-36 h-28 cursor-pointer p-2' onClick={() => handleclick(Ordergrid.productId)} />
                                 <p>Received Date :<span className='text-red-500 text-sm'> {new Date(Ordergrid.upcomingDate)
                         .toLocaleDateString("en-US", {
                           month: "2-digit",

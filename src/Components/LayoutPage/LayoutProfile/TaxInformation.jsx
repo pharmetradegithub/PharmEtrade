@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Autocomplete, FormControl, FormHelperText, InputLabel, TextField } from '@mui/material';
+import { Autocomplete, Button, FormControl, FormHelperText, InputLabel, Modal, TextField } from '@mui/material';
 import edit from '../../../assets/Edit.png';
 import { useDispatch, useSelector } from 'react-redux';
 // import { fetchProductOffer } from '../../../Api/ProductApi';
@@ -414,6 +414,7 @@ import Loading from '../../Loading';
 //   }
 //   dispatch(TaxInfoEdit(payloadEdit))
 // };
+
 const TaxInformation = () => {
   // const getproductSpecialOffer = useSelector((state) => state.product.productSpecialOffer);
   const getproductSpecialOffer = useSelector(
@@ -463,6 +464,7 @@ const TaxInformation = () => {
   const filteredStates = states.filter(
     (state) => !excludedStates.includes(state.name.toUpperCase())
   );
+
 
   // Handles input changes
   const handleInputChange = (event) => {
@@ -719,6 +721,37 @@ const TaxInformation = () => {
   //   }
   //   data()
   // }, [])
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedStates, setSelectedStates] = useState([]);
+  const [customField, setCustomField] = useState("");
+
+  const handleModalSubmit = () => {
+    // Process the data from the modal
+    console.log("Selected States:", selectedStates);
+    console.log("Custom Field Value:", customField);
+
+    // Close the modal after submission
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    // Process the data from the modal
+    console.log("Selected States:", selectedStates);
+    console.log("Custom Field Value:", customField);
+
+    // Close the modal after submission
+    setIsModalOpen(false);
+  };
+  useEffect(() => {
+    setIsModalOpen(true);
+  }, []);
+
+  useEffect(() => {
+    if (filteredStates?.length) {
+      setSelectedStates(filteredStates); // Select all states by default
+    }
+  }, [filteredStates]);
+
   return (
     <div className="w-full overflow-y-scroll">
       {/* {showSuccessMessage && (
@@ -726,6 +759,104 @@ const TaxInformation = () => {
           Entry saved successfully!
         </p>
       )} */}
+      <div>
+        {/* Modal */}
+        <Modal
+          open={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          aria-labelledby="modal-title"
+          aria-describedby="modal-description"
+        >
+          <div className="bg-white w-1/3 p-6 rounded-lg shadow-lg mx-auto mt-20">
+            <h2 id="modal-title" className="text-xl font-bold mb-4">
+              Configure Tax Information
+            </h2>
+
+            {/* Row Layout */}
+            <div className="flex flex-row items-center gap-4">
+              {/* Field 1: General Merchandise */}
+              {/* <TextField
+                label="General Merchandise"
+                value="General Merchandise"
+                disabled
+                fullWidth
+              /> */}
+              {/* <select
+                className="border rounded-md h-11"
+                value={category}
+                onChange={(e) => setCategory(Number(e.target.value))}
+                // disabled={editingIndex !== null}
+              >
+                <option value="">Select a category</option>
+                {getproductSpecialOffer.map((item) => (
+                  <option
+                    key={item.categorySpecificationId}
+                    value={item.categorySpecificationId}
+                  >
+                    {item.specificationName}
+                  </option>
+                ))}
+              </select> */}
+
+              {/* Field 2: State Selection */}
+              {/* <Autocomplete
+                multiple
+                options={states}
+                getOptionLabel={(option) => option.name}
+                value={selectedStates} // All states selected by default
+                onChange={(event, newValue) => setSelectedStates(newValue)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Select States"
+                    variant="outlined"
+                    fullWidth
+                    sx={{ width: '300px'}} 
+                    InputProps={{
+                      ...params.InputProps,
+                      style: {
+                        maxHeight: '50px', // Set the maximum height for the input area
+                        overflowY: 'auto',  // Enable vertical scrolling inside the input
+                      },
+                    }}
+                  />
+                )}
+              /> */}
+
+              {/* Field 3: Custom Field */}
+              <TextField
+                label="Tax Percentage"
+                value={customField}
+                onChange={(e) => setCustomField(e.target.value)}
+                fullWidth
+                sx={{ width: '400px'}}
+              />
+            </div>
+
+            {/* Modal Actions */}
+            <div className="flex justify-between mt-6">
+              <div className='flex'>
+
+              <Button
+                variant="contained"
+                color="warning"
+                onClick={handleCancel}
+              >
+                Cancel
+              </Button>
+              </div>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleModalSubmit}
+              >
+                Apply to All State
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      </div>
+
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}

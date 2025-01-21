@@ -20,6 +20,7 @@ import {
 } from "../../../Api/UserApi";
 import Chargesinformation from "./ChargesInformation";
 import Notification from "../../Notification";
+import { useLocation } from "react-router-dom";
 const LayoutProfile = () => {
   const userdata = useSelector((state) => state.user.user); // Get user data from redux
   const businessInfo = useSelector((state) => state.user.businessInfo);
@@ -305,6 +306,7 @@ const LayoutProfile = () => {
     }
   }, [businessInfo]);
 
+  const location = useLocation();
   const profiles = [
     {
       label: "Primary",
@@ -324,6 +326,12 @@ const LayoutProfile = () => {
     },
   ];
   const [visibleGrid, setVisibleGrid] = useState("account"); // Default to Account Information
+  useEffect(() => {
+    // Set the default grid based on the state passed during navigation
+    if (location.state?.defaultGrid) {
+      setVisibleGrid(location.state.defaultGrid);
+    }
+  }, [location.state]);
   const toggleGrid = (grid) => {
     setVisibleGrid(grid); // Set the visible grid to the selected one
   };

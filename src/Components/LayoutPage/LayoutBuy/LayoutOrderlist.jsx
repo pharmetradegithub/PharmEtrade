@@ -912,7 +912,7 @@ function LayoutOrderList() {
             </div>
 
             {/* Image Upload */}
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label className="block mb-1 text-gray-700">Upload Image:</label>
               <input
                 type="file"
@@ -920,10 +920,10 @@ function LayoutOrderList() {
                 onChange={handleImageChange}
                 className="block w-full text-sm text-gray-900 border rounded-lg cursor-pointer bg-gray-50"
               />
-            </div>
+            </div> */}
 
             {/* Video Upload */}
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label className="block mb-1 text-gray-700">Upload Video:</label>
               <input
                 type="file"
@@ -931,7 +931,7 @@ function LayoutOrderList() {
                 onChange={handleVideoChange}
                 className="block w-full text-sm text-gray-900 border rounded-lg cursor-pointer bg-gray-50"
               />
-            </div>
+            </div> */}
 
             {/* Buttons */}
             <div className="flex justify-end space-x-2">
