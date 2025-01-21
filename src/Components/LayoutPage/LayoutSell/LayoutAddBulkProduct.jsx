@@ -225,10 +225,12 @@
 
 
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import axios from "../../../Api/api"; 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { TaxGetByStateNameApi } from "../../../Api/TaxInfoApi";
+import { useNavigate } from "react-router-dom";
 
 const LayoutAddBulkProduct = () => {
   const [file, setFile] = useState(null);
@@ -285,6 +287,27 @@ const LayoutAddBulkProduct = () => {
     }
   };
   
+  const dispatch = useDispatch()
+
+  const stateNameData = useSelector((state) => state.tax.stateName);
+    console.log("satemeem", stateNameData)
+  const [alertPopup, setAlertPopup] = useState(false)
+    useEffect(() => {
+      const data = async () => {
+        await dispatch(TaxGetByStateNameApi(user.customerId))
+        alertMessage()
+      }
+      data()
+    }, [])
+  
+  const alertMessage = () => {
+    if (!stateNameData || stateNameData.length === 0) {
+      // alert('Please provide tax information');
+      setAlertPopup(true)
+    } else {
+      console.log('All good!');
+    }
+  };
 
   const handleDownload = () => {
     // const fileUrl = "/Sample Bulk Products Sheet..xlsx"; // Replace with actual path
@@ -298,8 +321,27 @@ const LayoutAddBulkProduct = () => {
     document.body.removeChild(link);
   };
 
+const navigate = useNavigate();
+  const handleClose = () => {
+    navigate('/layout/layoutprofile', { state: { defaultGrid: "Tax" } })
+  }
   return (
     <div className="flex flex-col justify-start mt-8 pl-1 sm:p-8 bg-gray-100 overflow-y-scroll w-full">
+      {alertPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+          <div className="bg-white flex flex-col item-center justify-center rounded-lg shadow-lg p-6 w-auto">
+            <p className="text-gray-700 mb-4">
+              Please provide tax information
+            </p>
+            <button
+              className="bg-blue-900 text-white px-4 py-2 w-28 rounded hover:bg-blue-700"
+              onClick={handleClose}
+            >
+              Ok
+            </button>
+          </div>
+        </div>
+      )}
       <div className="flex flex-col justify-start">
         <h1 className="text-sm sm:text-2xl font-bold text-blue-900">
           ADD BULK PRODUCTS{" "}

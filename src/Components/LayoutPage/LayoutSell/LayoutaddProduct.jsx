@@ -35,6 +35,7 @@ import {
 } from "../../../Api/MasterDataApi";
 import { useNavigate } from "react-router-dom";
 import { handleBlur, handleFocus } from "../../../Helpers/helper";
+import { TaxGetByStateNameApi } from "../../../Api/TaxInfoApi";
 
 function LayoutaddProduct() {
   const user = useSelector((state) => state.user.user);
@@ -207,14 +208,14 @@ function LayoutaddProduct() {
       states: product.states.split(",").map((state) => state.trim()),
       size: product.size,
       form: product.form,
-      isfullpack:product.isFullPack,
+      isfullpack: product.isFullPack,
       isReturnable: product.isReturnable,
       shippingCostApplicable: product.shippingCostApplicable,
       unitOfMeasurement: product.unitOfMeasure,
       upnMemberPrice: product.upnMemberPrice,
       salePrice: product.salePrice,
       salePriceForm: product.salePriceValidFrom === "0001-01-01T00:00:00" ? null : product.salePriceValidFrom,
-      salePriceTo: product.salePriceValidTo === "0001-01-01T00:00:00" ? null : product.salePriceValidTo,           
+      salePriceTo: product.salePriceValidTo === "0001-01-01T00:00:00" ? null : product.salePriceValidTo,
       manufacturer: product.manufacturer,
       strength: product.strength,
       lotNumber: product.lotNumber,
@@ -431,7 +432,26 @@ function LayoutaddProduct() {
   //   setVideoPreviews(previews);
   //   setFormData({ ...formData, ["videoUrl"]: files[0] });
   // };
+  const stateNameData = useSelector((state) => state.tax.stateName);
+  console.log("satemeem", stateNameData)
 
+  const [alertPopup, setAlertPopup] = useState(false)
+  useEffect(() => {
+    const data = async () => {
+      await dispatch(TaxGetByStateNameApi(user.customerId))
+      alertMessage()
+    }
+    data()
+  }, [user.customerId])
+
+  const alertMessage = () => {
+    if (!stateNameData || stateNameData.length === 0) {
+      // alert('Please provide tax information');
+      setAlertPopup(true)
+    } else {
+      console.log('All good!');
+    }
+  };
   const handleVideoSelect = (event) => {
     const files = Array.from(event.target.files);
     const maxSize = 25 * 1024 * 1024; // 25MB in bytes
@@ -647,7 +667,7 @@ function LayoutaddProduct() {
         setFormData({
           ...formData,
           [name]: value === "" ? "" : roundedValue,
-          ["salePrice"]: formData.discount!=null ? Number((value * (100 - Number(formData.discount))) / 100) : "",
+          ["salePrice"]: formData.discount != null ? Number((value * (100 - Number(formData.discount))) / 100) : "",
 
         });
       } else {
@@ -670,7 +690,7 @@ function LayoutaddProduct() {
         const isShippingCostApplicable = value === "1"; // Convert value to boolean
         setFormData((prevData) => ({
           ...prevData,
-          shippingCostApplicable: isShippingCostApplicable == prevData.shippingCostApplicable? null:isShippingCostApplicable,
+          shippingCostApplicable: isShippingCostApplicable == prevData.shippingCostApplicable ? null : isShippingCostApplicable,
           shippingCost: isShippingCostApplicable ? 0 : 0, // Set shipping cost based on selection
         }));
         //   setFormData((prevData) => ({
@@ -689,7 +709,7 @@ function LayoutaddProduct() {
       if (name === "option") {
         setFormData({
           ...formData,
-          ["isfullpack"]: Number(value) == formData.isfullpack? null:Number(value),
+          ["isfullpack"]: Number(value) == formData.isfullpack ? null : Number(value),
         });
       } else if (name === "product") {
         setFormData({
@@ -709,8 +729,8 @@ function LayoutaddProduct() {
           const isSelected = formData.states.includes(value);
           const updatedStates = isSelected
             ? formData.states.filter(
-                (state) => state !== value && state !== "all"
-              )
+              (state) => state !== value && state !== "all"
+            )
             : [...formData.states, value];
 
           setFormData({
@@ -725,8 +745,8 @@ function LayoutaddProduct() {
           packCondition: {
             ...formData.packCondition,
             tornLabel: e.target.checked,
-            otherCondition:"",
-            otherConditionChecked:false
+            otherCondition: "",
+            otherConditionChecked: false
           },
 
         });
@@ -739,15 +759,15 @@ function LayoutaddProduct() {
           },
         });
       }
-    }  
+    }
     else if (name === "price") {
       // Limit price to 2 decimal places
       const roundedValue = parseFloat(value).toFixed(2);
-      console.log(formData.discount,"dis")
+      console.log(formData.discount, "dis")
       setFormData({
         ...formData,
         [name]: value === "" ? "" : value,
-        ["salePrice"]: formData.discount!="" ? Number((value * (100 - Number(formData.discount))) / 100) : "",
+        ["salePrice"]: formData.discount != "" ? Number((value * (100 - Number(formData.discount))) / 100) : "",
 
       });
     } else {
@@ -837,8 +857,8 @@ function LayoutaddProduct() {
       formData.mainImageUrl == null
         ? null
         : typeof formData.mainImageUrl === "string"
-        ? formData.mainImageUrl
-        : await uploadImageApi(
+          ? formData.mainImageUrl
+          : await uploadImageApi(
             user.customerId,
             productId,
             formData.mainImageUrl
@@ -848,65 +868,65 @@ function LayoutaddProduct() {
       formData.imageUrl == null
         ? null
         : typeof formData.imageUrl === "string"
-        ? formData.imageUrl
-        : await uploadImageApi(user.customerId, productId, formData.imageUrl);
+          ? formData.imageUrl
+          : await uploadImageApi(user.customerId, productId, formData.imageUrl);
 
     const thumbnail1 =
       formData.thumbnail1 == null
         ? "null"
         : typeof formData.thumbnail1 === "string"
-        ? formData.thumbnail1
-        : await uploadImageApi(user.customerId, productId, formData.thumbnail1);
+          ? formData.thumbnail1
+          : await uploadImageApi(user.customerId, productId, formData.thumbnail1);
 
     const thumbnail2 =
       formData.thumbnail2 == null
         ? "null"
         : typeof formData.thumbnail2 === "string"
-        ? formData.thumbnail2
-        : await uploadImageApi(user.customerId, productId, formData.thumbnail2);
+          ? formData.thumbnail2
+          : await uploadImageApi(user.customerId, productId, formData.thumbnail2);
 
     const thumbnail3 =
       formData.thumbnail3 == null
         ? "null"
         : typeof formData.thumbnail3 === "string"
-        ? formData.thumbnail3
-        : await uploadImageApi(user.customerId, productId, formData.thumbnail3);
+          ? formData.thumbnail3
+          : await uploadImageApi(user.customerId, productId, formData.thumbnail3);
 
     const thumbnail4 =
       formData.thumbnail4 == null
         ? "null"
         : typeof formData.thumbnail4 === "string"
-        ? formData.thumbnail4
-        : await uploadImageApi(user.customerId, productId, formData.thumbnail4);
+          ? formData.thumbnail4
+          : await uploadImageApi(user.customerId, productId, formData.thumbnail4);
 
     const thumbnail5 =
       formData.thumbnail5 == null
         ? "null"
         : typeof formData.thumbnail5 === "string"
-        ? formData.thumbnail5
-        : await uploadImageApi(user.customerId, productId, formData.thumbnail5);
+          ? formData.thumbnail5
+          : await uploadImageApi(user.customerId, productId, formData.thumbnail5);
 
     const thumbnail6 =
       formData.thumbnail6 == null
         ? "null"
         : typeof formData.thumbnail6 === "string"
-        ? formData.thumbnail6
-        : await uploadImageApi(user.customerId, productId, formData.thumbnail6);
+          ? formData.thumbnail6
+          : await uploadImageApi(user.customerId, productId, formData.thumbnail6);
 
     const videoUrl =
       formData.videoUrl == null
         ? "null"
         : typeof formData.videoUrl === "string"
-        ? formData.videoUrl
-        : await uploadImageApi(user.customerId, productId, formData.videoUrl);
+          ? formData.videoUrl
+          : await uploadImageApi(user.customerId, productId, formData.videoUrl);
 
     const tab1 = {
       productID:
         queryProductId != null
           ? queryProductId
           : productId != null
-          ? productId
-          : "String",
+            ? productId
+            : "String",
       productCategoryId: formData.productCategory,
       productName: formData.productName,
       ndCorUPC: formData.ndcUpc,
@@ -950,7 +970,7 @@ function LayoutaddProduct() {
         formData.discount == null || formData.discount == ""
           ? 0
           : formData.discount,
-      salePrice: formData.salePrice==""? 0: parseFloat(formData.salePrice) ||0,
+      salePrice: formData.salePrice == "" ? 0 : parseFloat(formData.salePrice) || 0,
       salePriceValidFrom: formData.salePriceForm,
       salePriceValidTo: formData.salePriceTo,
       taxable: formData.taxable == 1 ? true : false,
@@ -1002,9 +1022,8 @@ function LayoutaddProduct() {
         setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 1)); // Enable Tab 2
         setNotification({
           show: true,
-          message: `Product Info ${
-            queryProductId != null ? "Edited" : "Added"
-          } Successfully!`,
+          message: `Product Info ${queryProductId != null ? "Edited" : "Added"
+            } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -1020,9 +1039,8 @@ function LayoutaddProduct() {
         ); // Enable Tabs 2 and 3
         setNotification({
           show: true,
-          message: `Price Details ${
-            queryProductId != null ? "Edited" : "Added"
-          } Successfully!`,
+          message: `Price Details ${queryProductId != null ? "Edited" : "Added"
+            } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -1032,9 +1050,8 @@ function LayoutaddProduct() {
         setShowTab((prevTabs) => prevTabs.filter((tab) => tab !== 3)); // Enable Tab 3
         setNotification({
           show: true,
-          message: `Related Products ${
-            queryProductId != null ? "Edited" : "Added"
-          } Successfully!`,
+          message: `Related Products ${queryProductId != null ? "Edited" : "Added"
+            } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -1054,9 +1071,8 @@ function LayoutaddProduct() {
        
         setNotification({
           show: true,
-          message: `Product ${
-            queryProductId != null ? "Edited" : "Added"
-          } Successfully!`,
+          message: `Product ${queryProductId != null ? "Edited" : "Added"
+            } Successfully!`,
         });
         setTimeout(() => {
           setNotification({ show: false, message: "" });
@@ -1391,28 +1407,28 @@ function LayoutaddProduct() {
                           }}
                         /> */}
                         <input
-  name="expirationDate"
-  type="date"
-  className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-  onChange={(e) => {
-    const value = e.target.value;
-    handleInputChange({
-      target: {
-        name: e.target.name,
-        value: value || null, // Set to null if the value is an empty string
-      },
-    });
-  }}
-  value={
-    formData.expirationDate
-      ? formData.expirationDate.split("T")[0]
-      : ""
-  }
-  min={today} // Disable past dates
-  onKeyDown={(e) => {
-    e.preventDefault();
-  }}
-/>
+                          name="expirationDate"
+                          type="date"
+                          className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            handleInputChange({
+                              target: {
+                                name: e.target.name,
+                                value: value || null, // Set to null if the value is an empty string
+                              },
+                            });
+                          }}
+                          value={
+                            formData.expirationDate
+                              ? formData.expirationDate.split("T")[0]
+                              : ""
+                          }
+                          min={today} // Disable past dates
+                          onKeyDown={(e) => {
+                            e.preventDefault();
+                          }}
+                        />
 
                         {formErrors.expirationDate && (
                           <span className="text-red-500 text-sm">
@@ -1625,7 +1641,7 @@ function LayoutaddProduct() {
                         name="otherCondition"
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
-                            e.preventDefault(); 
+                            e.preventDefault();
                             setFormData((prevFormData) => ({
                               ...prevFormData,
                               packCondition: {
@@ -1640,16 +1656,16 @@ function LayoutaddProduct() {
                           }
                         }}
                         checked={
-                          (formData.packCondition.otherCondition.length>0 && formData.packCondition.tornLabel==""
-                            && formData.packCondition.otherCondition!="torn") 
-                            || formData.packCondition.otherConditionChecked
+                          (formData.packCondition.otherCondition.length > 0 && formData.packCondition.tornLabel == ""
+                            && formData.packCondition.otherCondition != "torn")
+                          || formData.packCondition.otherConditionChecked
                         }
                         onChange={(e) =>
                           setFormData({
                             ...formData,
                             packCondition: {
                               ...formData.packCondition,
-                              tornLabel:"",
+                              tornLabel: "",
                               otherConditionChecked: e.target.checked,
                               otherCondition: e.target.checked
                                 ? formData.packCondition.otherCondition
@@ -1670,7 +1686,7 @@ function LayoutaddProduct() {
                             handleInputChange(e);
                           }
                         }}
-                        value={ formData.packCondition.otherCondition != "torn" ? formData.packCondition.otherCondition : ""}
+                        value={formData.packCondition.otherCondition != "torn" ? formData.packCondition.otherCondition : ""}
                         onChange={(e) =>
                           setFormData({
                             ...formData,
@@ -1680,8 +1696,8 @@ function LayoutaddProduct() {
                             },
                           })
                         }
-                        disabled={(formData.packCondition.otherCondition.length<=0 
-                          || formData.packCondition.otherCondition=="torn") 
+                        disabled={(formData.packCondition.otherCondition.length <= 0
+                          || formData.packCondition.otherCondition == "torn")
                           && !formData.packCondition.otherConditionChecked}
                         className="mx-1 w-[30%] Largest:w-[15%] h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:shadow focus:shadow-blue-400"
                       />
@@ -1875,20 +1891,20 @@ function LayoutaddProduct() {
                         Select All States
                       </label>{" "}
                       {states
-                       .filter((state) => !excludedStates.includes(state.name.toUpperCase()))
-                      .map((state) => (
-                        <label className="flex  mt-1" key={state.abbreviation}>
-                          <input
-                            type="checkbox"
-                            name="states"
-                            value={state.name}
-                            onChange={handleInputChange}
-                            checked={formData.states.includes(state.name)}
-                            className="mr-2 overflow-y-scroll"
-                          />
-                          {state.name}
-                        </label>
-                      ))}
+                        .filter((state) => !excludedStates.includes(state.name.toUpperCase()))
+                        .map((state) => (
+                          <label className="flex  mt-1" key={state.abbreviation}>
+                            <input
+                              type="checkbox"
+                              name="states"
+                              value={state.name}
+                              onChange={handleInputChange}
+                              checked={formData.states.includes(state.name)}
+                              className="mr-2 overflow-y-scroll"
+                            />
+                            {state.name}
+                          </label>
+                        ))}
                     </div>
                     {formErrors.states && (
                       <span className="text-red-500 text-sm">
@@ -1912,38 +1928,38 @@ function LayoutaddProduct() {
                       Price ($):<span className="text-red-600">*</span>
                     </label>
                     <input
-  name="price"
-  type="text"
-  className="w-56 h-8 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-  onFocus={handleFocus}
-  onChange={(e) => {
-    let value = e.target.value;
+                      name="price"
+                      type="text"
+                      className="w-56 h-8 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onFocus={handleFocus}
+                      onChange={(e) => {
+                        let value = e.target.value;
 
-    // Allow only numbers and decimals, limit to 2 decimal places
-    const validPrice = /^\d*(\.\d{0,2})?$/;
+                        // Allow only numbers and decimals, limit to 2 decimal places
+                        const validPrice = /^\d*(\.\d{0,2})?$/;
 
-    // Check if the input value is a valid number with up to 2 decimal places
-    if (validPrice.test(value)) {
-      handleInputChange(e); // Update the state only with valid input
-    }
-  }}
-  onBlur={(e) => {
-    let value = e.target.value;
+                        // Check if the input value is a valid number with up to 2 decimal places
+                        if (validPrice.test(value)) {
+                          handleInputChange(e); // Update the state only with valid input
+                        }
+                      }}
+                      onBlur={(e) => {
+                        let value = e.target.value;
 
-    // If the value is a valid number, format it to 2 decimal places
-    if (value && !value.includes('.')) {
-      value += '.00'; // Append .00 if there's no decimal part
-    } else if (value) {
-      value = parseFloat(value).toFixed(2); // Ensure 2 decimal places
-    }
+                        // If the value is a valid number, format it to 2 decimal places
+                        if (value && !value.includes('.')) {
+                          value += '.00'; // Append .00 if there's no decimal part
+                        } else if (value) {
+                          value = parseFloat(value).toFixed(2); // Ensure 2 decimal places
+                        }
 
-    handleInputChange({
-      target: { name: e.target.name, value },
-    }); // Update state with formatted value
-    handleBlur()
-  }}
-  value={formData.price !== undefined ? formData.price : ""}
-/>
+                        handleInputChange({
+                          target: { name: e.target.name, value },
+                        }); // Update state with formatted value
+                        handleBlur()
+                      }}
+                      value={formData.price !== undefined ? formData.price : ""}
+                    />
 
 
                     {formErrors.price && (
@@ -1979,35 +1995,35 @@ function LayoutaddProduct() {
                     </label>
 
                     <input
-  name="upnMemberPrice"
-  onFocus={handleFocus}
-  type="text"
-  className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
-  onChange={(e) => {
-    let value = e.target.value;
+                      name="upnMemberPrice"
+                      onFocus={handleFocus}
+                      type="text"
+                      className="w-56 h-8 pl-3 pr-3 py-1 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400"
+                      onChange={(e) => {
+                        let value = e.target.value;
 
-    // Allow only numbers and decimals, limit to 2 decimal places
-    const validPrice = /^\d*(\.\d{0,2})?$/;
+                        // Allow only numbers and decimals, limit to 2 decimal places
+                        const validPrice = /^\d*(\.\d{0,2})?$/;
 
-    // Check if the input value is a valid number with up to 2 decimal places
-    if (validPrice.test(value)) {
-      handleInputChange(e); // Update the state only with valid input
-    }
-  }}
-  onBlur={(e) => {
-    let value = parseFloat(e.target.value);
+                        // Check if the input value is a valid number with up to 2 decimal places
+                        if (validPrice.test(value)) {
+                          handleInputChange(e); // Update the state only with valid input
+                        }
+                      }}
+                      onBlur={(e) => {
+                        let value = parseFloat(e.target.value);
 
-    // If the value is a valid number, format it to 2 decimal places
-    if (!isNaN(value)) {
-      value = value.toFixed(2); // Ensure 2 decimal places
-      handleInputChange({
-        target: { name: e.target.name, value },
-      }); // Update state with formatted value
-    }
-    handleBlur()
-  }}
-  value={formData.upnMemberPrice !== "" ? formData.upnMemberPrice : ""}
-/>
+                        // If the value is a valid number, format it to 2 decimal places
+                        if (!isNaN(value)) {
+                          value = value.toFixed(2); // Ensure 2 decimal places
+                          handleInputChange({
+                            target: { name: e.target.name, value },
+                          }); // Update state with formatted value
+                        }
+                        handleBlur()
+                      }}
+                      value={formData.upnMemberPrice !== "" ? formData.upnMemberPrice : ""}
+                    />
 
 
                     {/* <input
@@ -2257,8 +2273,8 @@ function LayoutaddProduct() {
                         formData.taxable == null
                           ? ""
                           : formData.taxable == true
-                          ? 1
-                          : 0
+                            ? 1
+                            : 0
                       }
                     >
                       <option value="">Select an option</option>
@@ -2303,7 +2319,7 @@ function LayoutaddProduct() {
                           : formData.minOrderQuantity
                       }
                     />
-                     {formErrors.minOrderQuantity && (
+                    {formErrors.minOrderQuantity && (
                       <span className="text-red-500 text-sm">
                         {formErrors.minOrderQuantity}
                       </span>
@@ -2347,17 +2363,17 @@ function LayoutaddProduct() {
                         : formData.maxOrderQuantity
                     }
                   />
- {formErrors.maxOrderQuantity && (
-                      <span className="text-red-500 text-sm">
-                        {formErrors.maxOrderQuantity}
-                      </span>
-                    )}
-                  {parseInt(formData.maxOrderQuantity, 10) >
-                    parseInt(formData.amountInStock, 10) && (
-                    <span className="text-red-600 text-sm mt-1">
-                      You need to select a quantity below the product in stock.
+                  {formErrors.maxOrderQuantity && (
+                    <span className="text-red-500 text-sm">
+                      {formErrors.maxOrderQuantity}
                     </span>
                   )}
+                  {parseInt(formData.maxOrderQuantity, 10) >
+                    parseInt(formData.amountInStock, 10) && (
+                      <span className="text-red-600 text-sm mt-1">
+                        You need to select a quantity below the product in stock.
+                      </span>
+                    )}
                 </div>
               </div>
             </div>
@@ -2781,12 +2797,12 @@ function LayoutaddProduct() {
         return (
           <div className="space-y-4 Largest:w-[60%] font-sans font-medium ">
             <div>
-            <p className="font-semibold">
-              Main Product Image: (Accepted Formats: JPEG, PNG, Max size 5MB)
-            </p>
-            {errorMessage && (
-                    <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
-                  )}
+              <p className="font-semibold">
+                Main Product Image: (Accepted Formats: JPEG, PNG, Max size 5MB)
+              </p>
+              {errorMessage && (
+                <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
+              )}
             </div>
            
 
@@ -2801,8 +2817,8 @@ function LayoutaddProduct() {
                         selectedImage // Check if selectedImage exists first
                           ? selectedImage
                           : formData.imageUrl instanceof File // Check if formData.imageUrl is a File
-                          ? URL.createObjectURL(formData.imageUrl) // Generate URL if it's a file
-                          : formData.imageUrl // Otherwise, treat it as a direct image URL
+                            ? URL.createObjectURL(formData.imageUrl) // Generate URL if it's a file
+                            : formData.imageUrl // Otherwise, treat it as a direct image URL
                       }
                       alt="Selected"
                       className="w-64 h-64 object-cover rounded-md"
@@ -2862,8 +2878,8 @@ function LayoutaddProduct() {
                           typeof image === "string"
                             ? image
                             : image != null
-                            ? URL.createObjectURL(image)
-                            : ""
+                              ? URL.createObjectURL(image)
+                              : ""
                         } // Check if `image` is a string (URL) or a File object
                         alt={`Preview ${image}`}
                         className="w-full h-40 object-cover"
@@ -2944,9 +2960,28 @@ function LayoutaddProduct() {
     }
   };
 
+  const handleClose = () => {
+    navigate('/layout/layoutprofile', { state: { defaultGrid: "Tax" } })
+  }
   return (
     <div className="w-[95%]  h-full mx-auto pt-8 ml-10 overflow-scroll">
       <Notification show={notification.show} message={notification.message} />
+      {alertPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+          <div className="bg-white flex flex-col item-center justify-center rounded-lg shadow-lg p-6 w-auto">
+            <p className="text-gray-700 mb-4">
+              Please provide tax information
+            </p>
+            <button
+              className="bg-blue-900 text-white w-28 px-4 py-2 rounded hover:bg-blue-700"
+              onClick={handleClose}
+            >
+              Ok
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-col  justify-center ">
         <div className="flex  justify-between ">
           <div>

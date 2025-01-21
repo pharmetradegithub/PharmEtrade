@@ -854,7 +854,7 @@ function Items({
               </div>
             </div>
 
-            <div className="bg-gray-100 p-2 w-full border rounded-lg my-4 flex text-green-600">
+            {/* <div className="bg-gray-100 p-2 w-full border rounded-lg my-4 flex text-green-600">
               <p>
                 <CiDiscount1 className=" text-2xl" />
               </p>{" "}
@@ -862,10 +862,10 @@ function Items({
               <p className=" text-[14px] lg:text-[15px] font-normal ml-2">
                 Add 15 Products to cart and get 10$ Discount
               </p>
-            </div>
+            </div> */}
 
             <div className=" w-full flex justify-center flex-col ">
-              <div className="w-full flex items-center justify-between p-2 bg-gray-100 rounded-lg">
+              {/* <div className="w-full flex items-center justify-between p-2 bg-gray-100 rounded-lg">
                 <span className="text-base lg:text-lg font-semibold">
                   Ship to
                 </span>
@@ -880,7 +880,7 @@ function Items({
                     className="w-4 h-4 lg:w-6 lg:h-6"
                   />
                 </button>
-              </div>
+              </div> */}
               {isFormVisible && (
                 <form
                   onSubmit={handleSubmit}

@@ -890,7 +890,7 @@ function LayoutCategory({
     // }
   };
 
-  const handleCart = async (productID, Quantity) => {
+  const handleCart = async (productID,minOrderQuantity, Quantity) => {
     const cartData = {
       customerId: user.customerId,
       productId: productID,
@@ -1647,7 +1647,7 @@ function LayoutCategory({
                         <div
                           onClick={() => {
                             if (product.amountInStock !== 0) {
-                              handleCart(product.productID, product.minOrderQuantity);
+                              handleCart(product.productID, product.minOrderQuantity, product.CartQuantity);
                             }
                           }}
                           className={`flex text-white h-[32px] px-2 w-40 md:w-auto mt-5 md:mt-24 rounded-lg  justify-center items-center
