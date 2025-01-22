@@ -198,6 +198,8 @@ function LayoutOtcProducts({
   //   }
   // };
 
+
+
   const handleQuantityChange = (index, newQuantity) => {
     // if (newQuantity) {
     const quantity = Math.max(1, newQuantity);
@@ -205,12 +207,26 @@ function LayoutOtcProducts({
       const updatedList = [...prev];
       updatedList[index] = {
         ...updatedList[index],
-        minOrderQuantity: quantity,
+        CartQuantity: quantity,
       };
       return updatedList;
     });
     // }
   };
+
+  // const handleQuantityChange = (index, newQuantity) => {
+  //   // if (newQuantity) {
+  //   const quantity = Math.max(1, newQuantity);
+  //   setcurrentItems((prev) => {
+  //     const updatedList = [...prev];
+  //     updatedList[index] = {
+  //       ...updatedList[index],
+  //       minOrderQuantity: quantity,
+  //     };
+  //     return updatedList;
+  //   });
+  //   // }
+  // };
   // Function to handle sharing
   const handleProductDetailsShare = (productID) => {
     setCurrentProductID(productID); // Store the productID in state
@@ -350,7 +366,13 @@ function LayoutOtcProducts({
             <div className="flex flex-col justify-between">
               {/* {productList.length} */}
               {productList.length > 0 ? (
-                currentItems.map((product, index) => (
+                currentItems.map((product, index) => {
+                  const updatedCartQuantity =
+                    product.minOrderQuantity > product.CartQuantity
+                      ? product.minOrderQuantity
+                      : product.CartQuantity || 1;
+                  return (
+                    <>
                   <div
                   key={index}
                   className="flex sm:p-4  p-2 flex-col  lg:flex-row md:flex-row h-auto  border w-60 md:w-auto justify-around shadow-lg rounded-md mb-4"
@@ -563,20 +585,40 @@ function LayoutOtcProducts({
                     <p className="font-semibold sm:ml-4 m-0">Quantity</p>
                     <div className="mt-2 flex ">
                       <button
-                        className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
-                        onClick={() => {
-                          const newQuantity = Math.max(
-                            1,
-                            product.minOrderQuantity - 1
-                          );
+                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                          
+                          onClick={() => {
+                            if (product.CartQuantity > product.minOrderQuantity) {
 
-                          // Clear stock warning if the new quantity is within the stock
-                          if (newQuantity <= product.amountInStock) {
-                            setStockWarning({ productId: null, message: "" });
-                          }
+                              product.CartQuantity = product.CartQuantity - 1;
 
-                          handleQuantityChange(index, newQuantity);
-                        }}
+                              // Check if quantity exceeds stock
+                              if (product.CartQuantity > product.amountInStock) {
+                                setStockWarning({
+                                  productId: product.productID,
+                                  message: `Only ${product.amountInStock} items available in stock.`,
+                                });
+                              } else {
+                                handleQuantityChange(index, product.CartQuantity);
+                                setStockWarning({ productId: null, message: "" }); // Clear warning if within stock
+                              }
+                            }
+                          }}
+
+
+                        // onClick={() => {
+                        //   const newQuantity = Math.max(
+                        //     1,
+                        //     product.minOrderQuantity - 1
+                        //   );
+
+                        //   // Clear stock warning if the new quantity is within the stock
+                        //   if (newQuantity <= product.amountInStock) {
+                        //     setStockWarning({ productId: null, message: "" });
+                        //   }
+
+                        //   handleQuantityChange(index, newQuantity);
+                        // }}
                         // disabled={
                         //   product.CartQuantity <= 1 ||
                         //   product.amountInStock <= 0
@@ -588,11 +630,16 @@ function LayoutOtcProducts({
                       <input
                         type="text"
                         // value={product.CartQuantity}
-                        value={
-                          product.amountInStock === 0
-                            ? 0
-                            : product.minOrderQuantity
-                        }
+                        // value={
+                        //   product.amountInStock === 0
+                        //     ? 0
+                        //     : product.minOrderQuantity
+                          // }
+                          value={
+                            product.amountInStock === 0
+                              ? 0
+                              : updatedCartQuantity
+                          }
                         // value={product.amountInStock === 0 ? 0 : product.CartQuantity || product.minOrderQuantity}
                         className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
                         onChange={(e) => {
@@ -619,17 +666,32 @@ function LayoutOtcProducts({
                       <button
                         className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
                         onClick={() => {
-                          const newQuantity = product.minOrderQuantity + 1;
+                          // const newQuantity = product.minOrderQuantity + 1;
 
-                          // Check if quantity exceeds stock
-                          if (newQuantity > product.amountInStock) {
-                            setStockWarning({
-                              productId: product.productID,
-                              message: `Only ${product.amountInStock} items available in stock.`,
-                            });
-                          } else {
-                            handleQuantityChange(index, newQuantity);
-                            setStockWarning({ productId: null, message: "" }); // Clear warning if within stock
+                          // // Check if quantity exceeds stock
+                          // if (newQuantity > product.amountInStock) {
+                          //   setStockWarning({
+                          //     productId: product.productID,
+                          //     message: `Only ${product.amountInStock} items available in stock.`,
+                          //   });
+                          // } else {
+                          //   handleQuantityChange(index, newQuantity);
+                          //   setStockWarning({ productId: null, message: "" }); // Clear warning if within stock
+                          // }
+                          if (product.CartQuantity < product.maxOrderQuantity) {
+                            product.CartQuantity = product.CartQuantity + 1;
+
+                            // Check if quantity exceeds stock
+                            if (product.CartQuantity > product.amountInStock) {
+                              setStockWarning({
+                                productId: product.productID,
+                                message: `Only ${product.amountInStock} items available in stock.`,
+                              });
+                            }
+                            else {
+                              handleQuantityChange(index, product.CartQuantity);
+                              setStockWarning({ productId: null, message: "" }); // Clear warning if within stock
+                            }
                           }
                         }}
                       >
@@ -641,7 +703,7 @@ function LayoutOtcProducts({
                         {stockWarning.message}
                       </p>
                     )}
-                    <div className="text-sm sm:mt-2 mt-4">
+                    {/* <div className="text-sm sm:mt-2 mt-4">
                       {product.amountInStock <= 0 ? (
                         <p className="text-red-500 font-semibold">
                           Out Of Stock
@@ -654,7 +716,41 @@ function LayoutOtcProducts({
                           </span>
                         </p>
                       )}
-                    </div>
+                    </div> */}
+                      <div>
+                        {/* Combined Stock and Quantity Validation */}
+                        {product.amountInStock <= 0 ? (
+                          <p className="text-red-500 font-semibold mt-1">Out Of Stock</p>
+                        ) : (
+                          <>
+                            <p className="text-red-500 text-sm mt-1">
+                              Minimum Quantity: {product.minOrderQuantity}
+                            </p>
+                            <p className="text-red-500 text-xs mt-1">
+                              You can buy a maximum of {product.maxOrderQuantity}.
+                            </p>
+                            {product.CartQuantity > product.amountInStock && (
+                              <p className="text-red-500 text-xs mt-1">
+                                Only {product.amountInStock} items available in stock.
+                              </p>
+                            )}
+                          </>
+                        )}
+
+                        {/* Stock Available Display */}
+                        {product.amountInStock > 0 && (
+                          <div className="text-sm sm:mt-2 mt-4">
+                            <p className="text-white p-1 sm:w-28 w-40 text-center text-xs bg-green-600 rounded-lg">
+                              Stock Available{" "}
+                              <span className="font-semibold text-xs text-center">
+                                {product.amountInStock}
+                              </span>
+                            </p>
+                          </div>
+                        )}
+                      </div>
+
+
                     <div
                       onClick={() => {
                         if (product.amountInStock > 0) {
@@ -666,7 +762,8 @@ function LayoutOtcProducts({
                           } else {
                             handleCart(
                               product.productID,
-                              product.minOrderQuantity
+                              // product.minOrderQuantity
+                              product.CartQuantity
                             );
                             setStockWarning({ productId: null, message: "" });
                           }
@@ -820,8 +917,10 @@ function LayoutOtcProducts({
                       </div> */}
                     {/* )} */}
                   </div>
-                </div>
-                ))
+               </div>
+             </>
+                )
+                })
               ) : (
                 <p>No products available</p>
               )}
