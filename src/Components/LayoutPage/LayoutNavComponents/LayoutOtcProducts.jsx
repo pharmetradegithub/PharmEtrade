@@ -763,7 +763,7 @@ function LayoutOtcProducts({
                             handleCart(
                               product.productID,
                               // product.minOrderQuantity
-                              product.CartQuantity
+                              updatedCartQuantity
                             );
                             setStockWarning({ productId: null, message: "" });
                           }
