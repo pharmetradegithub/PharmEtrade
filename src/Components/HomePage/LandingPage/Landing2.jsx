@@ -180,15 +180,15 @@ function Landing2({ wishList, addCart }) {
   const handleClick = (index) => {
     switch (index) {
       case 0:
-        isLoggedIn ? navigate("/layout/layoutbuy") : navigate("/login");
+        isLoggedIn ? navigate("/layout/layoutbuy") : navigate("/signup");
         break;
 
       case 1:
-        isLoggedIn ? navigate("/layout/addproduct") : navigate("/login");
+        isLoggedIn ? navigate("/layout/addproduct") : navigate("/signup");
         break;
 
       case 2:
-        isLoggedIn ? navigate("/bid") : navigate("/login");
+        isLoggedIn ? navigate("/bid") : navigate("/signup");
         break;
 
       case 3:
@@ -253,7 +253,7 @@ function Landing2({ wishList, addCart }) {
       </div> */}
 
 <div className="w-full">
-  <div className="flex flex-col sm:flex-col md:grid md:grid-cols-2 md:grid-rows-2 lg:flex lg:flex-row justify-around gap-6">
+        <div className="flex flex-col sm:flex-col md:grid md:grid-cols-2 md:grid-rows-2 lg:flex lg:flex-row justify-around gap-6">
     {slides.map((item, key) => (
       <div
         key={key}
