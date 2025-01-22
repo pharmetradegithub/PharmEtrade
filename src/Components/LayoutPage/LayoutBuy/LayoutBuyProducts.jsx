@@ -856,7 +856,7 @@ function LayoutBuy({
                                 } else {
                                   handleCart(
                                     product.productID,
-                                    product.CartQuantity
+                                    updatedCartQuantity
                                   );
                                   setStockWarning({ productId: null, message: "" });
                                 }

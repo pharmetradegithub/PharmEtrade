@@ -4,11 +4,12 @@ import { Autocomplete, Button, FormControl, FormHelperText, InputLabel, Modal, T
 import edit from '../../../assets/Edit.png';
 import { useDispatch, useSelector } from 'react-redux';
 // import { fetchProductOffer } from '../../../Api/ProductApi';
-import { taxAddInformationApi, TaxGetByStateNameApi, TaxInfoEdit } from '../../../Api/TaxInfoApi';
+import { AddTaxBUlk, taxAddInformationApi, TaxGetByStateNameApi, TaxInfoEdit } from '../../../Api/TaxInfoApi';
 import Notification from '../../Notification';
 import { useStates } from "react-us-states";
 import { fetchCategorySpecificationsGetAll } from '../../../Api/MasterDataApi';
 import Loading from '../../Loading';
+import Pagination from '../../Pagination';
 // const TaxInformation = () => {
 //   const getproductSpecialOffer = useSelector((state) => state.product.productSpecialOffer)
 //   const [category, setCategory] = useState(getproductSpecialOffer);
@@ -726,13 +727,29 @@ const TaxInformation = () => {
   const [selectedStates, setSelectedStates] = useState([]);
   const [customField, setCustomField] = useState("");
 
-  const handleModalSubmit = () => {
-    // Process the data from the modal
-    console.log("Selected States:", selectedStates);
-    console.log("Custom Field Value:", customField);
+  const handleModalSubmit = async () => {
+    // // Process the data from the modal
+    // console.log("Selected States:", selectedStates);
+    // console.log("Custom Field Value:", customField);
 
-    // Close the modal after submission
+    // // Close the modal after submission
     setIsModalOpen(false);
+    const payload = {
+      sellerId: user.customerId,
+      taxPercentage: customField,
+      isActive: 1
+    }
+       try {
+         await dispatch(AddTaxBUlk(payload))
+          setNotification({
+            show: true,
+            message: "Added Successfully!",
+          });
+         setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+         await dispatch(TaxGetByStateNameApi(user.customerId))
+        } catch (error) {
+          console.error("Error adding product to cart:", error);
+        }
   };
   const handleCancel = () => {
     // Process the data from the modal
@@ -751,6 +768,18 @@ const TaxInformation = () => {
       setSelectedStates(filteredStates); // Select all states by default
     }
   }, [filteredStates]);
+
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentItems, setCurrentItems] = useState([]);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+   useEffect(() => {
+     if (stateNameData) {
+       setCurrentItems(stateNameData.slice(indexOfFirstItem, indexOfLastItem));
+      }
+   }, [currentPage, stateNameData, indexOfFirstItem, indexOfLastItem]);
 
   return (
     <div className="w-full overflow-y-scroll">
@@ -827,7 +856,13 @@ const TaxInformation = () => {
               <TextField
                 label="Tax Percentage"
                 value={customField}
-                onChange={(e) => setCustomField(e.target.value)}
+                // onChange={(e) => setCustomField(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value <= 99) {
+                    setCustomField(value); // Update when value is less than or equal to 99
+                  }
+                }}
                 fullWidth
                 sx={{ width: '400px'}}
               />
@@ -850,7 +885,7 @@ const TaxInformation = () => {
                 color="primary"
                 onClick={handleModalSubmit}
               >
-                Apply to All State
+                Apply to All
               </Button>
             </div>
           </div>
@@ -1023,14 +1058,14 @@ const TaxInformation = () => {
             </tr>
           </thead>
           <tbody>
-            {stateNameData?.length > 0 ? (
-              stateNameData.map((entry, index) => {
+                {currentItems?.length > 0 ? (
+                  currentItems.map((entry, index) => {
                 const matchedCategory = getproductSpecialOffer.find(
                   (item) => item.categorySpecificationId === entry.categorySpecificationID
                 );
                 return (
                   <tr key={index} className="bg-white hover:bg-gray-100 transition-colors">
-                    <td className="px-6 border-b border-gray-200 text-sm">{index + 1}</td>
+                    <td className="px-6 border-b border-gray-200 text-sm">{indexOfFirstItem + index + 1}</td>
                     <td className="px-6 border-b border-gray-200 text-sm">{entry.stateName}</td>
                     <td className="px-6 border-b border-gray-200 text-sm">
                       {matchedCategory ? matchedCategory.specificationName : 'Unknown Category'}
@@ -1067,7 +1102,7 @@ const TaxInformation = () => {
 
         <div className='block md:hidden space-y-4'>
           {
-            stateNameData.map((entry, index) => {
+                currentItems.map((entry, index) => {
               const matchedCategory = getproductSpecialOffer.find(
                 (item) => item.categorySpecificationId === entry.categorySpecificationID
               );
@@ -1075,7 +1110,7 @@ const TaxInformation = () => {
                 <div key={index} className="bg-white shadow rounded-lg p-4 border">
                     <div className="flex gap-2">
                     <span className="font-semibold text-sm">S.No:</span>
-                    <span>{index + 1}</span>
+                    <span>{indexOfFirstItem + index + 1}</span>
                   </div>
 
                   <div className='mt-2'>
@@ -1137,6 +1172,15 @@ const TaxInformation = () => {
           </div>
         </>
       )}
+      <Pagination
+        indexOfFirstItem={indexOfFirstItem}
+        indexOfLastItem={indexOfLastItem}
+        productList={stateNameData}
+        itemsPerPage={itemsPerPage}
+        setItemsPerPage={setItemsPerPage}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 };
