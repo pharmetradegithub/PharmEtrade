@@ -437,7 +437,7 @@ const TaxInformation = () => {
   const dispatch = useDispatch();
   const stateNameData = useSelector((state) => state.tax.stateName);
 
-
+ 
   const [editingEntry, setEditingEntry] = useState({}); // Store current entry being edited
 
 
@@ -577,7 +577,7 @@ const TaxInformation = () => {
   //   setShowSuccessMessage(true);
   // };
 
-
+const [trigger, setTrigger] = useState(1)
   const handleAddOrSave = async () => {
     if (validate()) {
       console.log("Form is valid:", formData);
@@ -660,12 +660,16 @@ const TaxInformation = () => {
         modifiedDate: new Date().toISOString(),
         isActive: 1,
       };
+      // setLoading(true)
       await dispatch(TaxInfoEdit(payloadEdit));
+      // setLoading(true)
       setNotification({
         show: true,
         message: "Edit Item Successfully!",
       });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      // setLoading(false)
+
     }
 
     // Fetch updated tax data
@@ -681,28 +685,109 @@ const TaxInformation = () => {
 
 
   // Handle edit icon click: populate the form with the selected row data
-  const handleEditClick = (index, taxInformationId, categorySpecificationId, taxPercentage, stateName, createdDate, modifiedDate) => {
-    const entryToEdit = stateNameData[index]; // Get the selected entry
+  // const handleEditClick = (index, taxInformationId, categorySpecificationId, taxPercentage, stateName, createdDate, modifiedDate) => {
+  //   console.log("taxId", taxInformationId, categorySpecificationId, taxPercentage, stateName)
+  //   const entryToEdit = stateNameData[index]; // Get the selected entry
 
-    if (entryToEdit && entryToEdit.categorySpecificationID) {
-      setCategory(entryToEdit.categorySpecificationID); // Set the category in the form
-      setTaxPercentage(entryToEdit.taxPercentage); // Set the tax percentage in the form
-      setFormData({ State: entryToEdit.stateName })
-      setEditingIndex(index); // Set the index of the row being edited
-      setIsEditable(true); // Make form editable
-      setShowSuccessMessage(false); // Hide success message while editing
-      setEditingEntry({
-        taxInformationId,
-        categorySpecificationId,
-        taxPercentage,
-        stateName,
-        createdDate,
-        modifiedDate
-      }); // Store the editing entry data
-    } else {
-      console.error('Category is undefined for the selected entry.');
-    }
+  //   if (entryToEdit && entryToEdit.categorySpecificationID) {
+  //     setCategory(categorySpecificationID); // Set the category in the form
+  //     setTaxPercentage(taxPercentage); // Set the tax percentage in the form
+  //     setFormData({ State: stateName })
+  //     setEditingIndex(index); // Set the index of the row being edited
+  //     setIsEditable(true); // Make form editable
+  //     setShowSuccessMessage(false); // Hide success message while editing
+  //     setEditingEntry({
+  //       taxInformationId,
+  //       categorySpecificationId,
+  //       taxPercentage,
+  //       stateName,
+  //       createdDate,
+  //       modifiedDate
+  //     }); // Store the editing entry data
+  //   } else {
+  //     console.error('Category is undefined for the selected entry.');
+  //   }
+  // };
+
+// const handleEditClick = (
+//   index,
+//   taxInformationId,
+//   categorySpecificationId,
+//   taxPercentage,
+//   stateName,
+//   createdDate,
+//   modifiedDate
+// ) => {
+//   console.log("handleEditClick called with:", {
+//     index,
+//     taxInformationId,
+//     categorySpecificationId,
+//     taxPercentage,
+//     stateName,
+//     createdDate,
+//     modifiedDate,
+//   });
+
+//   // Get the selected entry
+//   const entryToEdit = stateNameData[index];
+
+//   if (!entryToEdit) {
+//     console.error("No entry found at index:", index);
+//     return;
+//   }
+
+//   if (!entryToEdit.categorySpecificationId) {
+//     console.error("Category Specification ID is undefined:", entryToEdit);
+//     return;
+//   }
+
+//   // Update state for the selected entry
+//   setCategory(categorySpecificationId); // Use mapped data
+//   setTaxPercentage(taxPercentage);
+//   setFormData({ State: stateName });
+//   setEditingIndex(index);
+//   setIsEditable(true);
+//   setShowSuccessMessage(false);
+
+//   // Store the editing entry's data
+//   setEditingEntry({
+//     taxInformationId: taxInformationId,
+//     categorySpecificationId: categorySpecificationId,
+//     taxPercentage: taxPercentage,
+//     stateName: stateName,
+//     createdDate: createdDate,
+//     modifiedDate: modifiedDate,
+//   });
+// };
+
+  const handleEditClick = (index, taxInformationId, categorySpecificationId, taxPercentage, stateName, createdDate, modifiedDate) => {
+    console.log("Editing entry:", {
+      index,
+      taxInformationId,
+      categorySpecificationId,
+      taxPercentage,
+      stateName,
+    });
+
+    setCategory(categorySpecificationId); // Set the category in the form
+    setFormData({ State: stateName }); // Set the state name in the form
+    setTaxPercentage(taxPercentage); // Set the tax percentage in the form
+
+    setEditingIndex(index); // Save the index of the row being edited
+    setIsEditable(true); // Enable editing mode
+    setShowSuccessMessage(false); // Hide success message during editing
+
+    setEditingEntry({
+      taxInformationId,
+      categorySpecificationId,
+      taxPercentage,
+      stateName,
+      createdDate,
+      modifiedDate,
+    });
   };
+
+
   useEffect(() => {
     const data = () => {
       setLoading(true)
@@ -715,7 +800,7 @@ const TaxInformation = () => {
       }
     }
     data()
-  }, [dispatch, user.customerId]);
+  }, [dispatch, user.customerId, trigger]);
 
   useEffect(() => {
     dispatch(fetchCategorySpecificationsGetAll());
@@ -787,7 +872,9 @@ const TaxInformation = () => {
      if (stateNameData) {
        setCurrentItems(stateNameData.slice(indexOfFirstItem, indexOfLastItem));
       }
-   }, [currentPage, stateNameData, indexOfFirstItem, indexOfLastItem]);
+   }, [currentPage, indexOfFirstItem, indexOfLastItem]);
+  
+  
 
   return (
     <div className="w-full overflow-y-scroll">
@@ -925,11 +1012,26 @@ const TaxInformation = () => {
         <div className="flex flex-col gap-3 md:gap-0 md:flex-row justify-around my-4">
           <div className=''>
             <div className="">
-              <select
+              {/* <select
                 className="border rounded-md h-11"
                 value={category}
                 onChange={(e) => setCategory(Number(e.target.value))}
-                disabled={editingIndex !== null}
+                // disabled={editingIndex !== null}
+              >
+                <option value="">Select a category</option>
+                {getproductSpecialOffer.map((item) => (
+                  <option
+                    key={item.categorySpecificationId}
+                    value={item.categorySpecificationId}
+                  >
+                    {item.specificationName}
+                  </option>
+                ))}
+              </select> */}
+              <select
+                className="border rounded-md h-11"
+                value={category} // Bound to `category` state
+                onChange={(e) => setCategory(Number(e.target.value))}
               >
                 <option value="">Select a category</option>
                 {getproductSpecialOffer.map((item) => (
@@ -941,6 +1043,7 @@ const TaxInformation = () => {
                   </option>
                 ))}
               </select>
+
             </div>
           </div>
           <div>
@@ -982,7 +1085,7 @@ const TaxInformation = () => {
             </FormControl> */}
             <FormControl className="w-44" error={!!errors.State}>
               <InputLabel id="state-select-label"></InputLabel>
-              <Autocomplete
+              {/* <Autocomplete
                 id="state-select"
                 options={filteredStates} // Use the filtered states array
                 getOptionLabel={(option) => option.name}
@@ -1011,12 +1114,29 @@ const TaxInformation = () => {
                     option.name.toLowerCase().includes(inputValue.toLowerCase())
                   );
                 }}
+              /> */}
+              <Autocomplete
+                id="state-select"
+                options={filteredStates}
+                getOptionLabel={(option) => option.name}
+                value={filteredStates.find((state) => state.name === formData.State) || null} // Bound to `formData.State`
+                onChange={(event, newValue) => {
+                  handleInputChange({
+                    target: {
+                      name: "State",
+                      value: newValue ? newValue.name : "",
+                    },
+                  });
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} label="State" size="small" variant="outlined" />
+                )}
               />
               {errors.State && <FormHelperText>{errors.State}</FormHelperText>}
             </FormControl>
           </div>
           <div>
-            <TextField
+            {/* <TextField
               type="phone"
               label="Tax percentage"
               size="small"
@@ -1031,6 +1151,17 @@ const TaxInformation = () => {
               inputProps={{
                 max: 99, // Set the maximum value to 99
                 min: 0,  // Optional: Set the minimum value to 0
+              }}
+            /> */}
+            <TextField
+              type="phone"
+              label="Tax percentage"
+              size="small"
+              value={taxPercentage} // Bound to `taxPercentage` state
+              onChange={(e) => setTaxPercentage(e.target.value)} // Update state on change
+              inputProps={{
+                max: 99, // Maximum value
+                min: 0,  // Minimum value
               }}
             />
           </div>
@@ -1091,7 +1222,7 @@ const TaxInformation = () => {
                     <td className="px-6 border-b border-gray-200 text-sm">
                       <button
                         className="px-4 py-2 text-white"
-                        onClick={() => handleEditClick(index, entry?.taxInformationID, entry.categorySpecificationID, entry.taxPercentage, entry.stateName, entry.createdDate, entry.modifiedDate)}
+                        onClick={() => handleEditClick(index, entry?.taxInformationID, entry?.categorySpecificationID, entry?.taxPercentage, entry?.stateName, entry?.createdDate, entry?.modifiedDate)}
                       >
                         <img src={edit} alt="Edit" className="w-6 h-6" />
                       </button>
