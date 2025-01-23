@@ -592,21 +592,25 @@ const TaxInformation = () => {
     );
 
     // Check for duplicate entries
-    const isDuplicate = stateNameData.some(
-      (entry) =>
-        entry.stateName === formData.State &&
-        entry.categorySpecificationID === selectedCategory?.categorySpecificationId
-    );
+    if (editingIndex === null) {
+      const isDuplicate = stateNameData.some(
+        (entry) =>
+          entry.stateName === formData.State &&
+          entry.categorySpecificationID === selectedCategory?.categorySpecificationId
+      );
 
-    if (isDuplicate) {
-      setNotification({
-        show: true,
-        message: `Tax is already defined for the state "${formData.State}" and category "${selectedCategory?.specificationName}".`,
-      });
-      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-      return; // Stop execution if duplicate entry is found
+      if (isDuplicate) {
+        setNotification({
+          show: true,
+          message: `Tax is already defined for the state "${formData.State}" and category "${selectedCategory?.specificationName}".`,
+        });
+        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+        setFormData('');
+        setCategory("");
+        setTaxPercentage('');
+        return; // Stop execution if duplicate entry is found
+      }
     }
-
     if (editingIndex !== null) {
       // Update the existing entry in stateNameData (editing case)
       const updatedEntries = [...stateNameData];
@@ -674,6 +678,7 @@ const TaxInformation = () => {
     setIsEditable(false);
     setShowSuccessMessage(true);
   };
+
 
   // Handle edit icon click: populate the form with the selected row data
   const handleEditClick = (index, taxInformationId, categorySpecificationId, taxPercentage, stateName, createdDate, modifiedDate) => {
