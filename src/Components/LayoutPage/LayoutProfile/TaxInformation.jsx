@@ -745,6 +745,7 @@ const TaxInformation = () => {
       isActive: 1
     }
        try {
+         setLoading(true)
          await dispatch(AddTaxBUlk(payload))
           setNotification({
             show: true,
@@ -752,6 +753,8 @@ const TaxInformation = () => {
           });
          setTimeout(() => setNotification({ show: false, message: "" }), 3000);
          await dispatch(TaxGetByStateNameApi(user.customerId))
+         setLoading(false)
+         setCustomField('')
         } catch (error) {
           console.error("Error adding product to cart:", error);
         }
