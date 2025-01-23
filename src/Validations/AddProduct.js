@@ -141,16 +141,16 @@ export const ProductPriceValidation = (formData) => {
     const upnMemberPrice = parseFloat(formData.upnMemberPrice);
     const salePrice = parseFloat(formData.salePrice);
 
-    if (!upnMemberPrice || upnMemberPrice <= 0) {
-        errors.upnMemberPrice = "Upn Member Price is required and must be greater than 0.";
-    } else {
+    // if (!upnMemberPrice || upnMemberPrice <= 0) {
+    //     errors.upnMemberPrice = "Upn Member Price is required and must be greater than 0.";
+    // } else {
         if (upnMemberPrice >= price) {
             errors.upnMemberPrice = "Upn Member Price must be less than the price.";
         }
-        if (salePrice > 0 && upnMemberPrice >= salePrice) {
+         else if(salePrice > 0 && upnMemberPrice >= salePrice) {
             errors.upnMemberPrice = "Upn Member Price must be less than the sale price.";
         }
-    }
+    // }
 
     if (formData.amountInStock === null || formData.amountInStock === undefined || formData.amountInStock <= 0) {
         errors.amountInStock = "Amount In Stock is required.";

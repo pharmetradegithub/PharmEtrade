@@ -573,6 +573,20 @@ const adminOfferSlice = createSlice({
   }
 })
 
+const fedExShipmentSlice = createSlice({
+  name: 'fedExShipment',
+  initialState: { AddfedExShipment: [], setGetFedEx: [] },
+  reducers: {
+    setAddFedExShipping(state, action) {
+      state.AddfedExShipment = action.payload
+    },
+    setGetFedEx(state, action) {
+      state.setGetFedEx =  action.payload
+    }
+  }
+})
+export const { setAddFedExShipping, setGetFedEx } = fedExShipmentSlice.actions
+
 export const { setOfferGetAll, setOfferAdd, setOfferEdit, setOfferGetLanding} = adminOfferSlice.actions
 
 export const { setGetChargeInfo } = adminChargesSlice.actions
@@ -655,7 +669,8 @@ const store = configureStore({
     rating:ratingSlice.reducer,
     comment:commentSlice.reducer,
     charges: adminChargesSlice.reducer,
-    offer: adminOfferSlice.reducer
+    offer: adminOfferSlice.reducer,
+    fedEx: fedExShipmentSlice.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });

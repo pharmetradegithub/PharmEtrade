@@ -219,7 +219,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fedexShippingGetApi, shipmentAddApi, shipmentEditApi } from '../../../Api/ShipmentApi';
+import { fedExAddApi, fedexGetApi, fedexShippingGetApi, shipmentAddApi, shipmentEditApi } from '../../../Api/ShipmentApi';
 import { TextField } from '@mui/material';
 import edit from '../../../assets/Edit.png';
 import Notification from '../../Notification';
@@ -227,17 +227,24 @@ import Notification from '../../Notification';
 function LayoutFedexshipping() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
-  const getshipingDetails = useSelector((state) => state.shipment.getShipment);
+  // const getshipingDetails = useSelector((state) => state.shipment.getShipment);
   const [notification, setNotification] = useState({
     show: false,
     message: "",
   });
 
   const [formData, setFormData] = useState({
-    accountid: '',
-    meterNumber: '',
-    key: '',
-    password: '',
+    // accountid: '',
+    // meterNumber: '',
+    // key: '',
+    // password: '',
+    fedExBaseUrl: "",
+    grant_type: "",
+    client_id: "",
+    client_secret: "",
+    rates_grant_type: "",
+    rates_client_id: "",
+    rates_client_secret: "",
   });
 
   const [message, setMessage] = useState('');
@@ -262,22 +269,24 @@ function LayoutFedexshipping() {
     } else {
       const existingShipment = getshipingDetails?.find(shipment => shipment.shipmentTypeId === 4);
 
+      const currentDate = new Date();
+      const createdDate = currentDate.toISOString();
+      const modifiedDate = currentDate.toISOString();
       if (!existingShipment) {
         const payloadAdd = {
-          shipmentID: '',
-          shipmentTypeId: 4,
-          customerId: user.customerId,
-          accessLicenseNumber: 'string',
-          userID: 'string',
-          password: formData.password,
-          shipperNumber: 'string',
-          accountID: formData.accountid,
-          meterNumber: formData.meterNumber,
-          isActive: true,
-          createdDate: '2024-10-21T07:15:43.952Z',
-          key: formData.key,
+        fedExid: "",
+        sellerId: user.customerId,
+        fedExBaseUrl: formData.fedExBaseUrl,
+        grant_type: formData.grant_type,
+        client_id: formData.client_id,
+        client_secret: formData.client_secret,
+        rates_grant_type: formData.rates_grant_type,
+        rates_client_id: formData.rates_client_id,
+        rates_client_secret: formData.rates_client_secret,
+        createdDate: createdDate,
+        modifiedDate: modifiedDate
         };
-        await dispatch(shipmentAddApi(payloadAdd));
+        await dispatch(fedExAddApi(payloadAdd));
         // setMessage('FedEx Shipping details added successfully.');
         setNotification({
           show: true,
@@ -314,22 +323,22 @@ function LayoutFedexshipping() {
   };
 
   useEffect(() => {
-    dispatch(fedexShippingGetApi(user?.customerId));
+    dispatch(fedexGetApi(user?.customerId));
   }, []);
 
-  useEffect(() => {
-    if (Array.isArray(getshipingDetails)) {
-      const fedexShippingDetails = getshipingDetails.find(shipment => shipment.shipmentTypeId === 4);
-      if (fedexShippingDetails) {
-        setFormData({
-          accountid: fedexShippingDetails.accountID || '',
-          meterNumber: fedexShippingDetails.meterNumber || '',
-          key: fedexShippingDetails.key || '',
-          password: fedexShippingDetails.password || '',
-        });
-      }
-    }
-  }, [getshipingDetails]);
+  // useEffect(() => {
+  //   if (Array.isArray(getshipingDetails)) {
+  //     const fedexShippingDetails = getshipingDetails.find(shipment => shipment.shipmentTypeId === 4);
+  //     if (fedexShippingDetails) {
+  //       setFormData({
+  //         accountid: fedexShippingDetails.accountID || '',
+  //         meterNumber: fedexShippingDetails.meterNumber || '',
+  //         key: fedexShippingDetails.key || '',
+  //         password: fedexShippingDetails.password || '',
+  //       });
+  //     }
+  //   }
+  // }, [getshipingDetails]);
 
   return (
     <div className="w-full px-4">
@@ -345,19 +354,19 @@ function LayoutFedexshipping() {
         <h1 className="text-base md:text-xl text-blue-900 font-semibold">Manage Fedex Configuration</h1>
       </div>
       <div className="w-full md:w-[80%] xl:w-[60%]  border rounded-md shadow-md flex flex-col justify-center">
-        <div className="w-full ml-2 md:ml-6 flex flex-col  justify-center ">
+        <div className="w-full ml-2 md:ml-6 flex flex-col  justify-center">
           <div className="flex justify-end -ml-4 w-[95%]">
             <img src={edit} className="w-6 h-6 cursor-pointer" onClick={handleEditClick} alt="Edit" />
           </div>
           <div className="w-[80%] flex flex-col md:flex-row justify-between gap-4 text-gray-600 my-0 md:my-4">
             <div className="flex flex-col">
               <TextField
-                label="Account ID"
+                label="FedExBaseUrl"
                 size="small"
                 type="text"
-                name="accountid"
+                name="FedExBaseUrl"
                 className="border rounded-md h-8 w-52"
-                value={formData.accountid}
+                value={formData.fedExBaseUrl}
                 onChange={handleChange}
                 disabled={!isEditable} // Disable the input if not editable
               />
@@ -365,26 +374,27 @@ function LayoutFedexshipping() {
             <div className="flex flex-col">
               <TextField
                 type="text"
-                label="Meter Number"
+                label="Grant type"
                 size="small"
-                name="meterNumber"
+                name="Grant type"
                 className="border rounded-md h-8 w-52"
-                value={formData.meterNumber}
+                value={formData.grant_type}
                 onChange={handleChange}
                 disabled={!isEditable} // Disable the input if not editable
               />
             </div>
+            
           </div>
 
           <div className="w-[80%] flex flex-col md:flex-row gap-4 justify-between text-gray-600 my-4">
             <div className="flex flex-col">
               <TextField
                 type="text"
-                label="Key"
+                label="Client id"
                 size="small"
-                name="key"
+                name="Client id"
                 className="border rounded-md h-8 w-52"
-                value={formData.key}
+                value={formData.client_id}
                 onChange={handleChange}
                 disabled={!isEditable} // Disable the input if not editable
               />
@@ -392,11 +402,51 @@ function LayoutFedexshipping() {
             <div className="flex flex-col">
               <TextField
                 type="text"
-                label="Password"
+                label="Client secret"
                 size="small"
-                name="password"
+                name="Client secret"
                 className="border rounded-md h-8 w-52"
-                value={formData.password}
+                value={formData.client_secret}
+                onChange={handleChange}
+                disabled={!isEditable} // Disable the input if not editable
+              />
+            </div>
+          </div>
+          <div className="w-[80%] flex flex-col md:flex-row gap-4 justify-between text-gray-600 my-4">
+            <div className="flex flex-col">
+              <TextField
+                type="text"
+                label="Rates grant type"
+                size="small"
+                name="Rates grant type"
+                className="border rounded-md h-8 w-52"
+                value={formData.rates_grant_type}
+                onChange={handleChange}
+                disabled={!isEditable} // Disable the input if not editable
+              />
+            </div>
+            <div className="flex flex-col">
+              <TextField
+                type="text"
+                label="Rates client id"
+                size="small"
+                name="Rates client id"
+                className="border rounded-md h-8 w-52"
+                value={formData.rates_client_id}
+                onChange={handleChange}
+                disabled={!isEditable} // Disable the input if not editable
+              />
+            </div>
+          </div>
+          <div className="w-[80%] flex flex-col md:flex-row gap-4 justify-between text-gray-600 my-4">
+            <div className="flex flex-col">
+              <TextField
+                type="text"
+                label="Rates client secret"
+                size="small"
+                name="Rates client secret"
+                className="border rounded-md h-8 w-52"
+                value={formData.rates_client_secret}
                 onChange={handleChange}
                 disabled={!isEditable} // Disable the input if not editable
               />
