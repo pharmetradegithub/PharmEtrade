@@ -575,17 +575,17 @@ const adminOfferSlice = createSlice({
 
 const fedExShipmentSlice = createSlice({
   name: 'fedExShipment',
-  initialState: { AddfedExShipment: [], setGetFedEx: [] },
+  initialState: { AddfedExShipment: [], getFedex: [] },
   reducers: {
     setAddFedExShipping(state, action) {
       state.AddfedExShipment = action.payload
     },
-    setGetFedEx(state, action) {
-      state.setGetFedEx =  action.payload
+    setGetFedex(state, action) {
+      state.getFedex =  action.payload
     }
   }
 })
-export const { setAddFedExShipping, setGetFedEx } = fedExShipmentSlice.actions
+export const { setAddFedExShipping, setGetFedex } = fedExShipmentSlice.actions
 
 export const { setOfferGetAll, setOfferAdd, setOfferEdit, setOfferGetLanding} = adminOfferSlice.actions
 
@@ -670,7 +670,7 @@ const store = configureStore({
     comment:commentSlice.reducer,
     charges: adminChargesSlice.reducer,
     offer: adminOfferSlice.reducer,
-    fedEx: fedExShipmentSlice.reducer
+    fedex: fedExShipmentSlice.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });

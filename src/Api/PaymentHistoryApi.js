@@ -44,7 +44,7 @@ export const fetchGetOrderBySellerId = (customerId) => {
       if (response.status === 200) {
         const paymentHistoryData = response.data.result;
         console.log('Dispatching setSpecialOffer action:', paymentHistoryData); // Log before dispatch
-        dispatch(setPaymentHistory(OrderBySellerId)); // Dispatch action
+        dispatch(setPaymentHistory(paymentHistoryData)); // Dispatch action
       } else {
         console.error('Failed to fetch order:', response.data.message);
       }

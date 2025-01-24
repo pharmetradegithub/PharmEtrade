@@ -34,11 +34,11 @@
 //     const year = date.getFullYear();
 //     return `${month}/${day}/${year}`;
 //   };
- 
+
 
 //   const handleSubmit = async () => {
 //     const isFormComplete = formData.accountid && formData.meterNumber && formData.key && formData.password;
-  
+
 //     if (!isFormComplete) {
 //       // If any of the form fields are empty, show an error message
 //       setMessage('All fields are required.');
@@ -46,7 +46,7 @@
 //     } else {
 //       // Check if shipping details already exist for typeId 4 (FedEx)
 //       const existingShipment = getshipingDetails?.find(shipment => shipment.shipmentTypeId === 4);
-  
+
 //       if (!existingShipment) {
 //         // If no existing shipment, call shipmentAddApi
 //         const payloadAdd = {
@@ -90,7 +90,7 @@
 //       }
 //     }
 //   };
-  
+
 //   useEffect(() => {
 //     dispatch(fedexShippingGetApi(user?.customerId))
 //   }, [])
@@ -195,9 +195,9 @@
 //             onChange={handleChange}
 //           />
 //           </div>
-          
+
 //         </div>
-        
+
 //       </div>
 //       <div className='flex justify-end p-4'>
 //       <button
@@ -219,15 +219,16 @@
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fedExAddApi, fedexGetApi, fedexShippingGetApi, shipmentAddApi, shipmentEditApi } from '../../../Api/ShipmentApi';
 import { TextField } from '@mui/material';
 import edit from '../../../assets/Edit.png';
 import Notification from '../../Notification';
+import { fetchFedExAddApi, fetchFedexEditApi, fetchGetFedex } from '../../../Api/FedexApi';
 
 function LayoutFedexshipping() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
-  // const getshipingDetails = useSelector((state) => state.shipment.getShipment);
+  const getshipingDetails = useSelector((state) => state.fedex.getFedex);
+  console.log("getettetet", getshipingDetails)
   const [notification, setNotification] = useState({
     show: false,
     message: "",
@@ -256,89 +257,208 @@ function LayoutFedexshipping() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const [CallHistory, setCallHistory] = useState(0);
   const handleEditClick = () => {
     setIsEditable(true); // Enable input fields when the edit icon is clicked
   };
 
+  // const handleSubmit = async () => {
+  //   // const isFormComplete = formData.accountid && formData.meterNumber && formData.key && formData.password;
+  //   const isFormComplete = formData.fedExBaseUrl && formData.grant_type && formData.client_id && formData.client_secret && formData.rates_grant_type && formData.rates_client_id && formData.rates_client_secret
+
+  //   if (!isFormComplete) {
+  //     setMessage('All fields are required.');
+  //     setIsError(true);
+  //   } else {
+  //     // const existingShipment = getshipingDetails?.find(shipment => shipment.shipmentTypeId === 4);
+
+  //     const currentDate = new Date();
+  //     const createdDate = currentDate.toISOString();
+  //     const modifiedDate = currentDate.toISOString();
+  //     if (!getshipingDetails) {
+  //       const payloadAdd = {
+  //       fedExid: "",
+  //       sellerId: user.customerId,
+  //       fedExBaseUrl: formData.fedExBaseUrl,
+  //       grant_type: formData.grant_type,
+  //       client_id: formData.client_id,
+  //       client_secret: formData.client_secret,
+  //       rates_grant_type: formData.rates_grant_type,
+  //       rates_client_id: formData.rates_client_id,
+  //       rates_client_secret: formData.rates_client_secret,
+  //       createdDate: createdDate,
+  //       modifiedDate: modifiedDate
+  //       };
+  //       await dispatch(fedExAddApi(payloadAdd));
+  //       // setMessage('FedEx Shipping details added successfully.');
+  //       setNotification({
+  //         show: true,
+  //         message: "FedEx Shipping details added Successfully!",
+  //       });
+  //       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //       setIsError(false);
+  //     } else {
+  //       const payloadEdit = {
+  //         // shipmentID: getshipingDetails[0]?.shipmentID,
+  //         // shipmentTypeId: 4,
+  //         // customerId: user.customerId,
+  //         // accessLicenseNumber: 'string',
+  //         // userID: 'string',
+  //         // password: formData.password,
+  //         // shipperNumber: 'string',
+  //         // accountID: formData.accountid,
+  //         // meterNumber: formData.meterNumber,
+  //         // isActive: true,
+  //         // createdDate: getshipingDetails[0]?.createdDate,
+  //         // key: formData.key,
+  //         fedExid: getshipingDetails[0]?.fedExid,
+  //         sellerId: user.customerId,
+  //         fedExBaseUrl: formData.fedExBaseUrl,
+  //         grant_type: formData.grant_type,
+  //         client_id: formData.client_id,
+  //         client_secret: formData.client_secret,
+  //         rates_grant_type: formData.rates_grant_type,
+  //         rates_client_id: formData.rates_client_id,
+  //         rates_client_secret: formData.rates_client_secret,
+  //         createdDate: createdDate,
+  //         modifiedDate: modifiedDate
+  //       };
+  //       await dispatch(fedexEditApi(payloadEdit));
+  //       // setMessage('FedEx Shipping details updated successfully.');
+  //       setNotification({
+  //         show: true,
+  //         message: "FedEx Shipping details updated Successfully!",
+  //       });
+  //       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //       setIsError(false);
+  //     }
+  //     setIsEditable(false); // Disable editing after save
+  //   }
+  // };
+
   const handleSubmit = async () => {
-    const isFormComplete = formData.accountid && formData.meterNumber && formData.key && formData.password;
+    const isFormComplete =
+      formData.fedExBaseUrl &&
+      formData.grant_type &&
+      formData.client_id &&
+      formData.client_secret &&
+      formData.rates_grant_type &&
+      formData.rates_client_id &&
+      formData.rates_client_secret;
 
     if (!isFormComplete) {
-      setMessage('All fields are required.');
+      setMessage("All fields are required.");
       setIsError(true);
     } else {
-      const existingShipment = getshipingDetails?.find(shipment => shipment.shipmentTypeId === 4);
-
       const currentDate = new Date();
       const createdDate = currentDate.toISOString();
       const modifiedDate = currentDate.toISOString();
-      if (!existingShipment) {
+
+      if (!getshipingDetails || getshipingDetails.length === 0) {
+        // Call fedExAddApi if no existing shipping details are found
         const payloadAdd = {
-        fedExid: "",
-        sellerId: user.customerId,
-        fedExBaseUrl: formData.fedExBaseUrl,
-        grant_type: formData.grant_type,
-        client_id: formData.client_id,
-        client_secret: formData.client_secret,
-        rates_grant_type: formData.rates_grant_type,
-        rates_client_id: formData.rates_client_id,
-        rates_client_secret: formData.rates_client_secret,
-        createdDate: createdDate,
-        modifiedDate: modifiedDate
+          fedExid: "",
+          sellerId: user.customerId,
+          fedExBaseUrl: formData.fedExBaseUrl,
+          grant_type: formData.grant_type,
+          client_id: formData.client_id,
+          client_secret: formData.client_secret,
+          rates_grant_type: formData.rates_grant_type,
+          rates_client_id: formData.rates_client_id,
+          rates_client_secret: formData.rates_client_secret,
+          createdDate,
+          modifiedDate,
         };
-        await dispatch(fedExAddApi(payloadAdd));
-        // setMessage('FedEx Shipping details added successfully.');
+
+        await dispatch(fetchFedExAddApi(payloadAdd));
         setNotification({
           show: true,
-          message: "FedEx Shipping details added Successfully!",
+          message: "FedEx Shipping details added successfully!",
         });
-        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-        setIsError(false);
       } else {
-        const payloadEdit = {
-          shipmentID: getshipingDetails[0]?.shipmentID,
-          shipmentTypeId: 4,
-          customerId: user.customerId,
-          accessLicenseNumber: 'string',
-          userID: 'string',
-          password: formData.password,
-          shipperNumber: 'string',
-          accountID: formData.accountid,
-          meterNumber: formData.meterNumber,
-          isActive: true,
-          createdDate: getshipingDetails[0]?.createdDate,
-          key: formData.key,
-        };
-        await dispatch(shipmentEditApi(payloadEdit));
-        // setMessage('FedEx Shipping details updated successfully.');
-        setNotification({
-          show: true,
-          message: "FedEx Shipping details updated Successfully!",
-        });
-        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-        setIsError(false);
+        // Check if any field has changed
+        const hasChanges =
+          getshipingDetails[0]?.fedExBaseUrl !== formData.fedExBaseUrl ||
+          getshipingDetails[0]?.grant_type !== formData.grant_type ||
+          getshipingDetails[0]?.client_id !== formData.client_id ||
+          getshipingDetails[0]?.client_secret !== formData.client_secret ||
+          getshipingDetails[0]?.rates_grant_type !== formData.rates_grant_type ||
+          getshipingDetails[0]?.rates_client_id !== formData.rates_client_id ||
+          getshipingDetails[0]?.rates_client_secret !== formData.rates_client_secret;
+
+        if (hasChanges) {
+          // Call fedexEditApi only if there are changes
+          const payloadEdit = {
+            fedExid: getshipingDetails[0]?.fedExid,
+            sellerId: user.customerId,
+            fedExBaseUrl: formData.fedExBaseUrl,
+            grant_type: formData.grant_type,
+            client_id: formData.client_id,
+            client_secret: formData.client_secret,
+            rates_grant_type: formData.rates_grant_type,
+            rates_client_id: formData.rates_client_id,
+            rates_client_secret: formData.rates_client_secret,
+            createdDate: getshipingDetails[0]?.createdDate || createdDate,
+            modifiedDate,
+          };
+
+          // await dispatch(fedexEditApi(payloadEdit));
+          await dispatch(fetchFedexEditApi(payloadEdit))
+          setNotification({
+            show: true,
+            message: "FedEx Shipping details updated successfully!",
+          });
+        } else {
+          setNotification({
+            show: true,
+            message: "No changes detected.",
+          });
+        }
       }
+
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      setCallHistory((prev) => prev + 1);
+      setIsError(false);
       setIsEditable(false); // Disable editing after save
     }
   };
 
+
   useEffect(() => {
-    dispatch(fedexGetApi(user?.customerId));
-  }, []);
+    dispatch(fetchGetFedex(user?.customerId));
+  }, [dispatch, user.customerId, CallHistory]);
 
   // useEffect(() => {
-  //   if (Array.isArray(getshipingDetails)) {
-  //     const fedexShippingDetails = getshipingDetails.find(shipment => shipment.shipmentTypeId === 4);
-  //     if (fedexShippingDetails) {
+  // //   if (Array.isArray(getshipingDetails)) {
+  //     // const fedexShippingDetails = getshipingDetails.find(shipment => shipment.shipmentTypeId === 4);
+  //     if (getshipingDetails) {
   //       setFormData({
-  //         accountid: fedexShippingDetails.accountID || '',
-  //         meterNumber: fedexShippingDetails.meterNumber || '',
-  //         key: fedexShippingDetails.key || '',
-  //         password: fedexShippingDetails.password || '',
+  //         fedExBaseUrl: getshipingDetails.fedExBaseUrl || '',
+  //         grant_type: getshipingDetails.grant_type || '',
+  //         client_id: getshipingDetails.client_id || '',
+  //         client_secret: getshipingDetails.client_secret || '',
+  //         rates_grant_type: getshipingDetails.rates_grant_type || '',
+  //         rates_client_id: getshipingDetails.rates_client_id || '',
+  //         rates_client_secret: getshipingDetails.rates_client_secret || '',
   //       });
   //     }
-  //   }
+  // //   }
   // }, [getshipingDetails]);
+  useEffect(() => {
+    if (getshipingDetails?.length) {
+      setFormData({
+        fedExBaseUrl: getshipingDetails[0].fedExBaseUrl || "",
+        grant_type: getshipingDetails[0].grant_type || "",
+        client_id: getshipingDetails[0].client_id || "",
+        client_secret: getshipingDetails[0].client_secret || "",
+        rates_grant_type: getshipingDetails[0].rates_grant_type || "",
+        rates_client_id: getshipingDetails[0].rates_client_id || "",
+        rates_client_secret: getshipingDetails[0].rates_client_secret || "",
+      });
+    }
+  }, [getshipingDetails]);
+
+  console.log("forrmm", formData)
 
   return (
     <div className="w-full px-4">
@@ -364,7 +484,7 @@ function LayoutFedexshipping() {
                 label="FedExBaseUrl"
                 size="small"
                 type="text"
-                name="FedExBaseUrl"
+                name="fedExBaseUrl"
                 className="border rounded-md h-8 w-52"
                 value={formData.fedExBaseUrl}
                 onChange={handleChange}
@@ -376,14 +496,14 @@ function LayoutFedexshipping() {
                 type="text"
                 label="Grant type"
                 size="small"
-                name="Grant type"
+                name="grant_type"
                 className="border rounded-md h-8 w-52"
                 value={formData.grant_type}
                 onChange={handleChange}
                 disabled={!isEditable} // Disable the input if not editable
               />
             </div>
-            
+
           </div>
 
           <div className="w-[80%] flex flex-col md:flex-row gap-4 justify-between text-gray-600 my-4">
@@ -392,7 +512,7 @@ function LayoutFedexshipping() {
                 type="text"
                 label="Client id"
                 size="small"
-                name="Client id"
+                name="client_id"
                 className="border rounded-md h-8 w-52"
                 value={formData.client_id}
                 onChange={handleChange}
@@ -404,7 +524,7 @@ function LayoutFedexshipping() {
                 type="text"
                 label="Client secret"
                 size="small"
-                name="Client secret"
+                name="client_secret"
                 className="border rounded-md h-8 w-52"
                 value={formData.client_secret}
                 onChange={handleChange}
@@ -418,7 +538,7 @@ function LayoutFedexshipping() {
                 type="text"
                 label="Rates grant type"
                 size="small"
-                name="Rates grant type"
+                name="rates_grant_type"
                 className="border rounded-md h-8 w-52"
                 value={formData.rates_grant_type}
                 onChange={handleChange}
@@ -430,7 +550,7 @@ function LayoutFedexshipping() {
                 type="text"
                 label="Rates client id"
                 size="small"
-                name="Rates client id"
+                name="rates_client_id"
                 className="border rounded-md h-8 w-52"
                 value={formData.rates_client_id}
                 onChange={handleChange}
@@ -444,7 +564,7 @@ function LayoutFedexshipping() {
                 type="text"
                 label="Rates client secret"
                 size="small"
-                name="Rates client secret"
+                name="rates_client_secret"
                 className="border rounded-md h-8 w-52"
                 value={formData.rates_client_secret}
                 onChange={handleChange}
