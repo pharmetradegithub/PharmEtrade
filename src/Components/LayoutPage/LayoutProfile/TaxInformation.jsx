@@ -576,8 +576,7 @@ const TaxInformation = () => {
   //   setIsEditable(false);
   //   setShowSuccessMessage(true);
   // };
-
-const [trigger, setTrigger] = useState(1)
+  const [CallHistory, setCallHistory] = useState(0);
   const handleAddOrSave = async () => {
     if (validate()) {
       console.log("Form is valid:", formData);
@@ -648,6 +647,8 @@ const [trigger, setTrigger] = useState(1)
         message: "Added Item Successfully!",
       });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      setCallHistory((prev) => prev + 1);
+
     } else {
       // If the fields are filled, call edit API
       const payloadEdit = {
@@ -668,12 +669,13 @@ const [trigger, setTrigger] = useState(1)
         message: "Edit Item Successfully!",
       });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-      // setLoading(false)
-
+      setCallHistory((prev) => prev + 1);
+      
     }
-
+    
     // Fetch updated tax data
-    await dispatch(TaxGetByStateNameApi(user.customerId));
+    // await dispatch(TaxGetByStateNameApi(user.customerId));
+    // setLoading(false)
 
     // Reset form fields after adding or editing
     setFormData('');
@@ -800,7 +802,7 @@ const [trigger, setTrigger] = useState(1)
       }
     }
     data()
-  }, [dispatch, user.customerId, trigger]);
+  }, [dispatch, user.customerId, CallHistory]);
 
   useEffect(() => {
     dispatch(fetchCategorySpecificationsGetAll());
@@ -872,7 +874,7 @@ const [trigger, setTrigger] = useState(1)
      if (stateNameData) {
        setCurrentItems(stateNameData.slice(indexOfFirstItem, indexOfLastItem));
       }
-   }, [currentPage, indexOfFirstItem, indexOfLastItem]);
+   }, [currentPage, stateNameData, indexOfFirstItem, indexOfLastItem]);
   
   
 
@@ -1032,6 +1034,7 @@ const [trigger, setTrigger] = useState(1)
                 className="border rounded-md h-11"
                 value={category} // Bound to `category` state
                 onChange={(e) => setCategory(Number(e.target.value))}
+                disabled={editingIndex !== null}
               >
                 <option value="">Select a category</option>
                 {getproductSpecialOffer.map((item) => (
@@ -1131,6 +1134,7 @@ const [trigger, setTrigger] = useState(1)
                 renderInput={(params) => (
                   <TextField {...params} label="State" size="small" variant="outlined" />
                 )}
+                // disabled={editingIndex !== null}
               />
               {errors.State && <FormHelperText>{errors.State}</FormHelperText>}
             </FormControl>
