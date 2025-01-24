@@ -1,4 +1,4 @@
-import { setAddFedExShipping, setAddShipping, setEditShipping, setGetFedEx, setGetShiping } from "../Store/Store";
+import { setAddFedExShipping, setAddShipping, setEditShipping, setGetShiping } from "../Store/Store";
 
 import axios from './api'; 
 
@@ -76,33 +76,20 @@ export const ShipmentChargesApi = async (payload) => {
 }
 
 
-export const fedExAddApi = (payload) => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.post('/api/FedEx/AddFedExInformation', payload);
-      console.log("addShipping-->", response);
-      if (response.status === 200) {
-        const response = response.data.result
-        dispatch(setAddFedExShipping(response))
-      }
-    } catch (error) {
-      console.log("error api from shipping", error.response?.data?.message || error.message);
-    }
-  }
-}
 
-export const fedexGetApi = (customerId) => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.get(`/api/FedEx/GetBySeller?sellerId=${customerId}`)
-      if (response.status === 200) {
-        const getfedexAPi = response.data.result
-        dispatch(setGetFedEx(getfedexAPi))
-      } else {
-        console.log('Error')
-      }
-    } catch (error) {
-      console.log("error api from shipping", response.data.message)
-    }
-  }
-}
+
+// export const fedexGetApi = (customerId) => {
+//   return async (dispatch) => {
+//     try {
+//       const response = await axios.get(`/api/FedEx/GetBySeller?sellerId=${customerId}`)
+//       if (response.status === 200) {
+//         const getfedexAPi = response.data.result
+//         dispatch(setGetFedEx(getfedexAPi))
+//       } else {
+//         console.log('Error')
+//       }
+//     } catch (error) {
+//       console.log("error api from shipping", response.data.message)
+//     }
+//   }
+// }
