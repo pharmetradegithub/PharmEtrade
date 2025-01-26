@@ -162,6 +162,7 @@ export const fetchOrderPayment = (payLoad) => {
 
         // Dispatching the action to add the order to the state
         dispatch(setOrdersPayment(orderPayment));
+        return orderPayment
       } else {
         console.error('Failed to payment:', response.data.message);
       }
