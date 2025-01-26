@@ -1175,7 +1175,7 @@ const TaxInformation = () => {
             onClick={handleAddOrSave}
             // disabled={isDuplicateEntry}
           >
-            {editingIndex !== null ? "Save" : "ADD"}
+            {editingIndex !== null ? "Update" : "ADD"}
           </button>
         </div>
       </div>

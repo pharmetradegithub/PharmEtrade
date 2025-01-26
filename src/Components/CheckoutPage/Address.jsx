@@ -2394,6 +2394,7 @@ function Address({ topMargin, totalAmount, amount }) {
   //     }
   //     data()
   //  }, [])
+  console.log("cartList===", cartList)
   useEffect(() => {
     const fetchSellersAndSendPayload = async () => {
       try {
@@ -2439,8 +2440,8 @@ function Address({ topMargin, totalAmount, amount }) {
               };
 
               // Dispatch the actions for the product with shipping cost
-              const serviceResponse = await dispatch(serviceTypeApi(payload));
-              const rateResponse = await dispatch(FedExRatesApi(payload));
+              const serviceResponse = await dispatch(serviceTypeApi(payload, user.customerId));
+              const rateResponse = await dispatch(FedExRatesApi(payload, user.customerId));
 
               console.log(`Responses for seller ${product.product.sellerId}:`, {
                 serviceResponse,
@@ -2471,6 +2472,51 @@ function Address({ topMargin, totalAmount, amount }) {
       fetchSellersAndSendPayload(); // Call the function to fetch and send payloads concurrently
     }
   }, [cartList, pincodes]);
+
+
+  // useEffect(() => {
+  //   const fetchSellersAndSendPayload = async () => {
+  //     try {
+  //       // Process only products where isShippingCostApplicable is false
+  //       const sellerPromises = cartList
+  //         .filter((product) => product.product.isShippingCostApplicable === false) // Filter condition
+  //         .map(async (product) => {
+  //           try {
+  //             // Dispatch the API calls
+  //             const serviceResponse = await dispatch(serviceTypeApi(user.customerId));
+  //             const rateResponse = await dispatch(FedExRatesApi(user.customerId));
+
+  //             console.log(`Responses for product ${product.product.sellerId}:`, {
+  //               serviceResponse,
+  //               rateResponse,
+  //             });
+
+  //             return { productId: product.product.sellerId, serviceResponse, rateResponse };
+  //           } catch (error) {
+  //             console.error(`Error for product ${product.product.sellerId}:`, error);
+  //             return null; // Skip on error but continue processing other promises
+  //           }
+  //         });
+
+  //       // Wait for all the API calls to finish
+  //       const allResponses = await Promise.all(sellerPromises);
+
+  //       // Filter out unsuccessful responses
+  //       const successfulResponses = allResponses.filter((response) => response !== null);
+
+  //       console.log("All successful responses:", successfulResponses);
+  //     } catch (error) {
+  //       console.error("Error processing sellers:", error);
+  //     }
+  //   };
+
+  //   // Trigger the function if cartList has items
+  //   if (cartList?.length > 0) {
+  //     fetchSellersAndSendPayload();
+  //   }
+  // }, [cartList, pincodes, dispatch, user.customerId]);
+
+
 
   const [isAddressSelected, setIsAddressSelected] = useState(false);
   const handleUseAddress = async (state, pincode, addressId) => {
