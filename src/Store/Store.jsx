@@ -1,5 +1,4 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
-import { act } from "react";
 import { thunk } from "redux-thunk";
 
 const homeSlice = createSlice({
