@@ -644,7 +644,7 @@ const TaxInformation = () => {
       await dispatch(taxAddInformationApi(payloadAdd));
       setNotification({
         show: true,
-        message: "Added Item Successfully!",
+        message: "Tax has been Added Successfully!",
       });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
       setCallHistory((prev) => prev + 1);
@@ -666,7 +666,7 @@ const TaxInformation = () => {
       // setLoading(true)
       setNotification({
         show: true,
-        message: "Edit Item Successfully!",
+        message: "Tax has been Update Successfully!",
       });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
       setCallHistory((prev) => prev + 1);
