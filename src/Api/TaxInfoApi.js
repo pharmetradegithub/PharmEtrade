@@ -70,6 +70,7 @@ export const AddTaxBUlk = (payload) => {
       if (response.status === 200) {
         const data = response.data
         dispatch(setAddBulkTax(data))
+        return data
       } else {
         console.log("error fetch edit data", response.data.message)
       }

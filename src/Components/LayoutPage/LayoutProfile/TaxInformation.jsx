@@ -819,32 +819,72 @@ const TaxInformation = () => {
   const [selectedStates, setSelectedStates] = useState([]);
   const [customField, setCustomField] = useState("");
 
-  const handleModalSubmit = async () => {
-    // // Process the data from the modal
-    // console.log("Selected States:", selectedStates);
-    // console.log("Custom Field Value:", customField);
+  // const handleModalSubmit = async () => {
+  //   // // Process the data from the modal
+  //   // console.log("Selected States:", selectedStates);
+  //   // console.log("Custom Field Value:", customField);
 
-    // // Close the modal after submission
+  //   // // Close the modal after submission
+  //   setIsModalOpen(false);
+  //   const payload = {
+  //     sellerId: user.customerId,
+  //     taxPercentage: customField,
+  //     isActive: 1
+  //   }
+  //      try {
+  //        setLoading(true)
+  //        const res = await dispatch(AddTaxBUlk(payload))
+  //         setNotification({
+  //           show: true,
+  //           message: "Added Successfully!",
+  //         });
+  //        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  //        await dispatch(TaxGetByStateNameApi(user.customerId))
+  //        setLoading(false)
+  //        setCustomField('')
+  //       } catch (error) {
+  //         console.error("Error adding product to cart:", error);
+  //       }
+  // };
+  const handleModalSubmit = async () => {
     setIsModalOpen(false);
     const payload = {
       sellerId: user.customerId,
       taxPercentage: customField,
-      isActive: 1
+      isActive: 1,
+    };
+
+    try {
+      setLoading(true);
+
+      const res = await dispatch(AddTaxBUlk(payload));
+
+      if (res?.status === 200) {
+        setNotification({
+          show: true,
+          message: "Added Successfully!",
+        });
+        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+
+        await dispatch(TaxGetByStateNameApi(user.customerId));
+      } else {
+        setNotification({
+          show: true,
+          message:"Failed to add tax. Please try again.",
+        });
+        setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+      }
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
+      setNotification({
+        show: true,
+        message: "An error occurred. Please try again.",
+      });
+      setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    } finally {
+      setLoading(false);
+      setCustomField('');
     }
-       try {
-         setLoading(true)
-         await dispatch(AddTaxBUlk(payload))
-          setNotification({
-            show: true,
-            message: "Added Successfully!",
-          });
-         setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-         await dispatch(TaxGetByStateNameApi(user.customerId))
-         setLoading(false)
-         setCustomField('')
-        } catch (error) {
-          console.error("Error adding product to cart:", error);
-        }
   };
   const handleCancel = () => {
     // Process the data from the modal

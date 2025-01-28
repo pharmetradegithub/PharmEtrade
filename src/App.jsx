@@ -157,6 +157,7 @@ import SellerReports from "./Components/ReportsSeller/SellerReports";
 import LayoutPurchaseHistory from "./Components/LayoutPage/LayoutBuy/LayoutPurchaseHistory";
 import PrivacyPolicy from "./Components/PrivacyPolicy";
 import OffersImgs from "./Components/Admin/Banners/OffersImgs";
+import { TaxGetByStateNameApi } from "./Api/TaxInfoApi";
 
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
@@ -184,6 +185,7 @@ function App() {
           await UserMenuItemsApi(userDetails.customerDetails.customerTypeId);
           await getCartItemsApi(userId);
           await fetchWishlistItemsApi(userId);
+          await dispatch(TaxGetByStateNameApi(userId))
         } 
       }
       await fetchAllBannersApi();
