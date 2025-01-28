@@ -308,7 +308,7 @@ const SquarePaymentForm = ({
     if (source) {
       processAndAddPayment();
     }
-  }, [source, amount, cardNumber, expiryMonth, expiryYear, ordered, dispatch, navigate]);
+  }, [source]);
   return (
     <PaymentForm
       // applicationId="sq0idp-gB46fswzI1EYbiQKJqemGA"

@@ -442,7 +442,7 @@ function LayoutOrderList() {
 
       // Calculate return dates for all orders
       const calculatedDates = currentItems.map((order) =>
-        new Date(new Date(order.orderDate).getTime() + dateOffset)
+        new Date(new Date(order.upcomingDate).getTime() + dateOffset)
       );
 
       // Store calculated dates in state
@@ -1184,7 +1184,16 @@ function LayoutOrderList() {
                         <h1 className="lg:text-xl font-semibold mobile:text-sm">
                           Delivery Date
                         </h1>
-                        <p>Package was handed to resident</p>
+                        {/* <p>Package was handed to resident</p> */}
+                        <p>Expected Delivery Date :  <span className="font-bold">
+                          {new Date(order.upcomingDate)
+                            .toLocaleDateString("en-US", {
+                              month: "2-digit",
+                              day: "2-digit",
+                              year: "numeric",
+                            })
+                            .replace(/\//g, "-")}
+                        </span></p>
                         <div className="flex sm:flex-row flex-col">
                           <img
                             src={order.imageUrl}

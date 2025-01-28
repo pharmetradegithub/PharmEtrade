@@ -369,13 +369,15 @@ const LayoutBuyerReceiversgrid = () => {
                         <div key={index} className='pb-4 border rounded-lg shadow-lg justify-around mb-4 flex'>
                             <div>
                                 <img src={Ordergrid.imageUrl} className='w-36 h-28 cursor-pointer p-2' onClick={() => handleclick(Ordergrid.productId)} />
+                                <p>Package was handed to resident</p>
                                 <p>Received Date :<span className='text-red-500 text-sm'> {new Date(Ordergrid.upcomingDate)
                         .toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",
                           year: "numeric",
                         })  
-                        .replace(/\//g, "-")}</span></p>
+                                    .replace(/\//g, "-")}</span></p>
+                               
                             </div>
                             <div className='flex flex-col mt-2 ml-4'>
                                 <p className='text-base font-semibold'>Item Details</p>
