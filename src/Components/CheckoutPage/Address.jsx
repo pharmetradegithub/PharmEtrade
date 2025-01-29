@@ -3036,7 +3036,7 @@ function Address({ topMargin, totalAmount, amount }) {
       setIsShowPopUp(false);
       setNotification({
         show: true,
-        message: "Edit Successfully!",
+        message: "Address Edited Successfully!",
       });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
 
