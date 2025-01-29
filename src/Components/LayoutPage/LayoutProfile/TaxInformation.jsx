@@ -858,15 +858,16 @@ const TaxInformation = () => {
       setLoading(true);
 
       const res = await dispatch(AddTaxBUlk(payload));
+      console.log("resssss", res)
 
-      if (res?.status === 200) {
+      if (res?.statusCode === 200) {
         setNotification({
           show: true,
           message: "Added Successfully!",
         });
         setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-
         await dispatch(TaxGetByStateNameApi(user.customerId));
+
       } else {
         setNotification({
           show: true,
