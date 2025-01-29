@@ -157,7 +157,7 @@ const SquarePaymentForm = ({
 
         const paymentResponse = await processpaymentApi(payload);
 
-        if (!paymentResponse || paymentResponse.status >= 300) {
+        if (!paymentResponse || paymentResponse.statusCode > 200) {
           // throw new Error(`Payment failed with status: ${paymentResponse?.status}`);
           throw new Error("An error occurred while processing the payment. Please try again.");
 
@@ -185,7 +185,7 @@ const SquarePaymentForm = ({
 
         const paymentDetailsResponse = await dispatch(fetchOrderPayment(payloadAdd));
 
-        if (!paymentDetailsResponse || paymentDetailsResponse.status >= 300) {
+        if (!paymentDetailsResponse || paymentDetailsResponse.statusCode > 300) {
           // throw new Error(`Adding payment details failed with status: ${paymentDetailsResponse?.status}`);
           throw new Error('An error occurred while processing the payment. Please try again.');
 
