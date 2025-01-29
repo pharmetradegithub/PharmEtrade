@@ -1608,7 +1608,7 @@ function LayoutSellOrders() {
                   {Array.isArray(currentItems) && currentItems.length > 0 ? (
                     currentItems.map((product, index) => (
                       <div
-                        key={product.productId}
+                        key={index}
                         className="border rounded-lg shadow-md p-4 mb-4 bg-white"
                       >
                         <div className="flex items-center justify-between mb-2">
@@ -1789,7 +1789,7 @@ function LayoutSellOrders() {
                     <tbody>
                       {Array.isArray(currentItems) && currentItems.length > 0 ? (
                         currentItems.map((product, index) => (
-                          <tr key={product.productId} className="border-b">
+                          <tr key={index} className="border-b">
                             <td className="px-4 py-2">
                               {indexOfFirstItem + index + 1}
                             </td>
