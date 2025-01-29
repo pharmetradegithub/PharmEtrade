@@ -983,6 +983,7 @@ function Items({
 
                   {/* <img src={ ?Wishlist :filledheart} className="w-5 h-5 flex   "/> */}
                   <div className="flex">
+                    {user?.customerId !== prod?.sellerId &&(
                   <Tooltip placement="top" title="wishlist">
                     <img
                       src={
@@ -995,7 +996,7 @@ function Items({
                       onClick={() => handleClick(prod?.productID)}
                       alt="Wishlist Icon"
                     />
-                  </Tooltip>
+                  </Tooltip>)}
                   <Tooltip placement="top" title="Compare">
                       <img src={compare} className="w-5 h-5 ml-2 cursor-pointer" />
                     </Tooltip>
