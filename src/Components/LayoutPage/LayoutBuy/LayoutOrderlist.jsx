@@ -38,13 +38,15 @@ function LayoutOrderList() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
-  const [indexOfLastItem, setindexOfLastItem] = useState(
-    currentPage * itemsPerPage
-  );
+  // const [indexOfLastItem, setindexOfLastItem] = useState(
+  //   currentPage * itemsPerPage
+  // );
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const [isCancelled, setIsCancelled] = useState(false);
-  const [indexOfFirstItem, setindexOfFirstItem] = useState(
-    indexOfLastItem - itemsPerPage
-  );
+  // const [indexOfFirstItem, setindexOfFirstItem] = useState(
+  //   indexOfLastItem - itemsPerPage
+  // );
   const [searchResults, setSearchResults] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   // const localData = localStorage.getItem("userId")
@@ -65,46 +67,54 @@ function LayoutOrderList() {
   // Sorting orders by date
   // Filter orders by selected year
   const [filteredOrders, setfilteredOrders] = useState(null);
-  useEffect(() => {
-    if (getOrder != null) {
-      const sortedOrders = Array.isArray(getOrder)
-        ? [...getOrder].sort(
-          (a, b) => new Date(b.orderDate) - new Date(a.orderDate)
-        )
-        : [];
-      setsortedOrders(sortedOrders);
+  // useEffect(() => {
+  //   if (getOrder != null) {
+  //     const sortedOrders = Array.isArray(getOrder)
+  //       ? [...getOrder].sort(
+  //         (a, b) => new Date(b.orderDate) - new Date(a.orderDate)
+  //       )
+  //       : [];
+  //     setsortedOrders(sortedOrders);
 
-      const filteredOrders = sortedOrders.filter(
-        (order) => new Date(order.orderDate).getFullYear() === selectedYear
-      );
-      setfilteredOrders(filteredOrders);
+  //     const filteredOrders = sortedOrders.filter(
+  //       (order) => new Date(order.orderDate).getFullYear() === selectedYear
+  //     );
+  //     setfilteredOrders(filteredOrders);
 
-      // Step 2: Handle Display Data
-      const newDisplayData =
-        searchResults && searchResults.length > 0
-          ? searchResults
-          : filteredOrders; // Use filteredOrders directly here
-      setdisplayData(newDisplayData);
-      console.log(newDisplayData, "newdisplay");
-      // Step 3: Update Pagination Indices and Current Items
-      if (newDisplayData?.length < itemsPerPage) {
-        setCurrentPage(1);
-      }
-      const newIndexOfLastItem = currentPage * itemsPerPage;
-      const newIndexOfFirstItem = newIndexOfLastItem - itemsPerPage;
-      setindexOfLastItem(newIndexOfLastItem);
-      setindexOfFirstItem(newIndexOfFirstItem);
+  //     // Step 2: Handle Display Data
+  //     const newDisplayData =
+  //       searchResults && searchResults.length > 0
+  //         ? searchResults
+  //         : filteredOrders; // Use filteredOrders directly here
+  //     setdisplayData(newDisplayData);
+  //     console.log(newDisplayData, "newdisplay");
+  //     // Step 3: Update Pagination Indices and Current Items
+  //     if (newDisplayData?.length < itemsPerPage) {
+  //       setCurrentPage(1);
+  //     }
+  //     const newIndexOfLastItem = currentPage * itemsPerPage;
+  //     const newIndexOfFirstItem = newIndexOfLastItem - itemsPerPage;
+  //     setindexOfLastItem(newIndexOfLastItem);
+  //     setindexOfFirstItem(newIndexOfFirstItem);
 
-      const newCurrentItems = newDisplayData.slice(
-        newIndexOfFirstItem,
-        newIndexOfLastItem
-      );
-      setcurrentItems(newCurrentItems);
-      console.log("new current", newCurrentItems);
-    }
-  }, [getOrder, currentPage, indexOfFirstItem, indexOfLastItem, isCancelled]);
+  //     const newCurrentItems = newDisplayData.slice(
+  //       newIndexOfFirstItem,
+  //       newIndexOfLastItem
+  //     );
+  //     setcurrentItems(newCurrentItems);
+  //     console.log("new current", newCurrentItems);
+  //   }
+  // }, [getOrder, currentPage, indexOfFirstItem, indexOfLastItem, isCancelled]);
 
   //YEAR  SORTING
+  const [currentItems, setcurrentItems] = useState([]);
+  
+   useEffect(() => {
+     if (getOrder) {
+        setcurrentItems(getOrder.slice(indexOfFirstItem, indexOfLastItem));
+      }
+   }, [currentPage, getOrder, indexOfFirstItem, indexOfLastItem, isCancelled]);
+  
   useEffect(() => {
     const data = async () => {
       console.log("hey guys");
@@ -129,7 +139,6 @@ function LayoutOrderList() {
 
   // const indexOfLastItem = currentPage * itemsPerPage;
   // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const [currentItems, setcurrentItems] = useState(null);
   const [displayData, setdisplayData] = useState(
     searchResults && searchResults.length > 0 ? searchResults : filteredOrders
   );
@@ -1132,7 +1141,7 @@ function LayoutOrderList() {
                     <div className="flex flex-row justify-between lg:flex-row md:flex-row  sm:justify-between  border-b pb-2 pt-2 pr-3 sm:pl-3 p-0 bg-slate-200">
                       <div className="mb-4 lg:mb-0">
                         <h1 className="text-sm lg:text-lg">Order Placed</h1>
-                        <p className="text-sm lg:text-lg">
+                        <p className="text-sm lg:text-lg" key={index}>
                           {new Date(order.orderDate)
                             .toLocaleDateString("en-US", {
                               month: "2-digit",
@@ -1396,10 +1405,19 @@ function LayoutOrderList() {
                     </div>
                   </div>
                 ))}
+                {/* <Pagination
+                  indexOfFirstItem={indexOfFirstItem}
+                  indexOfLastItem={indexOfLastItem}
+                  productList={display}
+                  itemsPerPage={itemsPerPage}
+                  setItemsPerPage={setItemsPerPage}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                /> */}
                 <Pagination
                   indexOfFirstItem={indexOfFirstItem}
                   indexOfLastItem={indexOfLastItem}
-                  productList={displayData}
+                  productList={getOrder}
                   itemsPerPage={itemsPerPage}
                   setItemsPerPage={setItemsPerPage}
                   currentPage={currentPage}
