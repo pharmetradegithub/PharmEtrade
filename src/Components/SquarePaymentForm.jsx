@@ -67,11 +67,11 @@ import Notification from "./Notification";
 import { useNavigate } from "react-router-dom";
 
 const SquarePaymentForm = ({
-  applicationId,
-  locationId,
+  // applicationId,
+  // locationId,
   amount,
-  onPaymentSuccess,
-  onPaymentError,
+  // onPaymentSuccess,
+  // onPaymentError,
 }) => {
   console.log("amounttttt", amount)
   const [source, setSource] = useState(null);
@@ -220,6 +220,95 @@ const SquarePaymentForm = ({
   //     processAndAddPayment();
   //   }
   // }, [source, amount, cardNumber, expiryMonth, expiryYear, ordered, dispatch]);
+  // useEffect(() => {
+  //   const showNotification = (message, type) => {
+  //     setNotification({ show: true, message, type });
+  //     setTimeout(() => setNotification({ show: false, message: "" }), 5000);
+  //   };
+
+  //   const processPayment = async () => {
+  //     const payload = {
+  //             sourceId: source,
+  //             // amount: Math.floor(amount),
+  //             amount: Math.ceil(amount),
+  //             currency: "USD",
+  //             note: "Payment For ORD5668",
+  //           };
+
+  //     try {
+  //       const res = await processpaymentApi(payload);
+  //       if (res.statusCode === 500) {
+  //         showNotification("An error occurred while processing the payment. Please try again.", "error");
+  //         return null;
+  //       }
+  //       return res;
+  //     } catch (error) {
+  //       console.error("Payment Processing Error:", error);
+  //       showNotification("An unexpected error occurred during payment processing.", "error");
+  //       return null;
+  //     }
+  //   };
+
+  //   const addPaymentDetails = async () => {
+  //     const currentDate = new Date();
+  //     const payloadAdd = {
+  //       paymentInfoId: "",
+  //       orderId: ordered?.orderId,
+  //       paymentMethodId: 1,
+  //       cardNumber,
+  //       cardType: "",
+  //       cvv: "",
+  //       validThrough: `${expiryMonth}/${expiryYear}`,
+  //       nameOnCard: "",
+  //       bank: "",
+  //       paymentAmount: Math.ceil(amount),
+  //       isCreditCard: true,
+  //       statusId: 3,
+  //       paymentStatus: "",
+  //       paymentDate: currentDate.toISOString(),
+  //     };
+
+  //     try {
+  //       const paymentResponse = await dispatch(fetchOrderPayment(payloadAdd));
+  //       if (paymentResponse.statusCode === 500) {
+  //         showNotification("An error occurred while adding payment details. Please try again.", "error");
+  //         return null;
+  //       }
+  //       return paymentResponse;
+  //     } catch (error) {
+  //       console.error("Add Payment Details Error:", error);
+  //       showNotification("An unexpected error occurred while adding payment details.", "error");
+  //       return null;
+  //     }
+  //   };
+
+  //   const processAndAddPayment = async () => {
+  //     try {
+  //       // Step 1: Process Payment
+  //       const paymentResult = await processPayment();
+  //       if (!paymentResult) return;
+
+  //       // Step 2: Add Payment Details
+  //       const addPaymentResult = await addPaymentDetails();
+  //       if (!addPaymentResult) return;
+
+  //       // Step 3: Both Steps Successful
+  //       showNotification("Payment processed successfully!", "success");
+
+  //       // Step 4: Update Cart and Navigate
+  //       await getCartItemsApi();
+  //       navigate("/layout/layoutorderlist");
+  //       window.location.href = "/layout/layoutorderlist"
+  //     } catch (error) {
+  //       console.error("Unexpected Error:", error);
+  //       showNotification("An unexpected error occurred. Please contact support.", "error");
+  //     }
+  //   };
+
+  //   if (source) {
+  //     processAndAddPayment();
+  //   }
+  // }, [source]);
   useEffect(() => {
     const showNotification = (message, type) => {
       setNotification({ show: true, message, type });
@@ -228,16 +317,15 @@ const SquarePaymentForm = ({
 
     const processPayment = async () => {
       const payload = {
-              sourceId: source,
-              // amount: Math.floor(amount),
-              amount: Math.ceil(amount),
-              currency: "USD",
-              note: "Payment For ORD5668",
-            };
+        sourceId: source,
+        amount: Math.ceil(amount),
+        currency: "USD",
+        note: "Payment For ORD5668",
+      };
 
       try {
         const res = await processpaymentApi(payload);
-        if (res.statusCode === 500) {
+        if (!res || res.statusCode !== 200) {
           showNotification("An error occurred while processing the payment. Please try again.", "error");
           return null;
         }
@@ -251,26 +339,26 @@ const SquarePaymentForm = ({
 
     const addPaymentDetails = async () => {
       const currentDate = new Date();
-      const payloadAdd = {
-        paymentInfoId: "",
-        orderId: ordered?.orderId,
-        paymentMethodId: 1,
-        cardNumber,
-        cardType: "",
-        cvv: "",
-        validThrough: `${expiryMonth}/${expiryYear}`,
-        nameOnCard: "",
-        bank: "",
-        paymentAmount: Math.ceil(amount),
-        isCreditCard: true,
-        statusId: 3,
-        paymentStatus: "",
-        paymentDate: currentDate.toISOString(),
-      };
+          const payloadAdd = {
+            paymentInfoId: "",
+            orderId: ordered?.orderId,
+            paymentMethodId: 1,
+            cardNumber,
+            cardType: "",
+            cvv: "",
+            validThrough: `${expiryMonth}/${expiryYear}`,
+            nameOnCard: "",
+            bank: "",
+            paymentAmount: Math.ceil(amount),
+            isCreditCard: true,
+            statusId: 3,
+            paymentStatus: "",
+            paymentDate: currentDate.toISOString(),
+          };
 
       try {
         const paymentResponse = await dispatch(fetchOrderPayment(payloadAdd));
-        if (paymentResponse.statusCode === 500) {
+        if (!paymentResponse || paymentResponse.statusCode !== 200) {
           showNotification("An error occurred while adding payment details. Please try again.", "error");
           return null;
         }
@@ -286,11 +374,11 @@ const SquarePaymentForm = ({
       try {
         // Step 1: Process Payment
         const paymentResult = await processPayment();
-        if (!paymentResult) return;
+        if (!paymentResult) return; // Stop execution if there's an error
 
         // Step 2: Add Payment Details
         const addPaymentResult = await addPaymentDetails();
-        if (!addPaymentResult) return;
+        if (!addPaymentResult) return; // Stop execution if there's an error
 
         // Step 3: Both Steps Successful
         showNotification("Payment processed successfully!", "success");
@@ -309,10 +397,12 @@ const SquarePaymentForm = ({
       processAndAddPayment();
     }
   }, [source]);
+
   return (
     <PaymentForm
       // applicationId="sq0idp-gB46fswzI1EYbiQKJqemGA"
-      applicationId="sq0idp-pSMd2d7GIg_zV67r9cPBlg"
+      // applicationId="sq0idp-pSMd2d7GIg_zV67r9cPBlg" === old one
+      applicationId="sandbox-sq0idb-vXdVdM6tMjTG6Zi2XCoE-A"
       cardTokenizeResponseReceived={async (token, verifiedBuyer) => {
         console.log("token:", token);
         if (token?.token) {
