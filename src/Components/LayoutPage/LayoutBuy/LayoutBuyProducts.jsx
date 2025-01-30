@@ -822,11 +822,11 @@ function LayoutBuy({
                                 <p className="text-red-500 text-xs mt-1">
                                   You can buy a maximum of {product.maxOrderQuantity}.
                                 </p>
-                                {product.CartQuantity > product.amountInStock && (
+                                {/* {product.CartQuantity > product.amountInStock && (
                                   <p className="text-red-500 text-xs mt-1">
                                     Only {product.amountInStock} items available in stock.
                                   </p>
-                                )}
+                                )} */}
                               </>
                             )}
 
