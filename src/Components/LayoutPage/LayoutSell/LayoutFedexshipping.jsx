@@ -252,9 +252,17 @@ function LayoutFedexshipping() {
   const [isError, setIsError] = useState(false);
   const [isEditable, setIsEditable] = useState(false); // State to manage editability of fields
 
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData({ ...formData, [name]: value });
+  // };
+  const [errors, setErrors] = useState({});
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Remove error when the user starts typing
+    setErrors((prev) => ({ ...prev, [name]: value.trim() ? "" : "This field is required" }));
   };
 
   const [CallHistory, setCallHistory] = useState(0);
@@ -336,15 +344,43 @@ function LayoutFedexshipping() {
   //   }
   // };
 
+  const validateForm = () => {
+    let newErrors = {};
+
+    if (!formData.fedExBaseUrl) newErrors.fedExBaseUrl = "FedEx Base URL is required";
+    if (!formData.grant_type) newErrors.grant_type = "Grant Type is required";
+    if (!formData.client_id) newErrors.client_id = "Client ID is required";
+    if (!formData.client_secret) newErrors.client_secret = "Client Secret is required";
+    if (!formData.rates_grant_type) newErrors.rates_grant_type = "Rates Grant Type is required";
+    if (!formData.rates_client_id) newErrors.rates_client_id = "Rates Client ID is required";
+    if (!formData.rates_client_secret) newErrors.rates_client_secret = "Rates Client Secret is required";
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
+
+    const handleSave = () => {
+      if (validateForm()) {
+        handleSubmit(); // Call submit function if validation passes
+      }
+    };
+  
   const handleSubmit = async () => {
-    const isFormComplete =
-      formData.fedExBaseUrl &&
-      formData.grant_type &&
-      formData.client_id &&
-      formData.client_secret &&
-      formData.rates_grant_type &&
-      formData.rates_client_id &&
-      formData.rates_client_secret;
+    setMessage("");
+    setIsError(false);
+
+    // Check if all fields are filled
+    const isFormComplete = Object.values(formData).every((value) => value.trim() !== "");
+    // const isFormComplete =
+    //   formData.fedExBaseUrl &&
+    //   formData.grant_type &&
+    //   formData.client_id &&
+    //   formData.client_secret &&
+    //   formData.rates_grant_type &&
+    //   formData.rates_client_id &&
+    //   formData.rates_client_secret;
 
     if (!isFormComplete) {
       setMessage("All fields are required.");
@@ -459,6 +495,7 @@ function LayoutFedexshipping() {
   }, [getshipingDetails]);
 
   console.log("forrmm", formData)
+  
 
   return (
     <div className="w-full px-4">
@@ -489,6 +526,8 @@ function LayoutFedexshipping() {
                 value={formData.fedExBaseUrl}
                 onChange={handleChange}
                 disabled={!isEditable} // Disable the input if not editable
+                error={!!errors.fedExBaseUrl}
+                helperText={errors.fedExBaseUrl || ""}
               />
             </div>
             <div className="flex flex-col">
@@ -501,6 +540,8 @@ function LayoutFedexshipping() {
                 value={formData.grant_type}
                 onChange={handleChange}
                 disabled={!isEditable} // Disable the input if not editable
+                error={!!errors.grant_type}
+                helperText={errors.grant_type || ""}
               />
             </div>
 
@@ -517,6 +558,8 @@ function LayoutFedexshipping() {
                 value={formData.client_id}
                 onChange={handleChange}
                 disabled={!isEditable} // Disable the input if not editable
+                error={!!errors.client_id}
+                helperText={errors.client_id || ""}
               />
             </div>
             <div className="flex flex-col">
@@ -529,6 +572,8 @@ function LayoutFedexshipping() {
                 value={formData.client_secret}
                 onChange={handleChange}
                 disabled={!isEditable} // Disable the input if not editable
+                error={!!errors.client_secret}
+                helperText={errors.client_secret || ""}
               />
             </div>
           </div>
@@ -543,6 +588,8 @@ function LayoutFedexshipping() {
                 value={formData.rates_grant_type}
                 onChange={handleChange}
                 disabled={!isEditable} // Disable the input if not editable
+                error={!!errors.rates_grant_type}
+                helperText={errors.rates_grant_type || ""}
               />
             </div>
             <div className="flex flex-col">
@@ -555,6 +602,8 @@ function LayoutFedexshipping() {
                 value={formData.rates_client_id}
                 onChange={handleChange}
                 disabled={!isEditable} // Disable the input if not editable
+                error={!!errors.rates_client_id}
+                helperText={errors.rates_client_id || ""}
               />
             </div>
           </div>
@@ -569,6 +618,8 @@ function LayoutFedexshipping() {
                 value={formData.rates_client_secret}
                 onChange={handleChange}
                 disabled={!isEditable} // Disable the input if not editable
+                error={!!errors.rates_client_secret}
+                helperText={errors.rates_client_secret || ""}
               />
             </div>
           </div>
@@ -576,7 +627,7 @@ function LayoutFedexshipping() {
         <div className="flex justify-end p-4">
           <button
             className="border font-bold text-[15px] rounded-lg p-2 px-4 h-8 flex justify-center items-center bg-blue-900 text-white"
-            onClick={handleSubmit}
+            onClick={handleSave}
             disabled={!isEditable} // Disable the save button if not in edit mode
           >
             SAVE

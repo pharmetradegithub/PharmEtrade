@@ -666,7 +666,7 @@ const TaxInformation = () => {
       // setLoading(true)
       setNotification({
         show: true,
-        message: "Tax has been Update Successfully!",
+        message: "Tax has been Updated Successfully!",
       });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
       setCallHistory((prev) => prev + 1);
@@ -863,7 +863,7 @@ const TaxInformation = () => {
       if (res?.statusCode === 200) {
         setNotification({
           show: true,
-          message: "Added Successfully!",
+          message: "Tax has been Added Successfully!",
         });
         setTimeout(() => setNotification({ show: false, message: "" }), 3000);
         await dispatch(TaxGetByStateNameApi(user.customerId));

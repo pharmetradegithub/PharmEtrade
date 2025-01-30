@@ -139,7 +139,7 @@ function Items({
   const crossSellProducts = useSelector(
     (state) => state.product.CrossSellProducts
   );
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(prod?.minOrderQuantity);
 
   useEffect(() => {
     const NewProductsAPI = async () => {
@@ -380,7 +380,15 @@ function Items({
       setQuantity((prevQuantity) => prevQuantity + 1);
       setErrorMessage(""); // Clear error when within the limit
     } else {
-      setErrorMessage(`Maximum limit is ${prod.maxOrderQuantity} items.`);
+      // setErrorMessage(`Maximum limit is ${prod.maxOrderQuantity} items.`);
+      let errorMsg = "";
+      if (quantity >= prod.amountInStock) {
+        errorMsg += `Only ${prod.amountInStock} items available in stock. `;
+      }
+      // if (quantity >= prod.maxOrderQuantity) {
+      //   errorMsg += `Maximum limit is ${prod.maxOrderQuantity} items.`;
+      // }
+      setErrorMessage(errorMsg.trim());
     }
   };
 
@@ -1065,7 +1073,7 @@ function Items({
                   <button
                     onClick={handleDecrease}
                     className="bg-gray-200 text-gray-700 font-bold py-1 px-3 rounded focus:outline-none"
-                    disabled={quantity === 1} // Disable decrease button if quantity is 1
+                    disabled={quantity === prod?.minOrderQuantity} // Disable decrease button if quantity is 1
                   >
                     -
                   </button>
@@ -1094,6 +1102,8 @@ function Items({
                 </span>
               )}
 
+              <p className="text-red-500 ml-4 text-sm">{`Minimum Quantity: ${prod?.minOrderQuantity ?? 0}`}</p>
+              <p className="text-red-500 ml-4 text-sm mb-2">{`You can buy a maximum of ${prod?.maxOrderQuantity ?? 0}`}</p>
               <div className="flex gap-2 mx-2">
                 <button
                   className={`w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 
