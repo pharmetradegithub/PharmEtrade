@@ -1,18 +1,12 @@
 services:
-  app:
+  my-vite-app:
     build:
       context: .
       dockerfile: Dockerfile
-      target: production  
-      args:               
-        HTTP_PROXY: ${HTTP_PROXY:-""}  
-        HTTPS_PROXY: ${HTTPS_PROXY:-""}
-        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-""}
+      args:
+        VITE_API_BASE_URL: "https://server.pharmetrade.com"  # Set the VITE_API_BASE_URL here
     ports:
-      - "5173:5173" 
+      - "5173:5173"
     environment:
-      HTTP_PROXY: ${HTTP_PROXY:-""}  
-      HTTPS_PROXY: ${HTTPS_PROXY:-""}
-
-    command: ["serve", "-s", "dist", "-l", "5173"]
-    restart: always  
+      VITE_API_BASE_URL: "https://server.pharmetrade.com"  # Pass the environment variable to the container
+    restart: unless-stopped
