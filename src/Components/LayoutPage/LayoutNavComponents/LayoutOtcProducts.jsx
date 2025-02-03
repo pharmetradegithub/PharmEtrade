@@ -272,7 +272,7 @@ function LayoutOtcProducts({
   // const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
   const [currentItems, setcurrentItems] = useState(
     // productList.slice(indexOfFirstItem, indexOfLastItem)
-    productList.slice(0, itemsPerPage)
+    productList ? productList.slice(0, itemsPerPage): []
   );
   useEffect(() => {
     if (productList) {
@@ -365,7 +365,7 @@ function LayoutOtcProducts({
           <div className="flex flex-col">
             <div className="flex flex-col justify-between">
               {/* {productList.length} */}
-              {productList.length > 0 ? (
+              {productList?.length > 0 ? (
                 currentItems.map((product, index) => {
                   const updatedCartQuantity =
                     product.minOrderQuantity > product.CartQuantity
