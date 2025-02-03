@@ -11,8 +11,7 @@ ENV HTTP_PROXY=${HTTP_PROXY}
 ENV HTTPS_PROXY=${HTTPS_PROXY}
 
 # Set Vite environment variable directly in the Dockerfile
-ENV VITE_API_BASE_URL=https://server.pharmetrade.com
-
+ENV VITE_SQUARE_APP_ID=EAAAlq-D0VtTGPsw-OWSdgfGUE63CYmBJVMzRiELa7eyJHrPa8g5bleybd4mJi7Osquare
 # Copy package.json and package-lock.json to install dependencies
 COPY package*.json ./
 
