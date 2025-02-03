@@ -480,9 +480,7 @@ const SquarePaymentForm = ({
 
   return (
     <PaymentForm
-      // applicationId="sq0idp-gB46fswzI1EYbiQKJqemGA"
-      // applicationId="sq0idp-pSMd2d7GIg_zV67r9cPBlg" === old one
-      applicationId="sandbox-sq0idb-vXdVdM6tMjTG6Zi2XCoE-A"
+      applicationId={import.meta.env.VITE_SQUARE_APP_ID}
       cardTokenizeResponseReceived={async (token, verifiedBuyer) => {
         console.log("token:", token);
         if (token?.token) {
