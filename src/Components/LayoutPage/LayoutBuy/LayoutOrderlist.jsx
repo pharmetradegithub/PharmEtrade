@@ -113,7 +113,7 @@ function LayoutOrderList() {
      if (getOrder) {
         setcurrentItems(getOrder.slice(indexOfFirstItem, indexOfLastItem));
       }
-   }, [currentPage, getOrder, indexOfFirstItem, indexOfLastItem, isCancelled]);
+   }, [currentPage, getOrder, indexOfFirstItem, indexOfLastItem]);
   
   useEffect(() => {
     const data = async () => {
@@ -130,7 +130,7 @@ function LayoutOrderList() {
       }
     };
     if (user) data();
-  }, [user]);
+  }, [user, isCancelled]);
 
   const handleYearChange = (e) => {
     setSelectedYear(Number(e.target.value));

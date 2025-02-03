@@ -1203,7 +1203,12 @@ const TaxInformation = () => {
               label="Tax percentage"
               size="small"
               value={taxPercentage} // Bound to `taxPercentage` state
-              onChange={(e) => setTaxPercentage(e.target.value)} // Update state on change
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value <= 99) {
+                  setTaxPercentage(value); // Update when value is less than or equal to 99
+                }
+              }} // Update state on change
               inputProps={{
                 max: 99, // Maximum value
                 min: 0,  // Minimum value
