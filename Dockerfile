@@ -8,7 +8,7 @@ ENV HTTP_PROXY=${HTTP_PROXY}
 ENV HTTPS_PROXY=${HTTPS_PROXY}
 
 ENV VITE_SQUARE_APP_ID=sq0idp-gB46fswzI1EYbiQKJqemGA
-ENV VITE_API_BASE_URL=https://server.pharmetrade.com/api
+ENV VITE_API_BASE_URL=https://server.pharmetrade.com/
 COPY package*.json ./
 
 RUN npm config set proxy ${HTTP_PROXY} && \
