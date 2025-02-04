@@ -123,7 +123,7 @@ const RxProducts = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = RXProducts.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = RXProducts ? RXProducts.slice(indexOfFirstItem, indexOfLastItem) : [];
   const totalPages = Math.ceil((RXProducts?.length || 0) / itemsPerPage);
 
   const handleNextPage = () => {

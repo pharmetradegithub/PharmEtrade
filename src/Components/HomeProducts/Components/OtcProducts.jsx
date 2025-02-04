@@ -110,7 +110,7 @@ const OtcProducts = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = OTCProducts.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = OTCProducts ? OTCProducts.slice(indexOfFirstItem, indexOfLastItem) : [];
   const totalPages = Math.ceil((OTCProducts?.length || 0) / itemsPerPage);
 
   const handleNextPage = () => {
