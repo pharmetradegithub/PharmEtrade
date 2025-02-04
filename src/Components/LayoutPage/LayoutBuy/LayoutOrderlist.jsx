@@ -429,15 +429,20 @@ function LayoutOrderList() {
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
 
 
-      setCancelledOrders((prev) => ({
-        ...prev,
-        [productId]: true, // Mark this order as canceled
-      }));
+      // setCancelledOrders((prev) => ({
+      //   ...prev,
+      //   [productId]: true, // Mark this order as canceled
+      // }));
       // Trigger refetch after a delay (if needed)
-      setTimeout(async () => {
-        const updatedOrders = await fetchGetOrderByCustomerIdPage(user.customerId);
-        setGetOrder(updatedOrders);
-      }, 1000);
+      // setTimeout(async () => {
+      //   const updatedOrders = await fetchGetOrderByCustomerIdPage(user.customerId);
+      //   setGetOrder(updatedOrders);
+      // }, 1000);
+      const updatedOrders = await fetchGetOrderByCustomerIdPage(user.customerId);
+      setGetOrder(updatedOrders);
+
+      // Immediately update currentItems
+      setcurrentItems(updatedOrders.slice(indexOfFirstItem, indexOfLastItem));
     } catch (error) {
       console.error('Error in handleCancel:', error);
     }
