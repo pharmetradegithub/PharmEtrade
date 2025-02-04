@@ -1109,7 +1109,25 @@ function LayoutSellOrders() {
 
   const [modal, setModal] = useState(false);
   const [orderID, setOrderID] = useState(null);
+ const [loading, setLoading] = useState(false)
+  useEffect(() => {
+    const fetchGetOrder = async () => {
+      setLoading(true)
+      try {
+        if (user?.customerId) {
+          await dispatch(fetchGetOrderBySellerId(user.customerId));
+          setLoading(false)
+        }
+      } catch (error) {
+        console.error(error)
+        setLoading(false)
+      }
+    };
 
+    if (orderSellerId) {
+      fetchGetOrder();
+    }
+  }, [user]);
   useEffect(() => {
     const fetchGetOrder = async () => {
       // setLoading(true)
@@ -1127,7 +1145,7 @@ function LayoutSellOrders() {
     if (orderSellerId) {
       fetchGetOrder();
     }
-  }, [user, orderSellerId, dispatch, isModalOpen]);
+  }, [orderSellerId, dispatch, isModalOpen]);
 
   const handleClickView = async (orderId) => {
     setModal(true);
@@ -1458,13 +1476,13 @@ function LayoutSellOrders() {
             <FaPlus /> Add New Product
           </button> */}
         </div>
-        {/* {loading && (
+        {loading && (
           <div>
             <Loading />
           </div>
         )}
         {!loading && (
-          <> */}
+          <>
 
             <div className="flex flex-wrap my-4 gap-2 -ml-4 justify-normal items-center p-4">
               {/* {stats.map((stat, index) => (
@@ -1604,7 +1622,14 @@ function LayoutSellOrders() {
             <div className="border rounded-md text-[15px] bg-white mt-4">
               <div className="overflow-x-auto">
                 <div className="block lg:hidden md:hidden ">
-                  {/* Mobile View: Card layout */}
+              {/* Mobile View: Card layout */}
+              {/* {loading && (
+                <div>
+                  <Loading />
+                </div>
+              )}
+              {!loading && (
+                <> */}
                   {Array.isArray(currentItems) && currentItems.length > 0 ? (
                     currentItems.map((product, index) => (
                       <div
@@ -1742,6 +1767,8 @@ function LayoutSellOrders() {
                   ) : (
                     <p className="text-center text-gray-500">No Orders available</p>
                   )}
+                {/* </>
+              )} */}
                 </div>
 
                 <div className="hidden lg:block md:block">
@@ -1786,7 +1813,14 @@ function LayoutSellOrders() {
                         <th className="px-4 py-2 text-left">Action</th>
                       </tr>
                     </thead>
-                    <tbody>
+                <tbody>
+                  {/* {loading && (
+                    <div>
+                      <Loading />
+                    </div>
+                  )}
+                  {!loading && (
+                    <> */}
                       {Array.isArray(currentItems) && currentItems.length > 0 ? (
                         currentItems.map((product, index) => (
                           <tr key={index} className="border-b">
@@ -1886,6 +1920,8 @@ function LayoutSellOrders() {
                           </td>
                         </tr>
                       )}
+                    {/* </>
+                  )} */}
                     </tbody>
                   </table>
                 </div>
@@ -1893,6 +1929,7 @@ function LayoutSellOrders() {
             </div>
           {/* </>
         )} */}
+        
         <Pagination
           indexOfFirstItem={indexOfFirstItem}
           indexOfLastItem={indexOfLastItem}
@@ -1902,6 +1939,8 @@ function LayoutSellOrders() {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
+          </>
+        )}
       </div>
     </div>
   );
