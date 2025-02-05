@@ -119,7 +119,7 @@ const RxProductsAdmin = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = sortedItems.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = sortedItems ? sortedItems.slice(indexOfFirstItem, indexOfLastItem) : [];
   const totalPages = Math.ceil((products?.length || 0) / itemsPerPage);
 
   // const indexOfLastItem = currentPage * itemsPerPage;
