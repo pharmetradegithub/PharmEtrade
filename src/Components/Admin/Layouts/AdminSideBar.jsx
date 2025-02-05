@@ -44,7 +44,6 @@ function AdminSidebar() {
   const [isBannerDropdownOpen, setIsBannerDropdownOpen] = useState(false);
   const user = useSelector((state) => state.user.user);
 
-  console.log("aaaaa", user)
 
 
   const handleClick = (path) => {

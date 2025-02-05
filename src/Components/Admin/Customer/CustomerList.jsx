@@ -175,7 +175,6 @@
 //   //     const response = await GetByAdminCriteriaAPI(searchInput);
 //   //     setCustomers(response);
 //   //   } catch (error) {
-//   //     console.log("no fields");
 //   //   }
 //   // };
 //   const handleSearchClick = async () => {
@@ -193,7 +192,6 @@
 //       // await getUserByCustomerIdApi(customerId);
 //       navigate(`/pharmEtradeadmin/EditSellerList?CustomerId=${customerId}`);
 //     } catch (error) {
-//       console.log("error", error);
 //     }
 //   };
 //   // const DeactivateCustomer = async (customerId)=>{

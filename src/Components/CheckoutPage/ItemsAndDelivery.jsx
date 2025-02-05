@@ -14,7 +14,6 @@ const ItemsAndDelivery = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const getOrder = useSelector((state) => state.order.getById)
-  console.log("getOrder-->", getOrder) 
   const date = new Date()
   const month = String(date.getMonth() + 1).padStart(2, '0'); // getMonth() is 0-indexed, so add 1
 const day = String(date.getDate()).padStart(2, '0');
@@ -22,7 +21,6 @@ const year = date.getFullYear();
 
 const formattedDate = `${month}-${day}-${year}`;
 
-console.log(date)
     const itemsdetails = [
         {
           // img: 'offer',  // Assuming 'offer' is a string representing the image or icon name
@@ -45,8 +43,6 @@ console.log(date)
       indexOfFirstItem,
       indexOfLastItem
     );
-
-      console.log("currrr", currentItems)
 
       const handleNav = (productId) =>{
         navigate(`/detailspage/${productId}`)

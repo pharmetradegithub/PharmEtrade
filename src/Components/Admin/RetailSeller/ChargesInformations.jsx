@@ -156,10 +156,7 @@ import { AdminChargesGetApi, AdminChargesInformationAdd, deleteChargesAPi, editC
 //   const [isEditable, setIsEditable] = useState(false); // Controls edit mode
 //   const [showSuccessMessage, setShowSuccessMessage] = useState(false); // Controls success message visibility
 //   const [editingIndex, setEditingIndex] = useState(null); // Track which entry is being edited
-//   console.log("gettttppp==>", getproductSpecialOffer)
-//   console.log("caaa", category)
 //   const businessInfo = useSelector((state) => state.user.businessInfo)
-//   console.log("bussss-->", businessInfo)
 //   const dispatch = useDispatch()
 //   // Handle adding the entry or saving the edited entry
 //   const handleAddOrSave = () => {
@@ -318,7 +315,6 @@ import { AdminChargesGetApi, AdminChargesInformationAdd, deleteChargesAPi, editC
 //   const businessInfo = useSelector((state) => state.user.businessInfo);
 //   const dispatch = useDispatch();
 //   const stateNameData = useSelector((state) => state.tax.stateName)
-//   console.log("statee",stateNameData)
 //   let selectedCategory
 
 //   // Handle adding the entry or saving the edited entry
@@ -552,7 +548,6 @@ import { AdminChargesGetApi, AdminChargesInformationAdd, deleteChargesAPi, editC
 const ChargesInformations = () => {
   const searchParams = new URLSearchParams(location.search);
   const CustomerId = searchParams.get("CustomerId");
-  console.log("customerId--->", CustomerId)
   const getproductSpecialOffer = useSelector(
     (state) => state.product.productSpecialOffer
   );
@@ -572,8 +567,6 @@ const ChargesInformations = () => {
 //   const stateNameData = useSelector((state) => state.tax.stateName);
 
   const [editingEntry, setEditingEntry] = useState({}); // Store current entry being edited
-
-  console.log("edittttt", editingEntry);
 
   let selectedCategory;
 
@@ -665,7 +658,6 @@ const ChargesInformations = () => {
     modifiedOn,
     // transactionFee
   ) => {
-    console.log("allllll--->", index, chargeType)
     // setCategory(chargeType); // Update category
     const mappedChargeTypeId =
       chargeType === "Credit card charges"
@@ -698,8 +690,7 @@ const ChargesInformations = () => {
 //   }, [dispatch]);
 
   // const [getCharge, setGetCharge] = useState([])
-  // console.log("cccc-->", category)
-  // console.log("taxxxxx", taxPercentage)
+ 
   // const handleAddOrSave = async () => {
   //   const payload = {
   //     sellerId: CustomerId,
@@ -780,8 +771,6 @@ const ChargesInformations = () => {
 
     try {
       if (editingIndex !== null) {
-        console.log("newwwcategory==>", newCategory)
-        console.log("newwwcategory==>", newTax)
         // Edit Mode: Call editChargesApi
         const payloadEdit = {
           sellerId: CustomerId,
@@ -789,11 +778,9 @@ const ChargesInformations = () => {
           chargePercentage: taxPercentage,
         }
         await editChargesApi(payloadEdit);
-        console.log("Successfully edited the charge.");
       } else {
         // Add Mode: Call AdminChargesInformationAdd
         await AdminChargesInformationAdd(payload);
-        console.log("Successfully added the charge.");
       }
 
       // Immediately fetch the updated data after saving/editing
@@ -817,7 +804,6 @@ const ChargesInformations = () => {
     setDeletePharma(pharmEtradeChargesId);
   }
   const cancelDeleteButton = () => {
-    // console.log("Canceling delete operation");
     setDeletePop(false); // Close modal without deleting
     // setDeleteProduct(null); // Reset selected product
   };
@@ -825,7 +811,6 @@ const ChargesInformations = () => {
   // Success Delete Button
   const successDeleteButton = async () => {
     try {
-      console.log("Deleting product:", deletePharma);
       if (deletePharma) {
         await deleteChargesAPi(deletePharma); // Call delete API
         setDeletePop(false); // Close modal after deletion
@@ -843,7 +828,6 @@ const ChargesInformations = () => {
 
   // Close Modal Button
   const closeDeleteButton = () => {
-    // console.log("Closing delete modal");
     setDeletePop(false); // Close modal
     setDeletePharma(null); // Reset selected product
   };
@@ -921,7 +905,6 @@ const ChargesInformations = () => {
               className="border rounded-md h-11"
               value={category} // The numeric ID is stored here
               onChange={(e) => {
-                console.log("Selected value:", e.target.value); // Debug selected value
                 const value = e.target.value;
                 setCategory(value ? Number(value) : ""); // Avoid NaN
               }}// Update category when changed

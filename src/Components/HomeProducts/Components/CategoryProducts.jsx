@@ -68,7 +68,6 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
   const productCriteria = useSelector(
     (state) => state.product.productsByCriteria
   );
-  console.log("procri-->", productCriteria);
 
   const [wishlistProductIDs, setWishlistProductIDs] = useState([]);
   const [filterSearch, setFilterSearch] = useState();
@@ -99,14 +98,12 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
 
   const handleClose = (event) => {
     event.stopPropagation();
-    console.log("Clicked to close Items");
     setPop(false);
   };
 
   const handleCart = async (productID) => {
     if (user == null) {
       navigate("/login");
-      console.log("login to add");
       return;
     }
     const cartData = {

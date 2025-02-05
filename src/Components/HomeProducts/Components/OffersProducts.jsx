@@ -26,7 +26,6 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
   // const [currentItems, setCurrentItems] = useState([]);
 
   const productOffer = useSelector((state) => state.product.getProductSpecialOffer);
-  console.log('pr', productOffer)
   // const carts = useSelector((state) => state.cart.cart);
   // const wishlist = useSelector((state) => state.wishlist.wishlist);
   const user = useSelector((state) => state.user.user);
@@ -159,7 +158,6 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
       await addToWishlistApi(wishListData);
     }
   };
-  console.log("offersData-->", currentItems)
 
   return (
     <div

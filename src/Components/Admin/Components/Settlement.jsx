@@ -93,14 +93,12 @@ function Settlement() {
 
   // Handle dropdown selection change
   const handleUserChange = (e) => {
-    console.log("targetvalue====>", e.target.value);
     setSelectedUserId(e.target.value); // Update selected user ID
     if (selectedValue) {
       setError((prevError) => ({ ...prevError, selectedUsersId: "" }));
     }
   };
 
-  console.log("selecteduserid ====>", selectedUserId);
   // Toggle the visibility of address details
   const toggleDetails = () => {
     // setIsDetailsVisible(!isDetailsVisible);
@@ -233,7 +231,6 @@ function Settlement() {
         const filteredCustomers = res.filter(
           (customer) => customer.customerTypeId !== 4
         );
-        console.log("Filtered Customers:", filteredCustomers);
         setCustomers(filteredCustomers);
       } catch (error) {
         console.error("Error fetching customers:", error);
@@ -242,7 +239,6 @@ function Settlement() {
     fetchCustomers();
   }, []);
 
-  console.log("customer--->", customers);
   const [filteredCustomers, setFilteredCustomers] = useState(customers);
   const handleSearchChange = (e) => {
     const value = e.target.value;
@@ -277,7 +273,6 @@ function Settlement() {
     setFilteredCustomers([]); // Hide dropdown after selection
   };
 
-  console.log("getAll", getDetails);
 
   // const handleInputChange = (field, value) => {
   //   setError((prevErrors) => ({
@@ -366,7 +361,6 @@ function Settlement() {
   //   }
   //   // if (isValid) {
   //   //   // Proceed with balance display logic
-  //   //   console.log('Show balance');
   //   // }
   //   // if (chequeImage) {
   //   // Prepare the image for upload
@@ -374,7 +368,6 @@ function Settlement() {
   //   formData.append("image", chequeImage); // Use the exact field key expected by the API
 
   //   const imageUrl = await uploadCustomerImageApi(formData);
-  //   // console.log('Image uploaded successfully:', imageUrl);
   //   // }
   //   // const imageUrl = await uploadCustomerImageApi(formData);
 

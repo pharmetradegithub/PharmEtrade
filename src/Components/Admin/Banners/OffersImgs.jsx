@@ -163,22 +163,18 @@ const dispatch = useDispatch()
 
 
 
-  console.log(banners, "banners");
   const [bannerIds, setBannerIds] = useState()
   const [category, setCategory] = useState(null)
 
   // Handle editing banner
   // const handleEditBanner = (index, bannerID, categorySpecificationId) => {
-  //   console.log("phhhhhh", categorySpecificationId)
   //   setCategory(categorySpecificationId);
   //   setBannerIds(bannerID)
   //   // setBannerIds(Number(bannerID));
-  //   // console.log("yyy", setBannerIds)
   //   setEditingIndex(index);
   //   setEditBanner(banners[index]);
   // };
   const handleEditBanner = (index, categorySpecificationId, bannerID) => {
-    console.log("Editing banner", index, bannerID, categorySpecificationId); // Debugging log
     setCategory(categorySpecificationId);  // Ensure this is setting the correct value
     setBannerIds(bannerID);  // Ensure this is setting the correct banner ID
     setEditingIndex(index);
@@ -219,7 +215,6 @@ const dispatch = useDispatch()
   //     // await editBannerApi(bannerIds, updatedBannerData);
   //     await dispatch(EditOfferApi(updatedBannerData));
   //     await dispatch(offerGetAll())
-  //     console.log("Banner edited successfully");
 
   //     // Update state
   //     if (editBanner && editingIndex !== null) {
@@ -238,9 +233,6 @@ const dispatch = useDispatch()
   const handleSaveEdit = async () => {
     try {
       // Log the current state values to debug
-      console.log("editBanner:", editBanner);
-      console.log("bannerIds:", bannerIds);
-      console.log("category:", category);  // Check if the category is set
 
       // Ensure `editBanner`, `bannerIds`, and `category` are defined
       if (!editBanner || !bannerIds) {
@@ -269,7 +261,6 @@ const dispatch = useDispatch()
         message: "Edit Successfully!",
       });
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-      console.log("Banner edited successfully");
 
       // Update state
       if (editBanner && editingIndex !== null) {
@@ -316,7 +307,6 @@ const dispatch = useDispatch()
   });
 
   const BannerData = useSelector((state) => state.offer.offerGetAll) || [];
-  console.log("bbbbbb", BannerData);
 
   const handleRemoveNewBanner = (index) => {
     // setNewBanners((prevBanners) => prevBanners.filter((_, i) => i !== index));
@@ -367,7 +357,6 @@ const dispatch = useDispatch()
     try {
       // Call API to update banner
       await dispatch(EditOfferApi(updatedBannerData));
-      console.log("Banner updated successfully");
     } catch (error) {
       console.error("Error updating banner:", error);
 
@@ -402,7 +391,6 @@ const dispatch = useDispatch()
       });
     }
   };
-  console.log("cattteee", categorySpecification)
 
   return (
     <div className="p-6 bg-gray-100 overflow-y-scroll">

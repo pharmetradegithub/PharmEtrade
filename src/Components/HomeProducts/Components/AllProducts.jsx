@@ -95,14 +95,12 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
   });
   const handleClose = (event) => {
     event.stopPropagation();
-    console.log("Clicked to close Items");
     setPop(false);
   };
 
   const handleCart = async (productID) => {
     if (user == null) {
       navigate("/login")
-      console.log("login to add");
       return;
     }
     const cartData = {

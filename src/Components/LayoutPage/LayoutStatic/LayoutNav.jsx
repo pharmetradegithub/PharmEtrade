@@ -78,7 +78,6 @@ const LayoutNav = ({ Form_Data }) => {
   //     productCategoryId: obj.id
   //   };
 
-  //   console.log("cr--->", Criteria)
 
   //   await fetchCriteriaProductsApi(Criteria);
   //   navigate('/layout/layoutCategoryProducts');
@@ -100,7 +99,6 @@ const LayoutNav = ({ Form_Data }) => {
       productCategoryId: obj.productCategoryId,
     };
 
-    console.log("cr--->", obj);
     if (obj.productCategoryId === -1) {
       navigate("/layout/layoutbuy");
       return;
@@ -123,7 +121,6 @@ const LayoutNav = ({ Form_Data }) => {
     setSearchInput(e.target.value);
   };
 
-  console.log(SearchInput, "search");
   const handleSearchAPI = async () => {
     let Criteria = {
       customerId: user.customerId,
@@ -137,13 +134,11 @@ const LayoutNav = ({ Form_Data }) => {
       };
     }
 
-    console.log("g--->", Criteria);
 
     await fetchCriteriaProductsApi(Criteria);
     navigate(`/layout/layoutCategoryProducts?CategoryName=${selectedItemId}`);
     setSearchInput("");
   };
-  console.log(selectedItem);
   const components = useSelector((state) => state.master.productCategoryGetAll);
 
   const modifiedComponents = [
@@ -246,7 +241,6 @@ const LayoutNav = ({ Form_Data }) => {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const category = searchParams.get("CategoryName");
-    console.log("testing", category);
     if (category === null) {
       setSelectedItem("All");
     } else if (category && components.length > 0) {
@@ -255,7 +249,6 @@ const LayoutNav = ({ Form_Data }) => {
       );
       handleCriteriaLoad(category);
 
-      console.log("heyeheyehhoanceu", component, category);
       if (component) {
         setSelectedItem(component.categoryName); // Set the name if found
       } else {

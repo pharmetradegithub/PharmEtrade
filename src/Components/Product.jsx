@@ -11,7 +11,6 @@ function Product() {
   const [count, setCount] = useState(0);
   const [selectedDiv, setSelectedDiv] = useState(null);
   const navigate = useNavigate();
-  console.log("prodcutsss");
   return (
     <div className="bg-red-500 h-dvh">
       <h1>hello</h1>

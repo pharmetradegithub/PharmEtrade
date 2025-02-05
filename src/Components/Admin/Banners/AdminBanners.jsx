@@ -92,13 +92,11 @@ const AdminBanners = () => {
     }
   };
 
-  console.log(banners, "banners");
   const [bannerIds, setBannerIds] = useState()
   // Handle editing banner
   const handleEditBanner = (index, bannerID) => {
     setBannerIds(bannerID)
     // setBannerIds(Number(bannerID));
-    // console.log("yyy", setBannerIds)
     setEditingIndex(index);
     setEditBanner(banners[index]);
   };
@@ -127,7 +125,6 @@ const AdminBanners = () => {
 
       // Call API
       await editBannerApi(bannerIds, updatedBannerData);
-      console.log("Banner edited successfully");
 
       // Update state
       if (editBanner && editingIndex !== null) {
@@ -172,7 +169,6 @@ const AdminBanners = () => {
   });
 
   const BannerData = useSelector((state) => state.banner.banner);
-  console.log("bbbbbb", BannerData);
 
   const handleRemoveNewBanner = (index) => {
     setNewBanners((prevBanners) => prevBanners.filter((_, i) => i !== index));
@@ -220,11 +216,9 @@ const AdminBanners = () => {
       isActive: newToggleState ? 1 : 0, // Set isActive based on toggle state
     };
 
-    console.log("======", BannerData[index].bannerIds)
     try {
       // Call API to update banner
       await editBannerApi(BannerData[index].bannerIds, updatedBannerData);
-      console.log("Banner updated successfully");
     } catch (error) {
       console.error("Error updating banner:", error);
 

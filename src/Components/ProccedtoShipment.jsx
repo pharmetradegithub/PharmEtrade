@@ -16,19 +16,15 @@ const ProccedtoShipment = ({
   productId
 }) => {
   const fedexRate = useSelector((state) => state.trackNumber.fedExRates);
-  console.log("fedddddrate-->", fedexRate);
   const serviceName = useSelector((state) => state.trackNumber.serviceType);
   const cartList = useSelector((state) => state.cart.cart);
-  console.log("cartList checkout", cartList);
   // const [cartItems, setcartItems] = useState(cartList);
-  console.log("service-->", serviceName);
   const [amount, setAmount] = useState(200);
   const dispatch = useDispatch();
   const businessInfo = useSelector((state) => state.user.businessInfo);
   const orderPlace = useSelector((state) => state.order.orderPlace);
-  console.log("orderPlace-->", orderPlace)
+  
 
-  console.log("businessInfo", businessInfo);
   const navigate = useNavigate()
 
   const [searchParams] = useSearchParams();
@@ -40,14 +36,12 @@ const ProccedtoShipment = ({
 
   const handleChange = async (seller, e, products) => {
     const selectedServiceName = e.target.value;
-    console.log("productsselllll---->", products)
     // Update the selected options for the seller
     setSelectedOptions((prevOptions) => ({
       ...prevOptions,
       [seller]: selectedServiceName,
     }));
 
-    console.log("Selected service name:", selectedServiceName);
 
     // Find the matching rate for the selected service
     const matchingRate = fedexRate.find(
@@ -66,8 +60,6 @@ const ProccedtoShipment = ({
         [seller]: totalNetCharge,
       }));
 
-      console.log("Total Net Charge for selected service:", totalNetCharge);
-      console.log("sellllllll", seller)
       // Create and send the payload
       const payload = {
         orderId: orderPlace.orderId,
@@ -78,7 +70,6 @@ const ProccedtoShipment = ({
       };
 
       await ShipmentChargesApi(payload)
-      console.log("Payload:", payload);
 
       // if (totalNetCharge > 0) {
       //   navigate(
@@ -132,7 +123,6 @@ const ProccedtoShipment = ({
     return acc;
   }, {});
 
-  console.log("groupedProducts", groupedProducts)
   const user = useSelector((state) => state.user.user);
 
 

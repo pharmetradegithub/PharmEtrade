@@ -55,7 +55,6 @@ function LayoutWishlist({ addCart }) {
 
   const handleCart = async (productID) => {
     if (user == null) {
-      console.log("login to add");
       return;
     }
     const cartData = {
@@ -150,7 +149,6 @@ function LayoutWishlist({ addCart }) {
       },
     },
   }));
-  console.log("wishlist----layout", wishItems);
   return (
     <div
       className="bg-gray-200 h-full p-8 overflow-scroll"

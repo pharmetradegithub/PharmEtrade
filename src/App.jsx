@@ -202,7 +202,6 @@ function App() {
     LoadAll(userId);
   }, [userId]);
   useEffect(() => {
-    // console.log("Scrolling at top");
     window.scrollTo(0, 0);
   }, [location1.pathname]);
   const [wishItems, setWishItems] = useState([]);

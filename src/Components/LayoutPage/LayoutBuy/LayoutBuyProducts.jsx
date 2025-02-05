@@ -50,8 +50,6 @@ function LayoutBuy({
   const user = useSelector((state) => state.user.user);
   const cart = useSelector((state) => state.cart.cart);
   const wishlist = useSelector((state) => state.wishlist.wishlist);
-
-  console.log("cart--->", cart);
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
   //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
@@ -79,7 +77,7 @@ function LayoutBuy({
   //   return wishlistItem ? wishlistItem.wishListId : null;
   // };
   const products = useSelector((state) => state.product.Products);
-  console.log("productkkk===================", products)
+  
   const [productList, setproductList] = useState(products);
   const [sortOption, setSortOption] = useState(""); // State for sorting
   const [currentItems, setcurrentItems] = useState(
@@ -113,7 +111,6 @@ function LayoutBuy({
     setproductList(sortedProducts); // Update the product list with sorted products
   };
 
-  console.log("layoutproduct-->", productList);
   useEffect(() => {
     if (products) {
       const updatedProducts = products.map((product) => ({
@@ -363,8 +360,6 @@ function LayoutBuy({
     }));
   };
 
-  console.log("searching:", location.href);
-  // console.log("productlink", productURL);
 
   return (
     <div className="w-[95%] mt-4 ml-4 h-full overflow-y-scroll">

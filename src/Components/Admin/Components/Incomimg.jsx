@@ -23,7 +23,6 @@
 //   const [selectedFormat, setSelectedFormat] = useState("csv");
 //   const user = useSelector((state) => state.user.user)
 //   const paymentHistory = useSelector((state) => state.adminPayment.paymentReceive)
-//   console.log("payment-->", paymentHistory)
 
 //   const dispatch = useDispatch()
 
@@ -33,7 +32,6 @@
 
 //   const handleExportClick = () => {
 //     // Logic for exporting data based on selectedFormat
-//     console.log("Exporting as", selectedFormat);
 //     setDropdownOpen(false);
 //   };
 
@@ -67,9 +65,7 @@
 //   ];
 
 //   const approvedData = paymentHistory.filter(item => item.paymentStatus === "Approved");
-//   console.log("Approved===", approvedData)
 //   const CancelledOrder = paymentHistory.filter(item => item.statusId === 5);
-//   console.log("CancelledOrder===", CancelledOrder)
 //   const stats = [
 //     {
 //       label: "Total Orders",
@@ -90,7 +86,6 @@
 //     },
 //     { label: "Cancelled", value: `$${CancelledOrder.reduce((total, each) => total + each.paymentAmount, 0).toFixed(2)}`, text: "" },
 //   ];
-//   console.log("656576", stats[0].value)
 
 //   const filteredPayouts = payouts.filter(
 //     (payout) =>
@@ -117,7 +112,6 @@
 
 //   const handleSort = (key) => {
 //     setSortConfig((prevConfig) => {
-//       console.log('Previous Sort Config:', prevConfig);
 //       const newConfig = prevConfig.key === key
 //         ? {
 //           key,
@@ -125,7 +119,6 @@
 //         }
 //         : { key, direction: 'ascending' };
 
-//       console.log('New Sort Config:', newConfig);
 //       return newConfig;
 //     });
 //   };
@@ -149,12 +142,10 @@
 //   //   return paymentHistory;
 //   // }, [paymentHistory, sortConfig]);
 //   // const sortedItems = React.useMemo(() => {
-//   //   console.log('Sorting Items:', paymentHistory);
 //   //   if (sortConfig.key) {
 //   //     return [...paymentHistory].sort((a, b) => {
 //   //       const aValue = a[sortConfig.key];
 //   //       const bValue = b[sortConfig.key];
-//   //       console.log('Comparing:', aValue, bValue); // Log values being compared
 
 //   //       if (aValue === bValue) return 0;
 
@@ -168,7 +159,6 @@
 //   // }, [paymentHistory, sortConfig]);----------
 
 //   const sortedItems = React.useMemo(() => {
-//     console.log('Sorting Items:', paymentHistory);
 
 //     const validPaymentHistory = Array.isArray(paymentHistory) ? paymentHistory : [];
 //     // Default sort by `paymentDate` in descending order
@@ -183,7 +173,6 @@
 //       sortedData.sort((a, b) => {
 //         const aValue = a[sortConfig.key];
 //         const bValue = b[sortConfig.key];
-//         console.log('Comparing:', aValue, bValue); // Log values being compared
 
 //         if (aValue === bValue) return 0;
 
@@ -513,7 +502,6 @@ function LayoutPaymentHistory() {
   const [selectedFormat, setSelectedFormat] = useState("csv");
   const user = useSelector((state) => state.user.user)
   const paymentHistory = useSelector((state) => state.adminPayment.paymentReceive)
-  console.log("payment-->", paymentHistory)
 
   const dispatch = useDispatch()
 
@@ -523,7 +511,6 @@ function LayoutPaymentHistory() {
 
   const handleExportClick = () => {
     // Logic for exporting data based on selectedFormat
-    console.log("Exporting as", selectedFormat);
     setDropdownOpen(false);
   };
 
@@ -557,9 +544,7 @@ function LayoutPaymentHistory() {
   ];
 
   const approvedData = paymentHistory.filter(item => item.paymentStatus === "Approved");
-  console.log("Approved===", approvedData)
   const CancelledOrder = paymentHistory.filter(item => item.statusId === 5);
-  console.log("CancelledOrder===", CancelledOrder)
 
   const approvedAmount = approvedData.reduce((total, each) => total + each.paymentAmount, 0);
 
@@ -613,7 +598,6 @@ function LayoutPaymentHistory() {
     },
     { label: "Cancellation Amount", value: `$${CancelledOrder.reduce((total, each) => total + each.paymentAmount, 0).toFixed(2)}`, text: "" },
   ];
-  console.log("656576", stats[0].value)
 
   const filteredPayouts = payouts.filter(
     (payout) =>
@@ -640,7 +624,6 @@ function LayoutPaymentHistory() {
 
   const handleSort = (key) => {
     setSortConfig((prevConfig) => {
-      console.log('Previous Sort Config:', prevConfig);
       const newConfig = prevConfig.key === key
         ? {
           key,
@@ -648,7 +631,6 @@ function LayoutPaymentHistory() {
         }
         : { key, direction: 'ascending' };
 
-      console.log('New Sort Config:', newConfig);
       return newConfig;
     });
   };
@@ -672,12 +654,10 @@ function LayoutPaymentHistory() {
   //   return paymentHistory;
   // }, [paymentHistory, sortConfig]);
   // const sortedItems = React.useMemo(() => {
-  //   console.log('Sorting Items:', paymentHistory);
   //   if (sortConfig.key) {
   //     return [...paymentHistory].sort((a, b) => {
   //       const aValue = a[sortConfig.key];
   //       const bValue = b[sortConfig.key];
-  //       console.log('Comparing:', aValue, bValue); // Log values being compared
 
   //       if (aValue === bValue) return 0;
 
@@ -691,7 +671,6 @@ function LayoutPaymentHistory() {
   // }, [paymentHistory, sortConfig]);----------
 
   const sortedItems = React.useMemo(() => {
-    console.log('Sorting Items:', paymentHistory);
 
     const validPaymentHistory = Array.isArray(paymentHistory) ? paymentHistory : [];
     // Default sort by `paymentDate` in descending order
@@ -706,7 +685,6 @@ function LayoutPaymentHistory() {
       sortedData.sort((a, b) => {
         const aValue = a[sortConfig.key];
         const bValue = b[sortConfig.key];
-        console.log('Comparing:', aValue, bValue); // Log values being compared
 
         if (aValue === bValue) return 0;
 

@@ -32,7 +32,6 @@ const EditFields = () => {
     };
     GetProductById();
   }, []);
-  console.log(ProductData);
   return (
     <div className="w-full h-full justify-center overflow-x-hidden flex items-center">
       <div className="w-[95%]  h-full">

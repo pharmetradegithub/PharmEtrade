@@ -21,7 +21,6 @@ function LayoutPaymentHistory() {
   const user = useSelector((state) => state.user.user)
   const paymentHistory = useSelector((state) => state.dashboard.getPaymentHistory)
   const [getAll, setGetAll] = useState(null)
-  console.log("payment-->", paymentHistory)
   const dispatch = useDispatch()
 
   const handleChange = (event) => {
@@ -30,7 +29,6 @@ function LayoutPaymentHistory() {
 
   const handleExportClick = () => {
     // Logic for exporting data based on selectedFormat
-    console.log("Exporting as", selectedFormat);
     setDropdownOpen(false);
   };
 
@@ -137,7 +135,6 @@ const handleSort = (key) => {
 // }, [paymentHistory, sortConfig]);
 
   const sortedItems = React.useMemo(() => {
-    console.log('Sorting Items:', getAll);
 
     const validPaymentHistory = Array.isArray(getAll) ? getAll : [];
     // Default sort by `paymentDate` in descending order
@@ -152,7 +149,6 @@ const handleSort = (key) => {
       sortedData.sort((a, b) => {
         const aValue = a[sortConfig.key];
         const bValue = b[sortConfig.key];
-        console.log('Comparing:', aValue, bValue); // Log values being compared
 
         if (aValue === bValue) return 0;
 
@@ -175,7 +171,6 @@ const handleSort = (key) => {
     data()
   }, [])
 
-  console.log("res---->", getAll)
 
 const indexOfLastItem = currentPage * itemsPerPage;
 const indexOfFirstItem = indexOfLastItem - itemsPerPage;

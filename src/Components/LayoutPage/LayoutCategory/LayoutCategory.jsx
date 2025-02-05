@@ -787,7 +787,6 @@ function LayoutCategory({
     }
   }, [modifiedComponents, CategoryId]);
 
-  console.log("cartssssssss--->", cart);
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
   //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
@@ -807,7 +806,6 @@ function LayoutCategory({
 
   const products = useSelector((state) => state.product.Products);
   const [productList, setproductList] = useState(productCriteria);
-  //   console.log("layoutproduct-->",productList)
   const [sortOption, setSortOption] = useState(""); // State for sorting
   const sortProducts = (products, sortOption) => {
     const isNumber = (str) => /^\d/.test(str); // Check if the first character is a digit

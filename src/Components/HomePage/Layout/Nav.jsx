@@ -767,7 +767,6 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   const user = useSelector((state) => state.user.user);
   const cart = useSelector((state) => state.cart.cart);
   const components = useSelector((state) => state.master.productCategoryGetAll);
-  console.log("categoeryyy-->", components);
   const modifiedComponents = [
     { productCategoryId: -1, categoryName: "All" },
     ...components,
@@ -790,7 +789,6 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
       const component = modifiedComponents.find(
         (comp) => comp.productCategoryId == category
       );
-      console.log("heyeheyehhoanceu", component, category);
       if (component) {
         setSelectedItem(component.categoryName); // Set the name if found
       } else {
@@ -939,14 +937,12 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   // ];
 
   const handleCriteria = async (obj) => {
-    console.log(obj, "objjjjj");
     handleItemClick(obj.categoryName, obj.productCategoryId);
     let Criteria = {
       productCategoryId: obj.productCategoryId,
       customerId: user ? user.customerId : "234",
     };
 
-    console.log("cr--->", obj);
     if (obj.productCategoryId === -1) {
       navigate("/allProducts");
       return;
@@ -1055,7 +1051,6 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   };
   const [selectedItemId, setSelectedItemId] = useState(-1);
   const [SearchInput, setSearchInput] = useState("");
-  console.log(SearchInput, "search");
   const handleSearch = async (e) => {
     setSearchInput(e.target.value);
   };

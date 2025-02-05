@@ -104,10 +104,9 @@ const Bid = ({ topMargin }) => {
   //     }
   
   //     const Criteria = { customerId: user?.customerId, productName: formData.productName };
-  //     console.log("Criteria:", Criteria);
+  
   
   //     const products = await fetchCriteriaProductsApi(Criteria, "", true);
-  //     console.log("Fetched Products:", products);
   
   //     if (!products || products.length === 0) {
   //       setNotification({
@@ -207,10 +206,8 @@ const Bid = ({ topMargin }) => {
     // Proceed with form submission if no errors
     try {
       const Criteria = { customerId: user?.customerId, productName: formData.productName };
-      console.log("Criteria:", Criteria);
   
       const products = await fetchCriteriaProductsApi(Criteria, "", true);
-      console.log("Fetched Products:", products);
   
       if (!products || products.length === 0) {
         setNotification({

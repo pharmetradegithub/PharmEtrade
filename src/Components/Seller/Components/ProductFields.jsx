@@ -6,7 +6,6 @@ import filter from "../../../assets/Icons/filter_icon.png";
 import deleteicon from "../../../assets/trash.png";
 function ProductFields() {
   const userData = (() => { try { return JSON.parse(localStorage.getItem('login')); } catch { return localStorage.getItem('login'); } })();
-  console.log(userData);
 
   const products = [
     {
@@ -378,8 +377,7 @@ function ProductFields() {
       }
   
       const result = await response.json();
-      console.log("Product Data", result);
-      console.log(result);
+   
       return result;
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
@@ -462,7 +460,6 @@ function ProductFields() {
   //     }
 
   //     const result = await response.json();
-  //     console.log(result);
   //     return result; // Return the result for further handling
   //   } catch (error) {
   //     // Log and throw the exact error details
@@ -470,7 +467,6 @@ function ProductFields() {
   //     throw error; // Re-throw the error for handling elsewhere if needed
   //   }
   // };
-  console.log(formData);
   const renderTabContent = () => {
     switch (activeTab) {
       case 0:

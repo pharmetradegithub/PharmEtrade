@@ -32,7 +32,6 @@ const AddXlSheet = () => {
     event.preventDefault();
     if (file) {
       // Logic to handle file upload goes here
-      console.log("File submitted:", file);
     } else {
       console.log("No file selected or invalid file type.");
     }

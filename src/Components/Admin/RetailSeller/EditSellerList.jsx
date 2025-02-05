@@ -54,7 +54,6 @@ const EditSellerList = () => {
     const FetchUserDetails = async () => {
       const user = await getUserByCustomerIdApi(CustomerId);
       if (user) {
-        console.log("user fetched");
         setuserdata(user.customerDetails);
         setbusinessInfo(user.businessInfo);
       }
@@ -63,7 +62,6 @@ const EditSellerList = () => {
       FetchUserDetails();
     }
   }, [CustomerId, isRefresh]);
-  console.log(isRefresh);
   // const DeactivateCustomer = async (customerId, comments) => {
   //   await DeactivateUserAPI(customerId, comments);
   //   setNotification({
@@ -206,7 +204,6 @@ const EditSellerList = () => {
           : "false",
     });
   }, [userdata]);
-  console.log(userDetails);
   const handleBusinessPhoneChange = (e) => {
     const input = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
     let formattedBusinessPhone = input;
@@ -328,13 +325,11 @@ const EditSellerList = () => {
       isUPNMember: userTypeDetails.isUPNMember == "true" ? 1 : 0,
       accountTypeId: userdata.accountTypeId,
     };
-    console.log(usertypeinfo, "usertypeinfo");
     if (usertypeinfo) {
       await UserInfoUpdate(usertypeinfo);
       await RefreshUser();
     }
 
-    console.log("Data saved:", userDetails); // You can dispatch this to Redux or send it to the backend
     // alert("Data saved successfully!"); // Show notification
     setNotification({
       show: true,
@@ -389,7 +384,6 @@ const EditSellerList = () => {
       await RefreshUser();
     }
 
-    console.log("Data saved:", userDetails); // You can dispatch this to Redux or send it to the backend
     // alert("Data saved successfully!"); // Show notification
     setNotification({
       show: true,
@@ -554,7 +548,6 @@ const EditSellerList = () => {
     };
 
     if (businessInfo) {
-      console.log("Before submit:", businessInfoObj);
       await BusinessInfoUpdate(businessInfoObj);
       await RefreshUser();
     }
@@ -695,7 +688,6 @@ const EditSellerList = () => {
   };
 
   // const handleAddressChange = (e) => {
-  //   console.log("Field changed:", e.target.name, e.target.value);
   //   const { name, value } = e.target;
   //   setAddressData((prevState) => ({
   //     ...prevState,
@@ -834,7 +826,6 @@ const EditSellerList = () => {
     deaLicenseCopy: businessInfo?.deaLicenseCopy || "",
     pharmacyLicenseCopy: businessInfo?.pharmacyLicenseCopy || "",
   });
-  console.log("account", accountData);
   useEffect(() => {
     setAddressData({
       shopName: businessInfo?.shopName || "",
@@ -963,11 +954,9 @@ const EditSellerList = () => {
     // Check if there are validation errors
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors); // Update error state
-      console.log("Validation errors:", newErrors);
       return; // Stop execution if validation fails
     }
     setIsAccountEdit(false);
-    console.log("acc", accountData);
     const businessInfoObj = {
       customerBusinessInfoId: businessInfo.customerBusinessInfoId,
       customerId: userdata.customerId,
@@ -1000,12 +989,10 @@ const EditSellerList = () => {
       companyWebsite: businessInfo.companyWebsite,
     };
     if (businessInfo) {
-      console.log("before sbubmit", businessInfoObj);
       await BusinessInfoUpdate(businessInfoObj);
       await RefreshUser();
     }
     // Here you would typically dispatch an action to save the updated account information
-    console.log("Account saved:", accountData);
     // alert("Account information saved successfully!");
     setNotification({
       show: true,
@@ -1219,7 +1206,6 @@ const EditSellerList = () => {
   //   const CustomerActivateDeactivateAPI = async () => {
   //     try {
   //       const customer = await fetchCustomerActivateDeactivateById(CustomerId);
-  //       console.log("Fetched customer data:", customer);
   //       setHistoryData(Array.isArray(customer) ? customer : []);
   //     } catch (error) {
   //       console.log(error);
@@ -1248,7 +1234,6 @@ const EditSellerList = () => {
     CustomerActivateDeactivateAPI();
   }, [CustomerId, CallHistory]);
 
-  // console.log("ppppp", historyData);
   const [usercomment, setUserComment] = useState([]);
 
   const handleuserCommentsChange = (event) => {
@@ -1379,18 +1364,15 @@ const EditSellerList = () => {
   };
   const dispatch = useDispatch();
   const comment = useSelector((state) => state.comment.comments);
-  console.log("ccccc", comment);
   const fetchCharges = async () => {
     try {
       const res = await dispatch(AdminChargesGetApi(CustomerId));
-      console.log(res, "charges response");
     } catch (error) {
       console.error("Error fetching charges:", error);
     }
   };
   const GetCharges = useSelector((state) => state.charges.getCharges);
   useEffect(() => {
-    console.log(CustomerId, "heyehy");
     if (CustomerId) fetchCharges();
   }, [CustomerId]);
 

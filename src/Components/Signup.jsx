@@ -230,7 +230,6 @@ const Signup = () => {
   const [uploadedFile, setUploadedFile] = useState("");
   const [file1, setfile1] = useState(null);
   const [file2, setfile2] = useState(null);
-  // console.log(formData);
   const uploadFile = async (file, name) => {
     const formData1 = new FormData();
     formData1.append("image", file); // Assuming the field name is "image"
@@ -341,7 +340,6 @@ const Signup = () => {
     const day = String(today.getDate()).padStart(2, "0"); // Add leading zero to day
     return `${year}-${month}-${day}`; // Return today's date in 'YYYY-MM-DD' format
   };
-  console.log(formData)
   const handleInputChange = async (e) => {
     const { name, value, type, files, checked } = e.target;
     setErrors((prevErrors) => ({
@@ -441,7 +439,6 @@ const Signup = () => {
         }));
       }
     }
-    // console.log(formData);
     if (name === "password") validatePassword(value);
 
     if (activeStep === 1) {
@@ -821,7 +818,6 @@ const Signup = () => {
 
   const navigate = useNavigate();
   const [isSubmit, setisSubmit] = useState(true);
-  // console.log("hh", activeStep, usertype);
 
   const customerId = localStorage.getItem("customerId");
 
@@ -933,12 +929,10 @@ const Signup = () => {
       );
 
       if (!response.ok) {
-        console.log(response, "Error Response:");
         return false;
       }
 
       const data = await response.json();
-      console.log("API response:", data);
       return true;
     } catch (error) {
       console.error("Error during API request:", error);
@@ -962,14 +956,11 @@ const Signup = () => {
       otpExpiryDate: "2024-08-12T13:32:54.749Z",
     };
     const userId = localStorage.getItem('userId');
-    console.log("userId", userId)
     if (userId != null) {
       requestBody.customerId = userId;
     }
-    console.log(requestBody, "h");
     try {
       if (requestBody.customerId != null) {
-        console.log("goingto edit");
         const res = await UserInfoUpdate(requestBody);
         if (res) {
 
@@ -980,7 +971,6 @@ const Signup = () => {
         }
       }
       requestBody.customerId = "0";
-      console.log("goingto regsiters");
 
       const response = await fetch(
         // "https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Customer/Register",
@@ -995,8 +985,6 @@ const Signup = () => {
       );
 
       if (!response.ok) {
-        console.log(response, "h,");
-
         return false;
       }
 
@@ -1004,7 +992,6 @@ const Signup = () => {
       localStorage.setItem("customerId", data);
       localStorage.setItem("userId", data.customerId);
 
-      console.log("API response:", data);
       setFormData({ ...formData, customerId: data.customerId });
       // return data; // Return data for further use if needed
       return true;
@@ -1063,7 +1050,6 @@ const Signup = () => {
   };
 
   const handleusertypechange = (value) => {
-    console.log("value", value);
     setusertype(value);
     if (activeStep === 1) {
       validateStep(activeStep);

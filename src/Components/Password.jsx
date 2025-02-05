@@ -13,10 +13,8 @@
 //   const [errors, setErrors] = useState({});
 
 //   const validate = () => {
-//     console.log("hy")
 //     let errors = {};
 //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-//     console.log(email);
 //     if (!email) {
 //       errors.email = "Email is required";
 //     } else if (!emailRegex.test(email)) {
@@ -31,10 +29,8 @@
 //   const handleSubmit =async () => {
 //     if (validate()) {
 //       // Handle form submission
-//       console.log("hmm");
 //       const response = await sendChangePasswordLinkApi(email);
 //       setmessage(response);
-//       console.log("Form submitted successfully");
 //       // Reset form
 //       setEmail("");
 //       setPassword("");

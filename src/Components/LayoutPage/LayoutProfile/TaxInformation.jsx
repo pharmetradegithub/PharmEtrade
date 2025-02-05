@@ -18,10 +18,9 @@ import Pagination from '../../Pagination';
 //   const [isEditable, setIsEditable] = useState(false); // Controls edit mode
 //   const [showSuccessMessage, setShowSuccessMessage] = useState(false); // Controls success message visibility
 //   const [editingIndex, setEditingIndex] = useState(null); // Track which entry is being edited
-//   console.log("gettttppp==>", getproductSpecialOffer)
-//   console.log("caaa", category)
+
 //   const businessInfo = useSelector((state) => state.user.businessInfo)
-//   console.log("bussss-->", businessInfo)
+
 //   const dispatch = useDispatch()
 //   // Handle adding the entry or saving the edited entry
 //   const handleAddOrSave = () => {
@@ -182,7 +181,6 @@ import Pagination from '../../Pagination';
 //   const businessInfo = useSelector((state) => state.user.businessInfo);
 //   const dispatch = useDispatch();
 //   const stateNameData = useSelector((state) => state.tax.stateName)
-//   console.log("statee",stateNameData)
 //   let selectedCategory
 
 //   // Handle adding the entry or saving the edited entry
@@ -763,13 +761,6 @@ const TaxInformation = () => {
 // };
 
   const handleEditClick = (index, taxInformationId, categorySpecificationId, taxPercentage, stateName, createdDate, modifiedDate) => {
-    console.log("Editing entry:", {
-      index,
-      taxInformationId,
-      categorySpecificationId,
-      taxPercentage,
-      stateName,
-    });
 
     setCategory(categorySpecificationId); // Set the category in the form
     setFormData({ State: stateName }); // Set the state name in the form
@@ -858,7 +849,6 @@ const TaxInformation = () => {
       setLoading(true);
 
       const res = await dispatch(AddTaxBUlk(payload));
-      console.log("resssss", res)
 
       if (res?.statusCode === 200) {
         setNotification({
@@ -889,8 +879,7 @@ const TaxInformation = () => {
   };
   const handleCancel = () => {
     // Process the data from the modal
-    console.log("Selected States:", selectedStates);
-    console.log("Custom Field Value:", customField);
+ 
 
     // Close the modal after submission
     setIsModalOpen(false);

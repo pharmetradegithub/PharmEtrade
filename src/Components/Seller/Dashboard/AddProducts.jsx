@@ -41,7 +41,6 @@ const AddProducts = () => {
         setLoading(false);
       });
   }, []);
-  // console.log(products);
   // const products = [
   //   // Sample data
   //   {

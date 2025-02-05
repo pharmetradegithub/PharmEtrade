@@ -152,7 +152,6 @@ const OfferSlider = ({ images, Title }) => {
     newoffer.push(newObject);
     return newObject
   })
-  console.log("offer-->", newoffer)
 
   newoffer?.map((element) => {
     getAll?.map((data) => {
@@ -161,7 +160,6 @@ const OfferSlider = ({ images, Title }) => {
       }
     })
   })
-  console.log("new offere", newoffer);
 
   const navigation = (dir) => {
     const container = carouselContainer.current;
@@ -197,7 +195,6 @@ const OfferSlider = ({ images, Title }) => {
     "Up to 65% off | Deals on OTC Products",
     "Up to 45% off | Deals on RX Products",
   ];
-  console.log("offerSpecial---------", specialOffers)
 
   const handleSeeOffers = (categorySpecificationId) => {
     try {

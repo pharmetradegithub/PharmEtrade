@@ -68,12 +68,7 @@ const RelatedProductsAdmin = () => {
     message: "",
   });
 
-  console.log(
-    relatedProducts,
-    UpSellProducts,
-    CrossSellProducts,
-    "related one"
-  );
+ 
   // const relatedProducts = useSelector((state) => state.product)
   useEffect(() => {
     const fetchAll = async () => {
@@ -122,7 +117,6 @@ const RelatedProductsAdmin = () => {
     const productId = localStorage.getItem("productId");
     const searchParams = new URLSearchParams(location.search);
     const queryProductId = searchParams.get("productId");
-    console.log(productId, toproductID, index);
     try {
       if (index == 1) {
         await AddRelatedProductAPI(
@@ -163,7 +157,6 @@ const RelatedProductsAdmin = () => {
     const productId = localStorage.getItem("productId");
     const searchParams = new URLSearchParams(location.search);
     const queryProductId = searchParams.get("productId");
-    console.log(productId, toproductID, index);
     try {
       if (index == 1) {
         await RemoveRelatedProductAPI(
@@ -367,7 +360,6 @@ const RelatedProductsAdmin = () => {
       [name]: value,
     });
   };
-  console.log(formData);
   // Placeholder for reset functionality
   const handleReset = () => {
     setFormData({
