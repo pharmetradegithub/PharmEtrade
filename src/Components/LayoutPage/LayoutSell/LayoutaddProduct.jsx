@@ -433,16 +433,15 @@ function LayoutaddProduct() {
   //   setFormData({ ...formData, ["videoUrl"]: files[0] });
   // };
   const stateNameData = useSelector((state) => state.tax.stateName);
-  console.log("satemeem", stateNameData)
 
   const [alertPopup, setAlertPopup] = useState(false)
-  useEffect(() => {
-    const data = async () => {
-      await dispatch(TaxGetByStateNameApi(user.customerId))
-      alertMessage()
-    }
-    data()
-  }, [user.customerId])
+  // useEffect(() => {
+  //   const data = async () => {
+  //     await dispatch(TaxGetByStateNameApi(user.customerId))
+  //     alertMessage()
+  //   }
+  //   data()
+  // }, [user])
 
   const alertMessage = () => {
     if (!stateNameData || stateNameData.length === 0) {

@@ -456,7 +456,7 @@ function LayoutFedexshipping() {
 
   useEffect(() => {
     dispatch(fetchGetFedex(user?.customerId));
-  }, [dispatch, user.customerId, CallHistory]);
+  }, [dispatch, user, CallHistory]);
 
   // useEffect(() => {
   // //   if (Array.isArray(getshipingDetails)) {
