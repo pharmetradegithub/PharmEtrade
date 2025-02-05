@@ -25,7 +25,6 @@ const LayoutBid = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission
-    console.log(formData);
   };
 
   return (

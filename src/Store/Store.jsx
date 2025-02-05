@@ -119,7 +119,6 @@ const userSlice = createSlice({
       state.addBeneficiary = action.payload;
     },
     setGetBeneficiary(state, action) {
-      console.log(action.payload, "beneficiary")
       state.getBeneficiary = action.payload;
     },
   },
@@ -155,7 +154,6 @@ const bidSlice = createSlice({
       state.bidQuotedProduct = action.payload
     },
     setGetBidsBySeller(state, action) {
-      console.log("errrStore", action.payload)
       state.bidRequestedQuoted = action.payload
     },
     updateBidStatus(state, action) {
@@ -194,7 +192,6 @@ const orderSlice = createSlice({
   reducers: {
     addOrder(state, action) {
       state.orders = action.payload;
-      console.log("addorder-->", action.payload)
     },
     // clearOrders(state) {
     //   state.orders = [];
@@ -251,19 +248,15 @@ const dashboardSlice = createSlice({
   initialState: initialDashboardState,
   reducers : {
     setSellerDashboardId(state, action) {
-      console.log('Action payload:', action.payload); // Check payload here
       state.getSellerId = action.payload;
     },
     setCustomerDashboardId(state, action) {
-      console.log('Action payload:', action.payload); // Check payload here
       state.getCustomerId = action.payload;
     },
     setTotalProductDashboard(state, action) {
-      console.log('Action total payload:', action.payload); // Check payload here
       state.getTotalProductDashboard = action.payload;
     },
     setCustomerOrder(state, action) {
-      console.log('Action total payload:', action.payload); // Check payload here
       state.getCustomerOrder = action.payload;
     },
     setSellCustomer(state, action) {
@@ -273,7 +266,6 @@ const dashboardSlice = createSlice({
       state.getPaymentHistory = action.payload
     },
     setSellerGetAll(state, action) {
-      console.log('Action total payload:', action.payload); // Check payload here
       state.getSellerGetAll = action.payload;
     },
   }
@@ -344,11 +336,9 @@ const productsSlice = createSlice({
       );
     },
     setSpecialOffer(state, action) {
-      console.log("reduxspeee-->", action.payload)
       state.productSpecialOffer = action.payload; 
     },
     setGetProductSpecialOffer(state, action) {
-      console.log("redux-->", action.payload)
       state.getProductSpecialOffer = action.payload
     },
     setRelatedProduct(state, action){

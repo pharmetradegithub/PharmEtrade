@@ -102,7 +102,6 @@ const SellerReports = () => {
 
   const handleSort = (key) => {
     setSortConfig((prevConfig) => {
-      console.log('Previous Sort Config:', prevConfig);
       const newConfig = prevConfig.key === key
         ? {
           key,
@@ -110,7 +109,6 @@ const SellerReports = () => {
         }
         : { key, direction: 'ascending' };
 
-      console.log('New Sort Config:', newConfig);
       return newConfig;
     });
   };
@@ -153,7 +151,6 @@ const SellerReports = () => {
       sortedData.sort((a, b) => {
         const aValue = a[sortConfig.key];
         const bValue = b[sortConfig.key];
-        console.log('Comparing:', aValue, bValue); // Log values being compared
 
         if (aValue === bValue) return 0;
 
@@ -202,8 +199,6 @@ const SellerReports = () => {
   };
 
   const mappedReportType = reportTypeMapping[savedReportType];
-  console.log("savvvv", savedReportType)
-  console.log("Mapped Report Type:", mappedReportType);
   const onExcelHandle = async () => {
     // if (!savedFromDate || isNaN(new Date(savedFromDate).getTime())) {
     //   alert("Please select a valid 'From Date'.");
@@ -224,11 +219,8 @@ const SellerReports = () => {
       // const formattedFromDate = format(new Date(fromDate), "yyyy-MM-dd");
       // const formattedToDate = format(new Date(toDate), "yyyy-MM-dd");
 
-      console.log("Formatted From Date:", formattedFromDate);
-      console.log("Formatted To Date:", formattedToDate);
 
       // const trimmedSavedReportType = savedReportType.trim();
-      // console.log("Trimmed Report Type:", trimmedSavedReportType);
 
       // if (mappedReportType === "Payments History") {
       //   await getReportPaymentHistoryExcel(formattedFromDate, formattedToDate);
@@ -245,7 +237,6 @@ const SellerReports = () => {
       // }
 
       // if (data) {
-      //   console.log("Excel report fetched successfully");
       //   // Further processing, like downloading the file, if required
       //   const blob = new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
 

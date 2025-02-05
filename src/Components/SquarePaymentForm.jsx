@@ -9,7 +9,6 @@
 //   onPaymentSuccess,
 //   onPaymentError,
 // }) => {
-//   console.log("amounttttt", amount)
 //   const [source, setSource] = useState(null);
 //   useEffect(() => {
 //     const payload = {
@@ -28,9 +27,7 @@
 //       // applicationId="sq0idp-gB46fswzI1EYbiQKJqemGA"
 //       applicationId="sq0idp-pSMd2d7GIg_zV67r9cPBlg"
 //       cardTokenizeResponseReceived={async (token, verifiedBuyer) => {
-//         console.log("token:", token);
 //         setSource(token.token);
-//         console.log("verifiedBuyer:", verifiedBuyer);
 //       }}
 //       //  createVerificationDetails={() => ({
 //       //   amount: amount,
@@ -73,7 +70,6 @@ const SquarePaymentForm = ({
   // onPaymentSuccess,
   // onPaymentError,
 }) => {
-  console.log("amounttttt", amount)
   const [source, setSource] = useState(null);
   const [expiryYear, setExpiryYear] = useState(null)
   const [expiryMonth, setExpiryMonth] = useState(null)
@@ -86,7 +82,6 @@ const SquarePaymentForm = ({
     message: "",
   });
 
-  console.log("amio", amount)
   // useEffect(() => {
   //   const processAndAddPayment = async () => {
   //     try {
@@ -131,7 +126,6 @@ const SquarePaymentForm = ({
   //       // navigate('/layout/layoutorderlist');
   //       // window.location.href="/layout/layoutorderlist"
   //     } catch (error) {
-  //       console.log("error", error);
   //     }
   //   };
 
@@ -482,7 +476,6 @@ const SquarePaymentForm = ({
     <PaymentForm
       applicationId={import.meta.env.VITE_SQUARE_APP_ID}
       cardTokenizeResponseReceived={async (token, verifiedBuyer) => {
-        console.log("token:", token);
         if (token?.token) {
           setSource(token.token);
           setExpiryMonth(token?.details?.card?.expMonth);
@@ -521,7 +514,6 @@ export default SquarePaymentForm;
 //   const isInitialized = useRef(false);
 
 //   useEffect(() => {
-//     console.log("squarePyamentform------->")
 //     alert("effect-->squarepaymentForm")
 //     const initializeSquarePayment = async () => {
 //       if (isInitialized.current) return;  // Prevent multiple initializations
@@ -635,7 +627,6 @@ export default SquarePaymentForm;
 //   const isInitialized = useRef(false);
 
 //   useEffect(() => {
-//     console.log("squarePyamentform------->")
 //     alert("effect-->squarepaymentForm")
 //     const initializeSquarePayment = async () => {
 //       if (isInitialized.current) return;  // Prevent multiple initializations

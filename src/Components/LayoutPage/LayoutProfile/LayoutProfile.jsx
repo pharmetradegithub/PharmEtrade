@@ -25,7 +25,6 @@ const LayoutProfile = () => {
   const userdata = useSelector((state) => state.user.user); // Get user data from redux
   const businessInfo = useSelector((state) => state.user.businessInfo);
 
-  console.log("rrrrrrrrrrrrrrrrr", userdata);
   const [isEditable, setIsEditable] = useState(false); // State to toggle edit mode
   // State to handle user data (controlled inputs)
   const [notification, setNotification] = useState({
@@ -55,7 +54,6 @@ const LayoutProfile = () => {
     });
   }, [userdata]);
 
-  console.log("uuuuuuu", userdata);
 
   // // Handle changes to input fields
   // const handleInputChange = (e) => {
@@ -187,7 +185,6 @@ const LayoutProfile = () => {
       await RefreshUser();
     }
 
-    console.log("Data saved:", userDetails); // You can dispatch this to Redux or send it to the backend
     // alert("Data saved successfully!"); // Show notification
     setNotification({
       show: true,
@@ -196,7 +193,6 @@ const LayoutProfile = () => {
     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
   };
 
-  console.log("business", businessInfo);
   // State for editing Address Information
   const [isAddressEdit, setIsAddressEdit] = useState(false);
   const [addressData, setAddressData] = useState({
@@ -580,12 +576,10 @@ const LayoutProfile = () => {
       companyWebsite: addressData.companyWebsite,
     };
     if (businessInfo) {
-      console.log("before sbubmit", businessInfoObj);
       await BusinessInfoUpdate(businessInfoObj);
       await RefreshUser();
     }
     // Here you would typically dispatch an action to save the updated address
-    console.log("Address saved:", addressData);
     // alert("Address information saved successfully!");
     setNotification({
       show: true,
@@ -844,11 +838,9 @@ const LayoutProfile = () => {
     // Check if there are validation errors
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors); // Update error state
-      console.log("Validation errors:", newErrors);
       return; // Stop execution if validation fails
     }
     setIsAccountEdit(false);
-    console.log("acc", accountData);
     const businessInfoObj = {
       customerBusinessInfoId: businessInfo.customerBusinessInfoId,
       customerId: userdata.customerId,
@@ -883,12 +875,10 @@ const LayoutProfile = () => {
       companyWebsite: businessInfo.companyWebsite,
     };
     if (businessInfo) {
-      console.log("before sbubmit", businessInfoObj);
       await BusinessInfoUpdate(businessInfoObj);
       await RefreshUser();
     }
     // Here you would typically dispatch an action to save the updated account information
-    console.log("Account saved:", accountData);
     // alert("Account information saved successfully!");
     setNotification({
       show: true,

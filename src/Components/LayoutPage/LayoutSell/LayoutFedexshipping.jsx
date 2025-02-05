@@ -9,10 +9,8 @@
 //   const dispatch = useDispatch()
 
 //   const user = useSelector((state) => state.user.user)
-//   console.log("user--->", user)
 
 //   const getshipingDetails = useSelector((state) => state.shipment.getShipment)
-//   console.log("getshipingDetails--->", getshipingDetails)
 //   const [formData, setFormData] = useState({
 //     accountid: '',
 //     meterNumber: '',
@@ -63,7 +61,6 @@
 //           createdDate: "2024-10-21T07:15:43.952Z",
 //           key: formData.key,
 //         };
-//         console.log("Adding new shipment with payload:", payloadAdd);
 //         await dispatch(shipmentAddApi(payloadAdd));
 //         setMessage('FedEx Shipping details added successfully.');
 //         setIsError(false);
@@ -83,7 +80,6 @@
 //           createdDate: getshipingDetails[0]?.createdDate, // Keep the original created date
 //           key: formData.key,
 //         };
-//         console.log("Editing shipment with payload:", payloadEdit);
 //         await dispatch(shipmentEditApi(payloadEdit));
 //         setMessage('FedEx Shipping details updated successfully.');
 //         setIsError(false);
@@ -97,7 +93,6 @@
 
 //   useEffect(() => {
 //     // Filter the shipment details based on shipmentTypeId == 4 (FedEx)
-//     console.log("getshipingDetails structure: ", getshipingDetails);
 
 //     // Check if getshipingDetails is an array
 //     if (Array.isArray(getshipingDetails)) {
@@ -228,7 +223,6 @@ function LayoutFedexshipping() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
   const getshipingDetails = useSelector((state) => state.fedex.getFedex);
-  console.log("getettetet", getshipingDetails)
   const [notification, setNotification] = useState({
     show: false,
     message: "",
@@ -494,7 +488,6 @@ function LayoutFedexshipping() {
     }
   }, [getshipingDetails]);
 
-  console.log("forrmm", formData)
   
 
   return (

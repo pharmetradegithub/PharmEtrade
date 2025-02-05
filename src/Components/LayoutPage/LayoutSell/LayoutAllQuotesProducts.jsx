@@ -72,7 +72,6 @@ const LayoutAllQuotesProducts = () => {
   const [currentItems, setcurrentItems] = useState(
     bidQuotedProduct.slice(indexOfFirstItem, indexOfLastItem)
   );
-  console.log("currentt", currentItems)
   useEffect(() => {
     if (bidQuotedProduct) {
       const indexOfLastItem = currentPage * itemsPerPage;
@@ -114,7 +113,6 @@ const LayoutAllQuotesProducts = () => {
     5: "Cancelled",
   };
   const handleStatusChange = async (newStatusId, quoted) => {
-    console.log("Selected Status ID:", newStatusId, quoted);
     const data = {
       bidId: quoted.bidId,
       buyerId: quoted.buyerId,
@@ -126,7 +124,6 @@ const LayoutAllQuotesProducts = () => {
       isActive: true,
       createdOn: new Date().toISOString(),
     };
-    console.log(data);
     try {
       const response = await UpdateBid(data);
       setcurrentItems((prevItems) =>
@@ -136,7 +133,6 @@ const LayoutAllQuotesProducts = () => {
             : item
         )
       );
-      console.log(response);
       setNotification({
         show: true,
         message: "Bid Updated successfully!",

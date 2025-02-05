@@ -116,13 +116,10 @@ import { fetchGetAddressByIdApi } from "../Api/CheckoutApi";
 const TrackingOrder = () => {
   const [orderProceed, setOrderProceed] = useState([]);
   const trackdata = useSelector((state) => state.trackNumber.trackNumber);
-  console.log("Track Data", trackdata);
   const dispatch = useDispatch();
   const searchParams = new URLSearchParams(location.search);
   const trackingId = searchParams.get("trackingId");
   const addressId = searchParams.get("addressId")
-  console.log("addddesss", addressId)
-  console.log("traaack", trackingId)
   const orderStatus = [
     { label: "Order Proceeded", icon: FaCheck },
     { label: "Order Shipped", icon: FaShippingFast },
@@ -152,7 +149,6 @@ const TrackingOrder = () => {
   //   ? eventTypeMap[trackdata.trackResults[0].scanEvents.map()]
   //   : 1.4; // Default to 'Order Proceeded' if no event type is found
   
-  console.log("curr status", currentStatus);
   // 794843185271 // this is tracking number given static Id
   useEffect(() => {
     dispatch(TrackNumberApi(trackingId)); // Replace with your actual tracking number
@@ -166,8 +162,6 @@ const TrackingOrder = () => {
     }
     data()
   }, [])
-
-  console.log("adddressssData",addressResponse)
   
   return (
     <div className="flex flex-col w-full py-8 overflow-y-scroll">

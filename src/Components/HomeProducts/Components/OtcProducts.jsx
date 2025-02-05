@@ -82,7 +82,6 @@ const OtcProducts = () => {
   const handleCart = async (productID) => {
     if (user == null) {
       navigate("/login")
-      console.log("login to add");
       return;
     }
     const cartData = {

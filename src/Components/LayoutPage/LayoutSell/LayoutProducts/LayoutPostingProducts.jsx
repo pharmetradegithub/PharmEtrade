@@ -73,7 +73,6 @@ const LayoutPostingProducts = () => {
   const [stats, setstats] = useState([]);
   useEffect(() => {
     if (sellerDashboard) {
-      console.log(sellerDashboard,"sellerDashboard");
       setstats([
         {
           label: "Total No. of Product",

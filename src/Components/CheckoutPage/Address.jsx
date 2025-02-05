@@ -2236,10 +2236,7 @@ function Address({ topMargin, totalAmount, amount }) {
   const isCart = searchParams.get("isCart") == "true"; // Convert total to a number
   const productId = searchParams.get("productId"); // Convert total to a number
   const DeliveryAddress = useSelector((state) => state.order.orderDeliveryAddress)
-  console.log("delivery-->", DeliveryAddress)
-  console.log("netAddress--> isCart", isCart)
-
-  console.log("total-->", total);
+ 
 
   // Check if netCharge and total are valid numbers
   const validNetCharge = !isNaN(netCharge) && netCharge !== null ? netCharge : 0.00;
@@ -2249,9 +2246,9 @@ function Address({ topMargin, totalAmount, amount }) {
   const [deletePop, setDeletePop] = useState(false);
   const [deleteProduct, setDeleteProduct] = useState(null);
   const placeOrder = useSelector((state) => state.order.orderPlace)
-  console.log("placeeeeeeeeeeeeeee", placeOrder)
+ 
   const cartList = useSelector((state) => state.cart.cart);
-  console.log("addresss cart details", cartList)
+ 
   // console.log("ffffffff--->", totalAmount)
   const [isActive, setIsActive] = useState(true);
   const [ischeck, setIsCheck] = useState(false);
@@ -2260,11 +2257,8 @@ function Address({ topMargin, totalAmount, amount }) {
 
   const getAddress = useSelector((state) => state.address.customerId);
   const businessInfo = useSelector((state) => state.user.businessInfo);
-  console.log("businessInfo-->address", businessInfo);
   const user = useSelector((state) => state.user.user);
-  console.log("user-->address", user);
-  console.log("addressdataaaaaa", getAddress);
-
+ 
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -2302,7 +2296,7 @@ function Address({ topMargin, totalAmount, amount }) {
 
 
 
-  console.log("pincode---->", pincodes)
+ 
   // useEffect(() => {
   //   const fetchSellersAndSendPayload = async () => {
   //     try {
@@ -2394,7 +2388,6 @@ function Address({ topMargin, totalAmount, amount }) {
   //     }
   //     data()
   //  }, [])
-  console.log("cartList===", cartList)
   useEffect(() => {
     const fetchSellersAndSendPayload = async () => {
       try {
@@ -2406,7 +2399,7 @@ function Address({ topMargin, totalAmount, amount }) {
             const sellerData = await getUserByCustomerIdApi(product.product.sellerId);
 
             if (sellerData && sellerData.businessInfo?.zip) {
-              console.log("Seller data:", sellerData);
+             
 
               // Prepare payload based on seller data and product details
               const payload = {
@@ -2443,10 +2436,6 @@ function Address({ topMargin, totalAmount, amount }) {
               const serviceResponse = await dispatch(serviceTypeApi(payload, user.customerId));
               const rateResponse = await dispatch(FedExRatesApi(payload, user.customerId));
 
-              console.log(`Responses for seller ${product.product.sellerId}:`, {
-                serviceResponse,
-                rateResponse,
-              });
 
               return { product: product.product.sellerId, serviceResponse, rateResponse };
             } else {
@@ -2461,7 +2450,6 @@ function Address({ topMargin, totalAmount, amount }) {
         // Filter out any null responses (in case no seller data was found)
         const successfulResponses = allResponses.filter((response) => response !== null);
 
-        console.log("All successful responses:", successfulResponses);
       } catch (error) {
         console.error("Error processing sellers:", error);
       }
@@ -2962,9 +2950,9 @@ function Address({ topMargin, totalAmount, amount }) {
     if (!validateForm()) {
       return; // Stop if validation fails
     }
-    console.log("Address saved:", addressForm);
+    
     e.preventDefault();
-    console.log("saveee--->", addressForm);
+
     const payload = {
       addressId: selectedAddressId, // If `selectedAddressId` is present, it means we're editing
       customerId: userId,
@@ -3064,7 +3052,6 @@ function Address({ topMargin, totalAmount, amount }) {
   };
 
   const addAddress = useSelector((state) => state.address.address);
-  console.log("addd-->", addAddress);
   const [newAddressData, setNewAddressData] = useState([]);
 
   // const [getAddress, setGetAddress] = useState(getCustomer);
@@ -3370,7 +3357,6 @@ function Address({ topMargin, totalAmount, amount }) {
     if (Object.keys(errors).length > 0) {
       return;
     }
-    console.log(newAddressForm, "new address");
     const payLaodNewForm = {
       addressId: "0",
       customerId: userId,
@@ -3458,7 +3444,7 @@ function Address({ topMargin, totalAmount, amount }) {
     handleSubmitForm(e);
   };
 
-  // console.log("add----->", getAddress);
+
 
   const [states, setStates] = useState([]);
 
@@ -3511,7 +3497,6 @@ function Address({ topMargin, totalAmount, amount }) {
 
 
   const handleChangeAddress = (addressId) => {
-    console.log("sueryaaaa", addressId)
     setSelectedAddressId(addressId);
   };
 
@@ -3605,14 +3590,12 @@ function Address({ topMargin, totalAmount, amount }) {
   const totalWithTax = totalTaxAmount > 0 ? validTotal + totalTaxAmount : validTotal;
   // Delete Address Handler
   const handleDeleteAddress = (addressId) => {
-    console.log("Opening delete modal for address ID:", addressId);
     setDeletePop(true); // Set modal to visible
     setDeleteProduct(addressId); // Set the selected product to delete
   };
 
   // Cancel Delete Button
   const cancelDeleteButton = () => {
-    console.log("Canceling delete operation");
     setDeletePop(false); // Close modal without deleting
     // setDeleteProduct(null); // Reset selected product
   };
@@ -3620,7 +3603,6 @@ function Address({ topMargin, totalAmount, amount }) {
   // Success Delete Button
   const successDeleteButton = async () => {
     try {
-      console.log("Deleting product:", deleteProduct);
       if (deleteProduct) {
         await fetchDeleteAddressApi(deleteProduct); // Call delete API
         setDeletePop(false); // Close modal after deletion
@@ -3639,7 +3621,6 @@ function Address({ topMargin, totalAmount, amount }) {
 
   // Close Modal Button
   const closeDeleteButton = () => {
-    console.log("Closing delete modal");
     setDeletePop(false); // Close modal
     setDeleteProduct(null); // Reset selected product
   };

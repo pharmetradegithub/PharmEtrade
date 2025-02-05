@@ -15,7 +15,6 @@ function Landing({ topMargin, wishList, addCart }) {
   const BannerData = useSelector((state) => state.banner.banner);
 
   const activeBanners = BannerData.filter((banner) => banner.isActive === 1);
-  console.log(BannerData);
   const settings = {
     dots: true,
     infinite: true,

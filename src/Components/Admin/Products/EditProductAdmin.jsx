@@ -581,12 +581,9 @@ function EditProductAdmin() {
   const [firstValidation, setfirstValidation] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [triggerValidation, settriggerValidation] = useState(0);
-  console.log(formData);
   const handleInputChange = (e) => {
     const { name, value, type, options, id } = e.target;
-    console.log(name, value, type, options, id);
     if (name === "discount") {
-      console.log(name, type);
       if (name == "discount") {
         if (/^\d{0,2}$/.test(value)) {
           setFormData({
@@ -743,7 +740,6 @@ function EditProductAdmin() {
     else if (name === "price") {
       // Limit price to 2 decimal places
       const roundedValue = parseFloat(value).toFixed(2);
-      console.log(formData.discount, "dis")
       setFormData({
         ...formData,
         [name]: value === "" ? "" : value,
@@ -787,7 +783,6 @@ function EditProductAdmin() {
     setfirstValidation(false);
   }, [activeTab]);
 
-  console.log(firstValidation, formErrors);
   const [selectedValue, setSelectedValue] = React.useState("");
 
   const handleChange = (e) => {
@@ -965,7 +960,6 @@ function EditProductAdmin() {
           ? formData.amountInStock
           : formData.maxOrderQuantity,
     };
-    console.log(tab2);
     if (formData.discount == null || formData.discount == "")
       setFormData({ ...formData, ["discount"]: 0 });
     // const tab4 = {
@@ -1010,7 +1004,6 @@ function EditProductAdmin() {
           setActiveTab(1); // Move to the next tab
         }, 3000);
       } else if (activeTab == 1) {
-        console.log(tab2);
         const response = await AddProductPriceApi(tab2, user.customerId);
         localStorage.setItem("productPriceId", response);
         setFormErrors({});
@@ -1038,7 +1031,6 @@ function EditProductAdmin() {
           setActiveTab(3);
         }, 3000);
       } else if (activeTab == 3) {
-        console.log(tab4);
 
         const response = await AddProductGallery(tab4, user.customerId);
         localStorage.setItem("productGalleryId", response);

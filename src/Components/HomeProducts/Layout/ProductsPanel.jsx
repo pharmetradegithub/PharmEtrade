@@ -107,14 +107,13 @@ import { fetchCriteriaProductsApi } from '../../../Api/ProductApi';
 function ProductsPanel() {
   const navigate = useNavigate();
   const [scrollPosition, setScrollPosition] = useState(0); // Track Y-axis scroll position
-console.log(scrollPosition,"Y axis");
+
   const handleChange = async (category) => {
     try {
       const productId = category.productCategoryId; 
       const apiCall = { productCategoryId: productId };
       const response = await fetchCriteriaProductsApi(apiCall);
 
-      console.log("response-->", response);
       navigate(`/allProducts/CategoryProducts?CategoryName=${category.productCategoryId}`)
     } catch (error) {
       console.log(error);
@@ -148,8 +147,6 @@ console.log(scrollPosition,"Y axis");
       setLeftOffset(0);
     }
   }, [scrollPosition]);
-
-  // console.log("criteria--->", criteriaProducts);
   return (
     // <div className="w-screen overflow-x-hidden ">
     //   <div className="flex relative Largest:w-[85%] flex-row justify-center pr-4 gap-10">

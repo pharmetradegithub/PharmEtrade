@@ -63,7 +63,6 @@ const OtcProductsAdmin = () => {
     categorySpecificationId:2
   });
   const handleInputChange = (e) => {
-    console.log(e.target.name);
     setSearchInput({
       ...SearchInput,
       [e.target.name]: e.target.value,
@@ -77,14 +76,12 @@ const OtcProductsAdmin = () => {
   };
 
   const handleSearchClick = async () => {
-    console.log("SearchInput:", SearchInput); // Check SearchInput value
     const payload = {
       customerId: user ? user.customerId : "234",
       productName: SearchInput.productName,
   }
     try {
       const productsData = await fetchCriteriaProductsApi(payload);
-      console.log("API Response:", productsData); // Check API response
       if (productsData) {
         setData(productsData); // Only set if valid
       } else {

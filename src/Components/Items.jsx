@@ -81,7 +81,6 @@ function Items({
   const { id } = useParams();
 
   const user = useSelector((state) => state.user.user);
-  console.log("iiii", user);
   const wishlist = useSelector((state) => state.wishlist.wishlist);
   const cartList = useSelector((state) => state.cart.cart);
   const findQuantityByProductId = () => {
@@ -93,7 +92,6 @@ function Items({
   const [currentProductID, setCurrentProductID] = useState("");
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
   const addOrder = useSelector((state) => state.order.getOrder);
-  console.log("addOrder--->", addOrder);
   const dispatch = useDispatch();
 
   const getWishlistIdByProductID = (productID) => {
@@ -120,7 +118,6 @@ function Items({
 
   const [img, setimg] = useState(null);
   const images = Array(8).fill(nature);
-  console.log(id);
   const [selectedMl, setSelectedMl] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   // const [showViewCart, setShowViewCart] = useState(false);
@@ -154,7 +151,6 @@ function Items({
     NewProductsAPI();
   }, [id]);
 
-  console.log("prod--->", prod);
   // useEffect(() => {
   //   if (prod) {
   //     setimg(prod.productGallery.imageUrl);
@@ -207,7 +203,6 @@ function Items({
 
   const handleCart = async (index) => {
     if (user == null) {
-      console.log("login to add");
       return;
     }
     const existingCartItem = cartList.find(
@@ -306,7 +301,6 @@ function Items({
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle the form submission logic here
-    console.log("Form data submitted:", formData);
   };
 
   const [isHovered, setIsHovered] = useState(false);
@@ -398,7 +392,6 @@ function Items({
       setErrorMessage(""); // Clear error when decreasing quantity
     }
   };
-  // console.log("productDataItem-->", prod);
   // const userId = localStorage.getItem("userId");
   // const currentDate = new Date();
   // const payload = {
@@ -604,7 +597,6 @@ function Items({
     const ProductRatingAPI = async () => {
       try {
         const productRating = await fetchRatingWithProduct(id);
-        console.log("Fetched customer data:", productRating);
         setRatings(Array.isArray(productRating) ? productRating : []);
       } catch (error) {
         console.log(error);
@@ -612,8 +604,6 @@ function Items({
     };
     ProductRatingAPI();
   }, [id]);
-
-  console.log("ppppp", ratings);
 
   const ratingValue = ratings[0]?.rating || 0;
   const totalStar = 5;

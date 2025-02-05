@@ -65,7 +65,6 @@
 //     }
 //   };
 
-//   console.log(cartItems, "cart");
 //   const handleCart = async (productID, Quantity) => {
 //     const cartData = {
 //       customerId: user.customerId,
@@ -73,7 +72,6 @@
 //       quantity: Quantity,
 //       isActive: 1,
 //     };
-//     console.log(cartData);
 //     try {
 //       await addCartApi(cartData);
 //     } catch (error) {
@@ -280,7 +278,6 @@
 //                           <button
 //                             className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
 //                             onClick={() => {
-//                               console.log("clicked");
 //                               if (
 //                                 item.updateQuantity <
 //                                 item.product.maximumOrderQuantity
@@ -472,9 +469,9 @@ import wrong from "../assets/Icons/wrongred.png";
 
 function Cart() {
   const user = useSelector((state) => state.user.user);
-  console.log("uuuuu", user?.isUPNMember);
+ 
   const cartList = useSelector((state) => state.cart.cart);
-  console.log("cartList---->", cartList);
+ 
   const [cartItems, setcartItems] = useState(cartList);
   // const { cartItems, setCartItems } = useContext(AppContext);
   const [quantities, setQuantities] = useState([]);
@@ -599,9 +596,7 @@ function Cart() {
   //     const item = cartItems[i];
 
   //     // Logging item details for debugging
-  //     console.log(
-  //       `Checking stock for ${item.product.productName}: Quantity = ${item.quantity}, Stock = ${item.product.amountInStock}`
-  //     );
+ 
 
   //   for (const item of cartItems) {
   //     if (item.quantity > item.product.amountInStock) {
@@ -671,9 +666,7 @@ function Cart() {
       const item = cartItems[i];
 
       // Logging item details for debugging
-      console.log(
-        `Checking stock for ${item.product.productName}: Quantity = ${item.quantity}, Stock = ${item.product.amountInStock}`
-      );
+     
 
       if (item.quantity > item.product.amountInStock) {
         alert(
@@ -760,7 +753,6 @@ function Cart() {
     try {
       // Dispatch the action to place the order
       const res = await dispatch(fetchOrderPlace(payload));
-      console.log(res)
       if (res?.status === 200) {
         navigate(`/checkout?total=${total?.toFixed(2)}`);
       } else {

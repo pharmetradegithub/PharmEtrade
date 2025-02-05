@@ -48,7 +48,6 @@
 
 // const Otp = () => {
 //   const handleOTPChange = (otp) => {
-//     console.log("Current OTP:", otp);
 //   };
 
 //   return (
@@ -134,7 +133,6 @@ const OTPInput = ({ length, onChangeOTP }) => {
 
 const Otp = () => {
   const handleOTPChange = (otp) => {
-    console.log("Current OTP:", otp);
   };
 
   return (

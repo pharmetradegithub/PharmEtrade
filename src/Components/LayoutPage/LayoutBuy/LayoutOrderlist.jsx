@@ -55,14 +55,14 @@ function LayoutOrderList() {
   const [loading, setLoading] = useState(false)
   const [getOrder, setGetOrder] = useState(null);
   const ordered = useSelector((state) => state.order.orderView);
-  console.log("orderedview-->", ordered);
+
   const dispatch = useDispatch();
   const [modal, setModal] = useState(false);
   const pathname = location.pathname;
   const part = pathname.split("/");
   const orderId = part[2];
 
-  console.log("current page", currentPage);
+ 
   const [sortedOrders, setsortedOrders] = useState(null);
   // Sorting orders by date
   // Filter orders by selected year
@@ -117,11 +117,10 @@ function LayoutOrderList() {
   
   useEffect(() => {
     const data = async () => {
-      console.log("hey guys");
+     
       setLoading(true)
       try {
         const response = await fetchGetOrderByCustomerIdPage(user?.customerId);
-        console.log(response, "response from api");
         setGetOrder(response);
         setLoading(false)
       } catch (error) {
@@ -143,7 +142,6 @@ function LayoutOrderList() {
     searchResults && searchResults.length > 0 ? searchResults : filteredOrders
   );
   // const currentItems = displayData.slice(indexOfFirstItem, indexOfLastItem);
-  console.log(searchResults, "search Results");
 
 
   const generateYears = (startYear, endYear) => {
@@ -158,7 +156,6 @@ function LayoutOrderList() {
     productName: null,
   });
   const handleInputChange = (e) => {
-    console.log(e.target.name);
     setSearchInput({
       ...SearchInput,
       [e.target.name]: e.target.value,
@@ -197,7 +194,6 @@ function LayoutOrderList() {
     };
     try {
       const productsData = await fetchCriteriaProductsApi(payload);
-      console.log(productsData, "Api call search");
       if (productsData && productsData.length > 0) {
         setSearchResults(productsData); // Store search results
         setGetOrder(productsData)
@@ -212,7 +208,6 @@ function LayoutOrderList() {
     const currentYear = new Date().getFullYear();
     const years = generateYears(currentYear, currentYear + 5);
 
-    console.log("currrrr", currentItems)
     return (
       <select
         value={selectedYear}
@@ -255,7 +250,7 @@ function LayoutOrderList() {
 
   const handleSubmit = () => {
     // Handle form submission (e.g., send review, rating, image, and video to the backend)
-    console.log({ rating, reviewText, image, video });
+    
     setIsOpen(false); // Close the popup after submission
   };
 
@@ -277,11 +272,10 @@ function LayoutOrderList() {
   };
 
   const handleClickInvoice = async () => {
-    // console.log("ordersdf", ordered?.orderId)
+    
     await dispatch(fetchOrderInvoice(orderID));
   };
 
-  console.log("ggggggggg", currentItems);
   const profiles = [
     {
       label: "Orders",
@@ -344,7 +338,7 @@ function LayoutOrderList() {
         setReviewText(null);
         setRating(null);
       }
-      console.log("hello bro");
+    
     } catch (error) {
       console.log("error fatching rating response");
     }
@@ -366,7 +360,7 @@ function LayoutOrderList() {
 
     try {
       await addRatingApi(ratingData);
-      console.log("Rating added successfully");
+      
       setIsOpen(false);
       setNotification({
         show: true,
@@ -418,8 +412,6 @@ function LayoutOrderList() {
   const handleModalSave = async () => {
     try {
       const response = await dispatch(orderStatusUpdateApi(idOrder, productId, user.customerId, 5, "cancel"));
-      console.log('API Response:', response);
-
       setIsCancelled(true);
       setOpenDialog(false);
       setNotification({

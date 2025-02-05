@@ -57,7 +57,6 @@ function Wishlist({ topMargin, addCart }) {
   }
   const handleCart = async (productID) => {
     if (user == null) {
-      console.log("login to add");
       return;
     }
     const cartData = {
@@ -148,7 +147,6 @@ function Wishlist({ topMargin, addCart }) {
     },
   }));
 
-  console.log("wishListonly-->", wishItems)
   return (
     <div className="bg-gray-200 p-8 " style={{ marginTop: `${topMargin}px ` }}>
       {notification.show && (

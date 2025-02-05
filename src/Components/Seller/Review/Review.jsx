@@ -23,8 +23,6 @@ const Review = () => {
   };
 
   const handleContinueClick = () => {
-    console.log("Category:", category);
-    console.log("Product Type:", productType);
     setShowDetailPopup(true);
   };
 

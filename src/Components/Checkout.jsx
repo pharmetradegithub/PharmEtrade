@@ -24,7 +24,6 @@ function Address({ topMargin, totalAmount }) {
   const total = searchParams.get("total");
 
 
-  // console.log("ffffffff--->", totalAmount)
   const [isActive, setIsActive] = useState(true);
   const [ischeck, setIsCheck] = useState(false);
   const [isChecked, setIsChecked] = useState(false);

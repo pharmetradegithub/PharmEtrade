@@ -119,7 +119,6 @@ function ProductSideBar({ handleChange }) {
   const searchParams = new URLSearchParams(location.search);
   const categoryId = searchParams.get("CategoryName");
   
-  console.log(categoryId ,"number");
   const toggleDropdown = (category) => {
     setDropdownOpen((prevState) => ({
       ...prevState,

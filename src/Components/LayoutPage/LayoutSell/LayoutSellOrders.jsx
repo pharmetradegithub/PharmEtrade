@@ -866,7 +866,6 @@ function LayoutSellOrders() {
   );
 
   const filterStatus = orderStatusGetAll.filter((order) => ![2, 4, 7].includes(order.statusId))
-  console.log("filtereee", filterStatus)
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -898,7 +897,6 @@ function LayoutSellOrders() {
   ];
 
   const approvedData = SellerOrder ? SellerOrder.filter(item => item.orderedProductStatusId === 6) : [];
-  console.log("Approved===", approvedData);
   const totalApprovedAmount = approvedData.reduce((total, order) => total + ((order?.quantity || 0) * (order?.pricePerProduct || 0)), 0).toFixed(2);
   // const percentage = approvedData.length > 0
   //   ? Math.floor(((totalAmount - 2000) / 2000) * 100)
@@ -1179,7 +1177,6 @@ function LayoutSellOrders() {
       sortedData.sort((a, b) => {
         const aValue = a[sortConfig.key];
         const bValue = b[sortConfig.key];
-        console.log('Comparing:', aValue, bValue); // Log values being compared
 
         if (aValue === bValue) return 0;
 
@@ -1242,14 +1239,12 @@ function LayoutSellOrders() {
   };
   const [trackingNumber, setTrackingNumber] = useState('');
 
-  console.log("statusId", selectedProduct)
   // Handle confirming the action (Yes)
   const [comment, setComment] = useState("");
   const [notification, setNotification] = useState({
     show: false,
     message: "",
   });
-  console.log("kbj", selectedOrder)
 
   const handleConfirm = async () => {
     if (selectedOrder && selectedStatus) {

@@ -6,7 +6,6 @@
 // const AdminDasboard = () => {
 //   const navigate = useNavigate(); // Initialize useNavigate hook
 //   const adminData = useSelector((state) => state.admin.admin)
-//   console.log("adminData-->", adminData)
 
 //   const details = [
 //     {
@@ -218,13 +217,11 @@ import { fetchAdminLogin, GetCustomers } from "../../../Api/AdminApi";
 const AdminDasboard = () => {
   const navigate = useNavigate(); // Initialize useNavigate hook
   const adminData = useSelector((state) => state.admin.admin);
-  console.log("adminData-->", adminData);
 
   const [retailPhar, setretailPhar] = useState([]);
   const [pharmacy, setPharmacy] = useState([]);
   const [generalMar, setGeneralMer] = useState([]);
   const [customer, setCustomer] = useState([]);
-  console.log("check", retailPhar);
 
   const details = [
     {
@@ -389,7 +386,6 @@ const AdminDasboard = () => {
     };
     data();
   }, []);
-  console.log("customerAdminDash-->", customer.length);
   // const CircleProgress = ({ percentage, color }) => {
   //   const radius = 20;
   //   const strokeWidth = 4;

@@ -46,7 +46,6 @@
 //   };
 
 //   const handleCart = (index) => {
-//     console.log("Adding to cart:", index);
 //     const prolist = {
 //       id: index,
 //       src: productOffer[index].productGallery.imageUrl,
@@ -234,7 +233,6 @@ const Offers = ({ topMargin, addCart, wishList }) => {
   };
 
   // const handleCart = (index) => {
-  //   console.log("Adding to cart:", index);
   //   const prolist = {
   //     id: index,
   //     src: productOffer[index].productGallery.imageUrl,
@@ -248,7 +246,6 @@ const Offers = ({ topMargin, addCart, wishList }) => {
 
   const handleCart = async (productID) => {
     if (user == null) {
-      console.log("login to add");
       return;
     }
     const cartData = {
@@ -298,7 +295,6 @@ const Offers = ({ topMargin, addCart, wishList }) => {
       await addToWishlistApi(wishListData);
     }
   };
-  console.log("offersData-->", currentItems)
 
   return (
     <div

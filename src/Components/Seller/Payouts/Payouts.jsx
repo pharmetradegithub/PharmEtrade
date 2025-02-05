@@ -16,7 +16,6 @@ function Payouts() {
 
   const handleExportClick = () => {
     // Logic for exporting data based on selectedFormat
-    console.log("Exporting as", selectedFormat);
     setDropdownOpen(false);
   };
 

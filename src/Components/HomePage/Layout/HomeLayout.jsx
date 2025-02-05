@@ -56,8 +56,6 @@ const HomeLayout = ({ topDivRef, cartItems, topMargin }) => {
   const [productData,setproductData] = useState();
   const TriggerAPI = async (obj)=>{
       setCriteria(obj); 
-      console.log(obj,"object criteria");
-
       // navigate('/products');
       
   }

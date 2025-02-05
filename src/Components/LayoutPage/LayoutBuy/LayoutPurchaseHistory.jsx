@@ -30,7 +30,7 @@ const LayoutPurchaseHistory = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
   const Order = useSelector((state) => state.order.getOrder);
-  console.log("rrrrrr", Order)
+
 
   const [openDialog, setOpenDialog] = useState(false);
  
