@@ -40,7 +40,7 @@ function LayoutCustomers() {
       }
     }
     fetchData()
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   const customers = [
     {

@@ -168,7 +168,7 @@ const LayoutSellerDashboard = () => {
        dispatch(fetchCustomerOrered(user?.customerId));
        dispatch(fetchSellerGetAll(user?.customerId));
        dispatch(fetchSellerDashboard(user?.customerId));
-  }, [user?.customerId]);
+  }, [user]);
 
   // Images for each option (you can replace these with actual image URLs or paths)
   const imageMap = {

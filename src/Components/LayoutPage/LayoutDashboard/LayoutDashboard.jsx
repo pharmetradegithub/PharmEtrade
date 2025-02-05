@@ -38,18 +38,14 @@ function LayoutDashboard() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   useEffect(() => {
-    console.log('User object:', user);
-    console.log('Customer ID:', user?.customerId);
     if (user?.customerTypeId === 1 || user?.customerTypeId === 2 || user?.customerTypeId === 3) {
-      console.log("sellerDashBoardApi-->")
       dispatch(fetchSellerDashboard(user?.customerId));
       navigate('/layout/layoutsellerdashboard')
     } else if (user?.customerTypeId === 5) {
       dispatch(fetchAdminLogin("1b8ec36a-6549-11ef-8a1f-0affd374995f"))
       navigate('/pharmEtradeadmin')
     }
-    else {
-      console.log("fetchAllcustomerDashboard-->")
+    else if (user?.customerTypeId === 4){
       dispatch(fetchCustomerDashboard(user?.customerId))
       navigate('/layout/layoutcustomerdashboard')
     }
