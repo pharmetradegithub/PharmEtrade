@@ -207,11 +207,11 @@ const OfferSlider = ({ images, Title }) => {
 
 
   return (
-    <div className="flex flex-col justify-center gap-10 pt-4 pb-8">
-      <div className="flex justify-between  sm:justify-between ml-4 font-semibold text-3xl">
+    <div className="flex flex-col justify-center gap-3 Large:gap-4 pt-4 pb-1">
+      <div className="flex justify-between  sm:justify-between ml-1 font-semibold text-3xl">
         <p className=" text-xl sm:text-xl md:text-xl lg:text-3xl">{Title}</p>
 
-        <div className="flex justify-end mr-14 gap-2">
+        <div className="flex justify-end mr-1 gap-2">
           <button
             className="bg-white rounded-sm p-2"
             onClick={() => navigation("left")}

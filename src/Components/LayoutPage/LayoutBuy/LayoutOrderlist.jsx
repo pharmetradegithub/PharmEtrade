@@ -1055,12 +1055,12 @@ function LayoutOrderList() {
             Your Orders
           </h2>
 
-          <div className=" relative flex text-end md:justify-end md:items-center ">
-            <button className="absolute left-2  top-4 transform -translate-y-1/2">
+          <div className=" relative flex text-end md:justify-end md:items-center Orders-input-container ">
+            {/* <button className="absolute left-2  top-4 transform -translate-y-1/2">
               <img src={search} className="w-4 h-4" />
-            </button>
+            </button> */}
             {/* <div className="flex mb-1 mobile:mb-1"> */}
-            <div className="flex flex-col sm:flex-row items-center mb-1 mobile:mb-1 relative">
+            <div className="flex flex-col sm:flex-row items-center mb-1 mobile:mb-1 relative Orders-input-container">
               <input
                 className="pl-7 p-1  border "
                 placeholder="Search Product..."
@@ -1135,9 +1135,9 @@ function LayoutOrderList() {
               <div>
                 {currentItems?.map((order, index) => (
                   <div className="border h-auto my-4  rounded-lg shadow-md">
-                    <div className="flex flex-row justify-between lg:flex-row md:flex-row  sm:justify-between  border-b pb-2 pt-2 pr-3 sm:pl-3 p-0 bg-slate-200">
-                      <div className="mb-4 lg:mb-0">
-                        <h1 className="text-sm lg:text-lg">Order Placed</h1>
+                    <div className="flex flex-row display-col justify-between lg:flex-row md:flex-row  sm:justify-between  border-b pb-2 pt-2 pr-3 sm:pl-3 p-0 bg-slate-200">
+                      <div className="mb-4 lg:mb-0 display-flex">
+                        <h1 className="text-sm lg:text-lg fonst-small">Order Placed</h1>
                         <p className="text-sm lg:text-lg" key={index}>
                           {new Date(order.orderDate)
                             .toLocaleDateString("en-US", {
@@ -1148,7 +1148,7 @@ function LayoutOrderList() {
                             .replace(/\//g, "-")}
                         </p>
                       </div>
-                      <div className="mb-4 lg:mb-0 mr-2">
+                      <div className="mb-4 lg:mb-0 mr-2 display-flex">
                         <h1 className="text-sm lg:text-lg">Total</h1>
                         <p className="text-sm lg:text-lg">
                           ${(
@@ -1157,14 +1157,14 @@ function LayoutOrderList() {
                           )?.toFixed(2)}
                         </p>
                       </div>
-                      <div className="mb-4 lg:mb-0">
+                      <div className="mb-4 lg:mb-0 display-flex">
                         <h1 className="text-sm lg:text-lg">Ship To</h1>
                         <p className="text-sm lg:text-lg">
                           {order.shippingContactName}
                         </p>
                       </div>
                       <div className="sm:flex flex-col lg:flex-row items-start">
-                        <div>
+                        <div className="display-flex">
                           <h1 className="text-sm lg:text-lg">Order ID</h1>
                           <p className="text-sm lg:text-md">{order.orderNumber}</p>
                         </div>

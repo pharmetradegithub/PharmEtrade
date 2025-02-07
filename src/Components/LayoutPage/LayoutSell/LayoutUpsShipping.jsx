@@ -347,7 +347,7 @@ function LayoutUpsShipping() {
                 size="small"
                 type="text"
                 name="accessLicenseNumber"
-                className='border rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
+                className='border input-full-width rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
                 value={formData.accessLicenseNumber}
                 onChange={handleChange}
                 disabled={!isEditable} // Disable field if not in edit mode
@@ -359,7 +359,7 @@ function LayoutUpsShipping() {
                 size="small"
                 type="text"
                 name="userId"
-                className='border rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
+                className='border input-full-width rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
                 value={formData.userId}
                 onChange={handleChange}
                 disabled={!isEditable} // Disable field if not in edit mode
@@ -373,7 +373,7 @@ function LayoutUpsShipping() {
                 size="small"
                 type="text"
                 name="password"
-                className='border rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
+                className='border input-full-width rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
                 value={formData.password}
                 onChange={handleChange}
                 disabled={!isEditable} // Disable field if not in edit mode
@@ -385,7 +385,7 @@ function LayoutUpsShipping() {
                 size="small"
                 type="text"
                 name="shipperNumber"
-                className='border rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
+                className='border input-full-width rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
                 value={formData.shipperNumber}
                 onChange={handleChange}
                 disabled={!isEditable} // Disable field if not in edit mode

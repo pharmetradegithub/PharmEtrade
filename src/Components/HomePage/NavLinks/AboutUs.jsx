@@ -23,7 +23,7 @@ const AboutUs = ({ topMargin }) => {
 
         {/* Text Section */}
         <div className="w-full lg:w-1/2 mt-9 flex justify-center items-center lg:items-start flex-col">
-          <div className="w-full lg:w-[80%] lg:pr-20 flex flex-col gap-5">
+          <div className="w-full lg:w-[80%] lg:pr-20 flex flex-col gap-5 pb-4 text-justify">
             <h2 className="text-2xl sm:text-3xl text-blue-900 font-semibold">About Us</h2>
             <p className="text-sm sm:text-base lg:text-lg">
               At Pharmetrade, we are committed to transforming the pharmaceutical industry by creating a dynamic and interactive marketplace. Our platform empowers users to buy, sell, and bid on pharmaceutical products with ease and confidence.

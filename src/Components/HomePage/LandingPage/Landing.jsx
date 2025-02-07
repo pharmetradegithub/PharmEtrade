@@ -35,6 +35,7 @@ function Landing({ topMargin, wishList, addCart }) {
             marginTop: `${topMargin}px`,
           }}
         >
+          
           <div className="w-full relative mt-10 md:mt-0 h-[150px] md:h-[350px] overflow-hidden">
             {activeBanners.length > 0 ? (
               <Slider {...settings}>

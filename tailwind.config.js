@@ -50,7 +50,7 @@ export default {
         veryTiny:"300px",
         tiny:"450px",
         verySmall:"500",
-        small:"650px",
+        small:"450px",
         Small:"800px",
         medium:"900px",
         Medium:"1000px",

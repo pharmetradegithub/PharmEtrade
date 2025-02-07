@@ -288,9 +288,8 @@ function Landing2({ wishList, addCart }) {
           />
         )}
       </div>
-
-      <div className="flex flex-col items-center text-center ">
-        <p className="text-[45px] mb-2 xl:text-4xl font-semibold mt-10 ">
+      <div className="flex flex-col items-center text-center xl:mt-10 ">
+        <p className="text-[45px] verySmall:text-[25px] md:text-[40px] xl:text-4xl  font-semibold sm:mt-0  mt-15">
           Grow your business with PharmEtrade
         </p>
         {/* <p className="text-xl mb-2 font-light text-gray-900 xl:text-xl">
@@ -300,7 +299,7 @@ function Landing2({ wishList, addCart }) {
           We've designed a platform especially for you. Start saving today.
         </p> */}
         <p>
-          <img src={line} className="w-fit h-8 mt-6" />
+          <img src={line} className="w-fit h-8 mt-3" />
         </p>
       </div>
       <div className="flex flex-col lg:flex-row md:flex-row items-center justify-evenly gap-6 -mb-8">

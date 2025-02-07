@@ -166,14 +166,14 @@ function LayoutCustomers() {
           {/* Add stats and percentages display here */}
         </div>
 
-        <div className="flex items-center justify-between mt-6">
-          <div className="relative flex">
+        <div className="flex items-center layoutBuyProducts justify-between mt-6">
+          <div className="relative flex layoutBuyProducts">
             <input
               type="text"
               placeholder="Search Customers"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="border rounded-xl h-12 w-64 text-left p-2"
+              className="border rounded-xl h-12 layoutBuyProducts w-64 text-left p-2"
             />
             <CiSearch className="absolute right-0 top-4 text-gray-400 mr-2" />
           </div>

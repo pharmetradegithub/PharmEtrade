@@ -770,13 +770,13 @@ function Cart() {
   };
 
   return (
-    <div className="flex flex-col justify-center font-sans bg-gray-200 p-8">
+    <div className="flex flex-col justify-center font-sans bg-gray-200 p-8 pt-14 padding-10  main-container">
       <p className="text-sm md:text-lg lg:text-2xl mb-2 text-blue-900 flex font-semibold">
         PharmEtrade {`>`} Cart
       </p>
       <div className="w-full bg-white rounded-lg shadow-lg md:p-5">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg md:text-xl lg:text-2xl m-5 text-blue-900 font-semibold">
+          <h2 className="text-lg md:text-xl lg:text-2xl m-3 text-blue-900 font-semibold">
             Cart
           </h2>
         </div>

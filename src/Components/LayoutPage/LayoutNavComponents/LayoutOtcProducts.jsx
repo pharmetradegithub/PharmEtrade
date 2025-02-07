@@ -337,18 +337,18 @@ function LayoutOtcProducts({
   // console.log("productlink", productURL);
 
   return (
-    <div className="w-[95%] mt-4 ml-4 h-full overflow-y-scroll">
+    <div className="w-[95%] mt-4 ml-4 h-full overflow-y-scroll main-container">
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
 
-      <div className="flex  flex-col md:flex-row justify-between">
+      <div className="flex  flex-col md:flex-row justify-between ">
         <h1 className="  text-xl md:text-2xl font-semibold text-blue-900">OTC PRODUCTS</h1>
-        <div className="flex">
-          <div className="flex gap-1">
+        <div className="flex select-options">
+          <div className="flex gap-1 select-options">
             <select
               onChange={handleSortChange}
-              className="bg-white w-auto h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center"
+              className="bg-white w-auto select-options h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center"
             >
               <option>Filter Products</option>
               <option>Product Ascending (A-Z)</option>

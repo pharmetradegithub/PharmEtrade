@@ -407,7 +407,7 @@ const LayoutPostingProducts = () => {
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="p-4 h-28 w-56 border rounded-lg shadow-lg flex justify-between items-center bg-white"
+              className="p-4 h-28 w-56 border rounded-lg shadow-lg flex justify-between items-center bg-white layoutBuyProducts"
             >
               <div className="w-full">
                 <div className="flex justify-between items-center">

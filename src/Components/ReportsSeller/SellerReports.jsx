@@ -264,11 +264,11 @@ const SellerReports = () => {
   const headers = currentItems.length > 0 ? Object.keys(currentItems[0]) : [];
 
   return (
-    <div className="container mx-auto overflow-y-scroll p-6">
+    <div className="container mx-auto overflow-y-scroll main-container p-6">
       {/* Form Section */}
-      <div className="bg-white shadow-lg rounded-lg mx-5 p-6 mb-8">
+      <div className="bg-white shadow-lg main-container layoutBuyProducts display-col rounded-lg mx-5 p-6 mb-8">
         <h2 className="text-2xl font-semibold mb-4">Generate Report</h2>
-        <div className="flex gap-5">
+        <div className="flex display-col layoutBuyProducts gap-5">
           <div className="flex flex-col">
             <label className="mb-2 text-sm font-medium text-gray-700">
               Type of report
@@ -299,7 +299,7 @@ const SellerReports = () => {
               onChange={handleFromDateChange}
               inputProps={{
                 max: currentDates, // Restrict to current date
-                className: "border rounded-lg cursor-pointer",
+                className: "border  rounded-lg cursor-pointer",
               }}
             />
           </div>
@@ -322,7 +322,7 @@ const SellerReports = () => {
           </div>
         </div>
 
-        <div className="flex justify-end mt-4">
+        <div className="flex display-col justify-end mt-4">
           <button
             onClick={handleSave}
             className="bg-blue-900 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-600 transition"
@@ -334,10 +334,10 @@ const SellerReports = () => {
 
       {/* Table Section */}
       <div className=" p-6">
-        <div className="flex justify-between items-center mb-4 flex-wrap gap-4">
+        <div className="flex  justify-between items-center mb-4 flex-wrap gap-4">
           <h2 className="text-xl text-blue-900 font-semibold">Saved Reports</h2>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center display-flex gap-2">
             <label className="text-sm font-medium text-gray-700">
               Type of report:
             </label>
@@ -353,7 +353,7 @@ const SellerReports = () => {
             />
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center display-flex gap-2">
             <label className="text-sm font-medium text-gray-700">From:</label>
             <TextField
               type="date"
@@ -362,12 +362,12 @@ const SellerReports = () => {
               value={savedFromDate}
               InputProps={{
                 readOnly: true,
-                className: "border rounded-lg bg-gray-100",
+                className: "border input-full-width rounded-lg bg-gray-100",
               }}
             />
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center display-flex gap-2">
             <label className="text-sm font-medium text-gray-700">To:</label>
             <TextField
               type="date"
@@ -376,7 +376,7 @@ const SellerReports = () => {
               value={savedToDate}
               InputProps={{
                 readOnly: true,
-                className: "border rounded-lg bg-gray-100",
+                className: "border input-full-width rounded-lg bg-gray-100",
               }}
             />
           </div>
