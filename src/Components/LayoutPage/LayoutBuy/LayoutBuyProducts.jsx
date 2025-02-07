@@ -362,20 +362,20 @@ function LayoutBuy({
 
 
   return (
-    <div className="w-[95%] mt-4 ml-4 h-full overflow-y-scroll">
+    <div className="w-[95%] main-container mt-4 ml-4 h-full overflow-y-scroll">
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
 
-      <div className="flex md:flex-row justify-between flex-col gap-2">
+      <div className="flex main-container md:flex-row justify-between flex-col gap-2">
         <h1 className="lg:text-2xl text-2xl font-semibold text-blue-900">
           Buy Products
         </h1>
         <div className="flex">
-          <div className="flex gap-1">
+          <div className="flex gap-1 layoutBuyProducts">
             <select
               onChange={handleSortChange}
-              className="bg-white w-auto h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center"
+              className="bg-white w-auto h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center layoutBuyProducts"
             >
               <option>Filter Products</option>
               <option>Product Ascending (A-Z)</option>
@@ -406,12 +406,12 @@ function LayoutBuy({
                     } */}
                       <div
                         key={index}
-                        className="flex sm:p-4  p-2 flex-col  lg:flex-row md:flex-row h-auto  border w-60 md:w-auto justify-around shadow-lg rounded-md mb-4"
+                        className="flex sm:p-4  p-2 flex-col  lg:flex-row md:flex-row h-auto  border w-60 md:w-auto justify-around shadow-lg rounded-md mb-4 layoutBuyProducts"
                       >
-                        <div className="flex sm:flex-col flex-col mr-1">
+                        <div className="flex sm:flex-col flex-col mr-1  layoutBuyProducts-sub ">
                           <img
                             src={product.productGallery.imageUrl}
-                            className="w-32  p-2 hover:cursor-pointer rounded-lg h-28  bg-slate-200"
+                            className="w-32  p-2 hover:cursor-pointer rounded-lg h-28  layoutBuyProducts-img bg-slate-200"
                             alt="Product"
                             onClick={() =>
                               handleProductDetails1(product.productID, product)
@@ -521,7 +521,7 @@ function LayoutBuy({
                           {product.packCondition}
                         </p>
                       </div> */}
-                          <div className="flex flex-row sm:flex-col gap-2 sm:mx-3 mx-0">
+                          <div className="flex  flex-row sm:flex-col gap-2 sm:mx-3 mx-0 layoutBuyProducts-units">
                             <p className="font-semibold   text-sm sm:mt-0 mt-1">
                               Unit Price
                             </p>
@@ -553,7 +553,7 @@ function LayoutBuy({
                           </div>
                         </div>
 
-                        <div className="flex sm:flex-col    gap-2 flex-row sm:mx-3 mx-0">
+                        <div className="flex sm:flex-col layoutBuyProducts-units   gap-2 flex-row sm:mx-3 mx-0">
                           <p className="font-semibold text-sm">Sale Price</p>
                           <div className="sm:mt-2 mt-0 sm:text-right text-left text-xs font-bold mr-4 ">
                             <p className="font-semibold text-sm ">
@@ -567,9 +567,9 @@ function LayoutBuy({
                         </div>
 
                         <div className="flex sm:flex-col flex-col sm:mx-4 mx-0">
-                          <p className="font-semibold text-sm">Sale Price Range</p>
+                          <p className="font-semibold text-sm ">Sale Price Range</p>
                           <div className="mt-2 sm:text-right text-left text-xs font-bold ">
-                            <div className="flex sm:flex-col items-center">
+                            <div className="flex sm:flex-col items-center ">
                               {/* <p className="font-semibold ml-1">
                             {new Date(product.salePriceValidFrom)
                               .toLocaleDateString("en-US", {
@@ -827,8 +827,8 @@ function LayoutBuy({
 
                             {/* Stock Available Display */}
                             {product.amountInStock > 0 && (
-                              <div className="text-sm sm:mt-2 mt-4">
-                                <p className="text-white p-1 sm:w-28 w-40 text-center text-xs bg-green-600 rounded-lg">
+                              <div className="text-sm layoutBuyProducts sm:mt-2 mt-4">
+                                <p className="text-white p-1 layoutBuyProducts sm:w-28 w-40 text-center text-xs bg-green-600 rounded-lg small-button">
                                   Stock Available{" "}
                                   <span className="font-semibold text-xs text-center">
                                     {product.amountInStock}
@@ -857,7 +857,7 @@ function LayoutBuy({
                                 }
                               }
                             }}
-                            className={`flex text-white h-[32px] sm:w-full w-32 sm:px-2 rounded-lg sm:mt-20 mt-4 ml-0 p-0 mx-2 justify-center items-center ${product.amountInStock <= 0
+                            className={`flex layoutBuyProducts text-white h-[32px] sm:w-full w-32 small-button sm:px-2 rounded-lg sm:mt-20 mt-4 ml-0 p-0 mx-2 justify-center  items-center ${product.amountInStock <= 0
                               ? "bg-gray-400 cursor-not-allowed"
                               : "bg-blue-900 cursor-pointer"
                               }`}
@@ -873,7 +873,7 @@ function LayoutBuy({
                               />
                             </div>
                             <p
-                              className={`font-semibold text-sm ${product.amountInStock <= 0 ? "opacity-50" : ""
+                              className={`font-semibold small-button  text-sm ${product.amountInStock <= 0 ? "opacity-50" : ""
                                 }`}
                             >
                               {"Add to Cart"}

@@ -378,22 +378,22 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
   // Function to toggle the full product name display
   const toggleShowFull = () => setShowFull(!showFull);
   return (
-    <div className="flex mt-6 flex-col justify-center pb-4 gap-2">
+    <div className="flex mt-6 flex-col justify-center gap-3 Large:gap-4 pt-4 pb-1">
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
-      <div className="flex justify-between ml-4 font-semibold text-[22px] ">
+      <div className="flex justify-between ml-0  font-semibold text-[22px] ">
       <p className=" text-xl sm:text-xl md:text-xl lg:text-3xl">{Title}</p>
 
-        <div className="flex justify-end mr-14 gap-2">
+        <div className="flex justify-end mr-0 gap-2">
           <button
-            className="bg-white rounded-sm p-2 sm:p-1 md:p-0.5"
+            className="bg-white rounded-sm p-2"
             onClick={() => navigation("left")}
           >
             <img src={left} className="w-4 h-4" />
           </button>
           <button
-            className="bg-white rounded-sm p-2 sm:p-1 md:p-0.5"
+            className="bg-white rounded-sm p-2"
             onClick={() => navigation("right")}
           >
             <img src={right} className="w-4 h-4" />

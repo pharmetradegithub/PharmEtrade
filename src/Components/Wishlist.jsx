@@ -148,14 +148,14 @@ function Wishlist({ topMargin, addCart }) {
   }));
 
   return (
-    <div className="bg-gray-200 p-8 " style={{ marginTop: `${topMargin}px ` }}>
+    <div className="bg-gray-200 p-8  main-container padding-10" style={{ marginTop: `${topMargin}px ` }}>
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
       <h1 className="text-2xl mb-2 text-blue-900 font-semibold">PharmEtrade {">"} Wishlist</h1>
-      <div className="w-full h-full bg-white rounded-lg shadow-lg p-4">
+      <div className="w-full h-full bg-white rounded-lg shadow-lg p-4 main-container">
         <div className="flex justify-between">
-          <h1 className="text-2xl m-5 font-semibold">Wishlist</h1>
+          <h1 className="text-2xl m-2 font-semibold">Wishlist</h1>
           {/* <div className='flex bg-white  m-5'>
             
              <Search className="">

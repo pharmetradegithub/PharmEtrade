@@ -185,7 +185,7 @@ function Footers({ topMargin }) {
         </div>
         <div className="flex flex-col xl:text-md  w-full xl:w-auto">
           <p className="text-md font-semibold mb-4">About Us</p>
-          <p className="text-md font-thin mt-2">
+          <p className="text-md font-thin text-justify mt-2">
             PharmEtrade is a secure online marketplace for independent
             pharmacies to buy, sell,
             and bid on overstock and short date prescription drugs. Our

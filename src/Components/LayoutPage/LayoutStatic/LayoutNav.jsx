@@ -482,7 +482,7 @@ const LayoutNav = ({ Form_Data }) => {
         <div className="flex sm:w-[30%] md:w-[60%] lg:w-[40%]">
           <div
             ref={dropdownRef}
-            className={`w-full relative flex items-center ${
+            className={`w-full relative mb-3 flex items-center ${
               isContainerFocused ? "ring-2 ring-blue-500 rounded-md" : ""
             }`}
           >
@@ -522,7 +522,7 @@ const LayoutNav = ({ Form_Data }) => {
             </div>
 
             {/* Search Input */}
-            <div className="flex w-[65%] md:w-full h-10 border">
+            <div className="flex w-[65%] md:w-full input-full-width h-10 border">
               <input
                 type="text"
                 name="SearchInput"
@@ -543,15 +543,15 @@ const LayoutNav = ({ Form_Data }) => {
         </div>
 
         {/* Icons with Text */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 p-1">
           {iconItems.map((item, index) => (
             <div
               key={index}
               className="flex items-center"
               onClick={() => navigate(item.path)}
             >
-              <img src={item.icon} className="w-8 h-8 mr-1" />
-              <span className="text-sm font-semibold mr-2">{item.text}</span>
+              <img src={item.icon} className="w-8 h-8 mr-1 nav-icon" />
+              <span className="text-sm font-semibold mr-2 nav-icon-text">{item.text}</span>
             </div>
           ))}
 
@@ -560,19 +560,19 @@ const LayoutNav = ({ Form_Data }) => {
               {cartItems.length}
             </div>
             <Tooltip title="Cart" placement="top">
-              <img src={cartNav} className="w-6 h-6" alt="cart icon" />
+              <img src={cartNav} className="w-5 h-5 " alt="cart icon" />
             </Tooltip>
           </div>
 
           <Tooltip title="Notification" placement="top">
             <img
               src={notification}
-              className="w-10 h-10"
+              className="w-8 h-8"
               alt="Notification icon"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             />
-            <div className="absolute text-white rounded-full bg-blue-900 ml-5 right-4.5 -mt-10 px-1 font-medium text-[10px]">
+            <div className="absolute text-white rounded-full bg-blue-900 ml-5 right-10.5 -mt-8 px-1 font-medium text-[10px]">
               {cartItems.length}
             </div>
           </Tooltip>

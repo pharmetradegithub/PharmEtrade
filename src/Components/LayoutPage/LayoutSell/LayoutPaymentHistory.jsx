@@ -182,7 +182,7 @@ function LayoutPaymentHistory() {
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="bg-white w-56 rounded-lg shadow-lg h-28 p-4"
+              className="bg-white layoutBuyProducts w-56 rounded-lg shadow-lg h-28 p-4"
             >
               <h1 className="text-[20px] text-gray-700 font-normal pb-3">
                 {stat.label}

@@ -253,7 +253,7 @@ const RequestDemo = ({ topMargin }) => {
   <div className="w-full h-auto md:h-screen flex flex-col sm:flex-col md:flex-row lg:flex-row items-center">
     {/* Left side content */}
     <div className="w-full sm:w-full md:w-[54%] lg:w-[54%] p-6 sm:p-10 md:p-20 m-4 flex flex-col gap-6">
-      <h1 className='text-3xl sm:text-2xl md:text-2xl lg:text-6xl text-black font-semibold'>
+      <h1 className='text-3xl sm:text-2xl md:text-2xl lg:text-6xl text-black font-semibold pt-15'>
             Unlock Your Marketplace Potential
             {/* with a Live Demo */}
       </h1>

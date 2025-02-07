@@ -971,7 +971,7 @@ const LayoutProfile = () => {
               profile.grid === "charges") ? null : (
               <div key={profile.grid} className="flex ml-6">
                 <div
-                  className={`w-44 bg-white rounded-lg flex items-center justify-center cursor-pointer ${
+                  className={`w-44 bg-white layoutBuyProducts rounded-lg flex items-center justify-center cursor-pointer ${
                     visibleGrid === profile.grid
                       ? "border-b-4 border-blue-900"
                       : ""
@@ -995,7 +995,7 @@ const LayoutProfile = () => {
             <div
               className={`bg-white border ${
                 isEditable ? "border-blue-900" : "border-gray-400"
-              } rounded-lg px-3 lg:px-8 mx-3 lg:mx-6 w-[85%] lg:w-[90%] mt-8 relative`}
+              } rounded-lg px-3 lg:px-8 mx-3 lg:mx-6 layoutBuyProducts w-[85%] lg:w-[90%] mt-8 relative`}
             >
               {/* <h1 className={`text-xl font-semibold my-2 text-blue-900`}>
                 User Information
@@ -1122,7 +1122,7 @@ const LayoutProfile = () => {
                     // onChange={handleInputChange}
                     disabled={!isEditable}
                     size="small"
-                    className="w-52 md:w-56"
+                    className="w-52 layoutBuyProducts md:w-56"
                   />
                 </div>
                 <div className="flex  justify-end py-2">
@@ -1142,7 +1142,7 @@ const LayoutProfile = () => {
         )}
 
         {visibleGrid === "account" && (
-          <div className="flex flex-col bg-white border  border-gray-400 p-6 h-full  ml-3 lg:ml-6  rounded-lg px-3 lg:px-8  w-[80%] lg:w-[90%] mt-8">
+          <div className="flex flex-col bg-white border  border-gray-400 p-6 h-full  ml-3 lg:ml-6  rounded-lg px-3 lg:px-8 layoutBuyProducts  w-[80%] lg:w-[90%] mt-8">
             <h1 className="text-blue-900 font-semibold -mt-2 text-xl ">
               User Type
             </h1>
@@ -1167,7 +1167,7 @@ const LayoutProfile = () => {
                   userDetails.customerTypeId
                 }
                 disabled
-                className="ml-3"
+                className="ml-3 layoutBuyProducts"
                 size="small"
               />
             </div>
@@ -1208,33 +1208,33 @@ const LayoutProfile = () => {
         )}
 
         {visibleGrid === "account" && (
-          <div className="flex flex-col bg-slate-200 p-6 w-full h-full">
+          <div className="flex flex-col bg-slate-200 main-container layoutBuyProducts p-6 w-full h-full">
             {/* Address Information Section */}
             <div
-              className={`bg-white border ${
+              className={`bg-white layoutBuyProducts border ${
                 isAddressEdit ? "border-blue-900" : "border-gray-400"
-              } rounded-lg  lg:px-8  -ml-2  w-full lg:w-[95%] mt-8 relative`}
+              } rounded-lg  lg:px-8  -ml-2   w-full lg:w-[95%] mt-8 relative`}
             >
               {isAddressEdit && (
-                <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+                <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md p-2">
                   Address Information
                 </h1>
               )}
               <h1
-                className={`text-xl font-semibold my-2 ${
+                className={`text-xl font-semibold my-2 p-2 ${
                   isAddressEdit ? "invisible" : "text-blue-900"
                 }`}
               >
                 Address Information
               </h1>
-              <div className="flex justify-end">
+              <div className="flex justify-end ">
                 <img
                   src={edit}
                   className="w-6 h-6 cursor-pointer"
                   onClick={handleAddressEditClick}
                 />
               </div>
-              <div className="flex flex-col md:flex-row mx-3 py-4">
+              <div className="flex flex-col  md:flex-row mx-3 py-4">
                 <div className="grid grid-cols-2 gap-x-36 gap-y-3">
                   {userdata?.customerTypeId !== 4 &&
                     userdata?.customerTypeId !== 2 &&
@@ -1484,7 +1484,7 @@ const LayoutProfile = () => {
 
             {userdata?.customerTypeId !== 4 && (
               <div
-                className={`bg-white border -ml-2 md:ml-0 ${
+                className={`bg-white  border -ml-2 md:ml-0 ${
                   isAccountEdit ? "border-blue-900" : "border-gray-400"
                 } rounded-lg px-3 lg:px-8  w-full lg:w-[95%]  mt-8 relative mb-6`}
               >
@@ -1528,7 +1528,7 @@ const LayoutProfile = () => {
                       helperText={errors.dea}
                       disabled={!isAccountEdit}
                       size="small"
-                      className="w-[60%]"
+                      className="w-[60%] input-full-width"
                     />
                     <label> DEA Expiration Date </label>
                     {/* <TextField
@@ -1561,7 +1561,7 @@ const LayoutProfile = () => {
                       helperText={errors.deaExpirationDate}
                       disabled={!isAccountEdit}
                       size="small"
-                      className="w-[60%]"
+                      className="w-[60%] input-full-width"
                     />
 
                     {/* <label> DEA Expiration File </label>
@@ -1604,7 +1604,7 @@ const LayoutProfile = () => {
                       onChange={handleFileChange}
                       disabled={!isAccountEdit}
                       size="small"
-                      className="w-[60%]"
+                      className="w-[60%] input-full-width"
                     />
                     {fileErrorDEA && (
                       <p className="text-red-500 text-sm">{fileErrorDEA}</p>
@@ -1648,7 +1648,7 @@ const LayoutProfile = () => {
                       error={!!errors.npi}
                       helperText={errors.npi}
                       size="small"
-                      className="w-[60%] mt-3"
+                      className="w-[60%] input-full-width mt-3"
                     />
                     {/* <TextField
                       label="Federal Tax"
@@ -1666,7 +1666,7 @@ const LayoutProfile = () => {
                       value={accountData?.federalTaxId || ""}
                       onChange={handleAccountChange}
                       size="small"
-                      className="w-[60%]"
+                      className="w-[60%] input-full-width"
                       disabled={!isAccountEdit} // Disable unless in edit mode
                       inputProps={{ maxLength: 10 }} // Limit max length to 10 (including the hyphen)
                       helperText={errors.federalTaxId} // Show the error message below the input
@@ -1693,7 +1693,7 @@ const LayoutProfile = () => {
                       helperText={errors.pharmacyLicence}
                       disabled={!isAccountEdit}
                       size="small"
-                      className="w-[60%]"
+                      className="w-[60%] input-full-width"
                     />
                     <label> Pharmacy License Expiration Date </label>
 
@@ -1730,7 +1730,7 @@ const LayoutProfile = () => {
                       error={!!errors.pharmacyLicenseExpirationDate}
                       helperText={errors.pharmacyLicenseExpirationDate}
                       size="small"
-                      className="w-[60%]"
+                      className="w-[60%] input-full-width"
                     />
 
                     {/* <label>Pharmacy License Expiration File</label>
@@ -1775,7 +1775,7 @@ const LayoutProfile = () => {
                       onChange={handleFileChangePharma}
                       disabled={!isAccountEdit}
                       size="small"
-                      className="w-[60%]"
+                      className="w-[60%] input-full-width"
                     />
                     {fileErrorPharma && (
                       <p className="text-red-500 text-sm">{fileErrorPharma}</p>
@@ -1821,7 +1821,7 @@ const LayoutProfile = () => {
                       error={!!errors.ncpdp}
                       helperText={errors.ncpdp}
                       size="small"
-                      className="w-[60%] mt-3"
+                      className="w-[60%] input-full-width mt-3"
                     />
                   </div>
                 </div>

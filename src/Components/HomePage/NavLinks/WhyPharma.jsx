@@ -73,9 +73,9 @@ const AboutUs = ({ topMargin }) => {
     
       {/* Text Section */}
       <div className="w-full lg:w-1/2 mt-9 flex justify-center items-center lg:items-start flex-col">
-        <div className="w-full lg:w-[80%] lg:pr-20 flex flex-col gap-5">
+        <div className="w-full lg:w-[80%] lg:pr-20 flex flex-col gap-5 pb-5">
           <h2 className="text-2xl sm:text-3xl text-blue-900 font-semibold">Why PharmEtrade</h2>
-          <p className="text-sm sm:text-base lg:text-lg">
+          <p className="text-sm sm:text-base lg:text-lg ">
           Pharmetrade revolutionizes the pharmaceutical marketplace with an
              all-in-one platform for seamless buyer and seller interactions.
              Users can list products, place bids, and communicate directly with

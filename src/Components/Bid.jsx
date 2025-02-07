@@ -282,7 +282,7 @@ const Bid = ({ topMargin }) => {
         <Notification show={notification.show} message={notification.message} />
       )}
       <div className="w-full sm:w-[90%] md:w-[80%] lg:w-[70%] bg-slate-100 px-6 sm:px-10 md:px-16 py-8 h-full">
-        <h2 className="text-xl sm:text-2xl font-semibold mb-4">Request For Quote</h2>
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4 pt-5">Request For Quote345678</h2>
         <form onSubmit={handleSubmit}>
           <div className="gap-4">
             <div>

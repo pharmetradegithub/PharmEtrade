@@ -2932,7 +2932,7 @@ function EditProductAdmin() {
             </li>
           ))}
         </ul> */}
-        <ul className="flex border-b border-white gap-2 w-[69%] opacity-1">
+        <ul className="flex border-b  border-white gap-2 w-[69%] opacity-1">
           {tabs.map((tab, index) => (
             <li key={index} className="mr-2 gap-4">
               <button
