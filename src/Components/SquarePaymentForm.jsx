@@ -74,7 +74,7 @@ const SquarePaymentForm = ({
   const [expiryYear, setExpiryYear] = useState(null)
   const [expiryMonth, setExpiryMonth] = useState(null)
   const [cardNumber, setCardNumber] = useState(null)
-  const ordered = useSelector((state) => state.order.orderPlace)
+  const ordered = useSelector((state) => state.order?.orderPlace || [])
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [notification, setNotification] = useState({

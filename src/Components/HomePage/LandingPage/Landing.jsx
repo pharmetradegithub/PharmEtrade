@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 function Landing({ topMargin, wishList, addCart }) {
   const BannerData = useSelector((state) => state.banner.banner);
 
-  const activeBanners = BannerData.filter((banner) => banner.isActive === 1);
+  const activeBanners = BannerData ? BannerData.filter((banner) => banner.isActive === 1) : [];
   const settings = {
     dots: true,
     infinite: true,

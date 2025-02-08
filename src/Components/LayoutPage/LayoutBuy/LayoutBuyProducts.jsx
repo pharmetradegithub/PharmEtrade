@@ -47,9 +47,9 @@ function LayoutBuy({
     show: false,
     message: "",
   });
-  const user = useSelector((state) => state.user.user);
-  const cart = useSelector((state) => state.cart.cart);
-  const wishlist = useSelector((state) => state.wishlist.wishlist);
+  const user = useSelector((state) => state.user?.user || []) ;
+  const cart = useSelector((state) => state.cart?.cart || []) ;
+  const wishlist = useSelector((state) => state.wishlist?.wishlist || []) ;
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
   //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
@@ -76,7 +76,7 @@ function LayoutBuy({
   //   );
   //   return wishlistItem ? wishlistItem.wishListId : null;
   // };
-  const products = useSelector((state) => state.product.Products);
+  const products = useSelector((state) => state.product?.Products || []) ;
   
   const [productList, setproductList] = useState(products);
   const [sortOption, setSortOption] = useState(""); // State for sorting

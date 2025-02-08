@@ -271,7 +271,7 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
     show: false,
     message: "one",
   });
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
   // const wishlist = useSelector((state)=>state.wishlist.wishlist);
   // const [wishlistProductIDs, setWishlistProductIDs] = useState([]);
   //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
@@ -279,7 +279,7 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
   //   const wishlistItem = wishlist.find((item) => item.product.productID === productID);
   //   return wishlistItem ? wishlistItem.wishListId : null;
   // };
-  const wishlist = useSelector((state) => state.wishlist.wishlist);
+  const wishlist = useSelector((state) => state.wishlist?.wishlist || []);
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
   //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {

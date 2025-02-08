@@ -638,15 +638,15 @@ const Payment = () => {
   const futureYears = generateYears(2024, currentYear + 10); // Including future years (e.g., 10 years ahead)
   const months = generateMonths();
   const getOrder = useSelector((state) => state.order.getOrder)
-  console.log("getorderPayment-->", getOrder)
+  
   const [orderGet, setorderGet] = useState(getOrder)
   const ordered = useSelector((state) => state.order.orderPlace)
-  console.log("ordered-->", ordered)
+ 
 
   const fedexRate = useSelector((state) => state.trackNumber.fedExRates)
-  console.log("fedddddrate-->", fedexRate)
+  
   const serviceName = useSelector((state) => state.trackNumber.serviceType)
-  console.log("service-->", serviceName)
+
   const handleemiopen = () => {
     SetIsEmiPopup(true)
   }
@@ -943,8 +943,8 @@ const Payment = () => {
     const selectedServiceType = e.target.value;
     setSelectedOption(selectedServiceType);
 
-    console.log("Selected service type:", selectedServiceType);
-    console.log("FedEx rates:", JSON.stringify(fedexRate, null, 2));
+    // console.log("Selected service type:", selectedServiceType);
+    // console.log("FedEx rates:", JSON.stringify(fedexRate, null, 2));
 
     // First condition: Check if fedexRate exists and has elements
     if (fedexRate && fedexRate.length > 0) {
@@ -953,9 +953,9 @@ const Payment = () => {
         const normalizedRateServiceType = normalizeString(removeNonPrintableChars(rate.serviceName));
         const normalizedSelectedServiceType = normalizeString(removeNonPrintableChars(selectedServiceType));
 
-        console.log("Comparing:", normalizedRateServiceType, "to", normalizedSelectedServiceType);
+        // console.log("Comparing:", normalizedRateServiceType, "to", normalizedSelectedServiceType);
         const isMatch = normalizedRateServiceType === normalizedSelectedServiceType;
-        console.log("Match result:", isMatch);
+        // console.log("Match result:", isMatch);
 
         return isMatch; // Return the match result
       });
@@ -967,7 +967,7 @@ const Payment = () => {
           return total + (rate?.ratedShipmentDetails[0]?.totalNetCharge || 0);
         }, 0);
         setTotalNetCharge(netCharge);
-        console.log("Total Net Charge for matching services:", netCharge);
+        
 
         // Next condition check can go here
         if (netCharge > 0) {
@@ -979,7 +979,7 @@ const Payment = () => {
           // Check if parsedTotal is a valid number
           if (!isNaN(parsedTotal)) {
             navigate(`/checkout?total=${parsedTotal.toFixed(2)}&netCharge=${netCharge.toFixed(2)}`);
-            console.log("Valid net charge available for processing.");
+            
           }
         } else {
           console.log("Net charge is zero or invalid.");
@@ -997,7 +997,7 @@ const Payment = () => {
 
   const handleService = (serviceType) => {
     if (fedexRate.output.rateReplyDetails.serviceType === serviceType) {
-      console.log("kjjhsjgh")
+      // console.log("kjjhsjgh")
     }
   }
 

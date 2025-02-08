@@ -24,7 +24,7 @@ export const shipmentEditApi = (payload) => {
   return async (dispatch) => {
     try {
       const response = await axios.post('/api/Orders/AddShipment', payload);
-      console.log("addShipping-->", response);
+  
       if (response.status === 200) {
         const response = response.data.result
         dispatch(setEditShipping(response))
@@ -39,7 +39,7 @@ export const shipmentAddApi = (payload) => {
   return async (dispatch) => {
     try {
       const response = await axios.post('/api/Orders/AddShipment', payload);
-      console.log("addShipping-->", response);
+    
       if (response.status === 200) {
         const response = response.data.result
         dispatch(setAddShipping(response))
@@ -53,7 +53,7 @@ export const shipmentAddApi = (payload) => {
 export const paymentProcessApi = async (payload) => {
     try {
       const response = await axios.post('/api/Orders/ProcessPayment', payload);
-      console.log(">", response);
+
       if (response.status === 200) {
         return response.data.result;
       }
@@ -66,7 +66,6 @@ export const paymentProcessApi = async (payload) => {
 export const ShipmentChargesApi = async (payload) => {
   try {
     const response = await axios.post('/api/Orders/ShippingCharges', payload);
-    console.log(">", response);
     if (response.status === 200) {
       return response.data.result;
     }

@@ -761,13 +761,13 @@ function LayoutCategory({
     show: false,
     message: "",
   });
-  const user = useSelector((state) => state.user.user);
-  const cart = useSelector((state) => state.cart.cart);
-  const wishlist = useSelector((state) => state.wishlist.wishlist);
+  const user = useSelector((state) => state.user?.user || []);
+  const cart = useSelector((state) => state.cart?.cart || []);
+  const wishlist = useSelector((state) => state.wishlist?.wishlist || []);
   const productCriteria = useSelector(
-    (state) => state.product.productsByCriteria
+    (state) => state.product?.productsByCriteria || []
   );
-  const components = useSelector((state) => state.master.productCategoryGetAll);
+  const components = useSelector((state) => state.master?.productCategoryGetAll || []);
   const queryParams = new URLSearchParams(location.search);
   const CategoryId = queryParams.get("CategoryName");
   const modifiedComponents = [
@@ -779,7 +779,7 @@ function LayoutCategory({
     const heading = modifiedComponents.find(
       (component) => component.productCategoryId == CategoryId
     );
-    console.log(heading, "heading", CategoryId);
+
     if (heading) {
       if (CategoryId == -1) {
         setHeader("Buy Products");
@@ -804,7 +804,7 @@ function LayoutCategory({
     }
   }, [wishlist]);
 
-  const products = useSelector((state) => state.product.Products);
+  const products = useSelector((state) => state.product?.Products || []);
   const [productList, setproductList] = useState(productCriteria);
   const [sortOption, setSortOption] = useState(""); // State for sorting
   const sortProducts = (products, sortOption) => {

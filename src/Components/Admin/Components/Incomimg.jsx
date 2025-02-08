@@ -500,8 +500,8 @@ function LayoutPaymentHistory() {
   const [currentPage, setCurrentPage] = useState(1);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedFormat, setSelectedFormat] = useState("csv");
-  const user = useSelector((state) => state.user.user)
-  const paymentHistory = useSelector((state) => state.adminPayment.paymentReceive)
+  const user = useSelector((state) => state.user?.user || [])
+  const paymentHistory = useSelector((state) => state.adminPayment?.paymentReceive || [])
 
   const dispatch = useDispatch()
 

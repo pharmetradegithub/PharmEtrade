@@ -43,7 +43,6 @@ export const fetchGetOrderBySellerId = (customerId) => {
       const response = await axios.get(`/api/Orders/Seller/GetAll?vendorId=${customerId}`);
       if (response.status === 200) {
         const OrderBySellerId = response.data.result;
-        console.log('Dispatching setSpecialOffer action:', OrderBySellerId); // Log before dispatch
         dispatch(setGetOrderBySellerId(OrderBySellerId)); // Dispatch action
       } else {
         console.error('Failed to fetch order:', response.data.message);
@@ -55,7 +54,6 @@ export const fetchGetOrderBySellerId = (customerId) => {
 };
 export const fetchGetOrderByCustomerIdPage = async (customerId) => {
     try {
-      console.log("made api call");
       const response = await axios.get(`/api/Orders/Buyer/GetAll?customerId=${customerId}`);
       if (response.status === 200) {
         const getOrder = response.data.result;
@@ -128,7 +126,6 @@ export const fetchOrderPlace = (payLoad) => {
       const response = await axios.post('/api/Orders/Place', payLoad);
       if (response.data.status === 200) {
         const orderPlace = response.data;
-        console.log('Full API response:', orderPlace); // Log the full response to debug
         dispatch(setOrderPlace(orderPlace));
         return orderPlace
       }
@@ -158,7 +155,6 @@ export const fetchOrderPayment = (payLoad) => {
       const response = await axios.post('/api/Orders/AddPayment', payLoad);
       if (response.status === 200) {
         const orderPayment = response.data.result;
-        console.log('Dispatching payment action:', orderPayment);
 
         // Dispatching the action to add the order to the state
         dispatch(setOrdersPayment(orderPayment));
@@ -178,7 +174,6 @@ export const fetchSellerGetAll = (customerId) => {
       const response = await axios.get(`/api/Orders/Seller/GetAll?vendorId=${customerId}`);
       if (response.status === 200) {
         const getOrder = response.data.result;
-        console.log('Dispatching get order action:', getOrder); // Log before dispatch
         dispatch(setSellerGetAll(getOrder)); // Dispatch action
       } else {
         console.error('Failed to get order action:', response.data.message);
@@ -193,7 +188,6 @@ export const fetchOrderView = (orderId) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`/api/Orders/DownloadInvoiceHtml?orderId=${orderId}`);
-      console.log("responseViewInvoice-->", response)
       if (response.status === 200) {
         const getOrder = response.data;
         // console.log('Dispatching get order action:', getOrder); // Log before dispatch
@@ -211,7 +205,6 @@ export const fetchSellerOrderView = (orderId, customerId) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`/api/Orders/DownloadSellerInvoiceHtml?orderId=${orderId}&sellerId=${customerId}`);
-      console.log("responseViewInvoice-->", response)
       if (response.status === 200) {
         const getOrder = response.data;
         // console.log('Dispatching get order action:', getOrder); // Log before dispatch
@@ -232,7 +225,6 @@ export const fetchOrderInvoice = (orderId) => {
       // console.log("invoice--->", response)
       if (response.status === 200) {
         const getOrder = response.data;
-        console.log('Dispatching invoice action:', getOrder); // Log before dispatch
         dispatch(setOrderInvoice(getOrder)); // Dispatch action
       } else {
         console.error('Failed to get order action:', response.data.message);
@@ -247,10 +239,8 @@ export const fetchOrderDownloadInvoice = (orderId) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`/api/Orders/DownloadInvoice?orderId=${orderId}`);
-      console.log(response, "reppppp")
       if (response.status === 200) {
         const downloadInvoice = response;
-        console.log('Dispatching get order action:', downloadInvoice); // Log before dispatch
         dispatch(setOrderDownloadInvoice(downloadInvoice)); // Dispatch action
       } else {
         console.error('Failed to get order action:', response.data.message);
@@ -266,7 +256,6 @@ export const orderGetByIdApi = (orderId) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`/api/Orders/GetById?orderid=${orderId}`)
-      console.log("orderByIdApi-->", response)
       if (response.status === 200) {
         const getById = response.data.result
         dispatch(setGetById(getById))
@@ -301,7 +290,6 @@ export const orderStatusUpdateApi = (orderId, productId, customerId, statusId, c
   return async (dispatch) => {
     try {
       const response = await axios.post(`/api/Orders/Product/UpdateStatus?orderId=${orderId}&productId=${productId}&customerId=${customerId}&statusId=${statusId}&comments=${encodeURIComponent(comment)}&trackingNumber=${trackingNumber || ''}`);
-      console.log("orderStatusUpdateApi-->", response);
 
       if (response.status === 200) {
         const updateStatus = response.data.result;

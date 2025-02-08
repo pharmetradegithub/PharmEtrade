@@ -19,7 +19,7 @@ import { useSelector } from "react-redux";
 import { fetchProductByIdApi } from "../Api/ProductApi";
 
 function Address({ topMargin, totalAmount }) {
-  const fetchData = useSelector((state) => state.product.Products);
+  const fetchData = useSelector((state) => state.product?.Products || []);
   const [searchParams] = useSearchParams();
   const total = searchParams.get("total");
 

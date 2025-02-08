@@ -7,7 +7,7 @@ import Notification from "./Notification";
 
 const Bid = ({ topMargin }) => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
    const [notification, setNotification] = useState({
       show: false,
       message: "",

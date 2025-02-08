@@ -784,8 +784,8 @@ const LayoutAllrequestedQuote = () => {
     message: "",
   });
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.user);
-  const request = useSelector((state) => state.bid.bidRequestedQuoted);
+  const user = useSelector((state) => state.user?.user || []);
+  const request = useSelector((state) => state.bid?.bidRequestedQuoted || []);
 
 
 

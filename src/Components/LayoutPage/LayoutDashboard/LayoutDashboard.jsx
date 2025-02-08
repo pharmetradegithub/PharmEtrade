@@ -34,7 +34,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchCustomerDashboard, fetchSellerDashboard } from '../../../Api/Dashboard';
 
 function LayoutDashboard() {
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
   const navigate = useNavigate()
   const dispatch = useDispatch()
   useEffect(() => {

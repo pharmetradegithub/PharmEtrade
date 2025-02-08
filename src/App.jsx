@@ -164,11 +164,11 @@ import { TaxGetByStateNameApi } from "./Api/TaxInfoApi";
 
 function App() {
   const location1 = useLocation();
-  const user = useSelector((state) => state.user);
-  const loading = useSelector((state) => state.home.loading);
+  const user = useSelector((state) => state.user?.user || []);
+  const loading = useSelector((state) => state.home?.loading || []) ;
   const userId = localStorage.getItem("userId");
 
-  const topMargin = useSelector((state) => state.home.TopMargin);
+  const topMargin = useSelector((state) => state.home?.TopMargin || []);
   const topDivRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -244,7 +244,7 @@ function App() {
 
     fetchProducts();
   }, []);
-
+ 
   return (
     <NavbarProvider>
       {/* {!excludePatterns.test(location.pathname) && (

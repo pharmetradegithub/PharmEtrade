@@ -555,7 +555,7 @@ const ChargesInformations = () => {
   const CustomerId = searchParams.get("CustomerId");
   
   const getproductSpecialOffer = useSelector(
-    (state) => state.product.productSpecialOffer
+    (state) => state.product?.productSpecialOffer || []
   );
   const [category, setCategory] = useState(''); // Initialize as an empty string for selected category
   const [taxPercentage, setTaxPercentage] = useState("");
@@ -568,8 +568,8 @@ const ChargesInformations = () => {
     show: false,
     message: "",
   });
-  const businessInfo = useSelector((state) => state.user.businessInfo);
-  const user = useSelector((state) => state.user.user);
+  const businessInfo = useSelector((state) => state.user?.businessInfo || []);
+  const user = useSelector((state) => state.user?.user || []);
 
   const dispatch = useDispatch();
   //   const stateNameData = useSelector((state) => state.tax.stateName);

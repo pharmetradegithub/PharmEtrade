@@ -7,7 +7,6 @@ export const fetchGetFedex = (customerId) => {
       const response = await axios.get(`/api/FedEx/GetBySeller?sellerId=${customerId}`);
       if (response.status === 200) {
         const paymentHistoryData = response.data.result;
-        console.log('Dispatching setSpecialOffer action:', paymentHistoryData); // Log before dispatch
         dispatch(setGetFedex(paymentHistoryData)); // Dispatch action
       } else {
         console.error('Failed to fetch order:', response.data.message);
@@ -22,7 +21,6 @@ export const fetchFedExAddApi = (payload) => {
   return async (dispatch) => {
     try {
       const response = await axios.post('/api/FedEx/AddFedExInformation', payload);
-      console.log("addShipping-->", response);
       if (response.status === 200) {
         const response = response.data.result
         dispatch(setAddFedExShipping(response))
@@ -37,7 +35,6 @@ export const fetchFedexEditApi = (payload) => {
   return async (dispatch) => {
     try {
       const response = await axios.post('/api/FedEx/UpdateFedexInformation', payload);
-      console.log("addShipping-->", response);
       if (response.status === 200) {
         const response = response.data.result
         dispatch(setAddFedExShipping(response))

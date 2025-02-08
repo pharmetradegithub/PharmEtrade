@@ -2235,7 +2235,7 @@ function Address({ topMargin, totalAmount, amount }) {
   const netCharge = parseFloat(searchParams.get("netCharge")) || 0;
   const isCart = searchParams.get("isCart") == "true"; // Convert total to a number
   const productId = searchParams.get("productId"); // Convert total to a number
-  const DeliveryAddress = useSelector((state) => state.order.orderDeliveryAddress)
+  const DeliveryAddress = useSelector((state) => state.order?.orderDeliveryAddress || [])
  
 
   // Check if netCharge and total are valid numbers
@@ -2245,9 +2245,9 @@ function Address({ topMargin, totalAmount, amount }) {
   // const netCharge = searchParams.get("netCharge")
   const [deletePop, setDeletePop] = useState(false);
   const [deleteProduct, setDeleteProduct] = useState(null);
-  const placeOrder = useSelector((state) => state.order.orderPlace)
+  const placeOrder = useSelector((state) => state.order?.orderPlace || [])
  
-  const cartList = useSelector((state) => state.cart.cart);
+  const cartList = useSelector((state) => state.cart?.cart || []);
  
   // console.log("ffffffff--->", totalAmount)
   const [isActive, setIsActive] = useState(true);
@@ -2255,9 +2255,9 @@ function Address({ topMargin, totalAmount, amount }) {
   const [isChecked, setIsChecked] = useState(false);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
 
-  const getAddress = useSelector((state) => state.address.customerId);
-  const businessInfo = useSelector((state) => state.user.businessInfo);
-  const user = useSelector((state) => state.user.user);
+  const getAddress = useSelector((state) => state.address?.customerId || []) ;
+  const businessInfo = useSelector((state) => state.user?.businessInfo || []);
+  const user = useSelector((state) => state.user?.user || []);
  
 
   const [formData, setFormData] = useState({
@@ -3051,7 +3051,7 @@ function Address({ topMargin, totalAmount, amount }) {
     }));
   };
 
-  const addAddress = useSelector((state) => state.address.address);
+  const addAddress = useSelector((state) => state.address?.address || []);
   const [newAddressData, setNewAddressData] = useState([]);
 
   // const [getAddress, setGetAddress] = useState(getCustomer);

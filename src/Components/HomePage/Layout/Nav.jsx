@@ -764,9 +764,9 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   const [isNavOpen, setIsNavOpen] = useState(false); // State for hamburger menu
 
   let navigate = useNavigate();
-  const user = useSelector((state) => state.user.user);
-  const cart = useSelector((state) => state.cart.cart);
-  const components = useSelector((state) => state.master.productCategoryGetAll);
+  const user = useSelector((state) => state.user?.user || []) ;
+  const cart = useSelector((state) => state.cart?.cart || []) ;
+  const components = useSelector((state) => state.master?.productCategoryGetAll || []) ;
   const modifiedComponents = [
     { productCategoryId: -1, categoryName: "All" },
     ...components,

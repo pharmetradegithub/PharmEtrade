@@ -144,8 +144,8 @@ import { useSelector } from "react-redux";
 function Sliders({ wishList, addCart }) {
   const searchBarRef = useRef(null);
 
-  const OTCProducts = useSelector((state) => state.product.otcProducts) || [];
-  const RXProducts = useSelector((state) => state.product.rxProducts) || [];
+  const OTCProducts = useSelector((state) => state.product?.otcProducts || []);
+  const RXProducts = useSelector((state) => state.product?.rxProducts || []);
 
 
   useEffect(() => {

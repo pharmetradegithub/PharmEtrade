@@ -71,7 +71,6 @@ export const UpdateBid = async (data) => {
     } else {
       console.error('Failed to fetch bid data:', response.data.message);
     }
-    console.log(response);
 
   } catch (error) {
     console.error('Failed to fetch bid data:', error.message);
@@ -82,7 +81,7 @@ export const removeBidApi = (bidId) => {
   try {
     const response = axios.post(`/api/Bid/Remove?bidId=${bidId}`)
     if (response.status === 200) {
-      console.log("Successfully removed Bid product.");
+   
       return;
     } else {
       console.error('Failed to remove Bid product:', response.data.message);

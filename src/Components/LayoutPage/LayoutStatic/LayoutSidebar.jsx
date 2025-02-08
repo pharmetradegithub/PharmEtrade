@@ -14,10 +14,10 @@ function LayoutSidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [dropdownStates, setDropdownStates] = useState({});
   const [navItems, setnavItems] = useState([]);
-  const user = useSelector((state) => state.user.user);
-  const businessInfo = useSelector((state) => state.user.businessInfo);
+  const user = useSelector((state) => state.user?.user || []);
+  const businessInfo = useSelector((state) => state.user?.businessInfo || []);
 
-  const menuItems = useSelector((state) => state.user.menuItems);
+  const menuItems = useSelector((state) => state.user?.menuItems || []);
   useEffect(() => {
     if (menuItems) {
       const navItems = buildNavItems(menuItems);

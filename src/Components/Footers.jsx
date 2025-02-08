@@ -155,7 +155,7 @@ import { useSelector } from "react-redux";
 
 
 function Footers({ topMargin }) {
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,

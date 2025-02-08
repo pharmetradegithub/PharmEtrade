@@ -174,8 +174,8 @@ import offer4 from "../../../assets/IMG_4.jpg";
 function Landing2({ wishList, addCart }) {
   const navigate = useNavigate();
   const slides = [slider1, slider2, slider3, slider4];
-  const newProducts = useSelector((state) => state.product.recentSoldProducts);
-  const isLoggedIn = useSelector((state) => state.user.user);
+  const newProducts = useSelector((state) => state.product?.recentSoldProducts || []);
+  const isLoggedIn = useSelector((state) => state.user?.user || []);
 
   const handleClick = (index) => {
     switch (index) {

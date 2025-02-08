@@ -144,8 +144,8 @@ let newoffer = [];
 
 const OfferSlider = ({ images, Title }) => {
   const carouselContainer = useRef(null);
-  const specialOffers = useSelector((state) => state.product.productSpecialOffer);
-  const getAll = useSelector((state) => state.offer.OfferGetLanding);
+  const specialOffers = useSelector((state) => state.product?.productSpecialOffer || []) ;
+  const getAll = useSelector((state) => state.offer?.OfferGetLanding || []);
   newoffer = [];
   specialOffers?.map((element, index) => {
     const newObject = { ...element, image: '' };

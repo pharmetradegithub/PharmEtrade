@@ -221,7 +221,7 @@ const Signup = () => {
   const handleUserTypeChange = (e) => {
     setFormData({...formData,["customerTypeId"]:e.target.value})
     const customerTypeId = parseInt(e.target.value, 10);
-    console.log(userTypes[customerTypeId],customerTypeId)
+    // console.log(userTypes[customerTypeId],customerTypeId)
     setUserType(userTypes[customerTypeId]);
     setSelectedValue(""); // Reset UPN Member selection on User Type change
   };
@@ -244,9 +244,9 @@ const Signup = () => {
       );
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       if (response.status === 200) {
-        console.log(data.message); // "Image Uploaded Successfully."
+        // console.log(data.message); // "Image Uploaded Successfully."
         setFormData({
           ...formData,
           [name]: data.imageUrl,
@@ -522,7 +522,7 @@ const Signup = () => {
         newErrors.Email_id = "Email Id is required";
 
       if (!formData.Phone_number.match(regphn)) {
-        console.log(formData.Phone_number.length, "hmmmm");
+        // console.log(formData.Phone_number.length, "hmmmm");
         if (formData.Phone_number.length === 0) {
           newErrors.Phone_number = "Phone Number is required";
         } else if (formData.Phone_number.length !== 12)
@@ -540,7 +540,7 @@ const Signup = () => {
 
       if (Object.keys(newErrors).length === 0 && localStorage.getItem('userId') == null) {
         try {
-          console.log(formData.Email_id, formData.Phone_number);
+          // console.log(formData.Email_id, formData.Phone_number);
           // const responseEmail = await fetch(
           //   `https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Customer/GetCustomers?email=${encodeURIComponent(
           //     formData.Email_id
@@ -579,7 +579,7 @@ const Signup = () => {
           console.log(error);
         }
         setErrors(newErrors);
-        console.log(newErrors);
+        // console.log(newErrors);
 
         return Object.keys(newErrors).length === 0;
       }
@@ -809,7 +809,7 @@ const Signup = () => {
     }
 
     setErrors(newErrors);
-    console.log(newErrors);
+    // console.log(newErrors);
     return Object.keys(newErrors).length === 0;
   };
   const isStepOptional = (step) => step === 1 || step === 2 || step === 3;
@@ -1031,7 +1031,7 @@ const Signup = () => {
   //   return state.name.toLowerCase().includes(searchTerm.toLowerCase());
   // });
   const filteredStates = states.filter(
-    (state) => !excludedStates.includes(state.name.toUpperCase())
+    (state) => !excludedStates.includes(state.name.toUpperCase()) || []
   );
 
   const formatPhoneNumber = (phoneNumber) => {

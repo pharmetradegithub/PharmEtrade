@@ -47,9 +47,9 @@ import searchImg from "../../../assets/search-icon.png";
 
 const OfferedProductsAdmin = () => {
   // const products = useSelector((state) => state.product.getProductSpecialOffer);
-  const products = useSelector((state) => state.product.getProductSpecialOffer);
-  const user = useSelector((state) => state.user.user);
-  const specialOffers = useSelector((state) => state.product.productSpecialOffer);
+  const products = useSelector((state) => state.product?.getProductSpecialOffer || []);
+  const user = useSelector((state) => state.user?.user || []);
+  const specialOffers = useSelector((state) => state.product?.productSpecialOffer || []);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
 

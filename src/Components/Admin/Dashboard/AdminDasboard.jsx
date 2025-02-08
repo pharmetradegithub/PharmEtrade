@@ -216,7 +216,7 @@ import { fetchAdminLogin, GetCustomers } from "../../../Api/AdminApi";
 
 const AdminDasboard = () => {
   const navigate = useNavigate(); // Initialize useNavigate hook
-  const adminData = useSelector((state) => state.admin.admin);
+  const adminData = useSelector((state) => state.admin?.admin || []);
 
   const [retailPhar, setretailPhar] = useState([]);
   const [pharmacy, setPharmacy] = useState([]);

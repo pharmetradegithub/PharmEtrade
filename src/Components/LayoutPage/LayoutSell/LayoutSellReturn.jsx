@@ -179,8 +179,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchReturns } from "../../../Api/ReturnsApi";
 const LayoutSellReturn = () => {
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.user.user)
-  const returns = useSelector((state) => state.returns.returns)
+  const user = useSelector((state) => state.user?.user || [])
+  const returns = useSelector((state) => state.returns?.returns || [])
  
   const stats = [
     {

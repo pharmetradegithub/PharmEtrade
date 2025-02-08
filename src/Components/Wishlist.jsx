@@ -29,9 +29,9 @@ import Notification from '../Components/Notification' // Import Notification com
 
 // import { Tooltip } from "chart.js";
 function Wishlist({ topMargin, addCart }) {
-  const wishItems = useSelector((state) => state.wishlist.wishlist || []); // Fallback to empty array if null
+  const wishItems = useSelector((state) => state.wishlist?.wishlist || []); // Fallback to empty array if null
   //const wishItems = useSelector((state)=>state.wishlist.wishlist);
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
   const [searchQuery, setSearchQuery] = useState('');
   const [quantities, setQuantities] = useState(
     Array.isArray(wishItems) ? wishItems.map(() => 1) : [] // Ensure wishItems is an array

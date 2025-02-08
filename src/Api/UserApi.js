@@ -14,8 +14,6 @@ export const loginUserApi = async (username, password) => {
       `/api/Customer/Login?UserName=${encodeURIComponent(username)}&Password=${encodeURIComponent(password)}`
     );
 
-    console.log("eeee", response);
-
     if (response.status === 200) {
 
         if (response?.data?.statusCode == 400) {
@@ -52,12 +50,12 @@ export const changePasswordUserApi = async (username, newpassword) => {
         username
       )}&newPassword=${encodeURIComponent(newpassword)}`
     );
-    console.log(response);
+    // console.log(response);
     if (response.status === 200) {
-      console.log(response.data.statusCode);
+      // console.log(response.data.statusCode);
 
       if (response.data.statusCode == 200) {
-        console.log(response);
+        // console.log(response);
 
         return true;
       }
@@ -150,7 +148,7 @@ export const BusinessInfoUpdate = async(obj)=>{
       }
     
     );
-    console.log(response,obj ,"Response and obj");
+  
     if (response.status === 200) {
       return "Edited";
     } else {
@@ -200,7 +198,7 @@ export const fetchGetBeneficiary = (customerId) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`/api/Customer/Beneficiary/GetByCustomerId?customerId=${customerId}`)
-      console.log(response, "----->")
+     
       if (response.status === 200) {
         const addData = response.data.result[0]
         dispatch(setGetBeneficiary(addData))

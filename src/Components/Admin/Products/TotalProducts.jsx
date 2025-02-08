@@ -43,8 +43,8 @@ import Loading from "../../Loading";
 import searchImg from "../../../assets/search-icon.png";
 
 const TotalProducts = () => {
-  const products = useSelector((state) => state.product.adminProducts);
-  const user = useSelector((state) => state.user.user);
+  const products = useSelector((state) => state.product?.adminProducts || []);
+  const user = useSelector((state) => state.user?.user || []);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
   // const [trigger, settrigger] = useState(1);

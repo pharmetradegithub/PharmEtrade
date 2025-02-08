@@ -26,7 +26,7 @@ export const ProductInfoValidation = (formData) => {
 
   
     if (formData.states.length <= 0) {
-        console.log(formData.states.length, "why");
+        // console.log(formData.states.length, "why");
 
         errors.states = "At least one state must be selected.";
     }

@@ -468,9 +468,9 @@ import {
 import wrong from "../assets/Icons/wrongred.png";
 
 function Cart() {
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
  
-  const cartList = useSelector((state) => state.cart.cart);
+  const cartList = useSelector((state) => state.cart?.cart || []);
  
   const [cartItems, setcartItems] = useState(cartList);
   // const { cartItems, setCartItems } = useContext(AppContext);
@@ -657,7 +657,7 @@ function Cart() {
   //   }
   // };
 
-  const orderPlace = useSelector((state) => state.order.orderPlace);
+  const orderPlace = useSelector((state) => state.order?.orderPlace || []);
   const handleProceed = async () => {
     // Check stock availability for each item in the cart
     let hasStockIssue = false;

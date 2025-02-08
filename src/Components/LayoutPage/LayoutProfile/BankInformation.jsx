@@ -424,8 +424,8 @@ import { fetchBeneficiaryAdd, fetchGetBeneficiary } from '../../../Api/UserApi';
 import Notification from '../../Notification';
 
 const BankInformation = () => {
-  const user = useSelector((state) => state.user.user);
-  const getBeneficiaryDetails = useSelector((state) => state.user.getBeneficiary);
+  const user = useSelector((state) => state.user?.user || []);
+  const getBeneficiaryDetails = useSelector((state) => state.user?.getBeneficiary || []);
   const dispatch = useDispatch();
   const [notification, setNotification] = useState({
     show: false,

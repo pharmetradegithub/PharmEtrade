@@ -498,12 +498,12 @@ import Pagination from "../../Pagination";
 // import EarningsChart from '../../../Components/Admin/Components/EarningChart';
 
 const LayoutEarnings = () => {
-  const user = useSelector((state) => state.user.user)
+  const user = useSelector((state) => state.user?.user || [])
   const dispatch = useDispatch()
-  const earning = useSelector((state) => state.earning.earning)
-  console.log("earninglist--->", earning)
-  const SellerOrder = useSelector((state) => state.order.OrderBySellerId);
-  console.log("sellerId==", SellerOrder)
+  const earning = useSelector((state) => state.earning?.earning || [])
+  
+  const SellerOrder = useSelector((state) => state.order?.OrderBySellerId || []);
+  
   const itemsPerPage = 6;
   const data = Array(110).fill({
     interval: "Sep 14, 2021",
@@ -562,7 +562,7 @@ const LayoutEarnings = () => {
       }
       groupedData[orderDate].noOfOrders += 1; // Increment order count
       groupedData[orderDate].totalAmount += Number(order.totalAmount) || 0; // Add to total amount
-      console.log(groupedData);
+      
     });
 
     // Calculate total earnings and return as an array

@@ -168,7 +168,7 @@ const AdminBanners = () => {
     onDrop: (acceptedFiles) => handleBannerChange(acceptedFiles),
   });
 
-  const BannerData = useSelector((state) => state.banner.banner);
+  const BannerData = useSelector((state) => state.banner?.banner || []);
 
   const handleRemoveNewBanner = (index) => {
     setNewBanners((prevBanners) => prevBanners.filter((_, i) => i !== index));

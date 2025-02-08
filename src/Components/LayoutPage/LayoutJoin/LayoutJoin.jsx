@@ -154,7 +154,7 @@ const LayoutJoin = () => {
   const [uploadedFile, setUploadedFile] = useState("");
   const [file1, setfile1] = useState(null);
   const [file2, setfile2] = useState(null);
-  console.log(formData);
+  
   const handleInputChange = (e) => {
     const { name, value, type, files, checked } = e.target;
     setErrors((prevErrors) => ({
@@ -206,7 +206,7 @@ const LayoutJoin = () => {
         }
       }
     }
-    console.log(formData);
+    // console.log(formData);
     if (name === "password") validatePassword(value);
 
     if (activeStep === 1) {
@@ -264,7 +264,7 @@ const LayoutJoin = () => {
       const regphn = /^(?:\+1\s?)?(\(?\d{3}\)?[-.\s]?)?\d{3}[-.\s]?\d{4}$/;
 
       if (!formData.Phone_number.match(regphn)) {
-        console.log(formData.Phone_number.length, "hmmmm");
+        // console.log(formData.Phone_number.length, "hmmmm");
         if (formData.Phone_number.length === 0) {
           newErrors.Phone_number = "Phone Number is required";
         } else if (formData.Phone_number.length !== 12)
@@ -412,7 +412,7 @@ const LayoutJoin = () => {
 
   const navigate = useNavigate();
   const [isSubmit, setisSubmit] = useState(true);
-  console.log("hh", activeStep, usertype)
+  // console.log("hh", activeStep, usertype)
 
   const handleNext = () => {
     if (activeStep === 0) validatePassword(formData.password);
@@ -483,14 +483,14 @@ const LayoutJoin = () => {
 
 
   const handleusertypechange = (value) => {
-    console.log("value", value)
+   
     setusertype(value);
     if (activeStep === 1) {
       validateStep(activeStep);
     }
   };
-  console.log(usertype);
-  console.log(errors);
+  // console.log(usertype);
+  // console.log(errors);
   const excludedStates = [
     "AMERICAN SAMOA",
     "GUAM",

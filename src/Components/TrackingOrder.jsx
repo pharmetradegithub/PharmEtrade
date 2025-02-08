@@ -115,7 +115,7 @@ import { TrackNumberApi } from "../Api/TrackApi";
 import { fetchGetAddressByIdApi } from "../Api/CheckoutApi";
 const TrackingOrder = () => {
   const [orderProceed, setOrderProceed] = useState([]);
-  const trackdata = useSelector((state) => state.trackNumber.trackNumber);
+  const trackdata = useSelector((state) => state.trackNumber?.trackNumber || []);
   const dispatch = useDispatch();
   const searchParams = new URLSearchParams(location.search);
   const trackingId = searchParams.get("trackingId");

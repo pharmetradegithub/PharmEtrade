@@ -1023,7 +1023,7 @@ const LayoutRelatedProducts = () => {
     productName: "",
   });
 
-  const components = useSelector((state) => state.master.productCategoryGetAll);
+  const components = useSelector((state) => state.master?.productCategoryGetAll || []);
   const [buttonClick, setButtonClick] = useState(false);
   const [ButtonUpClick, setButtonUpClick] = useState(false);
   const [isButtonClicked, setButtonClicked] = useState(false);
@@ -1031,20 +1031,20 @@ const LayoutRelatedProducts = () => {
   const [isRelatedFiltervisible, setIsRelatedFiltervisible] = useState(false);
   const [isCrossSellFiltervisible, setCrossSellFilterVisible] = useState(false);
   const [product, setproduct] = useState(null);
-  const productDetails = useSelector((state) => state.product.Products);
+  const productDetails = useSelector((state) => state.product?.Products || []);
 
   const categorySpecificationGetAll = useSelector(
-    (state) => state.master.setCategorySpecificationsGetAll
+    (state) => state.master?.setCategorySpecificationsGetAll || []
   );
 
   const productsByCriteria = useSelector(
-    (state) => state.product.productsByCriteria
+    (state) => state.product?.productsByCriteria || []
   );
 
-  const relatedProducts = useSelector((state) => state.product.RelatedProducts);
-  const UpSellProducts = useSelector((state) => state.product.UpSellProducts);
+  const relatedProducts = useSelector((state) => state.product?.RelatedProducts || []);
+  const UpSellProducts = useSelector((state) => state.product?.UpSellProducts || []);
   const CrossSellProducts = useSelector(
-    (state) => state.product.CrossSellProducts
+    (state) => state.product?.CrossSellProducts || []
   );
 
   const [loading, setloading] = useState(true);
@@ -1107,7 +1107,7 @@ const LayoutRelatedProducts = () => {
     const productId = localStorage.getItem("productId");
     const searchParams = new URLSearchParams(location.search);
     const queryProductId = searchParams.get("productId");
-    console.log(productId, toproductID, index);
+  
     try {
       if (index == 1) {
         await AddRelatedProductAPI(
@@ -1148,7 +1148,7 @@ const LayoutRelatedProducts = () => {
     const productId = localStorage.getItem("productId");
     const searchParams = new URLSearchParams(location.search);
     const queryProductId = searchParams.get("productId");
-    console.log(productId, toproductID, index);
+    
     try {
       if (index == 1) {
         await RemoveRelatedProductAPI(
@@ -1182,7 +1182,7 @@ const LayoutRelatedProducts = () => {
   const sellerId = localStorage.getItem("userId");
 
   const productsbySeller = useSelector(
-    (state) => state.product.productsBySeller[sellerId]
+    (state) => state.product?.productsBySeller[sellerId] || []
   );
 
   const [prodct, setProducts] = useState(productsbySeller);
@@ -1352,7 +1352,7 @@ const LayoutRelatedProducts = () => {
       [name]: value,
     });
   };
-  console.log(formData);
+
   // Placeholder for reset functionality
   const handleReset = () => {
     setFormData({

@@ -35,9 +35,9 @@ const OtcProducts = () => {
   };
   const { pop, setPop } = useNavbarContext();
   const navigate = useNavigate()
-  const OTCProducts = useSelector((state) => state.product.otcProducts);
-  const user = useSelector((state) => state.user.user);
-  const wishlist = useSelector((state) => state.wishlist.wishlist);
+  const OTCProducts = useSelector((state) => state.product?.otcProducts || []);
+  const user = useSelector((state) => state.user?.user || []);
+  const wishlist = useSelector((state) => state.wishlist?.wishlist || []);
   const [wishlistProductIDs, setwishlistProductIDs] = useState(
     wishlist.map((wishItem) => wishItem.product.productID)
   );
