@@ -87,10 +87,8 @@ export const productAdminGetAllApi = () => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`/api/Product/Admin/GetAll`);
-      console.log("-==--=-", response)
       if (response.status === 200) {
         const getAdminGetAll = response.data.result;
-        console.log('Dispatching get  SpecialOffer action:', getAdminGetAll); // Log before dispatch
         dispatch(setAdminProducts(getAdminGetAll)); // Dispatch action
         return getAdminGetAll
       } else {
@@ -109,7 +107,7 @@ export const AddRelatedProductAPI = async (productId, relatedProductId) => {
     );
 
     if (response.status === 200) {
-      console.log("hey");
+      // console.log("hey");
       return;
     } else {
       console.error('Failed to add related product:', response.data.message);
@@ -186,7 +184,7 @@ export const fetchCriteriaProductsApi = async (data, name, isProductIds = false)
       if (isProductIds == true) {
         return response.data.result;
       }
-      console.log(response.data.result, "FetchCreteria")
+      // console.log(response.data.result, "FetchCreteria")
       const cartItems = store.getState().cart.cart;
       const cartItemsMap = new Map(cartItems.map(item => [item.product.productID, item.quantity]));
       const products = response.data.result.map(product => ({
@@ -223,7 +221,7 @@ export const fetchRelatedProductApi = async (productID) => {
       const relatedProduct = response.data.result;
       store.dispatch({ type: 'product/setRelatedProduct', payload: relatedProduct == null ? [] : relatedProduct });
 
-      console.log(relatedProduct);
+      // console.log(relatedProduct);
       return relatedProduct; // Return the related product data
     } else {
       console.error('Failed to fetch product by ID:', response.data.message);
@@ -242,7 +240,7 @@ export const fetchUpsellProductApi = async (productID) => {
       const upsellProducts = response.data.result;
       store.dispatch({ type: 'product/setUpSellProduct', payload: upsellProducts == null ? [] : upsellProducts });
 
-      console.log(upsellProducts);
+      // console.log(upsellProducts);
       return upsellProducts; // Return the upsell products data
     } else {
       console.error('Failed to fetch upsell products:', response.data.message);
@@ -261,7 +259,7 @@ export const fetchCrossSellProductApi = async (productID) => {
       const crossSellProducts = response.data.result;
       store.dispatch({ type: 'product/setCrossSellProduct', payload: crossSellProducts == null ? [] : crossSellProducts });
 
-      console.log(crossSellProducts);
+      // console.log(crossSellProducts);
       return crossSellProducts; // Return the cross-sell products data
     } else {
       console.error('Failed to fetch cross-sell products:', response.data.message);
@@ -279,7 +277,6 @@ export const fetchGetProductOffer = (categorySpecificationId) => {
       const response = await axios.get(`/api/Product/GetProductOffers?specificationId=${categorySpecificationId}`);
       if (response.status === 200) {
         const specialOffer = response.data.result;
-        console.log('Dispatching get  SpecialOffer action:', specialOffer); // Log before dispatch
         dispatch(setGetProductSpecialOffer(specialOffer)); // Dispatch action
       } else {
         console.error('Failed to fetch Special Offer:', response.data.message);
@@ -296,7 +293,6 @@ export const fetchDeactiveProduct = (productID) => {
       const response = await axios.post(`/api/Product/DeActivateProduct?productId=${productID}`);
       if (response.status === 200) {
         const deactiveProduct = response.data.result;
-        console.log('Dispatching Deactive Product action:', deactiveProduct); // Log before dispatch
         dispatch(setDeactiveProduct(deactiveProduct)); // Dispatch action
       } else {
         console.error('Failed to fetch Deactive Product:', response.data.message);
@@ -313,7 +309,6 @@ export const fetchActivateProduct = (productID) => {
       const response = await axios.post(`/api/Product/ActivateProduct?productId=${productID}`);
       if (response.status === 200) {
         const activeProduct = response.data.result;
-        console.log('Dispatching Active Product action:', activeProduct); // Log before dispatch
         dispatch(setActiveProduct(activeProduct)); // Dispatch action
       } else {
         console.error('Failed to fetch Active Product:', response.data.message);
@@ -371,10 +366,8 @@ export const fetchProductOffer = () => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`/api/Product/SpecialOffers`);
-      console.log('API response:', response.data); // Log API response
       if (response.status === 200) {
         const specialOffer = response.data.result;
-        console.log('Dispatching set Special Offer action:', specialOffer); // Log before dispatch
         dispatch(setSpecialOffer(specialOffer)); // Dispatch action
       } else {
         console.error('Failed to fetch special offer Product:', response.data.message);
@@ -389,10 +382,8 @@ export const fetchOfferGetAll = () => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`/api/Offers/GetAll`);
-      console.log('API response:', response.data); // Log API response
       if (response.status === 200) {
         const specialOffer = response.data.result;
-        console.log('Dispatching set Special Offer action:', specialOffer); // Log before dispatch
         dispatch(setOfferGetLanding(specialOffer)); // Dispatch action
       } else {
         console.error('Failed to fetch special offer Product:', response.data.message);
@@ -433,7 +424,6 @@ export const fetchProductsBySellerApi = async (sellerId) => {
   try {
     const response = await axios.get(`/api/Product/GetBySeller?sellerId=${sellerId}`);
     if (response.status === 200) {
-      console.log(response);
       store.dispatch({ type: SET_PRODUCTS_BY_SELLER, payload: { sellerId, products: response.data.result } });
       return response.data.result;
     } else {
@@ -461,7 +451,7 @@ export const uploadImageApi = async (sellerId, productId, file) => {
   try {
     const imgData = new FormData();
     imgData.append('image', file);
-    console.log(sellerId, productId);
+    // console.log(sellerId, productId);
     const response = await axios.post(`/api/Product/Image/Upload?sellerId=${sellerId}&productId=${productId}`, imgData, {
       headers: {
         'Content-Type': 'multipart/form-data',

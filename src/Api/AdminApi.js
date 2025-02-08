@@ -50,7 +50,6 @@ export const fetchAdminLogin = (userId) => {
 export const AdminChargesInformationAdd = async (payload) => {
   try {
     const response = await axios.post('/api/Admin/charges/Add', payload)
-    console.log("changing-->", response)
     if (response.status === 200) {
       return response.data.result;
     } else {
@@ -96,7 +95,6 @@ export const AdminChargesGetApi = (customerId) => {
 // export const fetchAdminProductsApis = async () => {
 //   try {
 //     const response = await axios.get('/api/Product/Admin/GetAll');
-//     console.log("dmingetll", response)
 //     if (response.status === 200) {
 //       store.dispatch({ type: SET_ADMIN_PRODUCTS, payload: response.data.result });
 //     } else {
@@ -111,7 +109,6 @@ export const AdminChargesGetApi = (customerId) => {
 export const fetchAdminProductsApis = async () => {
     try {
       const response = await axios.get('/api/Product/Admin/GetAll');
-      console.log("dmingetll", response)
       if (response.status === 200) {
         return response.data.result
       } else {

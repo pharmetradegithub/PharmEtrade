@@ -42,7 +42,7 @@ function AdminSidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isDashboardDropdownOpen, setIsDashboardDropdownOpen] = useState(false);
   const [isBannerDropdownOpen, setIsBannerDropdownOpen] = useState(false);
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
 
 
 

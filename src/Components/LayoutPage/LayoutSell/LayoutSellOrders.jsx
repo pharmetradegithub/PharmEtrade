@@ -852,17 +852,17 @@ import Loading from "../../Loading";
 
 function LayoutSellOrders() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
   const [searchQuery, setSearchQuery] = useState("");
-  const SellerOrder = useSelector((state) => state.order.OrderBySellerId);
+  const SellerOrder = useSelector((state) => state.order?.OrderBySellerId || []);
 
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
-  const ordered = useSelector((state) => state.order.sellerOrderview);
+  const ordered = useSelector((state) => state.order?.sellerOrderview || []);
   // const [loading, setLoading] = useState(false)
 
   const orderStatusGetAll = useSelector(
-    (state) => state.master.orderStatusGetAll
+    (state) => state.master?.orderStatusGetAll || []
   );
 
   const filterStatus = orderStatusGetAll.filter((order) => ![2, 4, 7].includes(order.statusId))

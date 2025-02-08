@@ -192,11 +192,11 @@ const Offers = ({ topMargin, addCart, wishList }) => {
   const [favoriteItems, setFavoriteItems] = useState({});
   const [currentItems, setCurrentItems] = useState([]);
   
-  const productOffer = useSelector((state) => state.product.getProductSpecialOffer);
+  const productOffer = useSelector((state) => state.product?.getProductSpecialOffer || []);
   // const carts = useSelector((state) => state.cart.cart);
   // const wishlist = useSelector((state) => state.wishlist.wishlist);
-  const user = useSelector((state) => state.user.user);
-  const wishlist = useSelector((state) => state.wishlist.wishlist);
+  const user = useSelector((state) => state.user?.user || []);
+  const wishlist = useSelector((state) => state.wishlist?.wishlist || []);
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
   //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {

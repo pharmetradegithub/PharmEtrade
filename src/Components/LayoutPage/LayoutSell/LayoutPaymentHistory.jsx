@@ -17,9 +17,9 @@ function LayoutPaymentHistory() {
   const [currentPage, setCurrentPage] = useState(1);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedFormat, setSelectedFormat] = useState("csv");
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
   const paymentHistory = useSelector(
-    (state) => state.dashboard.getPaymentHistory
+    (state) => state.dashboard?.getPaymentHistory || []
   );
     const [loading, setLoading] = useState(true);
   
@@ -123,7 +123,7 @@ function LayoutPaymentHistory() {
       sortedData.sort((a, b) => {
         const aValue = a[sortConfig.key];
         const bValue = b[sortConfig.key];
-        console.log('Comparing:', aValue, bValue); // Log values being compared
+      
 
         if (aValue === bValue) return 0;
 

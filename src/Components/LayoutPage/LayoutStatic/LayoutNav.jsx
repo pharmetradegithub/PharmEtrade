@@ -21,7 +21,7 @@ const LayoutNav = ({ Form_Data }) => {
   const [isButtonFocused, setIsButtonFocused] = useState(false);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [activePopUp, setActivePopUp] = useState(null); // State for active popup
-  const cartItems = useSelector((state) => state.cart.cart);
+  const cartItems = useSelector((state) => state.cart?.cart || []);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
@@ -139,7 +139,7 @@ const LayoutNav = ({ Form_Data }) => {
     navigate(`/layout/layoutCategoryProducts?CategoryName=${selectedItemId}`);
     setSearchInput("");
   };
-  const components = useSelector((state) => state.master.productCategoryGetAll);
+  const components = useSelector((state) => state.master?.productCategoryGetAll || []);
 
   const modifiedComponents = [
     { productCategoryId: -1, categoryName: "All" },
@@ -165,7 +165,7 @@ const LayoutNav = ({ Form_Data }) => {
   //   { image: sell, text: "SELL" },
   // ];
 
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
   const [errorMessage, setErrorMessage] = useState("");
   const handleItemclick = (item) => {
     // Check if user is of customerTypeId 4 and tries to click on "SELL"

@@ -17,21 +17,21 @@ import { fetchGetOrderByCustomerIdPage, fetchGetOrderBySellerId, fetchSellerGetA
 const LayoutSellerDashboard = () => {
   const navigate = useNavigate(); // Initialize useNavigate hook
 
-  const user = useSelector((state) => state.user.user);
-  console.log("layoutDash-->", user);
-  const sellerId = useSelector((state) => state.dashboard.getSellerId);
-  console.log("sellerId--->", sellerId);
+  const user = useSelector((state) => state.user?.user || []);
+ 
+  const sellerId = useSelector((state) => state.dashboard?.getSellerId || []);
+ 
   const dispatch = useDispatch();
   const [isGridOpen, setIsGridOpen] = useState(false);
   const [isPercentageShown, setIsPercentageShown] = useState(false);
-  const sellerDashboard = useSelector((state) => state.dashboard.getSellerId)||[];
-  console.log("sellerdash-->", sellerDashboard);
+  const sellerDashboard = useSelector((state) => state.dashboard?.getSellerId || []);
+ 
   // const navigate = useNavigate();
 
   // Handle Latest button click to show percentage or close the grid
-  const products = useSelector((state) => state.product.Products);
+  const products = useSelector((state) => state.product?.Products || []);
   const handleClick = () => {
-    console.log("dashboardLayout-->", products);
+ 
     if (isGridOpen) {
       // If grid is open, close it
       setIsGridOpen(false);
@@ -57,13 +57,13 @@ const LayoutSellerDashboard = () => {
   };
 
   const totalProduct = useSelector(
-    (state) => state.dashboard.getTotalProductDashboard
+    (state) => state.dashboard?.getTotalProductDashboard || []
   );
-  console.log("totaldash-->", totalProduct);
+  
   const customerOrdered = useSelector(
-    (state) => state.dashboard.getCustomerOrder
+    (state) => state.dashboard?.getCustomerOrder || []
   );
-  console.log("getCustomerOrder-->", customerOrdered);
+ 
 
   const [visibleGrid, setVisibleGrid] = useState(null); // To track which grid is visible
 
@@ -163,7 +163,7 @@ const LayoutSellerDashboard = () => {
   };
 
   useEffect(() => {
-    console.log(user, "uerr--->");
+    
        dispatch(fetchTotalProductDashboard(user?.customerId));
        dispatch(fetchCustomerOrered(user?.customerId));
        dispatch(fetchSellerGetAll(user?.customerId));

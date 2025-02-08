@@ -15,14 +15,14 @@ const ProccedtoShipment = ({
   setTotalNetCharges,
   productId
 }) => {
-  const fedexRate = useSelector((state) => state.trackNumber.fedExRates);
-  const serviceName = useSelector((state) => state.trackNumber.serviceType);
-  const cartList = useSelector((state) => state.cart.cart);
+  const fedexRate = useSelector((state) => state.trackNumber?.fedExRates || []);
+  const serviceName = useSelector((state) => state.trackNumber?.serviceType || []);
+  const cartList = useSelector((state) => state.cart?.cart || []);
   // const [cartItems, setcartItems] = useState(cartList);
   const [amount, setAmount] = useState(200);
   const dispatch = useDispatch();
-  const businessInfo = useSelector((state) => state.user.businessInfo);
-  const orderPlace = useSelector((state) => state.order.orderPlace);
+  const businessInfo = useSelector((state) => state.user?.businessInfo || []);
+  const orderPlace = useSelector((state) => state.order?.orderPlace || []);
   
 
   const navigate = useNavigate()
@@ -123,7 +123,7 @@ const ProccedtoShipment = ({
     return acc;
   }, {});
 
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
 
 
 

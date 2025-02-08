@@ -221,8 +221,8 @@ import { fetchFedExAddApi, fetchFedexEditApi, fetchGetFedex } from '../../../Api
 
 function LayoutFedexshipping() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.user);
-  const getshipingDetails = useSelector((state) => state.fedex.getFedex);
+  const user = useSelector((state) => state.user?.user || []);
+  const getshipingDetails = useSelector((state) => state.fedex?.getFedex || []);
   const [notification, setNotification] = useState({
     show: false,
     message: "",

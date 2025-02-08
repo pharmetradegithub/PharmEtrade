@@ -3,7 +3,7 @@ import view from '../../../assets/Icons/eye_view.png'
 import { Tooltip } from '@mui/material';
 import { useSelector } from 'react-redux';
 const LayoutSellerProductOrderd = () => {
-    const orderProduct = useSelector((state) => state.dashboard.getSellerGetAll)
+    const orderProduct = useSelector((state) => state.dashboard?.getSellerGetAll || [])
 
     const products = [
         {

@@ -37,7 +37,7 @@ import { useNavigate } from "react-router-dom";
 import { handleBlur, handleFocus } from "../../../Helpers/helper";
 
 function EditProductAdmin() {
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
 
   const products = [
     {
@@ -83,8 +83,8 @@ function EditProductAdmin() {
   }, []);
 
   const categorySpecificationGetAll = useSelector(
-    (state) => state.master.setCategorySpecificationsGetAll
-  );
+    (state) => state.master?.setCategorySpecificationsGetAll || []
+  ) || [];
 
 
   const dispatch = useDispatch();
@@ -99,7 +99,7 @@ function EditProductAdmin() {
   const [activeTab, setActiveTab] = useState(0);
   const [images, setImages] = useState([]);
   const [error, setError] = useState("");
-  const components = useSelector((state) => state.master.productCategoryGetAll);
+  const components = useSelector((state) => state.master?.productCategoryGetAll || []);
 
   const [notification, setNotification] = useState({
     show: false,

@@ -19,8 +19,8 @@ function LayoutCustomers() {
   const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useDispatch();
   // const sellCustomer = useSelector((state) => state.dashboard.sellCustomer);
-  const user = useSelector((state) => state.user.user);
-  const SellerOrder = useSelector((state) => state.dashboard.sellCustomer);
+  const user = useSelector((state) => state.user?.user || []);
+  const SellerOrder = useSelector((state) => state.dashboard?.sellCustomer || []);
 
 
   // useEffect(() => {

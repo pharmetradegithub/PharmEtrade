@@ -61,13 +61,13 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
     message: "",
   });
   const navigate = useNavigate();
-  const products = useSelector((state) => state.product.Products);
-  const Heading = useSelector((state) => state.product.Heading);
-  const user = useSelector((state) => state.user.user);
-  const wishlist = useSelector((state) => state.wishlist.wishlist);
+  const products = useSelector((state) => state.product?.Products || [] );
+  const Heading = useSelector((state) => state.product?.Heading || [] );
+  const user = useSelector((state) => state.user?.user || [] );
+  const wishlist = useSelector((state) => state.wishlist?.wishlist || [] );
   const productCriteria = useSelector(
     (state) => state.product.productsByCriteria
-  );
+   || [] );
 
   const [wishlistProductIDs, setWishlistProductIDs] = useState([]);
   const [filterSearch, setFilterSearch] = useState();

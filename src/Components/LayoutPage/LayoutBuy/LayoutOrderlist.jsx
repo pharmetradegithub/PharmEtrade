@@ -50,11 +50,11 @@ function LayoutOrderList() {
   const [searchResults, setSearchResults] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   // const localData = localStorage.getItem("userId")
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
 
   const [loading, setLoading] = useState(false)
   const [getOrder, setGetOrder] = useState(null);
-  const ordered = useSelector((state) => state.order.orderView);
+  const ordered = useSelector((state) => state.order?.orderView || []);
 
   const dispatch = useDispatch();
   const [modal, setModal] = useState(false);

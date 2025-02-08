@@ -38,7 +38,7 @@ import { handleBlur, handleFocus } from "../../../Helpers/helper";
 import { TaxGetByStateNameApi } from "../../../Api/TaxInfoApi";
 
 function LayoutaddProduct() {
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
 
   const products = [
     {
@@ -84,7 +84,7 @@ function LayoutaddProduct() {
   }, []);
 
   const categorySpecificationGetAll = useSelector(
-    (state) => state.master.setCategorySpecificationsGetAll
+    (state) => state.master?.setCategorySpecificationsGetAll || []
   );
  
 
@@ -100,7 +100,7 @@ function LayoutaddProduct() {
   const [activeTab, setActiveTab] = useState(0);
   const [images, setImages] = useState([]);
   const [error, setError] = useState("");
-  const components = useSelector((state) => state.master.productCategoryGetAll);
+  const components = useSelector((state) => state.master?.productCategoryGetAll || []);
 
   const [notification, setNotification] = useState({
     show: false,
@@ -432,7 +432,7 @@ function LayoutaddProduct() {
   //   setVideoPreviews(previews);
   //   setFormData({ ...formData, ["videoUrl"]: files[0] });
   // };
-  const stateNameData = useSelector((state) => state.tax.stateName);
+  const stateNameData = useSelector((state) => state.tax?.stateName || []);
 
   const [alertPopup, setAlertPopup] = useState(false)
   // useEffect(() => {
@@ -600,12 +600,12 @@ function LayoutaddProduct() {
   const [firstValidation, setfirstValidation] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [triggerValidation, settriggerValidation] = useState(0);
-  console.log(formData);
+ 
   const handleInputChange = (e) => {
     const { name, value, type, options, id } = e.target;
-    console.log(name, value, type, options, id);
+   
     if (name === "discount") {
-      console.log(name, type);
+      
       if (name == "discount") {
         if (/^\d{0,2}$/.test(value)) {
           setFormData({
@@ -762,7 +762,7 @@ function LayoutaddProduct() {
     else if (name === "price") {
       // Limit price to 2 decimal places
       const roundedValue = parseFloat(value).toFixed(2);
-      console.log(formData.discount, "dis")
+      
       setFormData({
         ...formData,
         [name]: value === "" ? "" : value,
@@ -806,7 +806,7 @@ function LayoutaddProduct() {
     setfirstValidation(false);
   }, [activeTab]);
 
-  console.log(firstValidation, formErrors);
+  
   const [selectedValue, setSelectedValue] = React.useState("");
 
   const handleChange = (e) => {
@@ -984,7 +984,7 @@ function LayoutaddProduct() {
           ? formData.amountInStock
           : formData.maxOrderQuantity,
     };
-    console.log(tab2);
+    // console.log(tab2);
     if (formData.discount == null || formData.discount == "")
       setFormData({ ...formData, ["discount"]: 0 });
     // const tab4 = {
@@ -1029,7 +1029,7 @@ function LayoutaddProduct() {
           setActiveTab(1); // Move to the next tab
         }, 3000);
       } else if (activeTab == 1) {
-        console.log(tab2);
+        // console.log(tab2);
         const response = await AddProductPriceApi(tab2, user.customerId);
         localStorage.setItem("productPriceId", response);
         setFormErrors({});
@@ -1057,7 +1057,7 @@ function LayoutaddProduct() {
           setActiveTab(3);
         }, 3000);
       } else if (activeTab == 3) {
-        console.log(tab4);
+        // console.log(tab4);
 
         const response = await AddProductGallery(tab4, user.customerId);
         localStorage.setItem("productGalleryId", response);

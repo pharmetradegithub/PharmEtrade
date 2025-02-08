@@ -236,7 +236,7 @@ const LayoutAddBulkProduct = () => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
   const [uploadStatus, setUploadStatus] = useState("");
-  const user = useSelector((state) => state.user.user)
+  const user = useSelector((state) => state.user?.user || [])
 
   const onDrop = (acceptedFiles) => {
     const selectedFile = acceptedFiles[0];
@@ -273,10 +273,10 @@ const LayoutAddBulkProduct = () => {
   
         if (response.status === 200) {
           setUploadStatus("File uploaded successfully!");
-          console.log("Response data:", response.data);
+          // console.log("Response data:", response.data);
         } else {
           setUploadStatus("File upload failed. Please try again.");
-          console.error("Upload failed:", response.data.message);
+          // console.error("Upload failed:", response.data.message);
         }
       } catch (error) {
         setUploadStatus("Error occurred during upload.");
@@ -289,8 +289,8 @@ const LayoutAddBulkProduct = () => {
   
   const dispatch = useDispatch()
 
-  const stateNameData = useSelector((state) => state.tax.stateName);
-    console.log("satemeem", stateNameData)
+  const stateNameData = useSelector((state) => state.tax?.stateName || []);
+
   const [alertPopup, setAlertPopup] = useState(false)
     useEffect(() => {
       const data = async () => {

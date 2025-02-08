@@ -42,7 +42,7 @@ const EditSellerList = () => {
   const CustomerId = searchParams.get("CustomerId");
   const [userdata, setuserdata] = useState(null);
   const [businessInfo, setbusinessInfo] = useState(null);
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
   const [isRefresh, setisRefresh] = useState(0);
 
   const [notification, setNotification] = useState({
@@ -1363,7 +1363,7 @@ const EditSellerList = () => {
     }
   };
   const dispatch = useDispatch();
-  const comment = useSelector((state) => state.comment.comments);
+  const comment = useSelector((state) => state.comment?.comments || []);
   const fetchCharges = async () => {
     try {
       const res = await dispatch(AdminChargesGetApi(CustomerId));
@@ -1371,7 +1371,7 @@ const EditSellerList = () => {
       console.error("Error fetching charges:", error);
     }
   };
-  const GetCharges = useSelector((state) => state.charges.getCharges);
+  const GetCharges = useSelector((state) => state.charges?.getCharges || []);
   useEffect(() => {
     if (CustomerId) fetchCharges();
   }, [CustomerId]);

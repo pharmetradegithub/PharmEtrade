@@ -549,7 +549,7 @@ const ChargesInformations = () => {
   const searchParams = new URLSearchParams(location.search);
   const CustomerId = searchParams.get("CustomerId");
   const getproductSpecialOffer = useSelector(
-    (state) => state.product.productSpecialOffer
+    (state) => state.product?.productSpecialOffer || []
   );
   const [category, setCategory] = useState(''); // Initialize as an empty string for selected category
   const [taxPercentage, setTaxPercentage] = useState("");
@@ -562,7 +562,7 @@ const ChargesInformations = () => {
     show: false,
     message: "",
   });
-  const businessInfo = useSelector((state) => state.user.businessInfo);
+  const businessInfo = useSelector((state) => state.user?.businessInfo || []);
   const dispatch = useDispatch();
 //   const stateNameData = useSelector((state) => state.tax.stateName);
 
@@ -717,7 +717,7 @@ const ChargesInformations = () => {
   //     console.error("Error fetching charges:", error);
   //   }
   // };
-  const GetCharges = useSelector((state) => state.charges.getCharges);
+  const GetCharges = useSelector((state) => state.charges?.getCharges || []);
 
   const [getCharge, setGetCharge] = useState([]);
 

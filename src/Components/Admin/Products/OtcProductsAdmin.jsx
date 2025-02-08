@@ -46,10 +46,10 @@ import Loading from "../../Loading";
 import searchImg from "../../../assets/search-icon.png";
 
 const OtcProductsAdmin = () => {
-  const products = useSelector((state) => state.product.otcProducts);
+  const products = useSelector((state) => state.product?.otcProducts || []);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
   
 
 

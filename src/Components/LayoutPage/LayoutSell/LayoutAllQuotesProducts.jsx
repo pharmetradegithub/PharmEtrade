@@ -24,7 +24,7 @@ const LayoutAllQuotesProducts = () => {
     show: false,
     message: "",
   });
-  const bidQuotedProduct = useSelector((state) => state.bid.bidQuotedProduct);
+  const bidQuotedProduct = useSelector((state) => state.bid?.bidQuotedProduct || []);
   const dispatch = useDispatch();
 
 
@@ -95,7 +95,7 @@ const LayoutAllQuotesProducts = () => {
     }
   }, [currentPage, bidQuotedProduct, sortConfig]);
 
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
   const [openDialog, setOpenDialog] = useState(false);
  
   const handleSort = (key) => {

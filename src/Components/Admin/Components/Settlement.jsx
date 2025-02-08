@@ -27,7 +27,7 @@ function Settlement() {
     accountNumber: "",
     transactionId: "",
   });
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
   // const [payableTo, setPayableTo] = useState('');
   const [bankName, setBankName] = useState("");
   const [paymentDate, setPaymentDate] = useState("");

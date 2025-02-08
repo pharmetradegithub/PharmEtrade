@@ -417,7 +417,7 @@ import Pagination from '../../Pagination';
 const TaxInformation = () => {
   // const getproductSpecialOffer = useSelector((state) => state.product.productSpecialOffer);
   const getproductSpecialOffer = useSelector(
-    (state) => state.master.setCategorySpecificationsGetAll
+    (state) => state.master?.setCategorySpecificationsGetAll || []
   );
   const [category, setCategory] = useState(null); // Initialize as an empty string for selected category
   const [taxPercentage, setTaxPercentage] = useState('');
@@ -429,11 +429,11 @@ const TaxInformation = () => {
     show: false,
     message: "",
   });
-  const businessInfo = useSelector((state) => state.user.businessInfo);
+  const businessInfo = useSelector((state) => state.user?.businessInfo || []);
   const [loading, setLoading] = useState(false)
-  const user = useSelector((state)=>state.user.user)
+  const user = useSelector((state) => state.user?.user || [])
   const dispatch = useDispatch();
-  const stateNameData = useSelector((state) => state.tax.stateName);
+  const stateNameData = useSelector((state) => state.tax?.stateName || []);
 
  
   const [editingEntry, setEditingEntry] = useState({}); // Store current entry being edited
@@ -577,7 +577,7 @@ const TaxInformation = () => {
   const [CallHistory, setCallHistory] = useState(0);
   const handleAddOrSave = async () => {
     if (validate()) {
-      console.log("Form is valid:", formData);
+      console.log("Form is valid:");
     } else {
       console.log("Form has errors:", errors);
       return; // Stop execution if form validation fails

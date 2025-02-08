@@ -109,10 +109,10 @@ function ProductSideBar({ handleChange }) {
   //   brands: false,
   //   packing: false,
   // });
-  const components = useSelector((state) => state.master.productCategoryGetAll)
+  const components = useSelector((state) => state.master?.productCategoryGetAll || [])
   const productCriteria = useSelector(
-    (state) => state.product.productsByCriteria
-  );
+    (state) => state.product?.productsByCriteria
+   || []);
   const location = useLocation();
   const [categoryName, setCategoryName] = useState("");
 

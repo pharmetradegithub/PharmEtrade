@@ -7,8 +7,8 @@ import { useSelector } from 'react-redux';
 import LayoutOrderList from '../LayoutBuy/LayoutOrderlist';
 const LayoutDashboard = () => {
   const [visibleGrid, setVisibleGrid] = useState(null); // To track which grid is visible
-  const customerList = useSelector((state) => state.dashboard.getCustomerId)
-  console.log("customerList-->", customerList)
+  const customerList = useSelector((state) => state.dashboard?.getCustomerId || [])
+  
 
   const toggleGrid = (grid) => {
     setVisibleGrid((prev) => (prev === grid ? null : grid)); // Toggle the grid visibility

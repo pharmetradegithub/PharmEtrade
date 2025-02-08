@@ -80,9 +80,9 @@ function Items({
 }) {
   const { id } = useParams();
 
-  const user = useSelector((state) => state.user.user);
-  const wishlist = useSelector((state) => state.wishlist.wishlist);
-  const cartList = useSelector((state) => state.cart.cart);
+  const user = useSelector((state) => state.user?.user || []);
+  const wishlist = useSelector((state) => state.wishlist?.wishlist || []);
+  const cartList = useSelector((state) => state.cart?.cart || []);
   const findQuantityByProductId = () => {
     const product = cartList.find((item) => item.product.productID === id);
     return product ? product.quantity : 0; 
@@ -91,7 +91,7 @@ function Items({
   const [productLink, setProductLink] = useState("");
   const [currentProductID, setCurrentProductID] = useState("");
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
-  const addOrder = useSelector((state) => state.order.getOrder);
+  const addOrder = useSelector((state) => state.order?.getOrder || []);
   const dispatch = useDispatch();
 
   const getWishlistIdByProductID = (productID) => {
@@ -127,14 +127,14 @@ function Items({
     show: false,
     message: "",
   });
-  const newProducts = useSelector((state) => state.product.recentSoldProducts);
+  const newProducts = useSelector((state) => state.product?.recentSoldProducts || []);
 
-  const RelatedProducts = useSelector((state) => state.product.RelatedProducts);
+  const RelatedProducts = useSelector((state) => state.product?.RelatedProducts || []);
 
-  const upsellProducts = useSelector((state) => state.product.UpSellProducts);
+  const upsellProducts = useSelector((state) => state.product?.UpSellProducts || []);
 
   const crossSellProducts = useSelector(
-    (state) => state.product.CrossSellProducts
+    (state) => state.product?.CrossSellProducts || []
   );
   const [quantity, setQuantity] = useState(prod?.minOrderQuantity);
 
@@ -208,11 +208,11 @@ function Items({
     const existingCartItem = cartList.find(
       (item) => item.product.productID === id
     );
-    console.log(
-      "unna ra babu ",
-      existingCartItem,
-      Math.min(prod.maxOrderQuantity, prod.amountInStock)
-    );
+    // console.log(
+    //   "unna ra babu ",
+    //   existingCartItem,
+    //   Math.min(prod.maxOrderQuantity, prod.amountInStock)
+    // );
     if (
       existingCartItem != null &&
       existingCartItem.quantity + quantity >

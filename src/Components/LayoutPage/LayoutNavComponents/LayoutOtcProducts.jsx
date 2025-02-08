@@ -51,11 +51,11 @@ function LayoutOtcProducts({
     show: false,
     message: "",
   });
-  const user = useSelector((state) => state.user.user);
-  const cart = useSelector((state) => state.cart.cart);
-  const wishlist = useSelector((state) => state.wishlist.wishlist);
+  const user = useSelector((state) => state.user?.user || []);
+  const cart = useSelector((state) => state.cart?.cart || []);
+  const wishlist = useSelector((state) => state.wishlist?.wishlist || []);
 
-  console.log("cart--->", cart);
+ 
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
   //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
@@ -112,7 +112,7 @@ function LayoutOtcProducts({
     setproductList(sortedProducts); // Update the product list with sorted products
   };
 
-  console.log("layoutproduct-->", productList);
+  
   useEffect(() => {
     if (products) {
       const updatedProducts = products.map((product) => ({
@@ -333,7 +333,7 @@ function LayoutOtcProducts({
     }));
   };
 
-  console.log("searching:", location.href);
+  // console.log("searching:", location.href);
   // console.log("productlink", productURL);
 
   return (

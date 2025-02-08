@@ -176,10 +176,10 @@ const LayoutBuyerCancelledgrid = () => {
     const [error, setError] = useState(null);
 
       const [loading, setLoading] = useState(false)
-    const getOrders = useSelector((state) => state.order.getOrder);
+    const getOrders = useSelector((state) => state.order?.getOrder || []);
     const [Buyergrids, setBuyerGrids] = useState([]);
-    const user = useSelector((state) => state.user.user)
-    console.log("Cancelled", Buyergrids);
+    const user = useSelector((state) => state.user?.user || [])
+    
 
 
     useEffect(() => {
@@ -192,7 +192,7 @@ const LayoutBuyerCancelledgrid = () => {
                     .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
 
                 setBuyerGrids(filteredOrders); // Update state with filtered orders
-                console.log("response", filteredOrders)
+               
                 setCurrentPage(1); // Reset to the first page if needed
                 setLoading(false)
             } catch (error) {
@@ -204,7 +204,7 @@ const LayoutBuyerCancelledgrid = () => {
         fetchOrders();
     }, [getOrders]);
 
-    console.log("Cancelled Orders", Buyergrids);
+   
 
 
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -230,7 +230,7 @@ const LayoutBuyerCancelledgrid = () => {
         navigate(`/detailspage/${productId}`);
     };
 
-    console.log("currentItems", currentItems)
+   
 
     return (
         <div className='w-full h-[80vh] mt-4 overflow-y-auto'>

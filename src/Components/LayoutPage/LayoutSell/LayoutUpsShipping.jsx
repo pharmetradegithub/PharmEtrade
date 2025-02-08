@@ -223,9 +223,9 @@ function LayoutUpsShipping() {
     show: false,
     message: "",
   });
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
   const dispatch = useDispatch();
-  const getshipingDetails = useSelector((state) => state.shipment.getShipment);
+  const getshipingDetails = useSelector((state) => state.shipment?.getShipment || []);
 
 
   const [message, setMessage] = useState('');

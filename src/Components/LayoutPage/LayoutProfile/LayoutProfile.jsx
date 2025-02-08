@@ -22,8 +22,8 @@ import Chargesinformation from "./ChargesInformation";
 import Notification from "../../Notification";
 import { useLocation } from "react-router-dom";
 const LayoutProfile = () => {
-  const userdata = useSelector((state) => state.user.user); // Get user data from redux
-  const businessInfo = useSelector((state) => state.user.businessInfo);
+  const userdata = useSelector((state) => state.user?.user || []); // Get user data from redux
+  const businessInfo = useSelector((state) => state.user?.businessInfo || []);
 
   const [isEditable, setIsEditable] = useState(false); // State to toggle edit mode
   // State to handle user data (controlled inputs)

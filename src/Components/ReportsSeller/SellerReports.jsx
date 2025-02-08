@@ -17,7 +17,7 @@ const SellerReports = () => {
   const handleReportTypeChange = (e) => {
     setReportType(e.target.value);
   };
-  const user = useSelector((state) => state.user.user)
+  const user = useSelector((state) => state.user?.user || [])
 
   // Handle From date change
   const handleFromDateChange = (e) => {

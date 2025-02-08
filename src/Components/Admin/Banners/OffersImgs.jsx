@@ -306,7 +306,7 @@ const dispatch = useDispatch()
     onDrop: (acceptedFiles) => handleBannerChange(acceptedFiles),
   });
 
-  const BannerData = useSelector((state) => state.offer.offerGetAll) || [];
+  const BannerData = useSelector((state) => state.offer?.offerGetAll || []);
 
   const handleRemoveNewBanner = (index) => {
     // setNewBanners((prevBanners) => prevBanners.filter((_, i) => i !== index));
@@ -368,7 +368,7 @@ const dispatch = useDispatch()
 
 
   const categorySpecificationGetAll = useSelector(
-    (state) => state.master.setCategorySpecificationsGetAll
+    (state) => state.master?.setCategorySpecificationsGetAll || []
   );
 
 

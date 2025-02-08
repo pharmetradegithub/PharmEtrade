@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchGetOrder } from "../Api/OrderApi";
 function OrderHistory({ topMargin }) {
   const [searchQuery, setSearchQuery] = useState("");
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user?.user || []);
   const generateYears = (startYear, endYear) => {
     let years = [];
     for (let year = startYear; year <= endYear; year++) {
