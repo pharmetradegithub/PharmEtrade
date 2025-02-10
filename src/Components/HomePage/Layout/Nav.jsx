@@ -917,9 +917,10 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   ];
 
   const downSocialItems = [
-    { icon: linkedin, href: "https://www.linkedin.com/login" },
-    { icon: facebook, href: "https://www.facebook.com/login/" },
-    { icon: insta, href: "https://www.instagram.com/accounts/login/" },
+    { icon: linkedin, href: "https://www.linkedin.com/company/pharmetrade/"},
+    {
+      icon: facebook, href: "https://www.facebook.com/PharmETrade" },
+    { icon: insta, href: "https://www.instagram.com/pharm_etrade/" },
     // { icon: twitter, path: "#" },
   ];
 

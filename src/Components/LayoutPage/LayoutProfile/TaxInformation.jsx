@@ -808,7 +808,7 @@ const TaxInformation = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedStates, setSelectedStates] = useState([]);
-  const [customField, setCustomField] = useState("");
+  const [customField, setCustomField] = useState('');
 
   // const handleModalSubmit = async () => {
   //   // // Process the data from the modal
@@ -837,11 +837,12 @@ const TaxInformation = () => {
   //         console.error("Error adding product to cart:", error);
   //       }
   // };
+  const taxPercentages = customField ? Number(customField) : null;
   const handleModalSubmit = async () => {
     setIsModalOpen(false);
     const payload = {
       sellerId: user.customerId,
-      taxPercentage: customField,
+      taxPercentage: taxPercentages,
       isActive: 1,
     };
 
