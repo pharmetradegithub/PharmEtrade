@@ -11,7 +11,6 @@ import {
 import { useSelector } from "react-redux";
 import { fetchAllBannersApi } from "../../../Api/BannerApi";
 import { LoadingApi } from "../../../Api/HomeStaticApi";
-import { getUserByCustomerIdApi } from "../../../Api/UserApi";
 import { getCartItemsApi } from "../../../Api/CartApi";
 import { fetchWishlistItemsApi } from "../../../Api/WishList";
 
