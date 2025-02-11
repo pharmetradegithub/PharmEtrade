@@ -1,7 +1,7 @@
 
 // import axios from 'axios';
 import axios from './api'; 
-import store, { setSpecialOffer, setGetProductSpecialOffer, setDeactiveProduct, setDeleteProduct, addRating, setAdminProducts, setOfferGetLanding } from '../Store/Store';
+import store, { setSpecialOffer, setGetProductSpecialOffer, setDeactiveProduct, setDeleteProduct, addRating, setAdminProducts, setOfferGetLanding, setActiveProduct } from '../Store/Store';
 
 // import store, { setSpecialOffer, setGetProductSpecialOffer, setDeactiveProduct, setDeleteProduct } from '../Store/Store';
 // import store, { setGetProductSpecialOffer } from '../Store/Store';

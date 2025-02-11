@@ -1180,6 +1180,7 @@ function Address({ topMargin, totalAmount, amount }) {
     setDeleteProduct(null); // Reset selected product
   };
 
+  // const [selectedStates, setSelectedStates] = useState([]);
   const excludedStates = [
     "AMERICAN SAMOA",
     "GUAM",
@@ -1188,6 +1189,15 @@ function Address({ topMargin, totalAmount, amount }) {
     "PUERTO RICO",
   ];
 
+  // const filteredStates = states.filter(
+  //   (state) => !excludedStates.includes(state.name.toUpperCase())
+  // );
+
+  // useEffect(() => {
+  //     if (filteredStates?.length) {
+  //       setSelectedStates(filteredStates); // Select all states by default
+  //     }
+  //   }, [filteredStates]);
   return (
     <div className="w-full flex justify-center items-center">
       {deletePop && (
@@ -1513,16 +1523,16 @@ function Address({ topMargin, totalAmount, amount }) {
                               <MenuItem value="">
                                 <em>None</em>
                               </MenuItem>
-                              {states
-                                .filter((state) => !excludedStates.includes(state.name.toUpperCase())) // Filter out excluded states
-                                .map((state) => (
-                                  <MenuItem
-                                    key={state.abbreviation}
-                                    value={state.name} // Bind value to the state's name
-                                  >
-                                    {state.name}
-                                  </MenuItem>
-                                ))}
+                                {states
+                                  .filter((state) => {
+                                    // console.log("Checking:", state.name.toUpperCase());
+                                    return !excludedStates.includes(state.name.toUpperCase().trim());
+                                  })
+                                  .map((state) => (
+                                    <MenuItem key={state.abbreviation} value={state.name}>
+                                      {state.name}
+                                    </MenuItem>
+                                  ))}
                             </Select>
                           </FormControl>;
 
@@ -1730,15 +1740,16 @@ function Address({ topMargin, totalAmount, amount }) {
                                   <MenuItem value="">
                                     <em>None</em>
                                   </MenuItem>
-                                  {states.map((state) => (
-                                    <MenuItem
-                                      key={state.abbreviation}
-                                      // value={state.abbreviation}
-                                      value={state.name}
-                                    >
-                                      {state.name}
-                                    </MenuItem>
-                                  ))}
+                                  {states
+                                    .filter((state) => {
+                                      // console.log("Checking:", state.name.toUpperCase());
+                                      return !excludedStates.includes(state.name.toUpperCase().trim());
+                                    })
+                                    .map((state) => (
+                                      <MenuItem key={state.abbreviation} value={state.name}>
+                                        {state.name}
+                                      </MenuItem>
+                                    ))}
                                 </Select>
                                 {formErrors.States && (
                                   <span className="text-red-700 text-sm">

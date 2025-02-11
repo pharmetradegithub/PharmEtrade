@@ -51,9 +51,9 @@ function LayoutOtcProducts({
     show: false,
     message: "",
   });
-  const user = useSelector((state) => state.user?.user || []);
-  const cart = useSelector((state) => state.cart?.cart || []);
-  const wishlist = useSelector((state) => state.wishlist?.wishlist || []);
+  const user = useSelector((state) => state.user.user);
+  const cart = useSelector((state) => state.cart.cart);
+  const wishlist = useSelector((state) => state.wishlist.wishlist);
 
  
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
