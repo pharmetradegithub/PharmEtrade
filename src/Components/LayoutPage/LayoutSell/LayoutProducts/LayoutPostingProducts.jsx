@@ -788,7 +788,7 @@ const LayoutPostingProducts = () => {
                       </p>
                       <p className="text-sm">
                         <span className="font-medium">Status:</span>{" "}
-                        {product.isActive ? "Activate" : "Deactivate"}
+                        {product.isActive ? "Active" : "InActive"}
                       </p>
                     </div>
                     <div className="mt-4 flex justify-start items-center space-x-4">
@@ -808,14 +808,35 @@ const LayoutPostingProducts = () => {
                           onClick={() => DeleteProduct(product.productID)}
                         />
                       </Tooltip>
-                      <Tooltip title="Deactivate" placement="top">
+                      {/* <Tooltip title="Deactivate" placement="top">
                         <img
                           src={Deactivate}
                           alt="Deactivate"
                           className="cursor-pointer w-4 h-4"
                           onClick={() => deactivatePopUp(product.productID)}
                         />
-                      </Tooltip>
+                      </Tooltip> */}
+                      {product.isActive ? (
+                        <Tooltip title="Deactivate" placement="top">
+                          <img
+                            src={Deactivate}
+                            alt="Deactivate"
+                            className="cursor-pointer w-4 h-4"
+                            onClick={() =>
+                              deactivatePopUp(product.productID)
+                            }
+                          />
+                        </Tooltip>
+                      ) : (
+                        <Tooltip title="Activate" placement="top">
+                          <img
+                            src={Activate}
+                            alt="Activate"
+                            className="cursor-pointer w-4 h-4"
+                            onClick={() => activatePopUp(product.productID)}
+                          />
+                        </Tooltip>
+                      )}
                     </div>
                   </div>
                 ))
