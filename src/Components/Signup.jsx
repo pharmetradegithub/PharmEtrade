@@ -1030,9 +1030,16 @@ const Signup = () => {
   // const filteredStates = states.filter((state) => {
   //   return state.name.toLowerCase().includes(searchTerm.toLowerCase());
   // });
+  const [selectedStates, setSelectedStates] = useState([]);
   const filteredStates = states.filter(
-    (state) => !excludedStates.includes(state.name.toUpperCase()) || []
+    (state) => !excludedStates.includes(state.name.toUpperCase())
   );
+
+   useEffect(() => {
+      if (filteredStates?.length) {
+        setSelectedStates(filteredStates); // Select all states by default
+      }
+    }, [filteredStates]);
 
   const formatPhoneNumber = (phoneNumber) => {
     // Remove non-digit characters
