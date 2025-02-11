@@ -48,9 +48,9 @@ const RxProducts = () => {
   const { pop, setPop } = useNavbarContext();
   const navigate = useNavigate();
 
-  const RXProducts = useSelector((state) => state.product?.rxProducts || []);
-  const user = useSelector((state) => state.user?.user || []);
-  const wishlist = useSelector((state) => state.wishlist?.wishlist || []);
+  const RXProducts = useSelector((state) => state.product.rxProducts );
+  const user = useSelector((state) => state.user.user);
+  const wishlist = useSelector((state) => state.wishlist.wishlist);
   const [wishlistProductIDs, setwishlistProductIDs] = useState(
     wishlist.map((wishItem) => wishItem.product.productID)
   );

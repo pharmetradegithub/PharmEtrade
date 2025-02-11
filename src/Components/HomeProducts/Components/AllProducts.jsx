@@ -43,10 +43,10 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
 
   const { pop, setPop } = useNavbarContext();
   const navigate = useNavigate();
-  const products = useSelector((state) => state.product?.Products || []) ;
+  const products = useSelector((state) => state.product.Products ) ;
   const productCriteria = useSelector(
-    (state) => state.product?.productsByCriteria
-   || []) ;
+    (state) => state.product.productsByCriteria
+) ;
   const [ProductList, setProductsList] = useState([]);
   useEffect(() => {
     if (searchInput) {
@@ -56,9 +56,9 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
     }
   }, [searchInput, products, productCriteria]);
 
-  const Heading = useSelector((state) => state.product?.Heading || []);
-  const user = useSelector((state) => state.user?.user || []);
-  const wishlist = useSelector((state) => state.wishlist?.wishlist || []);
+  const Heading = useSelector((state) => state.product.Heading);
+  const user = useSelector((state) => state.user.user);
+  const wishlist = useSelector((state) => state.wishlist.wishlist);
 
   const [wishlistProductIDs, setWishlistProductIDs] = useState([]);
   //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
