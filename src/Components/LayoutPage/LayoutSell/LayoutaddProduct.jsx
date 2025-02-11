@@ -38,7 +38,7 @@ import { handleBlur, handleFocus } from "../../../Helpers/helper";
 import { TaxGetByStateNameApi } from "../../../Api/TaxInfoApi";
 
 function LayoutaddProduct() {
-  const user = useSelector((state) => state.user?.user || []);
+  const user = useSelector((state) => state.user.user);
 
   const products = [
     {
@@ -432,16 +432,16 @@ function LayoutaddProduct() {
   //   setVideoPreviews(previews);
   //   setFormData({ ...formData, ["videoUrl"]: files[0] });
   // };
-  const stateNameData = useSelector((state) => state.tax?.stateName || []);
+  const stateNameData = useSelector((state) => state.tax.stateName);
 
   const [alertPopup, setAlertPopup] = useState(false)
-  // useEffect(() => {
-  //   const data = async () => {
-  //     await dispatch(TaxGetByStateNameApi(user.customerId))
-  //     alertMessage()
-  //   }
-  //   data()
-  // }, [user])
+  useEffect(() => {
+    const data = async () => {
+      await dispatch(TaxGetByStateNameApi(user.customerId))
+      alertMessage()
+    }
+    data()
+  }, [user])
 
   const alertMessage = () => {
     if (!stateNameData || stateNameData.length === 0) {
