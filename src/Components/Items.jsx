@@ -981,7 +981,7 @@ function Items({
 
                   {/* <img src={ ?Wishlist :filledheart} className="w-5 h-5 flex   "/> */}
                   <div className="flex">
-                    {user?.customerId !== prod?.sellerId &&(
+                    {!user || user?.customerId !== prod?.sellerId &&(
                   <Tooltip placement="top" title="wishlist">
                     <img
                       src={
@@ -1097,11 +1097,11 @@ function Items({
               <div className="flex gap-2 mx-2">
                 <button
                   className={`w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 
-                  ${prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId
+                  ${!user || prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-blue-900 cursor-pointer"
                     }`}
-                  disabled={prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId}
+                  disabled={!user || prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId}
                   onClick={() => {
                     if (prod?.amountInStock > 0 && user?.customerId !== prod?.sellerId) {
                       handleCart(id.CartQuantity);
@@ -1120,13 +1120,13 @@ function Items({
                 </button> */}
                 <button
                   className={`w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 
-                  ${prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId
+                  ${!user || prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId
                       ? "bg-orange-200 cursor-not-allowed"
                       : "bg-orange-400"
                     }`}
                   // onClick={handleOrder}
                   // disabled={prod?.amountInStock === 0}
-                  disabled={prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId}
+                  disabled={!user || prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId}
                   onClick={() => {
                     if (prod?.amountInStock > 0 && user?.customerId !== prod?.sellerId) {
                       handleOrder();

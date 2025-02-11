@@ -289,7 +289,7 @@ const LayoutAddBulkProduct = () => {
   
   const dispatch = useDispatch()
 
-  const stateNameData = useSelector((state) => state.tax?.stateName || []);
+  const stateNameData = useSelector((state) => state.tax.stateName);
 
   const [alertPopup, setAlertPopup] = useState(false)
     useEffect(() => {
