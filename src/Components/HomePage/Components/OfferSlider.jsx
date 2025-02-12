@@ -234,7 +234,7 @@ const OfferSlider = ({ images, Title }) => {
           {newoffer.map((element, index) => (
             <div
               key={index}
-              className="border bg-white shadow-2xl min-w-[260px] sm:w-[200px] Laptop:min-w-[320px] p-4 relative flex flex-col gap-3 items-center justify-center"
+              className="border bg-white shadow-2xl min-w-[260px] sm:w-[500px] Laptop:min-w-[320px] p-4 relative flex flex-col gap-3 items-center justify-center"
             >
                
                 <p key={index} className="w-full h-12 text-[17px] font-semibold cursor-pointer">
