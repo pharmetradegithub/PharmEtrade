@@ -130,34 +130,69 @@ function Address({ topMargin, totalAmount, amount }) {
             // Fetch seller data first
             const sellerData = await getUserByCustomerIdApi(product.product.sellerId);
             if (sellerData && sellerData.businessInfo?.zip) {
+              const shipDateStamp = new Date().toISOString().slice(0, 10);
               const payload = {
+                // accountNumber: {
+                //   value: "235969831",
+                // },
+                // requestedShipment: {
+                //   shipper: {
+                //     address: {
+                //       postalCode: sellerData.businessInfo.zip, // Shipper's postal code from sellerData
+                //       countryCode: "US",
+                //     },
+                //   },
+                //   recipient: {
+                //     address: {
+                //       postalCode: pincodes, // Use the pincode from the selected address or state
+                //       countryCode: "US",
+                //     },
+                //   },
+                //   pickupType: "DROPOFF_AT_FEDEX_LOCATION",
+                //   rateRequestType: ["ACCOUNT", "LIST"],
+                //   requestedPackageLineItems: [
+                //     {
+                //       weight: {
+                //         units: "LB",
+                //         value: 1, // Example weight, adjust as needed
+                //       },
+                //     },
+                //   ],
+                // },
                 accountNumber: {
-                  value: "235969831",
+                  value: "235969831"
                 },
                 requestedShipment: {
                   shipper: {
                     address: {
-                      postalCode: sellerData.businessInfo.zip, // Shipper's postal code from sellerData
-                      countryCode: "US",
-                    },
+                      postalCode: sellerData.businessInfo.zip,
+                        countryCode: "US"
+                    }
                   },
                   recipient: {
                     address: {
-                      postalCode: pincodes, // Use the pincode from the selected address or state
-                      countryCode: "US",
-                    },
+                      postalCode: pincodes,
+                      countryCode: "US"
+                    }
                   },
-                  pickupType: "DROPOFF_AT_FEDEX_LOCATION",
-                  rateRequestType: ["ACCOUNT", "LIST"],
-                  requestedPackageLineItems: [
-                    {
-                      weight: {
-                        units: "LB",
-                        value: 1, // Example weight, adjust as needed
-                      },
-                    },
-                  ],
-                },
+                  serviceType: "STANDARD_OVERNIGHT",
+                    preferredCurrency: "USD",
+                      rateRequestType: [
+                        "ACCOUNT",
+                        "LIST"
+                      ],
+                  shipDateStamp: shipDateStamp,
+                          pickupType: "DROPOFF_AT_FEDEX_LOCATION",
+                            requestedPackageLineItems: [
+                              {
+                                weight: {
+                                  units: "LB",
+                                  value: 22
+                                }
+                              }
+                            ]
+                }
+              
               };
 
               // Dispatch the actions for the product with shipping cost
