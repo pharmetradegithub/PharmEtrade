@@ -972,7 +972,8 @@ function LayoutaddProduct() {
       productPriceId: productPriceId == null ? "string" : productPriceId,
       productId: queryProductId != null ? queryProductId : productId,
       unitPrice: formData.price,
-      upnMemberPrice: formData.upnMemberPrice,
+      // upnMemberPrice: formData.upnMemberPrice,
+      upnMemberPrice: formData.upnMemberPrice == null || formData.upnMemberPrice === "" ? 0 : formData.upnMemberPrice,
       discount:
         formData.discount == null || formData.discount == ""
           ? 0
