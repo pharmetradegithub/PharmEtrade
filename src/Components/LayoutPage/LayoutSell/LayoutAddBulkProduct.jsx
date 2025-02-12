@@ -269,8 +269,12 @@ const LayoutAddBulkProduct = () => {
       
       try {
         setUploadStatus("Uploading...");
-        const response = await axios.post('/api/Product/AddBulkProducts', formData, null, true);
-  
+        // const response = await axios.post('/api/Product/AddBulkProducts', formData, null, true);
+        const response = await axios.post('/api/Product/AddBulkProducts', formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+          maxContentLength: 200 * 1024 * 1024, // 50MB
+          maxBodyLength: 200 * 1024 * 1024,
+        });
         if (response.status === 200) {
           setUploadStatus("File uploaded successfully!");
           // console.log("Response data:", response.data);

@@ -842,6 +842,14 @@ function LayoutaddProduct() {
       }
     }
 
+    if (
+      parseInt(formData.maxOrderQuantity, 10) >
+      parseInt(formData.amountInStock, 10)
+    ) {
+      // Display an error message or prevent tab change
+      // alert("You need to select a quantity below the product in stock.");
+      return; // Stop further execution
+    }
     const productId = localStorage.getItem("productId");
     const productPriceId = localStorage.getItem("productPriceId");
     const productGalleryId = localStorage.getItem("productGalleryId");
@@ -1991,7 +1999,8 @@ function LayoutaddProduct() {
 
                   <div className="flex flex-col">
                     <label className="text-sm font-semibold">
-                      UPN Member Price ($):<span className="text-red-600">*</span>
+                      UPN Member Price ($):
+                      {/* <span className="text-red-600">*</span> */}
                     </label>
 
                     <input

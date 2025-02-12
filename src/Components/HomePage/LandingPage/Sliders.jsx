@@ -201,9 +201,9 @@ function Sliders({ wishList, addCart }) {
           <ProductSlider Title={"New Products"} data={newProducts} />
         </div> */}
 
-        <div className="mt-8 mb-5 md:mb-0">
+        {/* <div className="mt-8 mb-5 md:mb-0">
           <OffersSlider />
-        </div>
+        </div> */}
 
         <div
           className={
