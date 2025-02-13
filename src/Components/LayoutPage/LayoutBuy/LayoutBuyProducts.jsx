@@ -669,7 +669,9 @@ function LayoutBuy({
                               -
                             </button>
 
-                            <input
+                            
+                            {/* old code===== */}
+                            {/* <input
                               type="text"
                               // value={product.CartQuantity}
                               value={
@@ -697,6 +699,45 @@ function LayoutBuy({
                                 }
 
                                 handleQuantityChange(index, numericValue);
+                              }}
+                            /> */}
+                            {/* old code===== */}
+                            <input
+                              type="text"
+                              value={
+                                product.amountInStock === 0
+                                  ? 0
+                                  : Math.min(
+                                    product.CartQuantity,
+                                    product.maxOrderQuantity,
+                                    product.amountInStock
+                                  )
+                              }
+                              className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                const numericValue =
+                                  value === "" ? product.minOrderQuantity : Math.max(product.minOrderQuantity, parseInt(value, 10));
+
+                                // Ensure the value does not exceed maxOrderQuantity or amountInStock
+                                const clampedValue = Math.min(
+                                  numericValue,
+                                  product.maxOrderQuantity,
+                                  product.amountInStock
+                                );
+
+                                // Check if the input value exceeds the stock
+                                if (clampedValue > product.amountInStock) {
+                                  setStockWarning({
+                                    productId: product.productID,
+                                    message: `Only ${product.amountInStock} items available.`,
+                                  });
+                                } else {
+                                  // Clear stock warning if the input is valid
+                                  setStockWarning({ productId: null, message: "" });
+                                }
+
+                                handleQuantityChange(index, clampedValue);
                               }}
                             />
 
