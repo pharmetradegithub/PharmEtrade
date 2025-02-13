@@ -1361,9 +1361,9 @@ function Address({ topMargin, totalAmount, amount }) {
                                         {item.address2 && <p className="mr-1">{item.address2},</p>}
                                         <p className="mr-1">{item.address1},</p>
                                         <p className="mr-1">{item.city},</p>
-                                        <p className="mr-1">{item.state}</p>
-                                        <p className="mr-1">{item.pincode},</p>
-                                        <p>{item.phoneNumber}</p>
+                                        <p className="mr-1">{item.state},</p>
+                                        <p className="mr-1">{item.pincode}</p>
+                                        <p>{item.phoneNumber && `, ${item.phoneNumber}`}</p>
 
                                         {/* Edit button */}
                                         <p
