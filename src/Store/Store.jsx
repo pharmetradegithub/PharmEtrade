@@ -508,7 +508,7 @@ const taxInfoSlice = createSlice({
 
 const trackNumberSlice = createSlice({
   name: 'trackNumber',
-  initialState: { trackNumber: [], serviceType: [], fedExRates: [] },
+  initialState: { trackNumber: [], serviceType: [], fedExRates: []},
   reducers: {
     setTrackNumber(state, action) {
       state.trackNumber = action.payload
@@ -518,6 +518,12 @@ const trackNumberSlice = createSlice({
     },
     setFedExRates(state, action) {
       state.fedExRates = action.payload
+    },
+    clearServiceType(state) {
+      state.serviceType = [];
+    },
+    clearFedExRates(state) {
+      state.fedExRates = [];
     }
   }
 })
@@ -586,7 +592,7 @@ export const { setOrderStatusUpdate } = orderSlice.actions
 export const { setGetById } = orderSlice.actions
 export const { setTrackNumber } = trackNumberSlice.actions
 export const { setFedExRates } = trackNumberSlice.actions
-export const { setServiceType } = trackNumberSlice.actions
+export const { setServiceType, setLoading, clearServiceType, clearFedExRates} = trackNumberSlice.actions
 
 export const { setTaxEdit, setAddBulkTax } = taxInfoSlice.actions
 export const { setStateName } = taxInfoSlice.actions

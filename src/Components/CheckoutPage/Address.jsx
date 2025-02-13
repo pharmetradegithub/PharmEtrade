@@ -37,6 +37,7 @@ import { FedExRatesApi, serviceTypeApi } from "../../Api/TrackApi";
 import Proccedtoshipment from '../ProccedtoShipment'
 import SquarePaymentForm from "../SquarePaymentForm";
 import { getUserByCustomerIdApi } from "../../Api/UserApi";
+import { clearFedExRates, clearServiceType } from "../../Store/Store";
 // import { getCartItemsApi } from "../../Api/CartApi";
 function Address({ topMargin, totalAmount, amount }) {
   const dispatch = useDispatch()
@@ -123,6 +124,8 @@ function Address({ topMargin, totalAmount, amount }) {
   useEffect(() => {
     const fetchSellersAndSendPayload = async () => {
       try {
+        dispatch(clearServiceType());
+        dispatch(clearFedExRates());
         // Map over cartList to process only products with shipping cost
         const sellerPromises = cartList
           .filter((product) => product.product.isShippingCostApplicable === false) // Only include products with shipping cost
