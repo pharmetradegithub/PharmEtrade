@@ -22,26 +22,26 @@ axios.interceptors.request.use(
 
 // axios.interceptors.response.use(
 //   (response) => {
-//     return response; // Simply return the response if it's successful
+//     return response;
 //   },
 //   async (error) => {
+//     const originalRequest = error.config;
+
 //     // Check if the error is due to an expired token
-//     if (error.response && error.response.status === 401) {
-//       const originalRequest = error.config; // Save the original request
+//     if (error.response && error.response.status === 401 && !originalRequest._retry) {
+//       originalRequest._retry = true; // Mark the request as retried
+
 //       const isLoginRequest =
 //         originalRequest.url.includes('/api/Customer/Login') ||
-//         originalRequest.url.includes('/api/Customer/AdminLogin') ||
-//         originalRequest.url.includes('/api/Customer/RefreshToken'); // Exclude refresh calls
+//         originalRequest.url.includes('/api/Customer/AdminLogin');
 
 //       if (!isLoginRequest) {
 //         try {
-//           // Get the old token from localStorage
-//           const oldToken = localStorage.getItem('token');
-//           if (oldToken) {
-//             // Call the refresh token API with the old token as a query parameter
-//             const refreshResponse = await axios.get(
-//               `/api/Customer/RefreshToken?token=${encodeURIComponent(oldToken)}`
-//             );
+//           // Get the refresh token from localStorage
+//           const refreshToken = localStorage.getItem('refreshToken');
+//           if (refreshToken) {
+//             // Call the refresh token API
+//             const refreshResponse = await axios.post(`/api/Customer/RefreshToken?token=${refreshToken}`);
 
 //             // Update the token in localStorage
 //             const newToken = refreshResponse.data.token;
@@ -51,24 +51,25 @@ axios.interceptors.request.use(
 //             originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
 //             return axios(originalRequest);
 //           } else {
-//             // If no old token is available, redirect to login
+//             // If no refresh token is available, redirect to login
 //             localStorage.removeItem('token');
+//             localStorage.removeItem('refreshToken');
 //             window.location.href = '/login';
 //           }
 //         } catch (refreshError) {
 //           // Handle errors during token refresh
 //           console.error('Refresh token failed', refreshError);
 //           localStorage.removeItem('token');
+//           localStorage.removeItem('refreshToken');
 //           window.location.href = '/login';
 //           return Promise.reject(refreshError);
 //         }
 //       }
 //     }
-//     return Promise.reject(error); // For other errors
+
+//     return Promise.reject(error);
 //   }
 // );
-
-
 
 axios.interceptors.response.use(
   (response) => {
