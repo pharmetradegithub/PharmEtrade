@@ -708,7 +708,8 @@ function LayoutBuy({
                                 product.amountInStock === 0
                                   ? 0
                                   : Math.min(
-                                    product.CartQuantity,
+                                    // product.CartQuantity,
+                                    updatedCartQuantity,
                                     product.maxOrderQuantity,
                                     product.amountInStock
                                   )
