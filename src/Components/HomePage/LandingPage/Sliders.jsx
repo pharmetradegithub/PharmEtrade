@@ -179,7 +179,7 @@ function Sliders({ wishList, addCart }) {
   return (
     <>
       <div className="">
-        <div className="w-full gap-2 flex flex-col sm:flex-wrap  lg:flex-row justify-between items-center ">
+        {/* <div className="w-full gap-2 flex flex-col sm:flex-wrap  lg:flex-row justify-between items-center ">
           <div className="w-full sm:w-full  lg:w-[48%] ">
             <ProductSection
               addCart={addCart} wishList={wishList}
@@ -196,7 +196,7 @@ function Sliders({ wishList, addCart }) {
               path={`/products?header=${"OTC Items"}`}
             />
           </div>
-        </div>
+        </div> */}
         {/* <div>
           <ProductSlider Title={"New Products"} data={newProducts} />
         </div> */}
@@ -214,7 +214,8 @@ function Sliders({ wishList, addCart }) {
         >
           <div className="border-2 border-white w-auto sm:my-2 md:my-4 xl:my-6 rounded-md xl:mx-12 lg:mx-8 md:mx-6">
             <p className="absolute sm:top-10 md:top-1 xl:top-4 z-5 right-1/2 h-auto bg-box-blue text-white px-4 py-2 md:my-0 -my-4 rounded-md text-sm sm:text-base md:text-2xl">
-              Get In Touch
+              {/* Get In Touch */}
+              Contact Us
             </p>
             <div className="sm:ml-4 md:ml-10 lg:ml-20 xl:ml-32 md:flex md:flex-row md:gap-10 lg:gap-16 xl:gap-28">
               <div className="flex items-center justify-center lg:pb-4 lg:pl-4 xl:pr-4">
