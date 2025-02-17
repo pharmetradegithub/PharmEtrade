@@ -513,8 +513,8 @@ const LayoutPostingProducts = () => {
                         : "▲"}
                     </th>
 
-                    <th className="px-2 py-2 text-left">Saleprice Start</th>
-                    <th className="px-2 py-2 text-left">Saleprice End</th>
+                    <th className="px-2 py-2 text-left">Sale price Start</th>
+                    <th className="px-2 py-2 text-left">Sale price End</th>
                     <th
                       className="px-2 py-2 text-right cursor-pointer"
                       onClick={() => handleSort("receivableUnitPrice")}

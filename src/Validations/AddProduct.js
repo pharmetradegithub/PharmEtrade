@@ -164,11 +164,11 @@ export const ProductPriceValidation = (formData) => {
         errors.minOrderQuantity = "Minimum Order Quantity is required and must be greater than 0.";
     }
 
-    if (!maxOrderQuantity || maxOrderQuantity <= 0) {
-        errors.maxOrderQuantity = "Maximum Order Quantity is required and must be greater than 0.";
-    } else if (maxOrderQuantity <= minOrderQuantity) {
-        errors.maxOrderQuantity = "Maximum Order Quantity must be greater than Minimum Order Quantity.";
-    }
+    // if (!maxOrderQuantity || maxOrderQuantity <= 0) {
+    //     errors.maxOrderQuantity = "Maximum Order Quantity is required and must be greater than 0.";
+    // } else if (maxOrderQuantity <= minOrderQuantity) {
+    //     errors.maxOrderQuantity = "Maximum Order Quantity must be greater than Minimum Order Quantity.";
+    // }
 
     return errors;
 };

@@ -671,7 +671,7 @@ function LayoutBuy({
 
                             
                             {/* old code===== */}
-                            {/* <input
+                            <input
                               type="text"
                               // value={product.CartQuantity}
                               value={
@@ -700,9 +700,9 @@ function LayoutBuy({
 
                                 handleQuantityChange(index, numericValue);
                               }}
-                            /> */}
+                            />
                             {/* old code===== */}
-                            <input
+                            {/* <input
                               type="text"
                               value={
                                 product.amountInStock === 0
@@ -740,7 +740,7 @@ function LayoutBuy({
 
                                 handleQuantityChange(index, clampedValue);
                               }}
-                            />
+                            /> */}
 
                             <button
                               className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
@@ -854,10 +854,10 @@ function LayoutBuy({
                             ) : (
                               <>
                                 <p className="text-red-500 text-sm mt-1">
-                                  Minimum Quantity: {product.minOrderQuantity}
+                                  Minimum Purchase Requirement : {product.minOrderQuantity}
                                 </p>
                                 <p className="text-red-500 text-xs mt-1">
-                                  You can buy a maximum of {product.maxOrderQuantity}.
+                                    Maximum Purchase Limit {product.maxOrderQuantity}.
                                 </p>
                                 {/* {product.CartQuantity > product.amountInStock && (
                                   <p className="text-red-500 text-xs mt-1">
@@ -884,7 +884,9 @@ function LayoutBuy({
 
                           <div
                             onClick={() => {
-                              if (product.amountInStock > 0) {
+                              // if (product.amountInStock > 0) {
+                                if (product.amountInStock > 0 && updatedCartQuantity <= product.maxOrderQuantity) {
+
                                 if (product.CartQuantity > product.amountInStock) {
                                   setStockWarning({
                                     productId: product.productID,
@@ -921,6 +923,7 @@ function LayoutBuy({
                               {"Add to Cart"}
                             </p>
                           </div>
+
                         </div>
 
                         {/* Wishlist */}

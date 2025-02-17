@@ -62,6 +62,7 @@ import { fetchOrderPayment } from "../Api/OrderApi";
 import { getCartItemsApi } from "../Api/CartApi";
 import Notification from "./Notification";
 import { useNavigate } from "react-router-dom";
+// import { motion, AnimatePresence } from "framer-motion";
 
 const SquarePaymentForm = ({
   // applicationId,
@@ -81,6 +82,8 @@ const SquarePaymentForm = ({
     show: false,
     message: "",
   });
+  const [paymentMethod, setPaymentMethod] = useState("card");
+ 
 
   // useEffect(() => {
   //   const processAndAddPayment = async () => {
@@ -136,47 +139,64 @@ const SquarePaymentForm = ({
   // }, [source]);
 
 
-
-
   useEffect(() => {
     const processAndAddPayment = async () => {
       try {
         // First, process the payment
-        const payload = {
-          sourceId: source,
-          amount: Math.ceil(amount),
-          currency: "USD",
-          note: "Payment For ORD5668",
-        };
+        if (paymentMethod === "card") {
+          const payload = {
+            sourceId: source,
+            amount: Math.ceil(amount),
+            currency: "USD",
+            note: "Payment For ORD5668",
+          };
 
-        const paymentResponse = await processpaymentApi(payload);
+          const paymentResponse = await processpaymentApi(payload);
 
-        if (!paymentResponse || paymentResponse.statusCode > 200) {
-          // throw new Error(`Payment failed with status: ${paymentResponse?.status}`);
-          throw new Error("An error occurred while processing the payment. Please try again.");
+          if (!paymentResponse || paymentResponse.statusCode > 200) {
+            // throw new Error(`Payment failed with status: ${paymentResponse?.status}`);
+            throw new Error("An error occurred while processing the payment. Please try again.");
 
+          }
         }
-
         // Then, add payment details
         const currentDate = new Date();
-              const payloadAdd = {
-                paymentInfoId: "",
-                orderId: ordered?.orderId,
-                paymentMethodId: 1,
-                cardNumber: cardNumber,
-                cardType: "",
-                cvv: "",
-                validThrough: `${expiryMonth}/${expiryYear}`,
-                nameOnCard: "",
-                bank: "",
-                // paymentAmount: Math.floor(amount),
-                paymentAmount: Math.ceil(amount),
-                isCreditCard: true,
-                statusId: 3,
-                paymentStatus: "",
-                paymentDate: currentDate.toISOString(),
-              };
+              // const payloadAdd = {
+              //   paymentInfoId: "",
+              //   orderId: ordered?.orderId,
+              //   paymentMethodId: 1,
+              //   cardNumber: cardNumber,
+              //   cardType: "",
+              //   cvv: "",
+              //   validThrough: `${expiryMonth}/${expiryYear}`,
+              //   nameOnCard: "",
+              //   bank: "",
+              //   // paymentAmount: Math.floor(amount),
+              //   paymentAmount: Math.ceil(amount),
+              //   isCreditCard: true,
+              //   statusId: 3,
+              //   paymentStatus: "",
+              //   paymentDate: currentDate.toISOString(),
+              // };
 
+        const payloadAdd = {
+          paymentInfoId: "",
+          orderId: ordered?.orderId,
+          paymentMethodId: paymentMethod === "card" ? 1 : 3, // 1 for card, 2 for COD
+          cardNumber: paymentMethod === "card" ? cardNumber : "",
+          cardType: "",
+          cvv: "",
+          validThrough: paymentMethod === "card" ? `${expiryMonth}/${expiryYear}` : "",
+          nameOnCard: "",
+          bank: "",
+          paymentAmount: Math.ceil(amount),
+          isCreditCard: paymentMethod === "card",
+          // statusId: paymentMethod === "card" ? 3 : 4, // 3 for paid, 4 for COD
+          statusId:  3,
+          // paymentStatus: paymentMethod === "card" ? "Paid" : "Pending",
+          paymentStatus: "",
+          paymentDate: currentDate.toISOString(),
+        };
         const paymentDetailsResponse = await dispatch(fetchOrderPayment(payloadAdd));
 
         if (!paymentDetailsResponse || paymentDetailsResponse.statusCode > 300) {
@@ -185,15 +205,16 @@ const SquarePaymentForm = ({
 
         }
 
-        // Show success notification
-        setNotification({ show: true, message: "Payment processed successfully!" });
+        await setNotification({ show: true, message: "Payment processed successfully!" });
         await getCartItemsApi();
 
-        setTimeout(() => {
+        await setTimeout(() => {
           setNotification({ show: false, message: "" });
-        }, 5000);
-         navigate('/layout/layoutorderlist');
-         window.location.href="/layout/layoutorderlist"
+        }, 10000);
+        await navigate('/layout/layoutorderlist');
+        if (paymentMethod === "card") {
+          window.location.href = "/layout/layoutorderlist";
+        }
 
       } catch (error) {
         console.error("Payment Error:", error);
@@ -205,305 +226,260 @@ const SquarePaymentForm = ({
       }
     };
 
-    if (source) {
+    if (source || paymentMethod === "cash") {
       processAndAddPayment();
     }
-  }, [source]);
+  }, [source,paymentMethod]);
 
-
-  // useEffect(() => {
-  //   const processAndAddPayment = async () => {
-  //     try {
-  //       // First, process the payment
-  //       const payload = {
-  //         sourceId: source,
-  //         amount: Math.ceil(amount),
-  //         currency: "USD",
-  //         note: "Payment For ORD5668",
-  //       };
-  //       const res = await processpaymentApi(payload);
-
-  //       if (res.statusCode === 500) {
-  //         setNotification({
-  //           show: true,
-  //           message: "An error occurred while processing the payment. Please try again.",
-  //           type: "error",
-  //         });
-  //         setTimeout(() => setNotification({ show: false, message: "" }), 5000);
-  //         return; // Stop further actions if payment fails
-  //       }
-
-  //       // Then, add payment details
-  //       const currentDate = new Date();
-  //       const payloadAdd = {
-  //         paymentInfoId: "",
-  //         orderId: ordered?.orderId,
-  //         paymentMethodId: 1,
-  //         cardNumber: cardNumber,
-  //         cardType: "",
-  //         cvv: "",
-  //         validThrough: `${expiryMonth}/${expiryYear}`,
-  //         nameOnCard: "",
-  //         bank: "",
-  //         paymentAmount: Math.ceil(amount),
-  //         isCreditCard: true,
-  //         statusId: 3,
-  //         paymentStatus: "",
-  //         paymentDate: currentDate.toISOString(),
-  //       };
-
-  //       await dispatch(fetchOrderPayment(payloadAdd));
-
-  //       if (res.statusCode === 500) {
-  //         setNotification({
-  //           show: true,
-  //           message: "An error occurred while processing the payment. Please try again.",
-  //           type: "error",
-  //         });
-  //         setTimeout(() => setNotification({ show: false, message: "" }), 5000);
-  //         return; // Stop further actions if payment fails
-  //       }
-  //       // Show success notification
-  //       setNotification({
-  //         show: true,
-  //         message: "Payment processed successfully!",
-  //         type: "success",
-  //       });
-  //       await getCartItemsApi();
-  //       setTimeout(() => setNotification({ show: false, message: "" }), 5000);
-
-  //       // Navigate to another page after success
-  //       navigate('/layout/layoutorderlist');
-  //       window.location.href = "/layout/layoutorderlist";
-  //     } catch (error) {
-  //       console.error("Error:", error);
-  //       setNotification({
-  //         show: true,
-  //         message: "An unexpected error occurred. Please contact support.",
-  //         type: "error",
-  //       });
-  //       setTimeout(() => setNotification({ show: false, message: "" }), 5000);
-  //     }
-  //   };
-
-  //   if (source) {
-  //     processAndAddPayment();
-  //   }
-  // }, [source, amount, cardNumber, expiryMonth, expiryYear, ordered, dispatch]);
-  // useEffect(() => {
-  //   const showNotification = (message, type) => {
-  //     setNotification({ show: true, message, type });
-  //     setTimeout(() => setNotification({ show: false, message: "" }), 5000);
-  //   };
-
-  //   const processPayment = async () => {
-  //     const payload = {
-  //             sourceId: source,
-  //             // amount: Math.floor(amount),
-  //             amount: Math.ceil(amount),
-  //             currency: "USD",
-  //             note: "Payment For ORD5668",
-  //           };
-
-  //     try {
-  //       const res = await processpaymentApi(payload);
-  //       if (!res || res.statusCode !== 200 || (res.status && res.status !== 200)) {
-  //         showNotification("An error occurred while processing the payment. Please try again.", "error");
-  //         return null;
-  //       }
-  //       return res;
-  //     } catch (error) {
-  //       console.error("Payment Processing Error:", error);
-  //       showNotification("An unexpected error occurred during payment processing.", "error");
-  //       return null;
-  //     }
-  //   };
-
-  //   const addPaymentDetails = async () => {
-  //     const currentDate = new Date();
-  //     const payloadAdd = {
-  //       paymentInfoId: "",
-  //       orderId: ordered?.orderId,
-  //       paymentMethodId: 1,
-  //       cardNumber,
-  //       cardType: "",
-  //       cvv: "",
-  //       validThrough: `${expiryMonth}/${expiryYear}`,
-  //       nameOnCard: "",
-  //       bank: "",
-  //       paymentAmount: Math.ceil(amount),
-  //       isCreditCard: true,
-  //       statusId: 3,
-  //       paymentStatus: "",
-  //       paymentDate: currentDate.toISOString(),
-  //     };
-
-  //     try {
-  //       const paymentResponse = await dispatch(fetchOrderPayment(payloadAdd));
-  //       if (!paymentResponse || paymentResponse.statusCode !== 200) {
-  //         showNotification("An error occurred while adding payment details. Please try again.", "error");
-  //         return null;
-  //       }
-  //       return paymentResponse;
-  //     } catch (error) {
-  //       console.error("Add Payment Details Error:", error);
-  //       showNotification("An unexpected error occurred while adding payment details.", "error");
-  //       return null;
-  //     }
-  //   };
-
-  //   const processAndAddPayment = async () => {
-  //     try {
-  //       // Step 1: Process Payment
-  //       const paymentResult = await processPayment();
-  //       if (!paymentResult) return;
-
-  //       // Step 2: Add Payment Details
-  //       const addPaymentResult = await addPaymentDetails();
-  //       if (!addPaymentResult) return;
-
-  //       // Step 3: Both Steps Successful
-  //       showNotification("Payment processed successfully!", "success");
-
-  //       // Step 4: Update Cart and Navigate
-  //       await getCartItemsApi();
-  //       // navigate("/layout/layoutorderlist");
-  //       // window.location.href = "/layout/layoutorderlist"
-  //     } catch (error) {
-  //       console.error("Unexpected Error:", error);
-  //       showNotification("An unexpected error occurred. Please contact support.", "error");
-  //     }
-  //   };
-
-  //   if (source) {
-  //     processAndAddPayment();
-  //   }
-  // }, [source]);
-
-
-
-
-  // useEffect(() => {
-  //   const showNotification = (message, type) => {
-  //     setNotification({ show: true, message, type });
-  //     setTimeout(() => setNotification({ show: false, message: "" }), 5000);
-  //   };
-
-  //   const processPayment = async () => {
-  //     const payload = {
-  //       sourceId: source,
-  //       amount: Math.ceil(amount),
-  //       currency: "USD",
-  //       note: "Payment For ORD5668",
-  //     };
-
-  //     try {
-  //       const res = await processpaymentApi(payload);
-  //       if (!res || res.statusCode !== 200) {
-  //         showNotification("An error occurred while processing the payment. Please try again.", "error");
-  //         return null;
-  //       }
-  //       return res;
-  //     } catch (error) {
-  //       console.error("Payment Processing Error:", error);
-  //       showNotification("An unexpected error occurred during payment processing.", "error");
-  //       return null;
-  //     }
-  //   };
-
-  //   const addPaymentDetails = async () => {
-  //     const currentDate = new Date();
-  //         const payloadAdd = {
-  //           paymentInfoId: "",
-  //           orderId: ordered?.orderId,
-  //           paymentMethodId: 1,
-  //           cardNumber,
-  //           cardType: "",
-  //           cvv: "",
-  //           validThrough: `${expiryMonth}/${expiryYear}`,
-  //           nameOnCard: "",
-  //           bank: "",
-  //           paymentAmount: Math.ceil(amount),
-  //           isCreditCard: true,
-  //           statusId: 3,
-  //           paymentStatus: "",
-  //           paymentDate: currentDate.toISOString(),
-  //         };
-
-  //     try {
-  //       const paymentResponse = await dispatch(fetchOrderPayment(payloadAdd));
-  //       if (!paymentResponse || paymentResponse.statusCode !== 200) {
-  //         showNotification("An error occurred while adding payment details. Please try again.", "error");
-  //         return null;
-  //       }
-  //       return paymentResponse;
-  //     } catch (error) {
-  //       console.error("Add Payment Details Error:", error);
-  //       showNotification("An unexpected error occurred while adding payment details.", "error");
-  //       return null;
-  //     }
-  //   };
-
-  //   const processAndAddPayment = async () => {
-  //     try {
-  //       // Step 1: Process Payment
-  //       const paymentResult = await processPayment();
-  //       if (!paymentResult) return; // Stop execution if there's an error
-
-  //       // Step 2: Add Payment Details
-  //       const addPaymentResult = await addPaymentDetails();
-  //       if (!addPaymentResult) return; // Stop execution if there's an error
-
-  //       // Step 3: Both Steps Successful
-  //       showNotification("Payment processed successfully!", "success");
-
-  //       // Step 4: Update Cart and Navigate
-  //       await getCartItemsApi();
-  //       navigate("/layout/layoutorderlist");
-  //       window.location.href = "/layout/layoutorderlist"
-  //     } catch (error) {
-  //       console.error("Unexpected Error:", error);
-  //       showNotification("An unexpected error occurred. Please contact support.", "error");
-  //     }
-  //   };
-
-  //   if (source) {
-  //     processAndAddPayment();
-  //   }
-  // }, [source]);
-
+  
+  // const [isHovered, setIsHovered] = useState(false);
   return (
-    <PaymentForm
-      applicationId={import.meta.env.VITE_SQUARE_APP_ID}
-      cardTokenizeResponseReceived={async (token, verifiedBuyer) => {
-        if (token?.token) {
-          setSource(token.token);
-          setExpiryMonth(token?.details?.card?.expMonth);
-          setExpiryYear(token?.details?.card?.expYear);
-          setCardNumber(token?.details?.card?.last4);
-        } else {
-          console.error("Token generation failed", token);
-        }
-      }}
-      //  createVerificationDetails={() => ({
-      //   amount: amount,
-      //   billingContact: {
-      //     addressLines: ["123 Main Street", "Apartment 1"],
-      //     familyName: "Doe",
-      //     givenName: "John",
-      //     countryCode: "GB",
-      //     city: "London",
-      //   },
-      //   currencyCode: "GBP",
-      //   intent: "CHARGE",
-      // })}
-      // locationId="L0599WY5GGG3W"
-      locationId="LY0VX9YHK6X93"
-    >
+    <>
+       <h2 className="text-orange-500 font-semibold mb-2">3 Select a payment method</h2>
+      {/* <div className="flex flex-col space-y-4">
+        <label className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
+          <input
+            type="radio"
+            value="card"
+            checked={paymentMethod === "card"}
+            onChange={() => setPaymentMethod("card")}
+            className="form-radio h-5 w-5 text-blue-600"
+          />
+          <span className="text-gray-700 font-medium">Credit Card</span>
+        </label>
+        <label className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
+          <input
+            type="radio"
+            value="cash"
+            checked={paymentMethod === "cash"}
+            onChange={() => setPaymentMethod("cash")}
+            className="form-radio h-5 w-5 text-blue-600"
+          />
+          <span className="text-gray-700 font-medium">Cash on Delivery</span>
+        </label>
+      </div> */}
+
+      <div className="flex flex-col space-y-4 mb-7">
+        {/* Credit Card Option  */}
+        <label
+          className={`flex items-center space-x-4 p-6 rounded-2xl shadow-lg cursor-pointer transition-all duration-300 ${paymentMethod === "card"
+              ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white"
+              : "bg-white hover:shadow-xl"
+            }`}
+        >
+          <div className="flex items-center justify-center w-12 h-12 bg-white rounded-full shadow-md">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={`h-6 w-6 ${paymentMethod === "card" ? "text-blue-500" : "text-gray-700"
+                }`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+              />
+            </svg>
+          </div>
+          <input
+            type="radio"
+            value="card"
+            checked={paymentMethod === "card"}
+            onChange={() => setPaymentMethod("card")}
+            className="hidden"
+          />
+          <span className="text-lg font-semibold">Credit Card</span>
+        </label>
+
+        {/* // Cash on Delivery Option  */}
+        <label
+          className={`flex items-center space-x-4 p-6 rounded-2xl shadow-lg cursor-pointer transition-all duration-300 ${paymentMethod === "cash"
+              ? "bg-gradient-to-r from-green-500 to-teal-500 text-white"
+              : "bg-white hover:shadow-xl"
+            }`}
+        >
+          <div className="flex items-center justify-center w-12 h-12 bg-white rounded-full shadow-md">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={`h-6 w-6 ${paymentMethod === "cash" ? "text-green-500" : "text-gray-700"
+                }`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+              />
+            </svg>
+          </div>
+          <input
+            type="radio"
+            value="cash"
+            checked={paymentMethod === "cash"}
+            onChange={() => setPaymentMethod("cash")}
+            className="hidden"
+          />
+          <span className="text-lg font-semibold">Cash on Delivery</span>
+        </label>
+      </div>
+
+  
+      {/* <div>
+        {/* Credit Card Option 
+        <motion.label
+          className={`flex items-center space-x-6 p-6 rounded-2xl cursor-pointer relative overflow-hidden ${paymentMethod === "card"
+              ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
+              : "bg-white border border-gray-200"
+            }`}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onHoverStart={() => setIsHovered(true)}
+          onHoverEnd={() => setIsHovered(false)}
+        >
+          <input
+            type="radio"
+            value="card"
+            checked={paymentMethod === "card"}
+            onChange={() => setPaymentMethod("card")}
+            className="hidden"
+          />
+          <div className="flex items-center justify-center w-14 h-14 bg-white rounded-full shadow-lg">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={`h-8 w-8 ${paymentMethod === "card" ? "text-blue-600" : "text-gray-700"
+                }`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+              />
+            </svg>
+          </div>
+          <span className="text-xl font-semibold">Credit Card</span>
+          <AnimatePresence>
+            {paymentMethod === "card" && (
+              <motion.div
+                className="absolute inset-0 bg-white bg-opacity-10"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              />
+            )}
+          </AnimatePresence>
+        </motion.label>
+
+        {/* Cash on Delivery Option
+        <motion.label
+          className={`flex items-center space-x-6 p-6 rounded-2xl cursor-pointer relative overflow-hidden mt-4 ${paymentMethod === "cash"
+              ? "bg-gradient-to-r from-green-600 to-teal-600 text-white"
+              : "bg-white border border-gray-200"
+            }`}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onHoverStart={() => setIsHovered(true)}
+          onHoverEnd={() => setIsHovered(false)}
+        >
+          <input
+            type="radio"
+            value="cash"
+            checked={paymentMethod === "cash"}
+            onChange={() => setPaymentMethod("cash")}
+            className="hidden"
+          />
+          <div className="flex items-center justify-center w-14 h-14 bg-white rounded-full shadow-lg">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={`h-8 w-8 ${paymentMethod === "cash" ? "text-green-600" : "text-gray-700"
+                }`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+              />
+            </svg>
+          </div>
+          <span className="text-xl font-semibold">Cash on Delivery</span>
+          <AnimatePresence>
+            {paymentMethod === "cash" && (
+              <motion.div
+                className="absolute inset-0 bg-white bg-opacity-10"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              />
+            )}
+          </AnimatePresence>
+        </motion.label>
+
+        {/* AI-Powered Feedback 
+        <AnimatePresence>
+          {isHovered && (
+            <motion.div
+              className="mt-4 p-4 bg-gray-100 rounded-lg text-gray-700 text-sm"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+            >
+              {paymentMethod === "card"
+                ? "Secure and instant payment with your credit card."
+                : "Pay in cash when your order is delivered."}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div> */}
+
+    
+
+      {paymentMethod === "card" && (
+        <PaymentForm
+          applicationId={import.meta.env.VITE_SQUARE_APP_ID}
+          cardTokenizeResponseReceived={async (token, verifiedBuyer) => {
+            if (token?.token) {
+              setSource(token.token);
+              setExpiryMonth(token?.details?.card?.expMonth);
+              setExpiryYear(token?.details?.card?.expYear);
+              setCardNumber(token?.details?.card?.last4);
+            } else {
+              console.error("Token generation failed", token);
+            }
+          }}
+          //  createVerificationDetails={() => ({
+          //   amount: amount,
+          //   billingContact: {
+          //     addressLines: ["123 Main Street", "Apartment 1"],
+          //     familyName: "Doe",
+          //     givenName: "John",
+          //     countryCode: "GB",
+          //     city: "London",
+          //   },
+          //   currencyCode: "GBP",
+          //   intent: "CHARGE",
+          // })}
+          // locationId="L0599WY5GGG3W"
+          locationId="LY0VX9YHK6X93"
+        >
+   
+          <CreditCard />
+        </PaymentForm>
+      )}
       {notification.show && <Notification show={notification.show} message={notification.message} />}
-    <h2 className="text-orange-500 font-semibold mb-2">3 Select a payment method</h2>
-      <CreditCard />
-    </PaymentForm>
+    </>
   );
 };
 
