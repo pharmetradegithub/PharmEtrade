@@ -254,7 +254,6 @@ function LayoutaddProduct() {
           : product.productGallery.thumbnail6,
     });
   };
-
   const searchParams = new URLSearchParams(location.search);
   const queryProductId = searchParams.get("productId");
   const ResetFormDate = () => {
@@ -990,10 +989,11 @@ function LayoutaddProduct() {
       minOrderQuantity: formData.minOrderQuantity,
       maxOrderQuantity:
         formData.maxOrderQuantity == null || formData.maxOrderQuantity == ""
-          ? formData.amountInStock
-          : formData.maxOrderQuantity,
+  // ? formData.amountInStock
+      // : formData.maxOrderQuantity,
+          ? 0
+          : parseInt(formData.maxOrderQuantity)
     };
-    // console.log(tab2);
     if (formData.discount == null || formData.discount == "")
       setFormData({ ...formData, ["discount"]: 0 });
     // const tab4 = {
@@ -1284,9 +1284,9 @@ function LayoutaddProduct() {
                 </div>
 
                 <div className="flex  my-4 gap-4 display-col">
-                  <div className="flex flex-col ">
+                  <div className="flex flex-col">
                     <label className="text-sm font-semibold">
-                      Manufacturer:
+                      Manufacturer:<span className="text-red-600">*</span>
                     </label>
                     <input
                       name="manufacturer"
@@ -1295,6 +1295,11 @@ function LayoutaddProduct() {
                       onChange={handleInputChange}
                       value={formData.manufacturer}
                     />
+                    {formErrors.manufacturer && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.manufacturer}
+                      </span>
+                    )}
                   </div>
 
                   <div className="flex flex-col">
@@ -1357,7 +1362,7 @@ function LayoutaddProduct() {
                   </div>
 
                   <div className="flex flex-col">
-                    <label className="text-sm font-semibold">Strength:</label>
+                    <label className="text-sm font-semibold">Strength:<span className="text-red-600">*</span></label>
                     <input
                       name="strength"
                       type="text"
@@ -1365,9 +1370,14 @@ function LayoutaddProduct() {
                       onChange={handleInputChange}
                       value={formData.strength}
                     />
+                    {formErrors.strength && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.strength}
+                      </span>
+                    )}
                   </div>
                   <div className="  ml-0 flex flex-col">
-                    <label className="font-semibold">Brand Name:</label>
+                    <label className="font-semibold">Brand Name:<span className="text-red-600">*</span></label>
                     <input
                       name="brandName"
                       type="text"
@@ -1375,6 +1385,11 @@ function LayoutaddProduct() {
                       onChange={handleInputChange}
                       value={formData.brandName}
                     />
+                    {formErrors.brandName && (
+                      <span className="text-red-500 text-sm">
+                        {formErrors.brandName}
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -1383,7 +1398,7 @@ function LayoutaddProduct() {
                     <div className="flex gap-4 display-col">
                       <div className="flex flex-col">
                         <label className="text-sm font-semibold">
-                          Lot Number:
+                          Lot Number:<span className="text-red-600">*</span>
                         </label>
                         <input
                           name="lotNumber"
@@ -1392,6 +1407,11 @@ function LayoutaddProduct() {
                           onChange={handleInputChange}
                           value={formData.lotNumber}
                         />
+                        {formErrors.lotNumber && (
+                          <span className="text-red-500 text-sm">
+                            {formErrors.lotNumber}
+                          </span>
+                        )}
                       </div>
 
                       <div className="flex flex-col">
@@ -1445,7 +1465,7 @@ function LayoutaddProduct() {
                         )}
                       </div>
                       <div className="flex flex-col">
-                        <label className="text-sm font-semibold">SKU:</label>
+                        <label className="text-sm font-semibold">SKU:<span className="text-red-600">*</span></label>
                         <input
                           name="sku"
                           type="text"
@@ -1453,6 +1473,12 @@ function LayoutaddProduct() {
                           onChange={handleInputChange}
                           value={formData.sku}
                         />
+                        {formErrors.sku && (
+                          <span className="text-red-500 text-sm">
+                            {formErrors.sku}
+                          </span>
+                        )}
+
                       </div>
                     </div>
                   </div>

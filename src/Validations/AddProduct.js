@@ -36,8 +36,24 @@ export const ProductInfoValidation = (formData) => {
       }
     if (formData.videoUrl && formData.videoUrl.size > 25 * 1024 * 1024) {
         errors.videoUrl = "Video size must not exceed 25MB.";
-      }
+    }
+    if (!formData.manufacturer) {
+        errors.manufacturer = "Manufacturer is required."
+    }
+    if (!formData.lotNumber) {
+        errors.lotNumber = "Lot Number is required."
+    }
 
+    if (!formData.strength) {
+        errors.strength = "Strength is required."
+    }
+
+    if (!formData.sku) {
+        errors.sku = "Sku is required."
+    }
+    if (!formData.brandName) {
+        errors.brandName = "Brand Name is required."
+    }
     return errors;
 };
 

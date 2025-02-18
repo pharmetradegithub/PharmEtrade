@@ -247,7 +247,7 @@ const RequestDemo = ({ topMargin }) => {
   style={{ marginTop: `${topMargin}px` }}
 >
   <div className="absolute top-0 w-full h-full sm:h-[70vh] md:h-[95vh] lg:h-screen z-[-1] flex justify-center items-center">
-    <img className="w-full h-full opacity-50" src={background_image} alt="Background" />
+        <img className="w-full h-full opacity-20" src={background_image} alt="Background" />
   </div>
 
   <div className="w-full h-auto md:h-screen flex flex-col sm:flex-col md:flex-row lg:flex-row items-center">

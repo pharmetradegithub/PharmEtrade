@@ -1093,7 +1093,11 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
             <div>
               <img
                 src={Logo}
-                onClick={() => navigate("/")}
+                // onClick={() => navigate("/")}
+                onClick={() => {
+                  setSelectedIndex(0); 
+                  navigate("/");
+                }}
                 // className="w-18 md:w-16 lg:w-32 xl:w-60 h-9 ml-2 md:ml-2 lg:ml-12 hover:cursor-pointer lg:overflow-x-hidden"
                 className="w-28 sm:w-36 md:w-36 lg:w-48 xl:w-60 h-auto ml-2 md:ml-2 lg:ml-12 hover:cursor-pointer"
                 alt="Logo"
