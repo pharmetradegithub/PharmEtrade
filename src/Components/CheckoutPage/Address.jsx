@@ -1358,15 +1358,16 @@ function Address({ topMargin, totalAmount, amount }) {
                                         </div>
 
                                         {/* Address display */}
-                                        <h1 className="font-semibold">
+                                        <h1 className="font-semibold mr-2">
                                           {item.firstName} {item.lastName || ""},
                                         </h1>
-                                        {item.address2 && <p className="mr-1">{item.address2},</p>}
-                                        <p className="mr-1">{item.address1},</p>
-                                        <p className="mr-1">{item.city},</p>
-                                        <p className="mr-1">{item.state},</p>
-                                        <p className="mr-1">{item.pincode}</p>
-                                        <p>{item.phoneNumber && `, ${item.phoneNumber}`}</p>
+                                        {item.address2 && <p className="mr-2">{item.address2},</p>}
+                                        <p className="mr-2">{item.address1},</p>
+                                        <p className="mr-2">{item.city},</p>
+                                        <p className="mr-2">{item.state},</p>
+                                        <p className="">{item.pincode}</p>
+                                        {/* <p className="ml-1">{item.phoneNumber && `, ${item.phoneNumber}`}</p> */}
+                                        {item.phoneNumber && <p className="">,&nbsp;&nbsp;{item.phoneNumber}</p>}
 
                                         {/* Edit button */}
                                         <p

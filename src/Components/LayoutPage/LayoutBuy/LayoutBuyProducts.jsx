@@ -639,7 +639,7 @@ function LayoutBuy({
                           </div>
                         </div>
 
-                        <div className="flex sm:flex-col flex-col sm:mx-3 mx-0">
+                        <div className="flex sm:flex-col flex-col sm:mx-3 ">
                           <p className="font-semibold sm:ml-4 m-0">Quantity</p>
                           <div className="mt-2 flex ">
                             <button
@@ -853,8 +853,8 @@ function LayoutBuy({
                               <p className="text-red-500 font-semibold mt-1">Out Of Stock</p>
                             ) : (
                               <>
-                                <p className="text-red-500 text-sm mt-1">
-                                  Minimum Purchase Requirement : {product.minOrderQuantity}
+                                <p className="text-red-500 text-xs mt-1">
+                                  Minimum Purchase Requirement: {product.minOrderQuantity}
                                 </p>
                                 <p className="text-red-500 text-xs mt-1">
                                     Maximum Purchase Limit {product.maxOrderQuantity}.
@@ -881,7 +881,8 @@ function LayoutBuy({
                           </div>
 
 
-
+                          
+                         <div className="w-[80%]">
                           <div
                             onClick={() => {
                               // if (product.amountInStock > 0) {
@@ -901,7 +902,7 @@ function LayoutBuy({
                                 }
                               }
                             }}
-                            className={`flex layoutBuyProducts text-white h-[32px] sm:w-full w-32 small-button sm:px-2 rounded-lg sm:mt-20 mt-4 ml-0 p-0 mx-2 justify-center  items-center ${product.amountInStock <= 0
+                              className={`flex layoutBuyProducts text-white h-[32px] sm:w-full w-32  small-button sm:px-2 rounded-lg sm:mt-20 mt-4 ml-0 p-0 mx-2 justify-center  items-center ${product.amountInStock <= 0
                               ? "bg-gray-400 cursor-not-allowed"
                               : "bg-blue-900 cursor-pointer"
                               }`}
@@ -923,7 +924,7 @@ function LayoutBuy({
                               {"Add to Cart"}
                             </p>
                           </div>
-
+</div>
                         </div>
 
                         {/* Wishlist */}
