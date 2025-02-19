@@ -700,76 +700,76 @@ const Payment = () => {
   };
 
   const navigate = useNavigate()
-  const handleProceedPayment = async () => {
-    if (!validateFields()) {
-      setSuccessMessage("Please fill all the fields correctly.");
-      return;
-    }
+  // const handleProceedPayment = async () => {
+  //   if (!validateFields()) {
+  //     setSuccessMessage("Please fill all the fields correctly.");
+  //     return;
+  //   }
 
-    setCardNumber('')
-    setNickName('')
-    setExpiryMonth("")
-    setExpiryYear("")
-    setCvv('')
-    if (!cardNumber || !nickName || !expiryMonth || !expiryYear || !cvv) {
-      setSuccessMessage("Please fill all the fields.");
-      return; // Exit the function if validation fails
-    }
-    const currentDate = new Date();
-    const payload = {
-      paymentInfoId: "",
-      orderId: ordered?.orderId,
-      paymentMethodId: 1,
-      cardNumber: cardNumber,
-      cardType: "",
-      cvv: cvv,
-      validThrough: `${expiryMonth}/${expiryYear}`,
-      nameOnCard: nickName,
-      bank: "",
-      paymentAmount: 0,
-      isCreditCard: true,
-      statusId: 3,
-      paymentStatus: "",
-      paymentDate: currentDate.toISOString()
-    };
+  //   setCardNumber('')
+  //   setNickName('')
+  //   setExpiryMonth("")
+  //   setExpiryYear("")
+  //   setCvv('')
+  //   if (!cardNumber || !nickName || !expiryMonth || !expiryYear || !cvv) {
+  //     setSuccessMessage("Please fill all the fields.");
+  //     return; // Exit the function if validation fails
+  //   }
+  //   const currentDate = new Date();
+  //   const payload = {
+  //     paymentInfoId: "",
+  //     orderId: ordered?.orderId,
+  //     paymentMethodId: 1,
+  //     cardNumber: cardNumber,
+  //     cardType: "",
+  //     cvv: cvv,
+  //     validThrough: `${expiryMonth}/${expiryYear}`,
+  //     nameOnCard: nickName,
+  //     bank: "",
+  //     paymentAmount: 0,
+  //     isCreditCard: true,
+  //     statusId: 3,
+  //     paymentStatus: "",
+  //     paymentDate: currentDate.toISOString()
+  //   };
 
+  // //   try {
+  // //     await dispatch(fetchOrderPayment(payload));
+  // //     setIsCardPopup(false);
+  // //     setNotification({ show: true, message: "Payment processed successfully!" });
+  // //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+  // //     await navigate('/layout/layoutorderlist')
+  // //   } catch (error) {
+  // //     console.log("error", error);
+  //   //   }
+  //   // try {
+  //   //   await dispatch(fetchOrderPayment(payload));
+  //   //   setIsCardPopup(false);
+  //   //   setNotification({ show: true, message: "Payment processed successfully!" });
+  //   //   setTimeout(() => {
+  //   //     setNotification({ show: false, message: "" });
+  //   //     navigate('/layout/layoutorderlist');
+  //   //   }, 5000); // Navigate after 3 seconds
+  //   // } catch (error) {
+  //   //   console.log("error", error);
+  //   // }
   //   try {
   //     await dispatch(fetchOrderPayment(payload));
   //     setIsCardPopup(false);
-  //     setNotification({ show: true, message: "Payment processed successfully!" });
-  //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-  //     await navigate('/layout/layoutorderlist')
+  //     setTimeout(() => {
+  //       setNotification({ show: true, message: "Payment processed successfully!" });
+  //     }, 3000)
+  //     await getCartItemsApi()
+  //     setTimeout(() => {
+  //       setNotification({ show: false, message: "" });
+  //       navigate('/layout/layoutorderlist');
+  //     }, 5000); // Navigate after 3 seconds
   //   } catch (error) {
   //     console.log("error", error);
-    //   }
-    // try {
-    //   await dispatch(fetchOrderPayment(payload));
-    //   setIsCardPopup(false);
-    //   setNotification({ show: true, message: "Payment processed successfully!" });
-    //   setTimeout(() => {
-    //     setNotification({ show: false, message: "" });
-    //     navigate('/layout/layoutorderlist');
-    //   }, 5000); // Navigate after 3 seconds
-    // } catch (error) {
-    //   console.log("error", error);
-    // }
-    try {
-      await dispatch(fetchOrderPayment(payload));
-      setIsCardPopup(false);
-      setTimeout(() => {
-        setNotification({ show: true, message: "Payment processed successfully!" });
-      }, 3000)
-      await getCartItemsApi()
-      setTimeout(() => {
-        setNotification({ show: false, message: "" });
-        navigate('/layout/layoutorderlist');
-      }, 5000); // Navigate after 3 seconds
-    } catch (error) {
-      console.log("error", error);
-    }
+  //   }
 
   
-  };
+  // };
 
 
   // useEffect(() => {
@@ -1001,6 +1001,83 @@ const Payment = () => {
     }
   }
 
+
+  const handleProceedPayment = async () => {
+    // if (!validateFields()) {
+    //   setSuccessMessage("Please cash on delivery field.");
+    //   return;
+    // }
+
+    // setSelectedPayment(false)
+    // setCardNumber('')
+    // setNickName('')
+    // setExpiryMonth("")
+    // setExpiryYear("")
+    // setCvv('')
+    // if (!selectedPayment) {
+    //   setSuccessMessage("Please select the cash on delivery field.");
+    //   return; // Exit the function if validation fails
+    // }
+    const currentDate = new Date();
+    const payload = {
+      paymentInfoId: "",
+      orderId: ordered?.orderId,
+      paymentMethodId: 3,
+      cardNumber: "",
+      cardType: "",
+      cvv: "",
+      validThrough: "",
+      nameOnCard: "",
+      bank: "",
+      paymentAmount: 0,
+      isCreditCard: true,
+      statusId: 3,
+      paymentStatus: "",
+      paymentDate: currentDate.toISOString()
+    };
+
+    //   try {
+    //     await dispatch(fetchOrderPayment(payload));
+    //     setIsCardPopup(false);
+    //     setNotification({ show: true, message: "Payment processed successfully!" });
+    //     setTimeout(() => setNotification({ show: false, message: "" }), 3000);
+    //     await navigate('/layout/layoutorderlist')
+    //   } catch (error) {
+    //     console.log("error", error);
+    //   }
+    // try {
+    //   await dispatch(fetchOrderPayment(payload));
+    //   setIsCardPopup(false);
+    //   setNotification({ show: true, message: "Payment processed successfully!" });
+    //   setTimeout(() => {
+    //     setNotification({ show: false, message: "" });
+    //     navigate('/layout/layoutorderlist');
+    //   }, 5000); // Navigate after 3 seconds
+    // } catch (error) {
+    //   console.log("error", error);
+    // }
+    try {
+      await dispatch(fetchOrderPayment(payload));
+      // setIsCardPopup(false);
+      // setTimeout(() => {
+        setNotification({ show: true, message: "Payment processed successfully!" });
+      // }, 3000)
+      setTimeout(() => {
+        setNotification({ show: false, message: "" });
+      }, 5000);
+      await getCartItemsApi()
+      navigate('/layout/layoutorderlist');
+      // setTimeout(() => {
+      //   setNotification({ show: false, message: "" });
+      //   navigate('/layout/layoutorderlist');
+      // }, 5000); // Navigate after 3 seconds
+    } catch (error) {
+      console.log("error", error);
+    }
+
+
+  };
+
   return (
     <div>
       {notification.show && <Notification show={notification.show} message={notification.message} />}
@@ -1031,13 +1108,57 @@ const Payment = () => {
     </div> */}
 
 
-      <h2 className="text-orange-500 font-semibold">3 Select a payment method</h2>
+      {/* <h2 className="text-orange-500 font-semibold">3 Select a payment method</h2> */}
 
       <div className="border rounded-md p-4 mx-4">
 
 
+        
+        <div className="flex flex-col items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 p-6">
+          {/* Full-Width Payment Card */}
+          <div className="p-8 w-full bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/30 transition-all hover:shadow-3xl">
+            {/* <h1 className="text-3xl font-bold mb-6 text-gray-900 tracking-tight text-center">
+              Choose Payment Method
+            </h1> */}
+
+            {/* Payment Option */}
+            <div
+              className={`flex w-full items-center p-5 cursor-pointer border rounded-2xl transition-all ${selectedPayment === "cod"
+                  ? "bg-gradient-to-r from-blue-200 to-blue-100 border-blue-400 shadow-lg scale-105"
+                  : "bg-white/50 border-gray-300 hover:border-gray-500 hover:shadow-md"
+                }`}
+              onClick={() => handlePaymentSelection("cod")}
+            >
+              {/* Custom Radio Button */}
+              <div
+                className={`w-6 h-6 flex justify-center items-center rounded-full border-2 transition-all ${selectedPayment === "cod"
+                  ? "border-blue-500 bg-blue-500 scale-110 shadow-md"
+                  : "border-gray-400 bg-white hover:border-gray-500"
+                  }`}
+              >
+                {selectedPayment === "cod" && <div className="w-3 h-3 bg-white rounded-full"></div>}
+              </div>
+
+              <span className="ml-4 text-lg text-gray-800 font-medium">Cash on Delivery</span>
+            </div>
+
+            {/* Proceed Button */}
+            <div className="flex justify-end mt-6">
+              <button
+                className={`w-[40%] h-14 text-white text-lg font-medium rounded-full shadow-lg transition-transform ${selectedPayment
+                    ? "bg-gradient-to-r from-blue-500 to-indigo-700 hover:scale-105 hover:shadow-xl"
+                    : "bg-gray-400 cursor-not-allowed"
+                  }`}
+                onClick={handleProceedPayment}
+                disabled={!selectedPayment} // Disable button if no selection
+              >
+                Proceed Payment
+              </button>
+            </div>
+          </div>
+        </div>
         <div>
-          <div className="flex flex-col">
+          {/* <div className="flex flex-col">
             <div
               className={`flex w-[95%] cursor-pointer bg-pink-50 border border-black rounded-md items-center p-2
                 `}
@@ -1053,7 +1174,7 @@ const Payment = () => {
               />
               <span className="ml-2">Credit or debit card</span>
             </div>
-            {/* {selectedPayment === "card" && ( */}
+            {/* {selectedPayment === "card" && ( *
               <div className="flex mt-2">
                 <img src={AmericanExpress} className="w-12 h-9 mr-2" />
                 <img src={visa} className="w-12 h-9 mr-2" />
@@ -1061,12 +1182,12 @@ const Payment = () => {
                 <img src={dotspaymenticon} className="w-12 h-9 mr-2" />
                 <img src={net} className="w-12 h-9" />
               </div>
-            {/* )} */}
+            {/* )} *
 
 
 
 
-            {/* {isPopupShow && ( */}
+            {/* {isPopupShow && ( *
 
 
 
@@ -1075,7 +1196,7 @@ const Payment = () => {
 
                 <div className="flex flex-col space-y-4">
                   <div className="flex space-x-6">
-                    {/* Card Number */}
+                    {/* Card Number *
                     <div className="flex flex-col w-1/2">
                       <label className="text-sm mb-2">Card Number</label>
                       <input
@@ -1094,7 +1215,7 @@ const Payment = () => {
                       {errors.cardNumber && <p className="text-red-500 text-sm">Card number must be 16 digits.</p>}
                     </div>
 
-                    {/* Name */}
+                    {/* Name *
                     <div className="flex flex-col w-1/2">
                       <label className="text-sm mb-2">Name</label>
                       <input
@@ -1108,7 +1229,7 @@ const Payment = () => {
                     </div>
                   </div>
 
-                  {/* Expiry Date and CVV */}
+                  {/* Expiry Date and CVV *
                   <div>
                     <label className="text-sm">Expiry Date</label>
                     <div className="flex items-center mt-1">
@@ -1139,7 +1260,7 @@ const Payment = () => {
                       {/* {errors.expiryMonth && <p className="text-red-500 text-sm">Month name is required.</p>} */}
 
 
-                      {/* CVV */}
+                      {/* CVV *
                       <div className="flex items-center">
                         <input
                           type="text"
@@ -1164,14 +1285,14 @@ const Payment = () => {
                </div>
                   </div>
 
-                  {/* Info Text */}
+                  {/* Info Text *
                   <div className="text-sm text-gray-600 mt-4">
                     <p>
                       Please ensure that you enable your card for online payments from your bank’s app.
                     </p>
                   </div>
 
-                  {/* Proceed Payment Button */}
+                  {/* Proceed Payment Button *
                   <div className="flex justify-end mt-4">
                     <button
                       className="w-40 h-10 bg-blue-900 text-white rounded-full shadow-lg hover:bg-blue-800 transition-colors"
@@ -1182,13 +1303,13 @@ const Payment = () => {
                   </div>
                 </div>
               </div>
-            {/* )} */}
+            {/* )} *
 
 
 
 
 
-          </div>
+          </div> */}
 
 
 
@@ -1243,11 +1364,11 @@ const Payment = () => {
 
       </div>
 
-      <div className="my-2 border-b">
+      {/* <div className="my-2 border-b">
         <h1> 4 Offers</h1>
       </div>
-      {/* {showItemsAndDelivery &&  */}
-      <ItemsAndDelivery />
+      {/* {showItemsAndDelivery &&  *
+      <ItemsAndDelivery /> */}
       {/* } */}
 
     </div>
