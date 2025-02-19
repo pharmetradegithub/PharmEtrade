@@ -1967,7 +1967,9 @@ function Address({ topMargin, totalAmount, amount }) {
                 {/* // onPaymentSuccess={handlePaymentSuccess} */}
                 {/* // onPaymentError={handlePaymentError} */}
                 {/* /> */}
-                <div className="ml-6 w-[65%]">
+
+
+                {/* <div className="ml-6 w-[65%]">
                   {selectedAddressId ? (
 
                     <SquarePaymentForm
@@ -1977,8 +1979,22 @@ function Address({ topMargin, totalAmount, amount }) {
                   ) : (
                     <p className="text-red-500 font-semibold mt-3">Please select an address for payment.</p>
                   )}
-                  {/* </div> */}
-                </div>
+                  {/* </div> 
+                </div> */}
+
+              <div className="ml-6 w-[65%]">
+                  {selectedAddressId ? (
+
+                    <Payment
+                      // amount={(validTotal + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}
+                      amount={(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}
+                    />
+                  ) : (
+                    <p className="text-red-500 font-semibold mt-3">Please select an address for payment.</p>
+                  )}
+                  {/* //  </div>  */}
+                </div> 
+
                 {/* <div className="border-b my-3">
                   <h1>3 Offers</h1>
                 </div>

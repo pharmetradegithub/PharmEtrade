@@ -21,6 +21,7 @@ import {
 import Chargesinformation from "./ChargesInformation";
 import Notification from "../../Notification";
 import { useLocation } from "react-router-dom";
+import ACHAuthorization from "./ACHAuthorization";
 const LayoutProfile = () => {
   const userdata = useSelector((state) => state.user?.user || []); // Get user data from redux
   const businessInfo = useSelector((state) => state.user?.businessInfo || []);
@@ -319,6 +320,10 @@ const LayoutProfile = () => {
     {
       label: "Fees",
       grid: "charges",
+    },
+    {
+      label: "ACH Authorization",
+      grid: "ACH",
     },
   ];
   const [visibleGrid, setVisibleGrid] = useState("account"); // Default to Account Information
@@ -1846,6 +1851,14 @@ const LayoutProfile = () => {
           >
             {/* Your bank information grid details here */}
             <BankInformation />
+          </div>
+        )}
+        {visibleGrid === "ACH" && (
+          <div
+          //  className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4"
+          >
+            {/* Your bank information grid details here */}
+            <ACHAuthorization />
           </div>
         )}
 
