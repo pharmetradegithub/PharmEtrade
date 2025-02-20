@@ -1092,8 +1092,8 @@ function Items({
                 </span>
               )}
 
-              <p className="text-red-500 ml-4 text-sm">{`Minimum Quantity: ${prod?.minOrderQuantity ?? 0}`}</p>
-              <p className="text-red-500 ml-4 text-sm mb-2">{`You can buy a maximum of ${prod?.maxOrderQuantity ?? 0}`}</p>
+              <p className="text-red-500 ml-4 text-sm">{`Minimum Purchase Requirement: ${prod?.minOrderQuantity ?? 0}`}</p>
+              <p className="text-red-500 ml-4 text-sm mb-2">{`Maximum Purchase Limit ${prod?.maxOrderQuantity ?? 0}`}</p>
               <div className="flex gap-2 mx-2">
                 <button
                   className={`w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 

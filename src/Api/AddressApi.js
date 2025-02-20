@@ -1,5 +1,5 @@
 import axios from './api'; 
-import { setAddAddress, setAddress, setOrderDeliveryAddress } from "../Store/Store";
+import { setAddAch, setAddAddress, setAddress, setGetAch, setOrderDeliveryAddress } from "../Store/Store";
 
 
 // export const fetchGetByCustomerId = (customerId) => {
@@ -110,5 +110,54 @@ export const SetDefaultApi = async (customerId, addressId) => {
     }
   } catch (error) {
     console.log("error", error)
+  }
+}
+
+export const fetchAddAch = (payload) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post('/api/Customer/ACH/Add', payload);
+      if (response.status === 200) {
+        const addAch = response.data.result[0]
+        dispatch(setAddAch(addAch))
+      } else {
+        console.error('Failed to add address action:', response.data.message);
+      }
+    } catch (error) {
+      console.log("error", error)
+    }
+  }
+}
+
+export const fetchGetAchCustomer = (customerId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/api/Customer/ACH/Get?customerId=${customerId}`);
+
+      if (response.status === 200) {
+        const getCustomerId = response.data.result;
+        dispatch(setGetAch(getCustomerId)); // Dispatch action
+      } else {
+        console.error('Failed to get customerId  action:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error get customerId  action:', error);
+    }
+  };
+};
+
+export const fetchUpdateAch = (payload) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post('/api/Customer/ACH/Update', payload);
+      if (response.status === 200) {
+        const addAddress = response.data.result[0]
+        dispatch(setUpdateAch(addAddress))
+      } else {
+        console.error('Failed to add address action:', response.data.message);
+      }
+    } catch (error) {
+      console.log("error", error)
+    }
   }
 }

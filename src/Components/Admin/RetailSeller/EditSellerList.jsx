@@ -120,6 +120,10 @@ const EditSellerList = () => {
       label: "Charges Informations",
       grid: "charges",
     },
+    {
+      label: "ACH Authorization",
+      grid: "ACH",
+    },
   ];
 
   const userTypes = [
@@ -1413,7 +1417,7 @@ const EditSellerList = () => {
         <div className="flex">
           {profiles.map(
             (profile) =>
-              (profile.label !== "Charges Informations" ||
+              (profile.label !== "Charges Informations" && profile.label !== 'ACH Authorization' ||
                 userDetails?.customerTypeId !== 4) && (
                 <div key={profile.grid} className="flex ml-6">
                   <div
@@ -1485,6 +1489,7 @@ const EditSellerList = () => {
 
                   <TextField
                     label="Password"
+                    type="password"
                     // id="outlined-size-small"
                     value={userDetails?.password} // Ensure it handles null or undefined
                     name="password" // Use camelCase for the name
@@ -2414,6 +2419,14 @@ const EditSellerList = () => {
           //  className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4"
           >
             <ChargesInformations />
+          </div>
+        )}
+
+        {visibleGrid === "ACH" && (
+          <div
+          //  className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4"
+          >
+            <ACHAuthorizationAdmin />
           </div>
         )}
 

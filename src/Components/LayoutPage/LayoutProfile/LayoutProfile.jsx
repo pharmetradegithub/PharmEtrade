@@ -973,7 +973,7 @@ const LayoutProfile = () => {
             userdata?.customerTypeId === 4 &&
             (index === 1 ||
               index === 2 ||
-              profile.grid === "charges") ? null : (
+              profile.grid === "charges" || profile.grid === "ACH") ? null : (
               <div key={profile.grid} className="flex ml-6">
                 <div
                   className={`w-44 bg-white layoutBuyProducts rounded-lg flex items-center justify-center cursor-pointer ${
@@ -1859,6 +1859,7 @@ const LayoutProfile = () => {
           >
             {/* Your bank information grid details here */}
             <ACHAuthorization />
+          
           </div>
         )}
 
