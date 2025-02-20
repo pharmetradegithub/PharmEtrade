@@ -33,6 +33,7 @@ import {
   AdminChargesGetApi,
   fetchCommentsByadmin,
 } from "../../../Api/AdminApi";
+import ACHAuthorizationAdmin from "./ACHAuthorizationAdmin";
 
 // import ChargesInformation from "../../LayoutPage/LayoutProfile/ChargesInformation";
 // import BankInformation from "./BankInformation";
