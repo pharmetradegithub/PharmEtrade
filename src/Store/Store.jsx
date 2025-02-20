@@ -436,13 +436,22 @@ const returnsSlice = createSlice({
 
 const addressSlice = createSlice({
   name: 'address',
-  initialState: { address: [], customerId :[] , editAddress: []},
+  initialState: { address: [], customerId: [], editAddress: [], achAdd: [], achGet: [], achUpdate: [] },
   reducers: {
     setAddAddress(state, action) {
       state.address = action.payload
     },
     setEditAddress(state, action) {
       state.editAddress = action.payload
+    },
+    setAddAch(state, action) {
+      state.achAdd = action.payload
+    },
+    setGetAch(state, action) {
+      state.achGet = action.payload
+    },
+    setUpdateAch(state, action) {
+      state.achUpdate = action.payload
     },
     setAddress(state, action) {
       state.customerId = action.payload
@@ -630,7 +639,7 @@ export const { setSellerOrderViewInvoice } = orderSlice.actions
 export const { setEarning } = earningSlice.actions
 export const { setReturns } = returnsSlice.actions
 export const { setAddress } = addressSlice.actions
-export const { setAddAddress } = addressSlice.actions
+export const { setAddAddress, setAddAch, setGetAch, setUpdateAch} = addressSlice.actions
 export const { setAdmin } = adminSlice.actions
 export const { setAddBeneficiary } = userSlice.actions
 export const { setGetBeneficiary } = userSlice.actions

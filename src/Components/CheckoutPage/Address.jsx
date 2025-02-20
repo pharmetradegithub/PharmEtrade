@@ -40,6 +40,8 @@ import { getUserByCustomerIdApi } from "../../Api/UserApi";
 import { clearFedExRates, clearServiceType } from "../../Store/Store";
 // import { getCartItemsApi } from "../../Api/CartApi";
 function Address({ topMargin, totalAmount, amount }) {
+  const getAch = useSelector((state) => state.address.achGet) || "";
+    console.log("getAch", getAch)
   const dispatch = useDispatch()
   const applicationId = 'sandbox-sq0idb-vXdVdM6tMjTG6Zi2XCoE-A';
   const locationId = 'L0599WY5GGG3W';
@@ -119,114 +121,225 @@ function Address({ topMargin, totalAmount, amount }) {
   const [pincodes, setPincodes] = useState(null)
   const [stateAdd, setStateAdd] = useState(null)
   const [res, setRes] = useState([]);
-
+  
+  const orderplace = useSelector((state) => state.order.orderPlace)
+  console.log("orderrrrrrrplacce", orderplace)
  
+  // useEffect(() => {
+  //   const fetchSellersAndSendPayload = async () => {
+  //     try {
+  //       dispatch(clearServiceType());
+  //       dispatch(clearFedExRates());
+  //       // Map over cartList to process only products with shipping cost
+  //       const sellerPromises = cartList
+  //         .filter((product) => product.product.isShippingCostApplicable === false) // Only include products with shipping cost
+  //         .map(async (product) => {
+  //           // Fetch seller data first
+  //           // const sellerData = await getUserByCustomerIdApi(product.product.sellerId);
+  //           if (orderplace && orderplace.products?.sellerZipCode) {
+  //             const shipDateStamp = new Date().toISOString().slice(0, 10);
+  //             const payload = {
+  //               // accountNumber: {
+  //               //   value: "235969831",
+  //               // },
+  //               // requestedShipment: {
+  //               //   shipper: {
+  //               //     address: {
+  //               //       postalCode: sellerData.businessInfo.zip, // Shipper's postal code from sellerData
+  //               //       countryCode: "US",
+  //               //     },
+  //               //   },
+  //               //   recipient: {
+  //               //     address: {
+  //               //       postalCode: pincodes, // Use the pincode from the selected address or state
+  //               //       countryCode: "US",
+  //               //     },
+  //               //   },
+  //               //   pickupType: "DROPOFF_AT_FEDEX_LOCATION",
+  //               //   rateRequestType: ["ACCOUNT", "LIST"],
+  //               //   requestedPackageLineItems: [
+  //               //     {
+  //               //       weight: {
+  //               //         units: "LB",
+  //               //         value: 1, // Example weight, adjust as needed
+  //               //       },
+  //               //     },
+  //               //   ],
+  //               // },
+  //               accountNumber: {
+  //                 value: "235969831"
+  //               },
+  //               requestedShipment: {
+  //                 shipper: {
+  //                   address: {
+  //                     postalCode: orderplace.products?.sellerZipCode,
+  //                       countryCode: "US"
+  //                   }
+  //                 },
+  //                 recipient: {
+  //                   address: {
+  //                     postalCode: pincodes,
+  //                     countryCode: "US"
+  //                   }
+  //                 },
+  //                 serviceType: "STANDARD_OVERNIGHT",
+  //                   preferredCurrency: "USD",
+  //                     rateRequestType: [
+  //                       "ACCOUNT",
+  //                       "LIST"
+  //                     ],
+  //                 shipDateStamp: shipDateStamp,
+  //                         pickupType: "DROPOFF_AT_FEDEX_LOCATION",
+  //                           requestedPackageLineItems: [
+  //                             {
+  //                               weight: {
+  //                                 units: "LB",
+  //                                 value: 22
+  //                               }
+  //                             }
+  //                           ]
+  //               }
+              
+  //             };
+
+  //             // Dispatch the actions for the product with shipping cost
+  //             const serviceResponse = await dispatch(serviceTypeApi(payload, user.customerId));
+  //             const rateResponse = await dispatch(FedExRatesApi(payload, user.customerId));
+
+
+  //             return { product: product.product.sellerId, serviceResponse, rateResponse };
+  //           } else {
+  //             console.warn(`Postal code not found for seller ${product.product.sellerId}`);
+  //             return null; // Skip if postal code is missing
+  //           }
+  //         });
+
+  //       // Wait for all promises to resolve concurrently
+  //       const allResponses = await Promise.all(sellerPromises);
+
+  //       // Filter out any null responses (in case no seller data was found)
+  //       const successfulResponses = allResponses.filter((response) => response !== null);
+
+  //     } catch (error) {
+  //       console.error("Error processing sellers:", error);
+  //     }
+  //   };
+
+  //   if (cartList?.length > 0 && pincodes !== null) {
+  //     fetchSellersAndSendPayload(); 
+  //   }
+  // }, [cartList, pincodes]);
+
   useEffect(() => {
     const fetchSellersAndSendPayload = async () => {
       try {
         dispatch(clearServiceType());
         dispatch(clearFedExRates());
-        // Map over cartList to process only products with shipping cost
-        const sellerPromises = cartList
-          .filter((product) => product.product.isShippingCostApplicable === false) // Only include products with shipping cost
-          .map(async (product) => {
-            // Fetch seller data first
-            const sellerData = await getUserByCustomerIdApi(product.product.sellerId);
-            if (sellerData && sellerData.businessInfo?.zip) {
-              const shipDateStamp = new Date().toISOString().slice(0, 10);
-              const payload = {
-                // accountNumber: {
-                //   value: "235969831",
-                // },
-                // requestedShipment: {
-                //   shipper: {
-                //     address: {
-                //       postalCode: sellerData.businessInfo.zip, // Shipper's postal code from sellerData
-                //       countryCode: "US",
-                //     },
-                //   },
-                //   recipient: {
-                //     address: {
-                //       postalCode: pincodes, // Use the pincode from the selected address or state
-                //       countryCode: "US",
-                //     },
-                //   },
-                //   pickupType: "DROPOFF_AT_FEDEX_LOCATION",
-                //   rateRequestType: ["ACCOUNT", "LIST"],
-                //   requestedPackageLineItems: [
-                //     {
-                //       weight: {
-                //         units: "LB",
-                //         value: 1, // Example weight, adjust as needed
-                //       },
-                //     },
-                //   ],
-                // },
-                accountNumber: {
-                  value: "235969831"
-                },
-                requestedShipment: {
-                  shipper: {
-                    address: {
-                      postalCode: sellerData.businessInfo.zip,
-                        countryCode: "US"
-                    }
-                  },
-                  recipient: {
-                    address: {
-                      postalCode: pincodes,
-                      countryCode: "US"
-                    }
-                  },
-                  serviceType: "STANDARD_OVERNIGHT",
-                    preferredCurrency: "USD",
-                      rateRequestType: [
-                        "ACCOUNT",
-                        "LIST"
-                      ],
-                  shipDateStamp: shipDateStamp,
-                          pickupType: "DROPOFF_AT_FEDEX_LOCATION",
-                            requestedPackageLineItems: [
-                              {
-                                weight: {
-                                  units: "LB",
-                                  value: 22
-                                }
-                              }
-                            ]
-                }
-              
-              };
 
-              // Dispatch the actions for the product with shipping cost
-              const serviceResponse = await dispatch(serviceTypeApi(payload, user.customerId));
-              const rateResponse = await dispatch(FedExRatesApi(payload, user.customerId));
+        // Filter products that require shipping cost
+        const productsWithShipping = cartList.filter(
+          (product) => product.product.isShippingCostApplicable === false
+        );
 
+        // Process each product with shipping cost
+        const sellerPromises = productsWithShipping.map(async (product) => {
+          // Check if the product has a valid seller zip code in the order place data
+          const sellerZipCode = orderplace?.products.find(
+            (p) => p.sellerId === product.product.sellerId
+          )?.sellerZipCode;
+console.log("zzz", sellerZipCode)
+          if (sellerZipCode) {
+            const shipDateStamp = new Date().toISOString().slice(0, 10);
+            const payload = {
+              accountNumber: { value: "235969831" },
+              requestedShipment: {
+                shipper: { address: { postalCode: sellerZipCode, countryCode: "US" } },
+                recipient: { address: { postalCode: pincodes, countryCode: "US" } },
+                serviceType: "STANDARD_OVERNIGHT",
+                preferredCurrency: "USD",
+                rateRequestType: ["ACCOUNT", "LIST"],
+                shipDateStamp: shipDateStamp,
+                pickupType: "DROPOFF_AT_FEDEX_LOCATION",
+                requestedPackageLineItems: [{ weight: { units: "LB", value: 22 } }],
+              },
+            };
 
-              return { product: product.product.sellerId, serviceResponse, rateResponse };
-            } else {
-              console.warn(`Postal code not found for seller ${product.product.sellerId}`);
-              return null; // Skip if postal code is missing
-            }
-          });
+            // Make the two FedEx API calls for each product
+            await dispatch(serviceTypeApi(payload, user.customerId));
+            await dispatch(FedExRatesApi(payload, user.customerId));
 
-        // Wait for all promises to resolve concurrently
+            return { product: product.product.sellerId };
+          } else {
+            console.warn(`Postal code not found for seller ${product.product.sellerId}`);
+            return null;
+          }
+        });
+
+        // Wait for all API calls to complete
         const allResponses = await Promise.all(sellerPromises);
-
-        // Filter out any null responses (in case no seller data was found)
         const successfulResponses = allResponses.filter((response) => response !== null);
 
+        console.log("Successful API responses:", successfulResponses);
       } catch (error) {
         console.error("Error processing sellers:", error);
       }
     };
 
+    // Trigger the function if cartList has items and pincodes are available
     if (cartList?.length > 0 && pincodes !== null) {
-      fetchSellersAndSendPayload(); 
+      fetchSellersAndSendPayload();
     }
-  }, [cartList, pincodes]);
+  }, [cartList, pincodes, dispatch, user.customerId, orderplace]);
+  
+  
+//   useEffect(() => {
+//   const fetchSellersAndSendPayload = async () => {
+//     try {
+//       dispatch(clearServiceType());
+//       dispatch(clearFedExRates());
 
+//       const sellerPromises = cartList
+//         .filter((product) => product.product.isShippingCostApplicable === false)
+//         .map(async (product) => {
+//           const sellerData = await getUserByCustomerIdApi(product.product.sellerId);
+//           if (sellerData && sellerData.businessInfo?.zip) {
+//             const shipDateStamp = new Date().toISOString().slice(0, 10);
+//             const payload = {
+//               accountNumber: { value: "235969831" },
+//               requestedShipment: {
+//                 shipper: { address: { postalCode: sellerData.businessInfo.zip, countryCode: "US" } },
+//                 recipient: { address: { postalCode: pincodes, countryCode: "US" } },
+//                 serviceType: "STANDARD_OVERNIGHT",
+//                 preferredCurrency: "USD",
+//                 rateRequestType: ["ACCOUNT", "LIST"],
+//                 shipDateStamp: shipDateStamp,
+//                 pickupType: "DROPOFF_AT_FEDEX_LOCATION",
+//                 requestedPackageLineItems: [{ weight: { units: "LB", value: 22 } }],
+//               },
+//             };
 
+//             await dispatch(serviceTypeApi(payload, user.customerId));
+//             await dispatch(FedExRatesApi(payload, user.customerId));
+
+//             return { product: product.product.sellerId };
+//           } else {
+//             console.warn(`Postal code not found for seller ${product.product.sellerId}`);
+//             return null;
+//           }
+//         });
+
+//       const allResponses = await Promise.all(sellerPromises);
+//       const successfulResponses = allResponses.filter((response) => response !== null);
+
+//     } catch (error) {
+//       console.error("Error processing sellers:", error);
+//     }
+//   };
+
+//   if (cartList?.length > 0 && pincodes !== null) {
+//     fetchSellersAndSendPayload();
+//   }
+// }, [cartList, pincodes, dispatch, user.customerId]);
 
 
 
@@ -1236,6 +1349,11 @@ function Address({ topMargin, totalAmount, amount }) {
   //       setSelectedStates(filteredStates); // Select all states by default
   //     }
   //   }, [filteredStates]);
+
+  // const isAchRequired = [1, 2, 3].includes(user?.customerTypeId) && !getAch;
+  // const isAchRequired = [1, 2, 3].includes(user?.customerTypeId) && (!getAch || getAch.trim() === "");
+  const isAchRequired = [1, 2, 3].includes(user?.customerTypeId) && getAch.length === 0;
+  // const isAchRequired = [1, 2, 3].includes(user?.customerTypeId) && (!getAch || getAch.trim() === "");
   return (
     <div className="w-full flex justify-center items-center">
       {deletePop && (
@@ -1982,7 +2100,7 @@ function Address({ topMargin, totalAmount, amount }) {
                   {/* </div> 
                 </div> */}
 
-              <div className="ml-6 w-[65%]">
+              {/* <div className="ml-6 w-[65%]">
                   {selectedAddressId ? (
 
                     <Payment
@@ -1992,9 +2110,45 @@ function Address({ topMargin, totalAmount, amount }) {
                   ) : (
                     <p className="text-red-500 font-semibold mt-3">Please select an address for payment.</p>
                   )}
-                  {/* //  </div>  */}
-                </div> 
+                  {/* //  </div>  *
+                </div>  */}
 
+                <div className="ml-6 w-[65%]">
+                  {/* Show Payment only if selectedAddressId is true */}
+                  {selectedAddressId ? (
+                    isAchRequired ? (
+                      <p className="text-red-500 font-semibold mt-3">
+                        Please fill the ACH Authorization before selecting Cash on Delivery.
+                      </p>
+                    ) : (
+                      <Payment
+                          amount={(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}
+                      />
+                    )
+                  ) : (
+                    <p className="text-red-500 font-semibold mt-3">
+                      Please select an address for payment.
+                    </p>
+                  )}
+                </div>
+                {/* <div className="ml-6 w-[65%]">
+                  {/* Check if no address is selected *
+                  {!selectedAddressId ? (
+                    <p className="text-red-500 font-semibold mt-3">
+                      Please select an address for payment.
+                    </p>
+                  ) : isAchRequired ? (
+                    /* Check if ACH is required but not filled *
+                    <p className="text-red-500 font-semibold mt-3">
+                      Please fill the ACH Authorization before selecting Cash on Delivery.
+                    </p>
+                  ) : (
+                    /* Show Payment component if both conditions pass *
+                    <Payment
+                      amount={(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}
+                    />
+                  )}
+                </div> */}
                 {/* <div className="border-b my-3">
                   <h1>3 Offers</h1>
                 </div>

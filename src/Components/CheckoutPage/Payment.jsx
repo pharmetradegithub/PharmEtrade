@@ -608,7 +608,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { getCartItemsApi } from "../../Api/CartApi";
 
 
-const Payment = () => {
+const Payment = ({amount}) => {
   const [isButtonVisible, setIsButtonVisible] = useState(false);
   const [showItemsAndDelivery, setShowItemsAndDelivery] = useState(false); // State to control visibility
 
@@ -1029,8 +1029,8 @@ const Payment = () => {
       validThrough: "",
       nameOnCard: "",
       bank: "",
-      paymentAmount: 0,
-      isCreditCard: true,
+      paymentAmount: amount,
+      isCreditCard: false,
       statusId: 3,
       paymentStatus: "",
       paymentDate: currentDate.toISOString()
@@ -1056,27 +1056,51 @@ const Payment = () => {
     // } catch (error) {
     //   console.log("error", error);
     // }
-    try {
-      await dispatch(fetchOrderPayment(payload));
-      // setIsCardPopup(false);
-      // setTimeout(() => {
-        setNotification({ show: true, message: "Payment processed successfully!" });
-      // }, 3000)
-      setTimeout(() => {
-        setNotification({ show: false, message: "" });
-      }, 5000);
-      await getCartItemsApi()
-      navigate('/layout/layoutorderlist');
-      // setTimeout(() => {
-      //   setNotification({ show: false, message: "" });
-      //   navigate('/layout/layoutorderlist');
-      // }, 5000); // Navigate after 3 seconds
-    } catch (error) {
-      console.log("error", error);
+    // try {
+    //   await dispatch(fetchOrderPayment(payload));
+    //   // setIsCardPopup(false);
+    //   // setTimeout(() => {
+    //     setNotification({ show: true, message: "Payment processed successfully!" });
+    //   // }, 3000)
+    //   setTimeout(() => {
+    //     setNotification({ show: false, message: "" });
+    //   }, 5000);
+    //   await getCartItemsApi()
+    //   navigate('/layout/layoutorderlist');
+    //   // setTimeout(() => {
+    //   //   setNotification({ show: false, message: "" });
+    //   //   navigate('/layout/layoutorderlist');
+    //   // }, 5000); // Navigate after 3 seconds
+    // } catch (error) {
+    //   console.log("error", error);
+    // }
+
+     try {
+    const response = await dispatch(fetchOrderPayment(payload));
+
+    if (!response || response.status !== 200) {
+      setNotification({ show: true, message: "Payment failed. Please try again." });
+      setTimeout(() => setNotification({ show: false, message: "" }), 5000);
+      return;
     }
 
+    setNotification({ show: true, message: "Payment processed successfully!" });
 
-  };
+    setTimeout(() => {
+      setNotification({ show: false, message: "" });
+    }, 5000);
+
+    await getCartItemsApi();
+    navigate('/layout/layoutorderlist');
+  } catch (error) {
+    console.error("Payment error:", error);
+    setNotification({ show: true, message: "An error occurred. Please try again." });
+
+    setTimeout(() => {
+      setNotification({ show: false, message: "" });
+    }, 5000);
+  }
+};
 
   return (
     <div>
