@@ -1078,7 +1078,7 @@ const Payment = ({amount}) => {
      try {
     const response = await dispatch(fetchOrderPayment(payload));
 
-    if (!response || response.status !== 200) {
+       if (!response || response.statusCode > 200) {
       setNotification({ show: true, message: "Payment failed. Please try again." });
       setTimeout(() => setNotification({ show: false, message: "" }), 5000);
       return;
