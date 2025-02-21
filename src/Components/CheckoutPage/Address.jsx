@@ -247,7 +247,6 @@ function Address({ topMargin, totalAmount, amount }) {
           const sellerZipCode = orderplace?.products.find(
             (p) => p.sellerId === product.product.sellerId
           )?.sellerZipCode;
-console.log("zzz", sellerZipCode)
           if (sellerZipCode) {
             const shipDateStamp = new Date().toISOString().slice(0, 10);
             const payload = {
