@@ -6,7 +6,6 @@ import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/mater
 import edit from '../../../assets/Edit.png'
 function ACHAuthorizationAdmin() {
   const getAch = useSelector((state) => state.address.achGet);
-  console.log("getAch", getAch)
   const searchParams = new URLSearchParams(location.search);
   const CustomerId = searchParams.get("CustomerId");
   const [isTabEdit, setIsTabEdit] = useState(false);

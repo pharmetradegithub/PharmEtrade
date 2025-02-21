@@ -200,7 +200,7 @@ export const fetchGetBeneficiary = (customerId) => {
       const response = await axios.get(`/api/Customer/Beneficiary/GetByCustomerId?customerId=${customerId}`)
      
       if (response.status === 200) {
-        const addData = response.data.result[0]
+        const addData = response.data.result
         dispatch(setGetBeneficiary(addData))
       } else {
         console.error('Failed to fetch beneficiary:', response.data.message);

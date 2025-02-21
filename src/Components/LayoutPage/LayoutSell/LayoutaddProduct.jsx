@@ -1513,7 +1513,7 @@ function LayoutaddProduct() {
                 <div className="display-col">
                   <div className=" my-4 flex  display-col ">
                     <span className="text-sm font-semibold">
-                      Pack Quantity :{" "}
+                      Package Quantity :{" "}
                     </span>
 
                     <div className=" flex items-centr display-col">
@@ -1586,7 +1586,7 @@ function LayoutaddProduct() {
                 <div>
                   <div>
                     <div className=" my-4 flex items-cente display-col">
-                      <span className="text-sm font-semibold">Pack Type :</span>
+                      <span className="text-sm font-semibold">Package Type :</span>
 
                       <div className="flex items-cente display-col">
                         <div className="flex items-center ">
@@ -1609,7 +1609,8 @@ function LayoutaddProduct() {
                             className="text-sm mx-1 font-semibold"
                           >
                             {" "}
-                            ORIGINAL PACKAGE
+                            {/* ORIGINAL PACKAGE */}
+                            ORIGINAL SEALED
                           </label>
                         </div>
                         <div className="flex items-center">
@@ -1631,7 +1632,8 @@ function LayoutaddProduct() {
                             htmlFor="non-original"
                             className="text-sm mx-1 font-semibold"
                           >
-                            ORIGINAL PACKAGE - NON SEALED
+                            {/* ORIGINAL PACKAGE - NON SEALED */}
+                            ORIGINAL-NON-SEALED
                           </label>
                         </div>
                       </div>
@@ -1644,7 +1646,7 @@ function LayoutaddProduct() {
                 <div>
                   <div className=" my-4 ">
                   <span className="text-sm font-semibold">
-                        Pack Condition :
+                        Package Condition :
                       </span>
                     <div className="display-col">
                      

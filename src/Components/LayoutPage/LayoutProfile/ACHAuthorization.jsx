@@ -366,9 +366,6 @@ function ACHAuthorization() {
     try {
       setIsTabEdit(false);
 
-      // Debugging: Check formData
-      console.log("Form Data:", formData);
-
       const payload = {
         customerId: user.customerId,
         bankName: formData.bankName,
@@ -379,12 +376,11 @@ function ACHAuthorization() {
         createdBy: user.customerId,
       };
 
-      console.log("isEditMode:", isEditMode);
 
       if (isEditMode) {
         // Validate getAch data before proceeding
         if (!getAch || getAch.length === 0 || !getAch[0].customerACHDetailsId) {
-          console.error("Invalid ACH details for update:", getAch);
+          console.error("Invalid ACH details for update:");
           return;
         }
 
@@ -399,10 +395,8 @@ function ACHAuthorization() {
           modifiedBy: user.customerId,
         };
 
-        console.log("Calling update API with payload:", payloadUpdate);
         await dispatch(fetchUpdateAch(payloadUpdate)); // Update API call
       } else {
-        console.log("Calling add API with payload:", payload);
         await dispatch(fetchAddAch(payload)); // Add API call
       }
 
@@ -414,10 +408,8 @@ function ACHAuthorization() {
       setTimeout(() => setNotification({ show: false, message: "" }), 3000);
 
       // Fetch updated ACH details after save/update
-      console.log("Fetching updated ACH details...");
       await dispatch(fetchGetAchCustomer(user.customerId));
 
-      console.log("Operation completed successfully.");
     } catch (error) {
       console.error("Error in handleTabSave:", error);
       setNotification({
@@ -563,7 +555,7 @@ function ACHAuthorization() {
                 fullWidth
               />
             </div>
-            <div className="xl:ml-6 mr-2 my-2 md:my-0 w-full md:w-[45%] xl:w-[23%]">
+            <div className="xl:ml-6 mr-2 my-2 md:my-0 w-full md:w-[45%] xl:w-[24%]">
               <FormControl fullWidth error={!!errors.AccountType} size="small" disabled={!isTabEdit}>
                 <InputLabel id="account-type-label">Account Type</InputLabel>
                 {/* <Select
