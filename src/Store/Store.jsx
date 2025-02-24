@@ -196,6 +196,9 @@ const orderSlice = createSlice({
     // clearOrders(state) {
     //   state.orders = [];
     // },
+    clearOrderPlace(state) {
+      state.orderPlace = []; // Clear the orderPlace state
+    },
     setGetOrderBySellerId(state, action) {
       state.OrderBySellerId = action.payload;
     },
@@ -597,7 +600,7 @@ export const { setGetChargeInfo } = adminChargesSlice.actions
 export const {setAdminProducts} = productsSlice.actions
 export const { setPaymentReceived } = adminPaymentSlice.actions
 export const { setOrderStatusGetAll } = mastersSlice.actions
-export const { setOrderStatusUpdate } = orderSlice.actions
+export const { setOrderStatusUpdate, clearOrderPlace } = orderSlice.actions
 export const { setGetById } = orderSlice.actions
 export const { setTrackNumber } = trackNumberSlice.actions
 export const { setFedExRates } = trackNumberSlice.actions

@@ -144,8 +144,8 @@ let newoffer = [];
 
 const OfferSlider = ({ images, Title }) => {
   const carouselContainer = useRef(null);
-  const specialOffers = useSelector((state) => state.product?.productSpecialOffer || []) ;
-  const getAll = useSelector((state) => state.offer?.OfferGetLanding || []);
+  const specialOffers = useSelector((state) => state.product.productSpecialOffer) || [] ;
+  const getAll = useSelector((state) => state.offer.OfferGetLanding) || [];
   newoffer = [];
   specialOffers?.map((element, index) => {
     const newObject = { ...element, image: '' };
@@ -231,7 +231,8 @@ const OfferSlider = ({ images, Title }) => {
           ref={carouselContainer}
           className="flex w-full   gap-2 overflow-x-scroll "
         >
-          {newoffer.map((element, index) => (
+          {/* old code==== */}
+          {/* {newoffer.map((element, index) => (
             <div
               key={index}
               className="border bg-white shadow-2xl min-w-[260px] sm:w-[500px] Laptop:min-w-[320px] p-4 relative flex flex-col gap-3 items-center justify-center"
@@ -259,7 +260,53 @@ const OfferSlider = ({ images, Title }) => {
                 </Link>
               </div>
             </div>
-          ))}
+          ))} */}
+          {/* old code ==== */}
+          {/* new code==== */}
+          {/* {newoffer.map((element, index) => (
+            <div
+              key={index}
+              className="border shadow-2xl w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] Laptop:w-[350px] Laptop:h-[350px] p-4 relative flex flex-col bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: `url(${element.image})`, backgroundSize: "cover" }}
+            >
+              <div className="flex flex-col flex-grow justify-between">
+                <p className="w-full text-[15px] font-semibold cursor-pointer bg-white/80 p-2 rounded-md">
+                  Up to {element?.discount}% off | Deals on {element?.specificationName}
+                </p>
+                <div className="w-full text-black font-semibold flex justify-end">
+                  <Link to="/allProducts/offers" className="hover:text-red-500">
+                    See all offers
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))} */}
+          {/* new code==== */}
+          {/* <div className="w-full grid grid-cols-1 gap-4 px-4"> */}
+            {newoffer.map((element, index) => (
+              <div
+                key={index}
+                className="border shadow-2xl w-full h-[300px] min-w-[260px]  sm:w-[500px] Laptop:min-w-[320px] p-4 relative flex flex-col bg-cover bg-center bg-no-repeat"
+                style={{ backgroundImage: `url(${element.image})`, backgroundSize: "cover" }}
+              >
+                <div className="flex flex-col flex-grow justify-between">
+                  <p className="w-full text-[15px] font-semibold cursor-pointer bg-white/80 p-2 rounded-md">
+                    Up to {element?.discount}% off | Deals on {element?.specificationName}
+                  </p>
+                  <div className="w-full text-black font-semibold flex justify-end">
+                    <Link to="/allProducts/offers" className="hover:text-red-500">
+                      See all offers
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          {/* </div> */}
+
+
+
+
+
         </div>
       </div>
     </div>

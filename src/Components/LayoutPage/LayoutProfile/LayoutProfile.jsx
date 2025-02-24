@@ -12,7 +12,6 @@ import BankInformation from "./BankInformation";
 import ChargesInformation from "../../../Components/LayoutPage/LayoutProfile/ChargesInformation";
 import { useSelector } from "react-redux";
 import { useStates } from "react-us-states";
-import TaxInformation from "./TaxInformation";
 import {
   BusinessInfoUpdate,
   getUserByCustomerIdApi,
@@ -22,6 +21,7 @@ import Chargesinformation from "./ChargesInformation";
 import Notification from "../../Notification";
 import { useLocation } from "react-router-dom";
 import ACHAuthorization from "./ACHAuthorization";
+import StateTaxInformation from "./StateTaxInformation";
 const LayoutProfile = () => {
   const userdata = useSelector((state) => state.user?.user || []); // Get user data from redux
   const businessInfo = useSelector((state) => state.user?.businessInfo || []);
@@ -1868,7 +1868,7 @@ const LayoutProfile = () => {
           //  className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4"
           >
             {/* Your bank information grid details here */}
-            <TaxInformation />
+            <StateTaxInformation />
           </div>
         )}
 

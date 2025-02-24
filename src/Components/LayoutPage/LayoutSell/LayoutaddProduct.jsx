@@ -35,7 +35,7 @@ import {
 } from "../../../Api/MasterDataApi";
 import { useNavigate } from "react-router-dom";
 import { handleBlur, handleFocus } from "../../../Helpers/helper";
-import { TaxGetByStateNameApi } from "../../../Api/TaxInfoApi";
+// import { TaxGetByStateNameApi } from "../../../Api/TaxInfoApi";
 
 function LayoutaddProduct() {
   const user = useSelector((state) => state.user.user);
@@ -431,25 +431,25 @@ function LayoutaddProduct() {
   //   setVideoPreviews(previews);
   //   setFormData({ ...formData, ["videoUrl"]: files[0] });
   // };
-  const stateNameData = useSelector((state) => state.tax.stateName);
+  // const stateNameData = useSelector((state) => state.tax.stateName);
 
-  const [alertPopup, setAlertPopup] = useState(false)
-  useEffect(() => {
-    const data = async () => {
-      await dispatch(TaxGetByStateNameApi(user.customerId))
-      alertMessage()
-    }
-    data()
-  }, [user])
+  // const [alertPopup, setAlertPopup] = useState(false)
+  // useEffect(() => {
+  //   const data = async () => {
+  //     await dispatch(TaxGetByStateNameApi(user.customerId))
+  //     alertMessage()
+  //   }
+  //   data()
+  // }, [user])
 
-  const alertMessage = () => {
-    if (!stateNameData || stateNameData.length === 0) {
-      // alert('Please provide tax information');
-      setAlertPopup(true)
-    } else {
-      console.log('All good!');
-    }
-  };
+  // const alertMessage = () => {
+  //   if (!stateNameData || stateNameData.length === 0) {
+  //     // alert('Please provide tax information');
+  //     setAlertPopup(true)
+  //   } else {
+  //     console.log('All good!');
+  //   }
+  // };
   const handleVideoSelect = (event) => {
     const files = Array.from(event.target.files);
     const maxSize = 25 * 1024 * 1024; // 25MB in bytes
@@ -3004,7 +3004,7 @@ function LayoutaddProduct() {
   return (
     <div className="w-[95%]  h-full mx-auto pt-8 ml-10 main-container overflow-scroll">
       <Notification show={notification.show} message={notification.message} />
-      {alertPopup && (
+      {/* {alertPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
           <div className="bg-white flex flex-col item-center justify-center rounded-lg shadow-lg p-6 w-auto">
             <p className="text-gray-700 mb-4">
@@ -3018,7 +3018,7 @@ function LayoutaddProduct() {
             </button>
           </div>
         </div>
-      )}
+      )} */}
 
       <div className="flex flex-col  justify-center ">
         <div className="flex  justify-between ">

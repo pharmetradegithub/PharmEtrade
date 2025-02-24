@@ -56,7 +56,7 @@ export const TaxGetAll = () => {
     if (response.status === 200) {
       return response.data.result
     } else {
-      console.log("error fetch edit data", response.data.message)
+      console.log("error fetch edit data")
     }
   } catch (error) {
     console.log(error);
