@@ -293,25 +293,25 @@ const LayoutAddBulkProduct = () => {
   
   const dispatch = useDispatch()
 
-  const stateNameData = useSelector((state) => state.tax.stateName);
+  // const stateNameData = useSelector((state) => state.tax.stateName);
 
-  const [alertPopup, setAlertPopup] = useState(false)
-    useEffect(() => {
-      const data = async () => {
-        await dispatch(TaxGetByStateNameApi(user.customerId))
-        alertMessage()
-      }
-      data()
-    }, [])
+  // const [alertPopup, setAlertPopup] = useState(false)
+  //   useEffect(() => {
+  //     const data = async () => {
+  //       await dispatch(TaxGetByStateNameApi(user.customerId))
+  //       alertMessage()
+  //     }
+  //     data()
+  //   }, [])
   
-  const alertMessage = () => {
-    if (!stateNameData || stateNameData.length === 0) {
-      // alert('Please provide tax information');
-      setAlertPopup(true)
-    } else {
-      console.log('All good!');
-    }
-  };
+  // const alertMessage = () => {
+  //   if (!stateNameData || stateNameData.length === 0) {
+  //     // alert('Please provide tax information');
+  //     setAlertPopup(true)
+  //   } else {
+  //     console.log('All good!');
+  //   }
+  // };
 
   const handleDownload = () => {
     // const fileUrl = "/Sample Bulk Products Sheet..xlsx"; // Replace with actual path
@@ -331,7 +331,7 @@ const navigate = useNavigate();
   }
   return (
     <div className="flex flex-col justify-start mt-8 pl-1 sm:p-8 bg-gray-100 overflow-y-scroll w-full">
-      {alertPopup && (
+      {/* {alertPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
           <div className="bg-white flex flex-col item-center justify-center rounded-lg shadow-lg p-6 w-auto">
             <p className="text-gray-700 mb-4">
@@ -345,7 +345,7 @@ const navigate = useNavigate();
             </button>
           </div>
         </div>
-      )}
+      )} */}
       <div className="flex flex-col justify-start">
         <h1 className="text-sm sm:text-2xl font-bold text-blue-900">
           ADD BULK PRODUCTS{" "}

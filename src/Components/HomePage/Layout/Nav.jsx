@@ -941,7 +941,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
     handleItemClick(obj.categoryName, obj.productCategoryId);
     let Criteria = {
       productCategoryId: obj.productCategoryId,
-      customerId: user ? user.customerId : "234",
+      customerId: user ? user.customerId : "123",
     };
 
     if (obj.productCategoryId === -1) {
@@ -1060,7 +1060,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
       // productName: SearchInput,
       productCategoryId: selectedItemId,
       productName: SearchInput,
-      customerId: user ? user.customerId : "234",
+      customerId: user ? user.customerId : "123",
     };
     if (selectedItemId == -1) {
       Criteria = {

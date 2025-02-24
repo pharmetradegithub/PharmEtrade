@@ -4,12 +4,13 @@ import { Autocomplete, Button, FormControl, FormHelperText, InputLabel, Modal, T
 import edit from '../../../assets/Edit.png';
 import { useDispatch, useSelector } from 'react-redux';
 // import { fetchProductOffer } from '../../../Api/ProductApi';
-import { AddTaxBUlk, taxAddInformationApi, TaxGetByStateNameApi, TaxInfoEdit } from '../../../Api/TaxInfoApi';
+import { AddTaxBUlk, taxAddInformationApi, TaxGetAll, TaxGetByStateNameApi, TaxInfoEdit } from '../../../Api/TaxInfoApi';
 import Notification from '../../Notification';
 import { useStates } from "react-us-states";
 import { fetchCategorySpecificationsGetAll } from '../../../Api/MasterDataApi';
 import Loading from '../../Loading';
 import Pagination from '../../Pagination';
+import { GetCustomers } from '../../../Api/AdminApi';
 // const TaxInformation = () => {
 //   const getproductSpecialOffer = useSelector((state) => state.product.productSpecialOffer)
 //   const [category, setCategory] = useState(getproductSpecialOffer);
@@ -417,8 +418,8 @@ import Pagination from '../../Pagination';
 const TaxInformation = () => {
   // const getproductSpecialOffer = useSelector((state) => state.product.productSpecialOffer);
   const getproductSpecialOffer = useSelector(
-    (state) => state.master?.setCategorySpecificationsGetAll || []
-  );
+    (state) => state.master.setCategorySpecificationsGetAll 
+  ) || [];
   const [category, setCategory] = useState(null); // Initialize as an empty string for selected category
   const [taxPercentage, setTaxPercentage] = useState('');
   const [addedEntries, setAddedEntries] = useState([]);
@@ -429,11 +430,11 @@ const TaxInformation = () => {
     show: false,
     message: "",
   });
-  const businessInfo = useSelector((state) => state.user?.businessInfo || []);
+  const businessInfo = useSelector((state) => state.user.businessInfo) || [];
   const [loading, setLoading] = useState(false)
-  const user = useSelector((state) => state.user?.user || [])
+  const user = useSelector((state) => state.user.user) || []
   const dispatch = useDispatch();
-  const stateNameData = useSelector((state) => state.tax?.stateName || []);
+  const stateNameData = useSelector((state) => state.tax.stateName) || [];
 
  
   const [editingEntry, setEditingEntry] = useState({}); // Store current entry being edited
@@ -631,7 +632,7 @@ const TaxInformation = () => {
       // If the fields are empty, call add API
       const payloadAdd = {
         taxInformationID: '',
-        sellerId: user.customerId,
+        sellerId: selectedUserId,
         stateName: formData.State,
         categorySpecificationID: selectedCategory?.categorySpecificationId,
         taxPercentage: taxPercentage,
@@ -651,7 +652,7 @@ const TaxInformation = () => {
       // If the fields are filled, call edit API
       const payloadEdit = {
         taxInformationID: editingEntry.taxInformationId,
-        sellerId: user.customerId,
+        sellerId: editingEntry.customerId,
         stateName: editingEntry.stateName,
         categorySpecificationID: category, // Use updated category
         taxPercentage: taxPercentage,
@@ -785,7 +786,9 @@ const TaxInformation = () => {
     const data = () => {
       setLoading(true)
       try {
-        dispatch(TaxGetByStateNameApi(user.customerId));
+        const res = dispatch(TaxGetAll());
+        console.log("reee", res)
+        setCurrentItems(res)
         setLoading(false)
       } catch (error) {
         console.error(error)
@@ -793,12 +796,73 @@ const TaxInformation = () => {
       }
     }
     data()
-  }, [dispatch, user.customerId, CallHistory]);
+  }, [dispatch, CallHistory]);
 
   useEffect(() => {
     dispatch(fetchCategorySpecificationsGetAll());
   }, [dispatch]);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [customers, setCustomers] = useState([]);
+  const [selectedUserId, setSelectedUserId] = useState(null);
+   useEffect(() => {
+      const fetchCustomers = async () => {
+        try {
+          const res = await GetCustomers();
+          const filteredCustomers = res.filter(
+            (customer) => customer.customerTypeId !== 4
+          );
+          setCustomers(filteredCustomers);
+        } catch (error) {
+          console.error("Error fetching customers:", error);
+        }
+      };
+      fetchCustomers();
+   }, []);
+  const [error, setError] = useState({
+      dateFrom: "",
+      dateTo: "",
+      selectedUsersId: "",
+      amountPaying: "",
+      chequeImage: "",
+      paymentDate: "",
+      paymentMode: "",
+      bankName: "",
+      accountNumber: "",
+      transactionId: "",
+    });
+  const [filteredCustomers, setFilteredCustomers] = useState(customers);
+    const handleSearchChange = (e) => {
+      const value = e.target.value;
+      setSearchTerm(value);
+      setError("")
+  
+      // Filter customers based on search term
+      if (value.trim() === "") {
+        setFilteredCustomers(customers);
+      } else {
+        setFilteredCustomers(
+          customers.filter((customer) =>
+            `${customer.firstName} ${customer.lastName}`
+              .toLowerCase()
+              .includes(value.toLowerCase())
+          )
+        );
+      }
+  };
+  
+  const handleSelect = (customerId) => {
+    setError((prevErrors) => ({
+      ...prevErrors,
+      searchTerm: "",
+    }));
+    const selectedCustomer = customers.find(
+      (customer) => customer.customerId === customerId
+    );
+    setSearchTerm(`${selectedCustomer.firstName} ${selectedCustomer.lastName}`);
+    setSelectedUserId(customerId);
+    setFilteredCustomers([]); // Hide dropdown after selection
+  };
   // useEffect(() => {
   //   const data = async () => {
   //     await TaxGetAll()
@@ -878,6 +942,9 @@ const TaxInformation = () => {
       setCustomField('');
     }
   };
+  const handleStateTax = () => {
+    setIsModalOpen(true);
+  }
   const handleCancel = () => {
     // Process the data from the modal
  
@@ -885,9 +952,9 @@ const TaxInformation = () => {
     // Close the modal after submission
     setIsModalOpen(false);
   };
-  useEffect(() => {
-    setIsModalOpen(true);
-  }, []);
+  // useEffect(() => {
+  //   setIsModalOpen(true);
+  // }, []);
 
   useEffect(() => {
     if (filteredStates?.length) {
@@ -906,6 +973,7 @@ const TaxInformation = () => {
        setCurrentItems(stateNameData.slice(indexOfFirstItem, indexOfLastItem));
       }
    }, [currentPage, stateNameData, indexOfFirstItem, indexOfLastItem]);
+  
   
   
 
@@ -1044,7 +1112,7 @@ const TaxInformation = () => {
 
         <div className="flex flex-col gap-3 md:gap-0 md:flex-row justify-around my-4">
           <div className=''>
-            <div className="">
+            <div className="relative">
               {/* <select
                 className="border rounded-md h-11"
                 value={category}
@@ -1061,6 +1129,33 @@ const TaxInformation = () => {
                   </option>
                 ))}
               </select> */}
+              {/* <div className="relative items-center mt-5 ml-4"> */}
+                {/* <label className="flex items-center mb-1 font-semibold">
+                  Member Name / DBA:{" "}
+                </label> */}
+              
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  placeholder="Search for a Seller Name"
+                  className="w-64 px-4 py-1 ml-3 text-sm border rounded-md h-10 mr-2"
+                />
+                {/* Dropdown Options */}
+                {filteredCustomers.length > 0 && (
+                  <ul className="absolute top-11 left-0 w-64 bg-white border rounded-md shadow-lg h-60 overflow-scroll z-10 ml-[29%]">
+                    {filteredCustomers.map((customer) => (
+                      <li
+                        key={customer.customerId}
+                        onClick={() => handleSelect(customer.customerId)}
+                        className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                      >
+                        {`${customer.firstName} ${customer.lastName}`}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+{/* </div> */}
               <select
                 className="border rounded-md h-11"
                 value={category} // Bound to `category` state
@@ -1212,6 +1307,13 @@ const TaxInformation = () => {
             // disabled={isDuplicateEntry}
           >
             {editingIndex !== null ? "Update" : "ADD"}
+          </button>
+          <button
+            className="bg-blue-900 text-white w-auto rounded-lg h-8 text-center pl-2 pr-2"
+            onClick={handleStateTax}
+          // disabled={isDuplicateEntry}
+          >
+            Apply to All
           </button>
         </div>
       </div>

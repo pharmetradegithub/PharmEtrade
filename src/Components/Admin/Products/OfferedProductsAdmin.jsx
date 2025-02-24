@@ -78,7 +78,7 @@ const OfferedProductsAdmin = () => {
   const handleSearchClick = async () => {
     const payload = {
       // customerId : "",
-      customerId: user ? user.customerId : "234",
+      customerId: user ? user.customerId : "123",
       productName: SearchInput.productName,
   }
     try {

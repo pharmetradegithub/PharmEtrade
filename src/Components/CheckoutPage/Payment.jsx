@@ -606,6 +606,7 @@ import { fetchOrderPayment } from "../../Api/OrderApi";
 import Notification from "../Notification";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { getCartItemsApi } from "../../Api/CartApi";
+import { clearOrderPlace } from "../../Store/Store";
 
 
 const Payment = ({amount}) => {
@@ -1029,7 +1030,7 @@ const Payment = ({amount}) => {
       validThrough: "",
       nameOnCard: "",
       bank: "",
-      paymentAmount: amount,
+      paymentAmount: Math.ceil(amount),
       isCreditCard: false,
       statusId: 3,
       paymentStatus: "",
@@ -1084,8 +1085,8 @@ const Payment = ({amount}) => {
       return;
     }
 
-    setNotification({ show: true, message: "Payment processed successfully!" });
-
+       setNotification({ show: true, message: "Payment processed successfully!" });
+       dispatch(clearOrderPlace());
     setTimeout(() => {
       setNotification({ show: false, message: "" });
     }, 5000);

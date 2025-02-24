@@ -159,6 +159,7 @@ import PrivacyPolicy from "./Components/PrivacyPolicy";
 import OffersImgs from "./Components/Admin/Banners/OffersImgs";
 import { TaxGetByStateNameApi } from "./Api/TaxInfoApi";
 import { fetchGetAchCustomer } from "./Api/AddressApi";
+import TaxInformation from "./Components/LayoutPage/LayoutProfile/TaxInformation";
 
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
@@ -524,6 +525,7 @@ function App() {
           <Route path="/pharmEtradeadmin/OtcProducts" element={<OtcProductsAdmin />} />
           <Route path="/pharmEtradeadmin/RxProducts" element={<RxProductsAdmin />} />
           <Route path="/pharmEtradeadmin/OfferedProducts" element={<OfferedProductsAdmin />} />
+          <Route path="/pharmEtradeadmin/TaxInformation" element={<TaxInformation />} />
           <Route path="/pharmEtradeadmin/Settlement" element={<Settlement />} />
           <Route path="/pharmEtradeadmin/Incoming" element={<Incomimg />} />
           <Route path="/pharmEtradeadmin/Outgoing" element={<Outgoing />} />

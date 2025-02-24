@@ -182,6 +182,11 @@ function AdminSidebar() {
           label: "Offered Products",
           icon: Offeredproducts,
         },
+        {
+          to: "/pharmEtradeadmin/TaxInformation",
+          label: "State Tax Information",
+          icon: Offeredproducts,
+        },
       ],
     },
     //   to: "/pharmEtradeadmin/products", // Direct link to the Dashboard page
