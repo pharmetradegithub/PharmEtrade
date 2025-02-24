@@ -15,6 +15,7 @@ import Bin from "../../../assets/Bin.png"
 import wrong from "../../../assets/Icons/wrongred.png"
 import { AdminChargesGetApi, AdminChargesInformationAdd, deleteChargesAPi, editChargesApi } from "../../../Api/AdminApi";
 import Loading from "../../Loading";
+import Pagination from "../../Pagination";
 
 
 const StateTaxInformation = () => {
@@ -43,8 +44,10 @@ const StateTaxInformation = () => {
 
   const [editingEntry, setEditingEntry] = useState({}); // Store current entry being edited
 
-
-
+const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   let selectedCategory;
 
   //   const handleAddOrSave = async () => {
@@ -303,8 +306,41 @@ const StateTaxInformation = () => {
     setDeletePop(false); // Close modal
     setDeletePharma(null); // Reset selected product
   };
+  console.log("==", getCharge)
 
-
+ const [sortConfig, setSortConfig] = useState({
+    key: "",
+    direction: "ascending",
+  });
+  const sortedProducts = React.useMemo(() => {
+     // Default sort by `paymentDate` in descending order
+    let sortedData = [...getCharge].sort((a, b) => {
+       const aDate = new Date(a.paymentDate).getTime();
+       const bDate = new Date(b.paymentDate).getTime();
+       return bDate - aDate; // Descending order
+     });
+ 
+     // Apply additional sorting based on `sortConfig`
+     if (sortConfig.key) {
+       sortedData.sort((a, b) => {
+         const aValue = a[sortConfig.key];
+         const bValue = b[sortConfig.key];
+       
+ 
+         if (aValue === bValue) return 0;
+ 
+         if (sortConfig.direction === 'ascending') {
+           return aValue > bValue ? 1 : -1;
+         }
+         return aValue < bValue ? 1 : -1;
+       });
+     }
+ 
+     return sortedData;
+  }, [getCharge, sortConfig]);
+  const currentItems = Array.isArray(sortedProducts)
+    ? sortedProducts.slice(indexOfFirstItem, indexOfLastItem)
+    : [];
   return (
     <div className="w-[90%]">
       {/* {showSuccessMessage && (
@@ -464,7 +500,7 @@ const StateTaxInformation = () => {
               <thead className="bg-gray-200">
                 <tr className="bg-blue-900 text-white">
                   <th className="px-6 py-3 text-base font-bold">S NO.</th>
-                  {/* <th className="px-6 py-3 text-base font-bold">State</th> */}
+                  <th className="px-6 py-3 text-base font-bold">State</th>
                   <th className="px-6 py-3 text-base font-bold">Category Name</th>
                   <th className="px-6 py-3 text-base font-bold">
                     Tax Percentage
@@ -540,19 +576,25 @@ const StateTaxInformation = () => {
               );
             })} */}
 
-                {getCharge && getCharge.length > 0 ? (
-                  getCharge.map((entry, index) => (
-                    <tr key={index} className="bg-white hover:bg-gray-100 transition-colors">
-                      <td className="px-6 border-b border-gray-200 text-sm">{index + 1}</td>
-                      <td className="px-6 border-b border-gray-200 text-sm">{entry.chargeType}</td>
-                      <td className="px-6 border-b border-gray-200 text-sm">{entry.chargePercentage}%</td>
-                      <td className="px-6 border-b border-gray-200 text-sm">
-                        {new Date(entry.createdOn).toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" }).replace(/\//g, "-")}
-                      </td>
-                      <td className="px-6 border-b border-gray-200 text-sm">
-                        {new Date(entry.modifiedOn).toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" }).replace(/\//g, "-")}
-                      </td>
-                      {/* <td className="px-6 border-b border-gray-200 text-sm flex">
+                {currentItems && currentItems.length > 0 ? (
+                  currentItems.map((entry, index) => {
+                    const matchedCategory = getproductSpecialOffer.find(
+                      (item) => item.categorySpecificationId === entry.categorySpecificationID
+                    );
+                    return (
+                      <tr key={index} className="bg-white hover:bg-gray-100 transition-colors">
+                        <td className="px-6 border-b border-gray-200 text-sm">{indexOfFirstItem + index + 1}</td>
+                        <td className="px-6 border-b border-gray-200 text-sm">{entry.stateName}</td>
+                        <td className="px-6 border-b border-gray-200 text-sm">{matchedCategory? matchedCategory.specificationName : 'Unknown Category'}</td>
+                        <td className="px-6 border-b border-gray-200 text-sm">{entry.taxPercentage}%</td>
+                        <td className="px-6 border-b border-gray-200 text-sm">
+                          {new Date(entry.createdDate).toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" }).replace(/\//g, "-")}
+                        </td>
+                        <td className="px-6 border-b border-gray-200 text-sm">
+                          {new Date(entry.
+                            modifiedDate).toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" }).replace(/\//g, "-")}
+                        </td>
+                        {/* <td className="px-6 border-b border-gray-200 text-sm flex">
                     <button
                       className=" py-2 text-white"
                       onClick={() => handleEditClick(index, entry.chargeTypeId, entry.chargeType, entry.chargePercentage, entry.createdOn, entry.modifiedOn)}
@@ -571,11 +613,13 @@ const StateTaxInformation = () => {
                       </Tooltip>
                     </button>
                   </td> */}
-                      {/* <td className="px-6 border-b border-gray-200 text-sm">
+                        {/* <td className="px-6 border-b border-gray-200 text-sm">
                     
                   </td> */}
-                    </tr>
-                  ))
+                      </tr>
+                    )
+                  }
+                  )
                 ) : (
                   <tr>
                     <td colSpan="6" className="text-center text-gray-500">
@@ -588,6 +632,15 @@ const StateTaxInformation = () => {
           </div>
         </>
       )}
+      <Pagination
+        indexOfFirstItem={indexOfFirstItem}
+        indexOfLastItem={indexOfLastItem}
+        productList={stateNameData}
+        itemsPerPage={itemsPerPage}
+        setItemsPerPage={setItemsPerPage}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 };
