@@ -1,6 +1,6 @@
 
 import axios from './api'; 
-import { setAddBulkTax, setStateName, setTaxAdd, setTaxEdit } from '../Store/Store';
+import { setAddBulkTax, setStateName, setTaxAdd, setTaxEdit, setTaxGetAll } from '../Store/Store';
 
 export const taxAddInformationApi = (payload) => {
   return async (dispatch) => {
@@ -51,17 +51,22 @@ export const TaxInfoEdit = (payload) => {
 }
 
 export const TaxGetAll = () => {
-  try {
-    const response = axios.get('/api/Tax/GetAllTaxInformation')
-    if (response.status === 200) {
-      return response.data.result
-    } else {
-      console.log("error fetch edit data")
+  return async (dispatch) => {
+    try {
+      const response = await axios.get('/api/Tax/GetAllTaxInformation'); // Add 'await'
+      if (response.status === 200) { // Use response.status instead of response.statusCode
+        const data = response.data.result;
+        dispatch(setTaxGetAll(data));
+        return data;
+      } else {
+        console.log("Error fetching tax data");
+      }
+    } catch (error) {
+      console.log(error);
     }
-  } catch (error) {
-    console.log(error);
-  }
-}
+  };
+};
+
 
 export const AddTaxBUlk = (payload) => {
   return async (dispatch) => {

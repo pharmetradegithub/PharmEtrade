@@ -418,7 +418,7 @@ import { GetCustomers } from '../../../Api/AdminApi';
 const TaxInformation = () => {
   // const getproductSpecialOffer = useSelector((state) => state.product.productSpecialOffer);
   const getproductSpecialOffer = useSelector(
-    (state) => state.master.setCategorySpecificationsGetAll 
+    (state) => state.master?.setCategorySpecificationsGetAll
   ) || [];
   const [category, setCategory] = useState(null); // Initialize as an empty string for selected category
   const [taxPercentage, setTaxPercentage] = useState('');
@@ -430,15 +430,14 @@ const TaxInformation = () => {
     show: false,
     message: "",
   });
-  const businessInfo = useSelector((state) => state.user.businessInfo) || [];
+  const businessInfo = useSelector((state) => state.user?.businessInfo || []);
   const [loading, setLoading] = useState(false)
-  const user = useSelector((state) => state.user.user) || []
+  const user = useSelector((state) => state.user?.user || [])
   const dispatch = useDispatch();
   const stateNameData = useSelector((state) => state.tax.stateName) || [];
 
  
   const [editingEntry, setEditingEntry] = useState({}); // Store current entry being edited
-
 
 
   let selectedCategory;
@@ -576,6 +575,7 @@ const TaxInformation = () => {
   //   setShowSuccessMessage(true);
   // };
   const [CallHistory, setCallHistory] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
   const handleAddOrSave = async () => {
     if (validate()) {
       console.log("Form is valid:");
@@ -652,7 +652,7 @@ const TaxInformation = () => {
       // If the fields are filled, call edit API
       const payloadEdit = {
         taxInformationID: editingEntry.taxInformationId,
-        sellerId: editingEntry.customerId,
+        sellerId: editingEntry.sellerId,
         stateName: editingEntry.stateName,
         categorySpecificationID: category, // Use updated category
         taxPercentage: taxPercentage,
@@ -680,6 +680,7 @@ const TaxInformation = () => {
     setFormData('');
     setCategory("");
     setTaxPercentage('');
+    setSearchTerm("")
     setIsEditable(false);
     setShowSuccessMessage(true);
   };
@@ -761,7 +762,7 @@ const TaxInformation = () => {
 //   });
 // };
 
-  const handleEditClick = (index, taxInformationId, categorySpecificationId, taxPercentage, stateName, createdDate, modifiedDate) => {
+  const handleEditClick = (index, sellerId, taxInformationId, categorySpecificationId, taxPercentage, stateName, createdDate, modifiedDate) => {
 
     setCategory(categorySpecificationId); // Set the category in the form
     setFormData({ State: stateName }); // Set the state name in the form
@@ -772,6 +773,7 @@ const TaxInformation = () => {
     setShowSuccessMessage(false); // Hide success message during editing
 
     setEditingEntry({
+      sellerId,
       taxInformationId,
       categorySpecificationId,
       taxPercentage,
@@ -780,15 +782,14 @@ const TaxInformation = () => {
       modifiedDate,
     });
   };
+  const [currentItems, setCurrentItems] = useState([]);
 
-
+  const [selectedUserId, setSelectedUserId] = useState(null);
   useEffect(() => {
     const data = () => {
       setLoading(true)
       try {
-        const res = dispatch(TaxGetAll());
-        console.log("reee", res)
-        setCurrentItems(res)
+        dispatch(TaxGetByStateNameApi(selectedUserId));
         setLoading(false)
       } catch (error) {
         console.error(error)
@@ -796,15 +797,29 @@ const TaxInformation = () => {
       }
     }
     data()
-  }, [dispatch, CallHistory]);
+  }, [dispatch,CallHistory]);
+
+
+  // useEffect(() => {
+  //   const data = () => {
+  //     setLoading(true)
+  //     try {
+  //       dispatch(TaxGetByStateNameApi(user.customerId));
+  //       setLoading(false)
+  //     } catch (error) {
+  //       console.error(error)
+  //       setLoading(false)
+  //     }
+  //   }
+  //   data()
+  // }, [dispatch, user.customerId, CallHistory]);
 
   useEffect(() => {
     dispatch(fetchCategorySpecificationsGetAll());
   }, [dispatch]);
 
-  const [searchTerm, setSearchTerm] = useState("");
+ 
   const [customers, setCustomers] = useState([]);
-  const [selectedUserId, setSelectedUserId] = useState(null);
    useEffect(() => {
       const fetchCustomers = async () => {
         try {
@@ -850,12 +865,44 @@ const TaxInformation = () => {
         );
       }
   };
+
+  const [filteredCustomer, setFilteredCustomer] = useState(customers);
+  const handleSearchChanges = (e) => {
+    const value = e.target.value;
+    setSearchTerms(value);
+    setError("")
+
+    // Filter customers based on search term
+    if (value.trim() === "") {
+      setFilteredCustomer(customers);
+    } else {
+      setFilteredCustomer(
+        customers.filter((customer) =>
+          `${customer.firstName} ${customer.lastName}`
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        )
+      );
+    }
+  };
+  const handleSelected = (customerId) => {
+    // setError((prevErrors) => ({
+    //   ...prevErrors,
+    //   searchTerms: "",
+    // }));
+    const selectedCustomer = customers.find(
+      (customer) => customer.customerId === customerId
+    );
+    setSearchTerms(`${selectedCustomer.firstName} ${selectedCustomer.lastName}`);
+    setSelectedUserId(customerId);
+    setFilteredCustomer([]); // Hide dropdown after selection
+  };
   
   const handleSelect = (customerId) => {
-    setError((prevErrors) => ({
-      ...prevErrors,
-      searchTerm: "",
-    }));
+    // setError((prevErrors) => ({
+    //   ...prevErrors,
+    //   searchTerm: "",
+    // }));
     const selectedCustomer = customers.find(
       (customer) => customer.customerId === customerId
     );
@@ -902,10 +949,11 @@ const TaxInformation = () => {
   //       }
   // };
   const taxPercentages = customField ? Number(customField) : null;
+  const [searchTerms, setSearchTerms] = useState("");
   const handleModalSubmit = async () => {
     setIsModalOpen(false);
     const payload = {
-      sellerId: user.customerId,
+      sellerId: selectedUserId,
       taxPercentage: taxPercentages,
       isActive: 1,
     };
@@ -921,7 +969,7 @@ const TaxInformation = () => {
           message: "Tax has been Added Successfully!",
         });
         setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-        await dispatch(TaxGetByStateNameApi(user.customerId));
+        await dispatch(TaxGetByStateNameApi(selectedUserId));
 
       } else {
         setNotification({
@@ -930,6 +978,7 @@ const TaxInformation = () => {
         });
         setTimeout(() => setNotification({ show: false, message: "" }), 3000);
       }
+      setSearchTerms('')
     } catch (error) {
       console.error("Error adding product to cart:", error);
       setNotification({
@@ -964,18 +1013,20 @@ const TaxInformation = () => {
 
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentItems, setCurrentItems] = useState([]);
+  // const [currentItems, setCurrentItems] = useState([]);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-   useEffect(() => {
-     if (stateNameData) {
-       setCurrentItems(stateNameData.slice(indexOfFirstItem, indexOfLastItem));
-      }
-   }, [currentPage, stateNameData, indexOfFirstItem, indexOfLastItem]);
-  
-  
-  
+  //  useEffect(() => {
+  //    if (stateNameData) {
+  //      setCurrentItems(stateNameData.slice(indexOfFirstItem, indexOfLastItem));
+  //     }
+  //  }, [currentPage, stateNameData, indexOfFirstItem, indexOfLastItem]);
+  useEffect(() => {
+    if (stateNameData.length > 0) {
+      setCurrentItems(stateNameData.slice(indexOfFirstItem, indexOfLastItem));
+    }
+  }, [currentPage, stateNameData, indexOfFirstItem, indexOfLastItem, CallHistory]);
 
   return (
     <div className="w-full overflow-y-scroll">
@@ -1047,7 +1098,29 @@ const TaxInformation = () => {
                   />
                 )}
               /> */}
-
+<div className='relative'>
+              <input
+                type="text"
+                value={searchTerms}
+                onChange={handleSearchChanges}
+                placeholder="Search for a Seller Name"
+                className="w-56 px-4 py-1 ml-3 text-sm border rounded-md h-14 mr-2"
+              />
+              {/* Dropdown Options */}
+              {filteredCustomer.length > 0 && (
+                <ul className="absolute top-11 left-0 w-64 bg-white border rounded-md shadow-lg h-60 overflow-scroll z-10 ml-[29%]">
+                  {filteredCustomer.map((customer) => (
+                    <li
+                      key={customer.customerId}
+                      onClick={() => handleSelected(customer.customerId)}
+                      className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                    >
+                      {`${customer.firstName} ${customer.lastName}`}
+                    </li>
+                  ))}
+                </ul>
+                )}
+              </div>
               {/* Field 3: Custom Field */}
               <TextField
                 label="Tax Percentage"
@@ -1139,7 +1212,8 @@ const TaxInformation = () => {
                   value={searchTerm}
                   onChange={handleSearchChange}
                   placeholder="Search for a Seller Name"
-                  className="w-64 px-4 py-1 ml-3 text-sm border rounded-md h-10 mr-2"
+                className="w-64 px-4 py-1 ml-3 text-sm border rounded-md h-10 mr-2"
+                disabled={editingIndex !== null}
                 />
                 {/* Dropdown Options */}
                 {filteredCustomers.length > 0 && (
@@ -1364,7 +1438,8 @@ const TaxInformation = () => {
                     <td className="px-6 border-b border-gray-200 text-sm">
                       <button
                         className="px-4 py-2 text-white"
-                        onClick={() => handleEditClick(index, entry?.taxInformationID, entry?.categorySpecificationID, entry?.taxPercentage, entry?.stateName, entry?.createdDate, entry?.modifiedDate)}
+                        onClick={() => handleEditClick(index, entry?.sellerId
+, entry?.taxInformationID, entry?.categorySpecificationID, entry?.taxPercentage, entry?.stateName, entry?.createdDate, entry?.modifiedDate)}
                       >
                         <img src={edit} alt="Edit" className="w-6 h-6" />
                       </button>
@@ -1436,7 +1511,7 @@ const TaxInformation = () => {
                       </span>
                       <button
                       className="px-4 py-2 text-white"
-                      onClick={() => handleEditClick(index, entry?.taxInformationID, entry.categorySpecificationID, entry.taxPercentage, entry.stateName, entry.createdDate, entry.modifiedDate)}
+                        onClick={() => handleEditClick(index, entry?.sellerId, entry?.taxInformationID, entry.categorySpecificationID, entry.taxPercentage, entry.stateName, entry.createdDate, entry.modifiedDate)}
                     >
                       <img src={edit} alt="Edit" className="w-6 h-6" />
                     </button>
