@@ -192,6 +192,11 @@ function AdminSidebar() {
     //   to: "/pharmEtradeadmin/products", // Direct link to the Dashboard page
     // },
 
+    {
+      label: "Orders",
+      icon: Allproducts,
+      to: "/pharmEtradeadmin/Orders", // Direct link to the Dashboard page
+    },
 
     {
       label: "Payment",

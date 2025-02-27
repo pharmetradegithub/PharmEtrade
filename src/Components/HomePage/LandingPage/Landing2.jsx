@@ -309,13 +309,13 @@ function Landing2({ wishList, addCart }) {
       </div>
       <div className="flex flex-col lg:flex-row md:flex-row items-center justify-evenly gap-6 -mb-8">
   <div
-    className="bg-yellow-50 p-4 rounded-2xl transition duration-300"
-    style={{ height: "fit-content" }}
+    className="p-4 rounded-2xl transition duration-300"
+          style={{ height: "fit-content", backgroundColor: "#4a893a" }}
   >
-    <ul className="space-y-2 lg:w-full font-sans sm:text-base sm:pb-2 xl:w-auto xl:pr-10 md:pb-6 md:text-lg xl:text-2xl xl:mt-6 font-medium pl-4">
+          <ul className="space-y-2 lg:w-full font-sans sm:text-base sm:pb-2 xl:w-auto xl:pr-10 md:pb-6 md:text-lg xl:text-2xl xl:mt-6 font-medium pl-4">
       {texts.map((item, key) => (
-        <li key={key} className="flex flex-row text-blue-900 items-center gap-2">
-          <img src={right2} className="w-6 bg-blue-900 rounded-full" alt="icon" />
+        <li key={key} className="flex flex-row text-white items-center gap-2">
+          <img src={right2} className="w-6 bg-blue-900 rounded-full border-none" alt="icon" />
           {item}
         </li>
       ))}

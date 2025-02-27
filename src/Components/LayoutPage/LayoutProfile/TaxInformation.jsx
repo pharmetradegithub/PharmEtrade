@@ -632,7 +632,7 @@ const TaxInformation = () => {
       // If the fields are empty, call add API
       const payloadAdd = {
         taxInformationID: '',
-        sellerId: selectedUserId,
+        // sellerId: selectedUserId,
         stateName: formData.State,
         categorySpecificationID: selectedCategory?.categorySpecificationId,
         taxPercentage: taxPercentage,
@@ -652,7 +652,7 @@ const TaxInformation = () => {
       // If the fields are filled, call edit API
       const payloadEdit = {
         taxInformationID: editingEntry.taxInformationId,
-        sellerId: editingEntry.sellerId,
+        // sellerId: editingEntry.sellerId,
         stateName: editingEntry.stateName,
         categorySpecificationID: category, // Use updated category
         taxPercentage: taxPercentage,
@@ -789,7 +789,7 @@ const TaxInformation = () => {
     const data = () => {
       setLoading(true)
       try {
-        dispatch(TaxGetByStateNameApi(selectedUserId));
+        dispatch(TaxGetByStateNameApi());
         setLoading(false)
       } catch (error) {
         console.error(error)
@@ -969,7 +969,7 @@ const TaxInformation = () => {
           message: "Tax has been Added Successfully!",
         });
         setTimeout(() => setNotification({ show: false, message: "" }), 3000);
-        await dispatch(TaxGetByStateNameApi(selectedUserId));
+        await dispatch(TaxGetByStateNameApi());
 
       } else {
         setNotification({
@@ -1207,7 +1207,7 @@ const TaxInformation = () => {
                   Member Name / DBA:{" "}
                 </label> */}
               
-                <input
+                {/* <input
                   type="text"
                   value={searchTerm}
                   onChange={handleSearchChange}
@@ -1215,7 +1215,7 @@ const TaxInformation = () => {
                 className="w-64 px-4 py-1 ml-3 text-sm border rounded-md h-10 mr-2"
                 disabled={editingIndex !== null}
                 />
-                {/* Dropdown Options */}
+                {/* Dropdown Options *
                 {filteredCustomers.length > 0 && (
                   <ul className="absolute top-11 left-0 w-64 bg-white border rounded-md shadow-lg h-60 overflow-scroll z-10 ml-[29%]">
                     {filteredCustomers.map((customer) => (
@@ -1228,7 +1228,7 @@ const TaxInformation = () => {
                       </li>
                     ))}
                   </ul>
-                )}
+                )} */}
 {/* </div> */}
               <select
                 className="border rounded-md h-11"

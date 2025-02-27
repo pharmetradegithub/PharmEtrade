@@ -157,9 +157,10 @@ import SellerReports from "./Components/ReportsSeller/SellerReports";
 import LayoutPurchaseHistory from "./Components/LayoutPage/LayoutBuy/LayoutPurchaseHistory";
 import PrivacyPolicy from "./Components/PrivacyPolicy";
 import OffersImgs from "./Components/Admin/Banners/OffersImgs";
-import { TaxGetByStateNameApi } from "./Api/TaxInfoApi";
+// import { TaxGetByStateNameApi } from "./Api/TaxInfoApi";
 import { fetchGetAchCustomer } from "./Api/AddressApi";
 import TaxInformation from "./Components/LayoutPage/LayoutProfile/TaxInformation";
+import AdminOrders from "./Components/Admin/Orders/AdminOrders";
 
 
 // import { customerOrderGetApi } from "./Api/CustomerOrderList";
@@ -187,7 +188,7 @@ function App() {
           await UserMenuItemsApi(userDetails.customerDetails.customerTypeId);
           await getCartItemsApi(userId);
           await fetchWishlistItemsApi(userId);
-          await dispatch(TaxGetByStateNameApi(userId))
+          // await dispatch(TaxGetByStateNameApi(userId))
           await dispatch(fetchGetAchCustomer(userId))
         } 
       }
@@ -529,6 +530,7 @@ function App() {
           <Route path="/pharmEtradeadmin/Settlement" element={<Settlement />} />
           <Route path="/pharmEtradeadmin/Incoming" element={<Incomimg />} />
           <Route path="/pharmEtradeadmin/Outgoing" element={<Outgoing />} />
+          <Route path="/pharmEtradeadmin/Orders" element={<AdminOrders />} />
           <Route path="/pharmEtradeadmin/reports" element={<Reports/>}/>
 
         </Route>

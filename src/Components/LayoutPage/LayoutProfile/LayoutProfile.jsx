@@ -313,10 +313,10 @@ const LayoutProfile = () => {
       label: "Bank Information",
       grid: "bank",
     },
-    {
-      label: "State Tax Information",
-      grid: "Tax",
-    },
+    // {
+    //   label: "State Tax Information",
+    //   grid: "Tax",
+    // },
     {
       label: "Fees",
       grid: "charges",
@@ -1863,14 +1863,14 @@ const LayoutProfile = () => {
           </div>
         )}
 
-        {visibleGrid === "Tax" && (
+        {/* {visibleGrid === "Tax" && (
           <div
           //  className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4"
           >
-            {/* Your bank information grid details here */}
+            {/* Your bank information grid details here *
             <StateTaxInformation />
           </div>
-        )}
+        )} */}
 
         {visibleGrid === "charges" && (
           <div
