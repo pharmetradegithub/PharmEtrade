@@ -158,10 +158,14 @@ import PLefts from "../../PLefts";
 import OfferSlider from "../Components/OfferSlider";
 import ProductSlider from "../Components/ProductSlider";
 
-import slider1 from "../../../assets/S1.jpg";
-import slider2 from "../../../assets/S2.jpg";
-import slider3 from "../../../assets/S3.jpg";
-import slider4 from "../../../assets/S4.jpg";
+// import slider1 from "../../../assets/S1.jpg";
+// import slider2 from "../../../assets/S2.jpg";
+// import slider3 from "../../../assets/S3.jpg";
+// import slider4 from "../../../assets/S4.jpg";
+import slider1 from "../../../assets/buy.jpg";
+import slider2 from "../../../assets/sell.jpg";
+import slider3 from "../../../assets/bid.jpg";
+import slider4 from "../../../assets/join.jpg";
 import bg2 from "../../../assets/doc.png";
 import allproduct from "../../../assets/Products.png";
 import right2 from "../../../assets/right.png";
@@ -318,7 +322,7 @@ function Landing2({ wishList, addCart }) {
     </ul>
   </div>
 
-  <div className="h-fit w-7/12">
+  <div className="h-fit w-4/12">
     <img src={bg2} alt="Pharmacy" className="rounded-xl object-cover" />
   </div>
 </div>
