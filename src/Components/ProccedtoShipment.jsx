@@ -13,10 +13,10 @@ const ProccedtoShipment = ({
   setSelectedOptions,
   totalNetCharges,
   setTotalNetCharges,
-  productId
+  productId,
 }) => {
-  const fedexRate = useSelector((state) => state.trackNumber?.fedExRates || []);
-  const serviceName = useSelector((state) => state.trackNumber?.serviceType || []);
+  // const fedexRate = useSelector((state) => state.trackNumber?.fedExRates || []);
+  // const serviceName = useSelector((state) => state.trackNumber?.serviceType || []);
   const cartList = useSelector((state) => state.cart?.cart || []);
   // const [cartItems, setcartItems] = useState(cartList);
   const [amount, setAmount] = useState(200);
@@ -106,12 +106,19 @@ const ProccedtoShipment = ({
 
   const handleChange = async (seller, e, products) => {
     const selectedServiceName = e.target.value;
+    const sellerId = products[0]?.product.sellerId; // Extract sellerId from the first product
+
+    if (!sellerId) {
+      console.error("Seller ID not found for the selected product.");
+      return;
+    }
+
     setSelectedOptions((prevOptions) => ({
       ...prevOptions,
       [seller]: selectedServiceName,
     }));
 
-    const matchingRate = fedexRate.find(
+    const matchingRate = fedexRate[sellerId]?.find(
       (rate) =>
         normalizeString(removeNonPrintableChars(rate.serviceName)) ===
         normalizeString(removeNonPrintableChars(selectedServiceName))
@@ -126,7 +133,7 @@ const ProccedtoShipment = ({
 
       const payload = {
         orderId: orderPlace.orderId,
-        sellerId: products[0].product.sellerId,
+        sellerId: sellerId, // Use the extracted sellerId
         shipmentTypeId: 4,
         shipmentSubType: selectedServiceName,
         shippingCost: totalNetCharge,
@@ -157,23 +164,39 @@ const ProccedtoShipment = ({
     }
   };
   const calculateSubtotal = (price, quantity) => price * quantity;
+  // const groupedProducts = cartList.reduce((acc, item) => {
+  //   // If productId is present, filter by productId
+  //   if (productId) {
+  //     if (item.product.productID === productId) {
+  //       const seller = item.product.sellerName;
+  //       if (!acc[seller]) acc[seller] = [];
+  //       acc[seller].push(item);
+  //     }
+  //   } else {
+  //     // Usual grouping logic
+  //     const seller = item.product.sellerName;
+  //     if (!acc[seller]) acc[seller] = [];
+  //     acc[seller].push(item);
+  //   }
+  //   return acc;
+  // }, {});
+
   const groupedProducts = cartList.reduce((acc, item) => {
-    // If productId is present, filter by productId
     if (productId) {
       if (item.product.productID === productId) {
         const seller = item.product.sellerName;
-        if (!acc[seller]) acc[seller] = [];
-        acc[seller].push(item);
+        const sellerId = item.product.sellerId; // Extract sellerId
+        if (!acc[seller]) acc[seller] = { products: [], sellerId };
+        acc[seller].products.push(item);
       }
     } else {
-      // Usual grouping logic
       const seller = item.product.sellerName;
-      if (!acc[seller]) acc[seller] = [];
-      acc[seller].push(item);
+      const sellerId = item.product.sellerId; // Extract sellerId
+      if (!acc[seller]) acc[seller] = { products: [], sellerId };
+      acc[seller].products.push(item);
     }
     return acc;
   }, {});
-
   const user = useSelector((state) => state.user?.user || []);
 
 
@@ -439,7 +462,12 @@ const ProccedtoShipment = ({
       <h1 className="text-xl font-semibold text-orange-400">2. Select shipment</h1>
       <div className="flex w-full">
         <div className="w-full sm:w-[90%] md:w-[100%] lg:w-[70%] xl:w-[70%]">
-          {Object.entries(groupedProducts).map(([seller, products]) => (
+          {Object.entries(groupedProducts).map(([seller, { products, sellerId }]) => {
+              // Use sellerId in the useSelector hook
+              const serviceName = useSelector((state) => state.trackNumber.serviceType[sellerId] || []);
+              const fedexRate = useSelector((state) => state.trackNumber.fedExRates[sellerId] || []);
+
+              return(
             <div key={seller}>
               <h2 className="font-bold text-lg mt-4">Seller: {seller}</h2>
               <div className="border p-2 sm:p-4 md:p-6 my-4 min-w-full rounded-md shadow-lg bg-white">
@@ -520,8 +548,8 @@ const ProccedtoShipment = ({
                             {selectedOptions[seller] ? "Please choose a delivery option" : "Select an option"}
                           </option>
                           <optgroup label="Delivery options">
-                            {serviceName.map((item) => {
-                              const matchingRate = fedexRate.find(
+                            {serviceName?.map((item) => {
+                              const matchingRate = fedexRate?.find(
                                 (fed) =>
                                   normalizeString(removeNonPrintableChars(fed.serviceName)) ===
                                   normalizeString(removeNonPrintableChars(item.serviceName))
@@ -563,7 +591,8 @@ const ProccedtoShipment = ({
                 )}
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
         <div className="w-full lg:w-1/3 mt-6 lg:mt-0 ml-4"></div>
       </div>

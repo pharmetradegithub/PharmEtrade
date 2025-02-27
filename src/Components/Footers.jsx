@@ -166,10 +166,11 @@ function Footers({ topMargin }) {
   return (
     <>
     <div
-        className="bg-yellow-100  cursor-pointer text-blue-900 font-semibold p-3 flex justify-center items-center text-[17px] min-w-screen z-50"
+        className="cursor-pointer text-white font-semibold p-3 flex justify-center items-center text-[17px] min-w-screen z-50 mt-6"
         onClick={scrollToTop}
         style={{
           marginTop: `${topMargin}px`,
+          backgroundColor: "#4a893a",
         }}
       >
         {" "}
@@ -181,7 +182,7 @@ function Footers({ topMargin }) {
         {/* About Us Section */}
 
         <div className=" flex items-center">
-          <img src={logo} className="w-52 xl:w-72 h-12"/>
+          <img src={logo} className="w-52 xl:w-72 h-14 lg:ml-2"/>
         </div>
         {/* <div className="flex flex-col xl:text-md  w-full xl:w-auto">
           <p className="text-md font-semibold mb-4">About Us</p>

@@ -433,7 +433,7 @@ const LayoutNav = ({ Form_Data }) => {
     // </div>
 
     <div className="my-3 pb-2 cursor-pointer border-b-2 border-gray-300 shadow-lg">
-      <div className="md:flex justify-between items-center ">
+      <div className="md:flex justify-between items-center">
         {/* Nav Items (Hidden on small and medium screens) */}
         <div className="hidden xl:flex items-center">
           <div className="flex">

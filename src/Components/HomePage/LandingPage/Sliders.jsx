@@ -206,12 +206,33 @@ function Sliders({ wishList, addCart }) {
         </div> */}
 
         <div
-          className={
-            pop
-              ? "getTouchs xl:w-full md:w-full sm:w-full relative h-auto sm:mt-10 md:mt-12 xl:mt-16 xl:mx-8 rounded-md xl:p-10 md:p-6 sm:p-4 flex flex-col justify-center"
-              : "getTouchs xl:w-[96%] md:w-full sm:w-full relative h-auto sm:mt-6 md:mt-8 xl:mt-16 xl:mx-8 rounded-md xl:p-5 md:p-4 sm:p-2 flex flex-col justify-center"
-          }
-        >
+          // className={
+          //   pop
+          //     ? "getTouchs xl:w-full md:w-full sm:w-full relative h-auto sm:mt-10 md:mt-12 xl:mt-16 xl:mx-8 rounded-md xl:p-10 md:p-6 sm:p-4 flex flex-col justify-center"
+          //     : "getTouchs xl:w-[96%] md:w-full sm:w-full relative h-auto sm:mt-6 md:mt-8 xl:mt-16 xl:mx-8 rounded-md xl:p-5 md:p-4 sm:p-2 flex flex-col justify-center"
+          // }
+          
+         
+            // className={
+            //   pop
+            //     ? "getTouchs xl:w-full md:w-full sm:w-full relative h-auto sm:mt-10 md:mt-12 xl:mt-16 xl:mx-8 rounded-md xl:p-10 md:p-6 sm:p-4 flex flex-col justify-center"
+            //     : "getTouchs xl:w-[96%] md:w-full sm:w-full relative h-auto sm:mt-6 md:mt-8 xl:mt-16 xl:mx-8 rounded-md xl:p-5 md:p-4 sm:p-2 flex flex-col justify-center"
+            // }
+          // style={{ backgroundColor: pop ? "#4a893a" : "" }}
+
+            className={
+              `getTouchs ${pop ? "xl:w-full bg-[#4a893a]" : "xl:w-[96%] bg-[#ff0000]"} md:w-full sm:w-full relative h-auto sm:mt-${pop ? "10" : "6"} md:mt-${pop ? "12" : "8"} xl:mt-16 xl:mx-8 rounded-md xl:p-${pop ? "10" : "5"} md:p-${pop ? "6" : "4"} sm:p-${pop ? "4" : "2"} flex flex-col justify-center`
+            }
+        
+          >
+            {/* Content goes here */}
+        
+       
+            {/* Content here */}
+       
+
+       
+           
           <div className="border-2 border-white w-auto sm:my-2 md:my-4 xl:my-6 rounded-md xl:mx-12 lg:mx-8 md:mx-6">
             <p className="absolute sm:top-10 md:top-1 xl:top-4 z-5 right-1/2 h-auto bg-box-blue text-white px-4 py-2 md:my-0 -my-4 rounded-md text-sm sm:text-base md:text-2xl">
               {/* Get In Touch */}
@@ -255,9 +276,9 @@ function Sliders({ wishList, addCart }) {
         </div>
 
 
-        <div className=" w-full flex justify-center py-4">
+        {/* <div className=" w-full flex justify-center py-4">
           <MobileView />
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -177,7 +177,7 @@ function App() {
   useEffect(() => {
     const skipRoutes = [ "/termsandconditions"];
     const LoadAll = async (userId) => {
-      LoadingApi(true);
+      // LoadingApi(true);
       if (userId &&  !skipRoutes.includes(location.pathname)) {
        
 
@@ -198,7 +198,7 @@ function App() {
       await fetchAllProductsApi();
       dispatch(fetchProductCategoriesGetAll());
       TopMarginApi(topDivRef?.current?.offsetHeight);
-      LoadingApi(false);
+      // LoadingApi(false);
     };
 
     const token = localStorage.getItem("token");

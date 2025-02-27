@@ -495,7 +495,7 @@ const LayoutTerms =({ topMargin, setActiveStep }) => {
 
                 </div>
 
-                <div className='flex flex-col md:flex-row ml-10 md:ml-0 py-4'>
+                {/* <div className='flex flex-col md:flex-row ml-10 md:ml-0 py-4'>
                     <div>
                         <img src={mobile} className='w-60 h-96' />
                     </div>
@@ -513,7 +513,7 @@ const LayoutTerms =({ topMargin, setActiveStep }) => {
                                 App Store</button>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     )
