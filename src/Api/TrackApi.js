@@ -19,13 +19,13 @@ export const TrackNumberApi = (numberId) => {
   }
 }
 
-export const serviceTypeApi = (payload, customerId) => {
+export const serviceTypeApi = (payload, customerId, sellerId) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(`/api/FedEx/ServiceTypes?sellerId=${customerId}`, payload);
       if (response.status === 200) {
         const responseData = response.data
-        dispatch(setServiceType(responseData))
+        dispatch(setServiceType({ sellerId, serviceTypes: responseData }));
       } else {
         console.log('Error', response.data.message)
       }
@@ -35,7 +35,7 @@ export const serviceTypeApi = (payload, customerId) => {
   }
 }
 
-export const FedExRatesApi = (payload, customerId) => {
+export const FedExRatesApi = (payload, customerId, sellerId) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(`/api/FedEx/Rates?sellerId=${customerId}`, payload);
@@ -43,7 +43,7 @@ export const FedExRatesApi = (payload, customerId) => {
       if (response.status === 200) {
         const responseData = response.data.output.rateReplyDetails
         
-        dispatch(setFedExRates(responseData))
+        dispatch(setFedExRates({ sellerId, rates: responseData }));
       } else {
         console.log('Error', response.data.message)
       }

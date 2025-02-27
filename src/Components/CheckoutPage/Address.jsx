@@ -263,9 +263,11 @@ function Address({ topMargin, totalAmount, amount }) {
               },
             };
 
+            const sellerId = product.product.sellerId;
             // Make the two FedEx API calls for each product
-            await dispatch(serviceTypeApi(payload, user.customerId));
-            await dispatch(FedExRatesApi(payload, user.customerId));
+            
+            await dispatch(serviceTypeApi(payload, user.customerId, sellerId));
+            await dispatch(FedExRatesApi(payload, user.customerId, sellerId));
 
             return { product: product.product.sellerId };
           } else {

@@ -205,7 +205,7 @@ const MobileView = () => {
             ))}
           </div>
 
-          <div className="flex py-4 justify-center gap-4">
+          {/* <div className="flex py-4 justify-center gap-4">
             <button className="bg-blue-900 text-white w-32 h-10 rounded-md flex items-center justify-center p-2 gap-2">
               <img src={playstore} className="w-5" alt="Google Play" />
               Google Play
@@ -214,7 +214,7 @@ const MobileView = () => {
               <img src={appstore} className="w-5" alt="App Store" />
               App Store
             </button>
-          </div>
+          </div> */}
         </div>
 
         <div className="w-full md:w-[45%] h-full flex justify-center items-center mt-4 md:mt-0">

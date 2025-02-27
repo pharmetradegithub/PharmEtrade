@@ -862,12 +862,13 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   };
 
   const MenuItems = [
-    "Home",
-    "Products",
-    "Why PharmEtrade",
+    // "Home",
+    // "Products",
+    "Shop",
+    // "Why PharmEtrade",
     "About Us",
-    // "Contact Us",
-    "Request Demo",
+    "Contact Us",
+    // "Request Demo",
   ];
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -920,7 +921,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
     { icon: linkedin, href: "https://www.linkedin.com/company/pharmetrade/"},
     {
       icon: facebook, href: "https://www.facebook.com/PharmETrade" },
-    { icon: insta, href: "https://www.instagram.com/pharm_etrade/" },
+    // { icon: insta, href: "https://www.instagram.com/pharm_etrade/" },
     // { icon: twitter, path: "#" },
   ];
 
@@ -972,17 +973,26 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
     }
   }, [location]);
 
+  // const handleSelect = (index) => {
+  //   setSelectedIndex(index);
+  //   if (MenuItems[index] === "Home") navigate("/app");
+  //    else if (MenuItems[index] === "Shop") navigate("/allProducts");
+  //   else if (MenuItems[index] === "Why PharmEtrade")
+  //     navigate("/whypharmetrade");
+  //   else if (MenuItems[index] === "About Us") navigate("/aboutus");
+  //   // else if (MenuItems[index] === "Contact Us") navigate("/contactus");
+  //   else if (MenuItems[index] === "Request Demo") navigate("/requestdemo");
+  // };
+
   const handleSelect = (index) => {
     setSelectedIndex(index);
-    if (MenuItems[index] === "Home") navigate("/app");
-    else if (MenuItems[index] === "Products") navigate("/allProducts");
-    else if (MenuItems[index] === "Why PharmEtrade")
-      navigate("/whypharmetrade");
-    else if (MenuItems[index] === "About Us") navigate("/aboutus");
-    // else if (MenuItems[index] === "Contact Us") navigate("/contactus");
-    else if (MenuItems[index] === "Request Demo") navigate("/requestdemo");
-  };
 
+    const selectedItem = MenuItems[index]; // Get the selected item
+
+    if (selectedItem === "Shop") navigate("/allProducts");
+    else if (selectedItem === "About Us") navigate("/aboutus");
+    else if (selectedItem === "Contact Us") navigate("/requestdemo"); // Fix navigation path
+  };
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isCategory, setIsCategory] = useState(false);
   // const [popUps, setPopUps] = useState(<Baby />);
@@ -1095,7 +1105,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 src={Logo}
                 // onClick={() => navigate("/")}
                 onClick={() => {
-                  setSelectedIndex(0); 
+                  setSelectedIndex(""); 
                   navigate("/");
                 }}
                 // className="w-18 md:w-16 lg:w-32 xl:w-60 h-9 ml-2 md:ml-2 lg:ml-12 hover:cursor-pointer lg:overflow-x-hidden"
@@ -1139,7 +1149,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                       className="w-6 md:w-6 lg:w-8 h-8"
                       alt="clickable"
                     />
-                    <div className="text-blue-900 hover:cursor-pointer ">
+                    <div className="text-blue-900 hover:cursor-pointer lg:mr-16 lg:w-">
                       {user ? (
                         <div className="text-sm sm:text-xs flex flex-wrap md:text-base xl:text-lg font-medium leading-none">
                           {user.firstName}
@@ -1224,7 +1234,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 </div>
 
                 {/* Cart Icon */}
-                <li className="cursor-pointer" onClick={handleCart}>
+                {/* <li className="cursor-pointer" onClick={handleCart}>
                   <Tooltip title="Cart" placement="top">
                     <img
                       src={cartNav}
@@ -1237,7 +1247,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                   </div>
                 </li>
 
-                {/* Wishlist Icon */}
+                {/* Wishlist Icon *
                 <li>
                   <Tooltip title="Wishlist" placement="top">
                     <img
@@ -1247,7 +1257,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                       alt="Like"
                     />
                   </Tooltip>
-                </li>
+                </li> */}
               </div>
             </div>
           </div>
@@ -1401,7 +1411,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
           </div>
 
           {/* Social items */}
-          <div className="flex gap-5 items-center mr-6 justify-around text-blue-900 p-4 w-full md:w-fit">
+          {/* <div className="flex gap-5 items-center mr-6 justify-around text-blue-900 p-4 w-full md:w-fit"> */}
             {/* {downSocialItems.map((item, index) => (
               <li
                 key={index}
@@ -1418,7 +1428,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 <div className="hidden xl:block text-sm">{item.label}</div>
               </li>
             ))} */}
-            {downSocialItems.map((item, index) => (
+            {/* {downSocialItems.map((item, index) => (
               <li
                 key={index}
                 onClick={() => {
@@ -1432,17 +1442,47 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 }}
                 className="flex gap-1 items-center justify-center cursor-pointer hover:text-green-400 "
               >
-                {/* Hide icons on sm and md screens, show on lg and above */}
+                {/* Hide icons on sm and md screens, show on lg and above *
                 <img
                   src={item.icon}
                   className="hidden lg:block max-w-6 max-h-6 lg:max-w-8 lg:max-h-8"
                   alt={item.label}
                 />
-                {/* Hide label on sm and md screens, show on lg and above */}
+                {/* Hide label on sm and md screens, show on lg and above *
                 <div className="hidden xl:block text-sm">{item.label}</div>
               </li>
-            ))}
-          </div>
+            ))} */}
+            {/* Wishlist Icon */}
+          <div className=" mt-0 flex relative justify-between">
+            <ul className="flex items-center lg:mr-10">
+
+            <li>
+              <Tooltip title="Wishlist" placement="top">
+                <img
+                  src={like}
+                  onClick={handleclick}
+                    className="w-5 h-5 md:w-7 md:h-7 cursor-pointer hover:scale-110 transition duration-300 "
+                  alt="Like"
+                />
+              </Tooltip>
+            </li>
+          
+            <li className="cursor-pointer" onClick={handleCart}>
+              <Tooltip title="Cart" placement="top">
+                <img
+                  src={cartNav}
+                  className="w-8 h-8 md:w-9 lg:ml-5 md:h-9 -ml-1 text-blue-900 hover:text-gray-400 hover:scale-110 duration-500"
+                  alt="Cart"
+                />
+              </Tooltip>
+              <div className="absolute text-white rounded-full px-1 text-sm border bg-blue-900 top-0 right-12 font-medium">
+                {cart.length}
+              </div>
+            </li>
+            </ul>
+            </div>
+
+          {/* </div> */}
         </div>
       </div>
     </div>

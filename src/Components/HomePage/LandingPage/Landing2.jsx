@@ -283,7 +283,8 @@ function Landing2({ wishList, addCart }) {
           <ProductSlider
             addCart={addCart}
             wishList={wishList}
-            Title={"Recent Sold Products"}
+            // Title={"Recent Sold Products"}
+            Title={"What's Hot"}
             data={newProducts}
           />
         )}
@@ -317,7 +318,7 @@ function Landing2({ wishList, addCart }) {
     </ul>
   </div>
 
-  <div>
+  <div className="h-fit w-7/12">
     <img src={bg2} alt="Pharmacy" className="rounded-xl object-cover" />
   </div>
 </div>

@@ -528,11 +528,19 @@ const trackNumberSlice = createSlice({
     setTrackNumber(state, action) {
       state.trackNumber = action.payload
     },
+    // setServiceType(state, action) {
+    //   state.serviceType = action.payload
+    // },
+    // setFedExRates(state, action) {
+    //   state.fedExRates = action.payload
+    // },
     setServiceType(state, action) {
-      state.serviceType = action.payload
+      const { sellerId, serviceTypes } = action.payload;
+      state.serviceType[sellerId] = serviceTypes; // Store service types by sellerId
     },
     setFedExRates(state, action) {
-      state.fedExRates = action.payload
+      const { sellerId, rates } = action.payload;
+      state.fedExRates[sellerId] = rates; // Store FedEx rates by sellerId
     },
     clearServiceType(state) {
       state.serviceType = [];

@@ -145,7 +145,9 @@ let newoffer = [];
 const OfferSlider = ({ images, Title }) => {
   const carouselContainer = useRef(null);
   const specialOffers = useSelector((state) => state.product.productSpecialOffer) || [] ;
+  console.log("///", specialOffers)
   const getAll = useSelector((state) => state.offer.OfferGetLanding) || [];
+  console.log("getAll", getAll)
   newoffer = [];
   specialOffers?.map((element, index) => {
     const newObject = { ...element, image: '' };
@@ -205,7 +207,7 @@ const OfferSlider = ({ images, Title }) => {
     }
   }
 
-
+  console.log("newoffer", newoffer)
   return (
     <div className="flex flex-col justify-center gap-3 Large:gap-4 pt-4 pb-1">
       <div className="flex justify-between  sm:justify-between ml-1 font-semibold text-3xl">
@@ -286,15 +288,17 @@ const OfferSlider = ({ images, Title }) => {
             {newoffer.map((element, index) => (
               <div
                 key={index}
-                className="border shadow-2xl w-full h-[300px] min-w-[260px]  sm:w-[500px] Laptop:min-w-[320px] p-4 relative flex flex-col bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: `url(${element.image})`, backgroundSize: "cover" }}
-              >
+                // className="border shadow-2xl w-full h-[300px] min-w-[260px]  sm:w-[500px] Laptop:min-w-[320px] p-4 relative flex flex-col bg-cover bg-center bg-no-repeat"
+                // style={{ backgroundImage: `url(${element.image})`, backgroundSize: "cover" }}
+  className="border shadow-2xl w-full h-[300px] min-w-[260px] sm:w-[500px] Laptop:min-w-[320px] p-4 relative flex flex-col bg-cover bg-center bg-no-repeat"
+  style={{ backgroundImage: `url('${element.image}')` }} // Ensure URL is wrapped in quotes
+>
                 <div className="flex flex-col flex-grow justify-between">
                   <p className="w-full text-[15px] font-semibold cursor-pointer bg-white/80 p-2 rounded-md">
                     Up to {element?.discount}% off | Deals on {element?.specificationName}
                   </p>
                   <div className="w-full text-black font-semibold flex justify-end">
-                    <Link to="/allProducts/offers" className="hover:text-red-500">
+                    <Link to="/allProducts/offers" className="hover:text-red-500 drop-shadow-2xl">
                       See all offers
                     </Link>
                   </div>
