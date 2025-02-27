@@ -78,6 +78,8 @@ const AdminBanners = () => {
             bannerId: 0,
             imageUrl: imageUrl,
             bannerText: "string",
+            tagline: "string",
+            navigateUrl: "string",
             orderSequence: 0,
             uploadedOn: "2024-11-03T18:15:55.037Z",
             isActive: 1,
@@ -118,6 +120,8 @@ const AdminBanners = () => {
       const updatedBannerData = {
         imageUrl: imageUrl,
         bannerText: "string", // Replace with actual data if necessary
+        tagline: "string",
+        navigateUrl: "string",
         orderSequence: 0,
         uploadedOn: new Date().toISOString(),
         isActive: 1,
