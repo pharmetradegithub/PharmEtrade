@@ -94,8 +94,11 @@ body {
   height: 60vh; /* Adjust the height as needed */
 }
 
-.getTouchs {
+/* .getTouchs {
   background-image: url(../src/assets/h1-slider01.jpeg);
+} */
+.getTouchs {
+  background-color: #4a893a;
 }
 
 
