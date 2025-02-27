@@ -18,10 +18,10 @@ export const taxAddInformationApi = (payload) => {
   }
 }
 
-export const TaxGetByStateNameApi = (customerId) => {
+export const TaxGetByStateNameApi = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`/api/Tax/GetBySellerAndState?sellerId=${customerId}&stateName=${[]}`)
+      const response = await axios.get(`/api/Tax/GetByState?stateName=${[]}`)
       if (response.status === 200) {
         const stateName = response.data.result
         dispatch(setStateName(stateName))

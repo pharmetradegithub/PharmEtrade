@@ -125,7 +125,7 @@ const Signin = () => {
         }}
       />
 
-      <div className="w-full h-75% ml-2">
+      <div className="w-full h-75% ml-5 mt-2">
         <Link to="/">
           <img src={logo} style={{ width: "220px" }} />
         </Link>

@@ -229,7 +229,7 @@ import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import axios from "../../../Api/api"; 
 import { useDispatch, useSelector } from "react-redux";
-import { TaxGetByStateNameApi } from "../../../Api/TaxInfoApi";
+// import { TaxGetByStateNameApi } from "../../../Api/TaxInfoApi";
 import { useNavigate } from "react-router-dom";
 
 const LayoutAddBulkProduct = () => {
