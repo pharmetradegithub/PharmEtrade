@@ -479,7 +479,7 @@ const LayoutNav = ({ Form_Data }) => {
         )}
 
         {/* Search and Dropdown */}
-        <div className="flex sm:w-[30%] md:w-[60%] lg:w-[40%]">
+        <div className="flex sm:w-[30%] md:w-[60%] lg:w-[40%] lg:mt-2">
           <div
             ref={dropdownRef}
             className={`w-full relative mb-3 flex items-center ${
@@ -560,14 +560,14 @@ const LayoutNav = ({ Form_Data }) => {
               {cartItems.length}
             </div>
             <Tooltip title="Cart" placement="top">
-              <img src={cartNav} className="w-5 h-5 " alt="cart icon" />
+              <img src={cartNav} className="w-7 h-7 " alt="cart icon" />
             </Tooltip>
           </div>
 
           <Tooltip title="Notification" placement="top">
             <img
               src={notification}
-              className="w-8 h-8"
+              className="w-9 h-9"
               alt="Notification icon"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
@@ -598,7 +598,7 @@ const LayoutNav = ({ Form_Data }) => {
             <img
               onClick={() => navigate("/layout/layoutwishlist")}
               src={wishlist}
-              className="w-6 h-6"
+              className="w-7 h-7"
               alt="wishlist icon"
             />
           </Tooltip>
