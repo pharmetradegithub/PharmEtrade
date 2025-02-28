@@ -22,6 +22,10 @@ const AdminBanners = () => {
   const [isDragOver, setIsDragOver] = useState(false);
   const MAX_WIDTH = 7680;
   const MAX_HEIGHT = 2200;
+  const [tagLine, setTagLine] = useState("");
+  const [navigation, setNavigation] = useState("");
+  const [editTagLine, setEditTagLine] = useState("")
+  const [editNavigateUrl, setEditNavigateUrl] = useState("")
 
   // Handle new banners file input with validation for size
   const handleBannerChange = (acceptedFiles) => {
@@ -78,8 +82,8 @@ const AdminBanners = () => {
             bannerId: 0,
             imageUrl: imageUrl,
             bannerText: "string",
-            tagline: "string",
-            navigateUrl: "string",
+            tagline: tagLine,
+            navigateUrl: navigation,
             orderSequence: 0,
             uploadedOn: "2024-11-03T18:15:55.037Z",
             isActive: 1,
@@ -97,8 +101,10 @@ const AdminBanners = () => {
   const [bannerIds, setBannerIds] = useState()
   // Handle editing banner
   const handleEditBanner = (index, bannerID) => {
+    
     setBannerIds(bannerID)
     // setBannerIds(Number(bannerID));
+    
     setEditingIndex(index);
     setEditBanner(banners[index]);
   };
@@ -120,8 +126,8 @@ const AdminBanners = () => {
       const updatedBannerData = {
         imageUrl: imageUrl,
         bannerText: "string", // Replace with actual data if necessary
-        tagline: "string",
-        navigateUrl: "string",
+        tagline: editTagLine,
+        navigateUrl: editNavigateUrl,
         orderSequence: 0,
         uploadedOn: new Date().toISOString(),
         isActive: 1,
@@ -232,6 +238,7 @@ const AdminBanners = () => {
     }
   };
 
+ 
 
   return (
     <div className="p-6 bg-gray-100 overflow-y-scroll">
@@ -270,6 +277,30 @@ const AdminBanners = () => {
           <p className="text-gray-500 text-center">
             Click here or Drag and Drop image
           </p>
+       
+        </div>
+        {/* Tagline Input */}
+        <div className="mb-4">
+          <label className="block text-gray-600 font-medium mb-1">Tagline</label>
+          <input
+            type="text"
+            placeholder="Enter a catchy tagline..."
+            value={tagLine}
+            onChange={(e) => setTagLine(e.target.value)}
+            className="w-96 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
+          />
+        </div>
+
+        {/* Navigation Input */}
+        <div className="mb-4">
+          <label className="block text-gray-600 font-medium mb-1">Navigation URL</label>
+          <input
+            type="text"
+            placeholder="Enter navigation link..."
+            value={navigation}
+            onChange={(e) => setNavigation(e.target.value)}
+            className="w-96 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
+          />
         </div>
         <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
           {newBanners.map((banner, index) => (
@@ -341,7 +372,7 @@ const AdminBanners = () => {
               <div key={index} className="relative overflow-hidden p-2 border rounded">
                 <img src={item.imageUrl} alt={`Carousel Image ${index + 1}`} className="rounded-md" />
                 <div className="flex justify-between items-center mt-2">
-                  <button onClick={() => handleEditBanner(index, item.bannerId)}>
+                  <button onClick={() => handleEditBanner(index, item.bannerId, item.tagline, item.navigateUrl)}>
                     <img src={edit} className="w-8 h-8" alt="Edit" />
                   </button>
                   <button
@@ -461,6 +492,28 @@ const AdminBanners = () => {
             Click here or drag and drop images
           </p>
         )} */}
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-600 font-medium mb-1">Tagline</label>
+              <input
+                type="text"
+                placeholder="Enter a catchy tagline..."
+                value={editTagLine}
+                onChange={(e) => setEditTagLine(e.target.value)}
+                className="w-96 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
+              />
+            </div>
+
+            {/* Navigation Input */}
+            <div className="mb-4">
+              <label className="block text-gray-600 font-medium mb-1">Navigation URL</label>
+              <input
+                type="text"
+                placeholder="Enter navigation link..."
+                value={editNavigateUrl}
+                onChange={(e) => setEditNavigateUrl(e.target.value)}
+                className="w-96 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
+              />
             </div>
 
             {editBanner && (

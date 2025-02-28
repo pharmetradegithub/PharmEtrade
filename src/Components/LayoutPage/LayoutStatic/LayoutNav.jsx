@@ -212,7 +212,7 @@ const LayoutNav = ({ Form_Data }) => {
   ];
 
   const iconItems = [
-    { icon: OTCProd, text: "OTC Products", path: "/layout/layoutOtcProducts" },
+    { icon: OTCProd, text: "OTC", path: "/layout/layoutOtcProducts" },
     { icon: buyagain, text: "Buy Again", path: "/layout/layoutorderlist" },
     { icon: deals, text: "Deals", path: "/allProducts/offers" },
 

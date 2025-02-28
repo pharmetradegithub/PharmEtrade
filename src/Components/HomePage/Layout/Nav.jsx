@@ -991,7 +991,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
 
     if (selectedItem === "Shop") navigate("/allProducts");
     else if (selectedItem === "About Us") navigate("/aboutus");
-    else if (selectedItem === "Contact Us") navigate("/requestdemo"); // Fix navigation path
+    else if (selectedItem === "Contact Us") navigate("/contactus"); // Fix navigation path
   };
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isCategory, setIsCategory] = useState(false);
@@ -1086,7 +1086,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   return (
     <div
       ref={topDivRef}
-      className=" fixed w-screen pt-1   z-10 bg-white text-grey-500"
+      className=" fixed w-screen pt-1 top-0  z-10 bg-white text-grey-500"
     >
       <div className=" flex flex-col w-full justify-between ">
         <ul className="text-3xl w-full">
@@ -1119,7 +1119,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
               <div className="hidden md:flex gap-3 justify-around h-full items-center">
                 {MenuItems.map((item, index) => (
                   <li
-                    className={`text-blue-900 hover:bg-slate-200 rounded-md flex justify-center p-1 px-1 items-center w-fit cursor-pointer font-medium text-[17px] leading-none ${
+                    className={`textColor hover:bg-slate-200 rounded-md flex justify-center p-1 px-1 items-center w-fit cursor-pointer font-semibold text-[17px] leading-none ${
                       selectedIndex === index
                         ? "bg-slate-200 hover:text-blue-900 text-blue-900 border-0 font-semibold"
                         : "border-transparent border-2"
@@ -1151,14 +1151,14 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                     />
                     <div className="text-blue-900 hover:cursor-pointer lg:mr-16 lg:w-">
                       {user ? (
-                        <div className="text-sm sm:text-xs flex flex-wrap md:text-base xl:text-lg font-medium leading-none">
+                        <div className="textColor text-sm sm:text-xs flex flex-wrap md:text-base xl:text-lg font-semibold leading-none">
                           {user.firstName}
                           <p className="hidden lg:inline ml-1">
                             {user.lastName}
                           </p>
                         </div>
                       ) : (
-                        <div className="text-base font-medium">Sign in</div>
+                          <div className="textColor font-semibold">Sign in</div>
                       )}
                     </div>
                   </div>
@@ -1292,8 +1292,8 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
         </ul>
 
         {/* down div elemenet  */}
-        <div className="flex flex-col justify-around bg-gray-200 w-full h-24 md:h-fit lg:h-fit xl:h-fit items-center text-black border-grey-500 shadow-lg md:flex-row ">
-          <div className="flex gap-4 items-center justify-around text-blue-900 p-3 ml-0 lg:ml-8 w-full md:w-fit">
+        <div className="flex flex-col justify-around bg-gray-200 w-full h-24 md:h-fit lg:h-fit xl:h-fit items-center text-black border-grey-500 shadow-lg md:flex-row">
+          <div className="flex gap-4 items-center text-blue-900 p-3 ml-0 lg:ml-8 w-full md:w-fit">
             {downDivItems.map((item, index) => (
               <li
                 key={index}
@@ -1346,7 +1346,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
           )}
 
           {/* Search bar */}
-          <div className="flex items-center rounded-md w-full md:w-1/2 lg:w-2/4 p-2 -mt-4 md:mt-0">
+          <div className="flex items-center lg:mr-1 rounded-md lg:w-7/12 w-full md:w-1/2 p-2 -mt-4 md:mt-0">
             <div
               ref={dropdownRef}
               className={`w-full relative flex items-center ${
@@ -1356,7 +1356,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
               onBlur={handleFocusOut}
             >
               <button
-                className={`h-12 pl-2 mr-[1px] w-auto  sm:w-auto font-semibold text-left gap-1 text-[14px]  lg:text-[16px] flex items-center text-gray-600 bg-gray-100 border-gray-300 rounded-l-md border
+                className={`h-12 pl-2 mr-[1px] lg:w-32 lg:items-center w-auto  sm:w-auto font-semibold text-left gap-1 text-[14px]  lg:text-[16px] flex items-center text-gray-600 bg-gray-100 border-gray-300 rounded-l-md border
         ${isButtonFocused ? "ring-2 ring-blue-500" : ""}`}
                 onClick={handleDropdownToggle}
                 onFocus={handleFocusIn}
@@ -1454,7 +1454,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
             ))} */}
             {/* Wishlist Icon */}
           <div className=" mt-0 flex relative justify-between">
-            <ul className="flex items-center lg:mr-10">
+            <ul className="flex items-center lg:mr-14">
 
             <li>
               <Tooltip title="Wishlist" placement="top">
@@ -1471,11 +1471,11 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
               <Tooltip title="Cart" placement="top">
                 <img
                   src={cartNav}
-                  className="w-8 h-8 md:w-9 lg:ml-5 md:h-9 -ml-1 text-blue-900 hover:text-gray-400 hover:scale-110 duration-500"
+                  className="lg:w-10 h-8 md:w-9 lg:ml-5 md:h-9 -ml-1 text-blue-900 hover:text-gray-400 hover:scale-110 duration-500"
                   alt="Cart"
                 />
               </Tooltip>
-              <div className="absolute text-white rounded-full px-1 text-sm border bg-blue-900 top-0 right-12 font-medium">
+              <div className="absolute text-white rounded-full px-1 text-sm border bg-blue-900 top-0 right-16 font-medium">
                 {cart.length}
               </div>
             </li>

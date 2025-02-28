@@ -377,7 +377,7 @@ function LayoutBuy({
               onChange={handleSortChange}
               className="bg-white w-auto h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center layoutBuyProducts"
             >
-              <option>Filter Products</option>
+              <option>Sort by</option>
               <option>Product Ascending (A-Z)</option>
               <option>Product Decending (Z-A)</option>
               <option>Price Low to High</option>
