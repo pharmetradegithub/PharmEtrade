@@ -152,7 +152,10 @@ import logo from "../assets/Icons/Logo_white.png";
 import { IoIosArrowUp } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-
+// import linkedin from "../../../assets/linkedin_icon.png";
+import linkedin from '../assets/linkedin_icon.png'
+import facebook from "../assets/facebook_icon.png";
+import insta from "../assets/instagram_icon.png";
 
 function Footers({ topMargin }) {
   const user = useSelector((state) => state.user?.user || []);
@@ -162,11 +165,20 @@ function Footers({ topMargin }) {
       behavior: "smooth",
     });
   };
+
+  const downSocialItems = [
+    { icon: linkedin, href: "https://www.linkedin.com/company/pharmetrade/" },
+    {
+      icon: facebook, href: "https://www.facebook.com/PharmETrade"
+    },
+    { icon: insta, href: "https://www.instagram.com/pharm_etrade/" },
+    // { icon: twitter, path: "#" },
+  ];
   
   return (
     <>
     <div
-        className="cursor-pointer text-white font-semibold p-3 flex justify-center items-center text-[17px] min-w-screen z-50 mt-6"
+        className="cursor-pointer text-white font-semibold p-3 flex justify-center items-center text-[17px] min-w-screen z-50"
         onClick={scrollToTop}
         style={{
           marginTop: `${topMargin}px`,
@@ -289,6 +301,54 @@ function Footers({ topMargin }) {
                 alt="Email Icon"
               />
             </div>
+            {/* {downSocialItems.map((item, index) => (
+              <li
+                key={index}
+                onClick={() => {
+                  if (item.href.startsWith("http")) {
+                    // Open external links in a new tab
+                    window.open(item.href, "_blank", "noopener noreferrer");
+                  } else {
+                    // Use navigate for internal links if needed
+                    navigate(item.href);
+                  }
+                }}
+                className="flex gap-1 items-center justify-center cursor-pointer hover:text-green-400 "
+              >
+                {/* Hide icons on sm and md screens, show on lg and above *
+                <img
+                  src={item.icon}
+                  className="hidden lg:block max-w-6 max-h-6 lg:max-w-8 lg:max-h-8"
+                  alt={item.label}
+                />
+                {/* Hide label on sm and md screens, show on lg and above *
+                <div className="hidden xl:block text-sm">{item.label}</div>
+              </li>
+            ))} */}
+            <div className="flex justify-evenly pt-6">
+
+            {downSocialItems.map((item, index) => (
+              <li
+                key={index}
+                onClick={() => {
+                  if (item.href.startsWith("http")) {
+                    window.open(item.href, "_blank", "noopener noreferrer");
+                  } else {
+                    navigate(item.href);
+                  }
+                }}
+                className="flex flex-col items-center justify-center cursor-pointer hover:text-green-400"
+              >
+                {/* Show label above the icon */}
+                <div className="hidden xl:block text-sm mb-1">{item.label}</div>
+                <img
+                  src={item.icon}
+                  className="hidden lg:block max-w-6 max-h-6 lg:max-w-8 lg:max-h-8"
+                  alt={item.label}
+                />
+              </li>
+            ))}
+</div>
           </div>
       </div>
     </div>

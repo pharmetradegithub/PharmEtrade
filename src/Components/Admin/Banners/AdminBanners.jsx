@@ -82,8 +82,8 @@ const AdminBanners = () => {
             bannerId: 0,
             imageUrl: imageUrl,
             bannerText: "string",
-            tagline: tagLine,
-            navigateUrl: navigation,
+            tagline: tagLine || "",
+            navigateUrl: navigation || "",
             orderSequence: 0,
             uploadedOn: "2024-11-03T18:15:55.037Z",
             isActive: 1,
@@ -95,6 +95,8 @@ const AdminBanners = () => {
       });
 
       setNewBanners([]); // Clear the newBanners after adding
+      setTagLine("")
+      setNavigation("")
     }
   };
 
@@ -126,8 +128,8 @@ const AdminBanners = () => {
       const updatedBannerData = {
         imageUrl: imageUrl,
         bannerText: "string", // Replace with actual data if necessary
-        tagline: editTagLine,
-        navigateUrl: editNavigateUrl,
+        tagline: editTagLine || "",
+        navigateUrl: editNavigateUrl || "",
         orderSequence: 0,
         uploadedOn: new Date().toISOString(),
         isActive: 1,
@@ -144,6 +146,8 @@ const AdminBanners = () => {
         setBanners(updatedBanners);
         setEditingIndex(null);
         setEditBanner(null);
+        setEditTagLine("")
+        setEditNavigateUrl("");
       }
     } catch (error) {
       console.error("Error in handleSaveEdit:", error);

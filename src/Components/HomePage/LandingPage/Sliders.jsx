@@ -256,6 +256,7 @@ function Sliders({ wishList, addCart }) {
                   type="text"
                   placeholder="Enter Your Name"
                   className="sm:w-60 md:w-72 xl:w-80 h-10 px-5"
+                  
                 />
                 <input
                   type="text"

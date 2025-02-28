@@ -10,6 +10,7 @@ import banner3 from "../../../assets/BannerText3.jpg";
 import banner4 from "../../../assets/BannerText4.jpg";
 import "./Landing.css";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 function Landing({ topMargin, wishList, addCart }) {
   const BannerData = useSelector((state) => state.banner.banner);
@@ -21,11 +22,14 @@ function Landing({ topMargin, wishList, addCart }) {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: true,
+    arrows: false,
     autoplay: true, // Auto play slides
     autoplaySpeed: 3000, // Slide change interval (3 seconds)
+    customPaging: () => <div className="custom-dot"></div>, // Custom dot styling
+    appendDots: (dots) => <ul className="custom-dots">{dots}</ul>, // Custom dots container
   };
 
+  console.log("activvvbanner", activeBanners)
   return (
     <div className="w-full font-sans">
       <div className="w-full">
@@ -40,7 +44,16 @@ function Landing({ topMargin, wishList, addCart }) {
             {activeBanners.length > 0 ? (
               <Slider {...settings}>
                 {activeBanners.map((item, index) => (
-                  <div key={index} className="w-full" >
+                  <div key={index} className="w-full relative" >
+                  
+                    <Link to={item.navigateUrl}>
+                      <button
+                        className={`text-white py-6 px-10 bg-blue-900 cursor-pointer rounded-lg font-semibold absolute left-[55%] bottom-[34%]`}
+                      >
+                        Show Now
+                      </button>
+                    </Link>
+                  
                     <img
                       src={item.imageUrl}
                       alt={`Carousel Image ${index + 1}`}
@@ -56,7 +69,7 @@ function Landing({ topMargin, wishList, addCart }) {
             )}
           </div>
         </div>
-        <div className="w-full bg-slate-200 px-6">
+        <div className="w-full bg-slate-200 pb-6">
           <Landing2 addCart={addCart} wishList={wishList} />
           <Sliders addCart={addCart} wishList={wishList} />
         </div>
