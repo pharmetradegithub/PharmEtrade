@@ -1193,7 +1193,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                             onClick={handlesignup}
                           >
                             New User?{" "}
-                            <span className="text-blue-900 hover:text-red-500 hover:underline">
+                            <span className="text-blue-900 hover:text-green-900 hover:underline">
                               Sign Up
                             </span>
                           </p>
@@ -1374,19 +1374,21 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                   style={{ top: "30px", left: "0px" }}
                 >
                   <div className="bg-white  sm:w-44 lg:w-64 ">
+                    <ul>
                     {modifiedComponents.map((items, index) => (
-                      <ul onClick={() => handleCriteria(items)} key={index}>
-                        <li>
+                      <li onClick={() => handleCriteria(items)} key={index}>
                           <a
-                            className="hover:text-black ml-2 cursor-pointer text-xs lg:text-sm font-medium text-blue-900  leading-none"
+                            className="hover:text-green2 ml-2 cursor-pointer text-sm font-semibold lg:text-sm  text-blue2 leading-none"
                             onClick={() => handleItemClick(items.categoryName)}
                             onMouseLeave={handleCatMouseLeave}
                           >
-                            {items.categoryName}
+                          {items.categoryName} {items.categoryName === "OTC Medications" && (
+                            <hr className="border-t border-green-900 w-full mt-1" />
+                          )}
                           </a>
                         </li>
-                      </ul>
                     ))}
+                    </ul>
                   </div>
                 </div>
               )}
@@ -1461,7 +1463,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 <img
                   src={like}
                   onClick={handleclick}
-                    className="w-5 h-5 md:w-7 md:h-7 cursor-pointer hover:scale-110 transition duration-300 "
+                    className="w-5 md:w-7 cursor-pointer hover:scale-110 transition duration-300 "
                   alt="Like"
                 />
               </Tooltip>
@@ -1471,7 +1473,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
               <Tooltip title="Cart" placement="top">
                 <img
                   src={cartNav}
-                  className="lg:w-10 h-8 md:w-9 lg:ml-5 md:h-9 -ml-1 text-blue-900 hover:text-gray-400 hover:scale-110 duration-500"
+                  className="lg:w-9 md:w-9 lg:ml-5 -ml-1 text-blue-900 hover:text-gray-400 hover:scale-110 duration-500"
                   alt="Cart"
                 />
               </Tooltip>

@@ -656,7 +656,7 @@ function AdminOrders() {
       <div className="w-[95%] h-full mt-4">
         <div className="flex justify-between">
           <h1 className="text-[22px] text-blue-900 font-semibold">
-            List of Orders
+            Pending Orders
           </h1>
           {/* <button className="bg-blue-900 flex items-center text-white p-2 text-[15px] rounded-md">
             <FaPlus /> Add New Product
@@ -705,8 +705,8 @@ function AdminOrders() {
               ))} */}
 
 
-              <div className="stats-container">
-                {/* First Row: Total Sold and Cancelled Amount */}
+              {/* <div className="stats-container">
+                {/* First Row: Total Sold and Cancelled Amount *
                 <div className="stats-row flex flex-col gap-2 md:flex-row">
                   {stats.slice(0, 2).map((stat, index) => (
                     <div
@@ -738,7 +738,7 @@ function AdminOrders() {
                   ))}
                 </div>
 
-                {/* Subsequent Rows */}
+                {/* Subsequent Rows *
                 <div className="flex  my-4 gap-2 lg:my-2 flex-col md:flex-row  ">
                   {stats.slice(2).map((stat, index) => (
                     <div
@@ -769,12 +769,12 @@ function AdminOrders() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </div> */}
 
             </div>
 
-            <div className="flex items-center justify-between mt-6">
-              {/* search start */}
+            {/* <div className="flex items-center justify-between mt-6">
+              {/* search start *
               <div className="relative flex">
                 <input
                   type="text"
@@ -785,7 +785,7 @@ function AdminOrders() {
                 />
                 <CiSearch className="absolute right-0 top-4 text-gray-400 mr-2" />
               </div>
-              {/* search end */}
+              {/* search end *
               <div className="flex gap-2">
                 <div className="flex  ">
                   {/* <button className="bg-green-300 p-2 h-8 rounded-md flex items-center">
@@ -793,16 +793,16 @@ function AdminOrders() {
               Filter
             </button> */}
                   {/* <FaFilter className="m-2" /> */}
-                  {/* <button className='text-2xl'>Filter</button> */}
+                  {/* <button className='text-2xl'>Filter</button> *
                 </div>
                 {/* <div className="flex bg-white h-9 p-2 items-center w-48 justify-evenly border rounded-md">
      
               <select className="">
                 <option>-Select Group-</option>
               </select>
-            </div> */}
+            </div> *
               </div>
-            </div>
+            </div> */}
 
 
             <div className="border rounded-md text-[15px] bg-white mt-4">

@@ -301,8 +301,10 @@ const OfferSlider = ({ images, Title }) => {
                   }}>
                     Up to {element?.discount}% off | Deals on {element?.specificationName}
                   </p>
-                  <div className="w-full text-black font-semibold flex justify-end">
-                    <Link to="/allProducts/offers" className="hover:text-red-500 drop-shadow-2xl">
+                  <div className="w-full text-white font-semibold flex justify-end">
+                    <Link to="/allProducts/offers" className="hover:text-green-900 drop-shadow-2xl px-2" style={{
+                      backgroundColor: 'rgb(48 38 125 / 50%)'
+                    }}>
                       See all offers
                     </Link>
                   </div>

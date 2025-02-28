@@ -507,15 +507,17 @@ const LayoutNav = ({ Form_Data }) => {
                   style={{ top: "30px", left: "0px" }}
                 >
                   <div className="bg-white px-4 py-3 rounded shadow-lg w-64">
+                    <ul>
                     {modifiedComponents.map((items, index) => (
-                      <ul onClick={() => handleCriteria(items)} key={index}>
-                        <li className="">
-                          <a className="hover:text-black cursor-pointer  text-xs lg:text-sm font-medium text-blue-900  leading-none">
-                            {items.categoryName}
+                        <li onClick={() => handleCriteria(items)} key={index}>
+                          <a className="hover:text-green2 cursor-pointer  text-xs lg:text-sm font-semibold text-blue2  leading-none">
+                          {items.categoryName} {items.categoryName === "OTC Medications" && (
+                            <hr className="border-t border-green-900 w-full mt-1" />
+                          )}
                           </a>
                         </li>
-                      </ul>
                     ))}
+                    </ul>
                   </div>
                 </div>
               )}

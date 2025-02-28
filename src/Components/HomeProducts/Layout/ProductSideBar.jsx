@@ -131,11 +131,11 @@ function ProductSideBar({ handleChange }) {
       {components?.map((category, index) => (
         <div
         key={category.productCategoryId}
-        className={`w-[90%] mb-2 rounded-md ${categoryId == category.productCategoryId ? "bg-gray-400" : "bg-blue-900"
+        className={`w-[90%] mb-2 rounded-md ${categoryId == category.productCategoryId ? "bg-green-900" : "bg-blue-900"
           } text-white`}
       >
         <div
-          className={`border-1 ${categoryId == category.productCategoryId ? "bg-gray-400" : "bg-blue-900"} px-4 py-1 rounded-md text-base flex justify-between items-center cursor-pointer text-white hover:bg-gray-400 hover:text-black `}
+          className={`border-1 ${categoryId == category.productCategoryId ? "bg-green-900" : "bg-blue-900"} px-4 py-1 rounded-md text-base flex justify-between items-center cursor-pointer text-white hover:bg-green-900 hover:text-white `}
           onClick={() => handleChange(category)}
         >
           <p>{category.categoryName}</p>
