@@ -101,6 +101,13 @@ body {
   background-color: #4a893a;
 }
 
+.textColor {
+  color: #352881;
+}
+.BgColor {
+  background-color: #352881;
+}
+
 
 
 /* small screen css start here */

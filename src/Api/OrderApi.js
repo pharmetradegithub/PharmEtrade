@@ -1,5 +1,5 @@
 import axios from './api'; 
-import { addOrder, setGetById, setGetOrder, setGetOrderBySellerId, setOrderDownloadInvoice, setOrderInvoice, setOrderPlace, setOrdersPayment, setOrderStatusUpdate, setOrderViewInvoice, setSellerGetAll, setSellerOrderViewInvoice } from "../Store/Store";
+import { addOrder, setAdminOrderGetAll, setGetById, setGetOrder, setGetOrderBySellerId, setOrderDownloadInvoice, setOrderInvoice, setOrderPlace, setOrdersPayment, setOrderStatusUpdate, setOrderViewInvoice, setSellerGetAll, setSellerOrderViewInvoice } from "../Store/Store";
 
 
 
@@ -52,6 +52,23 @@ export const fetchGetOrderBySellerId = (customerId) => {
     }
   };
 };
+
+export const fetchAdminOrderGetAll = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/api/Orders/Admin/GetOrders`);
+      if (response.status === 200) {
+        const OrderGetAll = response.data.result;
+        dispatch(setAdminOrderGetAll(OrderGetAll)); // Dispatch action
+      } else {
+        console.error('Failed to fetch order:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching order:', error);
+    }
+  };
+};
+
 export const fetchGetOrderByCustomerIdPage = async (customerId) => {
     try {
       const response = await axios.get(`/api/Orders/Buyer/GetAll?customerId=${customerId}`);

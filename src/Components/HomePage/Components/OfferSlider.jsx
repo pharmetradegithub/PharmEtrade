@@ -135,6 +135,7 @@
 import React, { useEffect, useRef } from "react";
 import left from "../../../assets/arrowleft.png";
 import right from "../../../assets/arrowright.png";
+
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGetProductOffer, fetchOfferGetAll, fetchProductOffer } from "../../../Api/ProductApi";
@@ -211,7 +212,7 @@ const OfferSlider = ({ images, Title }) => {
   return (
     <div className="flex flex-col justify-center gap-3 Large:gap-4 pt-4 pb-1">
       <div className="flex justify-between  sm:justify-between ml-1 font-semibold text-3xl">
-        <p className=" text-xl sm:text-xl md:text-xl lg:text-3xl">{Title}</p>
+        <p className="textColor text-xl sm:text-xl md:text-xl lg:text-3xl">{Title}</p>
 
         <div className="flex justify-end mr-1 gap-2">
           <button
@@ -294,7 +295,10 @@ const OfferSlider = ({ images, Title }) => {
   style={{ backgroundImage: `url('${element.image}')` }} // Ensure URL is wrapped in quotes
 >
                 <div className="flex flex-col flex-grow justify-between">
-                  <p className="w-full text-[15px] font-semibold cursor-pointer bg-white/80 p-2 rounded-md">
+                  <p className="w-full text-[15px] font-semibold cursor-pointer p-2 rounded-md text-white" style={{
+                    backgroundColor: 'rgb(48 38 125 / 50%)',
+                    
+                  }}>
                     Up to {element?.discount}% off | Deals on {element?.specificationName}
                   </p>
                   <div className="w-full text-black font-semibold flex justify-end">

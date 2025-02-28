@@ -59,7 +59,7 @@ const HomeLayout = ({ topDivRef, cartItems, topMargin }) => {
       
   }
   return (
-    <div className="w-screen overflow-scroll ">
+    <div className="w-screen ">
       <Nav topDivRef={topDivRef} TriggerAPI={TriggerAPI} />
       <div
         className="w-full flex justify-center mt-[122px]"      >

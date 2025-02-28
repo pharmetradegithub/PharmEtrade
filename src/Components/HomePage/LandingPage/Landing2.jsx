@@ -294,7 +294,7 @@ function Landing2({ wishList, addCart }) {
         )}
       </div>
       <div className="flex flex-col items-center text-center xl:mt-10 ">
-        <p className="text-[45px] verySmall:text-[25px] md:text-[40px] xl:text-4xl  font-semibold sm:mt-0  mt-15">
+        <p className="textColor text-[45px] verySmall:text-[25px] md:text-[40px] xl:text-4xl  font-semibold sm:mt-0  mt-15">
           Grow your business with PharmEtrade
         </p>
         {/* <p className="text-xl mb-2 font-light text-gray-900 xl:text-xl">

@@ -383,7 +383,7 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
         <Notification show={notification.show} message={notification.message} />
       )}
       <div className="flex justify-between ml-0  font-semibold text-[22px] ">
-      <p className=" text-xl sm:text-xl md:text-xl lg:text-3xl">{Title}</p>
+        <p className="textColor text-xl sm:text-xl md:text-xl lg:text-3xl">{Title}</p>
 
         <div className="flex justify-end mr-0 gap-2">
           <button

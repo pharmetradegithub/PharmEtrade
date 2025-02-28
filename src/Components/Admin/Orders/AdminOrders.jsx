@@ -9,10 +9,11 @@ import { CiSearch, CiMenuKebab } from "react-icons/ci";
 import filter from "../../../assets/Filter_icon.png";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchGetOrderBySellerId,
-  fetchOrderDownloadInvoice,
+  fetchAdminOrderGetAll,
+  // fetchGetOrderBySellerId,
+  // fetchOrderDownloadInvoice,
   fetchOrderInvoice,
-  fetchOrderView,
+  // fetchOrderView,
   fetchSellerOrderView,
   orderStatusUpdateApi,
 } from "../../../Api/OrderApi";
@@ -23,7 +24,7 @@ import Invoice from "../../../assets/Icons/Invoice.png";
 import download from "../../../assets/Icons/download.png";
 import wrong from "../../../assets/Icons/wrongred.png";
 import Pagination from "../../Pagination";
-import { MasterOrderStatusGetAll } from "../../../Api/MasterDataApi";
+// import { MasterOrderStatusGetAll } from "../../../Api/MasterDataApi";
 import Notification from "../../Notification";
 import { textarea } from "@material-tailwind/react";
 import Loading from "../../Loading";
@@ -32,25 +33,26 @@ function AdminOrders() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user?.user || []);
   const [searchQuery, setSearchQuery] = useState("");
-  const SellerOrder = useSelector((state) => state.order?.OrderBySellerId || []);
+  // const SellerOrder = useSelector((state) => state.order?.OrderBySellerId);
+  const SellerOrder = useSelector((state) => state.product.adminOrders) || []
 
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per page
   const [currentPage, setCurrentPage] = useState(1);
   const ordered = useSelector((state) => state.order?.sellerOrderview || []);
   // const [loading, setLoading] = useState(false)
 
-  const orderStatusGetAll = useSelector(
-    (state) => state.master?.orderStatusGetAll || []
-  );
+  // const orderStatusGetAll = useSelector(
+  //   (state) => state.master?.orderStatusGetAll || []
+  // );
 
-  const filterStatus = orderStatusGetAll.filter((order) => ![2, 4, 7].includes(order.statusId))
+  // const filterStatus = orderStatusGetAll.filter((order) => ![2, 4, 7].includes(order.statusId))
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
-  useEffect(() => {
-    dispatch(MasterOrderStatusGetAll());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(MasterOrderStatusGetAll());
+  // }, [dispatch]);
 
   const localData = localStorage.getItem("userId");
   const products = [
@@ -291,7 +293,7 @@ function AdminOrders() {
       setLoading(true)
       try {
         if (user?.customerId) {
-          await dispatch(fetchGetOrderBySellerId(user.customerId));
+          await dispatch(fetchAdminOrderGetAll());
           setLoading(false)
         }
       } catch (error) {
@@ -309,7 +311,7 @@ function AdminOrders() {
       // setLoading(true)
       try {
         if (user?.customerId) {
-          await dispatch(fetchGetOrderBySellerId(user.customerId));
+          await dispatch(fetchAdminOrderGetAll());
           // setLoading(false)
         }
       } catch (error) {
@@ -449,6 +451,17 @@ function AdminOrders() {
   //   setSelectedProduct(product);
   //   setIsModalOpen(true);
   // };
+
+  const [approvedStatus, setApprovedStatus] = useState({});
+
+  const handleApproval = (productId) => {
+    setApprovedStatus((prev) => ({
+      ...prev,
+      [productId]: "AdminToApprove",
+    }));
+    // Add an API call here to update status in the backend if necessary
+  };
+
   return (
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
       {notification.show && (
@@ -890,7 +903,9 @@ function AdminOrders() {
                             ))}
                       </select> */}
 
-                          <select
+                          
+
+                          {/* <select
                             className="sm:ml-2 m-0 p-1 border rounded cursor-pointer"
                             onChange={(e) => handleStatusChange(product, e.target.value)}
                             disabled={!Array.isArray(filterStatus) || filterStatus.length === 0 || product.statusId === 6}
@@ -912,15 +927,15 @@ function AdminOrders() {
                                     {item.statusDescription}
                                   </option>
                                 ))}
-                          </select>
+                          </select> */}
 
 
                         </div>
-                        <p className="mb-2">
+                        {/* <p className="mb-2">
                           <span className="font-semibold">Tracking Number:</span>{" "}
                           {product.trackingNumber}
-                        </p>
-                        <div className="flex gap-2">
+                        </p> */}
+                        {/* <div className="flex gap-2">
                           <Tooltip title="View Invoice" placement="top">
                             <img
                               src={eye}
@@ -933,8 +948,8 @@ function AdminOrders() {
                           src={download}
                           className="w-5 h-5 cursor-pointer"
                         />
-                      </Tooltip> */}
-                        </div>
+                      </Tooltip> *
+                        </div> */}
                       </div>
                     ))
                   ) : (
@@ -982,8 +997,8 @@ function AdminOrders() {
                             : "▲"}
                         </th>
                         <th className="px-4 py-2 text-left">Order Status</th>
-                        <th className="px-4 py-2 text-left">Tracking Number</th>
-                        <th className="px-4 py-2 text-left">Action</th>
+                        {/* <th className="px-4 py-2 text-left">Tracking Number</th> */}
+                        {/* <th className="px-4 py-2 text-left">Action</th> */}
                       </tr>
                     </thead>
                     <tbody>
@@ -995,7 +1010,9 @@ function AdminOrders() {
                   {!loading && (
                     <> */}
                       {Array.isArray(currentItems) && currentItems.length > 0 ? (
-                        currentItems.map((product, index) => (
+                        currentItems.map((product, index) => {
+                          const currentStatus = approvedStatus[product.productId] || product.orderedProductStatus || "AdminNotApproved";
+                        return (
                           <tr key={index} className="border-b">
                             <td className="px-4 py-2">
                               {indexOfFirstItem + index + 1}
@@ -1044,7 +1061,9 @@ function AdminOrders() {
                                 </option>
                               ))}
                           </select> */}
-                              <select
+                              
+
+                              {/* <select
                                 className="sm:ml-2 m-0 p-1 border rounded cursor-pointer"
                                 onChange={(e) => handleStatusChange(product, e.target.value)}
                                 disabled={!Array.isArray(filterStatus) || filterStatus.length === 0 || product.statusId === 6}
@@ -1066,26 +1085,39 @@ function AdminOrders() {
                                         {item.statusDescription}
                                       </option>
                                     ))}
-                              </select>
+                              </select> */}
+                              {currentStatus === "AdminToApprove" ? (
+                                <button className="bg-green-500 text-white px-4 py-2 rounded">
+                                  AdminToApproved
+                                </button>
+                              ) : (
+                                <button
+                                  className="bg-red-500 text-white px-4 py-2 rounded"
+                                    onClick={() => handleApproval(product.productId)}
+                                >
+                                  AdminNotApproved
+                                </button>
+                              )}
                             </td>
-                            <td className="px-4 py-2">{product.trackingNumber}</td>
-                            <td className="px-4 py-2 flex gap-1">
-                              <Tooltip title="View Invoice" placement="top">
+                            {/* <td className="px-4 py-2">{product.trackingNumber}</td> */}
+                            {/* <td className="px-4 py-2 flex gap-1"> */}
+                              {/* <Tooltip title="View Invoice" placement="top">
                                 <img
                                   src={eye}
                                   className="w-5 h-5 cursor-pointer"
                                   onClick={() => handleClickView(product?.orderId)}
                                 />
-                              </Tooltip>
+                              </Tooltip> */}
                               {/* <Tooltip title="Download" placement="top">
                             <img
                               src={download}
                               className="w-5 h-5 cursor-pointer"
                             />
                           </Tooltip> */}
-                            </td>
+                            {/* </td> */}
                           </tr>
-                        ))
+                          );
+                        })
                       ) : (
                         <tr>
                           <td colSpan="7" className="text-center py-4">

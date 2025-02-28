@@ -11,9 +11,10 @@
       background-color: transparent;
     }
   
-  ::-webkit-scrollbar {
+  
+  /* ::-webkit-scrollbar {
     display: none;
-  }
+  } */
   body {
     @apply font-sans;
   }
