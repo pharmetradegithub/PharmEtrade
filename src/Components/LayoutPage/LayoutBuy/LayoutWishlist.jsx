@@ -157,12 +157,12 @@ function LayoutWishlist({ addCart }) {
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
-      <h1 className="text-2xl mb-2 text-blue-900 font-semibold">
+      <h1 className="text-2xl mb-2 text-blue2  font-semibold">
         PharmEtrade {">"} Wishlist
       </h1>
       <div className="w-full min-h-full sm:w-full  bg-white rounded-lg shadow-lg p-4 sm:p-8">
         <div className="flex justify-between">
-          <h1 className="text-2xl m-5 font-semibold">Wishlist</h1>
+          <h1 className="text-2xl m-5 text-blue2 font-semibold">Wishlist</h1>
           {/* <div className="flex bg-white m-5">
             <Search className="">
               <SearchIconWrapper>
@@ -193,14 +193,14 @@ function LayoutWishlist({ addCart }) {
                 <div className="flex flex-col font-medium  w-full md:w-auto">
                   <Link
                     to={`/detailspage/${item.product.productID}`}
-                    className="hover:text-red-600"
+                    className="hover:text-green2"
                   >
-                    <h3  className="text-lg md:text-xl font-semibold">
+                    <h3  className="text-lg md:text-xl text-blue2 font-semibold">
                       {/* Vitamin C(1000IU) Cap X Syrup 1000mg Nature Made */}
                       {item.product.productName}
                     </h3>
                     {/* <p className="text-xl">Cough Syrup 1000mg</p> */}
-                    <p className="text-md md:text-lg font-semibold">${item.product.salePrice?.toFixed(2)}</p>
+                    <p className="text-md md:text-lg text-green2 font-semibold">${item.product.salePrice?.toFixed(2)}</p>
                   </Link>
                   <div className="flex flex-col md:flex-col lg:flex-row">
                   <p className="text-sm md:text-base font-semibold mr-2">Manufacturer: </p>
@@ -241,7 +241,7 @@ function LayoutWishlist({ addCart }) {
                     ADD
                   </button> */}
                   <button
-                    className={`text-sm md:text-lg font-semibold text-white ${item.product.amountInStock > 0 ? 'bg-blue' : 'bg-gray-300 cursor-not-allowed'
+                    className={`text-sm md:text-lg hover:bg-green2 font-semibold text-white ${item.product.amountInStock > 0 ? 'bg-blue' : 'bg-gray-300 cursor-not-allowed'
                       } w-28 md:w-36 h-9 flex justify-center items-center rounded-full`}
                     onClick={() => {
                       if (item.product.amountInStock > 0) handleCart(item.product.productID);
@@ -378,13 +378,13 @@ function LayoutWishlist({ addCart }) {
                       The rating is {rating} out of {totalStars}.
                     </p>
                   </div> */}
-                  <div className="flex items-center ">
+                  {/* <div className="flex items-center ">
                     <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                     <span style={{ fontSize: "24px", color: "orange" }}>★</span>
                     <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                     <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                     <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             ))}

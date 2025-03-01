@@ -178,11 +178,11 @@ function Footers({ topMargin }) {
   return (
     <>
     <div
-        className="cursor-pointer text-white font-semibold p-3 flex justify-center items-center text-[17px] min-w-screen z-50"
+        className="cursor-pointer text-white font-semibold p-3 flex justify-center items-center text-[17px] min-w-screen z-50 bg-green2 w-screen"
         onClick={scrollToTop}
         style={{
           marginTop: `${topMargin}px`,
-          backgroundColor: "#00b153",
+          // backgroundColor: "#00b153",
         }}
       >
         {" "}
@@ -231,55 +231,55 @@ function Footers({ topMargin }) {
               <p className="text-md mb-4 font-semibold">Quick Links</p>
               <ul className="list-disc list-inside ">
                 <li>
-                    <Link to={user ? "/layout" : "login"} className="underline">
+                    <Link to={user ? "/layout" : "login"} className="underline hover:text-green2">
                       Seller Dashboard
                     </Link>
                 </li>
                 <li>
-                <Link to="/wishlist" className="underline">
+                    <Link to="/wishlist" className="underline hover:text-green2">
                     Wish list
                   </Link>
                   
                 </li>
-                <li>
+                {/* <li>
 
-                <a href="#" className="underline">
+                <a href="#" className="underline ">
                     Compare list
                   </a>
                  
-                </li>
-                <li>
+                </li> */}
+                {/* <li>
                 <Link to="/requestdemo" className="underline">
-                    {/* Blog */}
+                    {/* Blog *
                     Request Demo
                   </Link>
                   
-                </li>
+                </li> */}
               </ul>
             </div>
             <div className="w-full md:w-44 ml-2 md:ml-28 p-2 text-md">
               <p className="text-md mb-4 font-semibold">Support & Service</p>
               <ul className="list-disc list-inside">
                 <li>
-                <Link to="/PrivacyPolicy" className="underline">
+                    <Link to="/PrivacyPolicy" className="underline hover:text-green2">
                     Privacy Policy
                   </Link>
               
                 </li>
                 <li>
-                <Link to="/layoutterms" className="underline">
+                    <Link to="/layoutterms" className="underline hover:text-green2">
                     Terms & Conditions
                   </Link>
                  
                 </li>
                 <li>
-                <Link to="/faqs" className="underline">
+                    <Link to="/faqs" className="underline hover:text-green2">
                     FAQ
                   </Link>
                  
                 </li>
                 <li>
-                  <Link to="/contactus" className="underline">
+                    <Link to="/contactus" className="underline hover:text-green2">
                     Contact Us
                   </Link>
                 </li>
@@ -325,7 +325,10 @@ function Footers({ topMargin }) {
                 <div className="hidden xl:block text-sm">{item.label}</div>
               </li>
             ))} */}
-            <div className="flex justify-evenly pt-6">
+            <div className="flex flex-col">
+
+          
+            <div className="flex pt-6">
 
             {downSocialItems.map((item, index) => (
               <li
@@ -337,17 +340,18 @@ function Footers({ topMargin }) {
                     navigate(item.href);
                   }
                 }}
-                className="flex flex-col items-center justify-center cursor-pointer hover:text-green-400"
+                className="flex flex-col items-center justify-center cursor-pointer hover:text-green2"
               >
                 {/* Show label above the icon */}
                 <div className="hidden xl:block text-sm mb-1">{item.label}</div>
                 <img
                   src={item.icon}
-                  className="hidden lg:block max-w-6 max-h-6 lg:max-w-8 lg:max-h-8"
+                  className="hidden lg:block max-w-6 max-h-6 item-center lg:max-w-8 lg:max-h-8 mr-12 hover:bg-green2"
                   alt={item.label}
                 />
               </li>
             ))}
+              </div>
 </div>
           </div>
       </div>

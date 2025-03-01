@@ -590,7 +590,7 @@ function ACHAuthorization() {
           </div>
           <div className="flex justify-end py-2">
             <button
-              className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit || !isFormValid() ? "opacity-50 cursor-not-allowed" : ""
+              className={`bg-blue text-white p-1 w-16 rounded-md hover:bg-green2 font-semibold ${!isTabEdit || !isFormValid() ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               onClick={handleTabSave}
               disabled={!isTabEdit || !isFormValid()} // Disable if not in edit mode or form is invalid

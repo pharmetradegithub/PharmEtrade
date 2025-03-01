@@ -131,7 +131,7 @@ const Signin = () => {
         </Link>
         <div className="h-full flex justify-center items-center">
           <div className="bg-white w-[550px] border rounded-lg flex flex-col justify-center items-center shadow-lg">
-            <h2 className="text-blue-900 text-[25px] font-bold my-8">
+            <h2 className="text-blue2 text-[25px] font-bold my-8">
               Sign-In
             </h2>
 
@@ -214,21 +214,21 @@ const Signin = () => {
                 <div className="flex justify-center my-2">
                   <button
                     type="submit"
-                    className="text-white bg-blue border rounded-lg py-3 px-9 cursor-pointer font-semibold text-[18px]"
+                    className="text-white bg-blue hover:bg-green2 border rounded-lg py-3 px-9 cursor-pointer font-semibold text-[18px]"
                   >
                     Sign In
                   </button>
                 </div>
 
                 <div className="flex justify-center w-96">
-                  <label className="text-[18px] text-blue-900">
+                  <label className="text-[18px] text-blue2 hover:text-green2">
                     <Link to="/password">Forgot Password </Link>
                   </label>
                 </div>
                 <div>
-                  <label className="text-[18px] text-blue-900">
+                  <label className="text-[18px] text-blue2">
                     New User?{" "}
-                    <Link className="underline hover:text-red-500" to="/signup">
+                    <Link className="underline hover:text-green2" to="/signup">
                       Sign Up
                     </Link>
                   </label>

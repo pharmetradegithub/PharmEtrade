@@ -202,7 +202,7 @@ const Contactus = ({ topMargin }) => {
       </div>
       <div className="w-full h-full flex flex-col items-center px-4 sm:px-0 ">
         <div className="my-4 flex">
-          <h1 className="text-2xl sm:text-3xl text-center text-blue-900 font-semibold mt-5 sm:my-4">
+          <h1 className="text-2xl sm:text-3xl text-center text-blue2 font-semibold mt-5 sm:my-4">
             Contact Us
           </h1>
         </div>
@@ -230,10 +230,10 @@ const Contactus = ({ topMargin }) => {
               />
             </div>
             <div className="flex-col flex">
-              <h1 className="text-lg sm:text-xl text-blue-900 font-semibold">
+              <h1 className="text-lg sm:text-xl text-blue2 font-semibold">
                 Location
               </h1>
-              <p className="text-sm sm:text-base text-black hover:text-red-600 hover:underline">
+              <p className="text-sm sm:text-base text-blue2 hover:text-green2 hover:underline">
                 5 Cold Hill Road South, Mendham, NJ 07945
               </p>
             </div>
@@ -249,10 +249,10 @@ const Contactus = ({ topMargin }) => {
               />
             </div>
             <div className="flex-col flex ml-1">
-              <h1 className="text-lg sm:text-xl text-blue-900 font-semibold">
+              <h1 className="text-lg sm:text-xl text-blue2 font-semibold">
                 Phone
               </h1>
-              <p className="text-sm sm:text-base text-black hover:text-red-600 hover:underline ">
+              <p className="text-sm sm:text-base text-blue2 hover:text-green2 hover:underline ">
                 973-302-8568
               </p>
             </div>
@@ -263,10 +263,10 @@ const Contactus = ({ topMargin }) => {
               <img src={mail} className="h-9 w-9 sm:h-9 sm:w-9" alt="Mail" />
             </div>
             <div className="flex-col flex ml-4">
-              <h1 className="text-lg sm:text-xl text-blue-900 font-semibold">
+              <h1 className="text-lg sm:text-xl text-blue2 font-semibold">
                 Email
               </h1>
-              <p className="text-sm sm:text-base text-black">
+              <p className="text-sm sm:text-base text-blue2 hover:text-green2">
                 info@pharmetrade.com
               </p>
             </div>
@@ -275,7 +275,7 @@ const Contactus = ({ topMargin }) => {
         <div className="flex flex-col sm:flex-row w-full sm:w-[95%] justify-around gap-6">
           <div className="w-full sm:w-[45%] md:w-full p-6 bg-white shadow-md rounded-md">
             <div className="flex flex-col items-center gap-6">
-              <h2 className="text-2xl text-center flex justify-start  items-center ml-2 text-blue-900 font-semibold ">
+              <h2 className="text-2xl text-center flex justify-start  items-center ml-2 text-blue2 font-semibold ">
                 Send Message
               </h2>
               <p className="border-b w-40 -mt-5 text-center flex items-center justify-center border-b-blue-900"></p>
@@ -286,7 +286,7 @@ const Contactus = ({ topMargin }) => {
                 {/* Name Field */}
                 <div className="flex flex-col sm:flex-row items-center gap-2">
                   {/* <div className="flex items-center justify-between my-2 mx-9"> */}
-                  <label className="w-full sm:w-32 text-left">
+                  <label className="w-full sm:w-32 text-left text-blue2 font-semibold">
                     Enter Name:
                   </label>
                   <TextField
@@ -303,7 +303,7 @@ const Contactus = ({ topMargin }) => {
 
                 {/* Mobile Number Field */}
                 <div className="flex flex-col sm:flex-row items-center gap-2">
-                  <label className="w-full sm:w-32 text-left">
+                  <label className="w-full sm:w-32 text-left text-blue2 font-semibold">
                     Mobile Number:
                   </label>
                   {/* <TextField
@@ -332,7 +332,7 @@ const Contactus = ({ topMargin }) => {
 
                 {/* Email Field */}
                 <div className="flex flex-col sm:flex-row items-center gap-2">
-                  <label className="w-full sm:w-32 text-left">Email:</label>
+                  <label className="w-full sm:w-32 text-left text-blue2 font-semibold">Email:</label>
                   <TextField
                     label="Email"
                     variant="outlined"
@@ -347,7 +347,7 @@ const Contactus = ({ topMargin }) => {
 
                 {/* Message Field */}
                 <div className="flex flex-col sm:flex-row items-start gap-2">
-                  <label className="w-full sm:w-32 text-left">Message:</label>
+                  <label className="w-full sm:w-32 text-left text-blue2 font-semibold">Message:</label>
                   <TextField
                     label="Message"
                     variant="outlined"
@@ -364,13 +364,20 @@ const Contactus = ({ topMargin }) => {
 
               {/* Submit Button */}
               <div className="flex justify-center">
-                <Button
-                  className="text-white  text-right w-full sm:w-56 p-2  rounded-lg bg-blue "
-                  variant="contained"
+                {/* <Button
+                  className="text-white  text-right w-full sm:w-56 p-2  rounded-lg bg-blue2 hover:bg-green2"
+                  // variant="contained"
                   type="submit"
                 >
                   Submit
-                </Button>
+                </Button> */}
+                <button
+                  className="text-white  text-center w-full sm:w-56 p-2  rounded-lg bg-blue2 hover:bg-green2"
+                  // variant="contained"
+                  type="submit"
+                >
+                  Submit
+                </button>
               </div>
             </form>
           </div>

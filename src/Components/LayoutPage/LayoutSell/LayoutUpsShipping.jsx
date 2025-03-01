@@ -395,7 +395,7 @@ function LayoutUpsShipping() {
         </div>
         <div className="flex justify-end p-4">
           <button
-            className='border rounded-lg h-8 p-2 px-4 font-bold flex justify-center items-center text-[15px] bg-blue text-white'
+            className='border rounded-lg h-8 p-2 px-4 font-bold flex justify-center items-center text-[15px] bg-blue text-white hover:bg-green2'
             onClick={handleSubmit}
             disabled={!isEditable} // Disable the save button if not in edit mode
           >

@@ -768,7 +768,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   const cart = useSelector((state) => state.cart.cart) ;
   const components = useSelector((state) => state.master.productCategoryGetAll) ;
   const modifiedComponents = [
-    { productCategoryId: -1, categoryName: "All" },
+    { productCategoryId: -1, categoryName: "All Products" },
     ...components,
   ];
 
@@ -777,14 +777,14 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const [activePopUp, setActivePopUp] = useState(null);
-  const [selectedItem, setSelectedItem] = useState("All");
+  const [selectedItem, setSelectedItem] = useState("All Products");
   const location = useLocation();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const category = searchParams.get("CategoryName");
     if (category === null) {
-      setSelectedItem("All");
+      setSelectedItem("All Products");
     } else if (category && components.length > 0) {
       const component = modifiedComponents.find(
         (comp) => comp.productCategoryId == category
@@ -792,7 +792,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
       if (component) {
         setSelectedItem(component.categoryName); // Set the name if found
       } else {
-        setSelectedItem("All");
+        setSelectedItem("All Products");
       }
     }
   }, [location.search]);
@@ -835,7 +835,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
     if (activePopUp === name) {
       setSelectedItemId(-1);
       setActivePopUp(null); // Close the popup if it's already open
-      setSelectedItem("All");
+      setSelectedItem("All Products");
       // setActivePopUp(null); // Close the popup if it's already open
     } else {
       // setActivePopUp(name); // Set the active popup
@@ -969,7 +969,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
       }
     } else {
       setSearchInput("");
-      setSelectedItem("All");
+      setSelectedItem("All Products");
     }
   }, [location]);
 
@@ -1173,14 +1173,14 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                             >
                               <Link
                                 to="/login"
-                                className="bg-blue text-white rounded w-32 py-1 block text-center"
+                                className="bg-blue text-white rounded w-32 py-1 block text-center hover:bg-green2"
                               >
                                 Logout
                               </Link>
                             </li>
                           ) : (
                             <a
-                              className="bg-blue text-white py-1 hover:cursor-pointer px-2 rounded block text-center"
+                                className="bg-blue2 hover:bg-green2 text-white py-1 hover:cursor-pointer px-2 rounded block text-center"
                               onClick={() => handleRedirect()}
                             >
                               Sign In
@@ -1193,7 +1193,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                             onClick={handlesignup}
                           >
                             New User?{" "}
-                            <span className="text-blue hover:text-green-900 hover:underline">
+                            <span className="text-blue hover:text-green2 hover:underline">
                               Sign Up
                             </span>
                           </p>
@@ -1210,7 +1210,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                               <li className="mb-1">
                                 <a
                                   href="#"
-                                  className="text-lg text-blue"
+                                  className="text-lg text-blue hover:text-green2"
                                   onClick={handleorder}
                                 >
                                   Order List
@@ -1219,7 +1219,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                               <li>
                                 <a
                                   href="#"
-                                  className="text-blue"
+                                  className="text-blue hover:text-green2"
                                   onClick={handleclick}
                                 >
                                   Wishlist
@@ -1356,7 +1356,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
               onBlur={handleFocusOut}
             >
               <button
-                className={`h-12 pl-2 mr-[1px] lg:w-32 lg:items-center w-auto  sm:w-auto font-semibold text-left gap-1 text-[14px]  lg:text-[16px] flex items-center text-gray-600 bg-gray-100 border-gray-300 rounded-l-md border
+                className={`h-12 pl-2 mr-[1px] lg:w-auto lg:items-center w-auto  sm:w-auto font-semibold text-left gap-1 text-[14px]  lg:text-[16px] flex items-center text-blue2 hover:text-green2 bg-gray-100 border-gray-300 rounded-l-md border
         ${isButtonFocused ? "ring-2 ring-blue-500" : ""}`}
                 onClick={handleDropdownToggle}
                 onFocus={handleFocusIn}
@@ -1373,7 +1373,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                   className="absolute z-10"
                   style={{ top: "30px", left: "0px" }}
                 >
-                  <div className="bg-white  sm:w-44 lg:w-64 ">
+                  <div className="bg-white sm:w-44 lg:w-64 ">
                     <ul>
                     {modifiedComponents.map((items, index) => (
                       <li onClick={() => handleCriteria(items)} key={index}>
@@ -1383,7 +1383,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                             onMouseLeave={handleCatMouseLeave}
                           >
                           {items.categoryName} {items.categoryName === "OTC Medications" && (
-                            <hr className="border-t border-green-900 w-full mt-1" />
+                            <hr className="border-t border-green2 w-full mt-1" />
                           )}
                           </a>
                         </li>
@@ -1404,7 +1404,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 />
                 <button
                   onClick={() => handleSearchAPI()}
-                  className="w-[40px] flex items-center justify-center p-2 bg-blue text-white border-blue-500 rounded-r-md focus:outline-none"
+                  className="w-[40px] flex items-center justify-center p-2 bg-blue hover:bg-green2 text-white border-blue2 rounded-r-md focus:outline-none"
                 >
                   <img src={search} />
                 </button>

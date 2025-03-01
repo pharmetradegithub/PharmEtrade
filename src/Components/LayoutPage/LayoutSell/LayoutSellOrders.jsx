@@ -1713,7 +1713,7 @@ function LayoutSellOrders() {
                       </select> */}
 
                           <select
-                            className="sm:ml-2 m-0 p-1 border rounded cursor-pointer"
+                            className="sm:ml-2 m-0 p-1 border bg-blue2 rounded cursor-pointer"
                             onChange={(e) => handleStatusChange(product, e.target.value)}
                             disabled={!Array.isArray(filterStatus) || filterStatus.length === 0 || product.statusId === 6}
                             value={product?.orderedProductStatusId}

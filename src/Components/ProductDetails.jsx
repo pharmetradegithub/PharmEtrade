@@ -213,24 +213,24 @@ const ProductDetails = ({
   return (
     <div className="w-[95%] h-full flex justify-center border-t-2 shadow-inner pt-4 ">
       <div className="h-full w-[95%] ">
-        <h2 className="text-xl font-bold text-black">PRODUCT DETAILS</h2>
+        <h2 className="text-xl font-semibold text-blue2">Product Details</h2>
         <div className="w-full">
-          <h4 className="text-xl font-semibold text-blue-900 mt-2">
+          <h4 className="text-xl font-semibold mt-2">
             Description
           </h4>
-          <div className="h-full w-[95%]  font-medium space-y-2">
+          <div className="h-full w-[95%] font-medium space-y-2">
             {description}
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold text-blue-900 mt-3">
+            <h2 className="text-xl font-semibold text-blue2 mt-3">
               Product Form
             </h2>
             <span className="font-normal text-[16px]">Tablet</span>
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold text-blue-900 mt-4">
+            <h2 className="text-xl font-semibold text-blue2 mt-4">
               Directions for Use:
             </h2>
             <span className="font-normal text-[16px]">
@@ -338,7 +338,7 @@ const ProductDetails = ({
           <div className="flex flex-col sm:flex-row sm:w-full w-[90%] mx-auto">
   {/* Left section: Product Information */}
   <div className="sm:w-full lg:w-[50%] w-full">
-    <p className="text-xl text-blue-900 my-4 font-semibold">
+    <p className="text-xl text-blue2 my-4 font-semibold">
       Product Information
     </p>
     <div className="my-4">
@@ -399,7 +399,7 @@ const ProductDetails = ({
 
   {/* Right section: Safety Information */}
   <div className="sm:w-full lg:w-[50%] w-full mt-6 sm:mt-0 sm:ml-6">
-    <h2 className="text-xl font-semibold text-blue-900 mt-4">
+    <h2 className="text-xl font-semibold text-blue2 mt-4">
       Safety Information:
     </h2>
     <div className="p-6">

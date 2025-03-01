@@ -1413,7 +1413,7 @@ function Address({ topMargin, totalAmount, amount }) {
                     Stay in Checkout
                   </button>
                   <button
-                    className="bg-blue hover:bg-blue-950 text-sm lg:text-xl text-white px-4 py-2 rounded"
+                    className="bg-blue hover:bg-green2 text-sm lg:text-xl text-white px-4 py-2 rounded"
                     onClick={handleReturnToCart}
                   >
                     Return to Cart
@@ -1423,14 +1423,14 @@ function Address({ topMargin, totalAmount, amount }) {
             </div>
             {/* )} */}
           </div>
-          <h1 className=" text-xl lg:text-3xl flex ml-10 md:ml-0 text-center text-black ">Checkout</h1>
+          <h1 className=" text-xl lg:text-3xl flex ml-10 md:ml-0 text-center text-blue2 font-semibold ">Checkout</h1>
           {/* <FaLock /> */}
         </div>
         <div className="bg-white p-4 w-full h-full border-t">
           <div className="flex flex-col">
             <div className="flex flex-col lg:flex ">
               {!isTotalHidden && (
-                <h1 className="text-orange-400 font-semibold text-lg my-2">
+                <h1 className="text-blue2 font-semibold text-lg my-2" >
                   1 Select a delivery and service address
                 </h1>
               )}
@@ -1444,7 +1444,7 @@ function Address({ topMargin, totalAmount, amount }) {
 
                     <div className="border shadow-md rounded-md h-56 w-full   overflow-y-auto">
                       <div className="p-2 mx-5 ">
-                        <h1 className="border-b-2 text-base  bg-white mt-3">
+                        <h1 className="border-b-2 text-base text-blue2 bg-white mt-3">
                           Your Address
                         </h1>
                         <div className="overflow-y-scroll h-28">
@@ -1526,7 +1526,7 @@ function Address({ topMargin, totalAmount, amount }) {
                         <div className="flex cursor-pointer">
                           <img src={plus} className="w-5 h-5" />
                           <h1
-                            className="hover:text-red-400 hover:underline text-cyan-600 "
+                            className="hover:text-green2 hover:underline text-blue2 "
                             onClick={handlepopOpen}
                           >
                             Add a new address
@@ -1775,7 +1775,7 @@ function Address({ topMargin, totalAmount, amount }) {
                         <div className="bg-white p-6 w-[45%] rounded-md shadow-lg relative overflow-y-scroll max-h-[90vh]">
                           <form onSubmit={handleSubmitForm}>
                             <div className="flex justify-between border-b pb-4 items-center">
-                              <h1 className="text-blue-900 font-semibold">
+                              <h1 className="text-blue2 font-semibold">
                                 Add a new address
                               </h1>
                               <img
@@ -2006,25 +2006,25 @@ function Address({ topMargin, totalAmount, amount }) {
                           <p>review and edit your order before it is final.</p>
                         </div>
                         <div>
-                          <h1 className="font-semibold text-xl my-2">
+                          <h1 className="font-semibold text-xl my-2 text-blue2">
                             Order Summary
                           </h1>
                         </div>
                         <div className="flex justify-between text-sm mt-3">
-                          <p>Items(s) Subtotal :</p>
+                          <p className="text-blue2">Items(s) Subtotal :</p>
                           <p>${validTotal.toFixed(2)}</p>
                         </div>
                         <div className="flex justify-between text-sm mt-3">
                           <div className="flex ">
                           <img src={shipping} className="w-5 h-5 mr-1"/>
-                          <p>Shipping:</p>
+                          <p className="text-blue2">Shipping:</p>
                           </div>
                           <p>${Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0).toFixed(2)}</p>
                         </div>
                         <div className="flex justify-between text-sm mt-3">
                         <div className="flex ">
                         <img src={tax} className="w-5 h-5 mr-1"/>
-                          <p>Tax :</p>
+                            <p className="text-blue2">Tax :</p>
                           </div>
                           {getAddress.length === 0 ? (
                             <p>$0.00</p>
@@ -2033,7 +2033,7 @@ function Address({ topMargin, totalAmount, amount }) {
                           )}
                         </div>
                         <div className="flex justify-between text-sm  border-b my-2">
-                          <p>Total:</p>
+                          <p className="text-blue2">Total:</p>
                           {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
                           <p>${(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
                         </div>
@@ -2041,7 +2041,7 @@ function Address({ topMargin, totalAmount, amount }) {
                         <p>Promotion Applied :</p>
                         <p>$0.00</p>
                       </div> */}
-                        <div className="flex justify-between text-red-500 font-semibold">
+                        <div className="flex justify-between text-green2 font-semibold">
                           <p>Grand Total:</p>
                           {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
                           <p>${(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>

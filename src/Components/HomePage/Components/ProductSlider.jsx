@@ -511,7 +511,7 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                         handleCart(index);
                       }
                     }}
-                    className={`bg-blue flex gap-1 p-1 rounded-lg justify-center items-center ${
+                    className={`bg-blue2 hover:bg-green2 flex gap-1 p-1 rounded-lg justify-center items-center ${
                       item.amountInStock <= 0
                         ? "opacity-50 cursor-not-allowed"
                         : "cursor-pointer"

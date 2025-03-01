@@ -1862,7 +1862,7 @@ function LayoutaddProduct() {
                   </div>
                 </div> */}
                 <div className=" main-container ">
-                  <p className="text-sm mt-1 font-semibold">
+                  <p className="text-sm mt-1 font-semibold text-blue2">
                     Main Product Image:
                   </p>
                   <p className="text-sm font-semibold"> ( JPEG, PNG, Max size 5MB)</p>
@@ -2836,7 +2836,7 @@ function LayoutaddProduct() {
           <div className="space-y-4 Largest:w-[60%] font-sans font-medium ">
             <div>
               <p className="font-semibold">
-                Main Product Image: (Accepted Formats: JPEG, PNG, Max size 5MB)
+                <span className="text-blue2">Main Product Image:</span> (Accepted Formats: JPEG, PNG, Max size 5MB)
               </p>
               {errorMessage && (
                 <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
@@ -2890,7 +2890,7 @@ function LayoutaddProduct() {
               </div>
 
               <div className="flex flex-col w-full p-4 border rounded-lg shadow-md">
-                <h1 className="text-xl font-bold mb-4 text-justify">
+                <h1 className="text-xl font-bold mb-4 text-blue2  text-justify">
                   Upload Thumbnails
                 </h1>
 
@@ -2939,12 +2939,12 @@ function LayoutaddProduct() {
             </div>
 
             <h1 className="font-semibold">
-              Product Video :(Accepted Format :MP4,MPEG, Max size 5MB){" "}
+             <span className="text-blue2"> Product Video : </span>(Accepted Format :MP4,MPEG, Max size 5MB){" "}
             </h1>
             <div className="border shadow-md flex w-full rounded-md  mb-4">
               <div className="w-[50%]">
                 <div className="p-3">
-                  <h1 className="text-xl font-bold mb-4">Upload Videos</h1>
+                  <h1 className="text-xl font-bold mb-4 text-blue2">Upload Videos</h1>
                   <input
                     type="file"
                     accept="video/*"
@@ -3060,8 +3060,8 @@ function LayoutaddProduct() {
                 } // Corrected to 'disabled'
                 className={`w-full flex justify-center layoutBuyProducts tabs-button items-center px-2 p-3 py-1 mt-7 shadow-md ${
                   activeTab === index
-                    ? "text-white bg-blue rounded-t-xl font-semibold"
-                    : "text-blue-900 shadow-none rounded-t-xl bg-white"
+                  ? "text-white bg-blue hover:bg-green2 rounded-t-xl font-semibold"
+                  : "text-blue2 shadow-none rounded-t-xl bg-white"
                 } ${
                   showTab.includes(index) && queryProductId == null
                     ? "opacity-50 cursor-not-allowed"
@@ -3083,7 +3083,7 @@ function LayoutaddProduct() {
           className={`
             border bg-blue flex tabs-button layoutBuyProducts justify-center items-center text-white my-4 p-2 mr-32 rounded-md font-semibold
     
-              "flex hover:bg-blue-800 active:bg-blue-700"
+              "flex hover:bg-green2 active:bg-blue-700"
             
           `}
         >

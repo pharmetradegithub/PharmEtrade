@@ -71,7 +71,7 @@ function LayoutPaymentHistory() {
       // value: `$${(2420 || 0.0).toFixed(2)}`,
       value: `$${paymentHistory.reduce((total, each) => total + each.amountPaid, 0).toFixed(2)}`,
       text: "as of 01-December-2023",
-      color: "text-green-500",
+      color: "text-green2",
     },
     // {
     //   label: "Pending Payments",
@@ -189,7 +189,7 @@ function LayoutPaymentHistory() {
               </h1>
               <h1
                 className={`text-xl font-semibold ${
-                  stat.color || "text-gray-900"
+                  stat.color || "text-green2"
                 }`}
               >
                 {stat.value}

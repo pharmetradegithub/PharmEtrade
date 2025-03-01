@@ -349,7 +349,7 @@ const navigate = useNavigate();
       <div className="flex flex-col justify-start">
         <h1 className="text-sm sm:text-2xl font-bold text-blue2">
           ADD BULK PRODUCTS{" "}
-          <span className="text-sm sm:text-base text-black">
+          <span className="text-sm sm:text-base text-green2">
             (To upload bulk products, please download the sample Excel sheet and
             re-upload it after filling in the data.)
           </span>
@@ -381,7 +381,7 @@ const navigate = useNavigate();
             {file && <p className="text-green-500 mb-4">{file.name} selected</p>}
             <button
               type="submit"
-              className="w-60 sm:w-full bg-blue text-white text-center py-2 px-4 rounded-lg hover:bg-blue-600"
+              className="w-60 sm:w-full bg-blue text-white text-center py-2 px-4 rounded-lg hover:bg-green2"
             >
               Upload
             </button>
@@ -390,7 +390,7 @@ const navigate = useNavigate();
             <p
               className={`mt-4 ${
                 uploadStatus.includes("successfully")
-                  ? "text-green-500"
+                  ? "text-green2"
                   : "text-red-500"
               }`}
             >
@@ -407,7 +407,7 @@ const navigate = useNavigate();
             className="mb-4 sm:text-center text-left w-full"
             onClick={handleDownload}
           >
-            <p className="w-60 border-green-500 text-green-500 hover:text-red-600 cursor-pointer hover:border-green2 hover:border-b">
+            <p className="w-60 border-green2 text-green2 hover:text-blue2 cursor-pointer hover:border-green2 hover:border-b">
               Download Sample Excel file here
             </p>
           </div>

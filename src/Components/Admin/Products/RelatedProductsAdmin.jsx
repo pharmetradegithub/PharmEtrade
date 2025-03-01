@@ -677,16 +677,16 @@ const RelatedProductsAdmin = () => {
           <div className="my-4 flex">
             <button
               onClick={handleCriteria}
-              className="bg-blue text-white p-2 mx-2 border rounded-md"
+              className="bg-blue hover:green2 text-white p-2 mx-2 border rounded-md"
             >
-              APPLY FILTER
+              Apply Filter
             </button>
             <button
               // onClick={() => setFormData(initialFormState)}
               onClick={() => handleReset()}
-              className="bg-blue p-2 mx-1 text-white border rounded-md"
+              className="bg-blue  hover:green2 p-2 mx-1 text-white border rounded-md"
             >
-              RESET
+              Reset
             </button>
           </div>
         </div>
@@ -867,7 +867,7 @@ const RelatedProductsAdmin = () => {
           </button>
         </div> */}
       </div>
-      <h1 className="text-2xl font-semibold">Related Products </h1>
+      <h1 className="text-2xl font-semibold text-blue2">Related Products </h1>
       <div className="flex  justify-between w-full Largest:w-[60%]">
         <p>
           Related products are shown to customers in addition to the item the
@@ -954,7 +954,7 @@ const RelatedProductsAdmin = () => {
         </div>
       </div>
       <div className="font-sans font-medium">
-        <h1 className="text-2xl font-semibold">Selected For You</h1>
+        <h1 className="text-2xl font-semibold text-blue2">Selected For You</h1>
         <div className="flex  justify-between w-full Largest:w-[60%]">
           <p>
             An up-sell item is offered to the customer as a pricier or

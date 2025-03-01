@@ -354,7 +354,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                     )}
                   </h2> */}
                   <h2
-                    className={`text-fonts text-sm sm:text-base ${
+                    className={`text-blue2 font-semibold text-sm sm:text-base ${
                       showMore[index] ? "h-full mt-2" : "h-12"
                     }`}
                     title={item.productName}
@@ -364,7 +364,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                       : `${item.productName.slice(0, 30)}`}
                     {item.productName.length > 30 && (
                       <button
-                        className="text-blue-500 ml-1"
+                        className="text-blue2 ml-1"
                         onClick={() => toggleShowMore(index)}
                       >
                         {showMore[index] ? "See Less" : " ..."}
@@ -375,15 +375,15 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                   {new Date() >= new Date(item?.salePriceValidFrom) &&
                   new Date() <= new Date(item?.salePriceValidTo) ? (
                     <div className="flex items-center gap-1">
-                      <h1 className="text-fonts text-sm sm:text-base font-semibold">
+                      <h1 className="text-blue2 text-sm sm:text-base font-semibold">
                         ${item.salePrice?.toFixed(2)}
                       </h1>
-                      <span className="text-xs sm:text-sm  line-through">
+                      <span className="text-xs sm:text-sm text-green2 line-through">
                         (${item.unitPrice?.toFixed(2)})
                       </span>
                     </div>
                   ) : (
-                    <h1 className="text-fonts  text-sm sm:text-base font-semibold">
+                      <h1 className="text-blue2 text-sm sm:text-base font-semibold">
                       ${item.unitPrice?.toFixed(2)}
                     </h1>
                   )}
@@ -405,7 +405,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                     <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                   </div> */}
 
-                  <div className="flex items-center mobile:items-center">
+                  {/* <div className="flex items-center mobile:items-center">
                     {Array.from({ length: 5 }, (_, index) => (
                       <span
                         key={index}
@@ -417,14 +417,14 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                         {index < item.productRating ? "★" : "☆"}
                       </span>
                     ))}
-                  </div>
+                  </div> */}
 
 
                   <div className="text-xs sm:text-sm">
                     {item.amountInStock <= 0 ? (
                       <p className="text-red-500 font-semibold">Out Of Stock</p>
                     ) : (
-                      <p className="text-green-600 rounded-lg font-semibold ">
+                      <p className="text-green2 rounded-lg font-semibold ">
                         In Stock - {item.amountInStock}
                       </p>
                     )}
@@ -432,10 +432,10 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                 </div>
 
                 <div className="flex  flex-col md:flex-row items-center justify-between w-full px-1">
-                  <div className="text-foot text-xs sm:text-sm">
+                  <div className="text-blue2 text-xs sm:text-sm">
                     UPN Member Price:
                   </div>
-                  <div className="text-sm sm:text-base font-semibold">
+                  <div className="text-sm text-green2 sm:text-base font-semibold">
                     ${item.upnMemberPrice?.toFixed(2)}
                   </div>
                 </div>
@@ -455,7 +455,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                   className={`flex p-1 rounded-md justify-center ${
                     item.amountInStock <= 0
                       ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-blue cursor-pointer"
+                      : "bg-blue cursor-pointer hover:bg-green2"
                   }`}
                   onClick={() => {
                     if (item.amountInStock > 0) {

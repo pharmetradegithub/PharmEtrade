@@ -743,14 +743,14 @@ function Items({
 
         <div className="w-full lg:w-[60%] mr-5 overflow-scroll justify-between h-[500px] flex flex-col lg:flex-row border-none lg:-ml-6">
           <div className="w-full lg:w-[50%] p-4 lg:p-2">
-            <div className="  border-b-2">
-              <h1 className="text-xl lg:text-2xl font-semibold text-box">
+            <div className="border-b-2">
+              <h1 className="text-xl lg:text-2xl font-semibold text-blue2">
                 {/* Vitamin C(1000IU) Cap X */}
                 {prod?.productName}
               </h1>
-              <h3 className="text-orange-400 font-light text-sm lg:text-base">
+              <h3 className="text-blue2 font-light text-sm lg:text-base">
                 UPN Member Price:
-                <span className="text-orange-400 font-semibold">
+                <span className="text-blue2 font-semibold">
                   {" "}
                   ${prod?.upnMemberPrice?.toFixed(2)}
                 </span>
@@ -777,10 +777,10 @@ function Items({
                 {new Date() >= new Date(prod?.salePriceValidFrom) &&
                   new Date() <= new Date(prod?.salePriceValidTo) ? (
                   <>
-                    <span className="text-sky-500 font-semibold text-[16px] lg:text-[18px]">
+                    <span className="text-green2 font-semibold text-[16px] lg:text-[18px]">
                       ${prod?.salePrice?.toFixed(2)}
                     </span>
-                    <p className="text-xs ml-1 line-through">
+                    <p className="text-xs ml-1 text-green2 line-through">
                       ${prod?.unitPrice?.toFixed(2)}
                     </p>
                   </>
@@ -965,7 +965,7 @@ function Items({
                       ? prod?.salePrice.toFixed(2)
                       : prod?.unitPrice?.toFixed(2)}
                   </p> */}
-                  <p className="text-black text-[20px] lg:text-[22px]">
+                  <p className="text-green2 text-[20px] lg:text-[22px]">
                     $
                     {/* {new Date() >= new Date(prod?.salePriceValidFrom) &&
                     new Date() <= new Date(prod?.salePriceValidTo)
@@ -1026,7 +1026,7 @@ function Items({
                   {prod?.amountInStock > 0 ? (
                     <div className="flex items-center text-[18px] mb-1">
                       <TbSquareRoundedCheckFilled className="text-sky-500 mr-1" />
-                      <span>In Stock</span>
+                      <span className="text-green2">In Stock</span>
                     </div>
                   ) : (
                     <div className="flex items-center text-[18px] mb-1">
@@ -1039,26 +1039,28 @@ function Items({
                   <div className="flex">
                     <p className="text-blue2 font-normal">NDC/UPC :  </p>
                     <span className=" text-base md:text-base">
-                      {prod?.ndCorUPC}
+                      &nbsp; {prod?.ndCorUPC}
                     </span>
                   </div>
                 </div>
                 <div className="flex flex-col">
                   <div className="flex">
                     <p className="text-blue2 font-normal ">SKU : </p>
-                    <span>6545555</span>
+                    <span> &nbsp; 6545555</span>
+                    {/* <span>{prod?.sku}</span> */}
+
                   </div>
                   <div className="flex">
                     <p className="text-blue2 font-normal ">
                       Expiration Date : 
                     </p>
-                    <span> {formattedDate}</span>
+                    <span> &nbsp; {formattedDate}</span>
                   </div>
                 </div>
               </div>
 
               <div className="flex  md:flex-row items-center space-x-2 pb-2 px-4">
-                <label className="text-lg  font-semibold">Quantity:</label>
+                <label className="text-lg  font-semibold text-blue2">Quantity:</label>
                 <div className=" flex gap-2 md:flex-row">
                   <button
                     onClick={handleDecrease}
@@ -1105,7 +1107,7 @@ function Items({
                   className={`w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 
                   ${!user || prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId
                       ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-blue2 cursor-pointer"
+                      : "bg-blue2 cursor-pointer hover:bg-green2"
                     }`}
                   disabled={!user || prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId}
                   onClick={() => {
@@ -1128,7 +1130,7 @@ function Items({
                   className={`text-white w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 
                   ${!user || prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId
                       ? "bg-orange-200 cursor-not-allowed"
-                      : "bg-green2"
+                      : "bg-green2 hover:bg-blue2"
                     }`}
                   // onClick={handleOrder}
                   // disabled={prod?.amountInStock === 0}
