@@ -64,7 +64,7 @@ function OrderHistory({ topMargin }) {
               className="text-left relative"
             />
           </div>
-          <button className="border rounded-full w-52 text-xl p-2 bg-blue-900 text-white">
+          <button className="border rounded-full w-52 text-xl p-2 bg-blue text-white">
             Search order
           </button>
         </div>
@@ -152,7 +152,7 @@ function OrderHistory({ topMargin }) {
                   Return Window closed on 22 April 2024
                 </p>
                 <div className=" flex my-2">
-                  <button className="border rounded-lg p-2 bg-blue-900 text-white w-48 shadow-md">
+                  <button className="border rounded-lg p-2 bg-blue text-white w-48 shadow-md">
                     <Link to="/allProducts"> Buy it again</Link>
                   </button>
                   <button className="border rounded-lg p-2 mx-3 shadow-md w-48">

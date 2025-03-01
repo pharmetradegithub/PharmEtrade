@@ -87,7 +87,7 @@
 //           <div className="p-4 text[15px]">
 //             <h2 className="text-xl font-semibold mb-4">Latest Earnings</h2>
 //             <table className="min-w-full bg-white   border-gray-200">
-//               <thead className="bg-blue-900 text-white">
+//               <thead className="bg-blue text-white">
 //                 <tr>
 //                   <th className="py-2  px-4 border-b">Interval</th>
 //                   <th className="py-2 px-4 border-b border-gray-200">Orders</th>
@@ -286,7 +286,7 @@ const Earnings = () => {
               </div>
             </div>
             <table className="min-w-full bg-white border border-gray-200">
-              <thead className="bg-blue-900 text-white">
+              <thead className="bg-blue text-white">
                 <tr className="text-left">
                   <th className="py-2 px-4 border-b">Interval</th>
                   <th className="py-2 px-4 border-b">Orders</th>

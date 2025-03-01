@@ -1016,7 +1016,7 @@ function ProductFields() {
                 <div className="border rounded-md  bg-white ">
                   <table className="w-full Largest:w-[80%] ">
                     <thead className="p-10">
-                      <tr className="text-xl border-b bg-blue-900 text-white">
+                      <tr className="text-xl border-b bg-blue text-white">
                         <th className=" font-normal text-center text-base h-10">
                           Websites
                         </th>
@@ -1056,7 +1056,7 @@ function ProductFields() {
                           </td>
                           <td className="border bg-slate-200">
                             <select className=" py-1 text-left text-base h-9 w-40 m-2 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400">
-                              <option className=" py-1 text-left text-base h-9 hover:bg-blue-900 ">
+                              <option className=" py-1 text-left text-base h-9 hover:bg-blue ">
                                 All Groups
                               </option>
                               <option>Not Logged In</option>
@@ -1080,7 +1080,7 @@ function ProductFields() {
                           </td>
                           <td className=" w-36">
                             <button
-                              className=" m-2 border-slate-700 bg-blue-900 text-white w-20 flex justify-center p-2"
+                              className=" m-2 border-slate-700 bg-blue text-white w-20 flex justify-center p-2"
                               onClick={handleremove}
                             >
                               Delete
@@ -1256,7 +1256,7 @@ function ProductFields() {
                 <div className="border rounded-md  bg-white ">
                   <table className="w-full Largest:w-[80%] ">
                     <thead className="p-10">
-                      <tr className="text-xl border-b bg-blue-900 text-white">
+                      <tr className="text-xl border-b bg-blue text-white">
                         <th className=" font-normal text-center text-base h-10">
                           Websites
                         </th>
@@ -1296,7 +1296,7 @@ function ProductFields() {
                           </td>
                           <td className="border bg-slate-200">
                             <select className=" py-1 text-left text-base h-9 w-40 m-2 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400">
-                              <option className=" py-1 text-left text-base h-9 hover:bg-blue-900 ">
+                              <option className=" py-1 text-left text-base h-9 hover:bg-blue ">
                                 All Groups
                               </option>
                               <option>Not Logged In</option>
@@ -1320,7 +1320,7 @@ function ProductFields() {
                           </td>
                           <td className=" w-36">
                             <button
-                              className=" m-2 border-slate-700 bg-blue-900 text-white w-20 flex justify-center p-2"
+                              className=" m-2 border-slate-700 bg-blue text-white w-20 flex justify-center p-2"
                               onClick={handleremove}
                             >
                               Delete
@@ -1374,7 +1374,7 @@ function ProductFields() {
               <p>customization (Ex: a product for each color).</p>
             </div>
             <div>
-              <button className="border border-gray-600 bg-blue-900 text-white text-base p-2 font-semibold w-60">
+              <button className="border border-gray-600 bg-blue text-white text-base p-2 font-semibold w-60">
                 {" "}
                 Create Customization
               </button>
@@ -1409,7 +1409,7 @@ function ProductFields() {
                   <p>customization (Ex: a product for each color).</p>
                 </div>
                 <div>
-                  <button className="border rounded-md flex items-center justify-center border-gray-600 bg-blue-900 text-white text-base p-2 font-semibold w-44 h-9">
+                  <button className="border rounded-md flex items-center justify-center border-gray-600 bg-blue text-white text-base p-2 font-semibold w-44 h-9">
                     {" "}
                     Create Customization
                   </button>
@@ -1444,7 +1444,7 @@ function ProductFields() {
                   />
                 </div>
                 <div className="flex my-5 justify-end mx-7">
-                  <button className="border rounded-lg border-gray-400  bg-blue-900 text-white text-base  font-semibold  w-20 h-8  ">
+                  <button className="border rounded-lg border-gray-400  bg-blue text-white text-base  font-semibold  w-20 h-8  ">
                     SAVE
                   </button>
                 </div>
@@ -1463,7 +1463,7 @@ function ProductFields() {
                 className={`  text-base font-medium p-2 rounded-md  h-8 flex items-center  ${
                   buttonClick
                     ? "bg-white text-blue-900"
-                    : "bg-blue-900 text-white"
+                    : "bg-blue text-white"
                 }`}
                 onClick={handleRelateclick}
               >
@@ -1544,12 +1544,12 @@ function ProductFields() {
                 <div className="my-4 flex justify-end">
                   <button
                     onClick={handleRelateClick}
-                    className="bg-blue-900 p-2 text-white border rounded-md"
+                    className="bg-blue p-2 text-white border rounded-md"
                   >
                     {" "}
                     Cancel
                   </button>
-                  <button className="bg-blue-900 text-white p-2 mx-4 border rounded-md">
+                  <button className="bg-blue text-white p-2 mx-4 border rounded-md">
                     Apply Filter
                   </button>
                 </div>
@@ -1560,7 +1560,7 @@ function ProductFields() {
             <div>
               <div className="my-6 border w-full Largest:w-[80%] rounded-md bg-white ">
                 <table className="w-full">
-                  <thead className="bg-blue-900 text-white">
+                  <thead className="bg-blue text-white">
                     <tr className="border-b font-semibold">
                       <th className=" p-4  text-left text-sm  w-32">
                         <select className="text-black">
@@ -1618,7 +1618,7 @@ function ProductFields() {
                 className={` text-base font-medium p-2 rounded-md  h-8 flex items-center ${
                   ButtonUpClick
                     ? "bg-white text-blue-900"
-                    : "bg-blue-900 text-white"
+                    : "bg-blue text-white"
                 }`}
                 onClick={click}
               >
@@ -1700,12 +1700,12 @@ function ProductFields() {
                 <div className="my-4 flex justify-end">
                   <button
                     onClick={Click}
-                    className="bg-blue-900 p-2 text-white border rounded-md"
+                    className="bg-blue p-2 text-white border rounded-md"
                   >
                     {" "}
                     Cancel
                   </button>
-                  <button className="bg-blue-900 text-white p-2 mx-4 border rounded-md">
+                  <button className="bg-blue text-white p-2 mx-4 border rounded-md">
                     Apply Filter
                   </button>
                 </div>
@@ -1713,7 +1713,7 @@ function ProductFields() {
             )}
             <div className="my-6 border rounded-md bg-white w-full Largest:w-[80%] ">
               <table className="w-full">
-                <thead className="bg-blue-900 text-white  ">
+                <thead className="bg-blue text-white  ">
                   <tr className="border-b font-semibold">
                     <th className=" p-4  text-left text-sm  w-32">
                       <select className="text-black">
@@ -1762,7 +1762,7 @@ function ProductFields() {
                 className={` text-base font-medium  p-2 rounded-md  h-8 flex items-center ${
                   isButtonClicked
                     ? "bg-white text-blue-900"
-                    : "bg-blue-900 text-white"
+                    : "bg-blue text-white"
                 }`}
                 onClick={handleCrossClick}
               >
@@ -1843,12 +1843,12 @@ function ProductFields() {
                 <div className="my-4 flex justify-end">
                   <button
                     onClick={handleCrossRemoveClick}
-                    className="bg-blue-900 p-2 text-white border rounded-md"
+                    className="bg-blue p-2 text-white border rounded-md"
                   >
                     {" "}
                     Cancel
                   </button>
-                  <button className="bg-blue-900 text-white p-2 mx-4 border rounded-md">
+                  <button className="bg-blue text-white p-2 mx-4 border rounded-md">
                     Apply Filter
                   </button>
                 </div>
@@ -1856,7 +1856,7 @@ function ProductFields() {
             )}
             <div className="my-6 border rounded-md bg-white w-full Largest:w-[80%]">
               <table className="w-full">
-                <thead className="bg-blue-900 text-white  ">
+                <thead className="bg-blue text-white  ">
                   <tr className="border-b font-semibold">
                     <th className=" p-4  text-left text-sm   w-32">
                       <select className="text-black">
@@ -2000,15 +2000,15 @@ function ProductFields() {
       <div className="flex flex-col justify-start ">
         <div className="flex  justify-between ">
           <div>
-            <h1 className="text-2xl font-bold text-blue-900 -mt-5">
+            <h1 className="text-2xl font-bold text-blue2 -mt-5">
               ADD PRODUCT
             </h1>
-            <p className="border-b border-blue-900 w-40  "></p>
+            <p className="border-b border-blue2 w-40  "></p>
           </div>
           <div>
             <button
               onClick={handleSubmit}
-              className="border bg-blue-900 text-white -mt-5 h-8 p-2 w-16 rounded-md font-semibold  flex items-center justify-center"
+              className="border bg-blue text-white -mt-5 h-8 p-2 w-16 rounded-md font-semibold  flex items-center justify-center"
             >
               Save
             </button>
@@ -2022,7 +2022,7 @@ function ProductFields() {
               <button
                 className={`w-full  flex justify-center items-center px-2   p-3 py-1 mt-7   shadow-md  ${
                   activeTab === index
-                    ? "text-white  bg-blue-900 rounded-t-xl font-semibold "
+                    ? "text-white  bg-blue rounded-t-xl font-semibold "
                     : "text-blue-900  shadow-none rounded-t-xl bg-white "
                 }`}
                 onClick={() => setActiveTab(index)}

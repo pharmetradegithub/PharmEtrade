@@ -264,7 +264,7 @@ const LayoutAllQuotesProducts = () => {
       </Dialog>
       <div className=" w-[95%] h-full mt-8">
         <div className=" flex justify-between">
-          <p className="text-[22px] text-blue-900 font-semibold">
+          <p className="text-[22px] text-blue2 font-semibold">
             {" "}
             All Quoted Products{" "}
           </p>
@@ -321,7 +321,7 @@ const LayoutAllQuotesProducts = () => {
           {error && <div>Error: {error.message}</div>}
           {!loading && !error && (
             <table className="rounded-lg bg-white w-full hidden md:table">
-              <thead className="bg-blue-900 text-white">
+              <thead className="bg-blue text-white">
                 <tr>
                   {/* <th className="border-b-2 py-4 min-w-36 pl-4 text-left">
                     Product Id

@@ -59,19 +59,19 @@
 //       {categories.map((category, index) => (
 //         // <div
 //         //   key={index}
-//         //   className="w-[90%] mb-2 rounded-md bg-blue-900 text-white"
+//         //   className="w-[90%] mb-2 rounded-md bg-blue text-white"
 //         // >
-//         //   <div className={`border-1 ${categoryName.split(" ")[0] === category.split(" ")[0]?"bg-gray-400":"bg-blue-900"} px-4 py-1 rounded-md text-base flex justify-between items-center cursor-pointer text-white hover:bg-gray-400 hover:text-black `}>
+//         //   <div className={`border-1 ${categoryName.split(" ")[0] === category.split(" ")[0]?"bg-gray-400":"bg-blue"} px-4 py-1 rounded-md text-base flex justify-between items-center cursor-pointer text-white hover:bg-gray-400 hover:text-black `}>
 //         //     <p>{category}</p>
 //         //   </div>
 //         // </div>
 //         <div
 //         key={category.id}
-//         className={`w-[90%] mb-2 rounded-md ${categoryName === category.name ? "bg-gray-400" : "bg-blue-900"
+//         className={`w-[90%] mb-2 rounded-md ${categoryName === category.name ? "bg-gray-400" : "bg-blue"
 //           } text-white`}
 //       >
 //         <div
-//           className={`border-1 ${categoryName.split(" ")[0] === category.name.split(" ")[0] ? "bg-gray-400" : "bg-blue-900"} px-4 py-1 rounded-md text-base flex justify-between items-center cursor-pointer text-white hover:bg-gray-400 hover:text-black `}
+//           className={`border-1 ${categoryName.split(" ")[0] === category.name.split(" ")[0] ? "bg-gray-400" : "bg-blue"} px-4 py-1 rounded-md text-base flex justify-between items-center cursor-pointer text-white hover:bg-gray-400 hover:text-black `}
 //           onClick={() => handleChange(category)}
 //         >
 //           <p>{category.name}</p>
@@ -131,11 +131,11 @@ function ProductSideBar({ handleChange }) {
       {components?.map((category, index) => (
         <div
         key={category.productCategoryId}
-        className={`w-[90%] mb-2 rounded-md ${categoryId == category.productCategoryId ? "bg-green-900" : "bg-blue-900"
+        className={`w-[90%] mb-2 rounded-md ${categoryId == category.productCategoryId ? "bg-green" : "bg-blue"
           } text-white`}
       >
         <div
-          className={`border-1 ${categoryId == category.productCategoryId ? "bg-green-900" : "bg-blue-900"} px-4 py-1 rounded-md text-base flex justify-between items-center cursor-pointer text-white hover:bg-green-900 hover:text-white `}
+          className={`border-1 ${categoryId == category.productCategoryId ? "bg-green" : "bg-blue"} px-4 py-1 rounded-md text-base flex justify-between items-center cursor-pointer text-white hover:bg-green hover:text-white `}
           onClick={() => handleChange(category)}
         >
           <p>{category.categoryName}</p>

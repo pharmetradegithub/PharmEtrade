@@ -2,37 +2,74 @@ body {
   overflow-x: hidden;
 }
 
+@media(max-width: 1023px) {
+  .container {
+    max-width: 100%
+  }
+}
+
+@media(min-width: 1024px) {
+  .container {
+    padding-left: 30px;
+    padding-right: 30px;
+    max-width: 100%
+  }
+}
+
+@media(min-width: 1700px) {
+  .container {
+    max-width: 1440px;
+    padding-left: 0;
+    padding-right: 0
+  }
+}
+
+@media(max-width: 768px) {
+  .container {
+    max-width: 100%
+  }
+}
+
+
+
 @keyframes bounce-in-top {
   0% {
     transform: translateY(-500px);
     animation-timing-function: ease-in;
     opacity: 0;
   }
+
   38% {
     transform: translateY(0);
     animation-timing-function: ease-out;
     opacity: 1;
   }
+
   55% {
     transform: translateY(-65px);
     animation-timing-function: ease-in;
   }
+
   72% {
     transform: translateY(0);
     animation-timing-function: ease-out;
   }
+
   81% {
     transform: translateY(-28px);
     animation-timing-function: ease-in;
   }
+
   90% {
     transform: translateY(0);
     animation-timing-function: ease-out;
   }
+
   95% {
     transform: translateY(-8px);
     animation-timing-function: ease-in;
   }
+
   100% {
     transform: translateY(0);
     animation-timing-function: ease-out;
@@ -42,10 +79,12 @@ body {
 .bounce-in-top {
   animation: bounce-in-top 1s forwards;
 }
+
 @keyframes scroll-horizontal {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-100%);
   }
@@ -61,22 +100,28 @@ body {
 
 .scroll-item {
   display: inline-block;
-  padding: 0 10px; /* Adjust as needed */
+  padding: 0 10px;
+  /* Adjust as needed */
   animation: scroll-horizontal 2s linear infinite;
 }
+
 @keyframes backgroundChange {
   0% {
     background-image: url("../src/assets/Frame 7.png");
   }
+
   33% {
     background-image: url("../src/assets/Frame 8.png");
   }
+
   66% {
     background-image: url("../src/assets/Frame 9.png");
   }
+
   100% {
     background-image: url("../src/assets/Frame 7.png");
   }
+
   /* 66% {
       background-image: url('/images/background3.jpg');
     }
@@ -91,23 +136,27 @@ body {
   background-position: center;
   background-repeat: repeat;
   width: 100%;
-  height: 60vh; /* Adjust the height as needed */
+  height: 60vh;
+  /* Adjust the height as needed */
 }
 
 /* .getTouchs {
   background-image: url(../src/assets/h1-slider01.jpeg);
 } */
 .getTouchs {
-  background-color: #4a893a;
+  background-color: #00b153;
 }
+
 .getTextColor {
-  color: #4a893a;
+  color: #00b153;
 }
+
 .textColor {
-  color: #352881;
+  color: #400ae6;
 }
+
 .BgColor {
-  background-color: #352881;
+  background-color: #400ae6;
 }
 
 
@@ -123,31 +172,34 @@ body {
     justify-content: space-between !important;
     gap: 20px;
   }
+
   .display-col {
     display: flex !important;
     flex-direction: column !important;
     /* align-items: center !important; */
     justify-content: space-between !important;
   }
-  .tabs-adddproducts-button{   
+
+  .tabs-adddproducts-button {
     display: column;
     background-color: red !important;
     padding: 10px !important;
     margin: 10px !important;
-    
+
   }
-  .tabs-button{
+
+  .tabs-button {
     padding: 10px 10px !important;
-    margin:  5px !important;
+    margin: 5px !important;
     width: 50px !important;
     height: 40px !important;
     font-size: .8rem !important;
     border-radius: 7px !important;
-  
+
 
   }
 
-  
+
   .fonst-small {
     font-size: 0.9rem;
   }
@@ -155,9 +207,11 @@ body {
   .padding-10 {
     padding: 50px 10px 10px 10px !important;
   }
+
   .padding-10 {
     padding: 50px 0px 10px 0px !important;
   }
+
   .main-container {
     width: 95% !important;
     margin: 0 !important;
@@ -168,11 +222,13 @@ body {
   .layoutBuyProducts {
     width: 100% !important;
   }
+
   .layoutBuyProducts-sub {
     width: 100% !important;
     align-items: center !important;
     justify-content: center !important;
   }
+
   .layoutBuyProducts-img {
     width: 100% !important;
     height: 200px !important;
@@ -183,12 +239,15 @@ body {
     align-items: start;
     justify-content: center;
   }
+
   .small-button {
     max-width: 500px !important;
   }
+
   .input-full-width {
     width: 100% !important;
   }
+
   .select-options {
     width: 100% !important;
     margin: 0 auto !important;
@@ -201,6 +260,7 @@ body {
     margin: 0 !important;
     padding: 0 !important;
   }
+
   .Orders-input-container input {
     width: 100% !important;
     padding: 1%;
@@ -210,6 +270,7 @@ body {
     width: 5vw !important;
     height: 2.5vh !important;
   }
+
   .nav-icon-text {
     font-size: 0.8rem !important;
     width: 100%;
@@ -217,7 +278,7 @@ body {
     margin: 0 !important;
   }
 
-  .p-pb{
+  .p-pb {
     padding-bottom: 5%;
   }
 }

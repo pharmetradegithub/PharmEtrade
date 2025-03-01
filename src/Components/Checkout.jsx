@@ -585,7 +585,7 @@ function Address({ topMargin, totalAmount }) {
 
                         {/* Hide this button after it's clicked */}
                         <button
-                          className="border rounded-full h-8 text-sm w-32 bg-blue-900 text-white mt-6"
+                          className="border rounded-full h-8 text-sm w-32 bg-blue text-white mt-6"
                           onClick={handleUseAddress}
                         >
                           Use this address
@@ -769,7 +769,7 @@ function Address({ topMargin, totalAmount }) {
                                         )}
                                       </div>
                                       <div className="flex justify-end">
-                                        <button className="rounded-full bg-blue-900 text-white border w-40 h-8 flex items-center justify-center">
+                                        <button className="rounded-full bg-blue text-white border w-40 h-8 flex items-center justify-center">
                                           Save Instructions
                                         </button>
                                       </div>
@@ -801,7 +801,7 @@ function Address({ topMargin, totalAmount }) {
                               size="small"
                               className="w-52"
                             />
-                            <button className='border mx-3 w-16 h-8  text-base  bg-blue-900 text-white flex items-center justify-center rounded-full'>Apply</button>
+                            <button className='border mx-3 w-16 h-8  text-base  bg-blue text-white flex items-center justify-center rounded-full'>Apply</button>
                           </div>
 
                           <div>
@@ -885,7 +885,7 @@ function Address({ topMargin, totalAmount }) {
                                     <button className="border rounded-full w-24 border-black h-8 mr-2" onClick={handleCardRemove}>
                                       Cancel
                                     </button>
-                                    <button className="flex justify-center items-center w-40 h-8 bg-blue-900 text-white rounded-full">
+                                    <button className="flex justify-center items-center w-40 h-8 bg-blue text-white rounded-full">
                                       Enter Card Details
                                     </button>
                                   </div>
@@ -991,7 +991,7 @@ function Address({ topMargin, totalAmount }) {
                                                       <button className="border rounded-full w-24 border-black h-8 mr-2" onClick={handleCardemiremove}>
                                                         Cancel
                                                       </button>
-                                                      <button className="flex justify-center items-center w-40 h-8 bg-blue-900 text-white rounded-full">
+                                                      <button className="flex justify-center items-center w-40 h-8 bg-blue text-white rounded-full">
                                                         Enter Card Details
                                                       </button>
                                                     </div>
@@ -1024,7 +1024,7 @@ function Address({ topMargin, totalAmount }) {
                             </div>
                           </div>
                           <div className=" mt-2 items-center flex ">
-                            <button className="w-60 border rounded-full bg-blue-900 text-basep-1 text-white">Use this payment method</button>
+                            <button className="w-60 border rounded-full bg-blue text-basep-1 text-white">Use this payment method</button>
                           </div>
                         </div>
                       </div>
@@ -1095,7 +1095,7 @@ function Address({ topMargin, totalAmount }) {
 
                   <div className="border fixed shadow-md rounded-md p-7 py-5">
                     <div className="flex items-center justify-center">
-                      <button className="border rounded-full text-sm flex justify-center items-center w-32 h-8 bg-blue-900 text-white">Use this address</button>
+                      <button className="border rounded-full text-sm flex justify-center items-center w-32 h-8 bg-blue text-white">Use this address</button>
                     </div>
                     <div className="text-base flex items-center justify-center flex-col my-1 border-b">
                       <p>Choose a shipping address and payment</p>

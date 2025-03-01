@@ -57,7 +57,7 @@ const LayoutSellerTotalProducts = () => {
         <div>
             <h1 className='text-blue-900 text-xl font-semibold my-3'>TotalProducts</h1>
             <table className="w-full">
-                <thead className="bg-blue-900 text-white">
+                <thead className="bg-blue text-white">
                     <tr className="border-b-2">
                         <th className="px-4 py-2 text-left">Order ID</th>
                         <th className="px-4 py-2 text-left">Product Name</th>

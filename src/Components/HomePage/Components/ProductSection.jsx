@@ -225,7 +225,7 @@
 //               </div> */}
 //                 <div
 //                   onClick={() => handleCart(item.productID)}
-//                   className="bg-blue-900 flex gap-1 p-1 rounded-lg justify-center items-center  cursor-pointer"
+//                   className="bg-blue flex gap-1 p-1 rounded-lg justify-center items-center  cursor-pointer"
 //                 >
 //                   <img src={addcart} className="h-7 p-1" />
 //                   <p className="text-white font-semibold">ADD</p>
@@ -524,7 +524,7 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
                       e.stopPropagation(); // Prevent any unwanted event bubbling
                     }
                   }}
-                  className={`bg-blue-900 flex gap-1 p-1 rounded-lg justify-center items-center  ${
+                  className={`bg-blue flex gap-1 p-1 rounded-lg justify-center items-center  ${
                     item.amountInStock <= 0
                       ? "opacity-50 cursor-not-allowed"
                       : "cursor-pointer"

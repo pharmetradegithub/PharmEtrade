@@ -1099,7 +1099,7 @@ function Items({
                   className={`w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 
                   ${!user || prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId
                       ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-blue-900 cursor-pointer"
+                      : "bg-blue cursor-pointer"
                     }`}
                   disabled={!user || prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId}
                   onClick={() => {

@@ -29,7 +29,7 @@
 //               multiline
 //               rows={4}
 //             />
-//             <button className="text-white p-2 rounded-lg bg-blue-900">
+//             <button className="text-white p-2 rounded-lg bg-blue">
 //               Submit
 //             </button>
 //           </form>
@@ -208,7 +208,7 @@ const Contactus = ({ topMargin }) => {
         </div>
 
         {/* {submitted && (
-          <p className="fixed top-4 right-4 p-2 px-2 rounded-md text-white bg-blue-900 font-semibold mt-4">Successfully submitted. Thank you!</p>
+          <p className="fixed top-4 right-4 p-2 px-2 rounded-md text-white bg-blue font-semibold mt-4">Successfully submitted. Thank you!</p>
         )} */}
         {notification.show && (
           <Notification
@@ -365,7 +365,7 @@ const Contactus = ({ topMargin }) => {
               {/* Submit Button */}
               <div className="flex justify-center">
                 <Button
-                  className="text-white  text-right w-full sm:w-56 p-2  rounded-lg bg-blue-900 "
+                  className="text-white  text-right w-full sm:w-56 p-2  rounded-lg bg-blue "
                   variant="contained"
                   type="submit"
                 >

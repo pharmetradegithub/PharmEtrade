@@ -146,7 +146,7 @@ const RxProducts = () => {
             message={notification.message}
           />
         )}
-        <div className="text-xl bg-blue-900 flex items-center p-1 rounded-lg text-white mt-10 md:mt-0">
+        <div className="text-xl bg-blue flex items-center p-1 rounded-lg text-white mt-10 md:mt-0">
           <div>RX PRODUCTS</div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-2 gap-4 mt-8">
@@ -283,7 +283,7 @@ const RxProducts = () => {
                 </div>
               </div>
               {/* <div
-                className="flex bg-blue-900 p-1 cursor-pointer rounded-md justify-center"
+                className="flex bg-blue p-1 cursor-pointer rounded-md justify-center"
                 onClick={() => handleCart(item.productID)}
               >
                 <img src={addcart} alt="Add to cart" className="h-8 p-[6px]" />
@@ -292,7 +292,7 @@ const RxProducts = () => {
               <div
                 className={`flex p-1 rounded-md justify-center ${item.amountInStock <= 0
                     ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-blue-900 cursor-pointer"
+                    : "bg-blue cursor-pointer"
                   }`}
                 onClick={() => {
                   if (item.amountInStock > 0) {

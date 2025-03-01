@@ -70,7 +70,7 @@
 //           {file && <p className="text-green-500 mb-4">{file.name} selected</p>}
 //           <button
 //             type="submit"
-//             className="w-full bg-blue-900 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+//             className="w-full bg-blue text-white py-2 px-4 rounded-lg hover:bg-blue-600"
 //           >
 //             Upload
 //           </button>
@@ -193,7 +193,7 @@
 //           )}
 //           <button
 //             type="submit"
-//             className="w-60 sm:w-full bg-blue-900 text-white text-center py-2 px-4 rounded-lg hover:bg-blue-600"
+//             className="w-60 sm:w-full bg-blue text-white text-center py-2 px-4 rounded-lg hover:bg-blue-600"
 //           >
 //             Upload
 //           </button>
@@ -338,7 +338,7 @@ const navigate = useNavigate();
               Please provide tax information
             </p>
             <button
-              className="bg-blue-900 text-white px-4 py-2 w-28 rounded hover:bg-blue-700"
+              className="bg-blue text-white px-4 py-2 w-28 rounded hover:bg-blue-700"
               onClick={handleClose}
             >
               Ok
@@ -347,7 +347,7 @@ const navigate = useNavigate();
         </div>
       )} */}
       <div className="flex flex-col justify-start">
-        <h1 className="text-sm sm:text-2xl font-bold text-blue-900">
+        <h1 className="text-sm sm:text-2xl font-bold text-blue2">
           ADD BULK PRODUCTS{" "}
           <span className="text-sm sm:text-base text-black">
             (To upload bulk products, please download the sample Excel sheet and
@@ -358,7 +358,7 @@ const navigate = useNavigate();
       </div>
       <div className="flex flex-col sm:flex-row gap-4 sm:gap-8">
         <div className="w-full max-w-md p-3 sm:p-8 mt-7 bg-white rounded-lg shadow-lg">
-          <h1 className="text-xl sm:text-2xl font-bold text-left sm:text-center mb-4">
+          <h1 className="text-blue2 text-xl sm:text-2xl font-bold text-left sm:text-center mb-4">
             Add Excel Sheet
           </h1>
           <form onSubmit={handleSubmit}>
@@ -381,7 +381,7 @@ const navigate = useNavigate();
             {file && <p className="text-green-500 mb-4">{file.name} selected</p>}
             <button
               type="submit"
-              className="w-60 sm:w-full bg-blue-900 text-white text-center py-2 px-4 rounded-lg hover:bg-blue-600"
+              className="w-60 sm:w-full bg-blue text-white text-center py-2 px-4 rounded-lg hover:bg-blue-600"
             >
               Upload
             </button>
@@ -400,14 +400,14 @@ const navigate = useNavigate();
         </div>
 
         <div className="max-w-md sm:p-10 p-4 mt-8">
-          <h1 className="text-2xl font-bold sm:text-center text-left mb-4">
+          <h1 className="text-blue2 text-2xl font-bold sm:text-center text-left mb-4">
             Download Excel Sheet
           </h1>
           <div
             className="mb-4 sm:text-center text-left w-full"
             onClick={handleDownload}
           >
-            <p className="w-60 border-green-500 text-green-500 hover:text-red-600 cursor-pointer hover:border-red-600 hover:border-b">
+            <p className="w-60 border-green-500 text-green-500 hover:text-red-600 cursor-pointer hover:border-green2 hover:border-b">
               Download Sample Excel file here
             </p>
           </div>
@@ -522,7 +522,7 @@ export default LayoutAddBulkProduct;
 //             {file && <p className="text-green-500 mb-4">{file.name} selected</p>}
 //             <button
 //               type="submit"
-//               className="w-full bg-blue-900 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+//               className="w-full bg-blue text-white py-2 px-4 rounded-lg hover:bg-blue-600"
 //             >
 //               Upload
 //             </button>

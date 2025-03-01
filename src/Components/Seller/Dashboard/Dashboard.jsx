@@ -66,7 +66,7 @@
 //         <div className="p-4 text-sm">
 //           <h2 className="text-xl font-semibold mb-4">Latest Orders</h2>
 //           <table className="min-w-full bg-white border border-gray-200">
-//             <thead className="bg-blue-900 text-white">
+//             <thead className="bg-blue text-white">
 //               <tr>
 //                 <th className="py-2 px-4 border-b">Orders</th>
 //                 <th className="py-2 px-4 border-b">Total Amount</th>
@@ -176,7 +176,7 @@ const Dashboard = () => {
           <div className="p-4 text-sm w-[60%]">
             <h2 className="text-xl font-semibold mb-4">Latest Orders</h2>
             <table className="min-w-full bg-white border border-gray-200">
-              <thead className="bg-blue-900 text-white">
+              <thead className="bg-blue text-white">
                 <tr className="text-left">
                   <th className="py-2 px-4 border-b">Orders</th>
                   <th className="py-2 px-4 border-b">Total Amount</th>

@@ -1148,7 +1148,7 @@ function EditProductAdmin() {
                     )}
                     {/* <button
                       onClick={() => handleNdcUpc(formData.ndcUpc)}
-                      className="bg-blue-900 text-white px-2 rounded-sm"
+                      className="bg-blue text-white px-2 rounded-sm"
                     >
                       Apply
                     </button> */}
@@ -1718,7 +1718,7 @@ function EditProductAdmin() {
                     ) : (
                       <button
                         onClick={() => handleSizeSubmit()}
-                        className="flex text-white justify-center items-center mt-3 bg-blue-900 px-3"
+                        className="flex text-white justify-center items-center mt-3 bg-blue px-3"
                       >
                         Apply
                       </button>
@@ -2435,7 +2435,7 @@ function EditProductAdmin() {
                 <div className="border rounded-md  ">
                   <table className="w-full Largest:w-[60%] ">
                     <thead className="p-10">
-                      <tr className="text-xl border-b bg-blue-900 text-white">
+                      <tr className="text-xl border-b bg-blue text-white">
                         <th className=" font-normal text-center text-base h-10">
                           Websites
                         </th>
@@ -2475,7 +2475,7 @@ function EditProductAdmin() {
                           </td>
                           <td className="border bg-slate-200">
                             <select className=" py-1 text-left text-base h-9 w-40 m-2 border border-slate-300 rounded-md focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400">
-                              <option className=" py-1 text-left text-base h-9 hover:bg-blue-900 ">
+                              <option className=" py-1 text-left text-base h-9 hover:bg-blue ">
                                 All Groups
                               </option>
                               <option>Not Logged In</option>
@@ -2499,7 +2499,7 @@ function EditProductAdmin() {
                           </td>
                           <td className=" w-36">
                             <button
-                              className=" m-2 border-slate-700 bg-blue-900 text-white w-20 flex justify-center p-2"
+                              className=" m-2 border-slate-700 bg-blue text-white w-20 flex justify-center p-2"
                               onClick={handleremove}
                             >
                               Delete
@@ -2710,7 +2710,7 @@ function EditProductAdmin() {
               <p>customization (Ex: a product for each color).</p>
             </div>
             <div>
-              <button className="border border-gray-600 bg-blue-900 text-white text-base p-2 font-semibold w-60">
+              <button className="border border-gray-600 bg-blue text-white text-base p-2 font-semibold w-60">
                 {" "}
                 Create Customization
               </button>
@@ -2914,10 +2914,10 @@ function EditProductAdmin() {
       <div className="flex flex-col  justify-center ">
         <div className="flex  justify-between ">
           <div>
-            <h1 className="text-2xl font-bold text-blue-900 -mt-5">
+            <h1 className="text-2xl font-bold text-blue2 -mt-5">
               {Heading}
             </h1>
-            <p className="border-b border-blue-900 w-40  "></p>
+            <p className="border-b border-blue2 w-40  "></p>
           </div>
         </div>
       </div>
@@ -2932,7 +2932,7 @@ function EditProductAdmin() {
               disable={showTab.includes(index)}
                 className={`w-full  flex justify-center items-center px-2   p-3 py-1 mt-7   shadow-md  ${
                   activeTab === index
-                    ? "text-white  bg-blue-900 rounded-t-xl font-semibold "
+                    ? "text-white  bg-blue rounded-t-xl font-semibold "
                     : "text-blue-900  shadow-none rounded-t-xl bg-white "
                 }`}
                 onClick={() => setActiveTab(index)}
@@ -2950,7 +2950,7 @@ function EditProductAdmin() {
                   queryProductId != null ? false : showTab.includes(index)
                 } // Corrected to 'disabled'
                 className={`w-full flex justify-center items-center px-2 p-3 py-1 mt-7 shadow-md ${activeTab === index
-                    ? "text-white bg-blue-900 rounded-t-xl font-semibold"
+                    ? "text-white bg-blue rounded-t-xl font-semibold"
                     : "text-blue-900 shadow-none rounded-t-xl bg-white"
                   } ${showTab.includes(index) && queryProductId == null
                     ? "opacity-50 cursor-not-allowed"
@@ -2970,7 +2970,7 @@ function EditProductAdmin() {
         <button
           onClick={handleSubmit}
           className={`
-            border bg-blue-900 flex justify-center items-center text-white my-4 p-2 mr-32 rounded-md font-semibold
+            border bg-blue flex justify-center items-center text-white my-4 p-2 mr-32 rounded-md font-semibold
     
               "flex hover:bg-blue-800 active:bg-blue-700"
             

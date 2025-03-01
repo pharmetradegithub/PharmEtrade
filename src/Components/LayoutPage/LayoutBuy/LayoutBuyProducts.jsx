@@ -904,11 +904,11 @@
 //                             }}
 //                               // className={`flex layoutBuyProducts text-white h-[32px] sm:w-full w-32  small-button sm:px-2 rounded-lg sm:mt-20 mt-4 ml-0 p-0 mx-2 justify-center  items-center ${product.amountInStock <= 0
 //                               // ? "bg-gray-400 cursor-not-allowed"
-//                               // : "bg-blue-900 cursor-pointer"
+//                               // : "bg-blue cursor-pointer"
 //                               // }`}
 //                               className={`flex layoutBuyProducts text-white h-[32px] sm:w-full w-32  small-button sm:px-2 rounded-lg sm:mt-8 justify-center  items-center ${product.amountInStock <= 0
 //                               ? "bg-gray-400 cursor-not-allowed"
-//                               : "bg-blue-900 cursor-pointer"
+//                               : "bg-blue cursor-pointer"
 //                               }`}
 //                           >
 //                             <div className="mr-1">
@@ -1020,7 +1020,7 @@
 //                         onClick={() =>
 //                           handleCart(product.productID, product.CartQuantity)
 //                         }
-//                         className="flex text-white h-[40px] cursor-pointer px-2 rounded-lg bg-blue-900 mx-3 justify-center items-center"
+//                         className="flex text-white h-[40px] cursor-pointer px-2 rounded-lg bg-blue mx-3 justify-center items-center"
 //                       >
 //                         <div className="mr-1">
 //                           <img
@@ -1450,7 +1450,7 @@ function LayoutBuy({
       )}
 
       <div className="flex main-container md:flex-row justify-between flex-col gap-2">
-        <h1 className="lg:text-2xl text-2xl font-semibold text-blue-900">
+        <h1 className="lg:text-2xl text-2xl font-semibold text-blue2">
           Buy Products
         </h1>
         <div className="flex">
@@ -1993,11 +1993,11 @@ function LayoutBuy({
                               }}
                               // className={`flex layoutBuyProducts text-white h-[32px] sm:w-full w-32  small-button sm:px-2 rounded-lg sm:mt-20 mt-4 ml-0 p-0 mx-2 justify-center  items-center ${product.amountInStock <= 0
                               // ? "bg-gray-400 cursor-not-allowed"
-                              // : "bg-blue-900 cursor-pointer"
+                              // : "bg-blue cursor-pointer"
                               // }`}
                               className={`flex layoutBuyProducts text-white h-[32px] sm:w-full w-32  small-button sm:px-2 rounded-lg sm:mt-8 justify-center  items-center ${product.amountInStock <= 0
                                 ? "bg-gray-400 cursor-not-allowed"
-                                : "bg-blue-900 cursor-pointer"
+                                : "bg-blue cursor-pointer"
                                 }`}
                             >
                               <div className="mr-1">
@@ -2042,7 +2042,7 @@ function LayoutBuy({
                             }}
                             // className={`flex layoutBuyProducts text-white h-[32px] sm:w-full w-32  small-button sm:px-2 rounded-lg sm:mt-20 mt-4 ml-0 p-0 mx-2 justify-center  items-center ${product.amountInStock <= 0
                             // ? "bg-gray-400 cursor-not-allowed"
-                            // : "bg-blue-900 cursor-pointer"
+                            // : "bg-blue cursor-pointer"
                             // }`}
                             className={`flex layoutBuyProducts text-white h-[32px] sm:w-full w-32  small-button sm:px-2 rounded-lg sm:mt-8 justify-center  items-center ${product.amountInStock <= 0
                               ? "bg-gray-400 cursor-not-allowed"
@@ -2184,7 +2184,7 @@ function LayoutBuy({
                         onClick={() =>
                           handleCart(product.productID, product.CartQuantity)
                         }
-                        className="flex text-white h-[40px] cursor-pointer px-2 rounded-lg bg-blue-900 mx-3 justify-center items-center"
+                        className="flex text-white h-[40px] cursor-pointer px-2 rounded-lg bg-blue mx-3 justify-center items-center"
                       >
                         <div className="mr-1">
                           <img

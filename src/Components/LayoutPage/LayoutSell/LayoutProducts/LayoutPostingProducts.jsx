@@ -383,12 +383,12 @@ const LayoutPostingProducts = () => {
       )}
       <div className="w-[95%] h-full mt-4 ">
         <div className="flex justify-between sm:flex-row flex-col gap-4 ">
-          <h2 className="sm:text-[22px] text-[15px] text-blue-900 font-semibold ml-4">
+          <h2 className="sm:text-[22px] text-[15px] text-blue2 font-semibold ml-4">
             Marketplace Product List
           </h2>
           {/* <Link to="/layout/addproduct">
             <button
-              className="bg-blue-900 flex items-center text-white p-2 text-[15px] rounded-md ml-4"
+              className="bg-blue flex items-center text-white p-2 text-[15px] rounded-md ml-4"
               onClick={handleAddNewProductClick}
             >
               <FaPlus /> Add New Product
@@ -411,7 +411,7 @@ const LayoutPostingProducts = () => {
             >
               <div className="w-full">
                 <div className="flex justify-between items-center">
-                  <div className="text-[16px] text-gray-700 font-semibold">
+                  <div className="text-[16px] text-blue2 font-semibold">
                     {stat.label}
                   </div>
                   {/* <div className="menu-icon">
@@ -419,7 +419,7 @@ const LayoutPostingProducts = () => {
                   </div> */}
                 </div>
                 <div className="flex justify-between mt-2 items-center">
-                  <div className="text-xl font-semibold">{stat.value}</div>
+                  <div className="text-green2 text-xl font-semibold">{stat.value}</div>
                   {/* <div
                     className={`text-sm p-1 rounded-lg ${
                       stat.percentage > 0 ? "bg-green-400" : "bg-red-400"
@@ -453,7 +453,7 @@ const LayoutPostingProducts = () => {
             {error && <div>Error: {error.message}</div>}
             {!loading && !error && (
               <table className=" hidden md:table w-full">
-                <thead className="bg-blue-900 text-white">
+                <thead className="bg-blue text-white">
                   <tr className="border-b-2">
                     <th className="px-2 py-2 text-left">S.No</th>
                     <th className="px-2 py-2 text-left">Thumbnail</th>

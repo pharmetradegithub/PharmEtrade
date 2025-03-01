@@ -91,7 +91,7 @@
 //             ))}
 //           </div>
 //           <div className="w-full">
-//             <button className="border border-gray-500 bg-blue-900 text-white mt-2 p-2 rounded-lg w-44 mb-8">
+//             <button className="border border-gray-500 bg-blue text-white mt-2 p-2 rounded-lg w-44 mb-8">
 //               Download Now
 //             </button>
 //           </div>
@@ -206,11 +206,11 @@ const MobileView = () => {
           </div>
 
           {/* <div className="flex py-4 justify-center gap-4">
-            <button className="bg-blue-900 text-white w-32 h-10 rounded-md flex items-center justify-center p-2 gap-2">
+            <button className="bg-blue text-white w-32 h-10 rounded-md flex items-center justify-center p-2 gap-2">
               <img src={playstore} className="w-5" alt="Google Play" />
               Google Play
             </button>
-            <button className="bg-blue-900 text-white w-32 h-10 rounded-md flex items-center justify-center p-2 gap-2">
+            <button className="bg-blue text-white w-32 h-10 rounded-md flex items-center justify-center p-2 gap-2">
               <img src={appstore} className="w-5" alt="App Store" />
               App Store
             </button>

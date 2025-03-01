@@ -117,12 +117,12 @@ function TermsAndConditions({ topMargin, setActiveStep }) {
     //                 <h1 className='flex  text-xl'>Download App for Free</h1>
     //                 <div className=' flex py-6 -ml-6 md:ml-0'>
 
-    //                     <button className='bg-blue-900 text-white -mx-0 md:mx-6 w-32 h-8 rounded-md flex items-center p-2'>
+    //                     <button className='bg-blue text-white -mx-0 md:mx-6 w-32 h-8 rounded-md flex items-center p-2'>
     //                         <img src={playstore} className='w-6' />
     //                         {" "}  Google Play
     //                     </button>
 
-    //                     <button className='bg-blue-900 rounded-md text-white mx-6 w-28 flex h-8 items-center'>
+    //                     <button className='bg-blue rounded-md text-white mx-6 w-28 flex h-8 items-center'>
     //                         <img src={appstore} className='w-8 ' />
     //                         App Store</button>
     //                 </div>
@@ -498,12 +498,12 @@ function TermsAndConditions({ topMargin, setActiveStep }) {
                         <h1 className='flex  text-xl'>Download App for Free</h1>
                         <div className=' flex py-6 -ml-6 md:ml-0'>
 
-                            <button className='bg-blue-900 text-white -mx-0 md:mx-6 w-32 h-8 rounded-md flex items-center p-2'>
+                            <button className='bg-blue text-white -mx-0 md:mx-6 w-32 h-8 rounded-md flex items-center p-2'>
                                 <img src={playstore} className='w-6' />
                                 {" "}  Google Play
                             </button>
 
-                            <button className='bg-blue-900 rounded-md text-white mx-6 w-28 flex h-8 items-center'>
+                            <button className='bg-blue rounded-md text-white mx-6 w-28 flex h-8 items-center'>
                                 <img src={appstore} className='w-8 ' />
                                 App Store</button>
                         </div>

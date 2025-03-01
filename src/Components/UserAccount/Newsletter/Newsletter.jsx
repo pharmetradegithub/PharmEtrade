@@ -25,10 +25,10 @@ const Newsletter = () => {
           </div>
 
           <div className="flex justify-between">
-            <button className="bg-blue-900 text-white text-[12px] px-4 rounded-lg font-semibold h-8 items-centerflex justify-center">
+            <button className="bg-blue text-white text-[12px] px-4 rounded-lg font-semibold h-8 items-centerflex justify-center">
               SAVE
             </button>
-            <button className="bg-blue-900 text-white text-[12px] p-4 items-center justify-center flex rounded-lg h-8 font-semibold">
+            <button className="bg-blue text-white text-[12px] p-4 items-center justify-center flex rounded-lg h-8 font-semibold">
               {" "}
               BACK
             </button>

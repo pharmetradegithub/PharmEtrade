@@ -188,7 +188,7 @@
 //       </div>
 // <div className="flex justify-end p-4">
 //       <button
-//         className='border rounded-lg h-8 p-2 px-4 font-bold flex justify-center items-center text-[15px] bg-blue-900 text-white'
+//         className='border rounded-lg h-8 p-2 px-4 font-bold flex justify-center items-center text-[15px] bg-blue text-white'
 //         onClick={handleSubmit}
 //       >
 //         SAVE
@@ -333,7 +333,7 @@ function LayoutUpsShipping() {
         <Notification show={notification.show} message={notification.message} />
       )}
       <div className='flex justify-between border-b border-black my-5 p-4'>
-        <h1 className=' text-sm md:text-xl text-blue-900 font-semibold'>Manage UPS CONFIGURATION</h1>
+        <h1 className=' text-sm md:text-xl text-blue2 font-semibold'>Manage UPS CONFIGURATION</h1>
       </div>
       <div className=" w-full md:w-[80%] xl:w-[60%]  border rounded-md shadow-md flex flex-col justify-center">
         <div className='w-full flex flex-col justify-center ml-4 mt-4'>
@@ -395,7 +395,7 @@ function LayoutUpsShipping() {
         </div>
         <div className="flex justify-end p-4">
           <button
-            className='border rounded-lg h-8 p-2 px-4 font-bold flex justify-center items-center text-[15px] bg-blue-900 text-white'
+            className='border rounded-lg h-8 p-2 px-4 font-bold flex justify-center items-center text-[15px] bg-blue text-white'
             onClick={handleSubmit}
             disabled={!isEditable} // Disable the save button if not in edit mode
           >

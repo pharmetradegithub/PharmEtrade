@@ -37,7 +37,7 @@ import AdminSideBar from "../Layouts/AdminSideBar";
 function AdminPanel({ cartItems }) {
   return (
     <div className="flex w-screen h-screen overflow-hidden bg-gray-100">
-      <div className="w-64 h-full bg-blue-900">
+      <div className="w-64 h-full bg-blue">
         <AdminSideBar />
       </div>
       <div

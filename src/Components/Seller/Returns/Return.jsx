@@ -41,7 +41,7 @@ const Return = () => {
             Returns{" "}
           </p>
           {/* <div
-            className="flex items-center bg-blue-900 p-2 rounded-lg text-white text-[20px] cursor-pointer"
+            className="flex items-center bg-blue p-2 rounded-lg text-white text-[20px] cursor-pointer"
             onClick={handleAddNewProductClick}
           >
             <FiPlus />
@@ -96,7 +96,7 @@ const Return = () => {
 
           <div className="overflow-x-scroll text-[15px] w-full mt-4 font-sans">
             <table className="rounded-lg bg-white w-full">
-              <thead className="bg-blue-900 text-white">
+              <thead className="bg-blue text-white">
                 <tr>
                   <th className="border-b-2 py-4 min-w-36 pl-4 text-left">Created At</th>
                   <th className="border-b-2 min-w-36 text-left">RMA Id</th>

@@ -344,10 +344,10 @@
 //                   className="px-4 py-2 w-36 bg-gray-100 text-lg border rounded-full"
 //                 />
 //                 <div className="flex flex-col md:flex-row gap-4">
-//                   <button className="px-6 py-2 font-bold text-white text-lg bg-blue-900 rounded-full">
+//                   <button className="px-6 py-2 font-bold text-white text-lg bg-blue rounded-full">
 //                     Apply Coupon
 //                   </button>
-//                   {/* <button className="px-6 py-2 font-bold text-white text-lg bg-blue-900 rounded-full">
+//                   {/* <button className="px-6 py-2 font-bold text-white text-lg bg-blue rounded-full">
 //                     Update Cart
 //                   </button> */}
 //                 </div>
@@ -375,7 +375,7 @@
 //                   </tbody>
 //                 </table>
 //                 <button
-//                   className="w-full mt-4 px-4 py-2 font-bold text-white text-lg bg-blue-900 rounded-full"
+//                   className="w-full mt-4 px-4 py-2 font-bold text-white text-lg bg-blue rounded-full"
 //                   onClick={handleProceed}
 //                 >
 //                   Proceed to checkout
@@ -393,7 +393,7 @@
 //             </h2>
 
 //             <img src={searchimg} className="w-24 h-24 mt-4" alt="empty-cart" />
-//             <button className="bg-blue-900 text-white px-4 py-2 mt-6 rounded-lg">
+//             <button className="bg-blue text-white px-4 py-2 mt-6 rounded-lg">
 //               <Link to="/allProducts">Continue Shopping</Link>
 //             </button>
 //           </div>
@@ -1237,10 +1237,10 @@ function Cart() {
                   className="px-4 py-2 w-full md:w-36 bg-gray-100 text-lg border rounded-full"
                 /> */}
                 <div className="flex flex-col md:flex-row gap-4">
-                  {/* <button className="px-6 py-2 font-bold text-white text-lg bg-blue-900 rounded-full">
+                  {/* <button className="px-6 py-2 font-bold text-white text-lg bg-blue rounded-full">
                     Apply Coupon
                   </button> */}
-                  {/* <button className="px-6 py-2 font-bold text-white text-lg bg-blue-900 rounded-full">
+                  {/* <button className="px-6 py-2 font-bold text-white text-lg bg-blue rounded-full">
                     Update Cart
                   </button> */}
                 </div>
@@ -1268,7 +1268,7 @@ function Cart() {
                   </tbody>
                 </table>
                 <button
-                  className="w-full mt-4 px-4 py-2 font-bold text-white text-lg bg-blue-900 rounded-full"
+                  className="w-full mt-4 px-4 py-2 font-bold text-white text-lg bg-blue rounded-full"
                   onClick={handleProceed}
                 >
                   Proceed to checkout
@@ -1292,7 +1292,7 @@ function Cart() {
             </h2>
 
             <img src={searchimg} className="w-24 h-24 mt-4" alt="empty-cart" />
-            <button className="bg-blue-900 text-white px-4 py-2 mt-6 rounded-lg">
+            <button className="bg-blue text-white px-4 py-2 mt-6 rounded-lg">
               <Link to="/allProducts">Continue Shopping</Link>
             </button>
           </div>

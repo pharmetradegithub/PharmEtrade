@@ -77,26 +77,26 @@ const LayoutSellerDashboard = () => {
       totalOrder: sellerDashboard?.totalOrders,
       label: "Incoming Orders",
       percentage: sellerDashboard?.totalOrders,
-      color: "red",
+      color: "text-blue2",
       grid: "totalProducts",
     }, // Red
     {
       label: "Outgoing Orders",
       percentage: sellerDashboard?.outgoingOrdersCount,
-      color: "orange",
+      color: "text-blue2",
       grid: "productsOrdered",
     }, // Yellow
 
     {
       label: "Total Incoming Order Value",
       percentage: `$${(sellerDashboard?.totalSaleValue || 0).toFixed(2)}`,
-      color: "blue",
+      color: "text-blue2",
       grid: "customersOrdered",
     },
     {
       label: "Total Outgoing Order Value",
       percentage: `$${(sellerDashboard?.totalPurchaseValue || 0).toFixed(2)}`,
-      color: "purple",
+      color: "text-blue2",
       grid: "customersOrdered",
     },
     // {
@@ -197,7 +197,7 @@ const LayoutSellerDashboard = () => {
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
       <div className="w-[95%] sm:w-full h-full mt-8 ">
         <div className="flex justify-center sm:justify-between">
-          <h1 className="text-[22px] text-blue-900 font-semibold ml-2">
+          <h1 className="text-[22px] text-blue2 font-semibold ml-2">
             {/* Seller Dashboard */}
             {getHeading()}
           </h1>

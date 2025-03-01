@@ -101,7 +101,7 @@
 // //               </div>
 // //             </div>
 // //             <table className="min-w-full bg-white border border-gray-200">
-// //               <thead className="bg-blue-900 text-white">
+// //               <thead className="bg-blue text-white">
 // //                 <tr className="text-left">
 // //                   <th className="py-2 px-4 border-b">Interval</th>
 // //                   <th className="py-2 px-4 border-b">Orders</th>
@@ -272,7 +272,7 @@
 //               </div>
 //             </div>
 //             <table className="min-w-full bg-white border border-gray-200">
-//               <thead className="bg-blue-900 text-white">
+//               <thead className="bg-blue text-white">
 //                 <tr className="text-left">
 //                   <th className="py-2 px-4 border-b">Interval</th>
 //                   <th className="py-2 px-4 border-b">Orders</th>
@@ -430,7 +430,7 @@
 //               </div>
 //             </div>
 //             <table className="min-w-full bg-white border border-gray-200">
-//               <thead className="bg-blue-900 text-white">
+//               <thead className="bg-blue text-white">
 //                 <tr className="text-left">
 //                   <th className="py-2 px-4 border-b">Interval</th>
 //                   <th className="py-2 px-4 border-b">Orders</th>
@@ -686,7 +686,7 @@ useEffect(() => {
             </div>
             <div className="overflow-x-auto">
               <table className="bg-white border border-gray-200 w-full px-4 py-2">
-                <thead className="bg-blue-900 text-white">
+                <thead className="bg-blue text-white">
                   <tr>
                     <th className="py-2 px-4 border-b">Date</th>
                     <th className="py-2 px-4 border-b">Orders</th>

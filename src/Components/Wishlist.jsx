@@ -205,12 +205,12 @@ function Wishlist({ topMargin, addCart }) {
                   </div>
                 </div>
                 <div className="flex flex-col items-center justify-center mt-4 md:mt-0">
-                  {/* <button className="text-sm md:text-lg font-semibold text-white bg-blue-900 w-28 md:w-36 h-9 flex justify-center items-center rounded-full" onClick={() => handleCart(item.product.productID)}>
+                  {/* <button className="text-sm md:text-lg font-semibold text-white bg-blue w-28 md:w-36 h-9 flex justify-center items-center rounded-full" onClick={() => handleCart(item.product.productID)}>
                     <img src={cart} className="w-4 md:w-5 h-4 md:h-5 mx-1" />
                     ADD
                   </button> */}
                   <button
-                    className={`text-sm md:text-lg font-semibold text-white ${item.product.amountInStock > 0 ? 'bg-blue-900' : 'bg-gray-300 cursor-not-allowed'
+                    className={`text-sm md:text-lg font-semibold text-white ${item.product.amountInStock > 0 ? 'bg-blue' : 'bg-gray-300 cursor-not-allowed'
                       } w-28 md:w-36 h-9 flex justify-center items-center rounded-full`}
                     onClick={() => {
                       if (item.product.amountInStock > 0) handleCart(item.product.productID);
@@ -234,7 +234,7 @@ function Wishlist({ topMargin, addCart }) {
                   {showPopup && (
                      <div className="flex flex-col justify-center items-center h-full absolute inset-0 bg-transparent z-auto">
                      <div className="border w-3/4 md:w-[40%] lg:w-[36%] md:ml-20 rounded-lg bg-gray-100">
-                       <div className="flex justify-between items-center bg-blue-900 border-b p-2">
+                       <div className="flex justify-between items-center bg-blue border-b p-2">
                          <p className="font-bold text-sm md:text-base md:flex-wrap text-white">Add comment, quantity, priority</p>
                          <img src={cross} className="hover:text-red-500 w-3 cursor-pointer" onClick={handlePopupToggle} />
                        </div>
@@ -269,7 +269,7 @@ function Wishlist({ topMargin, addCart }) {
                          <button className="border p-1 md:p-2 rounded-md hover:bg-red-500 hover:text-white" onClick={handlePopupToggle}>
                            Cancel
                          </button>
-                         <button className="border p-1 md:p-2 rounded-md mx-2 md:mx-4 w-12 md:w-16 bg-blue-900 text-white">
+                         <button className="border p-1 md:p-2 rounded-md mx-2 md:mx-4 w-12 md:w-16 bg-blue text-white">
                            Save
                          </button>
                        </div>
@@ -293,7 +293,7 @@ function Wishlist({ topMargin, addCart }) {
             <h2 className="text-2xl font-semibold text-gray-700">
               Your wishlist is currently empty.
             </h2>
-            <Link to="/allProducts" className="mt-5 px-8 py-3 font-bold text-white text-xl bg-blue-900 border-2 rounded-full">
+            <Link to="/allProducts" className="mt-5 px-8 py-3 font-bold text-white text-xl bg-blue border-2 rounded-full">
               RETURN TO SHOP
             </Link>
           </div>

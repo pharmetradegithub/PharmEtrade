@@ -196,7 +196,7 @@
 //       </div>
 //       <div className='flex justify-end p-4'>
 //       <button
-//         className='border font-bold text-[15px] rounded-lg p-2 px-4 h-8 flex justify-center items-center bg-blue-900 text-white '
+//         className='border font-bold text-[15px] rounded-lg p-2 px-4 h-8 flex justify-center items-center bg-blue text-white '
 //         onClick={handleSubmit}
 //       >
 //         SAVE
@@ -501,7 +501,7 @@ function LayoutFedexshipping() {
         <Notification show={notification.show} message={notification.message} />
       )}
       <div className="flex justify-between border-b border-black my-2 md:my-5 p-4">
-        <h1 className="text-base md:text-xl text-blue-900 font-semibold">Manage Fedex Configuration</h1>
+        <h1 className="text-base md:text-xl text-blue2 font-semibold">Manage Fedex Configuration</h1>
       </div>
       <div className="w-full md:w-[80%] xl:w-[60%]  border rounded-md shadow-md flex flex-col justify-center">
         <div className="w-full ml-2 md:ml-6 flex flex-col  justify-center">
@@ -619,7 +619,7 @@ function LayoutFedexshipping() {
         </div>
         <div className="flex justify-end p-4">
           <button
-            className="border font-bold text-[15px] rounded-lg p-2 px-4 h-8 flex justify-center items-center bg-blue-900 text-white"
+            className="border font-bold text-[15px] rounded-lg p-2 px-4 h-8 flex justify-center items-center bg-blue text-white"
             onClick={handleSave}
             disabled={!isEditable} // Disable the save button if not in edit mode
           >

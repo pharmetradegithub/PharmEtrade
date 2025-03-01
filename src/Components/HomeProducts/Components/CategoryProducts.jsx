@@ -280,7 +280,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
-      <div className=" flex justify-between bg-blue-900 p-1 rounded-lg mt-10 md:mt-0">
+      <div className=" flex justify-between bg-blue p-1 rounded-lg mt-10 md:mt-0">
         <div className="text-xl flex items-center pl-2 text-white">
           {/* {{Heading} ? Heading : "All Products"} */}
           <div>{productCriteria[0]?.productCategory?.categoryName}</div>
@@ -441,7 +441,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                 </div>
 
                 {/* <div
-                  className="flex bg-blue-900 p-1 cursor-pointer rounded-md justify-center"
+                  className="flex bg-blue p-1 cursor-pointer rounded-md justify-center"
                   onClick={() => handleCart(item.productID)}
                 >
                   <img
@@ -455,7 +455,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                   className={`flex p-1 rounded-md justify-center ${
                     item.amountInStock <= 0
                       ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-blue-900 cursor-pointer"
+                      : "bg-blue cursor-pointer"
                   }`}
                   onClick={() => {
                     if (item.amountInStock > 0) {

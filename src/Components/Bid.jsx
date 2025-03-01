@@ -401,7 +401,7 @@ const Bid = ({ topMargin }) => {
             <button
               type="submit"
               onClick={(e) => handleSubmit(e)}
-              className="mt-6 font-semibold px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-700"
+              className="mt-6 font-semibold px-4 py-2 bg-blue text-white rounded-md hover:bg-blue2-700"
             >
               Request For Quote
             </button>

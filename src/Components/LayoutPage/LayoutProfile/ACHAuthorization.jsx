@@ -146,7 +146,7 @@ import { fetchAddAch, fetchGetAchCustomer, fetchUpdateAch } from '../../../Api/A
 //       <h1 className="text-xl text-blue-900 font-semibold mx-6 py-4">ACH Authorization</h1>
 //       <div className={`bg-white border ${isTabEdit ? 'border-blue-900' : 'border-gray-400'} rounded-lg px-8 mx-6 w-[80%] mt-8 relative`}>
 //         {isTabEdit && (
-//           <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+//           <h1 className="absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md">
 //             ACH Authorization
 //           </h1>
 //         )}
@@ -247,7 +247,7 @@ import { fetchAddAch, fetchGetAchCustomer, fetchUpdateAch } from '../../../Api/A
 //           </div>
 //           <div className="flex justify-end py-2">
 //             <button
-//               className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit ? "opacity-50 cursor-not-allowed" : ""
+//               className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit ? "opacity-50 cursor-not-allowed" : ""
 //                 }`}
 //               onClick={handleTabSave}
 //               disabled={!isTabEdit}
@@ -478,17 +478,17 @@ function ACHAuthorization() {
 
   return (
     <div>
-      <h1 className="text-xl text-blue-900 font-semibold mx-6 py-4">ACH Authorization</h1>
-      <div className={`bg-white border ${isTabEdit ? 'border-blue-900' : 'border-gray-400'} rounded-lg px-8 mx-6 w-[80%] mt-8 relative`}>
+      <h1 className="text-blue2 text-xl text-blue2 font-semibold mx-6 py-4">ACH Authorization</h1>
+      <div className={`bg-white border ${isTabEdit ? 'border-blue2' : 'border-gray-400'} rounded-lg px-8 mx-6 w-[80%] mt-8 relative`}>
         {isTabEdit && (
-          <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+          <h1 className="text-blue2 absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md">
             ACH Authorization
           </h1>
         )}
 
         <div className="flex justify-between my-2">
           <div className='flex flex-col'>
-            <h1 className={`text-base md:text-xl font-semibold my-2 ${isTabEdit ? 'invisible' : 'text-blue-900'}`}>
+            <h1 className={`text-base md:text-xl font-semibold my-2 ${isTabEdit ? 'invisible' : 'text-blue2'}`}>
               ACH Authorization
             </h1>
             <p>I hereby authorize IBG Drugs LLC d/b/a PharmEtrade to initiate entries to my checking/savings accounts at the financial institution listed below (THE FINANCIAL INSTITUTION), and, if necessary, initiate adjustments for any transactions credited/debited in error.<br />
@@ -590,7 +590,7 @@ function ACHAuthorization() {
           </div>
           <div className="flex justify-end py-2">
             <button
-              className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit || !isFormValid() ? "opacity-50 cursor-not-allowed" : ""
+              className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit || !isFormValid() ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               onClick={handleTabSave}
               disabled={!isTabEdit || !isFormValid()} // Disable if not in edit mode or form is invalid

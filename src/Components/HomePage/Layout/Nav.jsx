@@ -159,7 +159,7 @@
 //           You have logged in as a buyer. Please contact us at{" "}
 //           <a
 //             href="mailto:help@pharmetrade.com"
-//             className="text-blue-900 underline"
+//             className="text-blue underline"
 //           >
 //             help@pharmetrade.com
 //           </a>
@@ -374,9 +374,9 @@
 //               <div className="flex gap-3 justify-around h-full items-center">
 //                 {MenuItems.map((item, index) => (
 //                   <li
-//                     className={`text-blue-900 hover:bg-slate-200 rounded-md flex justify-center p-1 px-1 items-center w-fit cursor-pointer font-medium text-[17px] ${
+//                     className={`text-blue hover:bg-slate-200 rounded-md flex justify-center p-1 px-1 items-center w-fit cursor-pointer font-medium text-[17px] ${
 //                       selectedIndex === index
-//                         ? "bg-slate-200 hover:text-blue-900 text-blue-900 border-0 font-semibold"
+//                         ? "bg-slate-200 hover:text-blue text-blue border-0 font-semibold"
 //                         : "border-transparent border-2"
 //                     }`}
 //                     key={index} // Use index as the key if item doesn't have a unique id
@@ -402,7 +402,7 @@
 //                       className="w-4 md:w-6 lg:w-8 h-8"
 //                       alt="clickable"
 //                     />
-//                     <div className="text-blue-900 hover:cursor-pointer ">
+//                     <div className="text-blue hover:cursor-pointer ">
 //                       {user ? (
 //                         <>
 //                           <div className="text-base font-medium ">
@@ -433,14 +433,14 @@
 //                             >
 //                               <Link
 //                                 to="/login"
-//                                 className="bg-blue-900 text-white rounded  w-32 py-1 block text-center"
+//                                 className="bg-blue text-white rounded  w-32 py-1 block text-center"
 //                               >
 //                                 Logout
 //                               </Link>
 //                             </li>
 //                           ) : (
 //                             <a
-//                               className="bg-blue-900 text-white py-1 hover:cursor-pointer px-2 rounded block text-center "
+//                               className="bg-blue text-white py-1 hover:cursor-pointer px-2 rounded block text-center "
 //                               onClick={() => handleRedirect()}
 //                             >
 //                               Sign In
@@ -458,7 +458,7 @@
 //                             onClick={handlesignup}
 //                           >
 //                             New User?{" "}
-//                             <span className="text-blue-900 hover:text-red-500 hover:underline">
+//                             <span className="text-blue hover:text-red-500 hover:underline">
 //                               Sign Up
 //                             </span>
 //                           </p>
@@ -476,7 +476,7 @@
 //                               <li className="mb-1">
 //                                 <a
 //                                   href="#"
-//                                   className="text-lg text-blue-900"
+//                                   className="text-lg text-blue"
 //                                   onClick={handleorder}
 //                                 >
 //                                   Order List
@@ -485,7 +485,7 @@
 //                               <li className="">
 //                                 <a
 //                                   href="#"
-//                                   className="text-blue-900"
+//                                   className="text-blue"
 //                                   onClick={handleclick}
 //                                 >
 //                                   Wishlist
@@ -504,12 +504,12 @@
 //                     <Tooltip title="Cart" placement="top">
 //                       <img
 //                         src={cartNav}
-//                         className="w-1 md:w-3 lg:w-5 xl:w-7 pt-2 h-3 md:h-5 lg:h-7 xl:h-9 text-blue-900 hover:text-gray-400 hover:scale-110 duration-500"
+//                         className="w-1 md:w-3 lg:w-5 xl:w-7 pt-2 h-3 md:h-5 lg:h-7 xl:h-9 text-blue hover:text-gray-400 hover:scale-110 duration-500"
 //                         alt="Cart"
 //                       />
 //                     </Tooltip>
 //                   </a>
-//                   <div className="absolute text-white rounded-full px-1 text-xs border bg-blue-900 top-5 right-16 font-medium">
+//                   <div className="absolute text-white rounded-full px-1 text-xs border bg-blue top-5 right-16 font-medium">
 //                     {cart.length}
 //                   </div>
 //                 </li>
@@ -534,7 +534,7 @@
 //           className="flex justify-evenly bg-gray-200 w-full h-fit flex-row  md:w-screen
 //            items-center text-black  border-grey-500 shadow-lg "
 //         >
-//           <div className="flex gap-5 items-center justify-around text-blue-900 text-xs p-4 w-full md:w-fit">
+//           <div className="flex gap-5 items-center justify-around text-blue text-xs p-4 w-full md:w-fit">
 //             {downDivItems.map((item, index) => (
 //               <li
 //                 key={index}
@@ -614,7 +614,7 @@
 //                       <ul onClick={() => handleCriteria(items)} key={index}>
 //                         <li className="">
 //                           <a
-//                             className="hover:text-black cursor-pointer text-sm font-medium text-blue-900"
+//                             className="hover:text-black cursor-pointer text-sm font-medium text-blue"
 //                             onClick={() => handleItemClick(items.categoryName)}
 //                             onMouseLeave={handleCatMouseLeave}
 //                           >
@@ -629,7 +629,7 @@
 //                       <ul onClick={() => handleCriteria(items)} key={index}>
 //                         <li>
 //                           <a
-//                             className="hover:text-black ml-2 cursor-pointer text-sm font-medium text-blue-900"
+//                             className="hover:text-black ml-2 cursor-pointer text-sm font-medium text-blue"
 //                             onClick={() => handleItemClick(items.categoryName)}
 //                             onMouseLeave={handleCatMouseLeave}
 //                           >
@@ -651,7 +651,7 @@
 //                     <ul onClick={() => handleCriteria({ categoryName: "All" })}>
 //                       <li className="">
 //                         <a
-//                           className="hover:text-black cursor-pointer text-sm font-medium text-blue-900"
+//                           className="hover:text-black cursor-pointer text-sm font-medium text-blue"
 //                           onClick={() => handleItemClick("All")}
 //                           onMouseLeave={handleCatMouseLeave}
 //                         >
@@ -663,7 +663,7 @@
 //                       <ul onClick={() => handleCriteria(items)} key={index}>
 //                         <li className="">
 //                           <a
-//                             className="hover:text-black cursor-pointer text-sm font-medium text-blue-900"
+//                             className="hover:text-black cursor-pointer text-sm font-medium text-blue"
 //                             onClick={() => handleItemClick(items.categoryName)}
 //                             onMouseLeave={handleCatMouseLeave}
 //                           >
@@ -687,14 +687,14 @@
 //                 />
 //                 <button
 //                   onClick={() => handleSearchAPI()}
-//                   className="w-[40px] flex items-center justify-center p-2 bg-blue-900 text-white border-blue-500 rounded-r-md focus:outline-none container-focus"
+//                   className="w-[40px] flex items-center justify-center p-2 bg-blue text-white border-blue-500 rounded-r-md focus:outline-none container-focus"
 //                 >
 //                   <img src={search} />
 //                 </button>
 //               </div>
 //             </div>
 //           </div>
-//           <div className="flex gap-5  items-center justify-around text-blue-900 text-xs p-4 w-full md:w-fit">
+//           <div className="flex gap-5  items-center justify-around text-blue text-xs p-4 w-full md:w-fit">
 //             {downSocialItems.map((item, index) => (
 //               <li
 //                 key={index}
@@ -881,7 +881,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
           You have logged in as a buyer. Please contact us at{" "}
           <a
             href="mailto:help@pharmetrade.com"
-            className="text-blue-900 underline"
+            className="text-blue underline"
           >
             help@pharmetrade.com
           </a>
@@ -1084,7 +1084,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   };
 
   return (
-    <div
+    <nav
       ref={topDivRef}
       className=" fixed w-screen pt-1 top-0  z-10 bg-white text-grey-500"
     >
@@ -1121,7 +1121,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                   <li
                     className={`textColor hover:bg-slate-200 rounded-md flex justify-center p-1 px-1 items-center w-fit cursor-pointer font-semibold text-[17px] leading-none ${
                       selectedIndex === index
-                        ? "bg-slate-200 hover:text-blue-900 text-blue-900 border-0 font-semibold"
+                        ? "bg-slate-200 hover:text-blue text-blue border-0 font-semibold"
                         : "border-transparent border-2"
                     }`}
                     key={index}
@@ -1146,10 +1146,10 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                   >  
                     <img
                       src={add}
-                      className="w-6 md:w-6 lg:w-8 h-8"
+                      className="w-6 md:w-6 lg:w-8"
                       alt="clickable"
                     />
-                    <div className="text-blue-900 hover:cursor-pointer lg:mr-16 lg:w-">
+                    <div className="text-blue hover:cursor-pointer lg:mr-16 lg:w-">
                       {user ? (
                         <div className="textColor text-sm sm:text-xs flex flex-wrap md:text-base xl:text-lg font-semibold leading-none">
                           {user.firstName}
@@ -1173,14 +1173,14 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                             >
                               <Link
                                 to="/login"
-                                className="bg-blue-900 text-white rounded w-32 py-1 block text-center"
+                                className="bg-blue text-white rounded w-32 py-1 block text-center"
                               >
                                 Logout
                               </Link>
                             </li>
                           ) : (
                             <a
-                              className="bg-blue-900 text-white py-1 hover:cursor-pointer px-2 rounded block text-center"
+                              className="bg-blue text-white py-1 hover:cursor-pointer px-2 rounded block text-center"
                               onClick={() => handleRedirect()}
                             >
                               Sign In
@@ -1193,7 +1193,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                             onClick={handlesignup}
                           >
                             New User?{" "}
-                            <span className="text-blue-900 hover:text-green-900 hover:underline">
+                            <span className="text-blue hover:text-green-900 hover:underline">
                               Sign Up
                             </span>
                           </p>
@@ -1210,7 +1210,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                               <li className="mb-1">
                                 <a
                                   href="#"
-                                  className="text-lg text-blue-900"
+                                  className="text-lg text-blue"
                                   onClick={handleorder}
                                 >
                                   Order List
@@ -1219,7 +1219,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                               <li>
                                 <a
                                   href="#"
-                                  className="text-blue-900"
+                                  className="text-blue"
                                   onClick={handleclick}
                                 >
                                   Wishlist
@@ -1238,11 +1238,11 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                   <Tooltip title="Cart" placement="top">
                     <img
                       src={cartNav}
-                      className="w-8 h-8 md:w-9 md:h-9 lg:w-7 lg:h-7 -ml-1 text-blue-900 hover:text-gray-400 hover:scale-110 duration-500"
+                      className="w-8 h-8 md:w-9 md:h-9 lg:w-7 lg:h-7 -ml-1 text-blue hover:text-gray-400 hover:scale-110 duration-500"
                       alt="Cart"
                     />
                   </Tooltip>
-                  <div className="absolute text-white rounded-full px-1 text-xs border bg-blue-900 top-4 right-25 font-medium">
+                  <div className="absolute text-white rounded-full px-1 text-xs border bg-blue top-4 right-25 font-medium">
                     {cart.length}
                   </div>
                 </li>
@@ -1265,7 +1265,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
           {isNavOpen && (
             <div className="fixed top-0 left-0 w-[70%] h-full bg-blue-100 z-20 shadow-lg transform transition-transform duration-300">
               <div className="flex justify-between items-center p-4">
-                <h2 className="text-xl font-semibold text-blue-900">Menu</h2>
+                <h2 className="text-xl font-semibold text-blue">Menu</h2>
                 <img
                   src={backIcon} // Back icon for closing
                   className="w-5 h-5 cursor-pointer"
@@ -1277,7 +1277,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 {MenuItems.map((item, index) => (
                   <li
                     key={index}
-                    className="text-blue-900 hover:bg-slate-200 rounded-md flex justify-start p-2 cursor-pointer font-medium text-lg"
+                    className="text-blue hover:bg-slate-200 rounded-md flex justify-start p-2 cursor-pointer font-medium text-lg"
                     onClick={() => {
                       handleSelect(index);
                       setIsNavOpen(false); // Close menu on selection
@@ -1293,7 +1293,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
 
         {/* down div elemenet  */}
         <div className="flex flex-col justify-around bg-gray-200 w-full h-24 md:h-fit lg:h-fit xl:h-fit items-center text-black border-grey-500 shadow-lg md:flex-row">
-          <div className="flex gap-4 items-center text-blue-900 p-3 ml-0 lg:ml-8 w-full md:w-fit">
+          <div className="flex gap-4 items-center text-blue p-3 ml-0 lg:ml-8 w-full md:w-fit">
             {downDivItems.map((item, index) => (
               <li
                 key={index}
@@ -1404,7 +1404,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 />
                 <button
                   onClick={() => handleSearchAPI()}
-                  className="w-[40px] flex items-center justify-center p-2 bg-blue-900 text-white border-blue-500 rounded-r-md focus:outline-none"
+                  className="w-[40px] flex items-center justify-center p-2 bg-blue text-white border-blue-500 rounded-r-md focus:outline-none"
                 >
                   <img src={search} />
                 </button>
@@ -1413,7 +1413,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
           </div>
 
           {/* Social items */}
-          {/* <div className="flex gap-5 items-center mr-6 justify-around text-blue-900 p-4 w-full md:w-fit"> */}
+          {/* <div className="flex gap-5 items-center mr-6 justify-around text-blue p-4 w-full md:w-fit"> */}
             {/* {downSocialItems.map((item, index) => (
               <li
                 key={index}
@@ -1473,11 +1473,11 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
               <Tooltip title="Cart" placement="top">
                 <img
                   src={cartNav}
-                  className="lg:w-9 md:w-9 lg:ml-5 -ml-1 text-blue-900 hover:text-gray-400 hover:scale-110 duration-500"
+                  className="w-9 lg:w-9 md:w-9 lg:ml-5 -ml-1 text-blue hover:text-gray-400 hover:scale-110 duration-500"
                   alt="Cart"
                 />
               </Tooltip>
-              <div className="absolute text-white rounded-full px-1 text-sm border bg-blue-900 top-0 right-16 font-medium">
+              <div className="absolute text-white rounded-full px-1 text-sm border bg-blue top-0 right-16 font-medium">
                 {cart.length}
               </div>
             </li>
@@ -1487,7 +1487,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
           {/* </div> */}
         </div>
       </div>
-    </div>
+    </nav>
   );
 }
 

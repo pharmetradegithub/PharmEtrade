@@ -521,7 +521,7 @@
 //           <h1 className="text-[22px] text-blue-900 font-semibold">
 //             List of Orders
 //           </h1>
-//           {/* <button className="bg-blue-900 flex items-center text-white p-2 text-[15px] rounded-md">
+//           {/* <button className="bg-blue flex items-center text-white p-2 text-[15px] rounded-md">
 //             <FaPlus /> Add New Product
 //           </button> */}
 //         </div>
@@ -683,7 +683,7 @@
 //             <div className="hidden lg:block md:block">
 //               {/* Desktop View: Table layout */}
 //               <table className="w-full">
-//                 <thead className="bg-blue-900 text-white">
+//                 <thead className="bg-blue text-white">
 //                   <tr className="border-b-2">
 //                     <th className="px-4 py-2 text-left">S.NO</th>
 //                     <th className="px-4 py-2 text-left">Order Number</th>
@@ -1464,10 +1464,10 @@ function LayoutSellOrders() {
       )}
       <div className="w-[95%] h-full mt-4">
         <div className="flex justify-between">
-          <h1 className="text-[22px] text-blue-900 font-semibold">
+          <h1 className="text-[22px] text-blue2 font-semibold">
             List of Orders
           </h1>
-          {/* <button className="bg-blue-900 flex items-center text-white p-2 text-[15px] rounded-md">
+          {/* <button className="bg-blue flex items-center text-white p-2 text-[15px] rounded-md">
             <FaPlus /> Add New Product
           </button> */}
         </div>
@@ -1769,7 +1769,7 @@ function LayoutSellOrders() {
                 <div className="hidden lg:block md:block">
                   {/* Desktop View: Table layout */}
                   <table className="w-full">
-                    <thead className="bg-blue-900 text-white">
+                    <thead className="bg-blue text-white">
                       <tr className="border-b-2">
                         <th className="px-4 py-2 text-left">S.NO</th>
                         <th className="px-4 py-2 text-left">Order Number</th>

@@ -114,7 +114,7 @@
 //      <div className={`bg-white border  ${isTabEdit ? 'border-blue-900' : 'border-gray-400'} rounded-lg px-8 mx-6 w-[80%] mt-8 relative`}>
 //   {/* Conditionally display heading on the border */}
 //   {isTabEdit && (
-//     <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+//     <h1 className="absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md">
 //       Beneficiary Bank Details
 //     </h1>
 //   )}            {/* <h1 className="text-xl font-semibold text-blue-900 my-2">Address Information</h1> */}
@@ -390,8 +390,8 @@
 
 //         <div className='flex justify-end my-4'>
 //         <button
-//                     // className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold"
-//                      className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit ? "opacity-50 cursor-not-allowed" : ""}`}
+//                     // className="bg-blue text-white p-1 w-16 rounded-md font-semibold"
+//                      className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit ? "opacity-50 cursor-not-allowed" : ""}`}
 //                      // Disable button when not editable
 //                      onClick={handletabesave} >Save</button>        </div>
 //       </form>
@@ -760,7 +760,7 @@ import Notification from '../../Notification';
 //       <h1 className="text-xl text-blue-900 font-semibold mx-6 py-4">Bank Information</h1>
 //       <div className={`bg-white border ${isTabEdit ? 'border-blue-900' : 'border-gray-400'} rounded-lg px-8 mx-6 w-[80%] mt-8 relative`}>
 //         {isTabEdit && (
-//           <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+//           <h1 className="absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md">
 //             Beneficiary Bank Details
 //           </h1>
 //         )}
@@ -992,7 +992,7 @@ import Notification from '../../Notification';
 //             {isTabEdit ? (
 //               <button
 //                 type="submit"
-//                 className="bg-blue-900 text-white px-6 py-2 rounded"
+//                 className="bg-blue text-white px-6 py-2 rounded"
 //                 onClick={handleTabSave}
 //               >
 //                 Save
@@ -1003,7 +1003,7 @@ import Notification from '../../Notification';
 // <div className="flex  justify-end py-2">
                  
 //                   <button
-//                     className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit ? "opacity-50 cursor-not-allowed" : ""
+//                     className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit ? "opacity-50 cursor-not-allowed" : ""
 //                       }`}
 //                       onClick={handleTabSave}
 //                     disabled={!isTabEdit}
@@ -1013,7 +1013,7 @@ import Notification from '../../Notification';
 //                 </div> */}
 //                 <div className="flex justify-end py-2">
 //   <button
-//     className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit ? "opacity-50 cursor-not-allowed" : ""
+//     className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit ? "opacity-50 cursor-not-allowed" : ""
 //       }`}
 //     onClick={handleTabSave}
 //     disabled={!isTabEdit}
@@ -1289,16 +1289,16 @@ const BankInformation = () => {
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
-      <h1 className="text-xl text-blue-900 font-semibold mx-6 py-4">Bank Information</h1>
-      <div className={`bg-white border ${isTabEdit ? 'border-blue-900' : 'border-gray-400'} rounded-lg px-8 mx-6 w-[80%] mt-8 relative`}>
+      <h1 className="text-xl text-blue2 font-semibold mx-6 py-4">Bank Information</h1>
+      <div className={`bg-white border ${isTabEdit ? 'border-blue2' : 'border-gray-400'} rounded-lg px-8 mx-6 w-[80%] mt-8 relative`}>
         {isTabEdit && (
-          <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+          <h1 className="text-blue2 absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md">
             Beneficiary Bank Details
           </h1>
         )}
 
         <div className="flex justify-between my-2">
-          <h1 className={`text-base md:text-xl font-semibold my-2 ${isTabEdit ? 'invisible' : 'text-blue-900'}`}>
+          <h1 className={`text-base md:text-xl font-semibold my-2 ${isTabEdit ? 'invisible' : 'text-blue2'}`}>
             Beneficiary Bank Details
           </h1>
           <img src={edit} className="w-6 h-6 ml-4 cursor-pointer" onClick={handleTabClick} alt="Edit" />
@@ -1394,7 +1394,7 @@ const BankInformation = () => {
             </div>
           </div>
 
-          <h1 className=" text-base md:text-xl font-bold mb-4 text-blue-900">Check Mailing Address</h1>
+          <h1 className=" text-base md:text-xl font-bold mb-4 text-blue2">Check Mailing Address</h1>
 
           <div className="flex flex-col md:flex-row mb-4">
             <div className="mr-2 xl:ml-2">
@@ -1505,7 +1505,7 @@ const BankInformation = () => {
 
           <div className="flex justify-end py-2">
             <button
-              className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit ? "opacity-50 cursor-not-allowed" : ""
+              className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               onClick={handleTabSave}
               disabled={!isTabEdit}

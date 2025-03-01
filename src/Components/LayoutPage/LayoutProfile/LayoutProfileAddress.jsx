@@ -124,7 +124,7 @@
 //     <div className='w-full h-full'>
 //       {/* Present Address Section */}
 //       <div className='flex justify-end ml-6 mt-8'>
-//         <button className='bg-blue-900 text-white p-2 flex rounded-md' onClick={handleAddNewAddressClick}>
+//         <button className='bg-blue text-white p-2 flex rounded-md' onClick={handleAddNewAddressClick}>
 //           <img src={plus} className='w-6 h-6' alt="Add New" /> Add New Address
 //         </button>
 //       </div>
@@ -132,7 +132,7 @@
 //       <div className={`bg-white border  ${isTabEdit ? 'border-blue-900' : 'border-gray-400'} rounded-lg px-8 mx-6 w-[90%] mt-8 relative`}>
 //   {/* Conditionally display heading on the border */}
 //   {isTabEdit && (
-//     <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+//     <h1 className="absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md">
 //       Address 
 //     </h1>
 //   )}            {/* <h1 className="text-xl font-semibold text-blue-900 my-2">Address Information</h1> */}
@@ -235,7 +235,7 @@
 //           <div className='flex flex-col justify-between py-4'>
 //             <img src={edit} className='w-6 h-6' alt="Edit" onClick={() => setIsTabEdit(true)} />
 //             <button
-//               className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit ? "opacity-50 cursor-not-allowed" : ""}`}
+//               className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit ? "opacity-50 cursor-not-allowed" : ""}`}
 //               onClick={() => setIsTabEdit(false)}
 //               disabled={!isTabEdit}
 //             >
@@ -634,7 +634,7 @@
 // //       {/* Present Address Section */}
 // //       <div className='flex justify-between ml-6 mt-8'>
 // //         <h1 className='text-xl text-blue-900 font-semibold'>Present Address</h1>
-// //         <button className='bg-blue-900 text-white p-2 flex rounded-md' onClick={handleAddNewAddressClick}>
+// //         <button className='bg-blue text-white p-2 flex rounded-md' onClick={handleAddNewAddressClick}>
 // //           <img src={plus} className='w-6 h-6' alt="Add New" /> Add New Address
 // //         </button>
 // //       </div>
@@ -705,7 +705,7 @@
 // //         <div className='flex flex-col justify-between py-4'>
 // //           <img src={edit} className='w-6 h-6' alt="Edit" onClick={() => setIsTabEdit(true)} />
 // //           <button
-// //             className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit ? "opacity-50 cursor-not-allowed" : ""}`}
+// //             className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit ? "opacity-50 cursor-not-allowed" : ""}`}
 // //             onClick={() => setIsTabEdit(false)}
 // //             disabled={!isTabEdit}
 // //           >

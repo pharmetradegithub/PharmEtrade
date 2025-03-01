@@ -485,7 +485,7 @@ const dispatch = useDispatch()
         </div>
         <button
           onClick={handleAddBanners}
-          className="bg-blue-900 text-white px-6 mx-4 py-2 rounded"
+          className="bg-blue text-white px-6 mx-4 py-2 rounded"
         >
           Save Offers
         </button>

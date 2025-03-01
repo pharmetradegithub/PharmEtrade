@@ -1441,7 +1441,7 @@ const EditSellerList = () => {
         {/* Primary Grid */}
         {visibleGrid === "primary" && (
           <div>
-            <h1 className="text-xl text-blue-900 font-semibold mt-4 ml-6 ">
+            <h1 className="text-xl text-blue2 font-semibold mt-4 ml-6 ">
               Primary
             </h1>
 
@@ -1451,7 +1451,7 @@ const EditSellerList = () => {
               } rounded-lg px-8 w-[90%] mt-8 relative`}
             >
               {isEditable && (
-                <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+                <h1 className="absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md">
                   User Information
                 </h1>
               )}
@@ -1535,7 +1535,7 @@ const EditSellerList = () => {
                     alt="Edit" // Add alt text for accessibility
                   />
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                    className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${
                       !isEditable ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                     onClick={handleSaveClick}
@@ -1555,7 +1555,7 @@ const EditSellerList = () => {
               } rounded-lg px-8 w-[90%] mt-8 relative`}
             >
               {isUserEditable && (
-                <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+                <h1 className="absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md">
                   User Type
                 </h1>
               )}
@@ -1651,7 +1651,7 @@ const EditSellerList = () => {
                     alt="Edit" // Add alt text for accessibility
                   />
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                    className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${
                       !isUserEditable ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                     onClick={handleUserSaveClick}
@@ -1672,7 +1672,7 @@ const EditSellerList = () => {
               } rounded-lg px-8 w-[90%] mt-8 relative`}
             >
               {isAddressEdit && (
-                <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+                <h1 className="absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md">
                   Address Information
                 </h1>
               )}
@@ -1905,7 +1905,7 @@ const EditSellerList = () => {
                     onClick={handleAddressEditClick} // Handle edit icon click
                   />
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                    className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${
                       !isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                     onClick={handleAddressSaveClick}
@@ -1923,7 +1923,7 @@ const EditSellerList = () => {
                 } rounded-lg px-8 w-[90%] mt-8 relative mb-4`}
               >
                 {isAccountEdit && (
-                  <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+                  <h1 className="absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md">
                     Account Information
                   </h1>
                 )}
@@ -2159,8 +2159,8 @@ const EditSellerList = () => {
                       onClick={handleAccountEditClick}
                     />
                     <button
-                      // className="bg-blue-900 text-white p-1 w-16 rounded-md font-semibold"
-                      className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                      // className="bg-blue text-white p-1 w-16 rounded-md font-semibold"
+                      className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${
                         !isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
                       }`}
                       // Disable button when not editable
@@ -2200,7 +2200,7 @@ const EditSellerList = () => {
                 onClick={handleCommentSaveClick}
                 className={`w-1/5 m-2 py-2 px-4 rounded-lg transition duration-200 ${
                   usercomment.trim()
-                    ? "bg-blue-900 text-white hover:bg-blue-800"
+                    ? "bg-blue text-white hover:bg-blue-800"
                     : "bg-gray-400 text-gray-200 cursor-not-allowed"
                 }`}
                 disabled={!usercomment.trim()} // Disable if comments are empty
@@ -2221,7 +2221,7 @@ const EditSellerList = () => {
                 onClick={handleCommentSaveClick}
                 className={`w-1/5 m-2 py-2 px-4 rounded-lg transition duration-200 ${
                   currentComment.trim()
-                    ? "bg-blue-900 text-white hover:bg-blue-800"
+                    ? "bg-blue text-white hover:bg-blue-800"
                     : "bg-gray-400 text-gray-200 cursor-not-allowed"
                 }`}
                 disabled={!currentComment.trim()} // Disable if input is empty
@@ -2315,7 +2315,7 @@ const EditSellerList = () => {
                     <Button onClick={handleClosePopup} className="bg-red-500">
                       Cancel
                     </Button>
-                    <Button onClick={handleSave} className="bg-blue-900">
+                    <Button onClick={handleSave} className="bg-blue">
                       Save
                     </Button>
                   </DialogActions>
@@ -2324,7 +2324,7 @@ const EditSellerList = () => {
                 <Button
                   // variant="filled" // Replaced "contained" with "filled"
                   // color="default"
-                  className="mr-2  bg-blue-900 text-white"
+                  className="mr-2  bg-blue text-white"
                   // onClick={handleSendEmail} // Function to handle sending email
                 >
                   Send Email

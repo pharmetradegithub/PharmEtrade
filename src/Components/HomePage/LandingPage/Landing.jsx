@@ -48,7 +48,7 @@ function Landing({ topMargin, wishList, addCart }) {
                   
                     <Link to={item.navigateUrl}>
                       <button
-                        className={`text-white py-6 px-10 bg-blue-900 cursor-pointer rounded-lg font-semibold absolute left-[55%] bottom-[34%]`}
+                        className={`text-white py-6 px-10 bg-blue cursor-pointer rounded-lg font-semibold absolute left-[55%] bottom-[34%]`}
                       >
                         Show Now
                       </button>

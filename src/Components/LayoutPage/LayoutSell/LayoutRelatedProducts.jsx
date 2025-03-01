@@ -544,12 +544,12 @@
 //             />
 //           </div>
 //           {/* <div className="my-4 flex">
-//             <button className="bg-blue-900 text-white p-2 mx-2 border rounded-md">
+//             <button className="bg-blue text-white p-2 mx-2 border rounded-md">
 //               APPLY FILTER
 //             </button>
 //             <button
 //               onClick={handleCriteria}
-//               className="bg-blue-900 p-2 mx-1 text-white border rounded-md"
+//               className="bg-blue p-2 mx-1 text-white border rounded-md"
 //             >
 //               {" "}
 //               RESET
@@ -558,14 +558,14 @@
 //           <div className="my-4 flex">
 //             <button
 //               onClick={handleCriteria}
-//               className="bg-blue-900 text-white p-2 mx-2 border rounded-md"
+//               className="bg-blue text-white p-2 mx-2 border rounded-md"
 //             >
 //               APPLY FILTER
 //             </button>
 //             <button
 //               // onClick={() => setFormData(initialFormState)}
 //               onClick={() => handleReset()}
-//               className="bg-blue-900 p-2 mx-1 text-white border rounded-md"
+//               className="bg-blue p-2 mx-1 text-white border rounded-md"
 //             >
 //               RESET
 //             </button>
@@ -576,7 +576,7 @@
 //       <div className={`${loading == true ? "hidden" : "false"}`}>
 //         <div className="my-6 border w-full Largest:w-[60%] rounded-md bg-white h-auto overflow-scroll">
 //           <table className="w-full">
-//             <thead className="bg-blue-900 text-white">
+//             <thead className="bg-blue text-white">
 //               <tr className="border-b font-semibold">
 //                 {/* <th className=" p-4  text-left text-sm  w-32">
 //                         <select className="text-black">
@@ -756,7 +756,7 @@
 //       <div>
 //         <div className="my-6 border w-full Largest:w-[60%] rounded-md bg-white ">
 //           <table className="w-full">
-//             <thead className="bg-blue-900 text-white">
+//             <thead className="bg-blue text-white">
 //               <tr className="border-b font-semibold">
 //                 <th className=" p-4  text-left text-sm  w-16">
 //                   <select className="text-black">
@@ -835,7 +835,7 @@
 
 //         <div className="my-6 border rounded-md bg-white w-full Largest:w-[60%] ">
 //           <table className="w-full">
-//             <thead className="bg-blue-900 text-white  ">
+//             <thead className="bg-blue text-white  ">
 //               <tr className="border-b font-semibold">
 //                 <th className=" p-4  text-left text-sm  w-16">
 //                   <select className="text-black">
@@ -911,7 +911,7 @@
 
 //       <div className="my-6 border rounded-md bg-white w-full Largest:w-[60%]">
 //         <table className="w-full">
-//           <thead className="bg-blue-900 text-white  ">
+//           <thead className="bg-blue text-white  ">
 //             <tr className="border-b font-semibold">
 //               <th className=" p-4  text-left text-sm   w-16">
 //                 <select className="text-black">
@@ -1656,12 +1656,12 @@ const LayoutRelatedProducts = () => {
             />
           </div>
           {/* <div className="my-4 flex">
-            <button className="bg-blue-900 text-white p-2 mx-2 border rounded-md">
+            <button className="bg-blue text-white p-2 mx-2 border rounded-md">
               APPLY FILTER
             </button>
             <button
               onClick={handleCriteria}
-              className="bg-blue-900 p-2 mx-1 text-white border rounded-md"
+              className="bg-blue p-2 mx-1 text-white border rounded-md"
             >
               {" "}
               RESET
@@ -1670,14 +1670,14 @@ const LayoutRelatedProducts = () => {
           <div className="my-4 flex">
             <button
               onClick={handleCriteria}
-              className="bg-blue-900 text-white p-2 mx-2 border rounded-md"
+              className="bg-blue text-white p-2 mx-2 border rounded-md"
             >
               APPLY FILTER
             </button>
             <button
               // onClick={() => setFormData(initialFormState)}
               onClick={() => handleReset()}
-              className="bg-blue-900 p-2 mx-1 text-white border rounded-md"
+              className="bg-blue p-2 mx-1 text-white border rounded-md"
             >
               RESET
             </button>
@@ -1688,7 +1688,7 @@ const LayoutRelatedProducts = () => {
       <div className={`${loading == true ? "hidden" : "false"}`}>
         <div className="my-6 border w-full Largest:w-[60%] rounded-md bg-white h-auto overflow-scroll">
           <table className="w-full">
-            <thead className="bg-blue-900 text-white">
+            <thead className="bg-blue text-white">
               <tr className="border-b font-semibold">
                 {/* <th className=" p-4  text-left text-sm  w-32">
                         <select className="text-black">
@@ -1872,7 +1872,7 @@ const LayoutRelatedProducts = () => {
       <div>
         <div className="my-6 border w-full Largest:w-[60%] rounded-md bg-white ">
           <table className="w-full">
-            <thead className="bg-blue-900 text-white">
+            <thead className="bg-blue text-white">
               <tr className="border-b font-semibold">
                 {/* <th className=" p-4  text-left text-sm  w-16">
                   <select className="text-black">
@@ -1958,7 +1958,7 @@ const LayoutRelatedProducts = () => {
 
         <div className="my-6 border rounded-md bg-white w-full Largest:w-[60%] ">
           <table className="w-full">
-            <thead className="bg-blue-900 text-white  ">
+            <thead className="bg-blue text-white  ">
               <tr className="border-b font-semibold">
                 {/* <th className=" p-4  text-left text-sm  w-16">
                   <select className="text-black">
@@ -2042,7 +2042,7 @@ const LayoutRelatedProducts = () => {
 
       <div className="my-6 border rounded-md bg-white w-full Largest:w-[60%]">
         <table className="w-full">
-          <thead className="bg-blue-900 text-white  ">
+          <thead className="bg-blue text-white  ">
             <tr className="border-b font-semibold">
               {/* <th className=" p-4  text-left text-sm   w-16">
                 <select className="text-black">

@@ -8,7 +8,7 @@ import LayoutNav from "./LayoutNav";
 function LayoutPanel({ cartItems }) {
   return (
     // <div className="flex w-screen h-screen overflow-hidden bg-gray-100">
-    //   <div className="w-64 h-full bg-blue-900">
+    //   <div className="w-64 h-full bg-blue">
     //     <LayoutSidebar />
     //   </div>
     //   <div
@@ -21,7 +21,7 @@ function LayoutPanel({ cartItems }) {
 
     <div className="flex w-screen h-screen overflow-x-hidden bg-gray-100">
       {/* Sidebar */}
-      <div className="w-14 lg:w-64 h-full bg-blue-900">
+      <div className="w-14 lg:w-64 h-full bg-blue">
         <LayoutSidebar />
       </div>
 

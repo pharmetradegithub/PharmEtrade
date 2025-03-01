@@ -44,7 +44,7 @@ const AccountSideBar = () => {
   };
 
   return (
-    <div className={` p-4 absolute h-[calc(100%-80px)] bg-blue-900 font-normal overflow-scroll shadow-lg font-ubuntu ${isCollapsed ? 'min-w-16 items-center' : 'min-w-64'}`}>
+    <div className={` p-4 absolute h-[calc(100%-80px)] bg-blue font-normal overflow-scroll shadow-lg font-ubuntu ${isCollapsed ? 'min-w-16 items-center' : 'min-w-64'}`}>
       <div className="flex medium:hidden items-center justify-end p-2">
         <button onClick={toggleCollapse} className="text-white hover:text-blue-900">
           {/* {isCollapsed ? 'Collapsed' : 'Expanded'} */}

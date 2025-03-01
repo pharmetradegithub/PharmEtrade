@@ -40,7 +40,7 @@ function  FedexShipping() {
       <div className='flex justify-between border-b border-black my-5 p-4'>
         <h1 className='text-xl text-blue-900 font-semibold'>Manage Fedex Configuration</h1>
         <button 
-          className='border font-bold text-[15px] rounded-lg p-2 px-4 h-8 flex justify-center items-center bg-blue-900 text-white '
+          className='border font-bold text-[15px] rounded-lg p-2 px-4 h-8 flex justify-center items-center bg-blue text-white '
           onClick={handleSubmit}
         >
           SAVE

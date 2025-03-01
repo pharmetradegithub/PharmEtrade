@@ -157,7 +157,7 @@ function LayoutCustomers() {
     <div className="bg-gray-100 w-full h-full flex overflow-y-scroll flex-col items-center justify-center">
       <div className="w-[95%] h-full   mt-8 ">
         <div className="flex justify-between">
-          <h1 className="text-[22px] text-blue-900 font-semibold">
+          <h1 className="text-[22px] text-blue2 font-semibold">
             Marketplace Customers
           </h1>
         </div>
@@ -196,7 +196,7 @@ function LayoutCustomers() {
           <>
             <div className="border text-[15px] rounded-md overflow-x-scroll bg-white mt-4">
               <table className="w-full hidden md:table">
-                <thead className="bg-blue-900 text-white">
+                <thead className="bg-blue text-white">
                   <tr className="border-b-2">
                     <th className="px-2 py-2 text-left">S.No</th>
                     <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('customerName')}>

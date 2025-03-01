@@ -20,7 +20,7 @@ const AssignProduct = () => {
             Search For Product<span className="text-red-700"> *</span>
           </label>
           <input className="p-1 border m-2  focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400" />
-          <button className="p-1 bg-blue-900 text-white w-24 rounded-full">
+          <button className="p-1 bg-blue text-white w-24 rounded-full">
             Search
           </button>
         </div>
