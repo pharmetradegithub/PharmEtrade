@@ -153,9 +153,9 @@ import { IoIosArrowUp } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 // import linkedin from "../../../assets/linkedin_icon.png";
-import linkedin from '../assets/linkedin_icon.png'
-import facebook from "../assets/facebook_icon.png";
-import insta from "../assets/instagram_icon.png";
+import linkedin from '../assets/linkedin (1).png'
+import facebook from "../assets/facebook (1).png";
+import insta from "../assets/instagram (1).png";
 
 function Footers({ topMargin }) {
   const user = useSelector((state) => state.user?.user || []);

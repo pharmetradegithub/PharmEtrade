@@ -50,9 +50,9 @@ function PrivacyPolicy({ topMargin, setActiveStep }) {
                             <h1 className='text-blue-900 font-semibold text-xl'>2. Information We Collect
                             </h1>
                             <div className='py-2'>
-                                PharmEtrade may collect the following types of information:<br />
-                                •	Personal Information: Name, email address, phone number, and other details you provide.<br />
-                                •	Usage Data: IP addresses, browser type, operating system, and browsing activity.licensed <br />•	Cookies and Tracking Technologies: We use cookies to enhance user experience and analyze website traffic.</div>
+                                <strong> PharmEtrade may collect the following types of information: </strong><br />
+                                •	<strong>Personal Information:</strong> Name, email address, phone number, and other details you provide.<br />
+                                •	<strong>Usage Data: </strong>IP addresses, browser type, operating system, and browsing activity.licensed <br />•	<strong>Cookies and Tracking Technologies:</strong> We use cookies to enhance user experience and analyze website traffic.</div>
                             {/* <div className='py-2'>
                                 Over-the-counter (OTC) products are available for purchase without a prescription.
                                 It is your responsibility to ensure that non-prescription products are appropriate for your condition before purchasing and using them.  </div>
@@ -118,7 +118,7 @@ function PrivacyPolicy({ topMargin, setActiveStep }) {
                             <h1 className='font-semibold text-xl text-blue-900'>6. User Rights and Choices
                             </h1>
                             <div className='py-2'>
-                                You have the right to: <br />
+                                <strong>You have the right to: </strong><br />
                                 •	Access, update, or delete your personal information. <br />
                                 •	Opt out of marketing communications. <br />
                                 •	Restrict or object to data processing. <br />

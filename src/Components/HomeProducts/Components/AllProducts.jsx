@@ -237,7 +237,7 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
       )}
       <div className=" flex justify-between bg-blue p-1 rounded-lg mt-10 md:mt-0">
         <div className="text-xl pl-2 flex items-center text-white ">
-          {searchInput != null ? `Search on ${searchInput}` : "ALL PRODUCTS"}
+          {searchInput != null ? `Search on ${searchInput}` : "All Products"}
           {/* {{Heading} ? Heading : "All Products"} */}
         </div>
       </div>
@@ -262,11 +262,11 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                   className="h-7 sm:h-8 p-[6px] cursor-pointer absolute right-0 "
                   alt="Favorite Icon"
                 />
-                <img
+                {/* <img
                   src={other}
                   className="sm:h-5 sm:w-5 h-4 w-4  right-1 absolute bottom-1 text-green-700"
                   alt="Other Icon"
-                />
+                /> */}
 
                 <Link to={`/detailspage/${item.productID}`}>
                   <img
@@ -282,13 +282,13 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 <h1 className="text-fonts font-semibold">${item.salePrice?.toFixed(2)}</h1>
               </div> */}
               <div className="w-full py-1">
-                <h2 className="text-fonts h-12 text-sm sm:text-base">
+                <h2 className="text-blue2 h-12 text-sm sm:text-base">
                   {showMore[index]
                     ? item.productName
                     : `${item.productName.slice(0, 30)}`}
                   {item.productName.length > 30 && (
                     <button
-                      className="text-blue-500 ml-1"
+                      className="text-blue2 ml-1"
                       onClick={() => toggleShowMore(index)}
                     >
                       {showMore[index] ? "See Less" : " ..."}
@@ -313,10 +313,10 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 {new Date() >= new Date(item?.salePriceValidFrom) &&
                   new Date() <= new Date(item?.salePriceValidTo) ? (
                   <div className="flex items-center gap-1">
-                    <h1 className="text-fonts text-sm sm:text-base  font-semibold">
+                    <h1 className="text-blue2 text-sm sm:text-base  font-semibold">
                       ${item.salePrice?.toFixed(2)}
                     </h1>
-                    <span className="text-xs sm:text-sm line-through">
+                    <span className="text-green2 text-xs sm:text-sm line-through">
                       (${item.unitPrice?.toFixed(2)})
                     </span>
                   </div>
@@ -351,7 +351,7 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                   <span className="text-orange-500 text-lg md:text-xl lg:text-2xl">☆</span>
                 </div> */}
 
-                <div className="flex items-center mobile:items-center">
+                {/* <div className="flex items-center mobile:items-center">
                   {Array.from({ length: 5 }, (_, index) => (
                     <span
                       key={index}
@@ -363,7 +363,7 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                       {index < item.productRating ? "★" : "☆"}
                     </span>
                   ))}
-                </div>
+                </div> */}
 
 
 
@@ -371,7 +371,7 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                   {item.amountInStock <= 0 ? (
                     <p className="text-red-500 font-semibold">Out Of Stock</p>
                   ) : (
-                    <p className="text-green-600 rounded-lg font-semibold ">
+                    <p className="text-green2 rounded-lg font-semibold ">
                       In Stock - {item.amountInStock}
                     </p>
                   )}

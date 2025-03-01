@@ -50,7 +50,7 @@ function Landing({ topMargin, wishList, addCart }) {
                       <button
                         className={`text-white py-6 px-10 bg-blue cursor-pointer rounded-lg font-semibold absolute left-[55%] bottom-[34%]`}
                       >
-                        Show Now
+                      Join Now
                       </button>
                     </Link>
                   

@@ -1459,11 +1459,11 @@ function LayoutBuy({
               onChange={handleSortChange}
               className="bg-white w-auto h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center layoutBuyProducts"
             >
-              <option>Sort by</option>
-              <option>Product Ascending (A-Z)</option>
-              <option>Product Decending (Z-A)</option>
-              <option>Price Low to High</option>
-              <option>Price High to Low</option>
+              <option className="text-blue2 hover:text-green2">Sort by</option>
+              <option className="text-blue2 hover:text-green2">Product Ascending (A-Z)</option>
+              <option className="text-blue2 hover:text-green2">Product Decending (Z-A)</option>
+              <option className="text-blue2 hover:text-green2">Price Low to High</option>
+              <option className="text-blue2 hover:text-green2">Price High to Low</option>
             </select>
           </div>
         </div>
@@ -1552,7 +1552,7 @@ function LayoutBuy({
                               )}
                             </p>
                             <div className="flex w-full mt-1 gap-1">
-                              <img src={Expicon} className="w-5 h-auto" />
+                              {/* <img src={Expicon} className="w-5 h-auto" /> */}
                               <div className="flex mt-2">
                                 <p className="text-xs font-semibold">Exp.Date :</p>
                                 <p className="font-bold text-xs">
@@ -1697,7 +1697,7 @@ function LayoutBuy({
                                 999 ? (
                                 <>
 
-                                  <span className="text-center mx-1">to</span>
+                                  <span className="text-center mx-1">-</span>
 
                                   <span>
                                     {product.salePriceValidTo &&
@@ -1938,7 +1938,7 @@ function LayoutBuy({
                               <p className="text-red-500 font-semibold mt-1">Out Of Stock</p>
                             ) : (
                               <>
-                                <p className="text-gray-500 text-xs mt-1">Purchase Requirement</p>
+                                <p className="text-green2 text-xs mt-1">Purchase Requirement</p>
                                 <p className="text-red-500 text-xs mt-1 font-semibold">
                                   Min Qty - {product.minOrderQuantity} and Max Qty - {product.maxOrderQuantity}
                                 </p>
@@ -1959,7 +1959,7 @@ function LayoutBuy({
                             {/* Stock Available Display */}
                             {product.amountInStock > 0 && (
                               <div className="text-sm layoutBuyProducts sm:mt-2 mt-4">
-                                <p className="text-white p-1 layoutBuyProducts sm:w-28 w-40 text-center text-xs bg-green-600 rounded-lg small-button">
+                                <p className="text-white p-1 layoutBuyProducts sm:w-28 w-40 text-center text-xs bg-green2 rounded-lg small-button">
                                   Stock Available{" "}
                                   <span className="font-semibold text-xs text-center">
                                     {product.amountInStock}

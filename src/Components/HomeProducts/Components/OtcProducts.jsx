@@ -154,11 +154,11 @@ const OtcProducts = () => {
                   className="h-7 sm:h-8 p-[6px]  absolute right-0 "
                   alt="Favorite Icon"
                 />
-                <img
+                {/* <img
                   src={other}
                   className="h-4 sm:h-5 w-4 sm:w-5 right-1 absolute bottom-1 text-green-700"
                   alt="Other Icon"
-                />
+                /> */}
 
                 <Link to={`/detailspage/${item.productID}`}>
                   <img

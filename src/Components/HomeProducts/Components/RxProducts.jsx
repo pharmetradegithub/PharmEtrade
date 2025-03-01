@@ -167,11 +167,11 @@ const RxProducts = () => {
                   className=" h-7 sm:h-8 p-[6px]  absolute right-0 "
                   alt="Favorite Icon"
                 />
-                <img
+                {/* <img
                   src={other}
                   className="sm:h-5 sm:w-5 h-4 w-4 right-1 absolute bottom-1 text-green-700"
                   alt="Other Icon"
-                />
+                /> */}
 
                 <Link to={`/detailspage/${item.productID}`}>
                   <img
