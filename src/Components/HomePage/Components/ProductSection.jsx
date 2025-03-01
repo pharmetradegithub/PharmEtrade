@@ -257,7 +257,7 @@ import { Link, useNavigate } from "react-router-dom";
 import addcart from "../../../assets/cartw_icon.png";
 import emptyHeart from "../../../assets/Wishlist1_icon.png";
 import filledHeart from "../../../assets/wishlist2_icon.png";
-import other from "../../../assets/CompareNav2.png";
+// import other from "../../../assets/CompareNav2.png";
 import { addCartApi } from "../../../Api/CartApi";
 import { useSelector } from "react-redux";
 import Notification from "../../../Components/Notification"; // Import Notification component
@@ -425,11 +425,11 @@ const ProductSection = ({ products, heading, path, addCart, wishList }) => {
                   onClick={() => navigate(`/detailspage/${item.productID}`)}
                   alt={item.productName}
                 />
-                <img
+                {/* <img
                   src={other}
                   className="h-5 w-5 right-1 absolute bottom-1 text-green-700 "
                   alt="Other Icon"
-                />
+                /> */}
               </div>
               <div className="p-2 rounded-b-lg w-40 mobile:w-full">
                 <div className="flex justify-between flex-col font-medium">

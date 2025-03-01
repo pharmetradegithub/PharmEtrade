@@ -303,9 +303,9 @@ function Landing2({ wishList, addCart }) {
         {/* <p className="text-xl font-light xl:text-xl">
           We've designed a platform especially for you. Start saving today.
         </p> */}
-        <p>
+        {/* <p>
           <img src={line} className="w-fit h-8 mt-3" />
-        </p>
+        </p> */}
       </div>
       <div className="flex flex-col lg:flex-row md:flex-row items-center justify-evenly gap-6 -mb-8">
   <div

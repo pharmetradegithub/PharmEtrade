@@ -172,7 +172,7 @@ function LayoutSidebar() {
             <div key={index}>
               {item.children ? (
                 <div
-                  className="flex items-center justify-between p-2 text-white hover:bg-gray-400 cursor-pointer"
+                  className="flex items-center justify-between p-2 text-white hover:bg-green2 cursor-pointer"
                   onClick={() => toggleDropdown(item.label)}
                 >
                   <div className="flex font-semibold text-[15px] items-center">
@@ -195,9 +195,9 @@ function LayoutSidebar() {
                   }}
                   className={`flex items-center font-semibold text-[15px] p-2 ${
                     activeLink === item.to
-                      ? "text-white bg-gray-400"
+                      ? "text-white bg-green2"
                       : "text-white"
-                  } hover:text-white hover:bg-gray-400`}
+                  } hover:text-white hover:bg-green2`}
                 >
                   <img src={item.icon} className="w-6 h-6" alt={item.label} />
                   {!isCollapsed && <span className="ml-3">{item.label}</span>}
@@ -210,7 +210,7 @@ function LayoutSidebar() {
                       {child.children ? (
                         <div>
                           <div
-                            className="flex items-center justify-between p-2 text-white hover:bg-gray-400 cursor-pointer"
+                            className="flex items-center justify-between p-2 text-white hover:bg-green2 cursor-pointer"
                             onClick={() => toggleDropdown(child.label)}
                           >
                             <div className="flex font-semibold text-[15px] items-center">
@@ -239,9 +239,9 @@ function LayoutSidebar() {
                                     }}
                                     className={`flex items-center font-normal text-[15px] p-2 ${
                                       activeLink === subChild.to
-                                        ? "text-white bg-gray-400"
+                                        ? "text-white bg-green2"
                                         : "text-white"
-                                    } hover:text-white hover:bg-gray-400`}
+                                    } hover:text-white hover:bg-green2`}
                                   >
                                     <img
                                       src={subChild.icon}
@@ -266,9 +266,9 @@ function LayoutSidebar() {
                           }}
                           className={`flex items-center font-normal text-[15px] p-2 ${
                             activeLink === child.to
-                              ? "text-white bg-gray-400"
+                              ? "text-white bg-green2"
                               : "text-white"
-                          } hover:text-white hover:bg-gray-400`}
+                          } hover:text-white hover:bg-green2`}
                         >
                           <img
                             src={child.icon}

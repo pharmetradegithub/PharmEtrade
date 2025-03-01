@@ -172,7 +172,7 @@
 
 import React, { useEffect, useState } from "react";
 import wishlist from "../assets/Wishlist1_icon.png";
-import compare from "../assets/CompareNav2.png";
+// import compare from "../assets/CompareNav2.png";
 import next from "../assets/Next_icon.png";
 import previous from "../assets/Previous_icon.png";
 import cart from "../assets/cartw_icon.png";
@@ -362,9 +362,9 @@ const Offers = ({ topMargin, addCart, wishList }) => {
                     <img src={cart} className="w-4 h-4" alt="Cart Icon" />
                     Add to cart
                   </button>
-                  <div className="flex gap-2">
+                  {/* <div className="flex gap-2">
                     <img src={compare} className="w-5 h-5" alt="Compare Icon" />
-                  </div>
+                  </div> */}
                 </div>
               </div>
             ))}

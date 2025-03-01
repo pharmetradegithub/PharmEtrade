@@ -812,7 +812,7 @@ function Items({
                   </span>
                 ))} */}
 
-                <div className="flex items-center ml-2">
+                {/* <div className="flex items-center ml-2">
                   {[...Array(5)].map((_, index) => (
                     <svg
                       key={index}
@@ -833,8 +833,8 @@ function Items({
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.716 5.297a1 1 0 00.95.69h5.573c.969 0 1.371 1.24.588 1.81l-4.513 3.279a1 1 0 00-.364 1.118l1.716 5.297c.3.921-.755 1.688-1.54 1.118l-4.513-3.279a1 1 0 00-1.175 0l-4.513 3.279c-.785.57-1.84-.197-1.54-1.118l1.716-5.297a1 1 0 00-.364-1.118l-4.513-3.279c-.783-.57-.381-1.81.588-1.81h5.573a1 1 0 00.95-.69l1.716-5.297z" />
                     </svg>
                   ))}
-                </div>
-                <div className="text-sm mt-3 ml-1 font-bold text-yellow-400">
+                </div> */}
+                {/* <div className="text-sm mt-3 ml-1 font-bold text-yellow-400">
                   {ratings.length > 0
                     ? (
                       ratings.reduce(
@@ -845,10 +845,10 @@ function Items({
                     : "0.0"}
                   <span className="text-sm font-normal">/5</span>
                 </div>
-                {/* Display number of ratings */}
+                {/* Display number of ratings *
                 <div className="ml-2 mt-2 text-[13px]">
                   ({ratings.length} global ratings)
-                </div>
+                </div> */}
               </div>
             </div>
 
@@ -995,9 +995,9 @@ function Items({
                       alt="Wishlist Icon"
                     />
                   </Tooltip>)}
-                  <Tooltip placement="top" title="Compare">
+                  {/* <Tooltip placement="top" title="Compare">
                       <img src={compare} className="w-5 h-5 ml-2 cursor-pointer" />
-                    </Tooltip>
+                    </Tooltip> */}
                   </div>
                 </div>
                 {/* <div className="flex justify-between">
@@ -1037,7 +1037,7 @@ function Items({
                   )}
 
                   <div className="flex">
-                    <p className="text-sky-500 font-normal">NDC/UPC :  </p>
+                    <p className="text-blue2 font-normal">NDC/UPC :  </p>
                     <span className=" text-base md:text-base">
                       {prod?.ndCorUPC}
                     </span>
@@ -1045,11 +1045,11 @@ function Items({
                 </div>
                 <div className="flex flex-col">
                   <div className="flex">
-                    <p className="text-sky-500 font-normal ">SKU : </p>
+                    <p className="text-blue2 font-normal ">SKU : </p>
                     <span>6545555</span>
                   </div>
                   <div className="flex">
-                    <p className="text-sky-500 font-normal ">
+                    <p className="text-blue2 font-normal ">
                       Expiration Date : 
                     </p>
                     <span> {formattedDate}</span>
@@ -1092,14 +1092,20 @@ function Items({
                 </span>
               )}
 
-              <p className="text-red-500 ml-4 text-sm">{`Minimum Purchase Requirement: ${prod?.minOrderQuantity ?? 0}`}</p>
-              <p className="text-red-500 ml-4 text-sm mb-2">{`Maximum Purchase Limit ${prod?.maxOrderQuantity ?? 0}`}</p>
+              {/* <p className="text-green2 text-xs ml-4">Purchase Requirement</p> */}
+              {/* <p className="text-red-500 text-xs ml-4 font-semibold">
+                Min Qty - {prod?.minOrderQuantity} and Max Qty - {prod?.maxOrderQuantity}
+              </p> */}
+              <div className="flex flex-col item-center">
+                <p className="text-green2 ml-4 text-sm">Purchase Requirement</p>
+              <p className="text-red-500 ml-4 text-sm mb-2">{`Min Qty - ${prod?.minOrderQuantity ?? 0} and Max Qty -${prod?.maxOrderQuantity ?? 0}`}</p>
+              </div>
               <div className="flex gap-2 mx-2">
                 <button
                   className={`w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 
                   ${!user || prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId
                       ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-blue cursor-pointer"
+                      : "bg-blue2 cursor-pointer"
                     }`}
                   disabled={!user || prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId}
                   onClick={() => {
@@ -1119,10 +1125,10 @@ function Items({
                   Buy Now
                 </button> */}
                 <button
-                  className={`w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 
+                  className={`text-white w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 
                   ${!user || prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId
                       ? "bg-orange-200 cursor-not-allowed"
-                      : "bg-orange-400"
+                      : "bg-green2"
                     }`}
                   // onClick={handleOrder}
                   // disabled={prod?.amountInStock === 0}
@@ -1279,8 +1285,8 @@ function Items({
           </div>
         </div> */}
 
-        <div className="w-[92%] flex flex-col md:flex-row border-t-2 shadow-inner justify-start gap-8 p-4">
-          {/* Ratings Overview */}
+        {/* <div className="w-[92%] flex flex-col md:flex-row border-t-2 shadow-inner justify-start gap-8 p-4">
+          {/* Ratings Overview *
           <div className="w-full md:w-1/3">
             <h2 className="text-xl font-bold text-black mb-4">
               RATINGS & REVIEWS
@@ -1320,7 +1326,7 @@ function Items({
 
 
 
-              {/* Display number of ratings */}
+              {/* Display number of ratings *
               <div className="ml-2 text-[13px]">
                 ({ratings.length} global ratings)
               </div>
@@ -1352,7 +1358,7 @@ function Items({
             })}
           </div>
 
-          {/* Customer Reviews */}
+          {/* Customer Reviews *
           <div className="w-full md:w-2/3">
             <h2 className="text-xl font-bold text-blue-900 mb-4">
               Customers Say
@@ -1364,7 +1370,7 @@ function Items({
                     key={index}
                     className="p-4 mb-4 bg-white border border-gray-200 rounded shadow-sm"
                   >
-                    {/* Star Ratings */}
+                    {/* Star Ratings *
                     <div className="flex items-center">
                       {[...Array(5)].map((_, starIndex) => (
                         <svg
@@ -1394,7 +1400,7 @@ function Items({
               )}
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="w-[92%] border-t-2 shadow-inner ">
           <ProductSlider

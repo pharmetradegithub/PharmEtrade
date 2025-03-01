@@ -251,7 +251,7 @@ import emptyHeart from "../../../assets/Wishlist1_icon.png";
 import filledHeart from "../../../assets/wishlist2_icon.png";
 import Notification from "../../../Components/Notification"; // Import Notification component
 
-import comp from "../../../assets/CompareNav2.png";
+// import comp from "../../../assets/CompareNav2.png";
 import nature from "../../../assets/img1.png";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -383,7 +383,7 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
         <Notification show={notification.show} message={notification.message} />
       )}
       <div className="flex justify-between ml-0  font-semibold text-[22px] ">
-        <p className="textColor text-xl sm:text-xl md:text-xl lg:text-3xl">{Title}</p>
+        <p className="text-blue2 text-xl sm:text-xl md:text-xl lg:text-3xl">{Title}</p>
 
         <div className="flex justify-end mr-0 gap-2">
           <button
@@ -425,10 +425,10 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                     className="absolute h-7 w-7 right-1 p-1 cursor-pointer"
                     alt="Favorite Icon"
                   />
-                  <img
+                  {/* <img
                     src={comp}
                     className="absolute h-7 w-7 bottom-0 right-1 p-1"
-                  />
+                  /> */}
 
                   <img
                     src={item.productGallery.imageUrl}
@@ -441,7 +441,7 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                 <div className="p-2 w-48">
                   <div className="flex justify-between flex-col font-medium">
                   <h2
-                      className="text-black font-bold h-12"
+                      className="text-blue2 font-bold h-12"
                       onClick={toggleShowFull}
                     >
                       {showFull
@@ -454,10 +454,10 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                       {new Date() >= new Date(item?.salePriceValidFrom) &&
                       new Date() <= new Date(item?.salePriceValidTo) ? (
                         <div className="flex items-center gap-1">
-                          <h1 className="text-fonts font-semibold">
+                          <h1 className="text-blue2 font-semibold">
                             ${item.salePrice?.toFixed(2)}
                           </h1>
-                          <span className="text-[10px] line-through">
+                          <span className="text-[10px] text-green2 line-through">
                             (${item.unitPrice?.toFixed(2)})
                           </span>
                         </div>
@@ -473,7 +473,7 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                           Out Of Stock
                         </p>
                       ) : (
-                        <p className="text-green-900 flex gap-2 font-semibold sm:w-28 w-40 text-start text-sm  rounded-lg ">
+                        <p className="text-green2 flex gap-2 font-semibold sm:w-28 w-40 text-start text-sm  rounded-lg ">
                           In Stock -
                           <span className="font-semibold text-sm text-start">
                             {item.amountInStock}
@@ -490,7 +490,7 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                     <span style={{ fontSize: "24px", color: "orange" }}>☆</span>
                   </div> */}
 
-                  <div className="flex items-center mobile:items-center">
+                  {/* <div className="flex items-center mobile:items-center">
                     {Array.from({ length: 5 }, (_, index) => (
                       <span
                         key={index}
@@ -502,7 +502,7 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                         {index < item.productRating ? "★" : "☆"}
                       </span>
                     ))}
-                  </div>
+                  </div> */}
 
 
                   <div

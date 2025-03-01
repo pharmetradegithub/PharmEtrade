@@ -1297,7 +1297,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
             {downDivItems.map((item, index) => (
               <li
                 key={index}
-                className={`flex gap-3 items-center justify-center font-semibold hover:text-black
+                className={`flex gap-3 items-center justify-center font-semibold hover:text-green2
         ${Form_Data?.userType === 4 && item.label === "SELL" ? "hidden" : ""} ${item.label === "JOIN" ? (user ? "cursor-not-allowed" : "cursor-pointer") : "cursor-pointer"}
 
         `}
@@ -1318,7 +1318,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
 
           {/* Error message modal */}
           {errorMessage && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="fixed inset-0 flex items-center justify-center bg-green2 bg-opacity-50 z-50">
               <div className="bg-gray-100 p-4 sm:p-2 md:p-6 rounded-md shadow-md text-center w-11/12 sm:w-9/12 md:w-7/12 lg:w-4/12">
                 <div className="flex justify-start items-center border-b border-black">
                   <img
@@ -1331,7 +1331,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                   </p>
                 </div>
                 <div className="mt-4">
-                  <p className="text-black mb-4 text-sm sm:text-base md:text-lg">
+                  <p className="text-green2 mb-4 text-sm sm:text-base md:text-lg">
                     {errorMessage}
                   </p>
                   <button

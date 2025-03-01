@@ -214,11 +214,11 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
                     className="h-7 sm:h-8 p-[6px] cursor-pointer absolute right-0"
                     alt="Favorite Icon"
                   />
-                  <img
+                  {/* <img
                     src={compare}
                     className="sm:h-5 sm:w-5 h-4 w-4 right-1 cursor-pointer absolute bottom-1 text-green-700"
                     alt="Other Icon"
-                  />
+                  /> */}
                   <Link to={`/detailspage/${offer.productID}`}>
                     <img
                       src={offer.productGallery.imageUrl}
