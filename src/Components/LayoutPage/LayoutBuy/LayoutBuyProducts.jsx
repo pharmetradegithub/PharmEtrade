@@ -1442,7 +1442,7 @@ function LayoutBuy({
     }));
   };
 
-
+console.log("curree", currentItems)
   return (
     <div className="w-[95%] main-container mt-4 ml-4 h-full overflow-y-scroll">
       {notification.show && (
@@ -1457,7 +1457,7 @@ function LayoutBuy({
           <div className="flex gap-1 layoutBuyProducts">
             <select
               onChange={handleSortChange}
-              className="bg-white w-auto h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center layoutBuyProducts"
+              className="bg-white w-auto h-10 px-2 p-2 cursor-pointer text-blue2 border rounded-md items-center justify-center layoutBuyProducts"
             >
               <option className="text-blue2 hover:text-green2">Sort by</option>
               <option className="text-blue2 hover:text-green2">Product Ascending (A-Z)</option>
@@ -1551,6 +1551,40 @@ function LayoutBuy({
                                 </button>
                               )}
                             </p>
+                           
+                            <div className="flex w-full mt-1 gap-1">
+                              {/* <img src={Expicon} className="w-5 h-auto" /> */}
+                              <div className="flex mt-2">
+                                <p className="text-xs font-semibold">NDC :</p>
+                                <p className="font-bold text-xs">
+                                  {/* {product.expiryDate} */}
+                                  &nbsp;{" "}
+                                  {product.ndCorUPC}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex w-full mt-1 gap-1">
+                              {/* <img src={Expicon} className="w-5 h-auto" /> */}
+                              <div className="flex mt-2">
+                                <p className="text-xs font-semibold">
+                                  Strength :</p>
+                                <p className="font-bold text-xs">
+                                  {/* {product.expiryDate} */}
+                                  &nbsp;{" "}
+                                  {product.strength}
+                                </p>
+                              </div>
+                            </div> <div className="flex w-full mt-1 gap-1">
+                              {/* <img src={Expicon} className="w-5 h-auto" /> */}
+                              <div className="flex mt-2">
+                                <p className="text-xs font-semibold">Package Size :</p>
+                                <p className="font-bold text-xs">
+                                  {/* {product.expiryDate} */}
+                                  &nbsp;{" "}
+                                  {product.size}
+                                </p>
+                              </div>
+                            </div>
                             <div className="flex w-full mt-1 gap-1">
                               {/* <img src={Expicon} className="w-5 h-auto" /> */}
                               <div className="flex mt-2">
@@ -1725,7 +1759,7 @@ function LayoutBuy({
                         </div>
 
                         <div className="flex sm:flex-col flex-col sm:mx-3 ">
-                          <p className="font-semibold sm:ml-4 m-0">Quantity</p>
+                          <p className="font-semibold sm:ml-4 m-0 text-blue2">Quantity</p>
                           <div className="mt-2 flex ">
                             <button
                               className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
@@ -2044,7 +2078,7 @@ function LayoutBuy({
                             // ? "bg-gray-400 cursor-not-allowed"
                             // : "bg-blue cursor-pointer"
                             // }`}
-                            className={`flex layoutBuyProducts text-white h-[32px] sm:w-full w-32  small-button sm:px-2 rounded-lg sm:mt-8 justify-center  items-center ${product.amountInStock <= 0
+                            className={`flex layoutBuyProducts text-white hover:bg-green2 h-[32px] sm:w-full w-32  small-button sm:px-2 rounded-lg sm:mt-8 justify-center  items-center ${product.amountInStock <= 0
                               ? "bg-gray-400 cursor-not-allowed"
                               : "bg-blue2 cursor-pointer"
                               }`}

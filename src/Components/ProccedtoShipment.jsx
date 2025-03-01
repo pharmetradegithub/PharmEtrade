@@ -459,7 +459,7 @@ const ProccedtoShipment = ({
     //   </div>
     // </div>
     <div className="w-full h-full p-4">
-      <h1 className="text-xl font-semibold text-orange-400">2. Select shipment</h1>
+      <h1 className="text-xl font-semibold text-blue2">2. Select shipment</h1>
       <div className="flex w-full">
         <div className="w-full sm:w-[90%] md:w-[100%] lg:w-[70%] xl:w-[70%]">
           {Object.entries(groupedProducts).map(([seller, { products, sellerId }]) => {
@@ -469,7 +469,7 @@ const ProccedtoShipment = ({
 
               return(
             <div key={seller}>
-              <h2 className="font-bold text-lg mt-4">Seller: {seller}</h2>
+              <h2 className="font-bold text-lg mt-4 text-green2">Seller: {seller}</h2>
               <div className="border p-2 sm:p-4 md:p-6 my-4 min-w-full rounded-md shadow-lg bg-white">
                 <table className="min-w-full border shadow-md rounded-lg">
                   <thead>
@@ -535,7 +535,7 @@ const ProccedtoShipment = ({
 
                 {products.filter((product) => product.product.isShippingCostApplicable === false).length > 0 && (
                   <div className="h-auto p-3 border flex rounded-md mt-3">
-                    <h1 className="text-base font-semibold text-blue-900">Shipment:</h1>
+                    <h1 className="text-base font-semibold text-blue2">Shipment:</h1>
                     <div className="flex flex-col xl:flex-row">
                       <div className="mx-5">
                         <select

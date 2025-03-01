@@ -1157,21 +1157,22 @@ const Payment = ({amount}) => {
               {/* Custom Radio Button */}
               <div
                 className={`w-6 h-6 flex justify-center items-center rounded-full border-2 transition-all ${selectedPayment === "cod"
-                  ? "border-blue-500 bg-blue-500 scale-110 shadow-md"
-                  : "border-gray-400 bg-white hover:border-gray-500"
+                  ? "border-blue2 bg-blue2 scale-110 shadow-md"
+                  : "border-green2 bg-white hover:border-green2"
                   }`}
               >
                 {selectedPayment === "cod" && <div className="w-3 h-3 bg-white rounded-full"></div>}
               </div>
 
-              <span className="ml-4 text-lg text-gray-800 font-medium">Cash on Delivery</span>
+              <span className="ml-4 text-lg text-green2 font-medium">Cash on Delivery</span>
             </div>
 
             {/* Proceed Button */}
             <div className="flex justify-end mt-6">
               <button
                 className={`w-[40%] h-14 text-white text-lg font-medium rounded-full shadow-lg transition-transform ${selectedPayment
-                    ? "bg-gradient-to-r from-blue-500 to-indigo-700 hover:scale-105 hover:shadow-xl"
+              // ? "bg-gradient-to-r from-blue-500 to-indigo-700 hover:scale-105 hover:shadow-xl"
+                  ? "bg-gradient-to-r from-blue2 to-indigo-700 hover:scale-105 hover:shadow-xl"
                     : "bg-gray-400 cursor-not-allowed"
                   }`}
                 onClick={handleProceedPayment}

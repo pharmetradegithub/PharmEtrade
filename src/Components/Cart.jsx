@@ -771,12 +771,12 @@ function Cart() {
 
   return (
     <div className="flex flex-col justify-center font-sans bg-gray-200 p-8 pt-14 padding-10  main-container">
-      <p className="text-sm md:text-lg lg:text-2xl mb-2 text-blue-900 flex font-semibold">
+      <p className="text-sm md:text-lg lg:text-2xl mb-2 text-blue2 flex font-semibold">
         PharmEtrade {`>`} Cart
       </p>
       <div className="w-full bg-white rounded-lg shadow-lg md:p-5">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg md:text-xl lg:text-2xl m-3 text-blue-900 font-semibold">
+          <h2 className="text-lg md:text-xl lg:text-2xl m-3 text-blue2 font-semibold">
             Cart
           </h2>
         </div>
@@ -1248,7 +1248,7 @@ function Cart() {
             </div>
             <div className="w-full lg:w-1/3 mt-4 lg:mt-0 p-4 md:p-0 ">
               <div className="bg-white border rounded-lg shadow-lg p-5">
-                <h2 className="text-xl md:text-2xl mb-4  text-blue-900 text-center font-semibold">
+                <h2 className="text-xl md:text-2xl mb-4  text-blue2 text-center font-semibold">
                   Cart Totals
                 </h2>
                 <table className="w-full">
@@ -1268,7 +1268,7 @@ function Cart() {
                   </tbody>
                 </table>
                 <button
-                  className="w-full mt-4 px-4 py-2 font-bold text-white text-lg bg-blue rounded-full"
+                  className="w-full mt-4 px-4 py-2 font-bold text-white text-lg bg-blue2 hover:bg-green2 rounded-full"
                   onClick={handleProceed}
                 >
                   Proceed to checkout
@@ -1277,7 +1277,7 @@ function Cart() {
                   <Link to="/allProducts">Continue Shopping</Link>
                 </button> */}
                 <button
-                  className="w-full mt-2 px-4 py-2 font-bold text-black text-lg bg-slate-300 rounded-full"
+                  className="w-full mt-2 px-4 py-2 font-bold text-black text-lg bg-slate-300 hover:bg-green2 rounded-full"
                   onClick={() => navigate('/layout/layoutbuy')} // Navigate to the previous page
                 >
                   Continue Shopping
@@ -1287,12 +1287,12 @@ function Cart() {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center m-8">
-            <h2 className="text-xl font-semibold text-gray-700">
+            <h2 className="text-xl font-semibold text-blue2">
               Your cart is currently empty.
             </h2>
 
             <img src={searchimg} className="w-24 h-24 mt-4" alt="empty-cart" />
-            <button className="bg-blue text-white px-4 py-2 mt-6 rounded-lg">
+            <button className="bg-blue2 text-white px-4 py-2 mt-6 rounded-lg hover:bg-green2">
               <Link to="/allProducts">Continue Shopping</Link>
             </button>
           </div>

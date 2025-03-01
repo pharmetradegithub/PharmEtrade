@@ -48,7 +48,10 @@ function Landing({ topMargin, wishList, addCart }) {
                   
                     <Link to={item.navigateUrl}>
                       <button
-                        className={`text-white py-6 px-10 bg-blue cursor-pointer rounded-lg font-semibold absolute left-[55%] bottom-[34%]`}
+                        className={`text-black py-6 px-10 bg-white cursor-pointer rounded-lg font-semibold absolute left-[55%] bottom-[34%]`}
+                        style={{
+                          fontSize: "25px"
+                        }}
                       >
                       Join Now
                       </button>

@@ -978,7 +978,7 @@ const LayoutProfile = () => {
                 <div
                   className={`w-44 bg-white layoutBuyProducts rounded-lg flex items-center justify-center cursor-pointer ${
                     visibleGrid === profile.grid
-                      ? "border-b-4 border-blue-900"
+                      ? "border-b-4 border-blue2"
                       : ""
                   }`}
                   onClick={() => toggleGrid(profile.grid)}
@@ -1132,7 +1132,7 @@ const LayoutProfile = () => {
                 </div>
                 <div className="flex  justify-end py-2">
                   <button
-                    className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${
+                    className={`bg-blue text-white p-1 w-16 rounded-md hover:bg-green2 font-semibold ${
                       !isEditable ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                     onClick={handleSaveClick}
@@ -1474,7 +1474,7 @@ const LayoutProfile = () => {
               </div>
               <div className="flex  justify-end py-2">
                 <button
-                  className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${
+                  className={`bg-blue text-white p-1 w-16 rounded-md hover:bg-green2 font-semibold ${
                     !isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                   onClick={handleAddressSaveClick}
@@ -1832,7 +1832,7 @@ const LayoutProfile = () => {
                 </div>
                 <div className="flex  justify-end py-2">
                   <button
-                    className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${
+                    className={`bg-blue text-white p-1 w-16 rounded-md hover:bg-green2 font-semibold ${
                       !isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                     onClick={handleAccountSaveClick}

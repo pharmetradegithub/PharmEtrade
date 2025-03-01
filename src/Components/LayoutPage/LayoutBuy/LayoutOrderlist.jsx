@@ -1106,9 +1106,9 @@ function LayoutOrderList() {
             <button
               key={profile.grid}
               className={`border-b ${visibleGrid === profile.grid
-                  ? "border-red-500 text-blue-900 mobile:text-blue-900"
-                  : "hover:border-red-500 hover:text-blue-900"
-                } text-black w-60 h-9 text-xl mobile:w-full`}
+                ? "border-green2 hover:text-green2 text-blue2 mobile:text-blue2"
+                : "hover:border-green2 hover:text-green2 hover:text-blue2"
+                } text-blue2 font-semibold hover:text-green2 w-60 h-9 text-xl mobile:w-full`}
               onClick={() => toggleGrid(profile.grid)}
             >
               {profile.label}
@@ -1137,7 +1137,7 @@ function LayoutOrderList() {
                   <div className="border h-auto my-4  rounded-lg shadow-md">
                     <div className="flex flex-row display-col justify-between lg:flex-row md:flex-row  sm:justify-between  border-b pb-2 pt-2 pr-3 sm:pl-3 p-0 bg-slate-200">
                       <div className="mb-4 lg:mb-0 display-flex">
-                        <h1 className="text-sm lg:text-lg fonst-small">Order Placed</h1>
+                        <h1 className="text-sm lg:text-lg text-blue2 font-semibold fonst-small">Order Placed</h1>
                         <p className="text-sm lg:text-lg" key={index}>
                           {new Date(order.orderDate)
                             .toLocaleDateString("en-US", {
@@ -1149,7 +1149,7 @@ function LayoutOrderList() {
                         </p>
                       </div>
                       <div className="mb-4 lg:mb-0 mr-2 display-flex">
-                        <h1 className="text-sm lg:text-lg">Total</h1>
+                        <h1 className="text-sm lg:text-lg text-blue2 font-semibold">Total</h1>
                         <p className="text-sm lg:text-lg">
                           ${(
                             (order?.pricePerProduct * order?.quantity)
@@ -1158,14 +1158,14 @@ function LayoutOrderList() {
                         </p>
                       </div>
                       <div className="mb-4 lg:mb-0 display-flex">
-                        <h1 className="text-sm lg:text-lg">Ship To</h1>
+                        <h1 className="text-sm lg:text-lg text-blue2 font-semibold">Ship To</h1>
                         <p className="text-sm lg:text-lg">
                           {order.shippingContactName}
                         </p>
                       </div>
                       <div className="sm:flex flex-col lg:flex-row items-start">
                         <div className="display-flex">
-                          <h1 className="text-sm lg:text-lg">Order ID</h1>
+                          <h1 className="text-sm lg:text-lg text-blue2 font-semibold">Order ID</h1>
                           <p className="text-sm lg:text-md">{order.orderNumber}</p>
                         </div>
                         {/* <p className="text-blue-900 text-sm lg:text-md cursor-pointer p-2">
@@ -1187,7 +1187,7 @@ function LayoutOrderList() {
                     <div className="h-auto p-3 flex flex-col lg:flex-row md:flex-row gap-4">
                       {/* Left Section */}
                       <div className="w-full lg:w-2/3">
-                        <h1 className="lg:text-xl font-semibold mobile:text-sm">
+                        <h1 className="lg:text-xl text-blue2 font-semibold  mobile:text-sm">
                           Delivery Date
                         </h1>
                         {/* <p>Package was handed to resident</p> */}
@@ -1207,7 +1207,7 @@ function LayoutOrderList() {
                             alt="product"
                           />
                           <div className="ml-3">
-                            <p className="font-bold mt-2">
+                            <p className="font-bold mt-2 text-blue2">
                               {showMore[index]
                                 ? order.productName
                                 : `${order.productName.slice(0, 15)}`}
@@ -1257,20 +1257,20 @@ function LayoutOrderList() {
                       </div>
 
                       {/* Right Section */}
-                      <div className="w-full lg:w-1/3 flex flex-col items-stretch mt-4">
+                      <div className="w-full lg:w-1/3 flex flex-col items-stretch m-auto mt-10">
                         {order.trackingNumber && (
                           <button className="border rounded-lg p-2 mb-2 hover:bg-gray-400" onClick={() => handleTracking(order?.trackingNumber, order?.deliveryAddressId)}>
                             Track Package
                           </button>)}
-                        <button
+                        {/* <button
                           className="border rounded-lg p-2 mb-2 hover:bg-gray-400"
                           // onClick={() => setIsOpen(true)}
                           onClick={() => handleReview(order.productId)}
                         >
                           Write a product review
-                        </button>
+                        </button> */}
                         <button
-                          className="border rounded-lg p-2 bg-blue text-white"
+                          className="border rounded-lg p-2 bg-blue hover:bg-green2 text-white"
                           onClick={() => handleNav(order.productId)}
                         >
                           Buy it again
@@ -1368,9 +1368,9 @@ function LayoutOrderList() {
                         {order.orderedProductStatusId !== 6 && order.orderedProductStatusId !== 4 && (
                           <button
                             key={order.productId}
-                            className={`border rounded-lg p-2 ${order.orderedProductStatusId === 5 ||
+                            className={`border rounded-lg hover:bg-green2 p-2 ${order.orderedProductStatusId === 5 ||
                               cancelledOrders[order.productId]
-                              ? "bg-gray-400 cursor-not-allowed"
+                              ? "bg-green2 cursor-not-allowed"
                               : "bg-blue text-white cursor-pointer"
                               }`}
                             disabled={

@@ -160,13 +160,13 @@ const Pagination = ({
     <div className="flex flex-col md:flex-row  justify-around items-center mt-4 mobile:gap-4">
       {productList?.length > 0 ? (
         <div>
-          <span className="font-semibold text-md lg:text-lg">
+          <span className="font-semibold text-md lg:text-lg text-blue2">
             Items per page:{" "}
           </span>
           <select
             value={itemsPerPage}
             onChange={handleItemsPerPageChange}
-            className="bg-white w-auto h-10 px-2 p-2 cursor-pointer text-black border rounded-md"
+            className="bg-white w-auto h-10 px-2 p-2 cursor-pointer text-blue2 border rounded-md"
           >
             <option value={10}>10</option>
             <option value={25}>25</option>
@@ -175,7 +175,7 @@ const Pagination = ({
           </select>
         </div>
       ) : (
-        <div className="text-gray-500 font-semibold">No records </div>
+        <div className="text-green2 font-semibold">No records </div>
       )}
 
       <div className="flex -ml-2 md:-ml-0 justify-end my-2">
@@ -207,7 +207,7 @@ const Pagination = ({
           {/* {currentPage} of {totalPages} 
         </span> */}
         {productList?.length > 0 && (
-          <span className="mx-2 px-4 text-sm md:text-base mobile:p-0 mobile:m-0 flex items-center bg-white text-black rounded-lg">
+          <span className="mx-2 px-4 text-sm md:text-base mobile:p-0 mobile:m-0 flex items-center bg-white text-blue2 rounded-lg">
             Showing {indexOfFirstItem + 1}-{indexOfLastItem} of{" "}
             {productList.length}
           </span>

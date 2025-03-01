@@ -2006,7 +2006,7 @@ const Signup = () => {
           <div className="w-full flex justify-center">
             <div className="">
               Thank you for registering as
-              <span className="font-bold text-green-500"> {userType} </span>
+              <span className="font-bold text-green2"> {userType} </span>
               Your registration is under review.
               <p>
                 <p>
@@ -2015,7 +2015,7 @@ const Signup = () => {
                 </p>
                 <p>Please allow up to 48 hours for the process. </p>
                 If you have any question please contact us.{" "}
-                <span className=" cursor-pointer hover:text-green-500 hover:font-semibold text-blue-900 underline">
+                <span className=" cursor-pointer hover:text-green2 hover:font-semibold text-blue2 underline">
                   help@pharmetrade.com{" "}
                 </span>
               </p>
@@ -2051,7 +2051,7 @@ const Signup = () => {
           <div className="h-[80%]  flex justify-center items-center">
             <div className="bg-white w-[600px] px-12 py-6 rounded-lg shadow-lg mt-10">
               <span
-                className={`text-blue-900 ${activeStep == 4 ? "hidden" : ""
+                className={`text-blue2 ${activeStep == 4 ? "hidden" : ""
                   } text-[25px]  text-center font-bold     flex justify-center items-center  `}
               >
                 Sign Up
@@ -2063,7 +2063,7 @@ const Signup = () => {
                     className="flex items-center flex-1 flex-col"
                   >
                     <div
-                      className=" w-11 h-11 border rounded-full bg-blue text-white flex justify-center items-center"
+                      className=" w-11 h-11 border rounded-full bg-blue2 text-white flex justify-center items-center"
                       style={{
                         ...(activeStep === index ? activeCircleStyle : {}),
                       }}
@@ -2071,8 +2071,8 @@ const Signup = () => {
                       {index + 1}
                     </div>
                     <div className="text-base p-0 m-0">
-                      <p className="text-center">{label}</p>
-                      {para && <p className="-mt-1.5">{para}</p>}
+                      <p className="text-center text-blue2 font-semibold">{label}</p>
+                      {para && <p className="-mt-1.5 text-blue2 font-semibold">{para}</p>}
                     </div>
                   </div>
                 ))}
@@ -2083,7 +2083,7 @@ const Signup = () => {
                 <button
                   onClick={handleBack}
                   className={`${activeStep === 0 ? "opacity-50 " : ""} ${activeStep === 4 ? "hidden" : ""
-                    } bg-blue w-24 p-2 flex justify-center text-white h-10 cursor-pointer font-semibold border rounded-lg my-4 `}
+                    } bg-blue2 hover:bg-green2 w-24 p-2 flex justify-center text-white h-10 cursor-pointer font-semibold border rounded-lg my-4 `}
                 >
                   {/* <img src={back} className="w-6" /> */}
                   <div className="text-lg font-semibold text-white">BACK</div>
@@ -2091,13 +2091,13 @@ const Signup = () => {
 
                 <button
                   onClick={handleNext}
-                  className="bg-blue w-24 h-10 cursor-pointer  border rounded-lg my-4 flex items-center justify-center"
+                  className="bg-blue2 hover:bg-green2 w-24 h-10 cursor-pointer  border rounded-lg my-4 flex items-center justify-center"
                 >
                   {activeStep === 4 ? (
                     <div className="text-white font-bold">Go To Home</div>
                   ) : (
                     // <img src={next} alt="Next" className="w-6" />
-                    <div className="text-white font-semibold text-lg">NEXT</div>
+                    <div className="text-white  font-semibold text-lg">NEXT</div>
                   )}
                 </button>
               </div>

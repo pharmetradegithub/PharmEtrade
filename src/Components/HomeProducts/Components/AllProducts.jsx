@@ -396,7 +396,7 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
               <div
                 className={`flex p-1 rounded-md justify-center ${item.amountInStock <= 0
                     ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-blue cursor-pointer"
+                    : "bg-blue cursor-pointer hover:bg-green2"
                   }`}
                 onClick={() => {
                   if (item.amountInStock > 0) {

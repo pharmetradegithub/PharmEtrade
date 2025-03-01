@@ -619,7 +619,7 @@ function LayoutFedexshipping() {
         </div>
         <div className="flex justify-end p-4">
           <button
-            className="border font-bold text-[15px] rounded-lg p-2 px-4 h-8 flex justify-center items-center bg-blue text-white"
+            className="border font-bold text-[15px] rounded-lg p-2 px-4 h-8 flex justify-center items-center bg-blue text-white hover:bg-green2"
             onClick={handleSave}
             disabled={!isEditable} // Disable the save button if not in edit mode
           >

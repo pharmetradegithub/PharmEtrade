@@ -221,7 +221,7 @@ const LayoutSellerDashboard = () => {
                     <div className="flex justify-between items-center">
                       <h1
                         onClick={() => handleNavigation(detail.to)}
-                        className="hover:text-red-600  hover:underline px-2 font-semibold "
+                        className="hover:text-green2 text-blue2 hover:underline px-2 font-semibold "
                       >
                         {detail.label}
                       </h1>
@@ -246,9 +246,9 @@ const LayoutSellerDashboard = () => {
                 <div className="" key={index}>
                   <div
                     style={{ borderBottom: `4px solid ${productactive.color}` }}
-                    className="bg-white w-full sm:w-52 md:w-52 flex rounded-lg shadow-xl cursor-pointer flex-col  h-28 p-2 justify-between"
+                    className="bg-white w-full sm:w-52 md:w-52 flex rounded-lg shadow-xl flex-col  h-28 p-2 justify-between"
                   >
-                    <h1 className="font-semibold">{productactive.label}</h1>
+                    <h1 className="font-semibold text-blue2">{productactive.label}</h1>
                     <p className="font-semibold text-xl">
                       {productactive.percentage}
                     </p>

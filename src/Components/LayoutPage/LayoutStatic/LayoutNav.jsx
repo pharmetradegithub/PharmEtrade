@@ -64,7 +64,7 @@ const LayoutNav = ({ Form_Data }) => {
     if (activePopUp === name) {
       setSelectedItemId(-1);
       setActivePopUp(null); // Close the popup if it's already open
-      setSelectedItem("All"); // Reset to "All" when closed
+      setSelectedItem("All Products"); // Reset to "All" when closed
     } else {
       setSelectedItemId(id);
       setActivePopUp(name); // Set the active popup
@@ -115,7 +115,7 @@ const LayoutNav = ({ Form_Data }) => {
       handleSearchAPI(); // Call submit function when Enter is pressed
     }
   };
-  const [selectedItem, setSelectedItem] = useState("All");
+  const [selectedItem, setSelectedItem] = useState("All Products");
   const [SearchInput, setSearchInput] = useState("");
   const handleSearch = async (e) => {
     setSearchInput(e.target.value);
@@ -142,7 +142,7 @@ const LayoutNav = ({ Form_Data }) => {
   const components = useSelector((state) => state.master?.productCategoryGetAll || []);
 
   const modifiedComponents = [
-    { productCategoryId: -1, categoryName: "All" },
+    { productCategoryId: -1, categoryName: "All Products" },
     ...components,
   ];
 
@@ -242,7 +242,7 @@ const LayoutNav = ({ Form_Data }) => {
     const searchParams = new URLSearchParams(location.search);
     const category = searchParams.get("CategoryName");
     if (category === null) {
-      setSelectedItem("All");
+      setSelectedItem("All Products");
     } else if (category && components.length > 0) {
       const component = modifiedComponents.find(
         (comp) => comp.productCategoryId == category
@@ -252,7 +252,7 @@ const LayoutNav = ({ Form_Data }) => {
       if (component) {
         setSelectedItem(component.categoryName); // Set the name if found
       } else {
-        setSelectedItem("All");
+        setSelectedItem("All Products");
       }
     }
   }, [components]);
@@ -449,7 +449,7 @@ const LayoutNav = ({ Form_Data }) => {
                   className="w-8 h-8 mr-[2px]"
                   alt={item.text}
                 />
-                <span className="text-blue2 text-sm font-semibold my-1">{item.text}</span>
+                <span className="text-blue2 text-sm hover:text-green2 font-semibold my-1">{item.text}</span>
               </div>
             ))}
           </div>
@@ -488,7 +488,7 @@ const LayoutNav = ({ Form_Data }) => {
           >
             <div className="relative inline-block">
               <button
-                className={`h-10 pl-2 mr-[1px] font-semibold text-left gap-1 text-[14px] flex  w-auto items-center text-gray-600 bg-gray-100 border-gray-300 rounded-l-md border ${
+                className={`h-10 pl-2 mr-[1px] font-semibold text-left gap-1 text-[14px] flex  w-auto items-center text-blue2 bg-gray-100 border-gray-300 rounded-l-md border ${
                   isButtonFocused ? "ring-2 ring-blue-500" : ""
                 }`}
                 onClick={handleDropdownToggle}
@@ -536,7 +536,7 @@ const LayoutNav = ({ Form_Data }) => {
               />
               <button
                 onClick={() => handleSearchAPI()}
-                className="w-[40px] flex items-center justify-center p-2 bg-blue text-white border-blue-500 rounded-r-md focus:outline-none"
+                className="w-[40px] flex items-center justify-center p-2 bg-blue hover:bg-green2 text-white border-blue-500 rounded-r-md focus:outline-none"
               >
                 <img src={search} alt="search icon" />
               </button>
@@ -553,7 +553,7 @@ const LayoutNav = ({ Form_Data }) => {
               onClick={() => navigate(item.path)}
             >
               <img src={item.icon} className="w-8 h-8 mr-1 nav-icon" />
-              <span className="text-blue2 text-sm font-semibold mr-2 nav-icon-text">{item.text}</span>
+              <span className="text-blue2 text-sm font-semibold mr-2 hover:text-green2 nav-icon-text">{item.text}</span>
             </div>
           ))}
 
