@@ -42,8 +42,8 @@ const Addressbook = () => {
           </div>
         </div>
         <div className="flex justify-between">
-            <button className="bg-blue-900 text-white p-2 rounded-lg">Add New Address</button>
-            <button className="bg-blue-900 text-white p-3 h-7 flex justify-center items-center rounded-lg ">Back</button>
+            <button className="bg-blue text-white p-2 rounded-lg">Add New Address</button>
+            <button className="bg-blue text-white p-3 h-7 flex justify-center items-center rounded-lg ">Back</button>
         </div>
       </div>
     </div>

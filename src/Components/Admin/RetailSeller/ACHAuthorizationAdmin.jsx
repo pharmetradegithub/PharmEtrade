@@ -23,16 +23,16 @@ function ACHAuthorizationAdmin() {
   return (
     <div>
       {/* <h1 className="text-xl text-blue-900 font-semibold mx-6 py-4">ACH Authorization</h1> */}
-      <div className={`bg-white border ${isTabEdit ? 'border-blue-900' : 'border-gray-400'} rounded-lg px-8 mx-6 w-[80%] mt-8 relative`}>
+      <div className={`bg-white border ${isTabEdit ? 'border-blue2' : 'border-gray-400'} rounded-lg px-8 mx-6 w-[80%] mt-8 relative`}>
         {/* {isTabEdit && ( */}
-          {/* <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+          {/* <h1 className="absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md">
             ACH Authorization
           </h1> */}
         {/* )} */}
 
         <div className="flex justify-between my-2">
           <div className='flex flex-col'>
-            <h1 className='text-blue-900 md:text-xl font-semibold my-2'>
+            <h1 className='text-blue2 md:text-xl font-semibold my-2'>
               ACH Authorization
             </h1>
 
@@ -177,7 +177,7 @@ function ACHAuthorizationAdmin() {
           </div>
           {/* <div className="flex justify-end py-2">
             <button
-              className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit || !isFormValid() ? "opacity-50 cursor-not-allowed" : ""
+              className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${!isTabEdit || !isFormValid() ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               // onClick={handleTabSave}
               disabled={!isTabEdit || !isFormValid()} // Disable if not in edit mode or form is invalid

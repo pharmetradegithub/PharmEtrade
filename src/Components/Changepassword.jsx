@@ -234,7 +234,7 @@ const Confirmpassword = () => {
                 <div className="flex justify-center my-2">
                   <button
                     type="submit"
-                    className="text-white bg-blue-900 border rounded-lg py-3 px-9 cursor-pointer font-semibold text-[18px]"
+                    className="text-white bg-blue border rounded-lg py-3 px-9 cursor-pointer font-semibold text-[18px]"
                   >
                     Submit
                   </button>

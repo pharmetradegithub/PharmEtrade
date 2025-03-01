@@ -114,7 +114,7 @@
 
 // //           <div className="overflow-x-scroll text-[15px] w-full mt-4 font-sans">
 // //             <table className="rounded-lg bg-white w-full">
-// //               <thead className="bg-blue-900 text-white">
+// //               <thead className="bg-blue text-white">
 // //                 <tr>
 // //                   <th className="border-b-2 py-2 min-w-36 pl-4 text-left">
 // //                     S.NO
@@ -344,7 +344,7 @@
 
 // //           <div className="overflow-x-scroll text-[15px] w-full mt-4 font-sans">
 // //             <table className="rounded-lg bg-white w-full">
-// //               <thead className="bg-blue-900 text-white">
+// //               <thead className="bg-blue text-white">
 // //                 <tr>
 // //                   <th className="border-b-2 py-2 min-w-36 pl-4 text-left">
 // //                     S.NO
@@ -533,7 +533,7 @@
 
 //         <div className="w-full overflow-x-scroll text-[15px] mt-4">
 //           <table className="rounded-lg bg-white w-full hidden md:table">
-//             <thead className="bg-blue-900 text-white">
+//             <thead className="bg-blue text-white">
 //               <tr>
 //                 <th className="border-b-2 py-2 min-w-8 pl-4 text-left">S.NO</th>
 //                 {/* <th
@@ -974,7 +974,7 @@ const LayoutAllrequestedQuote = () => {
       </Dialog>
       <div className="w-[95%] h-full mt-8">
         <div className="flex justify-between">
-          <p className="text-[22px] text-blue-900 font-semibold">
+          <p className="text-[22px] text-blue2 font-semibold">
             All Requested Quote
           </p>
         </div>
@@ -989,7 +989,7 @@ const LayoutAllrequestedQuote = () => {
           {!loading && !error && (
             <>
             <table className="rounded-lg bg-white w-full hidden md:table">
-              <thead className="bg-blue-900 text-white">
+              <thead className="bg-blue text-white">
                 <tr>
                   <th className="border-b-2 py-2 min-w-8 pl-4 text-left">S.NO</th>
 

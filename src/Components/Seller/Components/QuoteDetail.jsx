@@ -161,7 +161,7 @@ const QuoteDetail = ({ request }) => {
               </main>
             <button
               type="submit"
-              className="w-40 p-2 my-10 bg-blue-900 text-white rounded-full"
+              className="w-40 p-2 my-10 bg-blue text-white rounded-full"
             >
               Send Message
             </button>

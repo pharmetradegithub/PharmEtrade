@@ -983,7 +983,7 @@ const LayoutProfile = () => {
                   }`}
                   onClick={() => toggleGrid(profile.grid)}
                 >
-                  <h1 className="text-lg text-blue-900 font-semibold">
+                  <h1 className="text-lg text-blue2 font-semibold">
                     {profile.label}
                   </h1>
                 </div>
@@ -994,12 +994,12 @@ const LayoutProfile = () => {
 
         {visibleGrid === "account" && (
           <div>
-            <h1 className="text-xl text-blue-900 font-semibold mt-4 ml-6 ">
+            <h1 className="text-xl text-blue2 font-semibold mt-4 ml-6 ">
               Primary
             </h1>
             <div
               className={`bg-white border ${
-                isEditable ? "border-blue-900" : "border-gray-400"
+                isEditable ? "border-blue2" : "border-gray-400"
               } rounded-lg px-3 lg:px-8 mx-3 lg:mx-6 layoutBuyProducts w-[85%] lg:w-[90%] mt-8 relative`}
             >
               {/* <h1 className={`text-xl font-semibold my-2 text-blue-900`}>
@@ -1007,13 +1007,13 @@ const LayoutProfile = () => {
               </h1> */}
 
               {isEditable && (
-                <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+                <h1 className="text-blue2 absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md">
                   User Information
                 </h1>
               )}
               <h1
                 className={`text-xl font-semibold my-2 ${
-                  isEditable ? "invisible" : "text-blue-900"
+                  isEditable ? "invisible" : "text-blue2"
                 }`}
               >
                 User Information
@@ -1132,7 +1132,7 @@ const LayoutProfile = () => {
                 </div>
                 <div className="flex  justify-end py-2">
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                    className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${
                       !isEditable ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                     onClick={handleSaveClick}
@@ -1148,7 +1148,7 @@ const LayoutProfile = () => {
 
         {visibleGrid === "account" && (
           <div className="flex flex-col bg-white border  border-gray-400 p-6 h-full  ml-3 lg:ml-6  rounded-lg px-3 lg:px-8 layoutBuyProducts  w-[80%] lg:w-[90%] mt-8">
-            <h1 className="text-blue-900 font-semibold -mt-2 text-xl ">
+            <h1 className="text-blue2 font-semibold -mt-2 text-xl ">
               User Type
             </h1>
             <div className="mt-2">
@@ -1217,17 +1217,17 @@ const LayoutProfile = () => {
             {/* Address Information Section */}
             <div
               className={`bg-white layoutBuyProducts border ${
-                isAddressEdit ? "border-blue-900" : "border-gray-400"
+                isAddressEdit ? "border-blue2" : "border-gray-400"
               } rounded-lg  lg:px-8  -ml-2   w-full lg:w-[95%] mt-8 relative`}
             >
               {isAddressEdit && (
-                <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md p-2">
+                <h1 className="text-blue2 absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md p-2">
                   Address Information
                 </h1>
               )}
               <h1
                 className={`text-xl font-semibold my-2 p-2 ${
-                  isAddressEdit ? "invisible" : "text-blue-900"
+                  isAddressEdit ? "invisible" : "text-blue2"
                 }`}
               >
                 Address Information
@@ -1474,7 +1474,7 @@ const LayoutProfile = () => {
               </div>
               <div className="flex  justify-end py-2">
                 <button
-                  className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                  className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${
                     !isAddressEdit ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                   onClick={handleAddressSaveClick}
@@ -1494,13 +1494,13 @@ const LayoutProfile = () => {
                 } rounded-lg px-3 lg:px-8  w-full lg:w-[95%]  mt-8 relative mb-6`}
               >
                 {isAccountEdit && (
-                  <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+                  <h1 className="text-blue2 absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md">
                     Account Information
                   </h1>
                 )}
                 <h1
                   className={`text-xl font-semibold my-2 ${
-                    isAccountEdit ? "invisible" : "text-blue-900"
+                    isAccountEdit ? "invisible" : "text-blue2"
                   }`}
                 >
                   Account Information
@@ -1832,7 +1832,7 @@ const LayoutProfile = () => {
                 </div>
                 <div className="flex  justify-end py-2">
                   <button
-                    className={`bg-blue-900 text-white p-1 w-16 rounded-md font-semibold ${
+                    className={`bg-blue text-white p-1 w-16 rounded-md font-semibold ${
                       !isAccountEdit ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                     onClick={handleAccountSaveClick}

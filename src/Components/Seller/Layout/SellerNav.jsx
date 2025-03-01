@@ -21,7 +21,7 @@ const SellerNav = () => {
           className="w-12 md:w-20 lg:w-36 xl:w-60 h-12 ml-2 md:ml-4 lg:ml-14 lg:overflow-x-hidden xl-0"
         />
       </div>
-      <div className="flex items-center  bg-blue-900 rounded-full border p-2 text-white h-9" >
+      <div className="flex items-center  bg-blue rounded-full border p-2 text-white h-9" >
         <img src={user} className="w-8 h-8"/>
         {/* <FiUser className="w-6 h-6" /> */}
         <div>Account Settings</div>

@@ -14,27 +14,29 @@ export default {
         // ubuntu: ['Ubuntu', 'sans-serif'],
       },
       colors: {
-        'custom-blue': '#98C8F4',  // Custom color name and value
-        'text-blue':'#061B4E',
-        'box-blue':'#173C96',
-        'bg-colors':'#D9D9D9',
-        'pro-col':'#2D57D3',
-        'pro-box':'#A0D5DB',
-        'nav':'#6AB7C1',
-        'box':'#021B4E',
-        'navs':'#6CB7C2',
-        'nav2':'#7DC2CB',
-        'navs-1':'#ADD8E1',
-        'navs-3':'#A0D2D9',
-        'foot':'#7FC5CF',
-        'foots':'#F5F5FA',
-        'fonts':'#174363',
-        'inp':'#F3FAFE',
-        'arr':'#41CDCE',
-        'ink':'#2020D3',
+        'custom-blue': '#400ae6',  // Custom color name and value
+        'text-blue': '#400ae6',
+        'box-blue': '#400ae6',
+        'bg-colors': '#D9D9D9',
+        'pro-col': '#2D57D3',
+        'pro-box': '#A0D5DB',
+        'nav': '#6AB7C1',
+        'box': '#021B4E',
+        'navs': '#6CB7C2',
+        'nav2': '#7DC2CB',
+        'navs-1': '#ADD8E1',
+        'navs-3': '#A0D2D9',
+        'foot': '#7FC5CF',
+        'foots': '#F5F5FA',
+        'fonts': '#174363',
+        'inp': '#F3FAFE',
+        'arr': '#41CDCE',
+        'ink': '#2020D3',
         'cat': '#F6F6FA',
-        'blue2': '#34287b',
-        'green2': '#508239',
+        'blue': '#400ae6',
+        'green': '#00b153',
+        'blue2': '#400ae6',
+        'green2': '#00b153',
       },
       backgroundImage: {
         'colors': 'linear-gradient(to right, #ADD8E1, #7DC2CB, #A0D2D9, #6AB7C1)'
@@ -42,32 +44,34 @@ export default {
       animation: {
         'bounce-down': 'bounce-down 0.8s ease-out 1 forwards'
       },
-      width:{
+      width: {
         '100vh': '100vh'
       },
-      height:{
+      height: {
         '85vh': '85vh'
       },
       screens: {
-        veryTiny:"300px",
-        tiny:"450px",
-        verySmall:"500",
-        small:"450px",
-        Small:"800px",
-        medium:"900px",
-        Medium:"1000px",
-        large:"1100px",
-        Large:"1200px",
-        Laptop:"1350px",
-        Largest : "1650px",
-        Desktop:"1900px",
+        // veryTiny: "300px",
+        tiny: "450px",
+        verySmall: "500",
+        small: "450px",
+        Small: "800px",
+        medium: "900px",
+        Medium: "1000px",
+        large: "1100px",
+        Large: "1200px",
+        Laptop: "1350px",
+        Largest: "1650px",
+        Desktop: "1900px",
         sm_md: "635px",
-        mobile: "320px",
-    }
-      
+        // mobile: "320px",
+      }
+
     },
   },
-  plugins: [],
+  plugins: [
+    require("tailwindcss"),
+  ],
 }
 
 

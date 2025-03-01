@@ -338,7 +338,7 @@
 //         <div className="flex justify-end mt-4">
 //           <button
 //             onClick={handleSave}
-//             className="bg-blue-900 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-600 transition"
+//             className="bg-blue text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-600 transition"
 //           >
 //             Show
 //           </button>
@@ -466,7 +466,7 @@
 //         {showDetails &&
 //           <table className="min-w-full table-auto">
 //             <thead className="overflow-scroll">
-//               <tr className="bg-blue-900 text-white">
+//               <tr className="bg-blue text-white">
 //                 {/* <th className=" px-4 py-2 text-left">S No.</th>
 //               <th className=" px-4 py-2 text-left">Report Name</th>
 //               <th className=" px-4 py-2 text-left">From</th>
@@ -925,7 +925,7 @@ const Reports = () => {
         <div className="flex justify-end mt-4">
           <button
             onClick={handleSave}
-            className="bg-blue-900 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-600 transition"
+            className="bg-blue text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-600 transition"
           >
             Show
           </button>
@@ -993,7 +993,7 @@ const Reports = () => {
           <>
             <table className="min-w-full table-auto">
               <thead className="overflow-scroll">
-                <tr className="bg-blue-900 text-white">
+                <tr className="bg-blue text-white">
                   <th className="px-4 py-2 text-left">S.No</th>
                   {headers.map((key, colIndex) => (
                     <th key={colIndex} className="px-4 py-2 text-left">

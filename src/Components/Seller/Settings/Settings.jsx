@@ -68,10 +68,10 @@ const Settings = () => {
               className="hidden"
             />
             <div className="ml-4 flex items-center space-x-2 font-semibold text-[18px]">
-              <button className="bg-blue-900 text-white p-2 rounded">
+              <button className="bg-blue text-white p-2 rounded">
                 UserName: <span className="font-medium"> Sofiya Khan </span>
               </button>
-              <button className="bg-blue-900 text-white p-2 font-semibold rounded">
+              <button className="bg-blue text-white p-2 font-semibold rounded">
                 Designation:<span className="font-medium">Software Developer</span> 
               </button>
             </div>
@@ -216,7 +216,7 @@ const Settings = () => {
               className="w-96"
               size="small"
             />
-            <button className="text-white bg-blue-900 px-4 rounded-lg">
+            <button className="text-white bg-blue px-4 rounded-lg">
               Save
             </button>
           </div>
@@ -228,7 +228,7 @@ const Settings = () => {
               className="w-96"
               size="small"
             />
-            <button className="text-white bg-blue-900 px-4 rounded-lg">
+            <button className="text-white bg-blue px-4 rounded-lg">
               Save
             </button>
           </div>
@@ -245,15 +245,15 @@ const Settings = () => {
         </div>
         <div className="w-full flex justify-between gap-4">
           <div className="flex w-full gap-4">
-            <button className="text-white bg-blue-900 font-semibold w-44 p-4 rounded-lg ">
+            <button className="text-white bg-blue font-semibold w-44 p-4 rounded-lg ">
               View Profile
             </button>
-            <button className="text-white bg-blue-900 font-semibold w-44 p-4 rounded-lg ">
+            <button className="text-white bg-blue font-semibold w-44 p-4 rounded-lg ">
               View Collection
             </button>
           </div>
           <div>
-          <button className="text-white bg-blue-900 font-semibold w-24 p-4 rounded-lg ">
+          <button className="text-white bg-blue font-semibold w-24 p-4 rounded-lg ">
               Save
             </button>
           </div>

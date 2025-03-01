@@ -129,7 +129,7 @@
 //                 <div className="flex justify-between mx-2">
 //                   <button
 //                     onClick={() => handleCart(index)}
-//                     className="items-center justify-center px-2 flex gap-1 bg-blue-900 border text-sm font-medium rounded-md text-white p-1"
+//                     className="items-center justify-center px-2 flex gap-1 bg-blue border text-sm font-medium rounded-md text-white p-1"
 //                   >
 //                     <img src={cart} className="w-4 h-4" alt="Cart Icon" />
 //                     Add to cart
@@ -357,7 +357,7 @@ const Offers = ({ topMargin, addCart, wishList }) => {
                 <div className="flex justify-between mx-2">
                   <button
                     onClick={() => handleCart(offer.productID)}
-                    className="items-center justify-center px-2 flex gap-1 bg-blue-900 border text-sm font-medium rounded-md text-white p-1"
+                    className="items-center justify-center px-2 flex gap-1 bg-blue border text-sm font-medium rounded-md text-white p-1"
                   >
                     <img src={cart} className="w-4 h-4" alt="Cart Icon" />
                     Add to cart

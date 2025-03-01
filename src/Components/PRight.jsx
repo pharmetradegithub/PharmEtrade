@@ -169,7 +169,7 @@
 
 // //   return (
 // //     <div className="w-full mt-4 h-full overflow-y-scroll">
-// //       <div className=" flex justify-between bg-blue-900 p-1 rounded-lg">
+// //       <div className=" flex justify-between bg-blue p-1 rounded-lg">
 // //         <div className="text-2xl text-white">
 // //           {{Heading} ? Heading : "All Products"}
 // //         </div>
@@ -235,7 +235,7 @@
 // // }</div>
 // //               </div>
 // //               <div
-// //                 className="flex bg-blue-900 p-1 rounded-md justify-center"
+// //                 className="flex bg-blue p-1 rounded-md justify-center"
 // //                 onClick={() => handleCart(item.productID)}
 // //               >
 // //                 <img src={addcart} alt="Add to cart" className="h-8 p-[6px]" />
@@ -466,7 +466,7 @@
 
 //   return (
 //     <div className="w-full mt-4 h-full overflow-y-scroll">
-//       <div className=" flex justify-between bg-blue-900 p-1 rounded-lg">
+//       <div className=" flex justify-between bg-blue p-1 rounded-lg">
 //         <div className="text-2xl text-white">
 //           {{Heading} ? Heading : "All Products"}
 //         </div>
@@ -539,7 +539,7 @@
 // }</div>
 //               </div>
 //               <div
-//                 className="flex bg-blue-900 p-1 rounded-md justify-center"
+//                 className="flex bg-blue p-1 rounded-md justify-center"
 //                 onClick={() => handleCart(item.productID)}
 //               >
 //                 <img src={addcart} alt="Add to cart" className="h-8 p-[6px]" />

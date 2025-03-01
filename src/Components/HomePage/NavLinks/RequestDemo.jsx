@@ -371,7 +371,7 @@ const RequestDemo = ({ topMargin }) => {
 
             <button
               type="submit"
-              className='bg-blue-900 text-white p-2 rounded-md font-semibold'
+              className='bg-blue text-white p-2 rounded-md font-semibold'
             >
               Request Your Demo
             </button>
@@ -460,7 +460,7 @@ const RequestDemo = ({ topMargin }) => {
 
                 <button
                   type="submit"
-                  className="bg-blue-900 text-white p-2 rounded-md font-semibold"
+                  className="bg-blue text-white p-2 rounded-md font-semibold"
                 >
                   Request Your Demo
                 </button>

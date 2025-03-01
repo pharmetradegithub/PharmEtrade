@@ -173,7 +173,7 @@ function LayoutPaymentHistory() {
     <div className="bg-gray-100 w-full h-full flex items-center justify-center overflow-y-scroll">
       <div className="w-[95%] h-full mt-8">
         <div className="flex justify-between">
-          <h1 className="text-[22px] text-blue-900 font-semibold">
+          <h1 className="text-[22px] text-blue2 font-semibold">
             Payment History
           </h1>
         </div>
@@ -184,7 +184,7 @@ function LayoutPaymentHistory() {
               key={index}
               className="bg-white layoutBuyProducts w-56 rounded-lg shadow-lg h-28 p-4"
             >
-              <h1 className="text-[20px] text-gray-700 font-normal pb-3">
+              <h1 className="text-[20px] text-blue2 font-normal pb-3">
                 {stat.label}
               </h1>
               <h1
@@ -200,7 +200,7 @@ function LayoutPaymentHistory() {
         </div>
 
         <div className="w-full my-4">
-          <h2 className="text-[22px] font-semibold">Payment History</h2>
+          <h2 className="text-blue2 text-[22px] font-semibold">Payment History</h2>
           <div className="flex justify-between my-2">
             {/* <div className="flex bg-gray-100">
               <select
@@ -264,7 +264,7 @@ function LayoutPaymentHistory() {
                       </button>
                       <button
                         onClick={handleExportClick}
-                        className="bg-blue-900 text-white px-4 py-2 rounded-md ml-2"
+                        className="bg-blue text-white px-4 py-2 rounded-md ml-2"
                       >
                         Export
                       </button>
@@ -336,7 +336,7 @@ function LayoutPaymentHistory() {
               {/* Desktop View: Table layout */}
       
               <table className="w-full">
-                <thead className="bg-blue-900 text-white ">
+                <thead className="bg-blue text-white ">
                   <tr className="border-b-2 flex justify-around">
                     <th className="px-4 py-2 w-4">
                       S.NO

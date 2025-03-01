@@ -103,7 +103,7 @@ const AddProducts = () => {
             Marketplace Product List
           </h2>
           <button
-            className="bg-blue-900 flex items-center text-white p-2 text-[15px] rounded-md"
+            className="bg-blue flex items-center text-white p-2 text-[15px] rounded-md"
             onClick={handleAddNewProductClick}
           >
             <FaPlus /> Add New Product
@@ -163,7 +163,7 @@ const AddProducts = () => {
             {error && <div>Error: {error.message}</div>}
             {!loading && !error && (
               <table className="w-full">
-                <thead className="bg-blue-900 text-white">
+                <thead className="bg-blue text-white">
                   <tr className="border-b-2">
                     <th className=" px-4 py-2 text-left">Product ID</th>
                     <th className="px-4 py-2 text-left">Category Specification</th>

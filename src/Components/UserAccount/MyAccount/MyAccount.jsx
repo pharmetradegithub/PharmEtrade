@@ -71,7 +71,7 @@
 //           Hello, <span className="font-light">Ram</span>
 //         </h2>
 //         <div className="relative border rounded-lg bg-white border-gray-400">
-//           <div className="absolute -top-6 ml-8 bg-blue-900 text-white rounded-lg  flex p-3 ">
+//           <div className="absolute -top-6 ml-8 bg-blue text-white rounded-lg  flex p-3 ">
 //           <img src={myaccount} className="w-6 h-6" />
 //           <button>User Id: 56683998</button>
 //           </div>
@@ -141,7 +141,7 @@ const MyAccount = () => {
         </h2>
 
         <div className="relative border rounded-lg  bg-white border-gray-400 mb-4">
-          <div className="absolute -top-6 ml-8 bg-blue-900 text-white rounded-lg flex gap-2 p-3">
+          <div className="absolute -top-6 ml-8 bg-blue text-white rounded-lg flex gap-2 p-3">
             <img src={myaccount} className="w-6 h-6" alt="My Account" />
             <button>User Id: 56683998</button>
           </div>
@@ -169,7 +169,7 @@ const MyAccount = () => {
         <div className="bg-white border border-gray-400 rounded-lg py-4 px-8">
           <div className="flex justify-between items-center pb-2 border-b mb-4 border-gray-300">
             <h2 className="font-semibold">ADDRESS BOOK</h2>
-            <button className="bg-blue-900 text-white border rounded-lg px-2 py-1 text-[13px]">MANAGE ADDRESSES</button>
+            <button className="bg-blue text-white border rounded-lg px-2 py-1 text-[13px]">MANAGE ADDRESSES</button>
           </div>
           <div className="flex justify-between">
             <div>

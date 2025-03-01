@@ -24,7 +24,7 @@ const DeleteAccount = () => {
           </div>
 
           <div >
-            <button className="bg-blue-900 text-white py-2 px-4 rounded-lg">
+            <button className="bg-blue text-white py-2 px-4 rounded-lg">
               Delete My Account
             </button>
             

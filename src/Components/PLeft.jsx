@@ -46,10 +46,10 @@
 //       {categories.map((category, index) => (
 //         <div
 //           key={index}
-//           className="w-[90%] mb-2 rounded-md bg-blue-900 text-white"
+//           className="w-[90%] mb-2 rounded-md bg-blue text-white"
 //         >
 //           <div
-//             className={`border-1 bg-blue-900 px-4 py-1 rounded-md flex justify-between items-center cursor-pointer text-white hover:bg-red-100 hover:text-black ${
+//             className={`border-1 bg-blue px-4 py-1 rounded-md flex justify-between items-center cursor-pointer text-white hover:bg-red-100 hover:text-black ${
 //               dropdownOpen.allCategories && category === "All categories"
 //                 ? " "
 //                 : ""

@@ -83,12 +83,12 @@ function MyOrders() {
     <div className="bg-gray-100 w-full h-full flex items-center justify-center">
       <div className="w-[95%] h-full mt-4">
         <div className="flex justify-between">
-          <h1 className="text-[22px] text-blue-900 font-semibold">List of Orders</h1>
+          <h1 className="text-[22px] text-blue2 font-semibold">List of Orders</h1>
         </div>
 
         <div className="border rounded-md text-[15px] bg-white mt-4">
           <table className="w-full">
-            <thead className="bg-blue-900 text-white">
+            <thead className="bg-blue text-white">
               <tr className="border-b-2">
                 <th className="px-4 py-2 text-left">ORDER</th>
                 <th className="px-4 py-2 text-left">DATE</th>

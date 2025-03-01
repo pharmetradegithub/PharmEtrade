@@ -658,7 +658,7 @@ function AdminOrders() {
           <h1 className="text-[22px] text-blue-900 font-semibold">
             Pending Orders
           </h1>
-          {/* <button className="bg-blue-900 flex items-center text-white p-2 text-[15px] rounded-md">
+          {/* <button className="bg-blue flex items-center text-white p-2 text-[15px] rounded-md">
             <FaPlus /> Add New Product
           </button> */}
         </div>
@@ -962,7 +962,7 @@ function AdminOrders() {
                 <div className="hidden lg:block md:block">
                   {/* Desktop View: Table layout */}
                   <table className="w-full">
-                    <thead className="bg-blue-900 text-white">
+                    <thead className="bg-blue text-white">
                       <tr className="border-b-2">
                         <th className="px-4 py-2 text-left">S.NO</th>
                         <th className="px-4 py-2 text-left">Order Number</th>

@@ -361,7 +361,7 @@ const RxProductsAdmin = () => {
 
 <button
                   onClick={handleSearchClick}
-                  className="absolute bg-blue-900 p-2 right-0 top-1/2 transform -translate-y-1/2"
+                  className="absolute bg-blue p-2 right-0 top-1/2 transform -translate-y-1/2"
                 >
                   <img src={searchImg} className="w-4 h-4" />
                 </button>
@@ -378,7 +378,7 @@ const RxProductsAdmin = () => {
             {error && <div>Error: {error.message}</div>}
             {!loading && !error && (
           <table className="w-full text-sm">
-            <thead className="bg-blue-900 text-white  ">
+            <thead className="bg-blue text-white  ">
             <tr className="border-b-2 text-left ">
                 <th className="py-2 px-5">S.NO</th>
                 <th className="py-2 px-5" onClick={() => handleSort('')}>Thumbnail</th>

@@ -119,7 +119,7 @@ import { GetCustomers } from '../../../Api/AdminApi';
 //           </div>
 
 //           <button
-//             className="bg-blue-900 text-white w-16 rounded-lg h-8"
+//             className="bg-blue text-white w-16 rounded-lg h-8"
 //             onClick={handleAddOrSave}
 //             disabled={!isEditable} // Disable when not editable
 //           >
@@ -131,7 +131,7 @@ import { GetCustomers } from '../../../Api/AdminApi';
 //       <div className="overflow-x-auto ml-5">
 //         <table className="min-w-full text-left table-auto border-collapse">
 //           <thead className="bg-gray-200">
-//             <tr className="bg-blue-900 text-white">
+//             <tr className="bg-blue text-white">
 //             <th className="px-6 py-3 text-base font-bold">S NO. </th>
 
 //             <th className="px-6 py-3 text-base font-bold">State </th>
@@ -314,7 +314,7 @@ import { GetCustomers } from '../../../Api/AdminApi';
 //           </div>
 
 //           <button
-//             className="bg-blue-900 text-white w-16 rounded-lg h-8"
+//             className="bg-blue text-white w-16 rounded-lg h-8"
 //             onClick={handleAddOrSave}
 //             disabled={!isEditable}
 //           >
@@ -326,7 +326,7 @@ import { GetCustomers } from '../../../Api/AdminApi';
 //       <div className="overflow-x-auto ml-5">
 //         <table className="min-w-full text-left table-auto border-collapse">
 //           <thead className="bg-gray-200">
-//             <tr className="bg-blue-900 text-white">
+//             <tr className="bg-blue text-white">
 //               <th className="px-6 py-3 text-base font-bold">S NO. </th>
 //               <th className="px-6 py-3 text-base font-bold">State </th>
 //               <th className="px-6 py-3 text-base font-bold">Category Name</th>
@@ -1168,7 +1168,7 @@ const TaxInformation = () => {
       <div className="bg-white w-[85%] md:w-[90%] border border-black rounded-lg px-8 mx-6 py-5 mt-8 relative my-6">
         <div className="flex justify-between">
         {isEditable && (
-                <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+                <h1 className="absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md">
                   Tax Information
                 </h1>
               )}
@@ -1376,14 +1376,14 @@ const TaxInformation = () => {
           </div>
 
           <button
-            className="bg-blue-900 text-white w-16 rounded-lg h-8"
+            className="bg-blue text-white w-16 rounded-lg h-8"
             onClick={handleAddOrSave}
             // disabled={isDuplicateEntry}
           >
             {editingIndex !== null ? "Update" : "ADD"}
           </button>
           <button
-            className="bg-blue-900 text-white w-auto rounded-lg h-8 text-center pl-2 pr-2"
+            className="bg-blue text-white w-auto rounded-lg h-8 text-center pl-2 pr-2"
             onClick={handleStateTax}
           // disabled={isDuplicateEntry}
           >
@@ -1402,7 +1402,7 @@ const TaxInformation = () => {
       <div className="overflow-x-auto ml-5">
         <table className="w-full text-left table-auto border-collapse hidden md:table">
           <thead className="bg-gray-200">
-            <tr className="bg-blue-900 text-white">
+            <tr className="bg-blue text-white">
               <th className="px-6 py-3 text-base font-bold">S.NO</th>
               <th className="px-6 py-3 text-base font-bold">State</th>
               <th className="px-6 py-3 text-base font-bold">Category Name</th>
@@ -1670,7 +1670,7 @@ const TaxInformation = () => {
 //           </div>
 
 //           <button
-//             className="bg-blue-900 text-white w-16 rounded-lg h-8"
+//             className="bg-blue text-white w-16 rounded-lg h-8"
 //             onClick={handleAddOrSave}
 //             disabled={!isEditable}
 //           >
@@ -1682,7 +1682,7 @@ const TaxInformation = () => {
 //       <div className="overflow-x-auto ml-5">
 //         <table className="min-w-full text-left table-auto border-collapse">
 //           <thead className="bg-gray-200">
-//             <tr className="bg-blue-900 text-white">
+//             <tr className="bg-blue text-white">
 //               <th className="px-6 py-3 text-base font-bold">S NO. </th>
 //               <th className="px-6 py-3 text-base font-bold">State </th>
 //               <th className="px-6 py-3 text-base font-bold">Category Name</th>

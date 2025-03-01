@@ -173,7 +173,7 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
         />
       )}
 
-      <h1 className="bg-blue-900 w-full  p-1 mx-1 text-white font-semibold text-xl rounded-md mt-10 md:mt-2">Offer Products In {
+      <h1 className="bg-blue w-full  p-1 mx-1 text-white font-semibold text-xl rounded-md mt-10 md:mt-2">Offer Products In {
         currentItems[0]?.categorySpecification.specificationName
       }'s </h1>
 
@@ -311,7 +311,7 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
                 {/* <div className="flex justify-between mx-2">
                   <button
                     onClick={() => handleCart(offer.productID)}
-                    className="items-center justify-center px-2 flex gap-1 bg-blue-900 border text-sm font-medium rounded-md text-white p-1"
+                    className="items-center justify-center px-2 flex gap-1 bg-blue border text-sm font-medium rounded-md text-white p-1"
                   >
                     <img src={cart} className="w-4 h-4" alt="Cart Icon" />
                     Add to cart
@@ -322,7 +322,7 @@ const OffersProducts = ({ topMargin, addCart, wishList }) => {
                 <div
                   className={`flex p-1 rounded-md justify-center ${offer.amountInStock <= 0
                     ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-blue-900 cursor-pointer"
+                    : "bg-blue cursor-pointer"
                     }`}
                   onClick={() => {
                     if (offer.amountInStock > 0) {

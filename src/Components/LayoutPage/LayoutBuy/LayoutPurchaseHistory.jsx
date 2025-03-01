@@ -165,7 +165,7 @@ const LayoutPurchaseHistory = () => {
           {!loading && !error && (
             <>
             <table className="rounded-lg bg-white w-full hidden md:table">
-              <thead className="bg-blue-900 text-white">
+              <thead className="bg-blue text-white">
                 <tr>
                 <th className="border-b-2 py-2 min-w-8 pl-4 text-left">S.No</th>
                   <th className="border-b-2 py-2 min-w-8 pl-4 text-left">Order Number</th>

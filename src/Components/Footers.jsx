@@ -29,7 +29,7 @@
 //         Back To Top
 //         <IoIosArrowUp className="w-8 h-6" />
 //       </div>
-//     <div className="text-white bg-blue-900 relative z-40">
+//     <div className="text-white bg-blue relative z-40">
 //       <div className="flex flex-col xl:flex-row justify-center xl:gap-20 gap-8 w-full p-6 xl:p-10">
 //         {/* About Us Section */}
 
@@ -182,14 +182,14 @@ function Footers({ topMargin }) {
         onClick={scrollToTop}
         style={{
           marginTop: `${topMargin}px`,
-          backgroundColor: "#4a893a",
+          backgroundColor: "#00b153",
         }}
       >
         {" "}
         Back To Top
         <IoIosArrowUp className="w-8 h-6" />
       </div>
-    <div className="text-white bg-blue-900 relative z-40">
+    <div className="text-white bg-blue relative z-40">
       <div className="flex flex-col xl:flex-row justify-between xl:gap-12 gap-6 w-screen p-6 xl:p-10">
         {/* About Us Section */}
 
@@ -257,7 +257,7 @@ function Footers({ topMargin }) {
                 </li>
               </ul>
             </div>
-            <div className="w-full md:w-44 ml-28 p-2 text-md">
+            <div className="w-full md:w-44 ml-2 md:ml-28 p-2 text-md">
               <p className="text-md mb-4 font-semibold">Support & Service</p>
               <ul className="list-disc list-inside">
                 <li>

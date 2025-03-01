@@ -116,8 +116,8 @@ const AccountInfo = () => {
             </p>
           </div>
           <div className="flex justify-between my-3">
-            <button className="bg-blue-900 text-white text-[12px] px-4  h-8  font-semibold rounded-lg">SAVE</button>
-            <button className="bg-blue-900 text-white text-[12px] p-2 rounded-lg font-semibold">GO BACK</button>
+            <button className="bg-blue text-white text-[12px] px-4  h-8  font-semibold rounded-lg">SAVE</button>
+            <button className="bg-blue text-white text-[12px] p-2 rounded-lg font-semibold">GO BACK</button>
           </div>
         </div>
       </div>

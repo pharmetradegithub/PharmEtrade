@@ -318,7 +318,7 @@
 //                       </button>
 //                       <button
 //                         onClick={handleExportClick}
-//                         className="bg-blue-900 text-white px-4 py-2 rounded-md ml-2"
+//                         className="bg-blue text-white px-4 py-2 rounded-md ml-2"
 //                       >
 //                         Export
 //                       </button>
@@ -332,7 +332,7 @@
 
 //         <div className="border text-[15px] rounded-md bg-white mt-4">
 //           <table className="w-full">
-//           <thead className="bg-blue-900 text-white ">
+//           <thead className="bg-blue text-white ">
 //         <tr className="border-b-2">
 //           <th className="px-4 py-2 text-left">S.NO</th>
 //           <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('invoiceNumber')}>
@@ -830,7 +830,7 @@ const indexOfFirstItem = indexOfLastItem - itemsPerPage;
                       </button>
                       <button
                         onClick={handleExportClick}
-                        className="bg-blue-900 text-white px-4 py-2 rounded-md ml-2"
+                        className="bg-blue text-white px-4 py-2 rounded-md ml-2"
                       >
                         Export
                       </button>
@@ -844,7 +844,7 @@ const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
         <div className="border text-[15px] rounded-md bg-white mt-4">
           <table className="w-full">
-          <thead className="bg-blue-900 text-white ">
+          <thead className="bg-blue text-white ">
         <tr className="border-b-2">
           <th className="px-4 py-2 text-left">S.NO</th>
           <th className="px-4 py-2 text-left cursor-pointer" onClick={() => handleSort('invoiceNumber')}>

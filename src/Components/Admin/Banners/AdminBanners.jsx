@@ -246,7 +246,7 @@ const AdminBanners = () => {
 
   return (
     <div className="p-6 bg-gray-100 overflow-y-scroll">
-      <h1 className="flex items-center text-3xl font-bold mb-6">
+      <h1 className="text-blue2 flex items-center text-3xl font-bold mb-6">
         Manage Banners{" "}
         {/* <p className="text-lg mt-2 ml-3">
           (Banner Size Should be in Width: 7680px , Height: 2200px ,
@@ -325,7 +325,7 @@ const AdminBanners = () => {
         </div>
         <button
           onClick={handleAddBanners}
-          className="bg-blue-900 text-white px-6 mx-4 py-2 rounded"
+          className="bg-blue text-white px-6 mx-4 py-2 rounded"
         >
           Save Banners
         </button>

@@ -436,7 +436,7 @@ const ProccedtoShipment = ({
     //                       {selectedOptions[seller] && (
     //                         <button
     //                           onClick={() => handleResetDropdown(seller)}
-    //                           className="ml-2 text-white bg-blue-900 border py-1 px-2 rounded-lg text-lg hover:text-red-700"
+    //                           className="ml-2 text-white bg-blue border py-1 px-2 rounded-lg text-lg hover:text-red-700"
     //                         >
     //                           Reset
     //                         </button>
@@ -580,7 +580,7 @@ const ProccedtoShipment = ({
                         {selectedOptions[seller] && (
                           <button
                             onClick={() => handleResetDropdown(seller)}
-                            className="ml-2 text-white bg-blue-900 border py-1 px-2 rounded-lg text-lg hover:text-red-700"
+                            className="ml-2 text-white bg-blue border py-1 px-2 rounded-lg text-lg hover:text-red-700"
                           >
                             Reset
                           </button>

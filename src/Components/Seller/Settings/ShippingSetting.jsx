@@ -15,7 +15,7 @@ const ShippingSetting = () => {
             Shipping Origin Address
           </h2>
           <button
-            className="border rounded-md font-bold p-2 px-4 h-8 flex justify-center items-center text-[15px] bg-blue-900 text-white "
+            className="border rounded-md font-bold p-2 px-4 h-8 flex justify-center items-center text-[15px] bg-blue text-white "
             // onClick={handleSubmit}
           >
             SAVE

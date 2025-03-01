@@ -707,7 +707,7 @@ function LayoutOrderList() {
     //                             </div>
     //                           </div>
     //                           {/* <div className="flex my-2 cursor-pointer" onClick={() => handleNav(order.productId)}>
-    //                     <button className="border rounded-lg p-2 bg-blue-900 text-white w-48 shadow-md">
+    //                     <button className="border rounded-lg p-2 bg-blue text-white w-48 shadow-md">
     //                       Buy it again
     //                     </button>
     //                      <button className="border rounded-lg p-2 mx-3 shadow-md w-48">
@@ -739,7 +739,7 @@ function LayoutOrderList() {
     //                       className="flex  cursor-pointer"
     //                       onClick={() => handleNav(order.productId)}
     //                     >
-    //                       <button className="border rounded-lg sm_md:w-full p-2 bg-blue-900 text-white w-20  lg:w-full shadow-md mb-1">
+    //                       <button className="border rounded-lg sm_md:w-full p-2 bg-blue text-white w-20  lg:w-full shadow-md mb-1">
     //                         Buy it again
     //                       </button>
     //                     </div>
@@ -821,7 +821,7 @@ function LayoutOrderList() {
     //                             Cancel
     //                           </button>
     //                           <button
-    //                             className="bg-blue-900 text-white rounded-lg px-4 py-2"
+    //                             className="bg-blue text-white rounded-lg px-4 py-2"
     //                             onClick={() => handleAddRating(order.productId)}
     //                           >
     //                             Save
@@ -948,7 +948,7 @@ function LayoutOrderList() {
                 Cancel
               </button>
               <button
-                className="bg-blue-900 text-white rounded-lg px-4 py-2"
+                className="bg-blue text-white rounded-lg px-4 py-2"
                 onClick={() => handleAddRating()}
               >
                 Save
@@ -1050,7 +1050,7 @@ function LayoutOrderList() {
 
       <div className="mx-5 sm:mx-4">
         <div className="flex flex-col md:flex-row justify-between md:items-center ">
-          <h2 className=" mt-6 text-3xl mb-4 mobile:text-xl font-semibold">
+          <h2 className="text-blue2 mt-6 text-3xl mb-4 mobile:text-xl font-semibold">
             {" "}
             Your Orders
           </h2>
@@ -1071,7 +1071,7 @@ function LayoutOrderList() {
               />
               <button
                 onClick={handleSearchClick}
-                className="absolute bg-blue-900  p-2 right-0 top-4 transform -translate-y-1/2"
+                className="absolute bg-blue  p-2 right-0 top-4 transform -translate-y-1/2"
               >
                 <img src={searchImg} className="w-4 h-4" />
               </button>
@@ -1270,7 +1270,7 @@ function LayoutOrderList() {
                           Write a product review
                         </button>
                         <button
-                          className="border rounded-lg p-2 bg-blue-900 text-white"
+                          className="border rounded-lg p-2 bg-blue text-white"
                           onClick={() => handleNav(order.productId)}
                         >
                           Buy it again
@@ -1278,7 +1278,7 @@ function LayoutOrderList() {
                         {/* <button
                       className={`border rounded-lg p-2 ${order?.orderStatusId === 5 || isCancelled
                           ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-blue-900 text-white cursor-pointer"
+                          : "bg-blue text-white cursor-pointer"
                         }`}
                       disabled={order?.orderStatusId === 5 || isCancelled}
                       onClick={() => {
@@ -1294,7 +1294,7 @@ function LayoutOrderList() {
                       key={order.productId}
                       className={`border rounded-lg p-2 ${order.orderStatusId === 5 || cancelledOrders[order.productId]
                           ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-blue-900 text-white cursor-pointer"
+                          : "bg-blue text-white cursor-pointer"
                         }`}
                       disabled={order.orderStatusId === 5 || cancelledOrders[order.productId]}
                       onClick={() => {
@@ -1315,7 +1315,7 @@ function LayoutOrderList() {
                         key={order.productId}
                         className={`border rounded-lg p-2 ${order.orderedProductStatusId === 5 || cancelledOrders[order.productId]
                             ? "bg-gray-400 cursor-not-allowed"
-                            : "bg-blue-900 text-white cursor-pointer"
+                            : "bg-blue text-white cursor-pointer"
                           }`}
                         disabled={order.orderedProductStatusId === 5 || cancelledOrders[order.productId]}
                         onClick={() => {
@@ -1338,7 +1338,7 @@ function LayoutOrderList() {
                             cancelledOrders[order.productId] 
                             // (returnDates[index] && new Date(returnDates[index]).getTime() > new Date(new Date().setDate(new Date().getDate() + 1)).setHours(0, 0, 0, 0))
                             ? "bg-gray-400 cursor-not-allowed"
-                            : "bg-blue-900 text-white cursor-pointer"
+                            : "bg-blue text-white cursor-pointer"
                           }`}
                         disabled={
                           order.orderedProductStatusId === 5 ||
@@ -1371,7 +1371,7 @@ function LayoutOrderList() {
                             className={`border rounded-lg p-2 ${order.orderedProductStatusId === 5 ||
                               cancelledOrders[order.productId]
                               ? "bg-gray-400 cursor-not-allowed"
-                              : "bg-blue-900 text-white cursor-pointer"
+                              : "bg-blue text-white cursor-pointer"
                               }`}
                             disabled={
                               order.orderedProductStatusId === 5 ||

@@ -1413,7 +1413,7 @@ function Address({ topMargin, totalAmount, amount }) {
                     Stay in Checkout
                   </button>
                   <button
-                    className="bg-blue-900 hover:bg-blue-950 text-sm lg:text-xl text-white px-4 py-2 rounded"
+                    className="bg-blue hover:bg-blue-950 text-sm lg:text-xl text-white px-4 py-2 rounded"
                     onClick={handleReturnToCart}
                   >
                     Return to Cart
@@ -1539,7 +1539,7 @@ function Address({ topMargin, totalAmount, amount }) {
 
                         {/* //<div></div> */}
                         {/* // <button */}
-                        {/* //   className="border rounded-full h-8 text-sm w-32 bg-blue-900 text-white "
+                        {/* //   className="border rounded-full h-8 text-sm w-32 bg-blue text-white "
                           //   onClick={() => {
                           //     if (selectedAddressId) {
                           //       handleUseAddress(); // Proceed with navigation
@@ -1996,7 +1996,7 @@ function Address({ topMargin, totalAmount, amount }) {
                     <div className="hidden w-full lg:w-[30%]  mx-16  lg:flex flex-col pt-2 items-center lg:relative">
                       <div className="border lg:fixed shadow-md rounded-md p-7  py-5">
                         {/* <div className="flex items-center justify-center">
-                        <button className="border rounded-full text-sm flex justify-center items-center px-4 py-2 bg-blue-900 text-white">
+                        <button className="border rounded-full text-sm flex justify-center items-center px-4 py-2 bg-blue text-white">
                           Use this payment method
                         </button>
                       </div> */}
@@ -2164,7 +2164,7 @@ function Address({ topMargin, totalAmount, amount }) {
           <div className="block lg:hidden sm:w-[90%] md:w-[70%] h-auto  pt-2 items-center lg:relative">
             <div className="border lg:fixed shadow-md rounded-md p-4  py-5">
               {/* <div className="flex items-center justify-center">
-                        <button className="border rounded-full text-sm flex justify-center items-center px-4 py-2 bg-blue-900 text-white">
+                        <button className="border rounded-full text-sm flex justify-center items-center px-4 py-2 bg-blue text-white">
                           Use this payment method
                         </button>
                       </div> */}

@@ -78,7 +78,7 @@
 //           </div>
 
 //           <button
-//             className="bg-blue-900 text-white w-16 rounded-lg h-8"
+//             className="bg-blue text-white w-16 rounded-lg h-8"
 //             onClick={handleAddOrSave}
 //             disabled={!isEditable} // Disable when not editable
 //           >
@@ -90,7 +90,7 @@
 //       <div className="overflow-x-auto ml-5">
 //         <table className="min-w-full text-left table-auto border-collapse">
 //           <thead className="bg-gray-200">
-//             <tr className="bg-blue-900 text-white">
+//             <tr className="bg-blue text-white">
 //               <th className="px-6 py-3 text-base font-bold">S NO. </th>
 
 //               <th className="px-6 py-3 text-base font-bold">State </th>
@@ -254,7 +254,7 @@ import { AdminChargesGetApi, AdminChargesInformationAdd, deleteChargesAPi, editC
 //           </div>
 
 //           <button
-//             className="bg-blue-900 text-white w-16 rounded-lg h-8"
+//             className="bg-blue text-white w-16 rounded-lg h-8"
 //             onClick={handleAddOrSave}
 //             disabled={!isEditable} // Disable when not editable
 //           >
@@ -266,7 +266,7 @@ import { AdminChargesGetApi, AdminChargesInformationAdd, deleteChargesAPi, editC
 //       <div className="overflow-x-auto ml-5">
 //         <table className="min-w-full text-left table-auto border-collapse">
 //           <thead className="bg-gray-200">
-//             <tr className="bg-blue-900 text-white">
+//             <tr className="bg-blue text-white">
 //             <th className="px-6 py-3 text-base font-bold">S NO. </th>
 
 //             <th className="px-6 py-3 text-base font-bold">State </th>
@@ -445,7 +445,7 @@ import { AdminChargesGetApi, AdminChargesInformationAdd, deleteChargesAPi, editC
 //           </div>
 
 //           <button
-//             className="bg-blue-900 text-white w-16 rounded-lg h-8"
+//             className="bg-blue text-white w-16 rounded-lg h-8"
 //             onClick={handleAddOrSave}
 //             disabled={!isEditable}
 //           >
@@ -457,7 +457,7 @@ import { AdminChargesGetApi, AdminChargesInformationAdd, deleteChargesAPi, editC
 //       <div className="overflow-x-auto ml-5">
 //         <table className="min-w-full text-left table-auto border-collapse">
 //           <thead className="bg-gray-200">
-//             <tr className="bg-blue-900 text-white">
+//             <tr className="bg-blue text-white">
 //               <th className="px-6 py-3 text-base font-bold">S NO. </th>
 //               <th className="px-6 py-3 text-base font-bold">State </th>
 //               <th className="px-6 py-3 text-base font-bold">Category Name</th>
@@ -881,7 +881,7 @@ const ChargesInformations = () => {
             Charges Information
           </h1> */}
            {isEditable && (
-                <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+                <h1 className="absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md">
                   Charges Information
                 </h1>
               )}
@@ -955,7 +955,7 @@ const ChargesInformations = () => {
           </div> */}
 
           <button
-            className="bg-blue-900 text-white w-16 rounded-lg h-8"
+            className="bg-blue text-white w-16 rounded-lg h-8"
             onClick={handleAddOrSave}
             // disabled={!isEditable} // Disable if not in edit mode
           >
@@ -967,7 +967,7 @@ const ChargesInformations = () => {
       <div className="overflow-x-auto ml-5">
         <table className="min-w-full text-left table-auto border-collapse">
           <thead className="bg-gray-200">
-            <tr className="bg-blue-900 text-white">
+            <tr className="bg-blue text-white">
               <th className="px-6 py-3 text-base font-bold">S NO.</th>
               {/* <th className="px-6 py-3 text-base font-bold">State</th> */}
               <th className="px-6 py-3 text-base font-bold">Category Name</th>
@@ -1208,7 +1208,7 @@ const ChargesInformations = () => {
 //           </div>
 
 //           <button
-//             className="bg-blue-900 text-white w-16 rounded-lg h-8"
+//             className="bg-blue text-white w-16 rounded-lg h-8"
 //             onClick={handleAddOrSave}
 //             disabled={!isEditable}
 //           >
@@ -1220,7 +1220,7 @@ const ChargesInformations = () => {
 //       <div className="overflow-x-auto ml-5">
 //         <table className="min-w-full text-left table-auto border-collapse">
 //           <thead className="bg-gray-200">
-//             <tr className="bg-blue-900 text-white">
+//             <tr className="bg-blue text-white">
 //               <th className="px-6 py-3 text-base font-bold">S NO. </th>
 //               <th className="px-6 py-3 text-base font-bold">State </th>
 //               <th className="px-6 py-3 text-base font-bold">Category Name</th>

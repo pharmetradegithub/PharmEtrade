@@ -391,7 +391,7 @@ const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per p
             Charges Information
           </h1> */}
           {/* {isEditable && ( */}
-          {/* <h1 className="absolute -top-4 left-4 bg-blue-900 px-2 text-xl font-semibold text-white rounded-md">
+          {/* <h1 className="absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md">
               Charges Information
             </h1> */}
           {/* )} */}
@@ -468,14 +468,14 @@ const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per p
           </div> 
 
           {/* <button
-            className="bg-blue-900 text-white w-16 rounded-lg h-8"
+            className="bg-blue text-white w-16 rounded-lg h-8"
             onClick={handleAddOrSave}
             disabled={!isEditable} // Disable if not in edit mode
           >
             {editingIndex !== null ? "Save" : "ADD"}
           </button> 
           <button
-            className={`bg-blue-900 text-white w-16 rounded-lg h-8 ${editingIndex === null && getCharge.length >= 2 ? "opacity-50 cursor-not-allowed" : ""
+            className={`bg-blue text-white w-16 rounded-lg h-8 ${editingIndex === null && getCharge.length >= 2 ? "opacity-50 cursor-not-allowed" : ""
               }`}
             onClick={handleAddOrSave}
             disabled={editingIndex === null && getCharge.length >= 2}
@@ -498,7 +498,7 @@ const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per p
             <table className="min-w-full text-left table-auto border-collapse">
 
               <thead className="bg-gray-200">
-                <tr className="bg-blue-900 text-white">
+                <tr className="bg-blue text-white">
                   <th className="px-6 py-3 text-base font-bold">S NO.</th>
                   <th className="px-6 py-3 text-base font-bold">State</th>
                   <th className="px-6 py-3 text-base font-bold">Category Name</th>

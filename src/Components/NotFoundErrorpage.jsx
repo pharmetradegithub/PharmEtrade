@@ -21,7 +21,7 @@ const NotFoundErrorpage = () => {
 
             </div>
             <div>
-                <button className='bg-blue-900 text-white p-1 rounded-full px-2'
+                <button className='bg-blue text-white p-1 rounded-full px-2'
                 >
                     <Link to="/app">  Go To Home</Link></button>
             </div>

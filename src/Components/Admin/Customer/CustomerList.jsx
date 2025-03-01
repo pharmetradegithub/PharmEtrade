@@ -305,7 +305,7 @@
 //             {error && <div>Error: {error.message}</div>}
 //             {!loading && !error && (
 //               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-//                 <thead className="text-xs text-white bg-blue-900 dark:bg-gray-700 dark:text-gray-400">
+//                 <thead className="text-xs text-white bg-blue dark:bg-gray-700 dark:text-gray-400">
 //                   <tr>
 //                     <th className="px-6 py-3 text-center">S.NO</th>
 //                     <th
@@ -916,7 +916,7 @@ const CustomerList = () => {
 
 <button
                   onClick={handleSearchClick}
-                  className="absolute bg-blue-900 p-2 right-0 top-1/2 transform -translate-y-1/2"
+                  className="absolute bg-blue p-2 right-0 top-1/2 transform -translate-y-1/2"
                 >
                   <img src={searchImg} className="w-4 h-4" />
                 </button>
@@ -931,7 +931,7 @@ const CustomerList = () => {
             {error && <div>Error: {error.message}</div>}
             {!loading && !error && (
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-white bg-blue-900 dark:bg-gray-700 dark:text-gray-400">
+                <thead className="text-xs text-white bg-blue dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                     <th className="px-6 py-3 text-center">S.NO</th>
                     <th

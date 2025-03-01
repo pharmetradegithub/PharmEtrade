@@ -543,7 +543,7 @@
 //                         onClick={() =>
 //                           handleCart(product.productID, product.CartQuantity)
 //                         }
-//                         className="flex text-white h-[40px] cursor-pointer px-2 rounded-lg bg-blue-900 mx-3 justify-center items-center"
+//                         className="flex text-white h-[40px] cursor-pointer px-2 rounded-lg bg-blue mx-3 justify-center items-center"
 //                       >
 //                         <div className="mr-1">
 //                           <img
@@ -565,7 +565,7 @@
 //                                   ${
 //                                     product.amountInStock === 0
 //                                       ? "bg-gray-400 cursor-not-allowed"
-//                                       : "bg-blue-900 cursor-pointer"
+//                                       : "bg-blue cursor-pointer"
 //                                   }`}
 //                       >
 //                         <div className="mr-1">
@@ -1651,7 +1651,7 @@ function LayoutCategory({
                           className={`flex text-white h-[32px] px-2 w-40 md:w-auto mt-5 md:mt-24 rounded-lg  justify-center items-center
                                   ${product.amountInStock === 0
                               ? "bg-gray-400 cursor-not-allowed"
-                              : "bg-blue-900 cursor-pointer"
+                              : "bg-blue cursor-pointer"
                             }`}
                         >
                           <div className="mr-1">
@@ -1685,7 +1685,7 @@ function LayoutCategory({
                         onClick={() =>
                           handleCart(product.productID, product.CartQuantity)
                         }
-                        className="flex text-white h-[40px] cursor-pointer px-2 rounded-lg bg-blue-900 mx-3 justify-center items-center"
+                        className="flex text-white h-[40px] cursor-pointer px-2 rounded-lg bg-blue mx-3 justify-center items-center"
                       >
                         <div className="mr-1">
                           <img

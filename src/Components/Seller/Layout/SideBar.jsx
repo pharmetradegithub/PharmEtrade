@@ -197,7 +197,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`p-2 bg-blue-900 absolute h-[calc(100%-80px)] overflow-scroll z-[100] font-normal flex flex-col shadow-lg ${
+      className={`p-2 bg-blue absolute h-[calc(100%-80px)] overflow-scroll z-[100] font-normal flex flex-col shadow-lg ${
         isCollapsed ? "min-w-16 items-center" : "min-w-64"
       }`}
     >

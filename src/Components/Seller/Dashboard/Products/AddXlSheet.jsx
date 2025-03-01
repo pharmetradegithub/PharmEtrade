@@ -40,7 +40,7 @@ const AddXlSheet = () => {
   return (
     <div className="flex flex-col  justify-center pl-8 mt-4 bg-gray-100">
       <div className="flex flex-col justify-start ">
-        <h1 className="text-2xl font-bold text-blue-900 ">ADD PRODUCT</h1>
+        <h1 className="text-2xl font-bold text-blue2 ">ADD PRODUCT</h1>
         <p className="border-b border-blue-900 w-40  "></p>
       </div>
       <div className="w-full max-w-md p-8 mt-8 bg-white rounded-lg shadow-lg">
@@ -65,7 +65,7 @@ const AddXlSheet = () => {
           {file && <p className="text-green-500 mb-4">{file.name} selected</p>}
           <button
             type="submit"
-            className="w-full bg-blue-900 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+            className="w-full bg-blue text-white py-2 px-4 rounded-lg hover:bg-blue-600"
           >
             Upload
           </button>

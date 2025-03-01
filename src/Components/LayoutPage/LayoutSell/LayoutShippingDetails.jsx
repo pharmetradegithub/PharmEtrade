@@ -38,7 +38,7 @@ const LayoutShippingDetails = () => {
             Marketplace Review{" "}
           </p>
           <div
-            className="flex items-center bg-blue-900 p-2 rounded-lg text-white text-[15px] cursor-pointer"
+            className="flex items-center bg-blue p-2 rounded-lg text-white text-[15px] cursor-pointer"
             onClick={handleAddNewProductClick}
           >
             <FiPlus />
@@ -95,7 +95,7 @@ const LayoutShippingDetails = () => {
 
           <div className="overflow-x-scroll text-[15px] w-full mt-4 font-sans">
             <table className="rounded-lg bg-white w-full">
-              <thead className="bg-blue-900 text-white">
+              <thead className="bg-blue text-white">
                 <tr>
                   <th className="border-b-2 py-4 min-w-36 pl-4 text-left">
                     ID

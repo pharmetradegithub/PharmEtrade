@@ -357,7 +357,7 @@ const LayoutNav = ({ Form_Data }) => {
     //           />
     //           <button
     //             onClick={() => handleSearchAPI()}
-    //             className="w-[40px] flex items-center justify-center p-2 bg-blue-900 text-white border-blue-500 rounded-r-md focus:outline-none container-focus"
+    //             className="w-[40px] flex items-center justify-center p-2 bg-blue text-white border-blue-500 rounded-r-md focus:outline-none container-focus"
     //           >
     //             <img src={search} alt="search icon" />
     //           </button>
@@ -386,7 +386,7 @@ const LayoutNav = ({ Form_Data }) => {
     //             onMouseEnter={handleMouseEnter}
     //             onMouseLeave={handleMouseLeave}
     //           />
-    //           <div className="absolute text-white rounded-full bg-blue-900  ml-5 right-4.5 -mt-10 px-1 font-medium text-[10px]">
+    //           <div className="absolute text-white rounded-full bg-blue  ml-5 right-4.5 -mt-10 px-1 font-medium text-[10px]">
     //             {cartItems.length}
     //           </div>
     //         </Tooltip>
@@ -421,7 +421,7 @@ const LayoutNav = ({ Form_Data }) => {
     //       </Tooltip>
 
     //       <div onClick={() => navigate("/cart")} className="relative">
-    //         <div className="absolute text-white rounded-full bg-blue-900 bottom-1/2 left-1.5 px-1 font-medium text-[10px]">
+    //         <div className="absolute text-white rounded-full bg-blue bottom-1/2 left-1.5 px-1 font-medium text-[10px]">
     //           {cartItems.length}
     //         </div>
     //         <Tooltip title="Cart" placement="top">
@@ -449,7 +449,7 @@ const LayoutNav = ({ Form_Data }) => {
                   className="w-8 h-8 mr-[2px]"
                   alt={item.text}
                 />
-                <span className="text-sm font-semibold my-1">{item.text}</span>
+                <span className="text-blue2 text-sm font-semibold my-1">{item.text}</span>
               </div>
             ))}
           </div>
@@ -536,7 +536,7 @@ const LayoutNav = ({ Form_Data }) => {
               />
               <button
                 onClick={() => handleSearchAPI()}
-                className="w-[40px] flex items-center justify-center p-2 bg-blue-900 text-white border-blue-500 rounded-r-md focus:outline-none"
+                className="w-[40px] flex items-center justify-center p-2 bg-blue text-white border-blue-500 rounded-r-md focus:outline-none"
               >
                 <img src={search} alt="search icon" />
               </button>
@@ -553,12 +553,12 @@ const LayoutNav = ({ Form_Data }) => {
               onClick={() => navigate(item.path)}
             >
               <img src={item.icon} className="w-8 h-8 mr-1 nav-icon" />
-              <span className="text-sm font-semibold mr-2 nav-icon-text">{item.text}</span>
+              <span className="text-blue2 text-sm font-semibold mr-2 nav-icon-text">{item.text}</span>
             </div>
           ))}
 
           <div onClick={() => navigate("/cart")} className="relative">
-            <div className="absolute text-white rounded-full bg-blue-900 bottom-1/2 left-1.5 px-1 font-medium text-[10px]">
+            <div className="absolute text-white rounded-full bg-blue bottom-1/2 left-1.5 px-1 font-medium text-[10px]">
               {cartItems.length}
             </div>
             <Tooltip title="Cart" placement="top">
@@ -574,7 +574,7 @@ const LayoutNav = ({ Form_Data }) => {
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             />
-            <div className="absolute text-white rounded-full bg-blue-900 ml-5 right-10.5 -mt-8 px-1 font-medium text-[10px]">
+            <div className="absolute text-white rounded-full bg-blue ml-5 right-10.5 -mt-8 px-1 font-medium text-[10px]">
               {cartItems.length}
             </div>
           </Tooltip>
@@ -606,7 +606,7 @@ const LayoutNav = ({ Form_Data }) => {
           </Tooltip>
   
           {/* <div onClick={() => navigate("/cart")} className="relative">
-            <div className="absolute text-white rounded-full bg-blue-900 bottom-1/2 left-1.5 px-1 font-medium text-[10px]">{cartItems.length}</div>
+            <div className="absolute text-white rounded-full bg-blue bottom-1/2 left-1.5 px-1 font-medium text-[10px]">{cartItems.length}</div>
             <Tooltip title="Cart" placement="top">
               <img src={cartNav} className="w-6 h-6 mr-2" alt="cart icon" />
             </Tooltip>

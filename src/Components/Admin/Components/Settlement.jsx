@@ -737,7 +737,7 @@ function Settlement() {
                 <button
                   onClick={toggleDetails}
                   disabled={!selectedUserId} // Disable button when no seller is selected
-                  className={`bg-blue-900 rounded-md w-28 ml-5 mb-1 text-white font-semibold text-base items-center flex justify-center ${!selectedUserId || !searchTerm.trim()
+                  className={`bg-blue rounded-md w-28 ml-5 mb-1 text-white font-semibold text-base items-center flex justify-center ${!selectedUserId || !searchTerm.trim()
                       ? "opacity-50 cursor-not-allowed"
                       : "hover:bg-blue-700"
                     }`}
@@ -1033,7 +1033,7 @@ function Settlement() {
               </div>
               <div className="flex justify-center gap-2 my-4">
                 <button
-                  className="p-1 my-4 font-semibold text-white bg-blue-900 rounded-md w-14"
+                  className="p-1 my-4 font-semibold text-white bg-blue rounded-md w-14"
                   onClick={handleShowBalance}
                 >
                   Save

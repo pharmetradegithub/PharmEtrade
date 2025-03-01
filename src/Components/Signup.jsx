@@ -2063,7 +2063,7 @@ const Signup = () => {
                     className="flex items-center flex-1 flex-col"
                   >
                     <div
-                      className=" w-11 h-11 border rounded-full bg-blue-900 text-white flex justify-center items-center"
+                      className=" w-11 h-11 border rounded-full bg-blue text-white flex justify-center items-center"
                       style={{
                         ...(activeStep === index ? activeCircleStyle : {}),
                       }}
@@ -2083,7 +2083,7 @@ const Signup = () => {
                 <button
                   onClick={handleBack}
                   className={`${activeStep === 0 ? "opacity-50 " : ""} ${activeStep === 4 ? "hidden" : ""
-                    } bg-blue-900 w-24 p-2 flex justify-center text-white h-10 cursor-pointer font-semibold border rounded-lg my-4 `}
+                    } bg-blue w-24 p-2 flex justify-center text-white h-10 cursor-pointer font-semibold border rounded-lg my-4 `}
                 >
                   {/* <img src={back} className="w-6" /> */}
                   <div className="text-lg font-semibold text-white">BACK</div>
@@ -2091,7 +2091,7 @@ const Signup = () => {
 
                 <button
                   onClick={handleNext}
-                  className="bg-blue-900 w-24 h-10 cursor-pointer  border rounded-lg my-4 flex items-center justify-center"
+                  className="bg-blue w-24 h-10 cursor-pointer  border rounded-lg my-4 flex items-center justify-center"
                 >
                   {activeStep === 4 ? (
                     <div className="text-white font-bold">Go To Home</div>

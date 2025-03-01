@@ -505,7 +505,7 @@
 //                   {/* Proceed Payment Button */}
 //                   <div className="flex justify-end mt-4">
 //                     <button
-//                       className="w-40 h-10 bg-blue-900 text-white rounded-full shadow-lg hover:bg-blue-800 transition-colors"
+//                       className="w-40 h-10 bg-blue text-white rounded-full shadow-lg hover:bg-blue-800 transition-colors"
 //                       onClick={handleProceedPayment}
 //                     >
 //                       Proceed Payment
@@ -560,7 +560,7 @@
 //               {isButtonVisible && (
 //                 <button
 //                   onClick={handleProceedCodPayment}
-//                   className="mt-4 bg-blue-900 text-white w-40 p-1 rounded-full"
+//                   className="mt-4 bg-blue text-white w-40 p-1 rounded-full"
 //                 >
 //                   Proceed Payment
 //                 </button>
@@ -1320,7 +1320,7 @@ const Payment = ({amount}) => {
                   {/* Proceed Payment Button *
                   <div className="flex justify-end mt-4">
                     <button
-                      className="w-40 h-10 bg-blue-900 text-white rounded-full shadow-lg hover:bg-blue-800 transition-colors"
+                      className="w-40 h-10 bg-blue text-white rounded-full shadow-lg hover:bg-blue-800 transition-colors"
                       onClick={handleProceedPayment}
                     >
                       Proceed Payment
@@ -1375,7 +1375,7 @@ const Payment = ({amount}) => {
               {isButtonVisible && (
                 <button
                   onClick={handleProceedCodPayment}
-                  className="mt-4 bg-blue-900 text-white w-40 p-1 rounded-full"
+                  className="mt-4 bg-blue text-white w-40 p-1 rounded-full"
                 >
                   Proceed Payment
                 </button>
