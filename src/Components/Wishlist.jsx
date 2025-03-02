@@ -152,10 +152,10 @@ function Wishlist({ topMargin, addCart }) {
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
-      <h1 className="text-2xl mb-2 text-blue-900 font-semibold">PharmEtrade {">"} Wishlist</h1>
+      <h1 className="text-2xl mb-2 text-blue2 font-semibold">PharmEtrade {">"} Wishlist</h1>
       <div className="w-full h-full bg-white rounded-lg shadow-lg p-4 main-container">
         <div className="flex justify-between">
-          <h1 className="text-2xl m-2 font-semibold">Wishlist</h1>
+          <h1 className="text-2xl m-2 font-semibold text-blue2">Wishlist</h1>
           {/* <div className='flex bg-white  m-5'>
             
              <Search className="">
@@ -290,11 +290,13 @@ function Wishlist({ topMargin, addCart }) {
 
         ) : (
           <div className="flex flex-col items-center justify-center m-8">
-            <h2 className="text-2xl font-semibold text-gray-700">
+            <h2 className="text-2xl font-semibold text-green2">
               Your wishlist is currently empty.
             </h2>
-            <Link to="/allProducts" className="mt-5 px-8 py-3 font-bold text-white text-xl bg-blue border-2 rounded-full">
-              RETURN TO SHOP
+            <Link to="/allProducts" className="mt-5 px-8 py-3 font-bold text-white text-xl bg-blue2 border-2 rounded-full hover:bg-green2">
+                {/* RETURN TO SHOP */}
+                Return To Shop
+
             </Link>
           </div>
         )}

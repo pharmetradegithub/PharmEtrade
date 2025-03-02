@@ -366,7 +366,7 @@
 //               <img
 //                 src={Logo}
 //                 onClick={() => navigate("/")}
-//                 className="w-12 md:w-16 lg:w-32 xl:w-60 h-12 ml-2 md:ml-2 lg:ml-12 hover:cursor-pointer lg:overflow-x-hidden xl-0"
+//                 className="w-12 md:w-16 lg:w-32 xl:w-60 h-12 ml-2 md:ml-2 lg:ml-12 cursor-pointer lg:overflow-x-hidden xl-0"
 //                 alt="Logo"
 //               />
 //             </div>
@@ -402,7 +402,7 @@
 //                       className="w-4 md:w-6 lg:w-8 h-8"
 //                       alt="clickable"
 //                     />
-//                     <div className="text-blue hover:cursor-pointer ">
+//                     <div className="text-blue cursor-pointer ">
 //                       {user ? (
 //                         <>
 //                           <div className="text-base font-medium ">
@@ -440,7 +440,7 @@
 //                             </li>
 //                           ) : (
 //                             <a
-//                               className="bg-blue text-white py-1 hover:cursor-pointer px-2 rounded block text-center "
+//                               className="bg-blue text-white py-1 cursor-pointer px-2 rounded block text-center "
 //                               onClick={() => handleRedirect()}
 //                             >
 //                               Sign In
@@ -454,7 +454,7 @@
 //                           </>
 //                         ) : (
 //                           <p
-//                             className="text-base hover:cursor-pointer mb-2 text-left"
+//                             className="text-base cursor-pointer mb-2 text-left"
 //                             onClick={handlesignup}
 //                           >
 //                             New User?{" "}
@@ -764,9 +764,9 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   const [isNavOpen, setIsNavOpen] = useState(false); // State for hamburger menu
 
   let navigate = useNavigate();
-  const user = useSelector((state) => state.user.user) ;
-  const cart = useSelector((state) => state.cart.cart) ;
-  const components = useSelector((state) => state.master.productCategoryGetAll) ;
+  const user = useSelector((state) => state.user.user);
+  const cart = useSelector((state) => state.cart.cart);
+  const components = useSelector((state) => state.master.productCategoryGetAll);
   const modifiedComponents = [
     { productCategoryId: -1, categoryName: "All Products" },
     ...components,
@@ -918,9 +918,10 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   ];
 
   const downSocialItems = [
-    { icon: linkedin, href: "https://www.linkedin.com/company/pharmetrade/"},
+    { icon: linkedin, href: "https://www.linkedin.com/company/pharmetrade/" },
     {
-      icon: facebook, href: "https://www.facebook.com/PharmETrade" },
+      icon: facebook, href: "https://www.facebook.com/PharmETrade"
+    },
     // { icon: insta, href: "https://www.instagram.com/pharm_etrade/" },
     // { icon: twitter, path: "#" },
   ];
@@ -1086,155 +1087,155 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
   return (
     <nav
       ref={topDivRef}
-      className=" fixed w-screen pt-1 top-0  z-10 bg-white text-grey-500"
+      className=" fixed w-full pt-1 top-0  z-10 bg-white text-grey-500"
     >
-      <div className=" flex flex-col w-full justify-between ">
-        <ul className="text-3xl w-full">
-          <div className="flex flex-row h-[60px] justify-between gap-4 md:gap-12 lg:gap-10 items-center text-xl bg-white text-gray-500">
-            <div className="flex items-center gap-4 md:hidden">
-              <img
-                src={isNavOpen ? backIcon : hamburgerIcon} // Toggle icon between hamburger and back
-                alt="Menu"
-                className="w-6 h-6 cursor-pointer ml-3"
-                onClick={() => setIsNavOpen(!isNavOpen)} // Toggle menu state
-              />
-            </div>
-
-            <div>
-              <img
-                src={Logo}
-                // onClick={() => navigate("/")}
-                onClick={() => {
-                  setSelectedIndex(""); 
-                  navigate("/");
-                }}
-                // className="w-18 md:w-16 lg:w-32 xl:w-60 h-9 ml-2 md:ml-2 lg:ml-12 hover:cursor-pointer lg:overflow-x-hidden"
-                className="w-28 sm:w-36 md:w-36 lg:w-48 xl:w-60 h-auto ml-2 md:ml-2 lg:ml-12 hover:cursor-pointer"
-                alt="Logo"
-              />
-            </div>
-
-            {/* Flexbox for Menu Items and Icons (User, Cart, Wishlist) */}
-            <div className="flex h-full md:flex-row md:gap-4 lg:gap-4 xl:flex xl:flex-row xl:justify-between xl:gap-6 px-4 items-center">
-              <div className="hidden md:flex gap-3 justify-around h-full items-center">
-                {MenuItems.map((item, index) => (
-                  <li
-                    className={`textColor hover:bg-slate-200 rounded-md flex justify-center p-1 px-1 items-center w-fit cursor-pointer font-semibold text-[17px] leading-none ${
-                      selectedIndex === index
-                        ? "bg-slate-200 hover:text-blue text-blue border-0 font-semibold"
-                        : "border-transparent border-2"
-                    }`}
-                    key={index}
-                    onClick={() => handleSelect(index)}
-                  >
-                    {item}
-                  </li>
-                ))}
+      <div className="container mx-auto justify-between md:items-center md:flex">
+        <div className=" flex flex-col w-full justify-between ">
+          <ul className="text-3xl w-full">
+            <div className="flex flex-row h-[60px] justify-between gap-4 md:gap-12 lg:gap-10 items-center text-xl bg-white text-gray-500">
+              <div className="flex items-center gap-4 md:hidden bg-blue rounded-md">
+                <img
+                  src={isNavOpen ? backIcon : hamburgerIcon} // Toggle icon between hamburger and back
+                  alt="Menu"
+                  className="w-8 h-8 cursor-pointer"
+                  onClick={() => setIsNavOpen(!isNavOpen)} // Toggle menu state
+                />
               </div>
 
-              {/* User icon, Cart, Wishlist visible on all screens */}
-              <div className="flex flex-row gap-4 text-md items-center font-thin">
-                {/* User icon */}
-                <div
-                  className="relative"
-                  onMouseEnter={() => setIsPopupVisible(true)}
-                  onMouseLeave={() => setIsPopupVisible(false)}
-                >
-                  <div
-                    className="flex items-center cursor-pointer -ml-3"
-                    onClick={() => setIsPopupVisible((prevState) => !prevState)}
-                  >  
-                    <img
-                      src={add}
-                      className="w-6 md:w-6 lg:w-8"
-                      alt="clickable"
-                    />
-                    <div className="text-blue hover:cursor-pointer lg:mr-16 lg:w-">
-                      {user ? (
-                        <div className="textColor text-sm sm:text-xs flex flex-wrap md:text-base xl:text-lg font-semibold leading-none">
-                          {user.firstName}
-                          <p className="hidden lg:inline ml-1">
-                            {user.lastName}
-                          </p>
-                        </div>
-                      ) : (
-                          <div className="textColor font-semibold">Sign in</div>
-                      )}
-                    </div>
-                  </div>
-                  {isPopupVisible && (
-                    <div className="fixed flex z-10 -ml-5">
-                      <div className="bg-white p-4 rounded shadow-lg w-60">
-                        <div className="w-full flex">
-                          {user ? (
-                            <li
-                              className="cursor-pointer"
-                              onClick={() => handleLogout()}
-                            >
-                              <Link
-                                to="/login"
-                                className="bg-blue text-white rounded w-32 py-1 block text-center hover:bg-green2"
-                              >
-                                Logout
-                              </Link>
-                            </li>
-                          ) : (
-                            <a
-                                className="bg-blue2 hover:bg-green2 text-white py-1 hover:cursor-pointer px-2 rounded block text-center"
-                              onClick={() => handleRedirect()}
-                            >
-                              Sign In
-                            </a>
-                          )}
-                        </div>
-                        {!user && (
-                          <p
-                            className="text-base hover:cursor-pointer mb-2 text-left"
-                            onClick={handlesignup}
-                          >
-                            New User?{" "}
-                            <span className="text-blue hover:text-green2 hover:underline">
-                              Sign Up
-                            </span>
-                          </p>
-                        )}
-                        {user && (
-                          <>
-                            <h2
-                              className="text-lg font-semibold cursor-pointer"
-                              onClick={handleuser}
-                            >
-                              Your Account
-                            </h2>
-                            <ul className="text-left">
-                              <li className="mb-1">
-                                <a
-                                  href="#"
-                                  className="text-lg text-blue hover:text-green2"
-                                  onClick={handleorder}
-                                >
-                                  Order List
-                                </a>
-                              </li>
-                              <li>
-                                <a
-                                  href="#"
-                                  className="text-blue hover:text-green2"
-                                  onClick={handleclick}
-                                >
-                                  Wishlist
-                                </a>
-                              </li>
-                            </ul>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  )}
+              <div>
+                <img
+                  src={Logo}
+                  // onClick={() => navigate("/")}
+                  onClick={() => {
+                    setSelectedIndex("");
+                    navigate("/");
+                  }}
+                  // className="w-18 md:w-16 lg:w-32 xl:w-60 h-9 ml-2 md:ml-2 lg:ml-12 cursor-pointer lg:overflow-x-hidden"
+                  className="w-36 sm:w-36 md:w-36 lg:w-52 xl:w-50 h-auto cursor-pointer"
+                  alt="Logo"
+                />
+              </div>
+
+              {/* Flexbox for Menu Items and Icons (User, Cart, Wishlist) */}
+              <div className="flex h-full md:flex-row md:gap-4 lg:gap-4 xl:flex xl:flex-row xl:justify-between xl:gap-6 items-center">
+                <div className="hidden md:flex gap-3 justify-around h-full items-center">
+                  {MenuItems.map((item, index) => (
+                    <li
+                      className={`textColor hover:bg-green hover:text-white rounded-md flex justify-center p-1 px-1 items-center w-fit cursor-pointer font-semibold text-[17px] leading-none ${selectedIndex === index
+                        ? "bg-green hover:bg-green text-blue border-0 font-semibold"
+                        : "border-transparent border-2"
+                        }`}
+                      key={index}
+                      onClick={() => handleSelect(index)}
+                    >
+                      {item}
+                    </li>
+                  ))}
                 </div>
 
-                {/* Cart Icon */}
-                {/* <li className="cursor-pointer" onClick={handleCart}>
+                {/* User icon, Cart, Wishlist visible on all screens */}
+                <div className="flex flex-row gap-4 text-md items-center font-thin ">
+                  {/* User icon */}
+                  <div
+                    className="relative"
+                  // onMouseEnter={() => setIsPopupVisible(true)}
+                  // onMouseLeave={() => setIsPopupVisible(false)}
+                  >
+                    <div
+                      className="flex items-center cursor-pointer -ml-3 relative signin-nav"
+                    // onClick={() => setIsPopupVisible((prevState) => !prevState)}
+                    >
+                      <img
+                        src={add}
+                        className="w-6 md:w-6 lg:w-8"
+                        alt="clickable"
+                      />
+                      <div className="text-blue cursor-pointer text-[17px] hover:text-green">
+                        {user ? (
+                          <div className="text-sm sm:text-xs flex flex-wrap md:text-base xl:text-lg font-semibold leading-none">
+                            {user.firstName}
+                            <p className="hidden lg:inline ml-1">
+                              {user.lastName}
+                            </p>
+                          </div>
+                        ) : (
+                          <div className="font-semibold">Sign in</div>
+                        )}
+                      </div>
+                      {/* {isPopupVisible && ( */}
+                      <div className="absolute z-10 right-0 top-[30px] w-[max-content] is-popup-visible">
+                        <div className="bg-white p-4 rounded shadow-lg">
+                          <div className="w-full flex justify-end">
+                            {user ? (
+                              <li
+                                className="cursor-pointer"
+                                onClick={() => handleLogout()}
+                              >
+                                <Link
+                                  to="/login"
+                                  className="bg-blue2 text-white rounded w-32 py-1 block text-center hover:bg-green2"
+                                >
+                                  Logout
+                                </Link>
+                              </li>
+                            ) : (
+                              <a
+                                className="bg-blue text-white py-1 cursor-pointer px-2 rounded block text-center hover:bg-green hover:text-white mt-1 mb-2"
+                                onClick={() => handleRedirect()}
+                              >
+                                Sign In
+                              </a>
+                            )}
+                          </div>
+                          {!user && (
+                            <p
+                              className="text-base cursor-pointer mb-2 text-left text-green2" 
+                              onClick={handlesignup}
+                            >
+                              New User?{" "}
+                              <span className="text-blue hover:underline hover:text-green">
+                                Sign Up
+                              </span>
+                            </p>
+                          )}
+                          {user && (
+                            <>
+                              <h2
+                                className="text-lg font-semibold cursor-pointer"
+                                onClick={handleuser}
+                              >
+                                Your Account
+                              </h2>
+                              <ul className="text-left">
+                                <li className="mb-1">
+                                  <a
+                                    href="#"
+                                    className="text-lg text-blue2 hover:text-green2"
+                                    onClick={handleorder}
+                                  >
+                                    Order List
+                                  </a>
+                                </li>
+                                <li>
+                                  <a
+                                    href="#"
+                                    className="text-blue2 hover:text-green2"
+                                    onClick={handleclick}
+                                  >
+                                    Wishlist
+                                  </a>
+                                </li>
+                              </ul>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                      {/* )} */}
+                    </div>
+                  </div>
+
+                  {/* Cart Icon */}
+                  {/* <li className="cursor-pointer" onClick={handleCart}>
                   <Tooltip title="Cart" placement="top">
                     <img
                       src={cartNav}
@@ -1258,162 +1259,177 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                     />
                   </Tooltip>
                 </li> */}
+
+                  <div className=" mt-0 flex relative justify-between md:hidden">
+                    <div className="cursor-pointer relative" onClick={handleCart}>
+                      <img
+                        src={cartNav}
+                        className="w-9 lg:w-9 md:w-9 lg:ml-5 -ml-1 text-blue hover:text-gray-400 hover:scale-110 duration-500"
+                        alt="Cart"
+                      />
+                      <div className="absolute top-0 right-[9px] text-blue px-1 text-sm font-semibold">
+                        {cart.length}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
 
-          {isNavOpen && (
-            <div className="fixed top-0 left-0 w-[70%] h-full bg-blue-100 z-20 shadow-lg transform transition-transform duration-300">
-              <div className="flex justify-between items-center p-4">
-                <h2 className="text-xl font-semibold text-blue">Menu</h2>
-                <img
-                  src={backIcon} // Back icon for closing
-                  className="w-5 h-5 cursor-pointer"
-                  alt="Close Menu"
-                  onClick={() => setIsNavOpen(false)}
-                />
+            {isNavOpen && (
+              <div className="fixed top-0 left-0 w-[84%] h-full bg-white z-20 shadow-lg transform transition-transform duration-300 drop-shadow-[0_0_75px_rgba(0,0,0,1)]">
+                <div className="flex justify-between items-center p-4">
+                  <h2 className="text-xl font-semibold text-blue" onClick={() => setIsNavOpen(false)}>Menu</h2>
+                  <img
+                    src={backIcon} // Back icon for closing
+                    className="w-3 cursor-pointer"
+                    alt="Close Menu"
+                    onClick={() => setIsNavOpen(false)}
+                  />
+                </div>
+                <ul className="flex flex-col gap-4 p-4">
+                  {MenuItems.map((item, index) => (
+                    <li
+                      key={index}
+                      className="text-blue hover:bg-slate-200 rounded-md flex justify-start p-2 cursor-pointer font-medium text-lg"
+                      onClick={() => {
+                        handleSelect(index);
+                        setIsNavOpen(false); // Close menu on selection
+                      }}
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <ul className="flex flex-col gap-4 p-4">
-                {MenuItems.map((item, index) => (
-                  <li
-                    key={index}
-                    className="text-blue hover:bg-slate-200 rounded-md flex justify-start p-2 cursor-pointer font-medium text-lg"
-                    onClick={() => {
-                      handleSelect(index);
-                      setIsNavOpen(false); // Close menu on selection
-                    }}
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </ul>
+            )}
+          </ul>
 
-        {/* down div elemenet  */}
-        <div className="flex flex-col justify-around bg-gray-200 w-full h-24 md:h-fit lg:h-fit xl:h-fit items-center text-black border-grey-500 shadow-lg md:flex-row">
-          <div className="flex gap-4 items-center text-blue p-3 ml-0 lg:ml-8 w-full md:w-fit">
-            {downDivItems.map((item, index) => (
-              <li
-                key={index}
-                className={`flex gap-3 items-center justify-center font-semibold hover:text-green2
+        </div>
+      </div>
+
+      {/* down div elemenet  */}
+      <div className="bg-gray-200 border-grey-500 shadow-lg w-full md:py-2">
+        <div className="container mx-auto">
+          <div className="flex flex-col justify-between items-center md:flex-row">
+            <div className="flex gap-4 items-center text-blue py-3 w-full md:w-fit">
+              {downDivItems.map((item, index) => (
+                <li
+                  key={index}
+                  className={`flex gap-3 items-center justify-center font-semibold hover:text-black
         ${Form_Data?.userType === 4 && item.label === "SELL" ? "hidden" : ""} ${item.label === "JOIN" ? (user ? "cursor-not-allowed" : "cursor-pointer") : "cursor-pointer"}
 
         `}
-                onClick={() => handleItemclick(item)}
-              >
-                <img
-                  src={item.icon}
-                  className="max-w-5 max-h-5 sm:max-w-8 sm:max-h-8"
-                  alt={item.label}
-                />
-                <div className="text-sm sm:text-[15px] md:text-base lg:text-base">
-                  {item.label}
-                </div>{" "}
-                {/* Hide label on md+ screens */}
-              </li>
-            ))}
-          </div>
-
-          {/* Error message modal */}
-          {errorMessage && (
-            <div className="fixed inset-0 flex items-center justify-center bg-green2 bg-opacity-50 z-50">
-              <div className="bg-gray-100 p-4 sm:p-2 md:p-6 rounded-md shadow-md text-center w-11/12 sm:w-9/12 md:w-7/12 lg:w-4/12">
-                <div className="flex justify-start items-center border-b border-black">
+                  onClick={() => handleItemclick(item)}
+                >
                   <img
-                    src={warning}
-                    className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12"
-                    alt="Warning"
+                    src={item.icon}
+                    className="max-w-5 max-h-5 sm:max-w-8 sm:max-h-8 hover:text-green2"
+                    alt={item.label}
                   />
-                  <p className="text-red-600 text-lg sm:text-xl md:text-2xl font-semibold mt-2 ml-2">
-                    Warning!
-                  </p>
+                  <div className="sm:text-[15px] md:text-base lg:text-base hover:text-green2 text-blue2">
+                    {item.label}
+                  </div>{" "}
+                  {/* Hide label on md+ screens */}
+                </li>
+              ))}
+            </div>
+
+            {/* Error message modal */}
+            {errorMessage && (
+              <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                <div className="bg-gray-100 p-4 sm:p-2 md:p-6 rounded-md shadow-md text-center w-11/12 sm:w-9/12 md:w-7/12 lg:w-4/12">
+                  <div className="flex justify-start items-center border-b border-black">
+                    <img
+                      src={warning}
+                      className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12"
+                      alt="Warning"
+                    />
+                    <p className="text-red-600 text-lg sm:text-xl md:text-2xl font-semibold mt-2 ml-2">
+                      Warning!
+                    </p>
+                  </div>
+                  <div className="mt-4">
+                    <p className="text-black mb-4 text-sm sm:text-base md:text-lg">
+                      {errorMessage}
+                    </p>
+                    <button
+                      onClick={() => setErrorMessage("")}
+                      className="bg-red-500 text-white px-3 py-2 sm:px-4 sm:py-2 md:px-6 md:py-3 rounded mb-2 text-xs sm:text-sm md:text-base"
+                    >
+                      Close
+                    </button>
+                  </div>
                 </div>
-                <div className="mt-4">
-                  <p className="text-green2 mb-4 text-sm sm:text-base md:text-lg">
-                    {errorMessage}
-                  </p>
+              </div>
+            )}
+
+            {/* Search bar */}
+            <div className="flex items-center rounded-md lg:w-7/12 w-full md:w-1/2 md:mt-0 mb-3 md:mb-0">
+              <div
+                ref={dropdownRef}
+                className={`w-full relative flex items-center ${isContainerFocused ? "ring-2 ring-blue-500 rounded-md" : ""
+                  }`}
+                onFocus={handleFocusIn}
+                onBlur={handleFocusOut}
+              >
+                <button
+                  className={`h-12 pl-2 lg:items-center w-auto border-r-0 sm:w-auto font-semibold text-left gap-1 text-[14px]  lg:text-[16px] flex items-center text-blue2 bg-gray-100 border-gray-300 rounded-l-md border ${isDropdownOpen ? "bg-green text-white" : ""}`}
+                  onClick={handleDropdownToggle}
+                  onFocus={handleFocusIn}
+                  onBlur={handleFocusOut}
+                >
+                  {selectedItem}
+                  <span>
+                    <img src={dropdown} className="w-4 mr-2" />
+                  </span>
+                </button>
+
+                {isDropdownOpen && (
+                  <div className="absolute z-10 top-[46px] left-0">
+                    <div className="bg-white  sm:w-44 lg:w-64">
+                      <ul>
+                        {modifiedComponents.map((items, index) => (
+                          <li onClick={() => handleCriteria(items)} key={index}>
+                            <a
+                              className="pl-2 cursor-pointer text-sm font-semibold lg:text-sm text-blue2 leading-none block py-2 hover:text-white hover:bg-green"
+                              onClick={() => handleItemClick(items.categoryName)}
+                              onMouseLeave={handleCatMouseLeave}
+                            >
+                              {items.categoryName}
+                              {/* {items.categoryName === "OTC Medications" && (
+                                <hr className="border-t border-green w-full mt-1" />
+                                )} */}
+                            </a>
+                            <hr className="border-t border-green block w-full" />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex w-full  h-12 border">
+                  <input
+                    type="text"
+                    placeholder="Search for products..."
+                    value={SearchInput}
+                    className="flex-grow p-4 border-solid border-gray-300 border focus:outline-none focus:border-blue"
+                    onChange={handleSearch}
+                    onKeyDown={handleKeyDown}
+                  />
                   <button
-                    onClick={() => setErrorMessage("")}
-                    className="bg-red-500 text-white px-3 py-2 sm:px-4 sm:py-2 md:px-6 md:py-3 rounded mb-2 text-xs sm:text-sm md:text-base"
+                    onClick={() => handleSearchAPI()}
+                    className="w-[40px] flex items-center justify-center p-2 bg-blue text-white border-blue-500 rounded-r-md focus:outline-none hover:bg-green"
                   >
-                    Close
+                    <img src={search} />
                   </button>
                 </div>
               </div>
             </div>
-          )}
 
-          {/* Search bar */}
-          <div className="flex items-center lg:mr-1 rounded-md lg:w-7/12 w-full md:w-1/2 p-2 -mt-4 md:mt-0">
-            <div
-              ref={dropdownRef}
-              className={`w-full relative flex items-center ${
-                isContainerFocused ? "ring-2 ring-blue-500 rounded-md" : ""
-              }`}
-              onFocus={handleFocusIn}
-              onBlur={handleFocusOut}
-            >
-              <button
-                className={`h-12 pl-2 mr-[1px] lg:w-auto lg:items-center w-auto  sm:w-auto font-semibold text-left gap-1 text-[14px]  lg:text-[16px] flex items-center text-blue2 hover:text-green2 bg-gray-100 border-gray-300 rounded-l-md border
-        ${isButtonFocused ? "ring-2 ring-blue-500" : ""}`}
-                onClick={handleDropdownToggle}
-                onFocus={handleFocusIn}
-                onBlur={handleFocusOut}
-              >
-                {selectedItem}
-                <span>
-                  <img src={dropdown} className="h-4 w-4" />
-                </span>
-              </button>
-
-              {isDropdownOpen && (
-                <div
-                  className="absolute z-10"
-                  style={{ top: "30px", left: "0px" }}
-                >
-                  <div className="bg-white sm:w-44 lg:w-64 ">
-                    <ul>
-                    {modifiedComponents.map((items, index) => (
-                      <li onClick={() => handleCriteria(items)} key={index}>
-                          <a
-                            className="hover:text-green2 ml-2 cursor-pointer text-sm font-semibold lg:text-sm  text-blue2 leading-none"
-                            onClick={() => handleItemClick(items.categoryName)}
-                            onMouseLeave={handleCatMouseLeave}
-                          >
-                          {items.categoryName} {items.categoryName === "OTC Medications" && (
-                            <hr className="border-t border-green2 w-full mt-1" />
-                          )}
-                          </a>
-                        </li>
-                    ))}
-                    </ul>
-                  </div>
-                </div>
-              )}
-
-              <div className="flex w-full  h-12 border">
-                <input
-                  type="text"
-                  placeholder="Search for products..."
-                  value={SearchInput}
-                  className="flex-grow p-4 border-none focus:outline-none "
-                  onChange={handleSearch}
-                  onKeyDown={handleKeyDown}
-                />
-                <button
-                  onClick={() => handleSearchAPI()}
-                  className="w-[40px] flex items-center justify-center p-2 bg-blue hover:bg-green2 text-white border-blue2 rounded-r-md focus:outline-none"
-                >
-                  <img src={search} />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Social items */}
-          {/* <div className="flex gap-5 items-center mr-6 justify-around text-blue p-4 w-full md:w-fit"> */}
+            {/* Social items */}
+            {/* <div className="flex gap-5 items-center mr-6 justify-around text-blue p-4 w-full md:w-fit"> */}
             {/* {downSocialItems.map((item, index) => (
               <li
                 key={index}
@@ -1455,38 +1471,40 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
               </li>
             ))} */}
             {/* Wishlist Icon */}
-          <div className=" mt-0 flex relative justify-between">
-            <ul className="flex items-center lg:mr-14">
+            <div className=" mt-0 hidden relative justify-between md:flex">
+              <ul className="flex items-center">
 
-            <li>
-              <Tooltip title="Wishlist" placement="top">
-                <img
-                  src={like}
-                  onClick={handleclick}
-                    className="w-5 md:w-7 cursor-pointer hover:scale-110 transition duration-300 "
-                  alt="Like"
-                />
-              </Tooltip>
-            </li>
-          
-            <li className="cursor-pointer" onClick={handleCart}>
-              <Tooltip title="Cart" placement="top">
-                <img
-                  src={cartNav}
-                  className="w-9 lg:w-9 md:w-9 lg:ml-5 -ml-1 text-blue hover:text-gray-400 hover:scale-110 duration-500"
-                  alt="Cart"
-                />
-              </Tooltip>
-              <div className="absolute text-white rounded-full px-1 text-sm border bg-blue top-0 right-16 font-medium">
-                {cart.length}
-              </div>
-            </li>
-            </ul>
+                <li className= "block md:hidden lg:block">
+                  <Tooltip title="Wishlist" placement="top">
+                    <img
+                      src={like}
+                      onClick={handleclick}
+                      className="w-5 md:w-7 cursor-pointer hover:scale-110 transition duration-300 "
+                      alt="Like"
+                    />
+                  </Tooltip>
+                </li>
+
+                <li className="cursor-pointer relative" onClick={handleCart}>
+                  <Tooltip title="Cart" placement="top">
+                    <img
+                      src={cartNav}
+                      className="w-9 lg:w-8 md:w-9 lg:ml-5 -ml-1 text-blue hover:text-gray-400 hover:scale-110 duration-500"
+                      alt="Cart"
+                    />
+                  </Tooltip>
+                  <div className="absolute top-0 right-[6px] px-1 text-sm text-blue font-semibold">
+                    {cart.length}
+                  </div>
+                </li>
+              </ul>
             </div>
 
-          {/* </div> */}
+            {/* </div> */}
+          </div>
         </div>
       </div>
+
     </nav>
   );
 }

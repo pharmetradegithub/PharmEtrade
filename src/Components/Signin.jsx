@@ -226,9 +226,9 @@ const Signin = () => {
                   </label>
                 </div>
                 <div>
-                  <label className="text-[18px] text-blue2">
+                  <label className="text-[18px] text-green2">
                     New User?{" "}
-                    <Link className="underline hover:text-green2" to="/signup">
+                    <Link className="text-blue2 underline hover:text-green2" to="/signup">
                       Sign Up
                     </Link>
                   </label>

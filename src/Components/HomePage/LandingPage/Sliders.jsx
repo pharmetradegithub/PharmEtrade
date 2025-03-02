@@ -178,7 +178,7 @@ function Sliders({ wishList, addCart }) {
 
   return (
     <>
-      <div className="">
+      <div className="container mx-auto">
         {/* <div className="w-full gap-2 flex flex-col sm:flex-wrap  lg:flex-row justify-between items-center ">
           <div className="w-full sm:w-full  lg:w-[48%] ">
             <ProductSection
@@ -206,43 +206,41 @@ function Sliders({ wishList, addCart }) {
         </div> */}
 
         <div
-          className={
-            pop
-              ? "getTouchs xl:w-full md:w-full sm:w-full relative h-auto sm:mt-10 md:mt-12 xl:mt-16 xl:mx-8 rounded-md xl:p-10 md:p-6 sm:p-4 flex flex-col justify-center"
-              : "getTouchs xl:w-[96%] md:w-full sm:w-full relative h-auto sm:mt-6 md:mt-8 xl:mt-16 xl:mx-8 rounded-md xl:p-5 md:p-4 sm:p-2 flex flex-col justify-center"
-          }
-          
-         
-            // className={
-            //   pop
-            //     ? "getTouchs xl:w-full md:w-full sm:w-full relative h-auto sm:mt-10 md:mt-12 xl:mt-16 xl:mx-8 rounded-md xl:p-10 md:p-6 sm:p-4 flex flex-col justify-center"
-            //     : "getTouchs xl:w-[96%] md:w-full sm:w-full relative h-auto sm:mt-6 md:mt-8 xl:mt-16 xl:mx-8 rounded-md xl:p-5 md:p-4 sm:p-2 flex flex-col justify-center"
-            // }
-          // style={{ backgroundColor: pop ? "#00b153" : "" }}
+          className={`getTouchs xl:w-full md:w-full sm:w-full relative h-auto xl:mt-16 rounded-md  justify-center flex flex-col ${pop
+            ? "sm:mt-10 md:mt-12 xl:p-10 md:p-6 sm:p-4"
+            : "sm:mt-6 md:mt-8 xl:p-5 md:p-4 sm:p-2"}`}
 
-            // className={
-            //   `getTouchs ${pop ? "xl:w-full bg-[#00b153]" : "xl:w-[96%] bg-[#ff0000]"} md:w-full sm:w-full relative h-auto sm:mt-${pop ? "10" : "6"} md:mt-${pop ? "12" : "8"} xl:mt-16 xl:mx-8 rounded-md xl:p-${pop ? "10" : "5"} md:p-${pop ? "6" : "4"} sm:p-${pop ? "4" : "2"} flex flex-col justify-center`
-            // }
-        
-          >
-            {/* Content goes here */}
-        
-       
-            {/* Content here */}
-       
 
-       
-           
-          <div className="border-2 border-white w-auto sm:my-2 md:my-4 xl:my-6 rounded-md xl:mx-12 lg:mx-8 md:mx-6">
-            <p className="absolute sm:top-10 md:top-1 xl:top-4 z-5 right-1/2 h-auto bg-box-blue text-white px-4 py-2 md:my-0 -my-4 rounded-md text-sm sm:text-base md:text-2xl">
+        // className={
+        //   pop
+        //     ? "getTouchs xl:w-full md:w-full sm:w-full relative h-auto sm:mt-10 md:mt-12 xl:mt-16 xl:mx-8 rounded-md xl:p-10 md:p-6 sm:p-4 flex flex-col justify-center"
+        //     : "getTouchs xl:w-[96%] md:w-full sm:w-full relative h-auto sm:mt-6 md:mt-8 xl:mt-16 xl:mx-8 rounded-md xl:p-5 md:p-4 sm:p-2 flex flex-col justify-center"
+        // }
+        // style={{ backgroundColor: pop ? "#00b153" : "" }}
+
+        // className={
+        //   `getTouchs ${pop ? "xl:w-full bg-[#00b153]" : "xl:w-[96%] bg-[#ff0000]"} md:w-full sm:w-full relative h-auto sm:mt-${pop ? "10" : "6"} md:mt-${pop ? "12" : "8"} xl:mt-16 xl:mx-8 rounded-md xl:p-${pop ? "10" : "5"} md:p-${pop ? "6" : "4"} sm:p-${pop ? "4" : "2"} flex flex-col justify-center`
+        // }
+
+        >
+          {/* Content goes here */}
+
+
+          {/* Content here */}
+
+
+
+
+          <div className="border-2 border-white w-auto sm:my-2 md:my-4 xl:my-6 rounded-md xl:mx-8 lg:mx-8 md:mx-6 py-4">
+            <p className="relative md:absolute sm:top-10 md:top-1 xl:top-4 z-5 left-0 md:left-[50%] translate-x-0 md:translate-x-[-50%] h-auto bg-box-blue text-white px-4 py-2 md:my-0 sm:my-0 -my-4 rounded-md text-sm sm:text-base md:text-2xl mb-2 md:mb-0 w-fit mx-auto md:mx-0 mt-1 md:mt-0">
               {/* Get In Touch */}
               Contact Us
             </p>
             <div className="sm:ml-4 md:ml-10 lg:ml-20 xl:ml-32 md:flex md:flex-row md:gap-10 lg:gap-16 xl:gap-28">
               <div className="flex items-center justify-center lg:pb-4 lg:pl-4 xl:pr-4">
-                <div ref={searchBarRef} className="relative flex items-center w-full max-w-md">
+                <div ref={searchBarRef} className="relative flex items-center w-fit">
                   <div className="sm:w-full   md:w-auto xl:w-fit  xl:pl-8">
-                    <ul className="sm:text-base md:text-xl ml-5 md:ml-0 xl:text-2xl mt-8 md:mt-0 flex flex-col items-center justify-center text-center text-white font-light bounce-in-top w-full">
+                    <ul className="sm:text-base md:text-xl xl:text-2xl flex flex-col items-center justify-center text-center text-white font-light bounce-in-top w-full">
                       <li className="">Manage Inventory</li>
                       <li>Increase cash flow</li>
                       <li>Grow your business</li>
@@ -256,7 +254,7 @@ function Sliders({ wishList, addCart }) {
                   type="text"
                   placeholder="Enter Your Name"
                   className="sm:w-60 md:w-72 xl:w-80 h-10 px-5"
-                  
+
                 />
                 <input
                   type="text"

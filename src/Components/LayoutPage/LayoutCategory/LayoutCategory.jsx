@@ -771,10 +771,10 @@ function LayoutCategory({
   const queryParams = new URLSearchParams(location.search);
   const CategoryId = queryParams.get("CategoryName");
   const modifiedComponents = [
-    { productCategoryId: -1, categoryName: "All" },
+    { productCategoryId: -1, categoryName: "All products" },
     ...components,
   ];
-  const [Header, setHeader] = useState("All");
+  const [Header, setHeader] = useState("All products");
   useEffect(() => {
     const heading = modifiedComponents.find(
       (component) => component.productCategoryId == CategoryId
@@ -1117,12 +1117,12 @@ function LayoutCategory({
       )}
 
       <div className="flex flex-col md:flex-row justify-between">
-        <h1 className=" text-lg md:text-2xl font-semibold text-blue-900">{Header}</h1>
+        <h1 className=" text-lg md:text-2xl font-semibold text-blue2">{Header}</h1>
 
         <div className="flex gap-1">
           <select
             onChange={handleSortChange}
-            className="bg-white w-auto h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center"
+            className="bg-white w-auto h-10 px-2 p-2 cursor-pointer text-blue2 border rounded-md items-center justify-center"
           >
             <option>Sort by</option>
             <option>Product Ascending (A-Z)</option>

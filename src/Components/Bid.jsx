@@ -282,12 +282,13 @@ const Bid = ({ topMargin }) => {
         <Notification show={notification.show} message={notification.message} />
       )}
       <div className="w-full sm:w-[90%] md:w-[80%] lg:w-[70%] bg-slate-100 px-6 sm:px-10 md:px-16 py-8 h-full">
-        <h2 className="text-xl sm:text-2xl font-semibold mb-4 pt-5">Request For Quote345678</h2>
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4 pt-5 text-blue2">Request For Quote</h2>
+        {/* Request For Quote345678 */}
         <form onSubmit={handleSubmit}>
           <div className="gap-4">
             <div>
-              <label className="block text-base font-semibold text-gray-700">
-                Product Name*
+              <label className="block text-base font-semibold text-blue2">
+                Product Name <span className="text-green2">*</span>
               </label>
                <input
         type="text"
@@ -301,8 +302,8 @@ const Bid = ({ topMargin }) => {
             </div>
             <div className="grid grid-cols-1 gap-4 my-4 md:grid-cols-2">
               <div>
-                <label className="block text-base font-semibold text-gray-700">
-                  Price($)*
+                <label className="block text-base font-semibold text-blue2">
+                  Price($)<span className="text-green2">*</span>
                 </label>
                   <input
           type="text"
@@ -315,8 +316,8 @@ const Bid = ({ topMargin }) => {
         {errors.price && <p className="text-red-500 text-sm">{errors.price}</p>}
               </div>
               <div>
-                <label className="block text-base font-semibold text-gray-700">
-                  Quantity*
+                <label className="block text-base font-semibold text-blue2">
+                  Quantity<span className="text-green2">*</span>
                 </label>
                  <input
           type="text"
@@ -329,8 +330,8 @@ const Bid = ({ topMargin }) => {
               </div>
             </div>
             <div>
-              <label className="block text-base font-semibold text-gray-700">
-                Comments*
+              <label className="block text-base font-semibold text-blue2">
+                Comments<span className="text-green2">*</span>
               </label>
                     <textarea
         name="comments"
@@ -343,12 +344,12 @@ const Bid = ({ topMargin }) => {
             </div>
           </div>
           <div className="border border-gray-200 bg-white rounded-lg p-4 mt-4">
-            <h3 className="text-xl sm:text-2xl font-semibold mt-6 mb-4">
+            <h3 className="text-xl sm:text-2xl font-semibold mt-6 mb-4 text-blue2">
               Buyer Information
             </h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
-                <label className="block text-base font-semibold text-gray-700">
+                <label className="block text-base font-semibold text-blue2">
                   First Name
                 </label>
                 <input
@@ -360,7 +361,7 @@ const Bid = ({ topMargin }) => {
                 />
               </div>
               <div>
-                <label className="block text-base font-semibold text-gray-700">
+                <label className="block text-base font-semibold text-blue2">
                   Last Name
                 </label>
                 <input
@@ -372,7 +373,7 @@ const Bid = ({ topMargin }) => {
                 />
               </div>
               <div>
-                <label className="block text-base font-semibold text-gray-700">
+                <label className="block text-base font-semibold text-blue2">
                   Email
                 </label>
                 <input
@@ -384,7 +385,7 @@ const Bid = ({ topMargin }) => {
                 />
               </div>
               <div>
-                <label className="block text-base font-semibold text-gray-700">
+                <label className="block text-base font-semibold text-blue2">
                   Phone
                 </label>
                 <input
@@ -401,7 +402,7 @@ const Bid = ({ topMargin }) => {
             <button
               type="submit"
               onClick={(e) => handleSubmit(e)}
-              className="mt-6 font-semibold px-4 py-2 bg-blue text-white rounded-md hover:bg-blue2-700"
+              className="mt-6 font-semibold px-4 py-2 bg-blue2 text-white rounded-md hover:bg-green2"
             >
               Request For Quote
             </button>

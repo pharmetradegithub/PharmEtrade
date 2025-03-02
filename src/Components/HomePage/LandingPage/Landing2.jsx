@@ -235,7 +235,7 @@ function Landing2({ wishList, addCart }) {
   ];
 
   return (
-    <div className="pt-6 w-full">
+    <div className="pt-6 container mx-auto">
       {/* <div className="w-full">
       <div className="flex justify-around flex-col sm:flex-col md:grid md:grid-cols-2 lg:flex lg:flex-row gap-6">
       
@@ -256,26 +256,26 @@ function Landing2({ wishList, addCart }) {
 
       </div> */}
 
-<div className="w-full">
+      <div className="w-full">
         <div className="flex flex-col sm:flex-col md:grid md:grid-cols-2 md:grid-rows-2 lg:flex lg:flex-row justify-around gap-6">
-    {slides.map((item, key) => (
-      <div
-        key={key}
-        className="hover:scale-110 w-full sm:w-full md:w-full items-center justify-center  lg:w-1/4 h-auto rounded-xl transition duration-300 ease-in-out max-w-sm p-1"
-        onClick={() => (item === slider4 && isLoggedIn ? null : handleClick(key))}
-      >
-        <img
-          src={item}
-          alt={`Slide ${key}`}
-          className={`h-auto w-full md:items-center md:justify-center md:min-ml-10 rounded-xl ${item === slider4 && isLoggedIn
-              ? "cursor-not-allowed" // Disallow cursor for slider4 when logged in
-              : "hover:cursor-pointer" // Default hover cursor
-            }`}
-        />
+          {slides.map((item, key) => (
+            <div
+              key={key}
+              className="hover:scale-110 w-full sm:w-full md:w-full items-center justify-center  lg:w-1/4 h-auto rounded-xl transition duration-300 ease-in-out max-w-sm"
+              onClick={() => (item === slider4 && isLoggedIn ? null : handleClick(key))}
+            >
+              <img
+                src={item}
+                alt={`Slide ${key}`}
+                className={`h-auto w-full md:items-center md:justify-center md:min-ml-10 rounded-xl ${item === slider4 && isLoggedIn
+                  ? "cursor-not-allowed" // Disallow cursor for slider4 when logged in
+                  : "hover:cursor-pointer" // Default hover cursor
+                  }`}
+              />
+            </div>
+          ))}
+        </div>
       </div>
-    ))}
-  </div>
-</div>
 
 
 
@@ -294,7 +294,7 @@ function Landing2({ wishList, addCart }) {
         )}
       </div>
       <div className="flex flex-col items-center text-center xl:mt-10 ">
-        <p className="textColor text-[45px] verySmall:text-[25px] md:text-[40px] xl:text-4xl  font-semibold sm:mt-0  mt-15">
+        <p className="text-blue2 text-[45px] verySmall:text-[25px] md:text-[40px] xl:text-4xl  font-semibold sm:mt-0  mt-15">
           Grow your business with PharmEtrade
         </p>
         {/* <p className="text-xl mb-2 font-light text-gray-900 xl:text-xl">
@@ -307,25 +307,25 @@ function Landing2({ wishList, addCart }) {
           <img src={line} className="w-fit h-8 mt-3" />
         </p> */}
       </div>
-      <div className="flex flex-col lg:flex-row md:flex-row items-center justify-evenly gap-6 -mb-8">
-  <div
-    className="p-4 rounded-2xl transition duration-300"
+      <div className="flex flex-col lg:flex-row md:flex-row items-center justify-between gap-6">
+        <div
+          className="p-4 rounded-2xl transition duration-300"
           style={{ height: "fit-content", backgroundColor: "#00b153" }}
-  >
+        >
           <ul className="space-y-2 lg:w-full font-sans sm:text-base sm:pb-2 xl:w-auto xl:pr-10 md:pb-6 md:text-lg xl:text-2xl xl:mt-6 font-medium pl-4">
-      {texts.map((item, key) => (
-        <li key={key} className="flex flex-row text-white items-center gap-2">
-          <img src={right2} className="w-6 bg-blue rounded-full border-none" alt="icon" />
-          {item}
-        </li>
-      ))}
-    </ul>
-  </div>
+            {texts.map((item, key) => (
+              <li key={key} className="flex flex-row text-white items-center gap-2">
+                <img src={right2} className="w-6 bg-blue rounded-full border-none" alt="icon" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
 
-  <div className="h-fit w-4/12">
-    <img src={bg2} alt="Pharmacy" className="rounded-xl object-cover" />
-  </div>
-</div>
+        <div className="h-fit w-3/6">
+          <img src={bg2} alt="Pharmacy" className="rounded-xl object-cover" />
+        </div>
+      </div>
 
 
       <div className="flex justify-center mt-3">

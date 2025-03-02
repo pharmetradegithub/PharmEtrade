@@ -15,7 +15,7 @@
 //       behavior: "smooth",
 //     });
 //   };
-  
+
 //   return (
 //     <>
 //     <div
@@ -153,10 +153,12 @@ import { IoIosArrowUp } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 // import linkedin from "../../../assets/linkedin_icon.png";
+// import linkedin from '../assets/linkedin_icon.png'
+// import facebook from "../assets/facebook_icon.png";
+// import insta from "../assets/instagram_icon.png";
 import linkedin from '../assets/linkedin (1).png'
 import facebook from "../assets/facebook (1).png";
 import insta from "../assets/instagram (1).png";
-
 function Footers({ topMargin }) {
   const user = useSelector((state) => state.user?.user || []);
   const scrollToTop = () => {
@@ -174,29 +176,31 @@ function Footers({ topMargin }) {
     { icon: insta, href: "https://www.instagram.com/pharm_etrade/" },
     // { icon: twitter, path: "#" },
   ];
-  
+
   return (
     <>
-    <div
+      <div
         className="cursor-pointer text-white font-semibold p-3 flex justify-center items-center text-[17px] min-w-screen z-50 bg-green2 w-screen"
         onClick={scrollToTop}
         style={{
           marginTop: `${topMargin}px`,
-          // backgroundColor: "#00b153",
+          backgroundColor: "#00b153",
         }}
       >
         {" "}
         Back To Top
         <IoIosArrowUp className="w-8 h-6" />
       </div>
-    <div className="text-white bg-blue relative z-40">
-      <div className="flex flex-col xl:flex-row justify-between xl:gap-12 gap-6 w-screen p-6 xl:p-10">
-        {/* About Us Section */}
+      <div className="text-white bg-blue relative z-40">
+        <div className="container mx-auto">
+          <div className="flex flex-col xl:flex-row justify-between xl:gap-12 gap-6 py-6 xl:py-10">
 
-        <div className=" flex items-center">
-          <img src={logo} className="w-52 xl:w-64 lg:ml-2"/>
-        </div>
-        {/* <div className="flex flex-col xl:text-md  w-full xl:w-auto">
+            {/* About Us Section */}
+
+            <div className=" flex items-center">
+              <img src={logo} className="w-36 sm:w-36 md:w-36 lg:w-52 xl:w-50 h-auto cursor-pointer" />
+            </div>
+            {/* <div className="flex flex-col xl:text-md  w-full xl:w-auto">
           <p className="text-md font-semibold mb-4">About Us</p>
           <p className="text-md font-thin text-justify mt-2">
             PharmEtrade is a secure online marketplace for independent
@@ -224,84 +228,84 @@ function Footers({ topMargin }) {
           <p className="mt-2 text-md font-thin"><span className="text-xl">*</span>Conditions Apply</p>
         </div> */}
 
-        {/* Quick Links and Support & Service Sections */}
-        <div className="flex flex-col w-full xl:w-auto">
-          <div className="flex flex-col md:flex-row items-center">
-            <div className="w-full md:w-44 p-2 text-md mb-4 md:mb-0 md:mr-10">
-              <p className="text-md mb-4 font-semibold">Quick Links</p>
-              <ul className="list-disc list-inside ">
-                <li>
-                    <Link to={user ? "/layout" : "login"} className="underline hover:text-green2">
-                      Seller Dashboard
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/wishlist" className="underline hover:text-green2">
-                    Wish list
-                  </Link>
-                  
-                </li>
-                {/* <li>
+            {/* Quick Links and Support & Service Sections */}
+            <div className="flex flex-col w-full xl:w-auto">
+              <div className="flex flex-col md:flex-row items-center">
+                <div className="w-full md:w-44 p-2 text-md mb-4 md:mb-0 md:mr-10">
+                  <p className="text-md mb-4 font-semibold">Quick Links</p>
+                  <ul className="list-disc list-inside ">
+                    <li>
+                      <Link to={user ? "/layout" : "login"} className="underline hover:text-green2">
+                        Seller Dashboard
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/wishlist" className="underline hover:text-green2">
+                        Wish list
+                      </Link>
 
-                <a href="#" className="underline ">
-                    Compare list
-                  </a>
-                 
-                </li> */}
-                {/* <li>
-                <Link to="/requestdemo" className="underline">
-                    {/* Blog *
-                    Request Demo
-                  </Link>
-                  
-                </li> */}
-              </ul>
+                    </li>
+                    {/* <li>
+
+                      <a href="#" className="underline">
+                        Compare list
+                      </a>
+
+                    </li> */}
+                    {/* <li>
+                      <Link to="/requestdemo" className="underline">
+                        {/* Blog *
+                        Request Demo
+                      </Link>
+
+                    </li> */}
+                  </ul>
+                </div>
+                <div className="w-full md:w-44 ml-2 md:ml-28 p-2 text-md">
+                  <p className="text-md mb-4 font-semibold">Support & Service</p>
+                  <ul className="list-disc list-inside">
+                    <li>
+                      <Link to="/PrivacyPolicy" className="underline hover:text-green2">
+                        Privacy Policy
+                      </Link>
+
+                    </li>
+                    <li>
+                      <Link to="/layoutterms" className="underline hover:text-green2">
+                        Terms & Conditions
+                      </Link>
+
+                    </li>
+                    <li>
+                      <Link to="/faqs" className="underline hover:text-green2">
+                        FAQ
+                      </Link>
+
+                    </li>
+                    <li>
+                      <Link to="/contactus" className="underline hover:text-green2">
+                        Contact Us
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
-            <div className="w-full md:w-44 ml-2 md:ml-28 p-2 text-md">
-              <p className="text-md mb-4 font-semibold">Support & Service</p>
-              <ul className="list-disc list-inside">
-                <li>
-                    <Link to="/PrivacyPolicy" className="underline hover:text-green2">
-                    Privacy Policy
-                  </Link>
-              
-                </li>
-                <li>
-                    <Link to="/layoutterms" className="underline hover:text-green2">
-                    Terms & Conditions
-                  </Link>
-                 
-                </li>
-                <li>
-                    <Link to="/faqs" className="underline hover:text-green2">
-                    FAQ
-                  </Link>
-                 
-                </li>
-                <li>
-                    <Link to="/contactus" className="underline hover:text-green2">
-                    Contact Us
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-          <div className="flex flex-col relative">
-            <h2 className="text-md mt-3">Subscribe</h2>
-            <div className="relative mt-2">
-              <input
-                type="text"
-                className="pl-9 h-10 w-full xl:w-80 rounded-lg text-black"
-                placeholder="Enter your email"
-              />{" "}
-              <img
-                src={email} 
-                className="w-5 absolute top-1/2 transform -translate-y-1/2 left-2 "
-                alt="Email Icon"
-              />
-            </div>
-            {/* {downSocialItems.map((item, index) => (
+            <div className="flex flex-col relative">
+              <h2 className="text-md mt-3">Subscribe For Special Offer</h2>
+              <div className="relative mt-2">
+                <input
+                  type="text"
+                  className="pl-9 h-10 w-full xl:w-80 rounded-lg text-black"
+                  placeholder="Enter your email"
+                />{" "}
+                <img
+                  src={email}
+                  className="w-5 absolute top-1/2 transform -translate-y-1/2 left-2 "
+                  alt="Email Icon"
+                />
+              </div>
+              {/* {downSocialItems.map((item, index) => (
               <li
                 key={index}
                 onClick={() => {
@@ -325,37 +329,34 @@ function Footers({ topMargin }) {
                 <div className="hidden xl:block text-sm">{item.label}</div>
               </li>
             ))} */}
-            <div className="flex flex-col">
+              <div className="flex justify-end pt-6">
 
-          
-            <div className="flex pt-6">
-
-            {downSocialItems.map((item, index) => (
-              <li
-                key={index}
-                onClick={() => {
-                  if (item.href.startsWith("http")) {
-                    window.open(item.href, "_blank", "noopener noreferrer");
-                  } else {
-                    navigate(item.href);
-                  }
-                }}
-                className="flex flex-col items-center justify-center cursor-pointer hover:text-green2"
-              >
-                {/* Show label above the icon */}
-                <div className="hidden xl:block text-sm mb-1">{item.label}</div>
-                <img
-                  src={item.icon}
-                  className="hidden lg:block max-w-6 max-h-6 item-center lg:max-w-8 lg:max-h-8 mr-12 hover:bg-green2"
-                  alt={item.label}
-                />
-              </li>
-            ))}
+                {downSocialItems.map((item, index) => (
+                  <li
+                    key={index}
+                    onClick={() => {
+                      if (item.href.startsWith("http")) {
+                        window.open(item.href, "_blank", "noopener noreferrer");
+                      } else {
+                        navigate(item.href);
+                      }
+                    }}
+                    className="flex flex-col items-center justify-center cursor-pointer hover:text-green2 ml-6"
+                  >
+                    {/* Show label above the icon */}
+                    <div className="hidden xl:block text-sm mb-1">{item.label}</div>
+                    <img
+                      src={item.icon}
+                      className="hidden lg:block max-w-6 max-h-6 lg:max-w-8 lg:max-h-8 hover:bg-green2"
+                      alt={item.label}
+                    />
+                  </li>
+                ))}
               </div>
-</div>
+            </div>
           </div>
+        </div>
       </div>
-    </div>
     </>
   );
 }

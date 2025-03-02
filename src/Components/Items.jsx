@@ -791,9 +791,9 @@ function Items({
                 )}
               </div>
 
-              <div className="text-[12px] lg:text-[14px]">
+              {/* <div className="text-[12px] lg:text-[14px]">
                 Inclusive of all taxes
-              </div>
+              </div> */}
 
               <div className="flex items-center">
                 {/* Render stars dynamically */}
@@ -947,7 +947,7 @@ function Items({
               )}
 
               <div className=" w-[80%] mt-3  bg-white space-y-4">
-                <h1 className="text-lg font-bold">Quick Overview</h1>
+                <h1 className="text-lg font-bold text-blue2">Quick Overview</h1>
                 <ul>
                   <li>{prod?.aboutTheProduct}</li>
                 </ul>

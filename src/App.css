@@ -10,8 +10,8 @@ body {
 
 @media(min-width: 1024px) {
   .container {
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 40px;
+    padding-right: 40px;
     max-width: 100%
   }
 }
@@ -26,10 +26,21 @@ body {
 
 @media(max-width: 768px) {
   .container {
-    max-width: 100%
+    max-width: 100%;
+    padding-left: 12px;
+    padding-right: 12px;
   }
 }
 
+.is-popup-visible {
+  display: none;
+}
+.signin-nav:hover .font-semibold{
+  color: #00b153;
+}
+.signin-nav:hover  .is-popup-visible {
+  display: block;
+}
 
 
 @keyframes bounce-in-top {
