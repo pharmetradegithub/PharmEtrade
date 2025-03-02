@@ -503,18 +503,20 @@ const LayoutNav = ({ Form_Data }) => {
 
               {isDropdownOpen && (
                 <div
-                  className="absolute z-10"
+                  className="absolute z-10 top-[46px] left-0"
                   style={{ top: "30px", left: "0px" }}
                 >
-                  <div className="bg-white px-4 py-3 rounded shadow-lg w-64">
+                  <div className="bg-white  sm:w-44 lg:w-64">
                     <ul>
                     {modifiedComponents.map((items, index) => (
                         <li onClick={() => handleCriteria(items)} key={index}>
-                          <a className="hover:text-green2 cursor-pointer  text-xs lg:text-sm font-semibold text-blue2  leading-none">
-                          {items.categoryName} {items.categoryName === "OTC Medications" && (
+                        <a className="pl-2 cursor-pointer text-sm font-semibold lg:text-sm text-blue2 leading-none block py-2 hover:text-white hover:bg-green">
+                          {items.categoryName}
+                          {/* {items.categoryName === "OTC Medications" && (
                             <hr className="border-t border-green-900 w-full mt-1" />
-                          )}
-                          </a>
+                          )} */}
+                        </a>
+                        <hr className="border-t border-green block w-full" />
                         </li>
                     ))}
                     </ul>

@@ -195,7 +195,7 @@ const Contactus = ({ topMargin }) => {
             <img className="w-full opacity-50" src={background_image} alt="Background" />
           </div> */}
 
-      <div className="text-left absolute top-2 left-2">
+      <div className="text-left absolute top-3 left-9 ">
         <Link to="/">
           <img src={logo} className="w-32 sm:w-44 md:w-52" />
         </Link>
@@ -216,7 +216,7 @@ const Contactus = ({ topMargin }) => {
             message={notification.message}
           />
         )}
-        <div className="flex flex-col sm:flex-row my-2 sm:my-4  w-full sm:w-[93%] gap-4 sm:gap-6 justify-around">
+        <div className="flex flex-col sm:flex-row my-2 sm:my-4  w-full sm:w-[93%]  sm:gap-6 justify-between">
           {/* Location */}
           <div
             className="flex items-center gap-3 bg-white rounded-md p-3 sm:p-0 w-full sm:w-[30%]  lg:justify-center"

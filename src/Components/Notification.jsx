@@ -16,7 +16,7 @@ const Notification = ({ show, message }) => {
       {/* <div className="fixed top-4 right-4 bg-blue text-white py-2 px-4 rounded-lg shadow-lg">
         {message}
       </div> */}
-      <div className="fixed top-4 right-4 bg-green-600 text-white py-2 px-4 rounded-lg shadow-lg z-50">
+      <div className="fixed top-4 right-4 bg-green2 text-white py-2 px-4 rounded-lg shadow-lg z-50">
         {message}
       </div>
     </Transition>

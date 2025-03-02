@@ -211,10 +211,10 @@ const OfferSlider = ({ images, Title }) => {
   console.log("newoffer", newoffer)
   return (
     <div className="flex flex-col justify-center gap-3 Large:gap-4 pt-4 pb-1">
-      <div className="flex justify-between  sm:justify-between ml-1 font-semibold text-3xl">
+      <div className="flex justify-between  sm:justify-between font-semibold text-3xl">
         <p className="textColor text-xl sm:text-xl md:text-xl lg:text-3xl">{Title}</p>
 
-        <div className="flex justify-end mr-1 gap-2">
+        <div className="flex justify-end gap-2">
           <button
             className="bg-white rounded-sm p-2"
             onClick={() => navigation("left")}
@@ -229,10 +229,10 @@ const OfferSlider = ({ images, Title }) => {
           </button>
         </div>
       </div>
-      <div className="w-full px-1 flex  justify-between">
+      <div className="w-full flex  justify-between">
         <div
           ref={carouselContainer}
-          className="flex w-full   gap-2 overflow-x-scroll "
+          className="flex w-full   gap-2 overflow-x-auto md:overflow-x-hidden"
         >
           {/* old code==== */}
           {/* {newoffer.map((element, index) => (
@@ -302,7 +302,7 @@ const OfferSlider = ({ images, Title }) => {
                     Up to {element?.discount}% off | Deals on {element?.specificationName}
                   </p>
                   <div className="w-full text-white font-semibold flex justify-end">
-                    <Link to="/allProducts/offers" className="hover:text-green2 drop-shadow-2xl px-2" style={{
+                    <Link to="/allProducts/offers" className="hover:text-green-900 drop-shadow-2xl px-2" style={{
                       backgroundColor: 'rgb(48 38 125 / 50%)'
                     }}>
                       See all offers

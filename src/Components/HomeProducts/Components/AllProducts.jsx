@@ -321,7 +321,7 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                     </span>
                   </div>
                 ) : (
-                  <h1 className="text-fonts text-sm sm:text-base  font-semibold mt-4">
+                  <h1 className="text-blue2 text-sm sm:text-base  font-semibold mt-4">
                     ${item.unitPrice?.toFixed(2)}
                   </h1>
                 )}
@@ -382,7 +382,7 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 <div className="text-base font-semibold">${item.upnMemberPrice?.toFixed(2)}</div>
               </div> */}
 
-              <div className="text-foot text-[13px]">
+              <div className="text-foot a text-[13px]">
                 {item.productCategory.categoryName}
               </div>
 

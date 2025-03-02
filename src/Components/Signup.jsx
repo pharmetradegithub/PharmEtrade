@@ -1263,7 +1263,7 @@ const Signup = () => {
               {/* User Type Section */}
               <div className="mb-4">
                 <label
-                  className="flex gap-2 text-gray-700 text-sm font-bold mb-2"
+                  className="flex gap-2 text-blue2 text-sm font-bold mb-2"
                   htmlFor="userType"
                 >
                   User Type
@@ -1290,7 +1290,7 @@ const Signup = () => {
               {userType === "Retail Pharmacy" && (
                 <div className="flex items-center">
                   <label className="text-gray-700">
-                    <span className="text-red-500">*</span>Are you a UPN Member
+                    <span className="text-green2">*</span>Are you a UPN Member
                   </label>
                   <Box sx={{ display: "flex", gap: 2 }}>
                     <div>
@@ -2063,7 +2063,7 @@ const Signup = () => {
                     className="flex items-center flex-1 flex-col"
                   >
                     <div
-                      className=" w-11 h-11 border rounded-full bg-blue2 text-white flex justify-center items-center"
+                      className=" w-11 h-11 border rounded-full bg-blue2 text-white flex justify-center items-center "
                       style={{
                         ...(activeStep === index ? activeCircleStyle : {}),
                       }}
@@ -2109,7 +2109,7 @@ const Signup = () => {
   );
 };
 const activeCircleStyle = {
-  backgroundColor: "#037d50",
+  backgroundColor: "#00b153",
 };
 
 export default Signup;

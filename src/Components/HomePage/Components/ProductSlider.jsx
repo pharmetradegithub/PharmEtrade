@@ -403,7 +403,7 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
       <div className="w-full p-4 flex justify-center bg-white">
         <div
           ref={carouselContainer}
-          className="flex w-full gap-6 overflow-x-scroll snap-x snap-mandatory"
+          className="flex w-full gap-6 overflow-x-auto md:overflow-x-hidden snap-x snap-mandatory"
         >
           {data && data.length > 0 ? (
             data.map((item, index) => (
@@ -454,15 +454,15 @@ const ProductSlider = ({ data, Title, addCart, wishList, productList }) => {
                       {new Date() >= new Date(item?.salePriceValidFrom) &&
                       new Date() <= new Date(item?.salePriceValidTo) ? (
                         <div className="flex items-center gap-1">
-                          <h1 className="text-blue2 font-semibold">
+                            <h1 className="text-blue2 font-semibold">
                             ${item.salePrice?.toFixed(2)}
                           </h1>
-                          <span className="text-[10px] text-green2 line-through">
+                            <span className="text-[10px] text-green2 line-through">
                             (${item.unitPrice?.toFixed(2)})
                           </span>
                         </div>
                       ) : (
-                        <h1 className="text-fonts font-semibold">
+                        <h1 className="text-blue2 font-semibold">
                           ${item.unitPrice?.toFixed(2)}
                         </h1>
                       )}

@@ -343,12 +343,12 @@ function LayoutOtcProducts({
       )}
 
       <div className="flex  flex-col md:flex-row justify-between ">
-        <h1 className="  text-xl md:text-2xl font-semibold text-blue-900">OTC PRODUCTS</h1>
+        <h1 className="  text-xl md:text-2xl font-semibold text-blue2">OTC PRODUCTS</h1>
         <div className="flex select-options">
           <div className="flex gap-1 select-options">
             <select
               onChange={handleSortChange}
-              className="bg-white w-auto select-options h-10 px-2 p-2 cursor-pointer text-black border rounded-md items-center justify-center"
+              className="bg-white w-auto select-options h-10 px-2 p-2 cursor-pointer text-blue2 border rounded-md items-center justify-center"
             >
               <option>Sort by</option>
               <option>Product Ascending (A-Z)</option>

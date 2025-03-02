@@ -59,11 +59,11 @@ const HomeLayout = ({ topDivRef, cartItems, topMargin }) => {
       
   }
   return (
-    <div className="w-screen ">
+    <div className="w-full">
       <Nav topDivRef={topDivRef} TriggerAPI={TriggerAPI} />
       <div
         className="w-full flex justify-center mt-[122px]"      >
-        <div className="Largest:w-[1550px]  Laptop:w-full  w-full ">
+        <div className="w-full ">
           <Outlet />
         </div>
       </div>
