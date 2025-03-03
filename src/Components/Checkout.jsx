@@ -242,7 +242,7 @@ function Address({ topMargin, totalAmount }) {
     <div
       
       className="bg-white w-full h-fit text-lg text-black px-12 py-2 relative" >
-      <img src={logo} className="w-48 h-16 cursor-pointer" alt='logo' onClick={handleNavigate} />
+      <img src={logo} className="w-48 cursor-pointer" alt='logo' onClick={handleNavigate} />
       <h1 className="text-3xl flex justify-center items-center text-black mb-3">Checkout</h1>
       <div className="bg-white p-4 w-full h-full border-t">
         <div className="flex flex-col">

@@ -321,7 +321,7 @@ function App() {
           <Route path="/whypharmetrade" element={<WhyPharma />} />
           <Route path="/faqs" element={<Faqs />} />
           <Route path="/aboutus" element={<AboutUs />} />{" "}
-          {/* <Route path="/contactus" element={<Contactus />} /> */}
+          <Route path="/contactus" element={<Contactus />} />
           <Route path="/requestdemo" element={<RequestDemo />} />
           <Route path="/layoutterms" element={<LayoutTerms />} />
 
@@ -339,7 +339,7 @@ function App() {
         </Route>
 
         <Route path="/checkout" element={<Address />} />
-        <Route path="/contactus" element={<Contactus />} />
+        {/* <Route path="/contactus" element={<Contactus />} /> */}
 
         <Route path="/gethelphere" element={<Gethelphere />} />
 
