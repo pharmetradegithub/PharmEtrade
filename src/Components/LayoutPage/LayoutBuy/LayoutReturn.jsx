@@ -60,7 +60,7 @@ const LayoutBuyReturn = () => {
     <div className="relative w-full h-full flex justify-center items-center overflow-y-scroll ">
       <div className=" w-[95%] h-full mt-4">
         <div className=" flex justify-between">
-          <p className="text-[22px] text-blue-900 font-semibold"> Returns </p>
+          <p className="text-[22px] text-blue2 font-semibold"> Returns </p>
           {/* <div
             className="flex items-center bg-blue p-2 rounded-lg text-white text-[20px] cursor-pointer"
             onClick={handleAddNewProductClick}
@@ -84,7 +84,7 @@ const LayoutBuyReturn = () => {
             >
               <div className="w-full">
                 <div className="flex justify-between items-center">
-                  <div className="text-[17px] text-gray-700 font-normal">
+                  <div className="text-[17px] text-blue2 font-normal">
                     {stat.label}
                   </div>
                   {/* <div className="menu-icon">
@@ -92,7 +92,7 @@ const LayoutBuyReturn = () => {
                   </div> */}
                 </div>
                 <div className="flex justify-between mt-2 items-center">
-                  <div className="text-2xl font-semibold">{stat.value}</div>
+                  <div className="text-2xl font-semibold text-green2">{stat.value}</div>
                   {/* <div
                     className={`text-sm p-1 rounded-lg ${
                       stat.percentage > 0 ? "bg-green-400" : "bg-red-400"

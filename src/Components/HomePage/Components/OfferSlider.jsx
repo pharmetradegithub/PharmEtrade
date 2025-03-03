@@ -146,9 +146,7 @@ let newoffer = [];
 const OfferSlider = ({ images, Title }) => {
   const carouselContainer = useRef(null);
   const specialOffers = useSelector((state) => state.product.productSpecialOffer) || [] ;
-  console.log("///", specialOffers)
   const getAll = useSelector((state) => state.offer.OfferGetLanding) || [];
-  console.log("getAll", getAll)
   newoffer = [];
   specialOffers?.map((element, index) => {
     const newObject = { ...element, image: '' };
@@ -208,7 +206,6 @@ const OfferSlider = ({ images, Title }) => {
     }
   }
 
-  console.log("newoffer", newoffer)
   return (
     <div className="flex flex-col justify-center gap-3 Large:gap-4 pt-4 pb-1">
       <div className="flex justify-between  sm:justify-between font-semibold text-3xl">
@@ -302,7 +299,7 @@ const OfferSlider = ({ images, Title }) => {
                     Up to {element?.discount}% off | Deals on {element?.specificationName}
                   </p>
                   <div className="w-full text-white font-semibold flex justify-end">
-                    <Link to="/allProducts/offers" className="hover:text-green-900 drop-shadow-2xl px-2" style={{
+                    <Link to="/allProducts/offers" className="hover:text-green2 drop-shadow-2xl px-2" style={{
                       backgroundColor: 'rgb(48 38 125 / 50%)'
                     }}>
                       See all offers

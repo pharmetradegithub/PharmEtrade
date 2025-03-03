@@ -150,7 +150,7 @@ const LayoutPurchaseHistory = () => {
       </Dialog>
       <div className="w-[95%] h-full mt-8">
         <div className="flex justify-between">
-          <p className="text-[22px] text-blue-900 font-semibold">
+          <p className="text-[22px] text-blue2 font-semibold">
             Purchase History
           </p>
         </div>

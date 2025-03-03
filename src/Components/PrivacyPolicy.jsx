@@ -52,7 +52,7 @@ function PrivacyPolicy({ topMargin, setActiveStep }) {
                             <div className='py-2'>
                                 <strong> PharmEtrade may collect the following types of information: </strong><br />
                                 •	<strong>Personal Information:</strong> Name, email address, phone number, and other details you provide.<br />
-                                •	<strong>Usage Data: </strong>IP addresses, browser type, operating system, and browsing activity.licensed <br />•	<strong>Cookies and Tracking Technologies:</strong> We use cookies to enhance user experience and analyze website traffic.</div>
+                                •	<strong>Usage Data: </strong>IP addresses, browser type, operating system, and browsing activity licensed. <br />•	<strong>Cookies and Tracking Technologies:</strong> We use cookies to enhance user experience and analyze website traffic.</div>
                             {/* <div className='py-2'>
                                 Over-the-counter (OTC) products are available for purchase without a prescription.
                                 It is your responsibility to ensure that non-prescription products are appropriate for your condition before purchasing and using them.  </div>
@@ -65,7 +65,7 @@ function PrivacyPolicy({ topMargin, setActiveStep }) {
                             <h1 className='text-blue-900 font-semibold text-xl'> 3.How We Use Your Information
                             </h1>
                             <div className='py-2'>
-                                Your information may be used for the following purposes:<br />
+                                <strong> Your information may be used for the following purposes: </strong><br />
                                 •	To provide and improve our services.<br />
                                 •	To personalize user experience and content.<br />
                                 •	To ensure security and prevent fraud.<br />
@@ -81,7 +81,7 @@ function PrivacyPolicy({ topMargin, setActiveStep }) {
                         <div className='py-4'>
                             <h1 className='font-semibold text-blue-900 text-xl'>4. Information Sharing and Disclosure </h1>
                             <div className='py-2'>
-                                We do not sell, trade, or rent personal information to third parties.  However, we may share information with:<br />
+                            <strong>We do not sell, trade, or rent personal information to third parties.  However, we may share information with:</strong><br />
                                 •	Service providers assisting in business operations.<br />
                                 •	Law enforcement when required by law.<br />
                                 •	Business partners with your consent.<br />
@@ -143,8 +143,8 @@ function PrivacyPolicy({ topMargin, setActiveStep }) {
                             <h1 className='font-semibold text-xl text-blue-900'>9. Contact Information
                             </h1>
                             <div className='py-2'>
-                                For questions or concerns regarding this policy, please contact us at  <br />
-                                info@pharmetrade.com
+                                For questions or concerns regarding this policy, please contact us at <span className='text-green2'>info@pharmetrade.com</span> <br />
+
                             </div>
                         </div>
                     </div>
