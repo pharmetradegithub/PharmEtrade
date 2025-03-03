@@ -479,7 +479,7 @@ const LayoutNav = ({ Form_Data }) => {
         )}
 
         {/* Search and Dropdown */}
-        <div className="flex sm:w-[30%] md:w-[60%] lg:w-[40%] lg:mt-2">
+        <div className="flex sm:w-[30%] md:w-[60%] lg:w-[50%] lg:mt-2">
           <div
             ref={dropdownRef}
             className={`w-full relative mb-3 flex items-center ${
@@ -559,16 +559,24 @@ const LayoutNav = ({ Form_Data }) => {
             </div>
           ))}
 
+<Tooltip title="Wishlist" placement="top">
+            <img
+              onClick={() => navigate("/layout/layoutwishlist")}
+              src={wishlist}
+              className="w-7 h-6"
+              alt="wishlist icon"
+            />
+          </Tooltip>
           <div onClick={() => navigate("/cart")} className="relative">
-            <div className="absolute top-0 right-[6px] px-1 text-sm text-blue font-semibold">
+            <div className="absolute top-0 right-[25px] px-1 text-sm text-blue font-semibold">
               {cartItems.length}
             </div>
             <Tooltip title="Cart" placement="top">
-              <img src={cartNav} className="w-7 h-7 " alt="cart icon" />
+              <img src={cartNav} className="w-8 h-8 mr-5" alt="cart icon" />
             </Tooltip>
           </div>
 
-          <Tooltip title="Notification" placement="top">
+          {/* <Tooltip title="Notification" placement="top">
             <img
               src={notification}
               className="w-9 h-9"
@@ -579,7 +587,7 @@ const LayoutNav = ({ Form_Data }) => {
             <div className="absolute text-white rounded-full bg-blue ml-5 right-10.5 -mt-8 px-1 font-medium text-[10px]">
               {cartItems.length}
             </div>
-          </Tooltip>
+          </Tooltip> */}
 
           {isPopupVisible && (
             <div
@@ -598,14 +606,7 @@ const LayoutNav = ({ Form_Data }) => {
             </div>
           )}
 
-          <Tooltip title="Wishlist" placement="top">
-            <img
-              onClick={() => navigate("/layout/layoutwishlist")}
-              src={wishlist}
-              className="w-7 h-7"
-              alt="wishlist icon"
-            />
-          </Tooltip>
+
   
           {/* <div onClick={() => navigate("/cart")} className="relative">
             <div className="absolute text-white rounded-full bg-blue bottom-1/2 left-1.5 px-1 font-medium text-[10px]">{cartItems.length}</div>

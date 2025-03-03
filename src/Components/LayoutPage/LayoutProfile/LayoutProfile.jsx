@@ -313,10 +313,10 @@ const LayoutProfile = () => {
       label: "Bank Information",
       grid: "bank",
     },
-    // {
-    //   label: "State Tax Information",
-    //   grid: "Tax",
-    // },
+    {
+      label: "State Tax Information",
+      grid: "Tax",
+    },
     {
       label: "Fees",
       grid: "charges",
@@ -1597,10 +1597,10 @@ const LayoutProfile = () => {
     View DEA License Copy
   </a>
 )} */}
-                    <label className="flex flex-col">
+                    <label className="flex flex-col text-blue2">
                       {" "}
                       DEA Expiration File
-                      <span>(jpg, png, jpeg,pdf,Max size 5MB)</span>
+                      <span className="text-green2">(jpg, png, jpeg,pdf,Max size 5MB)</span>
                     </label>
                     <TextField
                       label=""
@@ -1627,7 +1627,7 @@ const LayoutProfile = () => {
                           }
                         }}
                         className={`text-sm -mt-3 underline ${
-                          isAccountEdit ? "text-blue-500" : "text-gray-400"
+                          isAccountEdit ? "text-blue2" : "text-gray-400"
                         }`}
                       >
                         View DEA License Copy
@@ -1700,7 +1700,7 @@ const LayoutProfile = () => {
                       size="small"
                       className="w-[60%] input-full-width"
                     />
-                    <label> Pharmacy License Expiration Date </label>
+                    <label className= "text-blue2"> Pharmacy License Expiration Date </label>
 
                     {/* <TextField
                       label=""
@@ -1767,10 +1767,10 @@ const LayoutProfile = () => {
     View Pharmacy License Copy
   </a>
 )} */}
-                    <label className="flex flex-col">
+                    <label className="flex flex-col text-blue2">
                       {" "}
                       Pharmacy License Expiration File
-                      <span>(jpg, png, jpeg,pdf,Max size 5MB)</span>
+                      <span className="text-green2">(jpg, png, jpeg,pdf,Max size 5MB)</span>
                     </label>
 
                     <TextField
@@ -1800,7 +1800,7 @@ const LayoutProfile = () => {
                           }
                         }}
                         className={`text-sm -mt-3 underline ${
-                          isAccountEdit ? "text-blue-500" : "text-gray-400"
+                          isAccountEdit ? "text-blue2" : "text-gray-400"
                         }`}
                       >
                         View Pharmacy License Copy
@@ -1863,14 +1863,14 @@ const LayoutProfile = () => {
           </div>
         )}
 
-        {/* {visibleGrid === "Tax" && (
+        {visibleGrid === "Tax" && (
           <div
           //  className="bg-white border border-gray-400 rounded-lg px-8 mx-6 w-[90%] mt-4"
           >
-            {/* Your bank information grid details here *
+            {/* Your bank information grid details here */}
             <StateTaxInformation />
           </div>
-        )} */}
+        )}
 
         {visibleGrid === "charges" && (
           <div

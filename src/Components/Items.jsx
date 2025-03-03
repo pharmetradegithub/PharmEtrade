@@ -607,7 +607,6 @@ function Items({
 
   const ratingValue = ratings[0]?.rating || 0;
   const totalStar = 5;
-
   return (
     <div
       className="Largest:w-[1550px] mt-2  Laptop:w-full  w-full  flex flex-col font-sans overflow-y-scroll"
@@ -777,7 +776,7 @@ function Items({
                 {new Date() >= new Date(prod?.salePriceValidFrom) &&
                   new Date() <= new Date(prod?.salePriceValidTo) ? (
                   <>
-                    <span className="text-green2 font-semibold text-[16px] lg:text-[18px]">
+                    <span className="text-green2 text-[16px] lg:text-[18px]">
                       ${prod?.salePrice?.toFixed(2)}
                     </span>
                     <p className="text-xs ml-1 text-green2 line-through">
@@ -785,7 +784,7 @@ function Items({
                     </p>
                   </>
                 ) : (
-                  <span className="text-sky-500 font-semibold text-[16px] lg:text-[18px]">
+                  <span className="text-green2  text-[16px] lg:text-[18px]">
                     ${prod?.unitPrice?.toFixed(2)}
                   </span>
                 )}
@@ -1046,7 +1045,7 @@ function Items({
                 <div className="flex flex-col">
                   <div className="flex">
                     <p className="text-blue2 font-normal ">SKU : </p>
-                    <span> &nbsp; 6545555</span>
+                    <span> &nbsp; {prod?.sku}</span>
                     {/* <span>{prod?.sku}</span> */}
 
                   </div>
@@ -1099,7 +1098,7 @@ function Items({
                 Min Qty - {prod?.minOrderQuantity} and Max Qty - {prod?.maxOrderQuantity}
               </p> */}
               <div className="flex flex-col item-center">
-                <p className="text-green2 ml-4 text-sm">Purchase Requirement</p>
+                {/* <p className="text-green2 ml-4 text-sm">Purchase Requirement</p> */}
               <p className="text-red-500 ml-4 text-sm mb-2">{`Min Qty - ${prod?.minOrderQuantity ?? 0} and Max Qty -${prod?.maxOrderQuantity ?? 0}`}</p>
               </div>
               <div className="flex gap-2 mx-2">

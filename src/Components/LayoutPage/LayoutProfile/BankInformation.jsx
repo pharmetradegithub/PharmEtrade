@@ -1301,7 +1301,7 @@ const BankInformation = () => {
           <h1 className={`text-base md:text-xl font-semibold my-2 ${isTabEdit ? 'invisible' : 'text-blue2'}`}>
             Beneficiary Bank Details
           </h1>
-          <img src={edit} className="w-6 h-6 ml-4 cursor-pointer" onClick={handleTabClick} alt="Edit" />
+          {/* <img src={edit} className="w-6 h-6 ml-4 cursor-pointer" onClick={handleTabClick} alt="Edit" /> */}
         </div>
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col md:flex-row mb-4">
@@ -1312,7 +1312,7 @@ const BankInformation = () => {
                 value={formData.bankName}
                 onChange={handleChange}
                 size="small"
-                disabled={!isTabEdit}
+                // disabled={!isTabEdit}
                 error={!!errors.bankName}
                 helperText={errors.bankName}
                 fullWidth
@@ -1325,7 +1325,7 @@ const BankInformation = () => {
                 value={formData.BankAddress}
                 onChange={handleChange}
                 size="small"
-                disabled={!isTabEdit}
+                // disabled={!isTabEdit}
                 error={!!errors.BankAddress}
                 helperText={errors.BankAddress}
                 fullWidth
@@ -1339,7 +1339,7 @@ const BankInformation = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 size="small"
-                disabled={!isTabEdit}
+                // disabled={!isTabEdit}
                 error={!!errors.RoutingNumber}
                 helperText={errors.RoutingNumber}
                 fullWidth
@@ -1355,14 +1355,16 @@ const BankInformation = () => {
                 value={formData.AccountNumber}
                 onChange={handleChange}
                 size="small"
-                disabled={!isTabEdit}
+                // disabled={!isTabEdit}
                 error={!!errors.AccountNumber}
                 helperText={errors.AccountNumber}
                 fullWidth
               />
             </div>
             <div className="xl:ml-6 mr-2 my-2 md:my-0 w-full md:w-[45%] xl:w-[24.5%]">
-              <FormControl fullWidth error={!!errors.AccountType} size="small" disabled={!isTabEdit}>
+              <FormControl fullWidth error={!!errors.AccountType} size="small"
+                // disabled={!isTabEdit}
+              >
                 <InputLabel id="account-type-label">Account Type</InputLabel>
                 <Select
                   labelId="account-type-label"
@@ -1387,7 +1389,7 @@ const BankInformation = () => {
                 value={formData.CheckPayableTo}
                 onChange={handleChange}
                 size="small"
-                disabled={!isTabEdit}
+                // disabled={!isTabEdit}
                 error={!!errors.CheckPayableTo}
                 helperText={errors.CheckPayableTo}
               />
@@ -1404,7 +1406,7 @@ const BankInformation = () => {
                 value={formData.firstname}
                 onChange={handleChange}
                 size="small"
-                disabled={!isTabEdit}
+                // disabled={!isTabEdit}
                 error={!!errors.firstname}
                 helperText={errors.firstname}
                 fullWidth
@@ -1417,7 +1419,7 @@ const BankInformation = () => {
                 value={formData.lastname}
                 onChange={handleChange}
                 size="small"
-                disabled={!isTabEdit}
+                // disabled={!isTabEdit}
                 error={!!errors.lastname}
                 helperText={errors.lastname}
                 fullWidth
@@ -1431,7 +1433,7 @@ const BankInformation = () => {
                 value={formData.Address1}
                 onChange={handleChange}
                 size="small"
-                disabled={!isTabEdit}
+                // disabled={!isTabEdit}
                 error={!!errors.Address1}
                 helperText={errors.Address1}
                 fullWidth
@@ -1447,7 +1449,7 @@ const BankInformation = () => {
                 value={formData.Address2}
                 onChange={handleChange}
                 size="small"
-                disabled={!isTabEdit}
+                // disabled={!isTabEdit}
                 error={!!errors.Address2}
                 helperText={errors.Address2}
                 fullWidth
@@ -1460,14 +1462,16 @@ const BankInformation = () => {
                 value={formData.city}
                 onChange={handleChange}
                 size="small"
-                disabled={!isTabEdit}
+                // disabled={!isTabEdit}
                 error={!!errors.city}
                 helperText={errors.city}
                 fullWidth
               />
             </div>
             <div className=" mr-0 xl:mr-2 xl:ml-4  w-full md:w-[45%] xl:w-[24.5%]">
-              <FormControl   fullWidth error={!!errors.state} size="small" className='  w-[92%]' disabled={!isTabEdit}>
+              <FormControl fullWidth error={!!errors.state} size="small" className='  w-[92%]'
+                // disabled={!isTabEdit}
+              >
                 <InputLabel id="state-label">State</InputLabel>
                 <Select
                   labelId="state-label"
@@ -1495,7 +1499,7 @@ const BankInformation = () => {
                 value={formData.zip}
                 onChange={handleChange}
                 size="small"
-                disabled={!isTabEdit}
+                // disabled={!isTabEdit}
                 error={!!errors.zip}
                 helperText={errors.zip}
                 className=' w-full md:w-40 xl:w-56'
@@ -1505,10 +1509,13 @@ const BankInformation = () => {
 
           <div className="flex justify-end py-2">
             <button
-              className={`bg-blue text-white p-1 w-16 rounded-md hover:bg-green2 font-semibold ${!isTabEdit ? "opacity-50 cursor-not-allowed" : ""
-                }`}
+              // className={`bg-blue text-white p-1 w-16 rounded-md hover:bg-green2 font-semibold
+              //   ${!isTabEdit ? "opacity-50 cursor-not-allowed" : ""
+              //   }
+              //   `}
+              className={`bg-blue text-white p-1 w-16 rounded-md hover:bg-green2 font-semibold  `}
               onClick={handleTabSave}
-              disabled={!isTabEdit}
+              // disabled={!isTabEdit}
             >
               Save
             </button>

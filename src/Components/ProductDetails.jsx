@@ -348,47 +348,47 @@ const ProductDetails = ({
             <tbody>
               <tr className="grid grid-cols-2 border-b">
                 <th className="p-2 text-left bg-slate-100">Product Name:</th>
-                <td className="p-2">{product}</td>
+                <td className="p-2">{product || "NA"} </td>
               </tr>
               <tr className="grid grid-cols-2 border-b">
                 <th className="p-2 text-left bg-slate-100">Manufacturer:</th>
-                <td className="p-2">{manufacturer}</td>
+                <td className="p-2">{manufacturer || "NA"}</td>
               </tr>
               <tr className="grid grid-cols-2 border-b">
                 <th className="p-2 text-left bg-slate-100">Size:</th>
-                <td className="p-2">{size}</td>
+                <td className="p-2">{size || "NA"}</td>
               </tr>
               <tr className="grid grid-cols-2 border-b">
                 <th className="p-2 text-left bg-slate-100">Form:</th>
-                <td className="p-2">{Form}</td>
+                <td className="p-2">{Form || "NA"}</td>
               </tr>
               <tr className="grid grid-cols-2 border-b">
                 <th className="p-2 text-left bg-slate-100">UOM:</th>
-                <td className="p-2">{UOM}</td>
+                <td className="p-2">{UOM || "NA"}</td>
               </tr>
               <tr className="grid grid-cols-2 border-b">
                 <th className="p-2 text-left bg-slate-100">Strength:</th>
-                <td className="p-2">{Strength}</td>
+                <td className="p-2">{Strength || "NA"}</td>
               </tr>
               <tr className="grid grid-cols-2 border-b">
                 <th className="p-2 text-left bg-slate-100">Brand Name:</th>
-                <td className="p-2">{Brand}</td>
+                <td className="p-2">{Brand || "NA"}</td>
               </tr>
               <tr className="grid grid-cols-2 border-b">
                 <th className="p-2 text-left bg-slate-100">Height:</th>
-                <td className="p-2">{Height}(Inches)</td>
+                <td className="p-2">{Height ? `${Height} (Inches)` : "NA"}</td>
               </tr>
               <tr className="grid grid-cols-2 border-b">
                 <th className="p-2 text-left bg-slate-100">Weight:</th>
-                <td className="p-2">{Weight}(Grams)</td>
+                <td className="p-2">{Weight ? `${Weight} (Grams)` : "NA"}</td>
               </tr>
               <tr className="grid grid-cols-2 border-b">
                 <th className="p-2 text-left bg-slate-100">Width:</th>
-                <td className="p-2">{Width}(Cm)</td>
+                <td className="p-2">{Width ? `${Width} (Cm)` : "NA"}</td>
               </tr>
               <tr className="grid grid-cols-2">
                 <th className="p-2 text-left bg-slate-100">Length:</th>
-                <td className="p-2">{Length}(Cm)</td>
+                <td className="p-2">{Length ? `${Length} (Cm)` : "NA"}</td>
               </tr>
             </tbody>
           </table>

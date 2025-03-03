@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import edit from '../../../assets/Edit.png';
 import { fetchAddAch, fetchGetAchCustomer, fetchUpdateAch } from '../../../Api/AddressApi';
+import Notification from '../../Notification';
 
 // function ACHAuthorization() {
 //   const user = useSelector((state) => state.user?.user || []);
@@ -478,6 +479,9 @@ function ACHAuthorization() {
 
   return (
     <div>
+      {notification.show && (
+        <Notification show={notification.show} message={notification.message} />
+      )}
       <h1 className="text-blue2 text-xl text-blue2 font-semibold mx-6 py-4">ACH Authorization</h1>
       <div className={`bg-white border ${isTabEdit ? 'border-blue2' : 'border-gray-400'} rounded-lg px-8 mx-6 w-[80%] mt-8 relative`}>
         {isTabEdit && (

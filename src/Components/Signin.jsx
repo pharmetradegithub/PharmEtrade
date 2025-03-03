@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import background_image from "../assets/homepharma.png";
-import logo from "../assets/logo2.png";
+import logo from "../assets/logo3.png";
 import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
 import refresh from "../assets/reload-arrow (1).png";

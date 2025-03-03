@@ -458,7 +458,7 @@ const ProccedtoShipment = ({
     //     <div className="w-full lg:w-1/3 mt-6 lg:mt-0 ml-4"></div>
     //   </div>
     // </div>
-    <div className="w-full h-full p-4">
+    <div className="w-full h-full mt-2">
       <h1 className="text-xl font-semibold text-blue2">2. Select shipment</h1>
       <div className="flex w-full">
         <div className="w-full sm:w-[90%] md:w-[100%] lg:w-[70%] xl:w-[70%]">
@@ -568,7 +568,7 @@ const ProccedtoShipment = ({
 
                       <div className="mb-4 mt-3 xl:mt-0">
                         <TextField
-                          label="amount"
+                          label="Amount"
                           size="small"
                           className="w-40 rounded-md h-4 border"
                           value={(totalNetCharges[seller] || 0).toFixed(2)}

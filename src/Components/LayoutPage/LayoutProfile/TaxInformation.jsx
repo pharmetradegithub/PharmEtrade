@@ -953,7 +953,7 @@ const TaxInformation = () => {
   const handleModalSubmit = async () => {
     setIsModalOpen(false);
     const payload = {
-      sellerId: selectedUserId,
+      // sellerId: selectedUserId,
       taxPercentage: taxPercentages,
       isActive: 1,
     };
@@ -1098,7 +1098,7 @@ const TaxInformation = () => {
                   />
                 )}
               /> */}
-<div className='relative'>
+{/* <div className='relative'>
               <input
                 type="text"
                 value={searchTerms}
@@ -1106,7 +1106,7 @@ const TaxInformation = () => {
                 placeholder="Search for a Seller Name"
                 className="w-56 px-4 py-1 ml-3 text-sm border rounded-md h-14 mr-2"
               />
-              {/* Dropdown Options */}
+              {/* Dropdown Options *
               {filteredCustomer.length > 0 && (
                 <ul className="absolute top-11 left-0 w-64 bg-white border rounded-md shadow-lg h-60 overflow-scroll z-10 ml-[29%]">
                   {filteredCustomer.map((customer) => (
@@ -1120,7 +1120,7 @@ const TaxInformation = () => {
                   ))}
                 </ul>
                 )}
-              </div>
+              </div> */}
               {/* Field 3: Custom Field */}
               <TextField
                 label="Tax Percentage"
