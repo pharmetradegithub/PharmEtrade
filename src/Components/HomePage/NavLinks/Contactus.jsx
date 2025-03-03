@@ -188,24 +188,24 @@ const Contactus = ({ topMargin }) => {
 
   return (
     <div
-      className="w-full relative flex justify-center bg-slate-300 items-center cursor-pointer"
+      className="container mx-auto mt-4 relative flex justify-center bg-slate-300 items-center cursor-pointer"
       style={{ marginTop: `${topMargin}px` }}
     >
       {/* <div className="flex w-full h-full z-[-1] top-0 absolute justify-center items-center">
             <img className="w-full opacity-50" src={background_image} alt="Background" />
           </div> */}
 
-      <div className="text-left absolute top-3 left-9 ">
+      {/* <div className="text-left absolute top-3 left-9 ">
         <Link to="/">
           <img src={logo} className="w-32 sm:w-44 md:w-52" />
         </Link>
-      </div>
+      </div> */}
       <div className="w-full h-full flex flex-col items-center px-4 sm:px-0 ">
-        <div className="my-4 flex">
+        {/* <div className="my-4 flex">
           <h1 className="text-2xl sm:text-3xl text-center text-blue2 font-semibold mt-5 sm:my-4">
             Contact Us
           </h1>
-        </div>
+        </div> */}
 
         {/* {submitted && (
           <p className="fixed top-4 right-4 p-2 px-2 rounded-md text-white bg-blue font-semibold mt-4">Successfully submitted. Thank you!</p>
