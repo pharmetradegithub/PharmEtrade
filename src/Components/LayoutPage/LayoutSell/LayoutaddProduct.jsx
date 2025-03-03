@@ -1937,7 +1937,7 @@ function LayoutaddProduct() {
                               value={state.name}
                               onChange={handleInputChange}
                               checked={formData.states.includes(state.name)}
-                              className="mr-2 overflow-y-scroll"
+                              className="mr-2"
                             />
                             {state.name}
                           </label>

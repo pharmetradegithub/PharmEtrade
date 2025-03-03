@@ -293,3 +293,9 @@ body {
     padding-bottom: 5%;
   }
 }
+
+
+/* input, textarea */
+input:focus, select:focus, textarea:focus{
+  border-color: #400ae6 !important;
+}

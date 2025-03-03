@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaChevronDown, FaChevronUp, FaBars, FaTimes,FaArrowLeft} from "react-icons/fa";
 // import logo from "../../../assets/logo_05.png";
-import logo from "../../../assets/Icons/Logo_white.png";
+import logo from "../../../assets/Logo_white.png";
 import profile from "../../../assets/ProfileSetting.png";
 import { useSelector } from "react-redux";
 import { logoutUserApi } from "../../../Api/UserApi";

@@ -560,7 +560,7 @@ const LayoutNav = ({ Form_Data }) => {
           ))}
 
           <div onClick={() => navigate("/cart")} className="relative">
-            <div className="absolute text-white rounded-full bg-blue bottom-1/2 left-1.5 px-1 font-medium text-[10px]">
+            <div className="absolute top-0 right-[6px] px-1 text-sm text-blue font-semibold">
               {cartItems.length}
             </div>
             <Tooltip title="Cart" placement="top">
