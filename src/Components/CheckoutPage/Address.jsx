@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import cross from "../../assets/letter-x[1].png";
 import plus from "../../assets/Icons/plus[1].png";
-import logo from "../../assets/logo2.png";
+import logo from "../../assets/logo3.png";
 import payment from "../../assets/Icons/paymenticons.png";
 import dropdown from "../../assets/Icons/dropDownb.png";
 import { Box, TextField, Tooltip } from "@mui/material";
@@ -1993,7 +1993,7 @@ function Address({ topMargin, totalAmount, amount }) {
                       </div>
                     )}
                     {/* </div> */}
-                    <div className="hidden w-full lg:w-[30%]  mx-16  lg:flex flex-col pt-2 items-center lg:relative">
+                    <div className="hidden w-full lg:w-[30%] mx-16 lg:flex flex-col pt-2 items-center lg:relative">
                       <div className="border lg:fixed shadow-md rounded-md p-7  py-5">
                         {/* <div className="flex items-center justify-center">
                         <button className="border rounded-full text-sm flex justify-center items-center px-4 py-2 bg-blue text-white">

@@ -205,7 +205,7 @@ const OfferSlider = ({ images, Title }) => {
       console.log("error")
     }
   }
-
+  console.log("neeoffer", newoffer)
   return (
     <div className="flex flex-col justify-center gap-3 Large:gap-4 pt-4 pb-1">
       <div className="flex justify-between  sm:justify-between font-semibold text-3xl">

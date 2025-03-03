@@ -4,7 +4,7 @@ import "./App.css";
 import Cart from "./Components/Cart";
 import Landing from "./Components/HomePage/LandingPage/Landing";
 // import Login from "./Components/Login";
-import Logo from "./assets/logo2.png";
+import Logo from "./assets/logo3.png";
 
 import Nav from "./Components/HomePage/Layout/Nav";
 import { NavbarProvider } from "./Components/NavbarContext";
@@ -157,7 +157,7 @@ import SellerReports from "./Components/ReportsSeller/SellerReports";
 import LayoutPurchaseHistory from "./Components/LayoutPage/LayoutBuy/LayoutPurchaseHistory";
 import PrivacyPolicy from "./Components/PrivacyPolicy";
 import OffersImgs from "./Components/Admin/Banners/OffersImgs";
-// import { TaxGetByStateNameApi } from "./Api/TaxInfoApi";
+import { TaxGetByStateNameApi } from "./Api/TaxInfoApi";
 import { fetchGetAchCustomer } from "./Api/AddressApi";
 import TaxInformation from "./Components/LayoutPage/LayoutProfile/TaxInformation";
 import AdminOrders from "./Components/Admin/Orders/AdminOrders";
@@ -188,7 +188,7 @@ function App() {
           await UserMenuItemsApi(userDetails.customerDetails.customerTypeId);
           await getCartItemsApi(userId);
           await fetchWishlistItemsApi(userId);
-          // await dispatch(TaxGetByStateNameApi(userId))
+          await dispatch(TaxGetByStateNameApi())
           await dispatch(fetchGetAchCustomer(userId))
         } 
       }

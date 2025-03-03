@@ -157,7 +157,7 @@ const Pagination = ({
   };
 
   return (
-    <div className="flex flex-col md:flex-row  justify-around items-center mt-4 mobile:gap-4">
+    <div className="flex flex-col md:flex-row  justify-around items-center my-4 mobile:gap-4">
       {productList?.length > 0 ? (
         <div>
           <span className="font-semibold text-md lg:text-lg text-blue2">

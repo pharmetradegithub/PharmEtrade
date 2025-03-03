@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import "../App.css";
-import logoImage from "../assets/logo2.png";
-import logo from "../assets/logo2.png";
+import logoImage from "../assets/logo3.png";
+import logo from "../assets/logo3.png";
 // import logo from "../assets/Icons/logo2.png";
 import back from "../assets/Previous1_icon.png";
 import next from "../assets/Next1_icon.png";
@@ -884,6 +884,7 @@ const Signup = () => {
       setisSubmit(false);
     }
   };
+
   const RegisterBusinessInfo = async () => {
     const requestBody = {
       customerBusinessInfoId: 0,
@@ -915,6 +916,7 @@ const Signup = () => {
         requestBody[key] = null;
       }
     });
+    console.log("DEA_License_Copy", formData.DEA_License_Copy)
     try {
       const response = await fetch(
         // "https://ec2-100-29-38-82.compute-1.amazonaws.com/api/Customer/BusinessInfo",
@@ -1695,7 +1697,7 @@ const Signup = () => {
 
             <div className="flex flex-row w-full  justify-between">
               <div className="w-[45%] flex flex-col">
-                <span className="text-xs">DEA Expiration Date</span>
+                <span className="text-xs text-blue2">DEA Expiration Date</span>
                 <TextField
                   label=""
                   type="date"
@@ -1722,7 +1724,7 @@ const Signup = () => {
               </div>
 
               <div className="w-[45%] flex flex-col">
-                <span className="text-xs">Pharmacy Expiration Date</span>
+                <span className="text-xs text-blue2">Pharmacy Expiration Date</span>
                 <TextField
                   label=""
                   type="date"
@@ -1751,8 +1753,8 @@ const Signup = () => {
 
             <div className="flex flex-row w-full -mb-2 justify-between">
               <div className="w-[45%]">
-                <span className="text-xs">
-                  DEA License Copy (jpg, png, jpeg,pdf, Max size 5MB)
+                <span className="text-xs text-blue2">
+                  DEA License Copy<span className="text-green2"> (jpg, png, jpeg,pdf, Max size 5MB)</span>
                 </span>
                 <input
                   type="file"
@@ -1788,8 +1790,8 @@ const Signup = () => {
               </div>
 
               <div className="w-[45%]">
-                <span className="text-xs">
-                  Pharmacy License Copy (jpeg, jpg, png,pdf, Max size 5MB)
+                <span className="text-xs text-blue2">
+                  Pharmacy License Copy <span className="text-green2"> (jpeg, jpg, png,pdf, Max size 5MB)</span>
                 </span>
                 <input
                   type="file"

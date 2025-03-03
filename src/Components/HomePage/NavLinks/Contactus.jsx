@@ -82,7 +82,7 @@ import call from "../../../assets/Call.png";
 import mail from "../../../assets/Mail.png";
 // import Address from '../../../assets/ContactAddress.png';
 import location from "../../../assets/Location.png";
-import logo from "../../../assets/logo2.png";
+import logo from "../../../assets/logo3.png";
 import Footer from "../../Footers";
 import Notification from "../../Notification";
 const Contactus = ({ topMargin }) => {

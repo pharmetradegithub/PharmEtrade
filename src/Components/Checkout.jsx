@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, Navigate, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import cross from '../assets/letter-x[1].png';
 import plus from '../assets/Icons/plus[1].png';
-import logo from '../assets/logo2.png';
+import logo from '../assets/logo3.png';
 import payment from '../assets/Icons/paymenticons.png'
 import AmericanExpress from '../assets/AmericanExpress.png'
 import visa from '../assets/visa.png'

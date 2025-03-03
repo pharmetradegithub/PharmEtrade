@@ -338,7 +338,7 @@ function LayoutUpsShipping() {
       <div className=" w-full md:w-[80%] xl:w-[60%]  border rounded-md shadow-md flex flex-col justify-center">
         <div className='w-full flex flex-col justify-center ml-4 mt-4'>
           <div className="flex justify-end -ml-4 w-[95%]">
-            <img src={edit} className="w-6 h-6 cursor-pointer" onClick={handleEditClick} /> {/* Edit icon triggers edit mode */}
+            {/* <img src={edit} className="w-6 h-6 cursor-pointer" onClick={handleEditClick} /> Edit icon triggers edit mode */}
           </div>
           <div className="w-[80%] flex flex-col md:flex-row gap-4 justify-between text-gray-600 my-4">
             <div className="flex flex-col">
@@ -350,7 +350,7 @@ function LayoutUpsShipping() {
                 className='border input-full-width rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
                 value={formData.accessLicenseNumber}
                 onChange={handleChange}
-                disabled={!isEditable} // Disable field if not in edit mode
+                // disabled={!isEditable} // Disable field if not in edit mode
               />
             </div>
             <div className="flex flex-col">
@@ -362,7 +362,7 @@ function LayoutUpsShipping() {
                 className='border input-full-width rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
                 value={formData.userId}
                 onChange={handleChange}
-                disabled={!isEditable} // Disable field if not in edit mode
+                // disabled={!isEditable} // Disable field if not in edit mode
               />
             </div>
           </div>
@@ -376,7 +376,7 @@ function LayoutUpsShipping() {
                 className='border input-full-width rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
                 value={formData.password}
                 onChange={handleChange}
-                disabled={!isEditable} // Disable field if not in edit mode
+                // disabled={!isEditable} // Disable field if not in edit mode
               />
             </div>
             <div className="flex flex-col">
@@ -388,7 +388,7 @@ function LayoutUpsShipping() {
                 className='border input-full-width rounded-md h-8 w-52 focus:outline-none focus:border-slate-300 focus:shadow focus:shadow-blue-400'
                 value={formData.shipperNumber}
                 onChange={handleChange}
-                disabled={!isEditable} // Disable field if not in edit mode
+                // disabled={!isEditable} // Disable field if not in edit mode
               />
             </div>
           </div>
@@ -397,7 +397,7 @@ function LayoutUpsShipping() {
           <button
             className='border rounded-lg h-8 p-2 px-4 font-bold flex justify-center items-center text-[15px] bg-blue text-white hover:bg-green2'
             onClick={handleSubmit}
-            disabled={!isEditable} // Disable the save button if not in edit mode
+            // disabled={!isEditable} // Disable the save button if not in edit mode
           >
             SAVE
           </button>

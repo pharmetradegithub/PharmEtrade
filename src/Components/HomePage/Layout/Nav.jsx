@@ -720,7 +720,7 @@
 
 import React from "react";
 
-import Logo from "../../../assets/logo2.png";
+import Logo from "../../../assets/logo3.png";
 import Search from "../../../assets/search.png";
 import cartNav from "../../../assets/cartNav2.png";
 import like from "../../../assets/wishlistnav_icon.png";
@@ -1122,7 +1122,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                   {MenuItems.map((item, index) => (
                     <li
                       className={`textColor hover:bg-green hover:text-white rounded-md flex justify-center p-1 px-1 items-center w-fit cursor-pointer font-semibold text-[17px] leading-none ${selectedIndex === index
-                        ? "bg-green hover:bg-green text-blue border-0 font-semibold"
+                        ? "bg-green hover:bg-green text-white border-0 font-semibold"
                         : "border-transparent border-2"
                         }`}
                       key={index}

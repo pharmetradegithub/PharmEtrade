@@ -375,7 +375,7 @@ function LayoutOtcProducts({
                       >
                         <div className="flex sm:flex-col flex-col mr-2">
 
-                          <p className="mb-2 text-green2 font-semibold">{product.productCategory.categoryName}</p>
+                          <p className="mb-2 text-green2 lg:w-48 font-semibold">{product.productCategory.categoryName}</p>
 
                           <img
                             src={product.productGallery.imageUrl}
@@ -408,6 +408,39 @@ function LayoutOtcProducts({
                                 </button>
                               )}
                             </p>
+                            <div className="flex w-full mt-1 gap-1">
+                              {/* <img src={Expicon} className="w-5 h-5" /> */}
+                              <div className="flex ">
+                                <p className=" text-xs font-semibold">NDC :</p>
+                                <p className="font-bold text-xs">
+                                  {/* {product.expiryDate} */}
+                                  &nbsp;{" "}
+                                  {product.ndCorUPC || "NA"}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex w-full mt-1 gap-1">
+                              {/* <img src={Expicon} className="w-5 h-5" /> */}
+                              <div className="flex ">
+                                <p className=" text-xs font-semibold">Strength :</p>
+                                <p className="font-bold text-xs">
+                                  {/* {product.expiryDate} */}
+                                  &nbsp;{" "}
+                                  {product.strength || "NA"}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex w-full mt-1 gap-1">
+                              {/* <img src={Expicon} className="w-5 h-5" /> */}
+                              <div className="flex ">
+                                <p className=" text-xs font-semibold">Package Size :</p>
+                                <p className="font-bold text-xs">
+                                  {/* {product.expiryDate} */}
+                                  &nbsp;{" "}
+                                  {product.size || "NA"}
+                                </p>
+                              </div>
+                            </div>
                             <div className="flex w-full mt-1 gap-1">
                               {/* <img src={Expicon} className="w-5 h-5" /> */}
                               <div className="flex ">
@@ -922,7 +955,7 @@ function LayoutOtcProducts({
                               className={`font-semibold small-button text-sm ${product.amountInStock <= 0 ? "opacity-50" : ""
                                 }`}
                             >
-                              {"Add to Cart"}
+                              {"ADD"}
                             </p>
                           </div>
 

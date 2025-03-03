@@ -299,3 +299,41 @@ body {
 input:focus, select:focus, textarea:focus{
   border-color: #400ae6 !important;
 }
+
+
+
+/* Default border color for all TextFields */
+.MuiOutlinedInput-root {
+  --border-color: #400ae6; /* Change to your preferred color */
+  border-color: var(--border-color);
+}
+
+/* When focused */
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: var(--border-color) !important;
+}
+
+/* When error exists */
+.MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline {
+  border-color: #e74c3c !important; /* Red color for errors */
+}
+
+/* Change label color */
+.MuiInputLabel-root {
+  color: #400ae6 !important; /* Change to your preferred color */
+}
+
+/* Change label color when focused */
+.MuiInputLabel-root.Mui-focused {
+  color: #400ae6 !important; /* Darker blue on focus */
+}
+
+/* Change text color inside the input */
+.MuiOutlinedInput-input {
+  color: #2c3e50 !important; /* Darker text */
+}
+
+/* Change placeholder text color */
+.MuiInputBase-input::placeholder {
+  color: #95a5a6 !important; /* Light grey */
+}

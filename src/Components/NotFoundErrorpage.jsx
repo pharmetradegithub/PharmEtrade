@@ -1,6 +1,6 @@
 import React from 'react'
 // import logo from "./assets/logo2.png"
-import logo from '../assets/logo2.png'
+import logo from '../assets/logo3.png'
 import { Link } from 'react-router-dom'
 const NotFoundErrorpage = () => {
   return (
