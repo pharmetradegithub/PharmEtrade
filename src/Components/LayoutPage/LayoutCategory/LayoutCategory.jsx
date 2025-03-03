@@ -2864,7 +2864,7 @@ function LayoutCategory({
                             <div className="mr-1">
                               <img
                                 src={addcart}
-                                className={`w-5 h-5 ${product.amountInStock <= 0
+                                className={`w-5 ${product.amountInStock <= 0
                                   ? "opacity-50"
                                   : "cursor-pointer"
                                   }`}
