@@ -1374,12 +1374,12 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 onBlur={handleFocusOut}
               >
                 <button
-                  className={`h-12 pl-2 lg:items-center w-auto border-r-0 sm:w-auto font-semibold text-left gap-1 text-[14px]  lg:text-[16px] flex items-center text-blue2 bg-gray-100 border-gray-300 rounded-l-md border ${isDropdownOpen ? "bg-green text-white" : ""}`}
+                  className={`h-12 pl-2 lg:items-center min-w-28 md:min-w-[122px] border-r-0 font-semibold text-left gap-1 text-[14px]  lg:text-[16px] flex items-center text-blue2 bg-gray-100 border-gray-300 rounded-l-md border ${isDropdownOpen ? "bg-green text-white" : ""}`}
                   onClick={handleDropdownToggle}
                   onFocus={handleFocusIn}
                   onBlur={handleFocusOut}
                 >
-                  {selectedItem}
+                  <span className="truncate">{selectedItem}</span>
                   <span>
                     <img src={dropdown} className="w-4 mr-2" />
                   </span>
