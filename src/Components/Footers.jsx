@@ -148,7 +148,7 @@
 import React from "react";
 import email from "../assets/email.png";
 // import logo from "../assets/logo_05.png";
-import logo from "../assets/Icons/Logo_white.png";
+import logo from "../assets/Logo_white.png";
 import { IoIosArrowUp } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -329,7 +329,7 @@ function Footers({ topMargin }) {
                 <div className="hidden xl:block text-sm">{item.label}</div>
               </li>
             ))} */}
-              <div className="flex justify-end pt-6">
+              <div className="flex pt-6">
 
                 {downSocialItems.map((item, index) => (
                   <li
@@ -341,7 +341,7 @@ function Footers({ topMargin }) {
                         navigate(item.href);
                       }
                     }}
-                    className="flex flex-col items-center justify-center cursor-pointer hover:text-green2 ml-6"
+                    className="flex flex-col items-center justify-center cursor-pointer hover:text-green2 mr-6"
                   >
                     {/* Show label above the icon */}
                     <div className="hidden xl:block text-sm mb-1">{item.label}</div>
