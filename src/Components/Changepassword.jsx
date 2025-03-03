@@ -3,7 +3,7 @@
 
 import React, { useState } from "react";
 import background_image from "../assets/homepharma.png";
-import logo from "../assets/logo2.png";
+import logo from "../assets/logo3.png";
 import { TextField, InputAdornment, IconButton } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";

@@ -3778,7 +3778,7 @@ function LayoutBuy({
                       >
                         <div className="flex sm:flex-col flex-col mr-1  layoutBuyProducts-sub ">
 
-                          <p className="mb-2 text-green2 font-semibold">{product.productCategory.categoryName}</p>
+                          <p className="mb-2 text-green2 lg:w-48 font-semibold">{product.productCategory.categoryName}</p>
 
                           <img
                             src={product.productGallery.imageUrl}
@@ -3820,7 +3820,7 @@ function LayoutBuy({
                         <div className="flex flex-col w-[170px] ">
                           <p className="font-semibold text-sm text-blue2">Item Details</p>
                           <div className="mt-2">
-                            <p className="font-bold text-blue-900  sm:w-32 w-full text-sm">
+                            <p className="font-bold text-blue2  sm:w-32 w-full text-sm">
                               {product.productName}
                             </p>
 
@@ -3838,9 +3838,9 @@ function LayoutBuy({
                               )}
                             </p>
 
-                            <div className="flex w-full mt-1 gap-1">
+                            <div className="flex w-full gap-1">
                               {/* <img src={Expicon} className="w-5 h-auto" /> */}
-                              <div className="flex mt-2">
+                              <div className="flex mt-1">
                                 <p className="text-xs font-semibold">NDC :</p>
                                 <p className="font-bold text-xs">
                                   {/* {product.expiryDate} */}
@@ -3851,7 +3851,7 @@ function LayoutBuy({
                             </div>
                             <div className="flex w-full mt-1 gap-1">
                               {/* <img src={Expicon} className="w-5 h-auto" /> */}
-                              <div className="flex mt-2">
+                              <div className="flex">
                                 <p className="text-xs font-semibold">
                                   Strength :</p>
                                 <p className="font-bold text-xs">
@@ -3862,7 +3862,7 @@ function LayoutBuy({
                               </div>
                             </div> <div className="flex w-full mt-1 gap-1">
                               {/* <img src={Expicon} className="w-5 h-auto" /> */}
-                              <div className="flex mt-2">
+                              <div className="flex">
                                 <p className="text-xs font-semibold">Package Size :</p>
                                 <p className="font-bold text-xs">
                                   {/* {product.expiryDate} */}
@@ -3873,7 +3873,7 @@ function LayoutBuy({
                             </div>
                             <div className="flex w-full mt-1 gap-1">
                               {/* <img src={Expicon} className="w-5 h-auto" /> */}
-                              <div className="flex mt-2">
+                              <div className="flex">
                                 <p className="text-xs font-semibold">Exp.Date :</p>
                                 <p className="font-bold text-xs">
                                   {/* {product.expiryDate} */}
@@ -4258,7 +4258,7 @@ function LayoutBuy({
                               <p className="text-red-500 font-semibold mt-1">Out Of Stock</p>
                             ) : (
                               <>
-                                <p className="text-green2 text-xs mt-1">Purchase Requirement</p>
+                                {/* <p className="text-green2 text-xs mt-1">Purchase Requirement</p> */}
                                 <p className="text-red-500 text-xs mt-1 font-semibold">
                                   Min Qty - {product.minOrderQuantity} and Max Qty - {product.maxOrderQuantity}
                                 </p>
@@ -4383,7 +4383,7 @@ function LayoutBuy({
                               className={`font-semibold small-button text-sm ${product.amountInStock <= 0 ? "opacity-50" : ""
                                 }`}
                             >
-                              {"Add to Cart"}
+                              {"ADD"}
                             </p>
                           </div>
 

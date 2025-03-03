@@ -194,7 +194,7 @@ const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per p
   const fetchCharges = async () => {
     setLoading(true)
     try {
-      const res = await dispatch(TaxGetByStateNameApi(user.customerId));
+      const res = await dispatch(TaxGetByStateNameApi());
       setCategory("")
       setTaxPercentage("")
       setLoading(false)

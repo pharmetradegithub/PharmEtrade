@@ -1093,6 +1093,7 @@ const Payment = ({amount}) => {
 
     await getCartItemsApi();
     navigate('/layout/layoutorderlist');
+    window.location.href = "/layout/layoutorderlist";
   } catch (error) {
     console.error("Payment error:", error);
     setNotification({ show: true, message: "An error occurred. Please try again." });
@@ -1104,7 +1105,7 @@ const Payment = ({amount}) => {
 };
 
   return (
-    <div>
+    <div className="w-full">
       {notification.show && <Notification show={notification.show} message={notification.message} />}
 
       {/* <p>Total Net Charge: {totalNetCharge ? `$${totalNetCharge}` : "N/A"}</p> */}
@@ -1135,11 +1136,11 @@ const Payment = ({amount}) => {
 
       {/* <h2 className="text-orange-500 font-semibold">3 Select a payment method</h2> */}
 
-      <div className="border rounded-md p-4 mx-4">
+      <div className="border rounded-md w-full ">
 
 
         
-        <div className="flex flex-col items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 p-6">
+        <div className="flex flex-col w-full items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 p-6">
           {/* Full-Width Payment Card */}
           <div className="p-8 w-full bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/30 transition-all hover:shadow-3xl">
             {/* <h1 className="text-3xl font-bold mb-6 text-gray-900 tracking-tight text-center">

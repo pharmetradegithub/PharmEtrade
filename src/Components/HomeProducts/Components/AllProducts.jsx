@@ -282,7 +282,7 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 <h1 className="text-fonts font-semibold">${item.salePrice?.toFixed(2)}</h1>
               </div> */}
               <div className="w-full py-1">
-                <h2 className="text-blue2 h-12 text-sm sm:text-base">
+                <h2 className="text-blue2 h-12 text-sm font-semibold sm:text-base">
                   {showMore[index]
                     ? item.productName
                     : `${item.productName.slice(0, 30)}`}
@@ -382,7 +382,7 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 <div className="text-base font-semibold">${item.upnMemberPrice?.toFixed(2)}</div>
               </div> */}
 
-              <div className="text-foot a text-[13px]">
+              <div className="text-foot  text-[13px]">
                 {item.productCategory.categoryName}
               </div>
 

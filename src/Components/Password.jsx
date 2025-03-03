@@ -119,7 +119,7 @@
 
 import React, { useState } from "react";
 import background_image from "../assets/homepharma.png";
-import logo from "../assets/logo2.png";
+import logo from "../assets/logo3.png";
 import FormControl from "@mui/material/FormControl";
 import {
   InputLabel,
@@ -201,7 +201,7 @@ const Password = () => {
           <div className="bg-white w-[550px] border rounded-lg flex flex-col justify-center items-center shadow-lg">
             <div className="w-full h-full flex justify-center my-8">
               <div className="w-full h-full flex flex-col justify-center">
-                <h2 className="font-semibold text-2xl text-blue-900 flex justify-center">
+                <h2 className="font-semibold text-2xl text-blue2 flex justify-center">
                   Forgot Password
                 </h2>
 
@@ -228,17 +228,17 @@ const Password = () => {
                 <div className="flex justify-center my-2">
                   <button
                     type="submit"
-                    className="text-white bg-blue border rounded-lg py-3 px-9 cursor-pointer font-semibold text-[18px]"
+                    className="text-white bg-blue hover:bg-green2 border rounded-lg py-3 px-9 cursor-pointer font-semibold text-[18px]"
                     onClick={handleSubmit}
                   >
                     Submit
                   </button>
                 </div>
 
-                <div className="text-[18px] my-4 gap-1 flex justify-center">
+                <div className="text-[18px] my-4 gap-1 flex justify-center text-blue2">
                   Having trouble?{" "}
                   <Link to="/gethelphere">
-                    <span className="text-blue-900 underline">
+                    <span className="text-green2 underline">
                       Get help here.
                     </span>
                   </Link>

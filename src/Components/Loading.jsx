@@ -19,8 +19,8 @@ const Loading = () => {
     return (
         <div className="flex justify-center ">
             <div className="relative w-32 h-32">
-                <div className="absolute inset-0 border-8  border-transparent  border-b-blue-900 border-l-transparent rounded-full animate-spin"></div>
-                <div className="absolute inset-0 border-8 border-t-8 border-transparent border-t-blue-900  border-l-transparent rounded-full animate-spin" style={{ animationDuration: '0.75s' }}></div>
+                <div className="absolute inset-0 border-8  border-transparent  border-b-blue2 border-l-transparent rounded-full animate-spin"></div>
+                <div className="absolute inset-0 border-8 border-t-8 border-transparent border-t-blue2  border-l-transparent rounded-full animate-spin" style={{ animationDuration: '0.75s' }}></div>
             </div>
         </div>
     );
