@@ -231,19 +231,19 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
   // );
 
   return (
-    <div className="w-full mt-4 h-full ">
+    <div className="w-full mt-4 ">
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
-      <div className=" flex justify-between bg-blue p-1 rounded-lg mt-10 md:mt-0">
-        <div className="text-xl pl-2 flex items-center text-white ">
+      <div className="mt-8 flex main-container md:flex-row justify-between flex-col gap-2">
+        <h1 className="lg:text-2xl text-2xl font-semibold text-blue2">
           {searchInput != null ? `Search on ${searchInput}` : "All Products"}
           {/* {{Heading} ? Heading : "All Products"} */}
-        </div>
+        </h1>
       </div>
 
-      <div className="w-[95%]">
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-2 gap-4 mt-8">
+      <div>
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-rows-2 gap-4 mt-4">
           {currentItems.length == 0 && <div>No products are available</div>}
           {currentItems?.map((item, index) => (
             <div
@@ -407,7 +407,7 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 <img
                   src={addcart}
                   alt="Add to cart"
-                  className={`h-6 sm:h-8 p-1  ${item.amountInStock <= 0 ? "opacity-50" : ""
+                  className={`w-5 mr-2 ${item.amountInStock <= 0 ? "opacity-50" : ""
                     }`}
                 />
                 <button
