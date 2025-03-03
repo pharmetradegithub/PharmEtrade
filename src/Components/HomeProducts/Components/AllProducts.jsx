@@ -407,7 +407,7 @@ function AllProducts({ Title, topMargin, addCart, wishList }) {
                 <img
                   src={addcart}
                   alt="Add to cart"
-                  className={`w-5 mr-2 ${item.amountInStock <= 0 ? "opacity-50" : ""
+                  className={`w-5 h-fit mt-1 mr-2 ${item.amountInStock <= 0 ? "opacity-50" : ""
                     }`}
                 />
                 <button
