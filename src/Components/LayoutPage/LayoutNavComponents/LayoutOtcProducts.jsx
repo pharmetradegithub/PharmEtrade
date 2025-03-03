@@ -1,26 +1,22 @@
-
-
-
-
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import Pagination from "../../Pagination";
-import { useNavbarContext } from "../../NavbarContext";
+// import { useNavbarContext } from "../../NavbarContext";
 import Notification from "../../../Components/Notification"; // Import Notification component
-import next from "../../../assets/Next_icon.png";
-import previous from "../../../assets/Previous_icon.png";
-import other from "../../../assets/compare1_Icon.png";
+// import next from "../../../assets/Next_icon.png";
+// import previous from "../../../assets/Previous_icon.png";
+// import other from "../../../assets/compare1_Icon.png";
+// import search from "../../../assets/search1.png";
+// import nature from "../../../assets/img1.png";
+// import twitter from "../../../assets/twitter_icon.png";
 import addcart from "../../../assets/cartw_icon.png";
 import emptyHeart from "../../../assets/Wishlist1_icon.png";
 import filledHeart from "../../../assets/wishlist2_icon.png";
 import Expicon from "../../../assets/Expicon.png";
-import search from "../../../assets/search1.png";
-import nature from "../../../assets/img1.png";
 import { useSelector } from "react-redux";
 import Whatsapp from "../../../assets/Icons/Whatsapp.png";
-import twitter from "../../../assets/twitter_icon.png";
 import Facebook from "../../../assets/facebook1.png";
 import Pintrist from "../../../assets/pinterest.png";
 import email from "../../../assets/envelope.png";
@@ -55,7 +51,7 @@ function LayoutOtcProducts({
   const cart = useSelector((state) => state.cart.cart);
   const wishlist = useSelector((state) => state.wishlist.wishlist);
 
- 
+
   const [wishlistProductIDs, setwishlistProductIDs] = useState([]);
   //const [wishlistProductIDs,setwishlistProductIDs] = useState(wishlist.map((wishItem) => wishItem.product.productID));
   const getWishlistIdByProductID = (productID) => {
@@ -112,7 +108,7 @@ function LayoutOtcProducts({
     setproductList(sortedProducts); // Update the product list with sorted products
   };
 
-  
+
   useEffect(() => {
     if (products) {
       const updatedProducts = products.map((product) => ({
@@ -272,7 +268,7 @@ function LayoutOtcProducts({
   // const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
   const [currentItems, setcurrentItems] = useState(
     // productList.slice(indexOfFirstItem, indexOfLastItem)
-    productList ? productList.slice(0, itemsPerPage): []
+    productList ? productList.slice(0, itemsPerPage) : []
   );
   useEffect(() => {
     if (productList) {
@@ -280,7 +276,7 @@ function LayoutOtcProducts({
       const indexOfFirstItem = indexOfLastItem - itemsPerPage;
       setcurrentItems(productList.slice(indexOfFirstItem, indexOfLastItem));
     }
-  }, [currentPage, productList,itemsPerPage]);
+  }, [currentPage, productList, itemsPerPage]);
   const totalPages = Math.ceil((productList?.length || 0) / itemsPerPage);
 
   const Search = styled("div")(({ theme }) => ({
@@ -373,106 +369,79 @@ function LayoutOtcProducts({
                       : product.CartQuantity || 1;
                   return (
                     <>
-                  <div
-                  key={index}
-                  className="flex sm:p-4  p-2 flex-col  lg:flex-row md:flex-row h-auto  border w-60 md:w-auto justify-around shadow-lg rounded-md mb-4"
-                >
-                  <div className="flex sm:flex-col flex-col mr-2">
-                    <img
-                      src={product.productGallery.imageUrl}
-                      className="w-32  p-2 hover:cursor-pointer rounded-lg h-28  bg-slate-200"
-                      alt="Product"
-                      onClick={() =>
-                        handleProductDetails1(product.productID, product)
-                      }
-                    />
-                    <p className=" text-[15px] mt-2 text-black ">
-                      {product.productCategory.categoryName}
-                    </p>
+                      <div
+                        key={index}
+                        className="flex sm:p-4  p-2 flex-col  lg:flex-row md:flex-row h-auto  border w-60 md:w-auto justify-around shadow-lg rounded-md mb-4 layoutBuyProducts hover:bg-white transition-all duration-100"
+                      >
+                        <div className="flex sm:flex-col flex-col mr-2">
 
-                    <div>
-                      <div className="flex  sm:justify-center  ">
-                        <div className="mt-2 ">
-                          <Tooltip title="Wishlist" placement="top">
-                            <img
-                              src={
-                                wishlistProductIDs.includes(product.productID)
-                                  ? filledHeart
-                                  : emptyHeart
-                              }
-                              className="w-6 h-6 cursor-pointer"
-                              onClick={() => handleClick(product.productID)}
-                              alt="Wishlist Icon"
-                            />
-                          </Tooltip>
+                          <p className="mb-2 text-green2 font-semibold">{product.productCategory.categoryName}</p>
+
+                          <img
+                            src={product.productGallery.imageUrl}
+                            className="w-32  p-2 hover:cursor-pointer rounded-lg h-28  bg-slate-200"
+                            alt="Product"
+                            onClick={() =>
+                              handleProductDetails1(product.productID, product)
+                            }
+                          />
+
                         </div>
-                        <div className="relative inline-block mt-2">
-                          <Tooltip title="Share" placement="right">
-                            <img
-                              src={share}
-                              className="w-6 mx-3 "
-                              onClick={() => handleShare(product.productID)}
-                            />
-                          </Tooltip>
+
+                        <div className="flex flex-col w-[170px] ">
+                          <p className="font-semibold text-sm text-blue2">Item Details</p>
+                          <div className="mt-2">
+                            <p className="font-bold text-blue-900  sm:w-32 w-full text-sm">
+                              {product.productName}
+                            </p>
+
+                            <p className="text-xs mt-1 sm:w-32 w-full">
+                              {showMore[index]
+                                ? product.aboutTheProduct
+                                : `${product.aboutTheProduct.slice(0, 50)}`}
+                              {product.aboutTheProduct.length > 50 && (
+                                <button
+                                  className="text-blue-500 ml-1"
+                                  onClick={() => toggleShowMore(index)}
+                                >
+                                  {showMore[index] ? "See Less" : " More details"}
+                                </button>
+                              )}
+                            </p>
+                            <div className="flex w-full mt-1 gap-1">
+                              {/* <img src={Expicon} className="w-5 h-5" /> */}
+                              <div className="flex ">
+                                <p className=" text-xs font-semibold">Exp.Date :</p>
+                                <p className="font-bold text-xs">
+                                  {/* {product.expiryDate} */}
+                                  &nbsp;{" "}
+                                  {new Date(product.expiryDate)
+                                    .toLocaleDateString("en-US", {
+                                      year: "numeric",
+                                      month: "2-digit",
+                                      day: "2-digit",
+                                    })
+                                    .replace(/\//g, "-")}
+                                </p>
+                              </div>
+                            </div>
+                            {/* <div className="flex">
+                              <p className="mt-1 text-sm">Product Returnable: </p>
+                              <p className="font-semibold ml-1">
+                                {product.isReturnable ? "Yes" : "No"}
+                              </p>
+                            </div>
+                            <div className="flex">
+                              <h2 className="  text-sm mr-1">Package Details :</h2>
+
+                              <p className=" text-sm font-semibold">
+                                {product.packCondition}
+                              </p>
+                            </div> */}
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
 
-                  <div className="flex flex-col w-[170px] ">
-                    <p className="font-semibold text-sm">Item Details</p>
-                    <div className="mt-2">
-                      <p className="font-bold text-blue-900  sm:w-32 w-full text-sm">
-                        {product.productName}
-                      </p>
-
-                      <p className="text-xs mt-1 sm:w-32 w-full">
-                        {showMore[index]
-                          ? product.aboutTheProduct
-                          : `${product.aboutTheProduct.slice(0, 50)}...`}
-                        {product.aboutTheProduct.length > 50 && (
-                          <button
-                            className="text-blue-500 ml-1"
-                            onClick={() => toggleShowMore(index)}
-                          >
-                            {showMore[index] ? "See Less" : " More details"}
-                          </button>
-                        )}
-                      </p>
-                      <div className="flex w-full mt-1 gap-1">
-                        <img src={Expicon} className="w-5 h-5" />
-                        <div className="flex ">
-                          <p className=" text-xs font-semibold">Exp.Date :</p>
-                          <p className="font-bold text-xs">
-                            {/* {product.expiryDate} */}
-                            &nbsp;{" "}
-                            {new Date(product.expiryDate)
-                              .toLocaleDateString("en-US", {
-                                year: "numeric",
-                                month: "2-digit",
-                                day: "2-digit",
-                              })
-                              .replace(/\//g, "-")}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex">
-                        <p className="mt-1 text-sm">Product Returnable: </p>
-                        <p className="font-semibold ml-1">
-                          {product.isReturnable ? "Yes" : "No"}
-                        </p>
-                      </div>
-                      <div className="flex">
-                        <h2 className="  text-sm mr-1">Package Details :</h2>
-
-                        <p className=" text-sm font-semibold">
-                          {product.packCondition}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* <div className="flex flex-col mx-3">
+                        {/* <div className="flex flex-col mx-3">
                     <p className="font-semibold">Package Details</p>
                     <div className="mt-2">
                       <p className="text-red-500 font-semibold">
@@ -483,405 +452,594 @@ function LayoutOtcProducts({
                       </p>
                     </div>
                   </div> */}
-                  <div className="flex flex-col  justify-between">
-                    {/* <div className=" mx-2">
+                        <div className="flex flex-col  justify-between">
+                          {/* <div className=" mx-2">
                       <h2 className="font-semibold  text-sm">Package Details</h2>
                       <p className=" mt-1 text-sm">
                         {product.packCondition}
                       </p>
                     </div> */}
-                    <div className="flex flex-row sm:flex-col gap-2 sm:mx-3 mx-0">
-                      <p className="font-semibold   text-sm sm:mt-0 mt-1">
-                        Unit Price
-                      </p>
-                      <div className="sm:mt-1 mt-0 text-right text-xs font-bold">
-                        <p className="font-semibold mr-4 mt-1 text-sm ">
-                          ${product.unitPrice?.toFixed(2)}
-                        </p>
-                      </div>
-                      <p className="font-semibold text-sm mt-8">Taxable: {product.taxable ? 'Yes' : 'No'}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex sm:flex-col flex-row sm:justify-between justify-start gap-2 sm:mx-3 mx-0">
-                    <div>
-                      <p className="font-semibold  text-sm sm:mt-0">
-                        UPN Member Price
-                      </p>
-                      <div className="sm:mt-3 m-0 sm:text-right text-left text-xs font-bold">
-                        <p className="font-semiboldm sm:-ml-5 m:0 text-sm">
-                          ${product.upnMemberPrice?.toFixed(2)}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex sm:flex-col    gap-2 flex-row sm:mx-3 mx-0">
-                    <p className="font-semibold text-sm">Sale Price</p>
-                    <div className="sm:mt-2 mt-0 mr-4 sm:text-right text-left text-xs font-bold  ">
-                      <p className="font-semibold text-sm ">
-                        ${product.salePrice?.toFixed(2)}
-                      </p>
-                    </div>
-                    <p className="font-semibold text-sm mt-8">Shipping: {product.shippingCostApplicable ? 'Yes':'No'}</p>
-
-                  </div>
-
-                  <div className="flex sm:flex-col flex-col sm:mx-4 mx-0">
-                    <p className="font-semibold text-sm">Sale Price Range</p>
-                    <div className="mt-2 sm:text-right text-left text-xs font-bold ">
-                      <div className="flex sm:flex-col items-center">
-                          <p className="font-semibold ml-1">
-                            {product.salePriceValidFrom &&
-                            !isNaN(
-                              new Date(product.salePriceValidFrom).getTime()
-                            ) &&
-                            new Date(product.salePriceValidFrom).getFullYear() >
-                              999
-                              ? new Date(product.salePriceValidFrom)
-                                  .toLocaleDateString("en-US", {
-                                    year: "numeric",
-                                    month: "2-digit",
-                                    day: "2-digit",
-                                  })
-                                  .replace(/\//g, "-")
-                              : "-"}
-                          </p>
-
-                          {product.salePriceValidFrom &&
-                          !isNaN(
-                            new Date(product.salePriceValidFrom).getTime()
-                          ) &&
-                          new Date(product.salePriceValidFrom).getFullYear() >
-                            999 ? (
-                            <>
-                              <p className="text-center sm:ml-8 ml-2">to</p>
-                              <p className="ml-1">
-                                {product.salePriceValidTo &&
-                                !isNaN(
-                                  new Date(product.salePriceValidTo).getTime()
-                                ) &&
-                                new Date(
-                                  product.salePriceValidTo
-                                ).getFullYear() > 999
-                                  ? new Date(product.salePriceValidTo)
-                                      .toLocaleDateString("en-US", {
-                                        year: "numeric",
-                                        month: "2-digit",
-                                        day: "2-digit",
-                                      })
-                                      .replace(/\//g, "-")
-                                  : "-"}
+                          <div className="flex  flex-row sm:flex-col gap-2 sm:mx-3 mx-0 mt-2 md:mt-0 text-right layoutBuyProducts-units">
+                            <p className="font-semibold   text-sm sm:mt-0 mt-1 text-blue2">
+                              Unit Price
+                            </p>
+                            <div className="sm:mt-1 mt-0 font-bold">
+                              <p className="font-semibold text-sm">
+                                ${product.unitPrice?.toFixed(2)}
                               </p>
-                            </>
-                          ) : null}
+                            </div>
+                            {/* <p className="font-semibold text-sm mt-4">
+                              Taxable: {product.taxable ? "Yes" : "No"}
+                            </p> */}
+                            {/* <p className="font-semibold ">
+                          Shipping:{" "}
+                          {product.shippingCostApplicable ? "Yes" : "No"}
+                        </p> */}
+                          </div>
                         </div>
 
-                      <div className="flex"></div>
-                    </div>
-                  </div>
+                        <div className="flex sm:flex-col flex-row sm:justify-between justify-start gap-2 sm:mx-3 mx-0 mt-2 md:mt-0 text-right">
+                          <div className="flex  flex-row sm:flex-col gap-2 sm:mx-3 mx-0  text-right layoutBuyProducts-units">
+                            <p className="font-semibold  text-sm sm:mt-0 text-blue2">
+                              {/* UPN Member Price */}
+                              UPN Price
+                            </p>
+                            <div className="sm:mt-1 mt-0 font-bold">
+                              <p className="font-semibold text-sm">
+                                ${product.upnMemberPrice?.toFixed(2)}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
 
-                  <div className="flex sm:flex-col flex-col sm:mx-3 mx-0">
-                    <p className="font-semibold sm:ml-4 m-0">Quantity</p>
-                    <div className="mt-2 flex ">
-                      <button
-                          className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
-                          
-                          onClick={() => {
-                            if (product.CartQuantity > product.minOrderQuantity) {
+                        <div className="flex sm:flex-col layoutBuyProducts-units   gap-2 flex-row sm:mx-3 mx-0 mt-2 md:mt-0 text-right">
+                          <p className="font-semibold text-sm text-blue2">Sale Price</p>
+                          <div className="sm:mt-1 mt-0 font-bold">
+                            <p className="font-semibold text-sm ">
+                              ${product.salePrice?.toFixed(2)}
+                            </p>
+                          </div>
+                          {/* <p className="font-semibold text-sm mt-4">
+                            Shipping:{" "}
+                            {product.shippingCostApplicable ? "Yes" : "No"}
+                          </p> */}
+                        </div>
 
-                              product.CartQuantity = product.CartQuantity - 1;
 
-                              // Check if quantity exceeds stock
-                              if (product.CartQuantity > product.amountInStock) {
-                                setStockWarning({
-                                  productId: product.productID,
-                                  message: `Only ${product.amountInStock} items available in stock.`,
-                                });
-                              } else {
-                                handleQuantityChange(index, product.CartQuantity);
-                                setStockWarning({ productId: null, message: "" }); // Clear warning if within stock
+
+                        <div className="flex  flex-row sm:flex-col gap-2 sm:mx-3 mx-0  mt-2 md:mt-0 text-right ">
+                          <p className="font-semibold text-sm text-blue2">Sale Price Range</p>
+                          <div className="sm:mt-1 mt-0 font-bold">
+                            <div className="sm:flex-col items-center text-sm">
+                              {/* <p className="font-semibold ml-1">
+                            {new Date(product.salePriceValidFrom)
+                              .toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "2-digit",
+                                day: "2-digit",
+                              })
+                              .replace(/\//g, "-")}
+                          </p>{" "}
+                          <p className="text-center sm:ml-8 ml-2">to </p>
+                          <p className="ml-1">
+                            {new Date(product.salePriceValidTo)
+                              .toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "2-digit",
+                                day: "2-digit",
+                              })
+                              .replace(/\//g, "-")}
+                          </p> */}
+                              <span className="font-semibold">
+                                {product.salePriceValidFrom &&
+                                  !isNaN(
+                                    new Date(product.salePriceValidFrom).getTime()
+                                  ) &&
+                                  new Date(product.salePriceValidFrom).getFullYear() >
+                                  999
+                                  ?
+                                  new Date(product.salePriceValidFrom)
+                                    .toLocaleDateString("en-US", {
+                                      // year: "numeric",
+                                      month: "short",
+                                      day: "2-digit",
+                                    })
+                                    .replace(/\//g, "-")
+                                  : "-"}
+                              </span>
+
+                              {product.salePriceValidFrom &&
+                                !isNaN(
+                                  new Date(product.salePriceValidFrom).getTime()
+                                ) &&
+                                new Date(product.salePriceValidFrom).getFullYear() >
+                                999 ? (
+                                <>
+
+                                  <span className="text-center mx-1">-</span>
+
+                                  <span>
+                                    {product.salePriceValidTo &&
+                                      !isNaN(
+                                        new Date(product.salePriceValidTo).getTime()
+                                      ) &&
+                                      new Date(
+                                        product.salePriceValidTo
+                                      ).getFullYear() > 999
+                                      ? new Date(product.salePriceValidTo)
+                                        .toLocaleDateString("en-US", {
+                                          // year: "numeric",
+                                          month: "short",
+                                          day: "2-digit",
+                                        })
+                                        .replace(/\//g, "-")
+                                      : "-"}
+                                  </span>
+                                </>
+                              ) : null}
+                            </div>
+
+                            <div className="flex"></div>
+                          </div>
+                        </div>
+
+                        <div className="flex sm:flex-col flex-col sm:mx-3 mt-2 md:mt-0 text-center md:text-left">
+                          <p className="font-semibold sm:ml-4 m-0 text-blue2">Quantity</p>
+                          <div className="mt-2 flex justify-center md:justify-normal">
+                            <button
+                              className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                              onClick={() => {
+                                if (product.CartQuantity > product.minOrderQuantity) {
+
+                                  product.CartQuantity = product.CartQuantity - 1;
+
+                                  // Check if quantity exceeds stock
+                                  if (product.CartQuantity > product.amountInStock) {
+                                    setStockWarning({
+                                      productId: product.productID,
+                                      message: `Only ${product.amountInStock} items available in stock.`,
+                                    });
+                                  } else {
+                                    handleQuantityChange(index, product.CartQuantity);
+                                    setStockWarning({ productId: null, message: "" }); // Clear warning if within stock
+                                  }
+                                }
+                              }}
+                            // disabled={
+                            //   product.CartQuantity <= 1 ||
+                            //   product.amountInStock <= 0
+                            // }
+                            >
+                              -
+                            </button>
+
+
+                            {/* old code===== */}
+                            <input
+                              type="text"
+                              // value={product.CartQuantity}
+                              value={
+                                product.amountInStock === 0
+                                  ? 0
+                                  : updatedCartQuantity
                               }
-                            }
-                          }}
+                              // value={product.amountInStock === 0 ? 0 : product.CartQuantity || product.minOrderQuantity}
+                              className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                const numericValue =
+                                  value === ""
+                                    ? ""
+                                    : Math.max(1, parseInt(value, 10));
+                                // Check if the input value exceeds the stock
+                                if (numericValue > product.amountInStock) {
+                                  setStockWarning({
+                                    productId: product.productID,
+                                    message: `Only ${product.amountInStock} items available.`,
+                                  });
+                                } else {
+                                  // Clear stock warning if the input is valid
+                                  setStockWarning({ productId: null, message: "" });
+                                }
 
+                                handleQuantityChange(index, numericValue);
+                              }}
+                            />
+                            {/* old code===== */}
+                            {/* <input
+                              type="text"
+                              value={
+                                product.amountInStock === 0
+                                  ? 0
+                                  : Math.min(
+                                    // product.CartQuantity,
+                                    updatedCartQuantity,
+                                    product.maxOrderQuantity,
+                                    product.amountInStock
+                                  )
+                              }
+                              className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                const numericValue =
+                                  value === "" ? product.minOrderQuantity : Math.max(product.minOrderQuantity, parseInt(value, 10));
 
-                        // onClick={() => {
-                        //   const newQuantity = Math.max(
-                        //     1,
-                        //     product.minOrderQuantity - 1
-                        //   );
+                                // Ensure the value does not exceed maxOrderQuantity or amountInStock
+                                const clampedValue = Math.min(
+                                  numericValue,
+                                  product.maxOrderQuantity,
+                                  product.amountInStock
+                                );
 
-                        //   // Clear stock warning if the new quantity is within the stock
-                        //   if (newQuantity <= product.amountInStock) {
-                        //     setStockWarning({ productId: null, message: "" });
-                        //   }
+                                // Check if the input value exceeds the stock
+                                if (clampedValue > product.amountInStock) {
+                                  setStockWarning({
+                                    productId: product.productID,
+                                    message: `Only ${product.amountInStock} items available.`,
+                                  });
+                                } else {
+                                  // Clear stock warning if the input is valid
+                                  setStockWarning({ productId: null, message: "" });
+                                }
 
-                        //   handleQuantityChange(index, newQuantity);
-                        // }}
-                        // disabled={
-                        //   product.CartQuantity <= 1 ||
-                        //   product.amountInStock <= 0
-                        // }
-                      >
-                        -
-                      </button>
+                                handleQuantityChange(index, clampedValue);
+                              }}
+                            /> */}
 
-                      <input
-                        type="text"
-                        // value={product.CartQuantity}
-                        // value={
-                        //   product.amountInStock === 0
-                        //     ? 0
-                        //     : product.minOrderQuantity
-                          // }
-                          value={
-                            product.amountInStock === 0
-                              ? 0
-                              : updatedCartQuantity
-                          }
-                        // value={product.amountInStock === 0 ? 0 : product.CartQuantity || product.minOrderQuantity}
-                        className="w-12 mx-2 border font-bold rounded-md text-center bg-white"
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          const numericValue =
-                            value === ""
-                              ? ""
-                              : Math.max(1, parseInt(value, 10));
-                          // Check if the input value exceeds the stock
-                          if (numericValue > product.amountInStock) {
-                            setStockWarning({
-                              productId: product.productID,
-                              message: `Only ${product.amountInStock} items available.`,
-                            });
-                          } else {
-                            // Clear stock warning if the input is valid
-                            setStockWarning({ productId: null, message: "" });
-                          }
+                            <button
+                              className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
+                              onClick={() => {
+                                if (product.CartQuantity < product.maxOrderQuantity) {
+                                  product.CartQuantity = product.CartQuantity + 1;
 
-                          handleQuantityChange(index, numericValue);
-                        }}
-                      />
+                                  // Check if quantity exceeds stock
+                                  if (product.CartQuantity > product.amountInStock) {
+                                    setStockWarning({
+                                      productId: product.productID,
+                                      message: `Only ${product.amountInStock} items available in stock.`,
+                                    });
+                                  }
+                                  else {
+                                    handleQuantityChange(index, product.CartQuantity);
+                                    setStockWarning({ productId: null, message: "" }); // Clear warning if within stock
+                                  }
+                                }
+                              }}
+                            >
+                              +
+                            </button>
+                          </div>
+                          {/* {product.CartQuantity <= product.minOrderQuantity && (
+                            <p className=" text-red-500 text-sm mt-1">Minimum Quantity : {product.minOrderQuantity}</p>
+                          )}
+                          {product.CartQuantity <=
+                            product.maxOrderQuantity && (
+                              <p className="text-red-500 text-xs mt-1">
+                                You can buy a maximum of{" "}
+                                {product.maxOrderQuantity}.
+                              </p>
+                            )} */}
 
-                      <button
-                        className="px-2 py-1 border rounded-md bg-gray-200 text-gray-700 font-bold"
-                        onClick={() => {
-                          // const newQuantity = product.minOrderQuantity + 1;
-
-                          // // Check if quantity exceeds stock
-                          // if (newQuantity > product.amountInStock) {
-                          //   setStockWarning({
-                          //     productId: product.productID,
-                          //     message: `Only ${product.amountInStock} items available in stock.`,
-                          //   });
-                          // } else {
-                          //   handleQuantityChange(index, newQuantity);
-                          //   setStockWarning({ productId: null, message: "" }); // Clear warning if within stock
-                          // }
-                          if (product.CartQuantity < product.maxOrderQuantity) {
-                            product.CartQuantity = product.CartQuantity + 1;
-
-                            // Check if quantity exceeds stock
-                            if (product.CartQuantity > product.amountInStock) {
-                              setStockWarning({
-                                productId: product.productID,
-                                message: `Only ${product.amountInStock} items available in stock.`,
-                              });
-                            }
-                            else {
-                              handleQuantityChange(index, product.CartQuantity);
-                              setStockWarning({ productId: null, message: "" }); // Clear warning if within stock
-                            }
-                          }
-                        }}
-                      >
-                        +
-                      </button>
-                    </div>
-                    {stockWarning.productId === product.productID && (
-                      <p className="text-red-500 text-sm mt-2">
-                        {stockWarning.message}
-                      </p>
-                    )}
-                    {/* <div className="text-sm sm:mt-2 mt-4">
-                      {product.amountInStock <= 0 ? (
-                        <p className="text-red-500 font-semibold">
-                          Out Of Stock
-                        </p>
-                      ) : (
-                        <p className="text-white p-1 sm:w-28 w-40 text-center text-xs bg-green-600 rounded-lg ">
-                          Stock Available{" "}
-                          <span className="font-semibold text-xs text-center">
-                            {product.amountInStock}
-                          </span>
-                        </p>
-                      )}
-                    </div> */}
-                      <div>
-                        {/* Combined Stock and Quantity Validation */}
-                        {product.amountInStock <= 0 ? (
-                          <p className="text-red-500 font-semibold mt-1">Out Of Stock</p>
-                        ) : (
-                          <>
+                          {/* {product.CartQuantity <= product.minOrderQuantity ? (
                             <p className="text-red-500 text-sm mt-1">
                               Minimum Quantity: {product.minOrderQuantity}
                             </p>
+                          ) : product.CartQuantity >= product.maxOrderQuantity ? (
                             <p className="text-red-500 text-xs mt-1">
                               You can buy a maximum of {product.maxOrderQuantity}.
                             </p>
-                            {product.CartQuantity > product.amountInStock && (
+                          ) : null} */}
+
+                          {/* {product.CartQuantity <
+                            product.minOrderQuantity && (
                               <p className="text-red-500 text-xs mt-1">
-                                Only {product.amountInStock} items available in stock.
+                                You must order at least{" "}
+                              {product.minOrderQuantity}.
+                              </p>
+                            )} */}
+                          {stockWarning.productId === product.productID && (
+                            <p className="text-red-500 text-sm mt-2">
+                              {stockWarning.message}
+                            </p>
+                          )}
+                          {/* <div className="text-sm sm:mt-2 mt-4">
+                            {product.amountInStock <= 0 ? (
+                              <p className="text-red-500 font-semibold">
+                                Out Of Stock
+                              </p>
+                            ) : (
+                              <p className="text-white p-1 sm:w-28 w-40 text-center text-xs bg-green-600 rounded-lg ">
+                                Stock Available{" "}
+                                <span className="font-semibold text-xs text-center">
+                                  {product.amountInStock}
+                                </span>
                               </p>
                             )}
-                          </>
-                        )}
+                          </div> */}
 
-                        {/* Stock Available Display */}
-                        {product.amountInStock > 0 && (
-                          <div className="text-sm sm:mt-2 mt-4">
-                            <p className="text-white p-1 sm:w-28 w-40 text-center text-xs bg-green-600 rounded-lg">
-                              Stock Available{" "}
-                              <span className="font-semibold text-xs text-center">
-                                {product.amountInStock}
-                              </span>
+                          {/* ====new codeee */}
+                          {/* <div>
+                            {/* Combined Stock and Quantity Validation 
+                            {product.amountInStock <= 0 ? (
+                              // Out of Stock Validation
+                              <p className="text-red-500 font-semibold mt-1">
+                                Out Of Stock
+                              </p>
+                            ) : product.CartQuantity <= product.minOrderQuantity ? (
+                              // Minimum Quantity Validation
+                              <p className="text-red-500 text-sm mt-1">
+                                Minimum Quantity: {product.minOrderQuantity}
+                              </p>
+                            ) : product.CartQuantity >= product.maxOrderQuantity ? (
+                              // Maximum Quantity Validation
+                              <p className="text-red-500 text-xs mt-1">
+                                You can buy a maximum of {product.maxOrderQuantity}.
+                              </p>
+                            ) : null}
+
+                            {/* Stock Available Display 
+                            {product.amountInStock > 0 && (
+                              <div className="text-sm sm:mt-2 mt-4">
+                                <p className="text-white p-1 sm:w-28 w-40 text-center text-xs bg-green-600 rounded-lg">
+                                  Stock Available{" "}
+                                  <span className="font-semibold text-xs text-center">
+                                    {product.amountInStock}
+                                  </span>
+                                </p>
+                              </div>
+                            )}
+                          </div> */}
+
+
+                          <div>
+                            {/* Combined Stock and Quantity Validation */}
+                            {product.amountInStock <= 0 ? (
+                              <p className="text-red-500 font-semibold mt-1">Out Of Stock</p>
+                            ) : (
+                              <>
+                                <p className="text-green2 text-xs mt-1">Purchase Requirement</p>
+                                <p className="text-red-500 text-xs mt-1 font-semibold">
+                                  Min Qty - {product.minOrderQuantity} and Max Qty - {product.maxOrderQuantity}
+                                </p>
+                                {/* <p className="text-red-500 text-xs mt-1">
+                                  Minimum Purchase Requirement: {product.minOrderQuantity}
+                                </p>
+                                <p className="text-red-500 text-xs mt-1">
+                                  Maximum Purchase Limit {product.maxOrderQuantity}.
+                                </p> */}
+                                {/* {product.CartQuantity > product.amountInStock && (
+                                  <p className="text-red-500 text-xs mt-1">
+                                    Only {product.amountInStock} items available in stock.
+                                  </p>
+                                )} */}
+                              </>
+                            )}
+
+                            {/* Stock Available Display */}
+                            {product.amountInStock > 0 && (
+                              <div className="text-sm layoutBuyProducts sm:mt-2 mt-4 sm:mb-2 mb-3">
+                                <p className="text-white p-1 layoutBuyProducts sm:w-28 w-40 text-center text-xs bg-green2 rounded-lg small-button">
+                                  Stock Available{" "}
+                                  <span className="font-semibold text-xs text-center">
+                                    {product.amountInStock}
+                                  </span>
+                                </p>
+                              </div>
+                            )}
+                          </div>
+
+
+
+                          {/* <div>
+                            <div
+                              onClick={() => {
+                                // if (product.amountInStock > 0) {
+                                if (product.amountInStock > 0 && updatedCartQuantity <= product.maxOrderQuantity) {
+
+                                  if (product.CartQuantity > product.amountInStock) {
+                                    setStockWarning({
+                                      productId: product.productID,
+                                      message: `Only ${product.amountInStock} items available.`,
+                                    });
+                                  } else {
+                                    handleCart(
+                                      product.productID,
+                                      updatedCartQuantity
+                                    );
+                                    setStockWarning({ productId: null, message: "" });
+                                  }
+                                }
+                              }}
+                              // className={`flex layoutBuyProducts text-white h-[32px] sm:w-full w-32  small-button sm:px-2 rounded-lg sm:mt-20 mt-4 ml-0 p-0 mx-2 justify-center  items-center ${product.amountInStock <= 0
+                              // ? "bg-gray-400 cursor-not-allowed"
+                              // : "bg-blue cursor-pointer"
+                              // }`}
+                              className={`flex layoutBuyProducts text-white h-[32px] sm:w-full w-32  small-button sm:px-2 rounded-lg sm:mt-8 justify-center  items-center ${product.amountInStock <= 0
+                                ? "bg-gray-400 cursor-not-allowed"
+                                : "bg-blue cursor-pointer"
+                                }`}
+                            >
+                              <div className="mr-1">
+                                <img
+                                  src={addcart}
+                                  className={`w-5 h-5 ${product.amountInStock <= 0
+                                    ? "opacity-50"
+                                    : "cursor-pointer"
+                                    }`}
+                                  alt="Add to Cart Icon"
+                                />
+                              </div>
+                              <p
+                                className={`font-semibold small-button text-sm ${product.amountInStock <= 0 ? "opacity-50" : ""
+                                  }`}
+                              >
+                                {"Add to Cart"}
+                              </p>
+                            </div>
+                          </div> */}
+                        </div>
+
+                        <div className="flex sm:flex-col flex-col mb-3">
+                          <div
+                            onClick={() => {
+                              // if (product.amountInStock > 0) {
+                              if (product.amountInStock > 0 && updatedCartQuantity <= product.maxOrderQuantity) {
+
+                                if (product.CartQuantity > product.amountInStock) {
+                                  setStockWarning({
+                                    productId: product.productID,
+                                    message: `Only ${product.amountInStock} items available.`,
+                                  });
+                                } else {
+                                  handleCart(
+                                    product.productID,
+                                    updatedCartQuantity
+                                  );
+                                  setStockWarning({ productId: null, message: "" });
+                                }
+                              }
+                            }}
+                            // className={`flex layoutBuyProducts text-white h-[32px] sm:w-full w-32  small-button sm:px-2 rounded-lg sm:mt-20 mt-4 ml-0 p-0 mx-2 justify-center  items-center ${product.amountInStock <= 0
+                            // ? "bg-gray-400 cursor-not-allowed"
+                            // : "bg-blue cursor-pointer"
+                            // }`}
+                            className={`flex layoutBuyProducts text-white hover:bg-green2 h-[32px] sm:w-full w-32  small-button sm:px-2 rounded-lg sm:mt-8 justify-center  items-center ${product.amountInStock <= 0
+                              ? "bg-gray-400 cursor-not-allowed"
+                              : "bg-blue2 cursor-pointer"
+                              }`}
+                          >
+                            <div className="mr-1">
+                              <img
+                                src={addcart}
+                                className={`w-5 h-5 ${product.amountInStock <= 0
+                                  ? "opacity-50"
+                                  : "cursor-pointer"
+                                  }`}
+                                alt="Add to Cart Icon"
+                              />
+                            </div>
+                            <p
+                              className={`font-semibold small-button text-sm ${product.amountInStock <= 0 ? "opacity-50" : ""
+                                }`}
+                            >
+                              {"Add to Cart"}
                             </p>
                           </div>
-                        )}
-                      </div>
 
-
-                    <div
-                      onClick={() => {
-                        if (product.amountInStock > 0) {
-                          if (product.CartQuantity > product.amountInStock) {
-                            setStockWarning({
-                              productId: product.productID,
-                              message: `Only ${product.amountInStock} items available.`,
-                            });
-                          } else {
-                            handleCart(
-                              product.productID,
-                              // product.minOrderQuantity
-                              updatedCartQuantity
-                            );
-                            setStockWarning({ productId: null, message: "" });
-                          }
-                        }
-                      }}
-                      className={`flex text-white h-[32px] sm:w-full w-32 sm:px-2 rounded-lg sm:mt-20 mt-4 ml-0 p-0 mx-2 justify-center items-center ${
-                        product.amountInStock <= 0
-                          ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-blue cursor-pointer"
-                      }`}
-                    >
-                      <div className="mr-1">
-                        <img
-                          src={addcart}
-                          className={`w-5 h-5 ${
-                            product.amountInStock <= 0
-                              ? "opacity-50"
-                              : "cursor-pointer"
-                          }`}
-                          alt="Add to Cart Icon"
-                        />
-                      </div>
-                      <p
-                        className={`font-semibold text-sm ${
-                          product.amountInStock <= 0 ? "opacity-50" : ""
-                        }`}
-                      >
-                        {"Add to Cart"}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Wishlist */}
-                  <div className="flex flex-col items-center justify-between -mr-6">
-                    {isShowPopup && (
-                      <div
-                        className="flex flex-column  items-center absolute z-auto"
-                        style={{
-                          top: `${popupPosition.top}px`,
-                          left: `${popupPosition.left}px`,
-                          transform: "translate(-130%,-45%)",
-                          // transform: "translateX(-500%)",
-                          // Optional: to position above the button
-                        }}
-                      >
-                        <div className=" rounded-lg bg-gray-100">
-                          <div className="flex border-b justify-between p-2 ml-2">
-                            <div className="flex items-center">
-                              <a
-                                href="mailto:example@example.com"
-                                className="flex items-center"
-                              >
+                          <div className="flex sm:justify-center align-middle mt-4 justify-center">
+                            <div>
+                              <Tooltip title="Wishlist" placement="top">
                                 <img
-                                  src={email}
-                                  className="text-blue-400 w-6"
+                                  src={
+                                    wishlistProductIDs.includes(product.productID)
+                                      ? filledHeart
+                                      : emptyHeart
+                                  }
+                                  className="w-6 cursor-pointer"
+                                  onClick={() => handleClick(product.productID)}
+                                  alt="Wishlist Icon"
                                 />
-                                <p className="ml-3">Email</p>
-                              </a>
+                              </Tooltip>
                             </div>
-                            <img
-                              src={wrong}
-                              onClick={handleSharePopupToggle}
-                              className="w-3 h-3"
-                            />
+                            <div className="relative inline-block">
+                              <Tooltip title="Share" placement="right">
+                                <img
+                                  src={share}
+                                  className="w-6 mx-3 cursor-pointer"
+                                  onClick={() => handleShare(product.productID)}
+                                />
+                              </Tooltip>
+                            </div>
                           </div>
-                          {/* Other links... */}
-                          <div className="flex border-b p-2 ml-2">
-                            <a
-                              href="https://www.pinterest.com"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center"
-                            >
-                              <img
-                                src={Pintrist}
-                                className="text-blue-400 w-6"
-                              />
-                              <p className="ml-3">Pinterest</p>
-                            </a>
-                          </div>{" "}
-                          <div className="flex border-b p-2 ml-2">
-                            <a
-                              href="https://www.pinterest.com"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center"
-                            >
-                              <img
-                                src={Whatsapp}
-                                className="text-blue-400 w-6"
-                              />
-                              <p className="ml-3">Whatsapp</p>
-                            </a>
-                          </div>
-                          <div className="flex border-b p-2 ml-2">
-                            <a
-                              href="https://www.pinterest.com"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center"
-                            >
-                              <img
-                                src={Facebook}
-                                className="text-blue-400 w-6"
-                              />
-                              <p className="ml-3">Facebook</p>
-                            </a>
-                          </div>
-                          {/* Additional social links... */}
-                        </div>
-                      </div>
-                    )}
 
-                    {/* Add to Cart */}
-                    {/* {cart.some(
+                        </div>
+
+                        {/* Wishlist */}
+                        <div className="flex flex-col items-center justify-between -mr-6">
+                          {isShowPopup && (
+                            <div
+                              className="flex flex-column  items-center absolute z-auto"
+                              style={{
+                                top: `${popupPosition.top}px`,
+                                left: `${popupPosition.left}px`,
+                                transform: "translate(-130%,-45%)",
+                                // transform: "translateX(-500%)",
+                                // Optional: to position above the button
+                              }}
+                            >
+                              <div className=" rounded-lg bg-gray-100">
+                                <div className="flex border-b justify-between p-2 ml-2">
+                                  <div className="flex items-center">
+                                    <a
+                                      href="mailto:example@example.com"
+                                      className="flex items-center"
+                                    >
+                                      <img
+                                        src={email}
+                                        className="text-blue-400 w-6"
+                                      />
+                                      <p className="ml-3">Email</p>
+                                    </a>
+                                  </div>
+                                  <img
+                                    src={wrong}
+                                    onClick={handleSharePopupToggle}
+                                    className="w-3 h-3"
+                                  />
+                                </div>
+                                {/* Other links... */}
+                                <div className="flex border-b p-2 ml-2">
+                                  <a
+                                    href="https://www.pinterest.com"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center"
+                                  >
+                                    <img
+                                      src={Pintrist}
+                                      className="text-blue-400 w-6"
+                                    />
+                                    <p className="ml-3">Pinterest</p>
+                                  </a>
+                                </div>{" "}
+                                <div className="flex border-b p-2 ml-2">
+                                  <a
+                                    href="https://www.pinterest.com"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center"
+                                  >
+                                    <img
+                                      src={Whatsapp}
+                                      className="text-blue-400 w-6"
+                                    />
+                                    <p className="ml-3">Whatsapp</p>
+                                  </a>
+                                </div>
+                                <div className="flex border-b p-2 ml-2">
+                                  <a
+                                    href="https://www.pinterest.com"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center"
+                                  >
+                                    <img
+                                      src={Facebook}
+                                      className="text-blue-400 w-6"
+                                    />
+                                    <p className="ml-3">Facebook</p>
+                                  </a>
+                                </div>
+                                {/* Additional social links... */}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Add to Cart */}
+                          {/* {cart.some(
                       (item) => item.product.productID == product.productID
                     ) == 0 ? ( */}
-                    {/* <div
+                          {/* <div
                       onClick={() =>
                         handleCart(product.productID, product.CartQuantity)
                       }
@@ -897,15 +1055,15 @@ function LayoutOtcProducts({
                       <p className="font-semibold">{"Add to Cart"}</p>
                     </div> */}
 
-                    {/* Display the stock warning message */}
-                    {/* {stockWarning.productId === product.productID && (
+                          {/* Display the stock warning message */}
+                          {/* {stockWarning.productId === product.productID && (
                       <p className="text-red-500 text-sm mt-2">
                         {stockWarning.message}
                       </p>
                     )} */}
 
-                    {/* ) : ( */}
-                    {/* <div className="flex text-white cursor-pointer h-[40px] px-2 rounded-lg bg-sky-600 mx-3 justify-center items-center">
+                          {/* ) : ( */}
+                          {/* <div className="flex text-white cursor-pointer h-[40px] px-2 rounded-lg bg-sky-600 mx-3 justify-center items-center">
                         <div className="mr-1">
                           <img
                             src={addcart}
@@ -915,11 +1073,11 @@ function LayoutOtcProducts({
                         </div>
                         <p className="font-semibold">{"Added Cart"}</p>
                       </div> */}
-                    {/* )} */}
-                  </div>
-               </div>
-             </>
-                )
+                          {/* )} */}
+                        </div>
+                      </div>
+                    </>
+                  )
                 })
               ) : (
                 <p>No products available</p>

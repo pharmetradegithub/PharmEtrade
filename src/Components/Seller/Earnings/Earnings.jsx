@@ -228,7 +228,7 @@ const Earnings = () => {
     <div className="w-full h-full flex justify-center items-center">
       <div className="w-[95%] h-full mt-4">
         <div className="flex justify-between">
-          <p className="text-[22px] text-blue-900 font-semibold">Earnings</p>
+          <p className="text-[22px] text-blue2 font-semibold">Earnings</p>
         </div>
         <div className="flex my-4 flex-wrap justify-start gap-2 p-2">
           {stats.map((stat, index) => (
@@ -238,7 +238,7 @@ const Earnings = () => {
             >
               <div className="w-full">
                 <div className="flex justify-between items-center">
-                  <div className="text-[17px] text-gray-700 font-normal">
+                  <div className="text-[17px] text-blue2 font-normal">
                     {stat.label}
                   </div>
                   <div className="menu-icon">

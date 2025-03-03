@@ -191,7 +191,7 @@ function Footers({ topMargin }) {
         Back To Top
         <IoIosArrowUp className="w-8 h-6" />
       </div>
-      <div className="text-white bg-blue relative z-40">
+      <div className="text-white bg-blue relative z-40 w-screen">
         <div className="container mx-auto">
           <div className="flex flex-col xl:flex-row justify-between xl:gap-12 gap-6 py-6 xl:py-10">
 

@@ -625,7 +625,7 @@ useEffect(() => {
     <div className="w-full h-full flex justify-center items-center">
       <div className="w-[95%] h-full mt-4">
         <div className="flex justify-between">
-          <p className="text-[22px] text-blue-900 font-semibold">Earnings</p>
+          <p className="text-[22px] text-blue2 font-semibold">Earnings</p>
         </div>
         <div className="flex my-4 flex-wrap justify-start gap-2 p-2">
           {stats.map((stat, index) => (
@@ -635,7 +635,7 @@ useEffect(() => {
             >
               <div className="w-full">
                 <div className="flex justify-between items-center">
-                  <div className="text-[17px] text-gray-700 font-normal">
+                  <div className="text-[17px] text-blue2 font-normal">
                      {stat.label}    
                   </div>
                   {/* <div className="menu-icon">
@@ -666,7 +666,7 @@ useEffect(() => {
           </div>
           <div className="w-full">
             <div className="flex justify-between">
-              <h2 className="text-xl font-semibold mb-4">Latest Earnings</h2>
+              <h2 className="text-xl font-semibold text-blue2 mb-4">Latest Earnings</h2>
               {/* <div className="flex flex-row">
                 <div className="flex flex-row h-7 mx-2 border justify-center items-center p-2 rounded-md bg-green-300">
                   <img src={filter} className="w-6 h-6" />
