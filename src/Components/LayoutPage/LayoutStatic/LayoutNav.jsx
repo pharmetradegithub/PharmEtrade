@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useRef, useEffect} from "react";
+import { Link } from "react-router-dom";
 import bid from "../../../assets/Bid3d.png";
 import buy from "../../../assets/buy3d.png";
 import sell from "../../../assets/sell3d.png";
@@ -11,6 +12,7 @@ import cartNav from "../../../assets/cartNav2.png";
 import { useNavigate } from "react-router-dom";
 import OTCProd from "../../../assets/OtcProduct.png";
 import notification from "../../../assets/Notification.png";
+import Logo from "../../../assets/logo3.png";
 import { useSelector } from "react-redux";
 import warning from "../../../assets/Icons/warning2.png";
 import { fetchCriteriaProductsApi } from "../../../Api/ProductApi";
@@ -435,6 +437,17 @@ const LayoutNav = ({ Form_Data }) => {
     <div className="my-3 pb-2 cursor-pointer border-b-2 border-gray-300 shadow-lg">
       <div className="md:flex justify-between items-center">
         {/* Nav Items (Hidden on small and medium screens) */}
+        <div className="lg:hidden flex items-center p-4">
+          <Link to={"/"}>
+            <img
+              src={Logo}
+              // onClick={() => navigate("/")}
+              // className="w-18 md:w-16 lg:w-32 xl:w-60 h-9 ml-2 md:ml-2 lg:ml-12 cursor-pointer lg:overflow-x-hidden"
+              className="w-36 sm:w-36 md:w-36 lg:w-52 xl:w-50 h-auto cursor-pointer"
+              alt="Pharmetrade logo"
+            />
+          </Link>
+        </div>
         <div className="hidden xl:flex items-center">
           <div className="flex">
             {navItems.map((item, index) => (
