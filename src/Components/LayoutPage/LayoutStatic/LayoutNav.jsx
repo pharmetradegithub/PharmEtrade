@@ -482,20 +482,20 @@ const LayoutNav = ({ Form_Data }) => {
         <div className="flex sm:w-[30%] md:w-[60%] lg:w-[50%] lg:mt-2">
           <div
             ref={dropdownRef}
-            className={`w-full relative mb-3 flex items-center ${
-              isContainerFocused ? "ring-2 ring-blue-500 rounded-md" : ""
-            }`}
+            className={`w-full relative mb-3 flex items-center ${isContainerFocused ? "ring-2 ring-blue-500 rounded-md" : ""
+              }`}
           >
             <div className="relative inline-block">
               <button
-                className={`h-10 pl-2 mr-[1px] font-semibold text-left gap-1 text-[14px] flex  w-auto items-center text-blue2 bg-gray-100 border-gray-300 rounded-l-md border ${
-                  isButtonFocused ? "ring-2 ring-blue-500" : ""
-                }`}
+                // className={`h-10 pl-2 mr-[1px] font-semibold text-left gap-1 text-[14px] flex  w-auto items-center text-blue2 bg-gray-100 border-gray-300 rounded-l-md border ${
+                //   isButtonFocused ? "ring-2 ring-blue-500" : ""
+                // }`}
+                className={`h-12 pl-2 lg:items-center min-w-28 md:min-w-[122px] border-r-0 font-semibold text-left gap-1 text-[14px]  lg:text-[16px] flex items-center text-blue2 bg-gray-100 border-gray-300 rounded-l-md border ${isDropdownOpen ? "bg-green text-white" : ""}`}
                 onClick={handleDropdownToggle}
                 onFocus={handleFocusIn}
                 onBlur={handleFocusOut}
               >
-                {selectedItem}
+                <span className="truncate">{selectedItem}</span>
                 <span>
                   <img src={dropdown} className="h-4 w-4" alt="dropdown" />
                 </span>
@@ -503,22 +503,22 @@ const LayoutNav = ({ Form_Data }) => {
 
               {isDropdownOpen && (
                 <div
-                  className="absolute z-10 top-[46px] left-0"
-                  style={{ top: "30px", left: "0px" }}
+                  className="absolute z-10 top-[46px] left-0 drop-shadow-md"
+                  style={{ top: "46px", left: "0px" }}
                 >
                   <div className="bg-white  sm:w-44 lg:w-64">
                     <ul>
-                    {modifiedComponents.map((items, index) => (
+                      {modifiedComponents.map((items, index) => (
                         <li onClick={() => handleCriteria(items)} key={index}>
-                        <a className="pl-2 cursor-pointer text-sm font-semibold lg:text-sm text-blue2 leading-none block py-2 hover:text-white hover:bg-green">
-                          {items.categoryName}
-                          {/* {items.categoryName === "OTC Medications" && (
+                          <a className="pl-2 cursor-pointer text-sm font-semibold lg:text-sm text-blue2 leading-none block py-2 hover:text-white hover:bg-green">
+                            {items.categoryName}
+                            {/* {items.categoryName === "OTC Medications" && (
                             <hr className="border-t border-green-900 w-full mt-1" />
                           )} */}
-                        </a>
-                        <hr className="border-t border-green block w-full" />
+                          </a>
+                          <hr className="border-t border-green block w-full" />
                         </li>
-                    ))}
+                      ))}
                     </ul>
                   </div>
                 </div>
@@ -526,7 +526,7 @@ const LayoutNav = ({ Form_Data }) => {
             </div>
 
             {/* Search Input */}
-            <div className="flex w-[65%] md:w-full input-full-width h-10 border">
+            <div className="flex h-12 w-[65%] md:w-full input-full-width border">
               <input
                 type="text"
                 name="SearchInput"
@@ -534,7 +534,7 @@ const LayoutNav = ({ Form_Data }) => {
                 onChange={handleSearch}
                 onKeyDown={handleKeyDown}
                 placeholder="Search for products..."
-                className="flex-grow border-none focus:outline-none w-10"
+                className="flex-grow p-4 border-solid border-gray-300 border focus:outline-none focus:border-blue"
               />
               <button
                 onClick={() => handleSearchAPI()}
@@ -559,7 +559,7 @@ const LayoutNav = ({ Form_Data }) => {
             </div>
           ))}
 
-<Tooltip title="Wishlist" placement="top">
+          <Tooltip title="Wishlist" placement="top">
             <img
               onClick={() => navigate("/layout/layoutwishlist")}
               src={wishlist}
@@ -607,7 +607,7 @@ const LayoutNav = ({ Form_Data }) => {
           )}
 
 
-  
+
           {/* <div onClick={() => navigate("/cart")} className="relative">
             <div className="absolute text-white rounded-full bg-blue bottom-1/2 left-1.5 px-1 font-medium text-[10px]">{cartItems.length}</div>
             <Tooltip title="Cart" placement="top">

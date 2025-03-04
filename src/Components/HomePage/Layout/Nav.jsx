@@ -1386,7 +1386,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 </button>
 
                 {isDropdownOpen && (
-                  <div className="absolute z-10 top-[46px] left-0">
+                  <div className="absolute z-10 top-[46px] left-0 drop-shadow-md">
                     <div className="bg-white  sm:w-44 lg:w-64">
                       <ul>
                         {modifiedComponents.map((items, index) => (
