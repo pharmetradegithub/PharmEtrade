@@ -458,7 +458,7 @@ const ProccedtoShipment = ({
     //     <div className="w-full lg:w-1/3 mt-6 lg:mt-0 ml-4"></div>
     //   </div>
     // </div>
-    <div className="w-full h-full mt-2">
+    <div className="w-full h-full mt-6">
       <h1 className="text-xl font-semibold text-blue2">2. Select shipment</h1>
       <div className="flex w-full">
         <div className="w-full">

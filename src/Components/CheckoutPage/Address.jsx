@@ -2245,8 +2245,8 @@ function Address({ topMargin, totalAmount, amount }) {
         </div>
 
         <div className="w-full lg:w-[20%]">
-          <div className="hidden w-full lg:flex flex-col pt-2 items-center lg:relative">
-            <div className="border lg:sticky lg:top-[136px] shadow-md rounded-md p-7 py-5">
+          <div className="hidden w-full lg:flex flex-col pt-2 items-center lg:relative lg:sticky lg:top-[185px]">
+            <div className="border shadow-md rounded-md p-7 py-5">
               {/* <div className="flex items-center justify-center">
                         <button className="border rounded-full text-sm flex justify-center items-center px-4 py-2 bg-blue text-white">
                           Use this payment method
