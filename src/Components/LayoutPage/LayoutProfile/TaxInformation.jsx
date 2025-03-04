@@ -1441,7 +1441,7 @@ const TaxInformation = () => {
                         onClick={() => handleEditClick(index, entry?.sellerId
 , entry?.taxInformationID, entry?.categorySpecificationID, entry?.taxPercentage, entry?.stateName, entry?.createdDate, entry?.modifiedDate)}
                       >
-                        <img src={edit} alt="Edit" className="w-6 h-6" />
+                        <img src={edit} alt="Edit" className="w-[15px] h-[15px]" />
                       </button>
                     </td>
                   </tr>
@@ -1513,7 +1513,7 @@ const TaxInformation = () => {
                       className="px-4 py-2 text-white"
                         onClick={() => handleEditClick(index, entry?.sellerId, entry?.taxInformationID, entry.categorySpecificationID, entry.taxPercentage, entry.stateName, entry.createdDate, entry.modifiedDate)}
                     >
-                      <img src={edit} alt="Edit" className="w-6 h-6" />
+                        <img src={edit} alt="Edit" className="w-[15px] h-[15px]" />
                     </button>
                     </p>
                     </div>

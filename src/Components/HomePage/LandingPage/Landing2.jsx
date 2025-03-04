@@ -162,7 +162,7 @@ import ProductSlider from "../Components/ProductSlider";
 // import slider2 from "../../../assets/S2.jpg";
 // import slider3 from "../../../assets/S3.jpg";
 // import slider4 from "../../../assets/S4.jpg";
-import slider1 from "../../../assets/buy.jpg";
+import slider1 from "../../../assets/buy (2).jpg";
 import slider2 from "../../../assets/sell.jpg";
 import slider3 from "../../../assets/bid.jpg";
 import slider4 from "../../../assets/join.jpg";

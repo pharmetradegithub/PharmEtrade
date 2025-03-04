@@ -298,7 +298,7 @@ const OfferedProductsAdmin = () => {
                   No
                 </button>
                 <button
-                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  className="bg-green2 hover:bg-green2 text-white font-bold py-2 px-4 rounded"
                   onClick={successButton}
                 >
                   Yes
@@ -333,7 +333,7 @@ const OfferedProductsAdmin = () => {
                   No
                 </button>
                 <button
-                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  className="bg-green2 hover:bg-green2 text-white font-bold py-2 px-4 rounded"
                   onClick={successDeleteButton}
                 >
                   Yes
@@ -474,7 +474,7 @@ const OfferedProductsAdmin = () => {
                       <img
                         src={edit}
                         alt="Edit"
-                        className="cursor-pointer w-7 h-7 "
+                            className="cursor-pointer w-[15px] h-[15px] "
                         onClick={() => handleEditProduct(detail)}
                       />
                     </Tooltip>

@@ -229,68 +229,68 @@ function Address({ topMargin, totalAmount, amount }) {
   //     fetchSellersAndSendPayload(); 
   //   }
   // }, [cartList, pincodes]);
+  console.log("cartt", cartList)
+  // useEffect(() => {
+  //   const fetchSellersAndSendPayload = async () => {
+  //     try {
+  //       dispatch(clearServiceType());
+  //       dispatch(clearFedExRates());
 
-  useEffect(() => {
-    const fetchSellersAndSendPayload = async () => {
-      try {
-        dispatch(clearServiceType());
-        dispatch(clearFedExRates());
+  //       // Filter products that require shipping cost
+  //       const productsWithShipping = cartList.filter(
+  //         (product) => product.product.isShippingCostApplicable === false
+  //       );
 
-        // Filter products that require shipping cost
-        const productsWithShipping = cartList.filter(
-          (product) => product.product.isShippingCostApplicable === false
-        );
+  //       // Process each product with shipping cost
+  //       const sellerPromises = productsWithShipping.map(async (product) => {
+  //         // Check if the product has a valid seller zip code in the order place data
+  //         const sellerZipCode = orderplace?.products.find(
+  //           (p) => p.sellerId === product.product.sellerId
+  //         )?.sellerZipCode;
+  //         if (sellerZipCode) {
+  //           const shipDateStamp = new Date().toISOString().slice(0, 10);
+  //           const payload = {
+  //             accountNumber: { value: "235969831" },
+  //             requestedShipment: {
+  //               shipper: { address: { postalCode: sellerZipCode, countryCode: "US" } },
+  //               recipient: { address: { postalCode: pincodes, countryCode: "US" } },
+  //               serviceType: "STANDARD_OVERNIGHT",
+  //               preferredCurrency: "USD",
+  //               rateRequestType: ["ACCOUNT", "LIST"],
+  //               shipDateStamp: shipDateStamp,
+  //               pickupType: "DROPOFF_AT_FEDEX_LOCATION",
+  //               requestedPackageLineItems: [{ weight: { units: "LB", value: 22 } }],
+  //             },
+  //           };
 
-        // Process each product with shipping cost
-        const sellerPromises = productsWithShipping.map(async (product) => {
-          // Check if the product has a valid seller zip code in the order place data
-          const sellerZipCode = orderplace?.products.find(
-            (p) => p.sellerId === product.product.sellerId
-          )?.sellerZipCode;
-          if (sellerZipCode) {
-            const shipDateStamp = new Date().toISOString().slice(0, 10);
-            const payload = {
-              accountNumber: { value: "235969831" },
-              requestedShipment: {
-                shipper: { address: { postalCode: sellerZipCode, countryCode: "US" } },
-                recipient: { address: { postalCode: pincodes, countryCode: "US" } },
-                serviceType: "STANDARD_OVERNIGHT",
-                preferredCurrency: "USD",
-                rateRequestType: ["ACCOUNT", "LIST"],
-                shipDateStamp: shipDateStamp,
-                pickupType: "DROPOFF_AT_FEDEX_LOCATION",
-                requestedPackageLineItems: [{ weight: { units: "LB", value: 22 } }],
-              },
-            };
+  //           const sellerId = product.product.sellerId;
+  //           // Make the two FedEx API calls for each product
 
-            const sellerId = product.product.sellerId;
-            // Make the two FedEx API calls for each product
+  //           await dispatch(serviceTypeApi(payload, user.customerId, sellerId));
+  //           await dispatch(FedExRatesApi(payload, user.customerId, sellerId));
 
-            await dispatch(serviceTypeApi(payload, user.customerId, sellerId));
-            await dispatch(FedExRatesApi(payload, user.customerId, sellerId));
+  //           return { product: product.product.sellerId };
+  //         } else {
+  //           console.warn(`Postal code not found for seller ${product.product.sellerId}`);
+  //           return null;
+  //         }
+  //       });
 
-            return { product: product.product.sellerId };
-          } else {
-            console.warn(`Postal code not found for seller ${product.product.sellerId}`);
-            return null;
-          }
-        });
+  //       // Wait for all API calls to complete
+  //       const allResponses = await Promise.all(sellerPromises);
+  //       const successfulResponses = allResponses.filter((response) => response !== null);
 
-        // Wait for all API calls to complete
-        const allResponses = await Promise.all(sellerPromises);
-        const successfulResponses = allResponses.filter((response) => response !== null);
+  //       console.log("Successful API responses:", successfulResponses);
+  //     } catch (error) {
+  //       console.error("Error processing sellers:", error);
+  //     }
+  //   };
 
-        console.log("Successful API responses:", successfulResponses);
-      } catch (error) {
-        console.error("Error processing sellers:", error);
-      }
-    };
-
-    // Trigger the function if cartList has items and pincodes are available
-    if (cartList?.length > 0 && pincodes !== null) {
-      fetchSellersAndSendPayload();
-    }
-  }, [cartList, pincodes, dispatch, user.customerId, orderplace]);
+  //   // Trigger the function if cartList has items and pincodes are available
+  //   if (cartList?.length > 0 && pincodes !== null) {
+  //     fetchSellersAndSendPayload();
+  //   }
+  // }, [cartList, pincodes, dispatch, user.customerId, orderplace]);
 
 
   //   useEffect(() => {
@@ -343,6 +343,72 @@ function Address({ topMargin, totalAmount, amount }) {
   // }, [cartList, pincodes, dispatch, user.customerId]);
 
 
+
+  useEffect(() => {
+    const fetchSellersAndSendPayload = async () => {
+      try {
+        dispatch(clearServiceType());
+        dispatch(clearFedExRates());
+
+        // Filter products that require shipping cost
+        const productsWithShipping = cartList.filter(
+          (product) => product.product.isShippingCostApplicable === false
+        );
+
+        // Create a set of unique seller IDs
+        const sellerGroups = productsWithShipping.reduce((acc, product) => {
+          const sellerId = product.product.sellerId;
+          if (!acc[sellerId]) acc[sellerId] = [];
+          acc[sellerId].push(product);
+          return acc;
+        }, {});
+
+        const sellerPromises = Object.keys(sellerGroups).map(async (sellerId) => {
+          // Get sellerZipCode directly from cartList
+          const sellerZipCode = orderplace?.products.find(
+            (p) => p.sellerId === sellerId
+          )?.sellerZipCode;
+
+          if (sellerZipCode) {
+            const shipDateStamp = new Date().toISOString().slice(0, 10);
+            const payload = {
+              accountNumber: { value: "235969831" },
+              requestedShipment: {
+                shipper: { address: { postalCode: sellerZipCode, countryCode: "US" } },
+                recipient: { address: { postalCode: pincodes, countryCode: "US" } },
+                serviceType: "STANDARD_OVERNIGHT",
+                preferredCurrency: "USD",
+                rateRequestType: ["ACCOUNT", "LIST"],
+                shipDateStamp: shipDateStamp,
+                pickupType: "DROPOFF_AT_FEDEX_LOCATION",
+                requestedPackageLineItems: [{ weight: { units: "LB", value: 22 } }],
+              },
+            };
+
+            // Dispatch API calls with sellerId
+            await dispatch(serviceTypeApi(payload, user.customerId, sellerId));
+            await dispatch(FedExRatesApi(payload, user.customerId, sellerId));
+
+            return { sellerId };
+          } else {
+            console.warn(`Postal code not found for seller ${sellerId}`);
+            return null;
+          }
+        });
+
+        const allResponses = await Promise.all(sellerPromises);
+        const successfulResponses = allResponses.filter((response) => response !== null);
+
+        console.log("Successful API responses:", successfulResponses);
+      } catch (error) {
+        console.error("Error processing sellers:", error);
+      }
+    };
+
+    if (cartList?.length > 0 && pincodes !== null) {
+      fetchSellersAndSendPayload();
+    }
+  }, [cartList, pincodes, dispatch, user.customerId, orderplace]);
 
   const [isAddressSelected, setIsAddressSelected] = useState(false);
   const handleUseAddress = async (state, pincode, addressId) => {
@@ -1462,7 +1528,7 @@ function Address({ topMargin, totalAmount, amount }) {
                                           <p className="mr-2">{item.state},</p>
                                           <p className="">{item.pincode}</p>
                                           {/* <p className="ml-1">{item.phoneNumber && `, ${item.phoneNumber}`}</p> */}
-                                          {item.phoneNumber && <p className="">,&nbsp;&nbsp;{item.phoneNumber}</p>}
+                                          {item.phoneNumber && <p className="">&nbsp;&nbsp;{item.phoneNumber}</p>}
 
                                           {/* Edit button */}
                                           <p
@@ -1668,7 +1734,7 @@ function Address({ topMargin, totalAmount, amount }) {
                                       </MenuItem>
                                     ))}
                                 </Select>
-                              </FormControl>;
+                              </FormControl>
 
                               <TextField
                                 label="Zip "
@@ -2308,5 +2374,5 @@ function Address({ topMargin, totalAmount, amount }) {
   );
 }
 
-export default Address;
+export default Address
 

@@ -485,7 +485,7 @@ const dispatch = useDispatch()
         </div>
         <button
           onClick={handleAddBanners}
-          className="bg-blue text-white px-6 mx-4 py-2 rounded"
+          className="bg-blue text-white px-6 mx-4 py-2 rounded hover:bg-green2"
         >
           Save Offers
         </button>
@@ -531,7 +531,7 @@ const dispatch = useDispatch()
                   <img src={item.imageUrl} alt={`Carousel Image ${index + 1}`} className="rounded-md" />
                   <div className="flex justify-between items-center mt-2">
                     <button onClick={() => handleEditBanner(index, item.categorySpecificationId, item.offerImageId)}>
-                      <img src={edit} className="w-8 h-8" alt="Edit" />
+                      <img src={edit} className="w-[15px] h-[15px]" alt="Edit" />
                     </button>
                     <button
                       onClick={() => handleDelete(item.offerImageId)}
@@ -543,7 +543,7 @@ const dispatch = useDispatch()
                   <div className="flex justify-center items-center mt-4">
                     {/* <span className="mr-2 text-gray-600">Toggle:</span> */}
                     <div
-                      className={`relative w-14 h-8 rounded-full cursor-pointer transition ${toggleStates[index] ? "bg-green-500" : "bg-gray-300"
+                      className={`relative w-14 h-8 rounded-full cursor-pointer transition ${toggleStates[index] ? "bg-green2" : "bg-gray-300"
                         }`}
                       onClick={() => handleToggle(index)}
                     >
@@ -608,7 +608,7 @@ const dispatch = useDispatch()
 
             <button
               onClick={handleSaveEdit}
-              className="bg-green-500 text-white px-4 py-2 rounded mr-2 my-2"
+              className="bg-green2 text-white px-4 py-2 rounded mr-2 my-2"
             >
               Save Changes
             </button>
