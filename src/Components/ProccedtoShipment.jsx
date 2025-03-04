@@ -220,6 +220,7 @@ const ProccedtoShipment = ({
     fetchSellerData();
   }, []);
 
+  console.log("nnnnn", groupedProducts)
 
   return (
     // <div className="w-full h-full  p-4 ">
@@ -464,8 +465,8 @@ const ProccedtoShipment = ({
         <div className="w-full">
           {Object.entries(groupedProducts).map(([seller, { products, sellerId }]) => {
               // Use sellerId in the useSelector hook
-              const serviceName = useSelector((state) => state.trackNumber.serviceType[sellerId] || []);
-              const fedexRate = useSelector((state) => state.trackNumber.fedExRates[sellerId] || []);
+            const serviceName = useSelector((state) => state.trackNumber.serviceType[products?.sellerId] || []);
+            const fedexRate = useSelector((state) => state.trackNumber.fedExRates[products?.sellerId] || []);
 
               return(
             <div key={seller}>

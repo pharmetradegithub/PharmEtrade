@@ -940,11 +940,11 @@ const LayoutProfile = () => {
   ];
 
   return (
-    <div className="w-full h-full flex-col bg-slate-200 flex justify-center overflow-y-scroll">
+    <div className="w-full  flex-col bg-slate-200 flex justify-center overflow-y-auto">
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
-      <div className="w-[95%] mt-8 h-full flex flex-col justify-normal">
+      <div className="mt-8 h-full flex flex-col justify-normal">
         {/* Render Profile Buttons */}
         {/* <div className="grid flex-col md:grid-cols-3  xl:flex md:flex-row gap-4 md:gap-3">
           {profiles.map((profile, index) =>
@@ -968,7 +968,7 @@ const LayoutProfile = () => {
             )
           )}
         </div> */}
-        <div className="grid flex-col md:grid-cols-3 xl:flex md:flex-row gap-4 md:gap-3">
+        <div className="grid flex-col md:grid-cols-3 xl:flex md:flex-row gap-4 md:gap-3 border-b border-green">
           {profiles.map((profile, index) =>
             userdata?.customerTypeId === 4 &&
             (index === 1 ||
@@ -976,14 +976,14 @@ const LayoutProfile = () => {
               profile.grid === "charges" || profile.grid === "ACH") ? null : (
               <div key={profile.grid} className="flex ml-6">
                 <div
-                  className={`w-44 bg-white layoutBuyProducts rounded-lg flex items-center justify-center cursor-pointer ${
+                  className={`w-44 bg-blue2 text-white layoutBuyProducts rounded-lg rounded-b-none flex items-center justify-center cursor-pointer ${
                     visibleGrid === profile.grid
-                      ? "border-b-4 border-blue2"
+                      ? "bg-green"
                       : ""
                   }`}
                   onClick={() => toggleGrid(profile.grid)}
                 >
-                  <h1 className="text-lg text-blue2 font-semibold">
+                  <h1 className="text-lg font-semibold">
                     {profile.label}
                   </h1>
                 </div>
@@ -994,20 +994,20 @@ const LayoutProfile = () => {
 
         {visibleGrid === "account" && (
           <div>
-            <h1 className="text-xl text-blue2 font-semibold mt-4 ml-6 ">
+            <h1 className="text-xl text-blue2 font-semibold mt-4 ml-6">
               Primary
             </h1>
             <div
               className={`bg-white border ${
                 isEditable ? "border-blue2" : "border-gray-400"
-              } rounded-lg px-3 lg:px-8 mx-3 lg:mx-6 layoutBuyProducts w-[85%] lg:w-[90%] mt-8 relative`}
+              } rounded-lg  px-3 lg:px-8 mx-3 lg:mx-6 layoutBuyProducts w-[85%] lg:w-[90%] mt-8 relative`}
             >
               {/* <h1 className={`text-xl font-semibold my-2 text-blue-900`}>
                 User Information
               </h1> */}
 
               {isEditable && (
-                <h1 className="text-blue2 absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md">
+                <h1 className="transition-all duration-500  text-blue2 absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md">
                   User Information
                 </h1>
               )}

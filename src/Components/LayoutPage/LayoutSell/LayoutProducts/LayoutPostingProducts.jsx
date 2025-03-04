@@ -663,7 +663,7 @@ const LayoutPostingProducts = () => {
                             <img
                               src={edit}
                               alt="Edit"
-                              className="cursor-pointer w-7 h-7"
+                              className="cursor-pointer w-4"
                               onClick={() => handleEditProduct(product)}
                             />
                           </Tooltip>

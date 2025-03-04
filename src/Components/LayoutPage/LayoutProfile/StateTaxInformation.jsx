@@ -385,7 +385,8 @@ const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per p
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
-      <div className="w-[90%] border rounded-lg px-4 mx-2 py-3 mt-8 relative my-3">
+      
+      <div className="text-xl text-blue2 font-semibold mx-6 py-4">
         <div className="flex justify-between">
           {/* <h1 className="text-blue-900 text-xl font-semibold p-1 rounded-md">
             Charges Information
@@ -396,7 +397,7 @@ const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per p
             </h1> */}
           {/* )} */}
           <h1
-            className={`text-xl font-semibold my-2 ${isEditable ? "invisible" : "text-blue-900"
+            className={`${isEditable ? "invisible" : "text-blue2"
               }`}
           >
             Tax Information
@@ -583,7 +584,7 @@ const [itemsPerPage, setItemsPerPage] = useState(10); // Set initial items per p
                     );
                     return (
                       <tr key={index} className="bg-white hover:bg-gray-100 transition-colors">
-                        <td className="px-6 border-b border-gray-200 text-sm">{indexOfFirstItem + index + 1}</td>
+                        <td className="px-6 py-2 border-b border-gray-200 text-sm">{indexOfFirstItem + index + 1}</td>
                         <td className="px-6 border-b border-gray-200 text-sm">{entry.stateName}</td>
                         <td className="px-6 border-b border-gray-200 text-sm">{matchedCategory? matchedCategory.specificationName : 'Unknown Category'}</td>
                         <td className="px-6 border-b border-gray-200 text-sm">{entry.taxPercentage}%</td>

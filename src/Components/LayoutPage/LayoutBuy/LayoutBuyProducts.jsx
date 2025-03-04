@@ -3730,7 +3730,7 @@ function LayoutBuy({
 
   console.log("curree", currentItems)
   return (
-    <div className="w-[95%] main-container mt-4 ml-4 h-full overflow-y-scroll">
+    <div className="w-fll main-container mt-4 ml-4 h-full overflow-y-auto">
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}

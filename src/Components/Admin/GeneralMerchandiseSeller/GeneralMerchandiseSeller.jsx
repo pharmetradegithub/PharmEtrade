@@ -824,7 +824,7 @@ const GeneralMerchandiseSeller = () => {
                 No
               </button>
               <button
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-green2 hover:bg-green2 text-white font-bold py-2 px-4 rounded"
                 onClick={successButton}
               >
                 Yes
@@ -856,7 +856,7 @@ const GeneralMerchandiseSeller = () => {
                   No
                 </button>
                 <button
-                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  className="bg-green2 hover:bg-green2 text-white font-bold py-2 px-4 rounded"
                   onClick={successDeleteButton}
                 >
                   Yes
@@ -1020,7 +1020,7 @@ const GeneralMerchandiseSeller = () => {
                           <div className="flex justify-center items-center">
                             <div
                               className={`h-2.5 w-2.5 rounded-full mr-2 ${customer.isActive === 1
-                                  ? "bg-green-500"
+                                  ? "bg-green2"
                                   : "bg-red-500"
                                 }`}
                             ></div>
@@ -1032,9 +1032,10 @@ const GeneralMerchandiseSeller = () => {
                         <td className="px-4 cursor-pointer text-center flex justify-center items-center space-x-2">
                           <Tooltip title="Edit" placement="top">
                             <img
+                              
                               src={edit}
                               alt="Edit"
-                              className="cursor-pointer w-7 h-7 -mb-5"
+                              className="cursor-pointer w-[15px] h-[15px] -mb-5"
                               onClick={() =>
                                 handleEditProduct(customer.customerId)
                               }

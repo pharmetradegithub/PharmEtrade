@@ -16,7 +16,7 @@ import Pintrist from "../../../assets/pinterest.png";
 import email from "../../../assets/envelope.png";
 import Whatsapp from "../../../assets/Icons/Whatsapp.png";
 import cart from '../../../assets/cartw_icon.png'
-import share from "../../../assets/share.png";
+import share from "../../../assets/Icons/shareupload.png";
 import cross from "../../../assets/Icons/wrongred.png";
 import { useSelector } from "react-redux";
 import Notification from "../../../Components/Notification"; // Import Notification component
@@ -151,18 +151,19 @@ function LayoutWishlist({ addCart }) {
   }));
   return (
     <div
-      className="bg-gray-200 h-full p-8 overflow-scroll"
+      className="mt-4 ml-4"
     // style={{ marginTop: `${topMargin}px `}}
     >
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
-      <h1 className="text-2xl mb-2 text-blue2  font-semibold">
+      {/* <h1 className="text-2xl mb-2 text-blue2  font-semibold">
         PharmEtrade {">"} Wishlist
-      </h1>
-      <div className="w-full min-h-full sm:w-full  bg-white rounded-lg shadow-lg p-4 sm:p-8">
+      </h1> */}
+      <h1 className="lg:text-2xl text-2xl font-semibold text-blue2">Wishlist</h1>
+      <div className="w-full mt-5">
         <div className="flex justify-between">
-          <h1 className="text-2xl m-5 text-blue2 font-semibold">Wishlist</h1>
+          {/* <h1 className="text-2xl m-5 text-blue2 font-semibold">Wishlist</h1> */}
           {/* <div className="flex bg-white m-5">
             <Search className="">
               <SearchIconWrapper>
@@ -181,7 +182,7 @@ function LayoutWishlist({ addCart }) {
             {wishItems.map((item, index) => (
               <div
                 key={index}
-                className="border rounded-lg flex flex-wrap md:flex-nowrap justify-evenly h-auto p-4 max-w-6xl  md:w-auto bg-white shadow-md"
+                className="flex sm:p-4  p-2 flex-col  lg:flex-row md:flex-row h-auto  border w-60 md:w-auto justify-between shadow-lg rounded-md mb-4 layoutBuyProducts hover:bg-white transition-all duration-100"
               >
                 <Link to={`/detailspage/${item.product.productID}`}>
                   <img
@@ -241,15 +242,15 @@ function LayoutWishlist({ addCart }) {
                     ADD
                   </button> */}
                   <button
-                    className={`text-sm md:text-lg hover:bg-green2 font-semibold text-white ${item.product.amountInStock > 0 ? 'bg-blue' : 'bg-gray-300 cursor-not-allowed'
-                      } w-28 md:w-36 h-9 flex justify-center items-center rounded-full`}
+                    className={`flex text-white ${item.product.amountInStock > 0 ? 'bg-blue2 hover:bg-green2' : 'bg-gray-300 cursor-not-allowed'
+                    } text-white  h-[32px] sm:w-full w-32  small-button sm:px-2 rounded-lg sm:mt-8 justify-center  items-center  cursor-pointer`}
                     onClick={() => {
                       if (item.product.amountInStock > 0) handleCart(item.product.productID);
                     }}
                     disabled={item.product.amountInStock === 0}
                   >
-                    <img src={cart} className="w-4 md:w-5 h-4 md:h-5 mx-1" />
-                    ADD
+                    <img src={cart} className="w-4 mr-1" />
+                    <p className="font-semibold small-button text-sm">ADD</p>
                   </button>
                   <div className="flex  items-center justify-between my-4 cursor-pointer">
                     <div className="relative">

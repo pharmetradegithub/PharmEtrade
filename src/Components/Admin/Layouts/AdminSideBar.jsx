@@ -28,6 +28,8 @@ import ordersIcon from "../../../assets/Dashboard_icon.png";
 import orderListIcon from "../../../assets/Dashboard_icon.png";
 import customerListIcon from "../../../assets/Dashboard_icon.png";
 import orderDetailsIcon from "../../../assets/Dashboard_icon.png";
+import OrderIcon from '../../../assets/shopping-bag (4).png'
+import taxIcon from '../../../assets/discount (1).png'
 
 function AdminSidebar() {
   let navigate = useNavigate();
@@ -185,7 +187,7 @@ function AdminSidebar() {
         {
           to: "/pharmEtradeadmin/TaxInformation",
           label: "State Tax Information",
-          icon: Offeredproducts,
+          icon: taxIcon,
         },
       ],
     },
@@ -194,7 +196,7 @@ function AdminSidebar() {
 
     {
       label: "Orders",
-      icon: Allproducts,
+      icon: OrderIcon,
       to: "/pharmEtradeadmin/Orders", // Direct link to the Dashboard page
     },
 
