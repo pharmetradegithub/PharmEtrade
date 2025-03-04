@@ -227,8 +227,8 @@
 //           >
 //             <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
 //               <div className="flex justify-end  ">
-//                 <button className="w-5 p-1 -mt-8 mx-2" onClick={closeButton}>
-//                   <img src={wrong} className="w-6 h-4" />
+//                 <button className="w-7 p-1 -mt-6 mx-2" onClick={closeButton}>
+//                   <img src={wrong} className="w-full" />
 //                 </button>
 //               </div>
 //               <h1 className="text-black text-center mt-2">
@@ -555,7 +555,7 @@ const pharmacyDistributor = () => {
     }
   }, [searchInput.customerName, trigger, deactivatedProducts]);
 
-  
+
   // Sorting configuration
   const [sortConfig, setSortConfig] = useState({
     key: "",
@@ -702,7 +702,7 @@ const pharmacyDistributor = () => {
     setOpendeletePop(true);
   };
 
-  
+
   const DeleteCustomer = async (customerId) => {
     try {
       await DeleteCustomerAPI(customerId);
@@ -726,8 +726,8 @@ const pharmacyDistributor = () => {
     }
   };
 
-  const clearSearch = ()=>{
-    setSearchInput ({ customerName:""})
+  const clearSearch = () => {
+    setSearchInput({ customerName: "" })
   }
 
   const [openPop, setOpenPop] = useState(false);
@@ -747,7 +747,7 @@ const pharmacyDistributor = () => {
     setIsActivating(false); // Indicate that it's a deactivation popup
     setActiveCustomerID(customerId);
   };
-  
+
   const dispatch = useDispatch();
 
   const successButton = async () => {
@@ -800,39 +800,39 @@ const pharmacyDistributor = () => {
           />
         )}
         {openPop && (
-        <div
-          className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-slate-900 bg-opacity-20"
-          role="dialog"
-          aria-modal="true"
-        >
-          <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
-            <div className="flex justify-end">
-              <button className="w-5 p-1 -mt-8 mx-2" onClick={closeButton}>
-                <img src={wrong} className="w-6 h-4" alt="Close" />
-              </button>
-            </div>
-            <h1 className="text-black text-center mt-2">
-              Are you sure you want to{" "}
-              {isActivating ? "activate" : "deactivate"} this user?
-            </h1>
-            <div className="flex justify-around mt-6">
-              <button
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                onClick={cancelButton}
-              >
-                No
-              </button>
-              <button
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                onClick={successButton}
-              >
-                Yes
-              </button>
+          <div
+            className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-slate-900 bg-opacity-20"
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
+              <div className="flex justify-end">
+                <button className="w-7 p-1 -mt-6 mx-2" onClick={closeButton}>
+                  <img src={wrong} className="w-full" alt="Close" />
+                </button>
+              </div>
+              <h1 className="text-black text-center mt-2">
+                Are you sure you want to{" "}
+                {isActivating ? "activate" : "deactivate"} this user?
+              </h1>
+              <div className="flex justify-around mt-6">
+                <button
+                  className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg "
+                  onClick={cancelButton}
+                >
+                  No
+                </button>
+                <button
+                  className="text-white py-2 px-4 rounded-lg bg-green2 hover:bg-blue2 font-semibold"
+                  onClick={successButton}
+                >
+                  Yes
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-             {opendeletePop && (
+        )}
+        {opendeletePop && (
           <div
             className="fixed top-0 left-25 w-4/5 h-full flex justify-center items-center bg-slate-900 bg-opacity-20"
             role="dialog"
@@ -840,8 +840,8 @@ const pharmacyDistributor = () => {
           >
             <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
               <div className="flex justify-end  ">
-                <button className="w-5 p-1 -mt-8 mx-2" onClick={closeButton}>
-                  <img src={wrong} className="w-6 h-4" />
+                <button className="w-7 p-1 -mt-6 mx-2" onClick={closeButton}>
+                  <img src={wrong} className="w-full" />
                 </button>
               </div>
               <h1 className="text-black text-center mt-2">
@@ -849,13 +849,13 @@ const pharmacyDistributor = () => {
               </h1>
               <div className="flex justify-around mt-6">
                 <button
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg "
                   onClick={cancelButton}
                 >
                   No
                 </button>
                 <button
-                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  className="text-white py-2 px-4 rounded-lg bg-green2 hover:bg-blue2 font-semibold"
                   onClick={successDeleteButton}
                 >
                   Yes
@@ -867,23 +867,23 @@ const pharmacyDistributor = () => {
         <div className="w-[95%] h-full mt-8">
           <div className="flex justify-between">
             <h1 className="text-xl text-blue-900 font-semibold mb-4">
-             Pharmacy Distributor List
+              Pharmacy Distributor List
             </h1>
             <div className="flex  relative mb-4">
               <div>
                 <button className="absolute left-2  top-1/2 transform -translate-y-1/2">
-                  <img src={search} className="w-4 h-4"/>
+                  <img src={search} className="w-4 h-4" />
                 </button>
 
-              <input
-                className=" pl-7  p-1"
-                placeholder="Search..."
-                name="customerName"
-                onChange={handleInputChange}
-                onKeyDown={handleKeyDown}
-                value={searchInput.customerName}
-              />
-              <button
+                <input
+                  className=" pl-7  p-1"
+                  placeholder="Search..."
+                  name="customerName"
+                  onChange={handleInputChange}
+                  onKeyDown={handleKeyDown}
+                  value={searchInput.customerName}
+                />
+                <button
                   onClick={handleSearchClick}
                   className="absolute bg-blue p-2 right-0 top-1/2 transform -translate-y-1/2"
                 >
@@ -952,7 +952,7 @@ const pharmacyDistributor = () => {
                     </th>
                     <th
                       className="px-6 py-3 text-center cursor-pointer"
-                      // onClick={() => handleSort("mobile")}
+                    // onClick={() => handleSort("mobile")}
                     >
                       Phone{" "}
                       {/* {sortConfig.key === "mobile"
@@ -1023,11 +1023,10 @@ const pharmacyDistributor = () => {
                         <td className="px-6 text-center">
                           <div className="flex justify-center items-center">
                             <div
-                              className={`h-2.5 w-2.5 rounded-full mr-2 ${
-                                customer.isActive === 1
+                              className={`h-2.5 w-2.5 rounded-full mr-2 ${customer.isActive === 1
                                   ? "bg-green-500"
                                   : "bg-red-500"
-                              }`}
+                                }`}
                             ></div>
                             {customer.isActive === 1 ? "Active" : "InActive"}
                           </div>
@@ -1046,24 +1045,24 @@ const pharmacyDistributor = () => {
                             />
                           </Tooltip>
                           {customer.isActive ? (
-        <Tooltip title="Deactivate" placement="top">
-          <img
-            src={Deactivate}
-            alt="Deactivate"
-            className="cursor-pointer w-4 h-4 -mb-5"
-            onClick={() =>  deactivatePopUp(customer.customerId)}
-          />
-        </Tooltip>
-      ) : (
-        <Tooltip title="Activate" placement="top">
-          <img
-            src={Activate}
-            alt="Activate"
-            className="w-4 h-4 -mb-5 cursor-not-allowed"
-            // onClick={() => activatePopUp(customer?.customerId)}
-          />
-        </Tooltip>
-      )}
+                            <Tooltip title="Deactivate" placement="top">
+                              <img
+                                src={Deactivate}
+                                alt="Deactivate"
+                                className="cursor-pointer w-4 h-4 -mb-5"
+                                onClick={() => deactivatePopUp(customer.customerId)}
+                              />
+                            </Tooltip>
+                          ) : (
+                            <Tooltip title="Activate" placement="top">
+                              <img
+                                src={Activate}
+                                alt="Activate"
+                                className="w-4 h-4 -mb-5 cursor-not-allowed"
+                              // onClick={() => activatePopUp(customer?.customerId)}
+                              />
+                            </Tooltip>
+                          )}
                           <Tooltip placement="top" title="Delete">
                             <img
                               src={Bin}

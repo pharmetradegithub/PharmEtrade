@@ -848,7 +848,7 @@ const ChargesInformations = () => {
         >
           <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
             <div className="flex justify-end">
-              <button className="w-5 p-1 -mt-8 mx-2 cursor-pointer" onClick={closeDeleteButton}>
+              <button className="w-7 p-1 -mt-6 mx-2 cursor-pointer" onClick={closeDeleteButton}>
                 <img src={wrong} className="w-6 h-4 cursor-pointer" alt="Close" />
               </button>
             </div>
@@ -857,13 +857,13 @@ const ChargesInformations = () => {
             </h1>
             <div className="flex justify-around mt-6">
               <button
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
+                className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg "
                 onClick={cancelDeleteButton}
               >
                 No
               </button>
               <button
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
+                className="text-white py-2 px-4 rounded-lg bg-green2 hover:bg-blue2 font-semibold"
                 onClick={successDeleteButton}
               >
                 Yes

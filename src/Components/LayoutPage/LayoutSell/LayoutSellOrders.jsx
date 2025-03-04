@@ -342,7 +342,7 @@
 //                 className="w-5 p-1 mx-2 sm:mt-3 mt-5"
 //                 onClick={handleCancel}
 //               >
-//                 <img src={wrong} className="w-6 h-4" />
+//                 <img src={wrong} className="w-full" />
 //               </button>
 //             </div>
 //             <h1 className="text-black text-center mt-0">
@@ -410,7 +410,7 @@
 //                 className="w-5 p-1 mx-2 sm:mt-3 mt-5"
 //                 onClick={handleCancel}
 //               >
-//                 <img src={wrong} className="w-6 h-4" />
+//                 <img src={wrong} className="w-full" />
 //               </button>
 //             </div>
 //             <h1 className="text-black text-center mt-0">
@@ -484,7 +484,7 @@
 //               className="self-end text-red-500 font-bold py-1 px-2 rounded hover:bg-red-100"
 //               onClick={() => setModal(false)}
 //             >
-//               <img src={wrong} className="w-6 h-4" />
+//               <img src={wrong} className="w-full" />
 //             </button>
 
 //             {/* Content section */}
@@ -1288,7 +1288,7 @@ function LayoutSellOrders() {
                 className="w-5 p-1 mx-2 sm:mt-3 mt-5"
                 onClick={handleCancel}
               >
-                <img src={wrong} className="w-6 h-4" />
+                <img src={wrong} className="w-full" />
               </button>
             </div>
             <h1 className="text-black text-center mt-0">
@@ -1356,7 +1356,7 @@ function LayoutSellOrders() {
                 className="w-5 p-1 mx-2 sm:mt-3 mt-5"
                 onClick={handleCancel}
               >
-                <img src={wrong} className="w-6 h-4" />
+                <img src={wrong} className="w-full" />
               </button>
             </div>
             <h1 className="text-black text-center mt-0">
@@ -1386,7 +1386,7 @@ function LayoutSellOrders() {
             )}
             <div className="flex justify-around sm:mt-6 mt-2 mb-5">
               <button
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg "
                 onClick={handleCancel}
               >
                 No
@@ -1430,7 +1430,7 @@ function LayoutSellOrders() {
               className="self-end text-red-500 font-bold py-1 px-2 rounded hover:bg-red-100"
               onClick={() => setModal(false)}
             >
-              <img src={wrong} className="w-6 h-4" />
+              <img src={wrong} className="w-full" />
             </button>
 
             {/* Content section */}

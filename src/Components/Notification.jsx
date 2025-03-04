@@ -6,10 +6,10 @@ const Notification = ({ show, message }) => {
   return (
     <Transition
       show={show}
-      enter="transition transform duration-300 ease-in-out"
+      enter="transition transform duration-100 ease-in-out"
       enterFrom="translate-x-full opacity-0"
       enterTo="translate-x-0 opacity-100"
-      leave="transition transform duration-300 ease-in-out"
+      leave="transition transform duration-100 ease-in-out"
       leaveFrom="translate-x-0 opacity-100"
       leaveTo="translate-x-full opacity-0"
     >

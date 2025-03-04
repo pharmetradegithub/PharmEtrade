@@ -951,21 +951,13 @@ const LayoutAllrequestedQuote = () => {
           >
             <Button
               onClick={handleDialogClose}
-              sx={{
-                color: "white",
-                backgroundColor: "red",
-                "&:hover": { backgroundColor: "#cc0000" },
-              }}
+              className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg "
             >
               Cancel
             </Button>
             <Button
               onClick={handleModalSave}
-              sx={{
-                color: "white",
-                backgroundColor: "green",
-                "&:hover": { backgroundColor: "#006400" },
-              }}
+              className="text-white py-2 px-4 rounded-lg bg-green2 hover:bg-blue2 font-semibold"
             >
               Yes
             </Button>

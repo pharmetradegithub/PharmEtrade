@@ -389,13 +389,13 @@ function LayoutCustomers() {
 
             <div className="mt-4 flex justify-around space-x-4">
               <button
-                className="px-4 py-2 text-white bg-red-500 rounded-lg"
+                className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg "
                 onClick={closeDeactivatePopup}
               >
                 No
               </button>
               <button
-                className="px-4 py-2 bg-green-500 text-white rounded-lg"
+                className="text-white py-2 px-4 rounded-lg bg-green2 hover:bg-blue2 font-semibold"
                 onClick={confirmDeactivate}
               >
                 Yes
@@ -424,13 +424,13 @@ function LayoutCustomers() {
 
             <div className="mt-4 flex justify-around space-x-4">
               <button
-                className="px-4 py-2 text-white bg-red-500 rounded-lg"
+                className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg "
                 onClick={closeDeletePopup}
               >
                 No
               </button>
               <button
-                className="px-4 py-2 bg-green-500 text-white rounded-lg"
+                className="text-white py-2 px-4 rounded-lg bg-green2 hover:bg-blue2 font-semibold"
                 onClick={confirmDelete}
               >
                 Yes
