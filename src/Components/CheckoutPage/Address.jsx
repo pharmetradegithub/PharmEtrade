@@ -1360,7 +1360,7 @@ function Address({ topMargin, totalAmount, amount }) {
       <div className="flex gap-5">
         <div className="w-full lg:w-[80%]">
 
-          <div className="bg-white w-full h-fit text-lg text-black py-2 relative">
+          <div className="bg-white w-full h-fit text-lg text-black pt-8 pb-2 relative">
             <div className="w-full flex items-center shadow-transparent ">
               <div className="w-[100%]">
                 <img
