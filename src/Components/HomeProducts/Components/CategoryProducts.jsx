@@ -61,13 +61,13 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
     message: "",
   });
   const navigate = useNavigate();
-  const products = useSelector((state) => state.product.Products  );
-  const Heading = useSelector((state) => state.product.Heading );
-  const user = useSelector((state) => state.user.user );
+  const products = useSelector((state) => state.product.Products);
+  const Heading = useSelector((state) => state.product.Heading);
+  const user = useSelector((state) => state.user.user);
   const wishlist = useSelector((state) => state.wishlist.wishlist);
   const productCriteria = useSelector(
     (state) => state.product.productsByCriteria
-   );
+  );
 
   const [wishlistProductIDs, setWishlistProductIDs] = useState([]);
   const [filterSearch, setFilterSearch] = useState();
@@ -276,17 +276,16 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
   // };
 
   return (
-    <div className="w-full mt-4 h-full overflow-y-scroll">
+    <div className="w-full mt-4">
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
-      <div className=" flex justify-between bg-blue p-1 rounded-lg mt-10 md:mt-0">
-        <div className="text-xl flex items-center pl-2 text-white">
-          {/* {{Heading} ? Heading : "All Products"} */}
-          <div>{productCriteria[0]?.productCategory?.categoryName}</div>
-        </div>
 
-        {/* <div className="relative flex">
+      <div className="mt-8 flex main-container md:flex-row justify-between flex-col gap-2">
+        <h1 className="lg:text-2xl text-2xl font-semibold text-blue2">{productCriteria[0]?.productCategory?.categoryName}</h1>
+      </div>
+
+      {/* <div className="relative flex">
           <input
             type="text"
             placeholder="Search Product"
@@ -296,12 +295,11 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
           />
           {/* <CiSearch className="absolute left-0 top-2 text-gray-400 mr-5" /> 
         </div> */}
-      </div>
 
       {loading ? (
         <div>Loading...</div> // Display loading indicator while fetching data
       ) : (
-        <div className="w-[95%]">
+        <div className="w-full">
           <div className="grid grid-cols-2 md:grid-cols-3  xl:grid-cols-4 grid-rows-2 gap-4 mt-8">
             {currentItems.map((item, index) => (
               <div
@@ -354,9 +352,8 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                     )}
                   </h2> */}
                   <h2
-                    className={`text-blue2 font-semibold text-sm sm:text-base ${
-                      showMore[index] ? "h-full mt-2" : "h-12"
-                    }`}
+                    className={`text-blue2 font-semibold text-sm sm:text-base ${showMore[index] ? "h-full mt-2" : "h-12"
+                      }`}
                     title={item.productName}
                   >
                     {showMore[index]
@@ -373,7 +370,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                   </h2>
 
                   {new Date() >= new Date(item?.salePriceValidFrom) &&
-                  new Date() <= new Date(item?.salePriceValidTo) ? (
+                    new Date() <= new Date(item?.salePriceValidTo) ? (
                     <div className="flex items-center gap-1">
                       <h1 className="text-blue2 text-sm sm:text-base font-semibold">
                         ${item.salePrice?.toFixed(2)}
@@ -383,7 +380,7 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                       </span>
                     </div>
                   ) : (
-                      <h1 className="text-blue2 text-sm sm:text-base font-semibold">
+                    <h1 className="text-blue2 text-sm sm:text-base font-semibold">
                       ${item.unitPrice?.toFixed(2)}
                     </h1>
                   )}
@@ -452,11 +449,10 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                   <button className="text-white font-semibold">ADD</button>
                 </div> */}
                 <div
-                  className={`flex p-1 rounded-md justify-center ${
-                    item.amountInStock <= 0
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-blue cursor-pointer hover:bg-green2"
-                  }`}
+                  className={`flex p-1 rounded-md justify-center ${item.amountInStock <= 0
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-blue cursor-pointer hover:bg-green2"
+                    }`}
                   onClick={() => {
                     if (item.amountInStock > 0) {
                       handleCart(item.productID); // Only call handleCart if item is in stock
@@ -466,14 +462,12 @@ function CategoryProducts({ Title, topMargin, addCart, wishList }) {
                   <img
                     src={addcart}
                     alt="Add to cart"
-                    className={`h-6 sm:h-8 p-[6px] ${
-                      item.amountInStock <= 0 ? "opacity-50" : ""
-                    }`}
+                    className={`h-6 sm:h-8 p-[6px] ${item.amountInStock <= 0 ? "opacity-50" : ""
+                      }`}
                   />
                   <button
-                    className={`text-white font-semibold ${
-                      item.amountInStock <= 0 ? "opacity-50" : ""
-                    }`}
+                    className={`text-white font-semibold ${item.amountInStock <= 0 ? "opacity-50" : ""
+                      }`}
                     disabled={item.amountInStock <= 0} // Disable the button when out of stock
                   >
                     ADD

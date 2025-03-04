@@ -109,7 +109,7 @@ function LayoutSidebar() {
 
       {/* Sidebar */}
       <div
-        className={`bg-blue2 p-2 overflow-scroll h-full z-[100] font-normal font-sans flex flex-col shadow-lg fixed top-0 left-0 transform lg:transform-none lg:translate-x-0 ${
+        className={`bg-blue2 p-2 overflow-y-auto h-full z-[100] font-normal font-sans flex flex-col shadow-lg fixed top-0 left-0 transform lg:transform-none lg:translate-x-0 ${
           isMobileOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 lg:block ${
           isCollapsed ? "min-w-16 items-center" : "min-w-64"
@@ -117,7 +117,7 @@ function LayoutSidebar() {
         // style={{ backgroundColor: "rgba(14, 81, 140, 1)" }}
         
       >
-         <div className="w-full flex items-center p-2 mb-4">
+         <div className="hidden lg:flex w-full  items-center p-2 mb-4">
           <button
             onClick={handleBack}
             className="flex items-center text-white space-x-2 px-2 py-1"
