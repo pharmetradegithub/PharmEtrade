@@ -41,7 +41,7 @@ import { clearFedExRates, clearServiceType } from "../../Store/Store";
 // import { getCartItemsApi } from "../../Api/CartApi";
 function Address({ topMargin, totalAmount, amount }) {
   const getAch = useSelector((state) => state.address.achGet) || "";
-    console.log("getAch", getAch)
+  console.log("getAch", getAch)
   const dispatch = useDispatch()
   const applicationId = 'sandbox-sq0idb-vXdVdM6tMjTG6Zi2XCoE-A';
   const locationId = 'L0599WY5GGG3W';
@@ -83,7 +83,7 @@ function Address({ topMargin, totalAmount, amount }) {
   const isCart = searchParams.get("isCart") == "true"; // Convert total to a number
   const productId = searchParams.get("productId"); // Convert total to a number
   const DeliveryAddress = useSelector((state) => state.order?.orderDeliveryAddress || [])
- 
+
 
   const validNetCharge = !isNaN(netCharge) && netCharge !== null ? netCharge : 0.00;
 
@@ -91,13 +91,13 @@ function Address({ topMargin, totalAmount, amount }) {
   const [deletePop, setDeletePop] = useState(false);
   const [deleteProduct, setDeleteProduct] = useState(null);
   const placeOrder = useSelector((state) => state.order?.orderPlace || [])
- 
+
   const cartList = useSelector((state) => state.cart?.cart || []);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
-  const getAddress = useSelector((state) => state.address?.customerId || []) ;
+  const getAddress = useSelector((state) => state.address?.customerId || []);
   const businessInfo = useSelector((state) => state.user?.businessInfo || []);
   const user = useSelector((state) => state.user?.user || []);
- 
+
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -121,10 +121,10 @@ function Address({ topMargin, totalAmount, amount }) {
   const [pincodes, setPincodes] = useState(null)
   const [stateAdd, setStateAdd] = useState(null)
   const [res, setRes] = useState([]);
-  
+
   const orderplace = useSelector((state) => state.order.orderPlace)
   console.log("orderrrrrrrplacce", orderplace)
- 
+
   // useEffect(() => {
   //   const fetchSellersAndSendPayload = async () => {
   //     try {
@@ -199,7 +199,7 @@ function Address({ topMargin, totalAmount, amount }) {
   //                             }
   //                           ]
   //               }
-              
+
   //             };
 
   //             // Dispatch the actions for the product with shipping cost
@@ -265,7 +265,7 @@ function Address({ topMargin, totalAmount, amount }) {
 
             const sellerId = product.product.sellerId;
             // Make the two FedEx API calls for each product
-            
+
             await dispatch(serviceTypeApi(payload, user.customerId, sellerId));
             await dispatch(FedExRatesApi(payload, user.customerId, sellerId));
 
@@ -291,56 +291,56 @@ function Address({ topMargin, totalAmount, amount }) {
       fetchSellersAndSendPayload();
     }
   }, [cartList, pincodes, dispatch, user.customerId, orderplace]);
-  
-  
-//   useEffect(() => {
-//   const fetchSellersAndSendPayload = async () => {
-//     try {
-//       dispatch(clearServiceType());
-//       dispatch(clearFedExRates());
 
-//       const sellerPromises = cartList
-//         .filter((product) => product.product.isShippingCostApplicable === false)
-//         .map(async (product) => {
-//           const sellerData = await getUserByCustomerIdApi(product.product.sellerId);
-//           if (sellerData && sellerData.businessInfo?.zip) {
-//             const shipDateStamp = new Date().toISOString().slice(0, 10);
-//             const payload = {
-//               accountNumber: { value: "235969831" },
-//               requestedShipment: {
-//                 shipper: { address: { postalCode: sellerData.businessInfo.zip, countryCode: "US" } },
-//                 recipient: { address: { postalCode: pincodes, countryCode: "US" } },
-//                 serviceType: "STANDARD_OVERNIGHT",
-//                 preferredCurrency: "USD",
-//                 rateRequestType: ["ACCOUNT", "LIST"],
-//                 shipDateStamp: shipDateStamp,
-//                 pickupType: "DROPOFF_AT_FEDEX_LOCATION",
-//                 requestedPackageLineItems: [{ weight: { units: "LB", value: 22 } }],
-//               },
-//             };
 
-//             await dispatch(serviceTypeApi(payload, user.customerId));
-//             await dispatch(FedExRatesApi(payload, user.customerId));
+  //   useEffect(() => {
+  //   const fetchSellersAndSendPayload = async () => {
+  //     try {
+  //       dispatch(clearServiceType());
+  //       dispatch(clearFedExRates());
 
-//             return { product: product.product.sellerId };
-//           } else {
-//             console.warn(`Postal code not found for seller ${product.product.sellerId}`);
-//             return null;
-//           }
-//         });
+  //       const sellerPromises = cartList
+  //         .filter((product) => product.product.isShippingCostApplicable === false)
+  //         .map(async (product) => {
+  //           const sellerData = await getUserByCustomerIdApi(product.product.sellerId);
+  //           if (sellerData && sellerData.businessInfo?.zip) {
+  //             const shipDateStamp = new Date().toISOString().slice(0, 10);
+  //             const payload = {
+  //               accountNumber: { value: "235969831" },
+  //               requestedShipment: {
+  //                 shipper: { address: { postalCode: sellerData.businessInfo.zip, countryCode: "US" } },
+  //                 recipient: { address: { postalCode: pincodes, countryCode: "US" } },
+  //                 serviceType: "STANDARD_OVERNIGHT",
+  //                 preferredCurrency: "USD",
+  //                 rateRequestType: ["ACCOUNT", "LIST"],
+  //                 shipDateStamp: shipDateStamp,
+  //                 pickupType: "DROPOFF_AT_FEDEX_LOCATION",
+  //                 requestedPackageLineItems: [{ weight: { units: "LB", value: 22 } }],
+  //               },
+  //             };
 
-//       const allResponses = await Promise.all(sellerPromises);
-//       const successfulResponses = allResponses.filter((response) => response !== null);
+  //             await dispatch(serviceTypeApi(payload, user.customerId));
+  //             await dispatch(FedExRatesApi(payload, user.customerId));
 
-//     } catch (error) {
-//       console.error("Error processing sellers:", error);
-//     }
-//   };
+  //             return { product: product.product.sellerId };
+  //           } else {
+  //             console.warn(`Postal code not found for seller ${product.product.sellerId}`);
+  //             return null;
+  //           }
+  //         });
 
-//   if (cartList?.length > 0 && pincodes !== null) {
-//     fetchSellersAndSendPayload();
-//   }
-// }, [cartList, pincodes, dispatch, user.customerId]);
+  //       const allResponses = await Promise.all(sellerPromises);
+  //       const successfulResponses = allResponses.filter((response) => response !== null);
+
+  //     } catch (error) {
+  //       console.error("Error processing sellers:", error);
+  //     }
+  //   };
+
+  //   if (cartList?.length > 0 && pincodes !== null) {
+  //     fetchSellersAndSendPayload();
+  //   }
+  // }, [cartList, pincodes, dispatch, user.customerId]);
 
 
 
@@ -355,7 +355,7 @@ function Address({ topMargin, totalAmount, amount }) {
     await dispatch(fetchGetByCustomerId(user?.customerId));
 
 
-  
+
   };
 
 
@@ -657,7 +657,7 @@ function Address({ topMargin, totalAmount, amount }) {
     if (!validateForm()) {
       return; // Stop if validation fails
     }
-    
+
     e.preventDefault();
 
     const payload = {
@@ -1357,270 +1357,246 @@ function Address({ topMargin, totalAmount, amount }) {
   // const isAchRequired = [1, 2, 3].includes(user?.customerTypeId) && (!getAch || getAch.trim() === "");
   return (
     <div className="container mx-auto">
-      {deletePop && (
-        <div
-          className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-slate-900 bg-opacity-50 z-50"
-          role="dialog"
-          aria-modal="true"
-        >
-          <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
-            <div className="flex justify-end">
-              <button className="w-5 p-1 -mt-8 mx-2" onClick={closeDeleteButton}>
-                <img src={wrong} className="w-6 h-4" alt="Close" />
-              </button>
-            </div>
-            <h1 className="text-black text-center mt-2">
-              Are you sure you want to delete this address?
-            </h1>
-            <div className="flex justify-around mt-6">
-              <button
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                onClick={cancelDeleteButton}
-              >
-                No
-              </button>
-              <button
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                onClick={successDeleteButton}
-              >
-                Yes
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-      <div className="bg-white w-full h-fit text-lg text-black py-2 relative">
-        <div className=" w-[85%] flex items-center shadow-transparent ">
-          <div className="w-[50%]">
-            <img
-              src={logo}
-              className="w-36 sm:w-36 md:w-36 lg:w-52 xl:w-50 h-auto cursor-pointer mb-3"
-              alt="logo"
-              onClick={handleNavigate}
-            />
-            <Notification
-              show={notification.show}
-              message={notification.message}
-            />
-            {/* {showpagepopup && ( */}
-            <div className="z-50  ml-0 lg:-ml-20  flex items-center justify-center bg-opacity-50">
-              <div className="bg-gray-100 p-2 rounded-lg shadow-lg">
-                <div className="flex justify-center gap-4">
-                  <button
-                    className="bg-white hover:bg-gray-200 text-sm lg:text-xl text-black px-2 md:px-4 py-0 md:py-2 rounded"
-                    onClick={handleStayInCheckout}
-                  >
-                    Stay in Checkout
-                  </button>
-                  <button
-                    className="bg-blue hover:bg-green2 text-sm lg:text-xl text-white px-4 py-2 rounded"
-                    onClick={handleReturnToCart}
-                  >
-                    Return to Cart
-                  </button>
+      <div className="flex gap-5">
+        <div className="w-full lg:w-[80%]">
+
+          <div className="bg-white w-full h-fit text-lg text-black py-2 relative">
+            <div className="w-full flex items-center shadow-transparent ">
+              <div className="w-[100%]">
+                <img
+                  src={logo}
+                  className="w-36 sm:w-36 md:w-36 lg:w-52 xl:w-50 h-auto cursor-pointer mb-3"
+                  alt="logo"
+                  onClick={handleNavigate}
+                />
+                <Notification
+                  show={notification.show}
+                  message={notification.message}
+                />
+
+                <h1 className="text-xl lg:text-3xl text-center text-blue2 font-semibold mb-5">Checkout</h1>
+
+                {/* {showpagepopup && ( */}
+                <div className="z-50  ml-0 lg:-ml-20  flex items-center justify-center bg-opacity-50">
+                  <div className="bg-gray-100 p-2 rounded-lg shadow-lg">
+                    <div className="flex justify-center gap-4">
+                      <button
+                        className="bg-white hover:bg-gray-200 text-sm lg:text-xl text-black px-2 md:px-4 py-0 md:py-2 rounded"
+                        onClick={handleStayInCheckout}
+                      >
+                        Stay in Checkout
+                      </button>
+                      <button
+                        className="bg-blue hover:bg-green2 text-sm lg:text-xl text-white px-4 py-2 rounded"
+                        onClick={handleReturnToCart}
+                      >
+                        Return to Cart
+                      </button>
+                    </div>
+                  </div>
                 </div>
+                {/* )} */}
               </div>
+
+              {/* <FaLock /> */}
             </div>
-            {/* )} */}
+
           </div>
-          <h1 className=" text-xl lg:text-3xl flex ml-10 md:ml-0 text-center text-blue2 font-semibold ">Checkout</h1>
-          {/* <FaLock /> */}
-        </div>
-        <div className="bg-white p-4 w-full h-full border-t">
-          <div className="flex flex-col">
-            <div className="flex flex-col lg:flex ">
-              {!isTotalHidden && (
-                <h1 className="text-blue2 font-semibold text-lg my-2" >
-                  1 Select a delivery and service address
-                </h1>
-              )}
-              <div className="flex w-full ">
+          <div className="bg-white mt-2 py-4 w-full h-full border-t">
+            <div className="flex flex-col">
+              <div className="flex flex-col lg:flex ">
                 {!isTotalHidden && (
-                  // {isOpenAddress &&
+                  <h1 className="text-blue2 font-semibold text-lg my-2" >
+                    1 Select a delivery and service address
+                  </h1>
+                )}
+                <div className="flex w-full ">
+                  {!isTotalHidden && (
+                    // {isOpenAddress &&
 
-                  <div className="flex min-w-full  flex-col lg:flex-row">
-                    {/* <div className=""> */}
+                    <div className="flex min-w-full  flex-col lg:flex-row">
+                      {/* <div className=""> */}
 
 
-                    <div className="border shadow-md rounded-md h-56 w-full   overflow-y-auto">
-                      <div className="p-2 mx-5 ">
-                        <h1 className="border-b-2 text-base text-blue2 bg-white mt-3">
-                          Your Address
-                        </h1>
-                        <div className="overflow-y-scroll h-28">
-                          {getAddress.length === 0 ? (
-                            <div className="w-full">
-                              <p className="mt-6 pt-2 flex justify-center text-base md:text-xl text-blue-900 font-semibold">
-                                Please select an address before continuing
-                              </p>
-                            </div>
-                          ) : (
-                            getAddress.map((item) => (
-                              <div
-                                key={item.addressId}
-                                className="border flex-col rounded-md flex my-2 p-2 px-6 bg-pink-50 border-orange-200"
-                              >
-                                <div className="flex flex-col">
-                                  <div className="flex text-base w-full">
-                                    <div className="flex items-center w-full">
-                                      <div className="flex flex-wrap">
-                                        <div className="flex">
-                                          <input
-                                            type="radio"
-                                            checked={selectedAddressId === item.addressId} // Check if the current item is selected
-                                            onChange={() => handleChangeAddress(item?.addressId)} // Handle the change when a new address is selected
-                                            onClick={() => {
-                                              handleUseAddress(item.state, item.pincode, item?.addressId); // Proceed with address usage
-                                            }}
-                                            className="mr-3"
-                                          />
+                      <div className="border shadow-md rounded-md h-56 w-full   overflow-y-auto">
+                        <div className="p-2 mx-5 ">
+                          <h1 className="border-b-2 text-base text-blue2 bg-white mt-3">
+                            Your Address
+                          </h1>
+                          <div className="overflow-y-auto h-28">
+                            {getAddress.length === 0 ? (
+                              <div className="w-full">
+                                <p className="mt-6 pt-2 flex justify-center text-base md:text-xl text-blue-900 font-semibold">
+                                  Please select an address before continuing
+                                </p>
+                              </div>
+                            ) : (
+                              getAddress.map((item) => (
+                                <div
+                                  key={item.addressId}
+                                  className="border flex-col rounded-md flex my-2 p-2 px-6 bg-pink-50 border-orange-200"
+                                >
+                                  <div className="flex flex-col">
+                                    <div className="flex text-base w-full">
+                                      <div className="flex items-center w-full">
+                                        <div className="flex flex-wrap">
+                                          <div className="flex">
+                                            <input
+                                              type="radio"
+                                              checked={selectedAddressId === item.addressId} // Check if the current item is selected
+                                              onChange={() => handleChangeAddress(item?.addressId)} // Handle the change when a new address is selected
+                                              onClick={() => {
+                                                handleUseAddress(item.state, item.pincode, item?.addressId); // Proceed with address usage
+                                              }}
+                                              className="mr-3"
+                                            />
+                                          </div>
+
+                                          {/* Address display */}
+                                          <h1 className="font-semibold mr-2">
+                                            {item.firstName} {item.lastName || ""},
+                                          </h1>
+                                          {item.address2 && <p className="mr-2">{item.address2},</p>}
+                                          <p className="mr-2">{item.address1},</p>
+                                          <p className="mr-2">{item.city},</p>
+                                          <p className="mr-2">{item.state},</p>
+                                          <p className="">{item.pincode}</p>
+                                          {/* <p className="ml-1">{item.phoneNumber && `, ${item.phoneNumber}`}</p> */}
+                                          {item.phoneNumber && <p className="">,&nbsp;&nbsp;{item.phoneNumber}</p>}
+
+                                          {/* Edit button */}
+                                          <p
+                                            className="ml-2 items-center flex justify-center text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
+                                            onClick={() => handleEditAddress(item)}
+                                          >
+                                            <Tooltip title="Edit" placement="top">
+                                              <img
+                                                src={edit}
+                                                alt="Edit"
+                                                className="cursor-pointer w-4 h-4"
+                                              />
+                                            </Tooltip>
+                                          </p>
+
+                                          {/* Delete button */}
+                                          <p
+                                            className="flex items-center justify-center ml-2 text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
+                                            onClick={() => handleDeleteAddress(item.addressId)}
+                                          >
+                                            <Tooltip placement="top" title="Delete">
+                                              <img
+                                                src={Bin}
+                                                alt="Delete"
+                                                className="cursor-pointer w-4 h-4"
+                                              />
+                                            </Tooltip>
+                                          </p>
                                         </div>
-
-                                        {/* Address display */}
-                                        <h1 className="font-semibold mr-2">
-                                          {item.firstName} {item.lastName || ""},
-                                        </h1>
-                                        {item.address2 && <p className="mr-2">{item.address2},</p>}
-                                        <p className="mr-2">{item.address1},</p>
-                                        <p className="mr-2">{item.city},</p>
-                                        <p className="mr-2">{item.state},</p>
-                                        <p className="">{item.pincode}</p>
-                                        {/* <p className="ml-1">{item.phoneNumber && `, ${item.phoneNumber}`}</p> */}
-                                        {item.phoneNumber && <p className="">,&nbsp;&nbsp;{item.phoneNumber}</p>}
-
-                                        {/* Edit button */}
-                                        <p
-                                          className="ml-2 items-center flex justify-center text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
-                                          onClick={() => handleEditAddress(item)}
-                                        >
-                                          <Tooltip title="Edit" placement="top">
-                                            <img
-                                              src={edit}
-                                              alt="Edit"
-                                              className="cursor-pointer w-7 h-7"
-                                            />
-                                          </Tooltip>
-                                        </p>
-
-                                        {/* Delete button */}
-                                        <p
-                                          className="flex items-center justify-center ml-2 text-sm text-cyan-500 hover:underline hover:text-red-500 cursor-pointer"
-                                          onClick={() => handleDeleteAddress(item.addressId)}
-                                        >
-                                          <Tooltip placement="top" title="Delete">
-                                            <img
-                                              src={Bin}
-                                              alt="Delete"
-                                              className="cursor-pointer w-4 h-4"
-                                            />
-                                          </Tooltip>
-                                        </p>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                            ))
-                          )}
-                        </div>
-                        <div className="flex cursor-pointer">
-                          <img src={plus} className="w-5 h-5" />
-                          <h1
-                            className="hover:text-green2 hover:underline text-blue2 "
-                            onClick={handlepopOpen}
-                          >
-                            Add a new address
-                          </h1>
-                        </div>
+                              ))
+                            )}
+                          </div>
+                          <div className="flex cursor-pointer">
+                            <img src={plus} className="w-5 h-5" />
+                            <h1
+                              className="hover:text-green2 hover:underline text-blue2 "
+                              onClick={handlepopOpen}
+                            >
+                              Add a new address
+                            </h1>
+                          </div>
 
-                        {/* Conditionally show the "Use this address" button if there are addresses */}
-                        {/* {getAddress.length > 0 && ( */}
+                          {/* Conditionally show the "Use this address" button if there are addresses */}
+                          {/* {getAddress.length > 0 && ( */}
 
 
-                        {/* //<div></div> */}
-                        {/* // <button */}
-                        {/* //   className="border rounded-full h-8 text-sm w-32 bg-blue text-white "
+                          {/* //<div></div> */}
+                          {/* // <button */}
+                          {/* //   className="border rounded-full h-8 text-sm w-32 bg-blue text-white "
                           //   onClick={() => {
                           //     if (selectedAddressId) {
                           //       handleUseAddress(); // Proceed with navigation
                           //     } else { */}
-                        {/* //       alert(
+                          {/* //       alert(
                           //         "Please select an address before continuing."
                           //       ); // Or display error message
                           //     }
                           //   }}
                           // >
                           //   Use this address */}
-                        {/* // </button>
+                          {/* // </button>
                         )} */}
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Edit ddress Pop up */}
-                    {isShowPopUp && (
-                      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-white p-6 w-[45%] rounded-md shadow-lg relative overflow-y-scroll max-h-[90vh]">
-                          <div className="flex justify-between border-b pb-4 items-center">
-                            <h1>Edit Address</h1>
-                            <img
-                              src={cross} // Replace with your close icon source
-                              className="w-5 h-5 cursor-pointer"
-                              onClick={() => setIsShowPopUp(false)}
-                              alt="Close Icon"
-                            />
-                          </div>
-                          {/* Address form fields */}
+                      {/* Edit ddress Pop up */}
+                      {isShowPopUp && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                          <div className="bg-white p-6 w-[45%] rounded-md shadow-lg relative overflow-y-scroll max-h-[90vh]">
+                            <div className="flex justify-between border-b pb-4 items-center">
+                              <h1>Edit Address</h1>
+                              <img
+                                src={cross} // Replace with your close icon source
+                                className="w-5 h-5 cursor-pointer"
+                                onClick={() => setIsShowPopUp(false)}
+                                alt="Close Icon"
+                              />
+                            </div>
+                            {/* Address form fields */}
 
-                          <div className="flex my-2 gap-2">
-                            <TextField
-                              label="First Name"
-                              name="First_Name"
-                              size="small"
-                              className="w-full"
-                              value={addressForm.First_Name}
-                              onChange={handleInputChange}
-                              error={!!formErrors.First_Name}
-                              helperText={formErrors.First_Name}
-                            />
+                            <div className="flex my-2 gap-2">
+                              <TextField
+                                label="First Name"
+                                name="First_Name"
+                                size="small"
+                                className="w-full"
+                                value={addressForm.First_Name}
+                                onChange={handleInputChange}
+                                error={!!formErrors.First_Name}
+                                helperText={formErrors.First_Name}
+                              />
 
-                            <TextField
-                              label="Last Name"
-                              name="Last_Name"
-                              size="small"
-                              className="w-full"
-                              value={addressForm.Last_Name}
-                              onChange={handleInputChange}
-                              error={!!formErrors.Last_Name}
-                              helperText={formErrors.Last_Name}
-                            />
-                          </div>
+                              <TextField
+                                label="Last Name"
+                                name="Last_Name"
+                                size="small"
+                                className="w-full"
+                                value={addressForm.Last_Name}
+                                onChange={handleInputChange}
+                                error={!!formErrors.Last_Name}
+                                helperText={formErrors.Last_Name}
+                              />
+                            </div>
 
-                          <div className="my-4 flex gap-2">
-                            <TextField
-                              label="Address"
-                              id="Address"
-                              name="Address"
-                              size="small"
-                              className="w-full"
-                              value={addressForm.Address}
-                              onChange={handleInputChange}
-                              error={!!formErrors.Address}
-                              helperText={formErrors.Address}
-                            />
-                            <TextField
-                              label="City"
-                              name="Town_City"
-                              size="small"
-                              className="w-full"
-                              value={addressForm.Town_City}
-                              onChange={handleInputChange}
-                              error={!!formErrors.Town_City}
-                              helperText={formErrors.Town_City}
-                            />
-                          </div>
+                            <div className="my-4 flex gap-2">
+                              <TextField
+                                label="Address"
+                                id="Address"
+                                name="Address"
+                                size="small"
+                                className="w-full"
+                                value={addressForm.Address}
+                                onChange={handleInputChange}
+                                error={!!formErrors.Address}
+                                helperText={formErrors.Address}
+                              />
+                              <TextField
+                                label="City"
+                                name="Town_City"
+                                size="small"
+                                className="w-full"
+                                value={addressForm.Town_City}
+                                onChange={handleInputChange}
+                                error={!!formErrors.Town_City}
+                                helperText={formErrors.Town_City}
+                              />
+                            </div>
 
-                          <div className="flex my-2 gap-2">
-                            {/* <FormControl
+                            <div className="flex my-2 gap-2">
+                              {/* <FormControl
                               className="w-[50%]"
                               size="small"
                               error={!!formErrors.States}
@@ -1657,189 +1633,189 @@ function Address({ topMargin, totalAmount, amount }) {
                               </Select>
                               {/* {error.State && <span className="text-red-500">{error.State}</span>} 
                           </FormControl> */}
-                          
-                          <FormControl
-                            className="w-[50%]"
-                            size="small"
-                            error={!!formErrors.States}
-                          >
-                            <InputLabel id="state-select-label">State</InputLabel>
-                            <Select
-                              id="state-select"
-                              label="State"
-                              value={addressForm.States} // Correctly bind the form value
-                              name="States" // Ensure name matches the key in addressForm
-                              onChange={handleInputChange}
-                              MenuProps={{
-                                PaperProps: {
-                                  style: {
-                                    maxHeight: 200, // Set the maximum height of the dropdown
-                                  },
-                                },
-                              }}
-                            >
-                              <MenuItem value="">
-                                <em>None</em>
-                              </MenuItem>
-                                {states
-                                  .filter((state) => {
-                                    // console.log("Checking:", state.name.toUpperCase());
-                                    return !excludedStates.includes(state.name.toUpperCase().trim());
-                                  })
-                                  .map((state) => (
-                                    <MenuItem key={state.abbreviation} value={state.name}>
-                                      {state.name}
-                                    </MenuItem>
-                                  ))}
-                            </Select>
-                          </FormControl>;
 
-                            <TextField
-                              label="Zip "
-                              name="Pin_Code"
-                              size="small"
-                              className="w-[50%]"
-                              value={addressForm.Pin_Code}
+                              <FormControl
+                                className="w-[50%]"
+                                size="small"
+                                error={!!formErrors.States}
+                              >
+                                <InputLabel id="state-select-label">State</InputLabel>
+                                <Select
+                                  id="state-select"
+                                  label="State"
+                                  value={addressForm.States} // Correctly bind the form value
+                                  name="States" // Ensure name matches the key in addressForm
+                                  onChange={handleInputChange}
+                                  MenuProps={{
+                                    PaperProps: {
+                                      style: {
+                                        maxHeight: 200, // Set the maximum height of the dropdown
+                                      },
+                                    },
+                                  }}
+                                >
+                                  <MenuItem value="">
+                                    <em>None</em>
+                                  </MenuItem>
+                                  {states
+                                    .filter((state) => {
+                                      // console.log("Checking:", state.name.toUpperCase());
+                                      return !excludedStates.includes(state.name.toUpperCase().trim());
+                                    })
+                                    .map((state) => (
+                                      <MenuItem key={state.abbreviation} value={state.name}>
+                                        {state.name}
+                                      </MenuItem>
+                                    ))}
+                                </Select>
+                              </FormControl>;
+
+                              <TextField
+                                label="Zip "
+                                name="Pin_Code"
+                                size="small"
+                                className="w-[50%]"
+                                value={addressForm.Pin_Code}
+                                // onChange={handleInputChange}
+                                onChange={(e) => {
+                                  const value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+                                  handleInputChange({
+                                    target: { name: "Pin_Code", value },
+                                  }); // Update the state with only numbers
+                                }}
+                                error={!!formErrors.Pin_Code}
+                                helperText={formErrors.Pin_Code}
+                                inputProps={{ maxLength: 5 }}
+                              />
+                            </div>
+                            <div className="flex my-2 gap-2">
+                              <TextField
+                                label="Phone Number"
+                                name="Phone_Number"
+                                size="small"
+                                className="w-full"
+                                value={formatPhoneNumber(
+                                  addressForm.Phone_Number
+                                )}
+                                onChange={handleInputChange}
+                                error={!!formErrors.Phone_Number}
+                                helperText={formErrors.Phone_Number}
+                                inputProps={{ maxLength: 12 }}
+                              />
+
+                              <TextField
+                                label="Email ID"
+                                name="Email ID"
+                                size="small"
+                                className="w-full"
+                              // value ={}
+                              // value={formatPhoneNumber(addressForm.Phone_Number)}
                               // onChange={handleInputChange}
-                              onChange={(e) => {
-                                const value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
-                                handleInputChange({
-                                  target: { name: "Pin_Code", value },
-                                }); // Update the state with only numbers
-                              }}
-                              error={!!formErrors.Pin_Code}
-                              helperText={formErrors.Pin_Code}
-                              inputProps={{ maxLength: 5 }}
-                            />
-                          </div>
-                          <div className="flex my-2 gap-2">
-                            <TextField
-                              label="Phone Number"
-                              name="Phone_Number"
-                              size="small"
-                              className="w-full"
-                              value={formatPhoneNumber(
-                                addressForm.Phone_Number
-                              )}
-                              onChange={handleInputChange}
-                              error={!!formErrors.Phone_Number}
-                              helperText={formErrors.Phone_Number}
-                              inputProps={{ maxLength: 12 }}
-                            />
+                              // error={!!formErrors.Phone_Number}
+                              // helperText={formErrors.Phone_Number}
+                              // inputProps={{ maxLength: 12 }}
+                              />
+                            </div>
 
-                            <TextField
-                              label="Email ID"
-                              name="Email ID"
-                              size="small"
-                              className="w-full"
-                            // value ={}
-                            // value={formatPhoneNumber(addressForm.Phone_Number)}
-                            // onChange={handleInputChange}
-                            // error={!!formErrors.Phone_Number}
-                            // helperText={formErrors.Phone_Number}
-                            // inputProps={{ maxLength: 12 }}
-                            />
-                          </div>
+                            <div className="my-4">
+                              <input type="checkbox" id="default-address" checked={!getAddress.isDefault}
+                                readOnly={!getAddress.isDefault} style={{
+                                  accentColor: 'blue', // Inline style for checkmark color
+                                }} />
+                              <label htmlFor="default-address" className="ml-2">
+                                Make this my default address
+                              </label>
+                            </div>
 
-                          <div className="my-4">
-                            <input type="checkbox" id="default-address" checked={!getAddress.isDefault}
-                              readOnly={!getAddress.isDefault} style={{
-                                accentColor: 'blue', // Inline style for checkmark color
-                              }} />
-                            <label htmlFor="default-address" className="ml-2">
-                              Make this my default address
-                            </label>
-                          </div>
-
-                          <div className="flex justify-between mt-6">
-                            <button
-                              className="w-48 border py-2 bg-orange-400 hover:bg-yellow-500 text-sm text-white"
-                              onClick={handleSaveAddress}
-                            >
-                              Save Address
-                            </button>
-                            <button
-                              className="w-48 border py-2 bg-gray-200 hover:bg-gray-300 text-sm"
-                              onClick={() => setIsShowPopUp(false)}
-                            >
-                              Cancel
-                            </button>
+                            <div className="flex justify-between mt-6">
+                              <button
+                                className="w-48 border py-2 bg-orange-400 hover:bg-yellow-500 text-sm text-white"
+                                onClick={handleSaveAddress}
+                              >
+                                Save Address
+                              </button>
+                              <button
+                                className="w-48 border py-2 bg-gray-200 hover:bg-gray-300 text-sm"
+                                onClick={() => setIsShowPopUp(false)}
+                              >
+                                Cancel
+                              </button>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )}
+                      )}
 
-                    {/* Add new Address popup */}
-                    {showPopUp && (
-                      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-white p-6 w-[45%] rounded-md shadow-lg relative overflow-y-scroll max-h-[90vh]">
-                          <form onSubmit={handleSubmitForm}>
-                            <div className="flex justify-between border-b pb-4 items-center">
-                              <h1 className="text-blue2 font-semibold">
-                                Add a new address
-                              </h1>
-                              <img
-                                src={cross}
-                                className="w-5 h-5 cursor-pointer"
-                                onClick={handleRemove}
-                                alt="Close Icon"
-                              />
-                            </div>
+                      {/* Add new Address popup */}
+                      {showPopUp && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                          <div className="bg-white p-6 w-[45%] rounded-md shadow-lg relative overflow-y-scroll max-h-[90vh]">
+                            <form onSubmit={handleSubmitForm}>
+                              <div className="flex justify-between border-b pb-4 items-center">
+                                <h1 className="text-blue2 font-semibold">
+                                  Add a new address
+                                </h1>
+                                <img
+                                  src={cross}
+                                  className="w-5 h-5 cursor-pointer"
+                                  onClick={handleRemove}
+                                  alt="Close Icon"
+                                />
+                              </div>
 
-                            <div className="flex my-2 gap-2">
-                              <TextField
-                                label="First Name"
-                                id="First_Name"
-                                name="First_Name" // Matches state key
-                                value={newAddressForm.First_Name} // Controlled input
-                                onChange={handleChangeForm} // Call the change handler
-                                size="small"
-                                className="w-full"
-                                error={!!formErrors.First_Name}
-                                helperText={formErrors.First_Name}
-                              />
+                              <div className="flex my-2 gap-2">
+                                <TextField
+                                  label="First Name"
+                                  id="First_Name"
+                                  name="First_Name" // Matches state key
+                                  value={newAddressForm.First_Name} // Controlled input
+                                  onChange={handleChangeForm} // Call the change handler
+                                  size="small"
+                                  className="w-full"
+                                  error={!!formErrors.First_Name}
+                                  helperText={formErrors.First_Name}
+                                />
 
-                              <TextField
-                                label="Last Name"
-                                id="Last_Name"
-                                name="Last_Name" // Matches state key
-                                value={newAddressForm.Last_Name} // Controlled input
-                                onChange={handleChangeForm} // Call the change handler
-                                size="small"
-                                className="w-full"
-                                error={!!formErrors.Last_Name}
-                                helperText={formErrors.Last_Name}
-                              />
-                            </div>
+                                <TextField
+                                  label="Last Name"
+                                  id="Last_Name"
+                                  name="Last_Name" // Matches state key
+                                  value={newAddressForm.Last_Name} // Controlled input
+                                  onChange={handleChangeForm} // Call the change handler
+                                  size="small"
+                                  className="w-full"
+                                  error={!!formErrors.Last_Name}
+                                  helperText={formErrors.Last_Name}
+                                />
+                              </div>
 
-                            <div className="my-4 flex gap-2">
-                              <TextField
-                                label="Address"
-                                id="Address"
-                                name="Address" // Matches state key
-                                value={newAddressForm.Address}
-                                onChange={handleChangeForm}
-                                size="small"
-                                className="w-full"
-                                error={!!formErrors.Address}
-                                helperText={formErrors.Address}
-                              />
+                              <div className="my-4 flex gap-2">
+                                <TextField
+                                  label="Address"
+                                  id="Address"
+                                  name="Address" // Matches state key
+                                  value={newAddressForm.Address}
+                                  onChange={handleChangeForm}
+                                  size="small"
+                                  className="w-full"
+                                  error={!!formErrors.Address}
+                                  helperText={formErrors.Address}
+                                />
 
-                              <TextField
-                                label="City"
-                                id="Town_City"
-                                name="Town_City" // Matches state key
-                                value={newAddressForm.Town_City}
-                                onChange={handleChangeForm}
-                                size="small"
-                                className="w-full"
-                                error={!!formErrors.Town_City}
-                                helperText={formErrors.Town_City}
-                              />
-                            </div>
+                                <TextField
+                                  label="City"
+                                  id="Town_City"
+                                  name="Town_City" // Matches state key
+                                  value={newAddressForm.Town_City}
+                                  onChange={handleChangeForm}
+                                  size="small"
+                                  className="w-full"
+                                  error={!!formErrors.Town_City}
+                                  helperText={formErrors.Town_City}
+                                />
+                              </div>
 
-                            <div className="flex my-2 gap-2">
-                              {/* <FormControl
+                              <div className="flex my-2 gap-2">
+                                {/* <FormControl
                                 className="w-[50%]"
                                 size="small"
                                 error={!!formErrors.States}
@@ -1873,191 +1849,137 @@ function Address({ topMargin, totalAmount, amount }) {
                                 </Select>
                                 {/* {error.State && <span className="text-red-500">{error.State}</span>} 
                               </FormControl> */}
-                              <FormControl
-                                className="w-[50%]"
-                                size="small"
-                                error={!!formErrors.States}
-                              >
-                                <InputLabel id="state-select-label">
-                                  State
-                                </InputLabel>
-                                <Select
-                                  id="state-select"
-                                  label="State"
-                                  value={newAddressForm.States} // Bind value to addressForm.States
-                                  name="States" // Ensure name matches the state key in addressForm
-                                  onChange={handleChangeForm} // Call handleInputChange on selection
-                                  MenuProps={{
-                                    PaperProps: {
-                                      style: {
-                                        maxHeight: 200, // Set the max height of the dropdown
-                                      },
-                                    },
-                                  }}
+                                <FormControl
+                                  className="w-[50%]"
+                                  size="small"
+                                  error={!!formErrors.States}
                                 >
-                                  <MenuItem value="">
-                                    <em>None</em>
-                                  </MenuItem>
-                                  {states
-                                    .filter((state) => {
-                                      // console.log("Checking:", state.name.toUpperCase());
-                                      return !excludedStates.includes(state.name.toUpperCase().trim());
-                                    })
-                                    .map((state) => (
-                                      <MenuItem key={state.abbreviation} value={state.name}>
-                                        {state.name}
-                                      </MenuItem>
-                                    ))}
-                                </Select>
-                                {formErrors.States && (
-                                  <span className="text-red-700 text-sm">
-                                    {formErrors.States}
-                                  </span>
-                                )}
-                              </FormControl>
+                                  <InputLabel id="state-select-label">
+                                    State
+                                  </InputLabel>
+                                  <Select
+                                    id="state-select"
+                                    label="State"
+                                    value={newAddressForm.States} // Bind value to addressForm.States
+                                    name="States" // Ensure name matches the state key in addressForm
+                                    onChange={handleChangeForm} // Call handleInputChange on selection
+                                    MenuProps={{
+                                      PaperProps: {
+                                        style: {
+                                          maxHeight: 200, // Set the max height of the dropdown
+                                        },
+                                      },
+                                    }}
+                                  >
+                                    <MenuItem value="">
+                                      <em>None</em>
+                                    </MenuItem>
+                                    {states
+                                      .filter((state) => {
+                                        // console.log("Checking:", state.name.toUpperCase());
+                                        return !excludedStates.includes(state.name.toUpperCase().trim());
+                                      })
+                                      .map((state) => (
+                                        <MenuItem key={state.abbreviation} value={state.name}>
+                                          {state.name}
+                                        </MenuItem>
+                                      ))}
+                                  </Select>
+                                  {formErrors.States && (
+                                    <span className="text-red-700 text-sm">
+                                      {formErrors.States}
+                                    </span>
+                                  )}
+                                </FormControl>
 
-                              <TextField
-                                label="zip"
-                                id="Pin_Code"
-                                name="Pin_Code" // Matches state key
-                                value={newAddressForm.Pin_Code}
-                                // onChange={handleChangeForm}
-                                onChange={(e) => {
-                                  const value = e.target.value.replace(
-                                    /\D/g,
-                                    ""
-                                  ); // Remove non-numeric characters
-                                  handleChangeForm({
-                                    target: { name: "Pin_Code", value },
-                                  }); // Update the state with only numbers
-                                }}
-                                size="small"
-                                className="w-[50%]"
-                                error={!!formErrors.Pin_Code}
-                                helperText={formErrors.Pin_Code}
-                                inputProps={{ maxLength: 5 }}
-                              />
-                            </div>
-                            <div className="flex my-2 gap-2">
-                              <TextField
-                                label="Phone Number"
-                                name="Phone_Number"
-                                size="small"
-                                className="w-full"
-                                value={formatPhoneNumber(
-                                  newAddressForm.Phone_Number
-                                )}
-                                onChange={handleChangeForm}
-                                error={!!formErrors.Phone_Number}
-                                helperText={formErrors.Phone_Number}
-                                inputProps={{ maxLength: 12 }}
-                              />
+                                <TextField
+                                  label="zip"
+                                  id="Pin_Code"
+                                  name="Pin_Code" // Matches state key
+                                  value={newAddressForm.Pin_Code}
+                                  // onChange={handleChangeForm}
+                                  onChange={(e) => {
+                                    const value = e.target.value.replace(
+                                      /\D/g,
+                                      ""
+                                    ); // Remove non-numeric characters
+                                    handleChangeForm({
+                                      target: { name: "Pin_Code", value },
+                                    }); // Update the state with only numbers
+                                  }}
+                                  size="small"
+                                  className="w-[50%]"
+                                  error={!!formErrors.Pin_Code}
+                                  helperText={formErrors.Pin_Code}
+                                  inputProps={{ maxLength: 5 }}
+                                />
+                              </div>
+                              <div className="flex my-2 gap-2">
+                                <TextField
+                                  label="Phone Number"
+                                  name="Phone_Number"
+                                  size="small"
+                                  className="w-full"
+                                  value={formatPhoneNumber(
+                                    newAddressForm.Phone_Number
+                                  )}
+                                  onChange={handleChangeForm}
+                                  error={!!formErrors.Phone_Number}
+                                  helperText={formErrors.Phone_Number}
+                                  inputProps={{ maxLength: 12 }}
+                                />
 
-                              <TextField
-                                label="Email ID"
-                                name="Email ID"
-                                size="small"
-                                className="w-full"
-                              // value={formatPhoneNumber(addressForm.Phone_Number)}
-                              // onChange={handleInputChange}
-                              // error={!!formErrors.Phone_Number}
-                              // helperText={formErrors.Phone_Number}
-                              // inputProps={{ maxLength: 12 }}
-                              />
-                            </div>
+                                <TextField
+                                  label="Email ID"
+                                  name="Email ID"
+                                  size="small"
+                                  className="w-full"
+                                // value={formatPhoneNumber(addressForm.Phone_Number)}
+                                // onChange={handleInputChange}
+                                // error={!!formErrors.Phone_Number}
+                                // helperText={formErrors.Phone_Number}
+                                // inputProps={{ maxLength: 12 }}
+                                />
+                              </div>
 
-                            <div className="my-4">
-                              <input type="checkbox" id="default-address" />
-                              <label htmlFor="default-address" className="ml-2">
-                                Make this my default address
-                              </label>
-                            </div>
+                              <div className="my-4">
+                                <input type="checkbox" id="default-address" />
+                                <label htmlFor="default-address" className="ml-2">
+                                  Make this my default address
+                                </label>
+                              </div>
 
-                            <div className="flex justify-between mt-6">
-                              <button
-                                className="w-48 border py-2 bg-orange-400 hover:bg-yellow-500 text-sm text-white"
-                                type="submit"
-                                onClick={handleUseAddressButtons}
-                              >
-                                Use this address
-                              </button>
-                              <button
-                                className="w-48 border py-2 bg-gray-200 hover:bg-gray-300 text-sm"
-                                onClick={handleRemove}
-                              >
-                                Cancel
-                              </button>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    )}
-                    {/* </div> */}
-                    <div className="hidden w-full lg:w-[30%] mx-16 lg:flex flex-col pt-2 items-center lg:relative">
-                      <div className="border lg:fixed shadow-md rounded-md p-7  py-5">
-                        {/* <div className="flex items-center justify-center">
-                        <button className="border rounded-full text-sm flex justify-center items-center px-4 py-2 bg-blue text-white">
-                          Use this payment method
-                        </button>
-                      </div> */}
-                        <div className="text-base flex items-center justify-center flex-col my-1 border-b">
-                          <p>Choose a payment method to continue</p>
-                          <p>checking out. You will still have a chance to</p>
-                          <p>review and edit your order before it is final.</p>
-                        </div>
-                        <div>
-                          <h1 className="font-semibold text-xl my-2 text-blue2">
-                            Order Summary
-                          </h1>
-                        </div>
-                        <div className="flex justify-between text-sm mt-3">
-                          <p className="text-blue2">Items(s) Subtotal :</p>
-                          <p>${validTotal.toFixed(2)}</p>
-                        </div>
-                        <div className="flex justify-between text-sm mt-3">
-                          <div className="flex ">
-                          <img src={shipping} className="w-5 h-5 mr-1"/>
-                          <p className="text-blue2">Shipping:</p>
+                              <div className="flex justify-between mt-6">
+                                <button
+                                  className="w-48 border py-2 bg-orange-400 hover:bg-yellow-500 text-sm text-white"
+                                  type="submit"
+                                  onClick={handleUseAddressButtons}
+                                >
+                                  Use this address
+                                </button>
+                                <button
+                                  className="w-48 border py-2 bg-gray-200 hover:bg-gray-300 text-sm"
+                                  onClick={handleRemove}
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </form>
                           </div>
-                          <p>${Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0).toFixed(2)}</p>
                         </div>
-                        <div className="flex justify-between text-sm mt-3">
-                        <div className="flex ">
-                        <img src={tax} className="w-5 h-5 mr-1"/>
-                            <p className="text-blue2">Tax :</p>
-                          </div>
-                          {getAddress.length === 0 ? (
-                            <p>$0.00</p>
-                          ) : (
-                            <p>${totalTaxAmount.toFixed(2)}</p>
-                          )}
-                        </div>
-                        <div className="flex justify-between text-sm  border-b my-2">
-                          <p className="text-blue2">Total:</p>
-                          {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
-                          <p>${(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
-                        </div>
-                        {/* <div className="flex justify-between text-sm border-b my-2">
-                        <p>Promotion Applied :</p>
-                        <p>$0.00</p>
-                      </div> */}
-                        <div className="flex justify-between text-green2 font-semibold">
-                          <p>Grand Total:</p>
-                          {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
-                          <p>${(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
-                        </div>
-                      </div>
+                      )}
+                      {/* </div> */}
+
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
 
-            {/* other components start */}
+              {/* other components start */}
 
-            {/* <div className="flex justify-between"> */}
-            {/* <h1>1 Selected address</h1> */}
-            {/* <div>
+              {/* <div className="flex justify-between"> */}
+              {/* <h1>1 Selected address</h1> */}
+              {/* <div>
                         {selectedAddress && (
                           <div className="mt-4 flex">
                             <h2 className="font-bold mr-2 ">Selected Address:</h2>
@@ -2072,23 +1994,40 @@ function Address({ topMargin, totalAmount, amount }) {
                          )} 
                       </div> */}
 
-            {!isTotalHidden && (
+              {!isTotalHidden && (
 
-              <div className="">
+                <div className="">
 
-                <Proccedtoshipment selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} totalNetCharges={totalNetCharges} setTotalNetCharges={setTotalNetCharges} productId={productId} />
-                {/* <div className="border-b my-3 w-[70%]"> */}
-                {/* <Payment /> */}
-                {/* <SquarePaymentForm */}
-                {/* // applicationId={applicationId} */}
-                {/* // locationId={locationId}  */}
-                {/* amount={(validTotal + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)} */}
-                {/* // onPaymentSuccess={handlePaymentSuccess} */}
-                {/* // onPaymentError={handlePaymentError} */}
-                {/* /> */}
+                  <Proccedtoshipment selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} totalNetCharges={totalNetCharges} setTotalNetCharges={setTotalNetCharges} productId={productId} />
+                  {/* <div className="border-b my-3 w-[70%]"> */}
+                  {/* <Payment /> */}
+                  {/* <SquarePaymentForm */}
+                  {/* // applicationId={applicationId} */}
+                  {/* // locationId={locationId}  */}
+                  {/* amount={(validTotal + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)} */}
+                  {/* // onPaymentSuccess={handlePaymentSuccess} */}
+                  {/* // onPaymentError={handlePaymentError} */}
+                  {/* /> */}
+                  <div className="w-full">
+                    {/* Show Payment only if selectedAddressId is true */}
+                    {selectedAddressId ? (
+                      isAchRequired ? (
+                        <p className="text-red-500 font-semibold mt-3">
+                          Please fill the ACH Authorization before selecting Cash on Delivery.
+                        </p>
+                      ) : (
+                        <Payment
+                          amount={(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}
+                        />
+                      )
+                    ) : (
+                      <p className="text-red-500 font-semibold mt-3">
+                        Please select an address for payment.
+                      </p>
+                    )}
+                  </div>
 
-
-                {/* <div className="ml-6 w-[65%]">
+                  {/* <div className="ml-6 w-[65%]">
                   {selectedAddressId ? (
 
                     <SquarePaymentForm
@@ -2101,7 +2040,7 @@ function Address({ topMargin, totalAmount, amount }) {
                   {/* </div> 
                 </div> */}
 
-              {/* <div className="ml-6 w-[65%]">
+                  {/* <div className="ml-6 w-[65%]">
                   {selectedAddressId ? (
 
                     <Payment
@@ -2114,25 +2053,8 @@ function Address({ topMargin, totalAmount, amount }) {
                   {/* //  </div>  *
                 </div>  */}
 
-                <div className="w-full">
-                  {/* Show Payment only if selectedAddressId is true */}
-                  {selectedAddressId ? (
-                    isAchRequired ? (
-                      <p className="text-red-500 font-semibold mt-3">
-                        Please fill the ACH Authorization before selecting Cash on Delivery.
-                      </p>
-                    ) : (
-                      <Payment
-                          amount={(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}
-                      />
-                    )
-                  ) : (
-                    <p className="text-red-500 font-semibold mt-3">
-                      Please select an address for payment.
-                    </p>
-                  )}
-                </div>
-                {/* <div className="ml-6 w-[65%]">
+
+                  {/* <div className="ml-6 w-[65%]">
                   {/* Check if no address is selected *
                   {!selectedAddressId ? (
                     <p className="text-red-500 font-semibold mt-3">
@@ -2150,68 +2072,68 @@ function Address({ topMargin, totalAmount, amount }) {
                     />
                   )}
                 </div> */}
-                {/* <div className="border-b my-3">
+                  {/* <div className="border-b my-3">
                   <h1>3 Offers</h1>
                 </div>
                 <div className="border-b my-3">
                   <h1>4 Items and delivery</h1>
                 </div> */}
-              </div>
-            )}
-          </div>
+                </div>
+              )}
+            </div>
 
 
-          <div className="block lg:hidden sm:w-[90%] md:w-[70%] h-auto  pt-2 items-center lg:relative">
-            <div className="border lg:fixed shadow-md rounded-md p-4  py-5">
-              {/* <div className="flex items-center justify-center">
+            <div className="block lg:hidden sm:w-[90%] md:w-[70%] h-auto  pt-2 items-center lg:relative">
+              <div className="border lg:fixed shadow-md rounded-md p-4  py-5">
+                {/* <div className="flex items-center justify-center">
                         <button className="border rounded-full text-sm flex justify-center items-center px-4 py-2 bg-blue text-white">
                           Use this payment method
                         </button>
                       </div> */}
-              <div className="text-base flex items-center justify-center flex-col my-1 border-b">
-                <p>Choose a payment method to continue</p>
-                <p>checking out. You will still have a chance to</p>
-                <p>review and edit your order before it is final.</p>
-              </div>
-              <div>
-                <h1 className="font-semibold text-xl my-2">
-                  Order Summary
-                </h1>
-              </div>
-              <div className="flex justify-between text-sm mt-3">
-                <p>Items(s) Subtotal :</p>
-                <p>${validTotal.toFixed(2)}</p>
-              </div>
-              <div className="flex justify-between text-sm mt-3">
-                <p>Shipping:</p>
-                <p>${Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0).toFixed(2)}</p>
-              </div>
-              <div className="flex justify-between text-sm mt-3">
-                <p>Tax :</p>
-                {getAddress.length === 0 ? (
-                  <p>$0.00</p>
-                ) : (
-                  <p>${totalTaxAmount.toFixed(2)}</p>
-                )}
-              </div>
-              <div className="flex justify-between text-sm  border-b my-2">
-                <p>Total:</p>
-                {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
-                <p>${(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
-              </div>
-              {/* <div className="flex justify-between text-sm border-b my-2">
+                <div className="text-base flex items-center justify-center flex-col my-1 border-b">
+                  <p>Choose a payment method to continue</p>
+                  <p>checking out. You will still have a chance to</p>
+                  <p>review and edit your order before it is final.</p>
+                </div>
+                <div>
+                  <h1 className="font-semibold text-xl my-2">
+                    Order Summary
+                  </h1>
+                </div>
+                <div className="flex justify-between text-sm mt-3">
+                  <p>Items(s) Subtotal :</p>
+                  <p>${validTotal.toFixed(2)}</p>
+                </div>
+                <div className="flex justify-between text-sm mt-3">
+                  <p>Shipping:</p>
+                  <p>${Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0).toFixed(2)}</p>
+                </div>
+                <div className="flex justify-between text-sm mt-3">
+                  <p>Tax :</p>
+                  {getAddress.length === 0 ? (
+                    <p>$0.00</p>
+                  ) : (
+                    <p>${totalTaxAmount.toFixed(2)}</p>
+                  )}
+                </div>
+                <div className="flex justify-between text-sm  border-b my-2">
+                  <p>Total:</p>
+                  {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
+                  <p>${(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
+                </div>
+                {/* <div className="flex justify-between text-sm border-b my-2">
                         <p>Promotion Applied :</p>
                         <p>$0.00</p>
                       </div> */}
-              <div className="flex justify-between text-red-500 font-semibold">
-                <p>Grand Total:</p>
-                {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
-                <p>${(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
+                <div className="flex justify-between text-red-500 font-semibold">
+                  <p>Grand Total:</p>
+                  {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
+                  <p>${(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* <div className="flex justify-between w-full">
+            {/* <div className="flex justify-between w-full">
             <div className="flex flex-col w-full">
               {isTotalHidden && (
                 <div className="flex border-b w-full ">
@@ -2285,8 +2207,103 @@ function Address({ topMargin, totalAmount, amount }) {
               )}
             </div>
           </div> */}
+          </div>
+          {deletePop && (
+            <div
+              className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-slate-900 bg-opacity-50 z-50"
+              role="dialog"
+              aria-modal="true"
+            >
+              <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
+                <div className="flex justify-end">
+                  <button className="w-5 p-1 -mt-8 mx-2" onClick={closeDeleteButton}>
+                    <img src={wrong} className="w-6 h-4" alt="Close" />
+                  </button>
+                </div>
+                <h1 className="text-black text-center mt-2">
+                  Are you sure you want to delete this address?
+                </h1>
+                <div className="flex justify-around mt-6">
+                  <button
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={cancelDeleteButton}
+                  >
+                    No
+                  </button>
+                  <button
+                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={successDeleteButton}
+                  >
+                    Yes
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+
+        </div>
+
+        <div className="w-full lg:w-[20%]">
+          <div className="hidden w-full lg:flex flex-col pt-2 items-center lg:relative">
+            <div className="border lg:sticky lg:top-[136px] shadow-md rounded-md p-7 py-5">
+              {/* <div className="flex items-center justify-center">
+                        <button className="border rounded-full text-sm flex justify-center items-center px-4 py-2 bg-blue text-white">
+                          Use this payment method
+                        </button>
+                      </div> */}
+              <div className="text-base flex items-center justify-center flex-col my-1 border-b">
+                <p>Choose a payment method to continue</p>
+                <p>checking out. You will still have a chance to</p>
+                <p>review and edit your order before it is final.</p>
+              </div>
+              <div>
+                <h1 className="font-semibold text-xl my-2 text-blue2">
+                  Order Summary
+                </h1>
+              </div>
+              <div className="flex justify-between text-sm mt-3">
+                <p className="text-blue2">Items(s) Subtotal :</p>
+                <p>${validTotal.toFixed(2)}</p>
+              </div>
+              <div className="flex justify-between text-sm mt-3">
+                <div className="flex ">
+                  <img src={shipping} className="w-5 h-5 mr-1" />
+                  <p className="text-blue2">Shipping:</p>
+                </div>
+                <p>${Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0).toFixed(2)}</p>
+              </div>
+              <div className="flex justify-between text-sm mt-3">
+                <div className="flex ">
+                  <img src={tax} className="w-5 h-5 mr-1" />
+                  <p className="text-blue2">Tax :</p>
+                </div>
+                {getAddress.length === 0 ? (
+                  <p>$0.00</p>
+                ) : (
+                  <p>${totalTaxAmount.toFixed(2)}</p>
+                )}
+              </div>
+              <div className="flex justify-between text-sm  border-b my-2">
+                <p className="text-blue2">Total:</p>
+                {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
+                <p>${(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
+              </div>
+              {/* <div className="flex justify-between text-sm border-b my-2">
+                        <p>Promotion Applied :</p>
+                        <p>$0.00</p>
+                      </div> */}
+              <div className="flex justify-between text-green2 font-semibold">
+                <p>Grand Total:</p>
+                {/* <p>${(validTotal + validNetCharge).toFixed(2)}</p> */}
+                <p>${(totalWithTax + Object.values(totalNetCharges).reduce((acc, value) => acc + value, 0)).toFixed(2)}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
+
     </div>
   );
 }
