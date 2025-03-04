@@ -1374,7 +1374,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 onBlur={handleFocusOut}
               >
                 <button
-                  className={`h-12 pl-2 lg:items-center min-w-28 md:min-w-[122px] border-r-0 font-semibold text-left gap-1 text-[14px]  lg:text-[16px] flex items-center text-blue2 bg-gray-100 border-gray-300 rounded-l-md border ${isDropdownOpen ? "bg-green text-white" : ""}`}
+                  className={`h-12 pl-2 lg:items-center min-w-24 md:min-w-[122px] border-r-0 font-semibold text-left gap-1 text-[14px]  lg:text-[16px] flex items-center text-blue2 bg-gray-100 border-gray-300 rounded-l-md border ${isDropdownOpen ? "bg-green text-white" : ""}`}
                   onClick={handleDropdownToggle}
                   onFocus={handleFocusIn}
                   onBlur={handleFocusOut}
@@ -1472,7 +1472,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
             ))} */}
             {/* Wishlist Icon */}
             <div className=" mt-0 hidden relative justify-between md:flex">
-              <ul className="flex items-center">
+              <ul className="flex items-baseline">
 
                 <li className= "block md:hidden lg:block">
                   <Tooltip title="Wishlist" placement="top">

@@ -292,7 +292,7 @@ function Address({ topMargin, totalAmount }) {
 
                           {showPopUp && (
                             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                              <div className="bg-white p-6 w-[45%] rounded-md shadow-lg relative overflow-y-scroll max-h-[90vh]">
+                              <div className="bg-white p-6 w-[45%] rounded-md shadow-lg relative overflow-y-auto max-h-[90vh]">
                                 <div className="flex justify-between border-b pb-4 items-center">
                                   <h1>Add a new address</h1>
                                   <img
@@ -565,13 +565,13 @@ function Address({ topMargin, totalAmount }) {
 
                                 <div className="flex justify-between mt-6">
                                   <button
-                                    className="w-48 border py-2 bg-orange-400 hover:bg-yellow-500 text-sm text-white"
+                                    className="text-white py-2 px-4 rounded-lg bg-green2 hover:bg-blue2 font-semibold"
                                     onClick={handleUseAddressbutton}
                                   >
                                     Use this address
                                   </button>
                                   <button
-                                    className="w-48 border py-2 bg-gray-200 hover:bg-gray-300 text-sm"
+                                    className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg"
                                     onClick={handleRemove}
                                   >
                                     Cancel
