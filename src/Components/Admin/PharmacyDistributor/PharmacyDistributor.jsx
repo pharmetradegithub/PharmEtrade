@@ -855,7 +855,11 @@ const pharmacyDistributor = () => {
                   No
                 </button>
                 <button
+<<<<<<< HEAD
                   className="text-white py-2 px-4 rounded-lg bg-green2 hover:bg-blue2 font-semibold"
+=======
+                  className="bg-green2 hover:bg-green2 text-white font-bold py-2 px-4 rounded"
+>>>>>>> 1e1703ea7b69fdee2e7fe3e5c5f4c0751b020588
                   onClick={successDeleteButton}
                 >
                   Yes
@@ -1023,8 +1027,14 @@ const pharmacyDistributor = () => {
                         <td className="px-6 text-center">
                           <div className="flex justify-center items-center">
                             <div
+<<<<<<< HEAD
                               className={`h-2.5 w-2.5 rounded-full mr-2 ${customer.isActive === 1
                                   ? "bg-green-500"
+=======
+                              className={`h-2.5 w-2.5 rounded-full mr-2 ${
+                                customer.isActive === 1
+                                  ? "bg-green2"
+>>>>>>> 1e1703ea7b69fdee2e7fe3e5c5f4c0751b020588
                                   : "bg-red-500"
                                 }`}
                             ></div>
@@ -1038,7 +1048,7 @@ const pharmacyDistributor = () => {
                             <img
                               src={edit}
                               alt="Edit"
-                              className="cursor-pointer w-7 h-7 -mb-5"
+                              className="cursor-pointer w-[15px] h-[15px] -mb-5"
                               onClick={() =>
                                 handleEditProduct(customer.customerId)
                               }

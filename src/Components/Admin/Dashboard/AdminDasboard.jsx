@@ -473,9 +473,9 @@ const AdminDasboard = () => {
                   <div className="flex justify-between -mt-1">
                     <div className="flex flex-col">
                       <div className="flex">
-                        <div className="h-2.5 w-2.5 rounded-full bg-green-500  mt-2 mr-1"></div>
+                        <div className="h-2.5 w-2.5 rounded-full bg-green2  mt-2 mr-1"></div>
 
-                        <p className="text-green-700">Active</p>
+                        <p className="text-green2">Active</p>
                       </div>
                       <p>{detail.active}</p>
                     </div>
@@ -483,7 +483,7 @@ const AdminDasboard = () => {
                     <div className="flex flex-col">
                       <div className="flex">
                         <div className="h-2.5 w-2.5 rounded-full bg-red-500  mt-2 mr-1"></div>
-                        <p className="text-green-700">Inactive</p>
+                        <p className="text-green2">Inactive</p>
                       </div>
                       <p>{detail.inActive}</p>
                     </div>

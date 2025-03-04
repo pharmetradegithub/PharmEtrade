@@ -1163,9 +1163,9 @@ const Payment = ({amount}) => {
                 {selectedPayment === "cod" && <div className="w-3 h-3 bg-white rounded-full"></div>}
               </div>
 
-              <span className="ml-4 text-lg text-green2 font-medium">Cash on Delivery</span>
+              <span className="ml-4 text-lg text-green2 font-medium">ACH</span>
             </div>
-
+a
             {/* Proceed Button */}
             <div className="flex justify-center mt-6">
               <button

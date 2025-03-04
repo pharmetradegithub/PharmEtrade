@@ -1062,7 +1062,7 @@ const ChargesInformations = () => {
                       onClick={() => handleEditClick(index, entry.chargeTypeId, entry.chargeType, entry.chargePercentage, entry.createdOn, entry.modifiedOn)}
                     >
                       <Tooltip placement="top" title="Edit">
-                        <img src={edit} alt="Edit" className="w-6 h-6" />
+                        <img src={edit} alt="Edit" className="w-[15px] h-[15px]" />
                         </Tooltip>
                     </button>
                     <button

@@ -297,7 +297,11 @@ const RxProductsAdmin = () => {
                   No
                 </button>
                 <button
+<<<<<<< HEAD
                   className="text-white py-2 px-4 rounded-lg bg-green2 hover:bg-blue2 font-semibold"
+=======
+                  className="bg-green2 hover:bg-green2 text-white font-bold py-2 px-4 rounded"
+>>>>>>> 1e1703ea7b69fdee2e7fe3e5c5f4c0751b020588
                   onClick={successButton}
                 >
                   Yes
@@ -481,7 +485,7 @@ const RxProductsAdmin = () => {
                       <img
                         src={edit}
                         alt="Edit"
-                        className="cursor-pointer w-7 h-7 "
+                          className="cursor-pointer w-[15px] h-[15px] "
                         onClick={() => handleEditProduct(detail)}
                       />
                     </Tooltip>

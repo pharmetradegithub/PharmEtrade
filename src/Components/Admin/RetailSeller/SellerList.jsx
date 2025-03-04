@@ -590,7 +590,7 @@ const SellerList = () => {
                             <div
                               className={`h-2.5 w-2.5 rounded-full mr-2 ${
                                 customer.isActive === 1
-                                  ? "bg-green-500"
+                                  ? "bg-green2"
                                   : "bg-red-500"
                               }`}
                             ></div>
@@ -604,7 +604,7 @@ const SellerList = () => {
                             <img
                               src={edit}
                               alt="Edit"
-                              className="cursor-pointer w-7 h-7 -mb-5"
+                              className="cursor-pointer w-[15px] h-[15px] -mb-5"
                               onClick={() =>
                                 handleEditProduct(customer.customerId)
                               }
