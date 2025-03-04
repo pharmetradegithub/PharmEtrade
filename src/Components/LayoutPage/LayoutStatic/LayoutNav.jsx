@@ -437,7 +437,7 @@ const LayoutNav = ({ Form_Data }) => {
     <div className="my-3 pb-2 cursor-pointer border-b-2 border-gray-300 shadow-lg">
       <div className="md:flex justify-between items-center">
         {/* Nav Items (Hidden on small and medium screens) */}
-        <div className="lg:hidden flex items-center p-4">
+        <div className="lg:hidden flex items-center p-4 ml-[50%] translate-x-[-50%]">
           <Link to={"/"}>
             <img
               src={Logo}
