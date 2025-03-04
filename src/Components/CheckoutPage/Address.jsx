@@ -1423,6 +1423,10 @@ function Address({ topMargin, totalAmount, amount }) {
   // const isAchRequired = [1, 2, 3].includes(user?.customerTypeId) && (!getAch || getAch.trim() === "");
   const isAchRequired = [1, 2, 3].includes(user?.customerTypeId) && getAch.length === 0;
   // const isAchRequired = [1, 2, 3].includes(user?.customerTypeId) && (!getAch || getAch.trim() === "");
+
+  const handleNav = () => {
+    navigate('/layout/layoutprofile', { state: { defaultGrid: "ACH" } })
+  }
   return (
     <div className="container mx-auto">
       <div className="flex gap-5">
@@ -1787,9 +1791,10 @@ function Address({ topMargin, totalAmount, amount }) {
                               />
                             </div>
 
-                            <div className="my-4">
-                              <input type="checkbox" id="default-address" checked={!getAddress.isDefault}
-                                readOnly={!getAddress.isDefault} style={{
+                            <div className="my-4 ">
+                              <input type="checkbox" className= "cursor-pointer" id="default-address" checked={getAddress.isDefault}
+                                // readOnly={getAddress.isDefault}
+                                 style={{
                                   accentColor: 'blue', // Inline style for checkmark color
                                 }} />
                               <label htmlFor="default-address" className="ml-2">
@@ -2082,8 +2087,8 @@ function Address({ topMargin, totalAmount, amount }) {
                     {/* Show Payment only if selectedAddressId is true */}
                     {selectedAddressId ? (
                       isAchRequired ? (
-                        <p className="text-red-500 font-semibold mt-3">
-                          Please fill the ACH Authorization before selecting Cash on Delivery.
+                        <p className="text-red-500 font-semibold mt-3 cursor-pointer" onClick={handleNav}>
+                          Please fill the ACH Authorization
                         </p>
                       ) : (
                         <Payment

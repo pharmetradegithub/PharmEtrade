@@ -1032,7 +1032,7 @@ function LayoutOrderList() {
             </Button>
             <Button
               onClick={handleModalSave}
-              className="text-white py-2 px-4 rounded-lg bg-green2 hover:bg-blue2 font-semibold"
+              className="text-white py-2 px-4 rounded-lg hover:bg-blue2  bg-green2 font-semibold"
             >
               Yes
             </Button>

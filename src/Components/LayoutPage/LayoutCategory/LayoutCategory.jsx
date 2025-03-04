@@ -2750,7 +2750,7 @@ function LayoutCategory({
                               <p className="text-red-500 font-semibold mt-1">Out Of Stock</p>
                             ) : (
                               <>
-                                <p className="text-green2 text-xs mt-1">Purchase Requirement</p>
+                                {/* <p className="text-green2 text-xs mt-1">Purchase Requirement</p> */}
                                 <p className="text-red-500 text-xs mt-1 font-semibold">
                                   Min Qty - {product.minOrderQuantity} and Max Qty - {product.maxOrderQuantity}
                                 </p>
