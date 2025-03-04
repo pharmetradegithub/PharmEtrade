@@ -337,8 +337,8 @@ const SellerList = () => {
           >
             <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
               <div className="flex justify-end  ">
-                <button className="w-5 p-1 -mt-8 mx-2" onClick={closeButton}>
-                  <img src={wrong} className="w-6 h-4" />
+                <button className="w-7 p-1 -mt-6 mx-2" onClick={closeButton}>
+                  <img src={wrong} className="w-full" />
                 </button>
               </div>
               <h1 className="text-black text-center mt-2">
@@ -352,7 +352,7 @@ const SellerList = () => {
                   No
                 </button>
                 <button
-                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  className="text-white py-2 px-4 rounded-lg bg-green2 hover:bg-blue2 font-semibold"
                   onClick={successButton}
                 >
                   Yes
@@ -369,8 +369,8 @@ const SellerList = () => {
         >
           <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
             <div className="flex justify-end">
-              <button className="w-5 p-1 -mt-8 mx-2" onClick={closeButton}>
-                <img src={wrong} className="w-6 h-4" alt="Close" />
+              <button className="w-7 p-1 -mt-6 mx-2" onClick={closeButton}>
+                <img src={wrong} className="w-full" alt="Close" />
               </button>
             </div>
             <h1 className="text-black text-center mt-2">
@@ -379,13 +379,13 @@ const SellerList = () => {
             </h1>
             <div className="flex justify-around mt-6">
               <button
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg "
                 onClick={cancelButton}
               >
                 No
               </button>
               <button
-                className="bg-green2 hover:bg-green2 text-white font-bold py-2 px-4 rounded"
+                className="text-white py-2 px-4 rounded-lg bg-green2 hover:bg-blue2 font-semibold"
                 onClick={successButton}
               >
                 Yes
@@ -402,8 +402,8 @@ const SellerList = () => {
           >
             <div className="w-96 h-40 bg-white rounded-md shadow-md flex flex-col justify-center">
               <div className="flex justify-end  ">
-                <button className="w-5 p-1 -mt-8 mx-2" onClick={closeButton}>
-                  <img src={wrong} className="w-6 h-4" />
+                <button className="w-7 p-1 -mt-6 mx-2" onClick={closeButton}>
+                  <img src={wrong} className="w-full" />
                 </button>
               </div>
               <h1 className="text-black text-center mt-2">
@@ -411,13 +411,13 @@ const SellerList = () => {
               </h1>
               <div className="flex justify-around mt-6">
                 <button
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg "
                   onClick={cancelButton}
                 >
                   No
                 </button>
                 <button
-                  className="bg-green2 hover:bg-green2 text-white font-bold py-2 px-4 rounded"
+                  className="text-white py-2 px-4 rounded-lg bg-green2 hover:bg-blue2 font-semibold"
                   onClick={successDeleteButton}
                 >
                   Yes

@@ -483,7 +483,7 @@ function LayoutOrderList() {
     //           className="self-end text-red-500 font-bold py-1 px-2 rounded hover:bg-red-100"
     //           onClick={() => setModal(false)}
     //         >
-    //           <img src={wrong} className="w-6 h-4" />
+    //           <img src={wrong} className="w-full" />
     //         </button>
 
     //         {/* Content section */}
@@ -973,7 +973,7 @@ function LayoutOrderList() {
               className="self-end text-red-500 font-bold py-1 px-2 rounded hover:bg-red-100"
               onClick={() => setModal(false)}
             >
-              <img src={wrong} className="w-6 h-4" />
+              <img src={wrong} className="w-full" />
             </button>
 
             {/* Content section */}
@@ -1026,21 +1026,13 @@ function LayoutOrderList() {
           >
             <Button
               onClick={handleDialogClose}
-              sx={{
-                color: "white",
-                backgroundColor: "red",
-                "&:hover": { backgroundColor: "#cc0000" },
-              }}
+              className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg "
             >
               Cancel
             </Button>
             <Button
               onClick={handleModalSave}
-              sx={{
-                color: "white",
-                backgroundColor: "green",
-                "&:hover": { backgroundColor: "#006400" },
-              }}
+              className="text-white py-2 px-4 rounded-lg bg-green2 hover:bg-blue2 font-semibold"
             >
               Yes
             </Button>

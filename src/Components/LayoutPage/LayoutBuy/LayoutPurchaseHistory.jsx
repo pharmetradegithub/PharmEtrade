@@ -127,11 +127,7 @@ const LayoutPurchaseHistory = () => {
           >
             <Button
               onClick={handleDialogClose}
-              sx={{
-                color: "white",
-                backgroundColor: "red",
-                "&:hover": { backgroundColor: "#cc0000" },
-              }}
+              className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg "
             >
               Cancel
             </Button>

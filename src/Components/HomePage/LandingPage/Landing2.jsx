@@ -294,7 +294,7 @@ function Landing2({ wishList, addCart }) {
         )}
       </div>
       <div className="flex flex-col items-center text-center xl:mt-10 ">
-        <p className="text-blue2 text-[45px] verySmall:text-[25px] md:text-[40px] xl:text-4xl  font-semibold sm:mt-0  mt-15">
+        <p className="text-blue2 text-[45px] verySmall:text-[25px] md:text-[40px] xl:text-3xl font-semibold sm:mt-2 mt-15">
           Grow your business with PharmEtrade
         </p>
         {/* <p className="text-xl mb-2 font-light text-gray-900 xl:text-xl">
@@ -308,10 +308,7 @@ function Landing2({ wishList, addCart }) {
         </p> */}
       </div>
       <div className="flex flex-col lg:flex-row md:flex-row items-center justify-between gap-6">
-        <div
-          className="p-4 rounded-2xl transition duration-300"
-          style={{ height: "fit-content", backgroundColor: "#00b153" }}
-        >
+        <div className="px-2 md:px-4 py-6 md:py-8 rounded-2xl transition duration-300 bg-green2 w-full md:w-2/5">
           <ul className="space-y-2 lg:w-full font-sans sm:text-base sm:pb-2 xl:w-auto xl:pr-10 md:pb-6 md:text-lg xl:text-2xl xl:mt-6 font-medium pl-4">
             {texts.map((item, key) => (
               <li key={key} className="flex flex-row text-white items-center gap-2">
@@ -322,7 +319,7 @@ function Landing2({ wishList, addCart }) {
           </ul>
         </div>
 
-        <div className="h-fit w-3/6">
+        <div className="w-full md:w-3/6">
           <img src={bg2} alt="Pharmacy" className="rounded-xl object-cover" />
         </div>
       </div>

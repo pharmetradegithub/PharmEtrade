@@ -479,7 +479,7 @@ function AdminOrders() {
                 className="w-5 p-1 mx-2 sm:mt-3 mt-5"
                 onClick={handleCancel}
               >
-                <img src={wrong} className="w-6 h-4" />
+                <img src={wrong} className="w-full" />
               </button>
             </div>
             <h1 className="text-black text-center mt-0">
@@ -522,7 +522,7 @@ function AdminOrders() {
                 No
               </button>
               <button
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                className="text-white py-2 px-4 rounded-lg bg-green2 hover:bg-blue2 font-semibold"
                 onClick={handleConfirm}
               >
                 Yes
@@ -547,7 +547,7 @@ function AdminOrders() {
                 className="w-5 p-1 mx-2 sm:mt-3 mt-5"
                 onClick={handleCancel}
               >
-                <img src={wrong} className="w-6 h-4" />
+                <img src={wrong} className="w-full" />
               </button>
             </div>
             <h1 className="text-black text-center mt-0">
@@ -583,7 +583,7 @@ function AdminOrders() {
                 No
               </button>
               <button
-                className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ${(!comment.trim() || (selectedProduct === 8 && !trackingNumber.trim())) &&
+                className={`"text-white py-2 px-4 rounded-lg bg-green2 hover:bg-blue2 font-semibold ${(!comment.trim() || (selectedProduct === 8 && !trackingNumber.trim())) &&
                   "opacity-50 cursor-not-allowed"
                   }`}
                 onClick={handleConfirm}
@@ -621,7 +621,7 @@ function AdminOrders() {
               className="self-end text-red-500 font-bold py-1 px-2 rounded hover:bg-red-100"
               onClick={() => setModal(false)}
             >
-              <img src={wrong} className="w-6 h-4" />
+              <img src={wrong} className="w-full" />
             </button>
 
             {/* Content section */}
