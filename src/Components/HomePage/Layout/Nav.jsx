@@ -1102,19 +1102,19 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
                 />
               </div>
 
-              <div>
+              <Link to={"/"}>
                 <img
                   src={Logo}
                   // onClick={() => navigate("/")}
                   onClick={() => {
                     setSelectedIndex("");
-                    navigate("/");
+                    // navigate("/");
                   }}
                   // className="w-18 md:w-16 lg:w-32 xl:w-60 h-9 ml-2 md:ml-2 lg:ml-12 cursor-pointer lg:overflow-x-hidden"
                   className="w-36 sm:w-36 md:w-36 lg:w-52 xl:w-50 h-auto cursor-pointer"
-                  alt="Logo"
+                  alt="Pharmetrade logo"
                 />
-              </div>
+              </Link>
 
               {/* Flexbox for Menu Items and Icons (User, Cart, Wishlist) */}
               <div className="flex h-full md:flex-row md:gap-4 lg:gap-4 xl:flex xl:flex-row xl:justify-between xl:gap-6 items-center">
