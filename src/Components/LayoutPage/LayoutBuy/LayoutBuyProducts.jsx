@@ -1560,7 +1560,7 @@
 //                             <div className="flex w-full mt-1 gap-1">
 //                               {/* <img src={Expicon} className="w-5 h-auto" /> */}
 //                               <div className="flex mt-2">
-//                                 <p className="text-xs font-semibold">NDC :</p>
+//                                 <p className="text-xs font-semibold">NDC/UPC:</p>
 //                                 <p className="font-bold text-xs">
 //                                   {/* {product.expiryDate} */}
 //                                   &nbsp;{" "}
@@ -3841,7 +3841,7 @@ function LayoutBuy({
                             <div className="flex w-full gap-1">
                               {/* <img src={Expicon} className="w-5 h-auto" /> */}
                               <div className="flex mt-1">
-                                <p className="text-xs font-semibold">NDC :</p>
+                                <p className="text-xs font-semibold">NDC/UPC:</p>
                                 <p className="font-bold text-xs">
                                   {/* {product.expiryDate} */}
                                   &nbsp;{" "}

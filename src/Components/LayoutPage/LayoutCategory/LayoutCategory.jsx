@@ -2333,7 +2333,7 @@ function LayoutCategory({
                             <div className="flex w-full mt-1 gap-1">
                               {/* <img src={Expicon} className="w-5 h-auto" /> */}
                               <div className="flex">
-                                <p className="text-xs font-semibold">NDC :</p>
+                                <p className="text-xs font-semibold">NDC/UPC:</p>
                                 <p className="font-bold text-xs">
                                   {/* {product.expiryDate} */}
                                   &nbsp;{" "}
