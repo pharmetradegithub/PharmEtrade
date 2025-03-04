@@ -1165,7 +1165,6 @@ const Payment = ({amount}) => {
 
               <span className="ml-4 text-lg text-green2 font-medium">ACH</span>
             </div>
-a
             {/* Proceed Button */}
             <div className="flex justify-center mt-6">
               <button

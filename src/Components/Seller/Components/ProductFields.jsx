@@ -2003,7 +2003,6 @@ function ProductFields() {
             <h1 className="text-2xl font-bold text-blue2 -mt-5">
               ADD PRODUCT
             </h1>
-            <p className="border-b border-blue2 w-40  "></p>
           </div>
           <div>
             <button
