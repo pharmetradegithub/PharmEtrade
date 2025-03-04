@@ -461,7 +461,7 @@ const ProccedtoShipment = ({
     <div className="w-full h-full mt-2">
       <h1 className="text-xl font-semibold text-blue2">2. Select shipment</h1>
       <div className="flex w-full">
-        <div className="w-full sm:w-[90%] md:w-[100%] lg:w-[70%] xl:w-[70%]">
+        <div className="w-full">
           {Object.entries(groupedProducts).map(([seller, { products, sellerId }]) => {
               // Use sellerId in the useSelector hook
               const serviceName = useSelector((state) => state.trackNumber.serviceType[sellerId] || []);
@@ -594,7 +594,6 @@ const ProccedtoShipment = ({
             );
           })}
         </div>
-        <div className="w-full lg:w-1/3 mt-6 lg:mt-0 ml-4"></div>
       </div>
     </div>
   );
