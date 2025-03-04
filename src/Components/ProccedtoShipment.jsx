@@ -15,8 +15,8 @@ const ProccedtoShipment = ({
   setTotalNetCharges,
   productId,
 }) => {
-  // const fedexRate = useSelector((state) => state.trackNumber?.fedExRates || []);
-  // const serviceName = useSelector((state) => state.trackNumber?.serviceType || []);
+  const fedexRate = useSelector((state) => state.trackNumber?.fedExRates || {});
+  const serviceName = useSelector((state) => state.trackNumber?.serviceType || {});
   const cartList = useSelector((state) => state.cart?.cart || []);
   // const [cartItems, setcartItems] = useState(cartList);
   const [amount, setAmount] = useState(200);
@@ -464,9 +464,11 @@ const ProccedtoShipment = ({
       <div className="flex w-full">
         <div className="w-full">
           {Object.entries(groupedProducts).map(([seller, { products, sellerId }]) => {
-              // Use sellerId in the useSelector hook
-            const serviceName = useSelector((state) => state.trackNumber.serviceType[products?.sellerId] || []);
-            const fedexRate = useSelector((state) => state.trackNumber.fedExRates[products?.sellerId] || []);
+            // Use sellerId in the useSelector hook
+            const sellerServiceName = serviceName[products?.sellerId] || [];
+            const sellerFedexRate = fedexRate[products?.sellerId] || [];
+            // const serviceName = useSelector((state) => state.trackNumber.serviceType[products?.sellerId] || []);
+            // const fedexRate = useSelector((state) => state.trackNumber.fedExRates[products?.sellerId] || []);
 
               return(
             <div key={seller}>
@@ -549,8 +551,8 @@ const ProccedtoShipment = ({
                             {selectedOptions[seller] ? "Please choose a delivery option" : "Select an option"}
                           </option>
                           <optgroup label="Delivery options">
-                            {serviceName?.map((item) => {
-                              const matchingRate = fedexRate?.find(
+                                {sellerServiceName?.map((item) => {
+                                  const matchingRate = sellerFedexRate?.find(
                                 (fed) =>
                                   normalizeString(removeNonPrintableChars(fed.serviceName)) ===
                                   normalizeString(removeNonPrintableChars(item.serviceName))
@@ -567,7 +569,7 @@ const ProccedtoShipment = ({
                         </select>
                       </div>
 
-                      <div className="mb-4 mt-3 xl:mt-0">
+                      {/* <div className="mb-4 mt-3 xl:mt-0">
                         <TextField
                           label="Amount"
                           size="small"
@@ -586,7 +588,7 @@ const ProccedtoShipment = ({
                             Reset
                           </button>
                         )}
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 )}

@@ -391,7 +391,7 @@ function LayoutOtcProducts({
                         <div className="flex flex-col w-[170px] ">
                           <p className="font-semibold text-sm text-blue2">Item Details</p>
                           <div className="mt-2">
-                            <p className="font-bold text-blue-900  sm:w-32 w-full text-sm">
+                            <p className="font-bold text-blue2  sm:w-32 w-full text-sm">
                               {product.productName}
                             </p>
 
@@ -830,7 +830,7 @@ function LayoutOtcProducts({
                               <p className="text-red-500 font-semibold mt-1">Out Of Stock</p>
                             ) : (
                               <>
-                                <p className="text-green2 text-xs mt-1">Purchase Requirement</p>
+                                {/* <p className="text-green2 text-xs mt-1">Purchase Requirement</p> */}
                                 <p className="text-red-500 text-xs mt-1 font-semibold">
                                   Min Qty - {product.minOrderQuantity} and Max Qty - {product.maxOrderQuantity}
                                 </p>
