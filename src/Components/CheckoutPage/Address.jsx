@@ -38,6 +38,8 @@ import Proccedtoshipment from '../ProccedtoShipment'
 import SquarePaymentForm from "../SquarePaymentForm";
 import { getUserByCustomerIdApi } from "../../Api/UserApi";
 import { clearFedExRates, clearServiceType } from "../../Store/Store";
+
+
 // import { getCartItemsApi } from "../../Api/CartApi";
 function Address({ topMargin, totalAmount, amount }) {
   const getAch = useSelector((state) => state.address.achGet) || "";
@@ -1363,12 +1365,14 @@ function Address({ topMargin, totalAmount, amount }) {
           <div className="bg-white w-full h-fit text-lg text-black pt-8 pb-2 relative">
             <div className="w-full flex items-center shadow-transparent ">
               <div className="w-[100%]">
-                <img
-                  src={logo}
-                  className="w-36 sm:w-36 md:w-36 lg:w-52 xl:w-50 h-auto cursor-pointer mb-3"
-                  alt="logo"
-                  onClick={handleNavigate}
-                />
+                <Link to={"/"}>
+                  <img
+                    src={logo}
+                    className="w-36 sm:w-36 md:w-36 lg:w-52 xl:w-50 h-auto cursor-pointer mb-3"
+                    alt="logo"
+                  //onClick={handleNavigate}
+                  />
+                </Link>
                 <Notification
                   show={notification.show}
                   message={notification.message}
