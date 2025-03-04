@@ -204,7 +204,7 @@ const Contactus = ({ topMargin }) => {
           <img src={logo} className="w-32 sm:w-44 md:w-52" />
         </Link>
       </div> */}
-        <div className="w-full h-full flex flex-col items-center px-4 sm:px-0 ">
+        <div className="w-full h-full flex flex-col items-center">
           {/* <div className="my-4 flex">
           <h1 className="text-2xl sm:text-3xl text-center text-blue2 font-semibold mt-5 sm:my-4">
             Contact Us
@@ -223,7 +223,7 @@ const Contactus = ({ topMargin }) => {
           <div className="flex flex-col sm:flex-row my-2 sm:my-4  w-full sm:gap-6 justify-between">
             {/* Location */}
             <div
-              className="flex w-full items-center gap-3 bg-white rounded-md p-8 sm:p-4"
+              className="flex w-full items-center gap-3 bg-white rounded-md p-8 sm:p-4 mb-2 md:mb-0"
               // onClick={handleOpenMap}
             >
               <div>
@@ -244,7 +244,7 @@ const Contactus = ({ topMargin }) => {
             </div>
 
             {/* Phone */}
-            <div className="flex w-full items-center  gap-3 bg-white rounded-md p-8 sm:p-4">
+            <div className="flex w-full items-center  gap-3 bg-white rounded-md p-8 sm:p-4 mb-2 md:mb-0">
               <div>
                 <img
                   src={call}
@@ -262,7 +262,7 @@ const Contactus = ({ topMargin }) => {
               </div>
             </div>
             {/* Email */}
-            <div className="flex w-full items-center gap-3 bg-white rounded-md p-8 sm:p-4">
+            <div className="flex w-full items-center gap-3 bg-white rounded-md p-8 sm:p-4 mb-2 md:mb-0">
               <div>
                 <img src={mail} className="w-6" alt="Mail" />
               </div>
@@ -288,7 +288,7 @@ const Contactus = ({ topMargin }) => {
               <form onSubmit={handleSubmit} className="flex flex-col gap-6 mt-6">
                 <div className="flex flex-col gap-4 items-center">
                   {/* Name Field */}
-                  <div className="flex flex-col sm:flex-row items-center gap-2">
+                  <div className="flex flex-col sm:flex-row items-center gap-2 w-[100%] md:w-auto">
                     {/* <div className="flex items-center justify-between my-2 mx-9"> */}
                     <label className="w-full sm:w-32 text-left text-blue2 font-semibold">
                       Enter Name:
@@ -306,7 +306,7 @@ const Contactus = ({ topMargin }) => {
                   </div>
 
                   {/* Mobile Number Field */}
-                  <div className="flex flex-col sm:flex-row items-center gap-2">
+                  <div className="flex flex-col sm:flex-row items-center gap-2 w-[100%] md:w-auto">
                     <label className="w-full sm:w-32 text-left text-blue2 font-semibold">
                       Mobile Number:
                     </label>
@@ -335,7 +335,7 @@ const Contactus = ({ topMargin }) => {
                   </div>
 
                   {/* Email Field */}
-                  <div className="flex flex-col sm:flex-row items-center gap-2">
+                  <div className="flex flex-col sm:flex-row items-center gap-2 w-[100%] md:w-auto">
                     <label className="w-full sm:w-32 text-left text-blue2 font-semibold">Email:</label>
                     <TextField
                       label="Email"
@@ -350,7 +350,7 @@ const Contactus = ({ topMargin }) => {
                   </div>
 
                   {/* Message Field */}
-                  <div className="flex flex-col sm:flex-row items-start gap-2">
+                  <div className="flex flex-col sm:flex-row items-start gap-2 w-[100%] md:w-auto">
                     <label className="w-full sm:w-32 text-left text-blue2 font-semibold">Message:</label>
                     <TextField
                       label="Message"
@@ -376,7 +376,7 @@ const Contactus = ({ topMargin }) => {
                   Submit
                 </Button> */}
                   <button
-                    className="text-white  text-center w-full sm:w-56 p-2  rounded-lg bg-blue2 hover:bg-green2"
+                    className="text-white  text-center w-full sm:w-56 p-2  rounded-lg bg-blue2 hover:bg-green2 font-semibold"
                     // variant="contained"
                     type="submit"
                   >

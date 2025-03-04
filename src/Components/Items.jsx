@@ -80,12 +80,12 @@ function Items({
 }) {
   const { id } = useParams();
 
-  const user = useSelector((state) => state.user.user );
+  const user = useSelector((state) => state.user.user);
   const wishlist = useSelector((state) => state.wishlist.wishlist);
   const cartList = useSelector((state) => state.cart.cart);
   const findQuantityByProductId = () => {
     const product = cartList.find((item) => item.product.productID === id);
-    return product ? product.quantity : 0; 
+    return product ? product.quantity : 0;
   };
   const Cartquantity = findQuantityByProductId();
   const [productLink, setProductLink] = useState("");
@@ -436,7 +436,7 @@ function Items({
     const cartData = {
       customerId: user.customerId,
       productId: id,
-      quantity:quantity - Cartquantity,
+      quantity: quantity - Cartquantity,
       isActive: 1,
     };
     try {
@@ -605,11 +605,12 @@ function Items({
     ProductRatingAPI();
   }, [id]);
 
-  const ratingValue = ratings[0]?.rating || 0;
-  const totalStar = 5;
+  // const ratingValue = ratings[0]?.rating || 0;
+  // const totalStar = 5;
+
   return (
     <div
-      className="Largest:w-[1550px] mt-2  Laptop:w-full  w-full  flex flex-col font-sans overflow-y-scroll"
+      className="container mx-auto pt-5"
       style={{
         marginTop: `${topMargin}px`,
       }}
@@ -617,10 +618,10 @@ function Items({
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
-      <div className="  flex   flex-col md:flex-row gap-4 mt-4 justify-around h-full w-full mb-4 ">
-        <div className="w-full flex sm:w-[60%] md:w-[45%] mb-3 ml-8 ">
-          <div className="flex ml-2 md:-mr-3 h-[400px] cursor-pointer">
-            <div className="flex flex-col mr-4 items-center   overflow-y-scroll">
+      <div className="  flex   flex-col md:flex-row gap-4 mt-4 justify-around w-full mb-4 ">
+        <div className="w-full flex sm:w-[60%] md:w-[45%] mb-3">
+          <div className="flex md:-mr-3 h-[400px] cursor-pointer">
+            <div className="flex flex-col mr-4 items-center overflow-y-auto">
               {thumnailList?.map((item, index) => {
                 return (
                   <div key={index} className=" ">
@@ -740,7 +741,7 @@ function Items({
           </Tooltip>
         </div>
 
-        <div className="w-full lg:w-[60%] mr-5 overflow-scroll justify-between h-[500px] flex flex-col lg:flex-row border-none lg:-ml-6">
+        <div className="w-full lg:w-[60%] overflow-y-auto justify-between h-[500px] flex flex-col lg:flex-row border-none">
           <div className="w-full lg:w-[50%] p-4 lg:p-2">
             <div className="border-b-2">
               <h1 className="text-xl lg:text-2xl font-semibold text-blue2">
@@ -954,7 +955,7 @@ function Items({
             </div>
           </div>
 
-          <div className="w-full lg:w-[50%] min-h-full p-3 flex flex-col items-center">
+          <div className="w-full lg:w-[50%] min-h-full py-3 pl-3 pr-0 flex flex-col items-center">
             <div className="border rounded-lg shadow-lg  pb-4 w-full h-full">
               <div className="p-4">
                 <div className="flex justify-between">
@@ -980,21 +981,21 @@ function Items({
 
                   {/* <img src={ ?Wishlist :filledheart} className="w-5 h-5 flex   "/> */}
                   <div className="flex">
-                    {!user || user?.customerId !== prod?.sellerId &&(
-                  <Tooltip placement="top" title="wishlist">
-                    <img
-                      src={
-                        wishlistProductIDs.includes(prod?.productID)
-                          ? filledHeart
-                          : emptyHeart
-                      }
-                      className="w-5 h-5 flex cursor-pointer"
-                      // onClick={handleWishlistClick}
-                      onClick={() => handleClick(prod?.productID)}
-                      alt="Wishlist Icon"
-                    />
-                  </Tooltip>)}
-                  {/* <Tooltip placement="top" title="Compare">
+                    {!user || user?.customerId !== prod?.sellerId && (
+                      <Tooltip placement="top" title="wishlist">
+                        <img
+                          src={
+                            wishlistProductIDs.includes(prod?.productID)
+                              ? filledHeart
+                              : emptyHeart
+                          }
+                          className="w-5 h-5 flex cursor-pointer"
+                          // onClick={handleWishlistClick}
+                          onClick={() => handleClick(prod?.productID)}
+                          alt="Wishlist Icon"
+                        />
+                      </Tooltip>)}
+                    {/* <Tooltip placement="top" title="Compare">
                       <img src={compare} className="w-5 h-5 ml-2 cursor-pointer" />
                     </Tooltip> */}
                   </div>
@@ -1036,30 +1037,28 @@ function Items({
                   )}
 
                   <div className="flex">
-                    <p className="text-blue2 font-normal">NDC/UPC :  </p>
-                    <span className=" text-base md:text-base">
-                      &nbsp; {prod?.ndCorUPC}
-                    </span>
+                    <p className="text-blue2 font-normal mr-3">NDC/UPC:  </p>
+                    <span className=" text-base md:text-base">{prod?.ndCorUPC}</span>
                   </div>
                 </div>
                 <div className="flex flex-col">
                   <div className="flex">
-                    <p className="text-blue2 font-normal ">SKU : </p>
-                    <span> &nbsp; {prod?.sku}</span>
+                    <p className="text-blue2 font-normal mr-3">SKU: </p>
+                    <span className="uppercase">{prod?.sku}</span>
                     {/* <span>{prod?.sku}</span> */}
 
                   </div>
                   <div className="flex">
-                    <p className="text-blue2 font-normal ">
-                      Expiration Date : 
+                    <p className="text-blue2 font-normal mr-3">
+                      Expiration Date:
                     </p>
-                    <span> &nbsp; {formattedDate}</span>
+                    <span>{formattedDate}</span>
                   </div>
                 </div>
               </div>
 
               <div className="flex  md:flex-row items-center space-x-2 pb-2 px-4">
-                <label className="text-lg  font-semibold text-blue2">Quantity:</label>
+                <label className="text-lg text-blue2 mr-1">Quantity:</label>
                 <div className=" flex gap-2 md:flex-row">
                   <button
                     onClick={handleDecrease}
@@ -1077,8 +1076,8 @@ function Items({
                   <button
                     onClick={handleIncrease}
                     className={`bg-gray-200 text-gray-700 font-bold py-1 px-3 rounded focus:outline-none ${quantity >= prod?.maxOrderQuantity
-                        ? "opacity-50 cursor-not-allowed"
-                        : ""
+                      ? "opacity-50 cursor-not-allowed"
+                      : ""
                       }`}
                   >
                     +
@@ -1099,7 +1098,7 @@ function Items({
               </p> */}
               <div className="flex flex-col item-center">
                 {/* <p className="text-green2 ml-4 text-sm">Purchase Requirement</p> */}
-              <p className="text-red-500 ml-4 text-sm mb-2">{`Min Qty - ${prod?.minOrderQuantity ?? 0} and Max Qty -${prod?.maxOrderQuantity ?? 0}`}</p>
+                <p className="text-red-500 ml-4 text-sm mb-2">{`Min Qty - ${prod?.minOrderQuantity ?? 0} and Max Qty -${prod?.maxOrderQuantity ?? 0}`}</p>
               </div>
               <div className="flex gap-2 mx-2">
                 <button
@@ -1116,7 +1115,7 @@ function Items({
                   }}
                 >
                   <img src={addcart} className="h-7 p-1" alt="Add to Cart" />
-                  <p className="text-white font-semibold">ADD</p>
+                  <p className="text-white font-semibold">Add</p>
                 </button>
 
                 {/* <button
@@ -1126,7 +1125,7 @@ function Items({
                   Buy Now
                 </button> */}
                 <button
-                  className={`text-white w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 
+                  className={`text-white w-full lg:w-40 flex rounded-lg justify-center items-center py-2 lg:py-1 font-semibold 
                   ${!user || prod?.amountInStock <= 0 || user?.customerId === prod?.sellerId
                       ? "bg-orange-200 cursor-not-allowed"
                       : "bg-green2 hover:bg-blue2"
@@ -1152,7 +1151,7 @@ function Items({
             </div>
 
             <div className="w-full  pt-4 text-[15px] font-sans">
-              <div className="p-2 bg-gray-100 rounded-lg mr-4">
+              <div className="p-2 bg-gray-100 rounded-lg">
                 <p className="font-semibold text-gray-600">SOLD BY</p>
                 <p className="text-red-600">
                   {/* <Link to="/layout/layoutprofile"> */}{" "}
