@@ -117,7 +117,7 @@ function LayoutSidebar() {
         // style={{ backgroundColor: "rgba(14, 81, 140, 1)" }}
         
       >
-         <div className="w-full flex items-center p-2 mb-4">
+         <div className="hidden lg:flex w-full  items-center p-2 mb-4">
           <button
             onClick={handleBack}
             className="flex items-center text-white space-x-2 px-2 py-1"
