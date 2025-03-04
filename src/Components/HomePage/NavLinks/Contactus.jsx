@@ -86,13 +86,14 @@ import logo from "../../../assets/logo3.png";
 import Footer from "../../Footers";
 import Notification from "../../Notification";
 const Contactus = ({ topMargin }) => {
-  const [locationUrl] = useState(
-    "https://www.google.com/maps?q=5+Cold+Hill+Road+South,+Unit+27,+Mendham,+NJ+07945"
-  );
+  
+  // const [locationUrl] = useState(
+  //   "https://www.google.com/maps?q=5+Cold+Hill+Road+South,+Unit+27,+Mendham,+NJ+07945"
+  // );
 
-  const handleOpenMap = () => {
-    window.open(locationUrl, "_blank");
-  };
+  // const handleOpenMap = () => {
+  //   window.open(locationUrl, "_blank");
+  // };
 
   const [formData, setFormData] = useState({
     name: "",
@@ -188,125 +189,128 @@ const Contactus = ({ topMargin }) => {
 
   return (
     <div
-      className="container mx-auto mt-4 relative flex justify-center bg-slate-300 items-center cursor-pointer"
+      className="container mx-auto bg-slate-200"
       style={{ marginTop: `${topMargin}px` }}
     >
-      {/* <div className="flex w-full h-full z-[-1] top-0 absolute justify-center items-center">
+      <div className="mt-4 relative flex justify-center  items-center">
+
+
+        {/* <div className="flex w-full h-full z-[-1] top-0 absolute justify-center items-center">
             <img className="w-full opacity-50" src={background_image} alt="Background" />
           </div> */}
 
-      {/* <div className="text-left absolute top-3 left-9 ">
+        {/* <div className="text-left absolute top-3 left-9 ">
         <Link to="/">
           <img src={logo} className="w-32 sm:w-44 md:w-52" />
         </Link>
       </div> */}
-      <div className="w-full h-full flex flex-col items-center px-4 sm:px-0 ">
-        {/* <div className="my-4 flex">
+        <div className="w-full h-full flex flex-col items-center">
+          {/* <div className="my-4 flex">
           <h1 className="text-2xl sm:text-3xl text-center text-blue2 font-semibold mt-5 sm:my-4">
             Contact Us
           </h1>
         </div> */}
 
-        {/* {submitted && (
+          {/* {submitted && (
           <p className="fixed top-4 right-4 p-2 px-2 rounded-md text-white bg-blue font-semibold mt-4">Successfully submitted. Thank you!</p>
         )} */}
-        {notification.show && (
-          <Notification
-            show={notification.show}
-            message={notification.message}
-          />
-        )}
-        <div className="flex flex-col sm:flex-row my-2 sm:my-4  w-full sm:w-[93%]  sm:gap-6 justify-between">
-          {/* Location */}
-          <div
-            className="flex items-center gap-3 bg-white rounded-md p-3 sm:p-0 w-full sm:w-[30%]  lg:justify-center"
-            onClick={handleOpenMap}
-          >
-            <div>
-              <img
-                src={location}
-                className="h-10 w-12 sm:h-11 sm:w-12"
-                alt="Location"
-              />
-            </div>
-            <div className="flex-col flex">
-              <h1 className="text-lg sm:text-xl text-blue2 font-semibold">
-                Location
-              </h1>
-              <p className="text-sm sm:text-base text-blue2 hover:text-green2 hover:underline">
-                5 Cold Hill Road South, Mendham, NJ 07945
-              </p>
-            </div>
-          </div>
-
-          {/* Phone */}
-          <div className="flex items-center  gap-3 bg-white rounded-md p-3 sm:p-4 w-full sm:w-[30%] justify-start">
-            <div>
-              <img
-                src={call}
-                className="h-10 w-10 sm:h-11 sm:w-12"
-                alt="Phone"
-              />
-            </div>
-            <div className="flex-col flex ml-1">
-              <h1 className="text-lg sm:text-xl text-blue2 font-semibold">
-                Phone
-              </h1>
-              <p className="text-sm sm:text-base text-blue2 hover:text-green2 hover:underline ">
-                973-302-8568
-              </p>
-            </div>
-          </div>
-          {/* Email */}
-          <div className="flex items-center gap-3 bg-white rounded-md p-2 sm:p-3 w-full sm:w-[30%] justify-start">
-            <div>
-              <img src={mail} className="h-9 w-9 sm:h-9 sm:w-9" alt="Mail" />
-            </div>
-            <div className="flex-col flex ml-4">
-              <h1 className="text-lg sm:text-xl text-blue2 font-semibold">
-                Email
-              </h1>
-              <p className="text-sm sm:text-base text-blue2 hover:text-green2">
-                info@pharmetrade.com
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col sm:flex-row w-full sm:w-[95%] justify-around gap-6">
-          <div className="w-full sm:w-[45%] md:w-full p-6 bg-white shadow-md rounded-md">
-            <div className="flex flex-col items-center gap-6">
-              <h2 className="text-2xl text-center flex justify-start  items-center ml-2 text-blue2 font-semibold ">
-                Send Message
-              </h2>
-              <p className="border-b w-40 -mt-5 text-center flex items-center justify-center border-b-blue-900"></p>
+          {notification.show && (
+            <Notification
+              show={notification.show}
+              message={notification.message}
+            />
+          )}
+          <div className="flex flex-col sm:flex-row my-2 sm:my-4  w-full sm:gap-6 justify-between">
+            {/* Location */}
+            <div
+              className="flex w-full items-center gap-3 bg-white rounded-md p-8 sm:p-4 mb-2 md:mb-0"
+              // onClick={handleOpenMap}
+            >
+              <div>
+                <img
+                  src={location}
+                  className="w-6"
+                  alt="Location"
+                />
+              </div>
+              <div className="flex-col flex">
+                <h1 className="text-lg sm:text-xl text-blue2 font-semibold">
+                  Location
+                </h1>
+                <Link to="https://www.google.com/maps?q=5+Cold+Hill+Road+South,+Unit+27,+Mendham,+NJ+07945" target="_blank" rel="noreferrer" className="text-sm sm:text-base text-blue2 hover:text-green2 hover:underline">
+                  5 Cold Hill Road South, Mendham, NJ 07945
+                </Link>
+              </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-6 mt-6">
-              <div className="flex flex-col gap-4 items-center">
-                {/* Name Field */}
-                <div className="flex flex-col sm:flex-row items-center gap-2">
-                  {/* <div className="flex items-center justify-between my-2 mx-9"> */}
-                  <label className="w-full sm:w-32 text-left text-blue2 font-semibold">
-                    Enter Name:
-                  </label>
-                  <TextField
-                    label="Enter Name"
-                    variant="outlined"
-                    size="small"
-                    name="name"
-                    className="w-full sm:w-56"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    error={!!errors.name}
-                  />
-                </div>
+            {/* Phone */}
+            <div className="flex w-full items-center  gap-3 bg-white rounded-md p-8 sm:p-4 mb-2 md:mb-0">
+              <div>
+                <img
+                  src={call}
+                  className="w-6"
+                  alt="Phone"
+                />
+              </div>
+              <div className="flex-col flex ml-1">
+                <h1 className="text-lg sm:text-xl text-blue2 font-semibold">
+                  Phone
+                </h1>
+                <Link to={"tel:973-302-8568"} className="text-sm sm:text-base text-blue2 hover:text-green2 hover:underline ">
+                  973-302-8568
+                </Link>
+              </div>
+            </div>
+            {/* Email */}
+            <div className="flex w-full items-center gap-3 bg-white rounded-md p-8 sm:p-4 mb-2 md:mb-0">
+              <div>
+                <img src={mail} className="w-6" alt="Mail" />
+              </div>
+              <div className="flex-col flex ml-4">
+                <h1 className="text-lg sm:text-xl text-blue2 font-semibold">
+                  Email
+                </h1>
+                <Link to={'mailto:info@pharmetrade.com'} className="text-sm sm:text-base text-blue2 hover:text-green2">
+                  info@pharmetrade.com
+                </Link>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col sm:flex-row w-full justify-around gap-6 mb-8">
+            <div className="w-full sm:w-[45%] md:w-full p-6 bg-white shadow-md rounded-md">
+              <div className="flex flex-col items-center gap-6">
+                <h2 className="text-2xl text-center flex justify-start  items-center ml-2 text-blue2 font-semibold ">
+                  Send Message
+                </h2>
+                <p className="border-b w-40 -mt-5 text-center flex items-center justify-center border-b-blue-900"></p>
+              </div>
 
-                {/* Mobile Number Field */}
-                <div className="flex flex-col sm:flex-row items-center gap-2">
-                  <label className="w-full sm:w-32 text-left text-blue2 font-semibold">
-                    Mobile Number:
-                  </label>
-                  {/* <TextField
+              <form onSubmit={handleSubmit} className="flex flex-col gap-6 mt-6">
+                <div className="flex flex-col gap-4 items-center">
+                  {/* Name Field */}
+                  <div className="flex flex-col sm:flex-row items-center gap-2 w-[100%] md:w-auto">
+                    {/* <div className="flex items-center justify-between my-2 mx-9"> */}
+                    <label className="w-full sm:w-32 text-left text-blue2 font-semibold">
+                      Enter Name:
+                    </label>
+                    <TextField
+                      label="Enter Name"
+                      variant="outlined"
+                      size="small"
+                      name="name"
+                      className="w-full sm:w-56"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      error={!!errors.name}
+                    />
+                  </div>
+
+                  {/* Mobile Number Field */}
+                  <div className="flex flex-col sm:flex-row items-center gap-2 w-[100%] md:w-auto">
+                    <label className="w-full sm:w-32 text-left text-blue2 font-semibold">
+                      Mobile Number:
+                    </label>
+                    {/* <TextField
                     label="Mobile Number"
                     variant="outlined"
                     size="small"
@@ -317,89 +321,92 @@ const Contactus = ({ topMargin }) => {
                     error={!!errors.mobile}
                   // helperText={errors.mobile}
                   /> */}
-                  <TextField
-                    label="Mobile Number"
-                    variant="outlined"
-                    size="small"
-                    name="mobile"
-                    className="w-full sm:w-56"
-                    value={formData.mobile}
-                    onChange={handleInputChange}
-                    error={!!errors.mobile}
-                    inputProps={{ maxLength: 12 }}
-                  />
+                    <TextField
+                      label="Mobile Number"
+                      variant="outlined"
+                      size="small"
+                      name="mobile"
+                      className="w-full sm:w-56"
+                      value={formData.mobile}
+                      onChange={handleInputChange}
+                      error={!!errors.mobile}
+                      inputProps={{ maxLength: 12 }}
+                    />
+                  </div>
+
+                  {/* Email Field */}
+                  <div className="flex flex-col sm:flex-row items-center gap-2 w-[100%] md:w-auto">
+                    <label className="w-full sm:w-32 text-left text-blue2 font-semibold">Email:</label>
+                    <TextField
+                      label="Email"
+                      variant="outlined"
+                      size="small"
+                      name="email"
+                      className="w-full sm:w-56"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      error={!!errors.email}
+                    />
+                  </div>
+
+                  {/* Message Field */}
+                  <div className="flex flex-col sm:flex-row items-start gap-2 w-[100%] md:w-auto">
+                    <label className="w-full sm:w-32 text-left text-blue2 font-semibold">Message:</label>
+                    <TextField
+                      label="Message"
+                      variant="outlined"
+                      multiline
+                      rows={3}
+                      name="message"
+                      className="w-full sm:w-56"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      error={!!errors.message}
+                    />
+                  </div>
                 </div>
 
-                {/* Email Field */}
-                <div className="flex flex-col sm:flex-row items-center gap-2">
-                  <label className="w-full sm:w-32 text-left text-blue2 font-semibold">Email:</label>
-                  <TextField
-                    label="Email"
-                    variant="outlined"
-                    size="small"
-                    name="email"
-                    className="w-full sm:w-56"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    error={!!errors.email}
-                  />
-                </div>
-
-                {/* Message Field */}
-                <div className="flex flex-col sm:flex-row items-start gap-2">
-                  <label className="w-full sm:w-32 text-left text-blue2 font-semibold">Message:</label>
-                  <TextField
-                    label="Message"
-                    variant="outlined"
-                    multiline
-                    rows={3}
-                    name="message"
-                    className="w-full sm:w-56"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    error={!!errors.message}
-                  />
-                </div>
-              </div>
-
-              {/* Submit Button */}
-              <div className="flex justify-center">
-                {/* <Button
+                {/* Submit Button */}
+                <div className="flex justify-center">
+                  {/* <Button
                   className="text-white  text-right w-full sm:w-56 p-2  rounded-lg bg-blue2 hover:bg-green2"
                   // variant="contained"
                   type="submit"
                 >
                   Submit
                 </Button> */}
-                <button
-                  className="text-white  text-center w-full sm:w-56 p-2  rounded-lg bg-blue2 hover:bg-green2"
-                  // variant="contained"
-                  type="submit"
-                >
-                  Submit
-                </button>
-              </div>
-            </form>
+                  <button
+                    className="text-white  text-center w-full sm:w-56 p-2  rounded-lg bg-blue2 hover:bg-green2 font-semibold"
+                    // variant="contained"
+                    type="submit"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div className="w-full sm:w-[45%]  md:w-full bg-white shadow-md rounded-md">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d120287.9396004678!2d-74.69342315465147!3d40.77969971207323!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c1c6e4c4b5b5b5%3A0xb1ae32c5508fbc82!2s5%20Cold%20Hill%20Rd%20S%2C%20Mendham%2C%20NJ%2007945!5e0!3m2!1sen!2sus!4v1698123456789!5m2!1sen!2sus"
+                width="100%"
+                height="450px"
+                className="rounded-md"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                title="Google Maps"
+              ></iframe>
+            </div>
           </div>
 
-          <div className="w-full sm:w-[45%]  md:w-full bg-white shadow-md rounded-md">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d120287.9396004678!2d-74.69342315465147!3d40.77969971207323!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c1c6e4c4b5b5b5%3A0xb1ae32c5508fbc82!2s5%20Cold%20Hill%20Rd%20S%2C%20Mendham%2C%20NJ%2007945!5e0!3m2!1sen!2sus!4v1698123456789!5m2!1sen!2sus"
-              width="100%"
-              height="450px"
-              className="rounded-md"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              title="Google Maps"
-            ></iframe>
-          </div>
-        </div>
-        <div className="mt-3">
+          {/* <div className="mt-3">
           <Footer />
+        </div> */}
+
         </div>
       </div>
-    </div>
+      </div>
   );
 };
 

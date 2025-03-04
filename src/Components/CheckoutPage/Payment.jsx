@@ -1136,18 +1136,18 @@ const Payment = ({amount}) => {
 
       {/* <h2 className="text-orange-500 font-semibold">3 Select a payment method</h2> */}
 
-      <div className="border rounded-md w-full ">
+      <div className="border p-2 sm:p-4 md:p-6 my-4 min-w-full rounded-md shadow-lg bg-white">
         
-        <div className="flex flex-col w-full items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 p-6">
+        <div className="flex flex-col w-full items-center justify-center to-br p-6">
           {/* Full-Width Payment Card */}
-          <div className="p-8 w-full bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/30 transition-all hover:shadow-3xl">
+          <div className="w-full ">
             {/* <h1 className="text-3xl font-bold mb-6 text-gray-900 tracking-tight text-center">
               Choose Payment Method
             </h1> */}
 
             {/* Payment Option */}
             <div
-              className={`flex w-full items-center p-5 cursor-pointer border rounded-2xl transition-all ${selectedPayment === "cod"
+              className={`flex w-full items-center p-5 cursor-pointer border rounded-lg transition-all ${selectedPayment === "cod"
                   ? "bg-gradient-to-r from-blue-200 to-blue-100 border-blue-400 shadow-lg scale-105"
                   : "bg-white/50 border-gray-300 hover:border-gray-500 hover:shadow-md"
                 }`}
@@ -1167,7 +1167,7 @@ const Payment = ({amount}) => {
             </div>
 
             {/* Proceed Button */}
-            <div className="flex justify-end mt-6">
+            <div className="flex justify-center mt-6">
               <button
                 className={`w-[40%] h-14 text-white text-lg font-medium rounded-full shadow-lg transition-transform ${selectedPayment
               // ? "bg-gradient-to-r from-blue-500 to-indigo-700 hover:scale-105 hover:shadow-xl"

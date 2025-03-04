@@ -18,7 +18,7 @@ import Facebook from '../assets/facebook1.png'
 import Pintrist from '../assets/pinterest.png'
 import email from '../assets/envelope.png'
 import Whatsapp from '../assets/Icons/Whatsapp.png'
-import share from '../assets/share.png'
+import share from '../assets/Icons/shareupload.png'
 import cart from '../assets/cartw_icon.png'
 import cross from '../assets/letter-x[1].png'
 import { useSelector } from "react-redux";
@@ -148,14 +148,17 @@ function Wishlist({ topMargin, addCart }) {
   }));
 
   return (
+
     <div className="bg-gray-200 p-8  main-container padding-10" style={{ marginTop: `${topMargin}px ` }}>
       {notification.show && (
         <Notification show={notification.show} message={notification.message} />
       )}
-      <h1 className="text-2xl mb-2 text-blue2 font-semibold">PharmEtrade {">"} Wishlist</h1>
-      <div className="w-full h-full bg-white rounded-lg shadow-lg p-4 main-container">
+      
+      {/* <h1 className="text-2xl mb-2 text-blue2 font-semibold">PharmEtrade {">"} Wishlist</h1> */}
+      <h1 className="lg:text-2xl text-2xl font-semibold text-blue2">Wishlist</h1>
+      <div className="w-full h-full bg-white rounded-lg shadow-lg p-4 main-container mt-5">
         <div className="flex justify-between">
-          <h1 className="text-2xl m-2 font-semibold text-blue2">Wishlist</h1>
+          {/* <h1 className="text-2xl m-2 font-semibold text-blue2">Wishlist</h1> */}
           {/* <div className='flex bg-white  m-5'>
             
              <Search className="">
@@ -178,9 +181,9 @@ function Wishlist({ topMargin, addCart }) {
                   <img className="h-48 w-40 md:w-32 lg:w-40 rounded-lg cursor-pointer" src={item.product.imageUrl} alt={item.product.productName} />
                 </Link>
                 <div className="flex flex-col font-medium w-full md:w-auto ">
-                  <Link to={`/detailspage/${item.product.productID}`} className="hover:text-red-600">
-                    <h3 className="text-lg md:text-xl font-semibold">{item.product.productName}</h3>
-                    <p className="text-md md:text-lg font-semibold">${item.product.salePrice?.toFixed(2)}</p>
+                  <Link to={`/detailspage/${item.product.productID}`}>
+                    <h3 className="text-lg md:text-xl font-semibold text-blue2">{item.product.productName}</h3>
+                    <p className="text-md md:text-lg font-semibold text-green2">${item.product.salePrice?.toFixed(2)}</p>
                   </Link>
                   <div className="flex">
                     <p className="text-sm md:text-xl font-semibold mr-2">Manufacturer: </p>
@@ -210,15 +213,15 @@ function Wishlist({ topMargin, addCart }) {
                     ADD
                   </button> */}
                   <button
-                    className={`text-sm md:text-lg font-semibold text-white ${item.product.amountInStock > 0 ? 'bg-blue' : 'bg-gray-300 cursor-not-allowed'
-                      } w-28 md:w-36 h-9 flex justify-center items-center rounded-full`}
+                    className={`flex text-white ${item.product.amountInStock > 0 ? 'bg-blue2 hover:bg-green2' : 'bg-gray-300 cursor-not-allowed'
+                      } text-white  h-[32px] sm:w-full w-32  small-button sm:px-2 rounded-lg sm:mt-8 justify-center  items-center  cursor-pointer`}
                     onClick={() => {
                       if (item.product.amountInStock > 0) handleCart(item.product.productID);
                     }}
                     disabled={item.product.amountInStock === 0}
                   >
-                    <img src={cart} className="w-4 md:w-5 h-4 md:h-5 mx-1" />
-                    ADD
+                    <img src={cart} className="w-4 mr-1" />
+                    <p className="font-semibold small-button text-sm">ADD</p>
                   </button>
                   <div className="flex items-center justify-between my-4">
                     <Tooltip title="Share" placement="top">
@@ -276,13 +279,13 @@ function Wishlist({ topMargin, addCart }) {
                      </div>
                    </div>
                   )}
-                  <div className="flex items-center mt-4">
+                  {/* <div className="flex items-center mt-4">
                     <span style={{ fontSize: '20px', color: 'orange' }}>★</span>
                     <span style={{ fontSize: '20px', color: 'orange' }}>★</span>
                     <span style={{ fontSize: '20px', color: 'orange' }}>☆</span>
                     <span style={{ fontSize: '20px', color: 'orange' }}>☆</span>
                     <span style={{ fontSize: '20px', color: 'orange' }}>☆</span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             ))}

@@ -1292,7 +1292,7 @@ const BankInformation = () => {
       <h1 className="text-xl text-blue2 font-semibold mx-6 py-4">Bank Information</h1>
       <div className={`bg-white border ${isTabEdit ? 'border-blue2' : 'border-gray-400'} rounded-lg px-8 mx-6 w-[80%] mt-8 relative`}>
         {isTabEdit && (
-          <h1 className="text-blue2 absolute -top-4 left-4 bg-blue px-2 text-xl font-semibold text-white rounded-md">
+          <h1 className="text-xl text-blue2 font-semibold mt-4 ml-6">
             Beneficiary Bank Details
           </h1>
         )}

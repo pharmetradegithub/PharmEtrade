@@ -1012,7 +1012,7 @@ function ProductFields() {
             {/* section5 start */}
             <div className="flex flex-col w-full Largest:w-[80%]  justify-between text-sm ">
               <div className="flex flex-col  ">
-                <label className="text-base">Tier Price:</label>
+                <label className="text-base text-blue2">Tier Price:</label>
                 <div className="border rounded-md  bg-white ">
                   <table className="w-full Largest:w-[80%] ">
                     <thead className="p-10">
@@ -1034,7 +1034,7 @@ function ProductFields() {
                         </th>
                         <th className="   font-normal   text-base  text-center  ">
                           <button
-                            className="border border-gray-950 -ml-3 bg-white text-black w-14"
+                            className="bg-white hover:bg-green2 text-black hover:text-white rounded-md font-semibold w-14"
                             onClick={handleClick}
                           >
                             Add
@@ -1080,7 +1080,7 @@ function ProductFields() {
                           </td>
                           <td className=" w-36">
                             <button
-                              className=" m-2 border-slate-700 bg-blue text-white w-20 flex justify-center p-2"
+                              className="bg-blue2 hover:bg-green2 text-white m-2 w-20 flex p-2 justify-center  rounded-md font-semibold"
                               onClick={handleremove}
                             >
                               Delete
