@@ -1472,7 +1472,7 @@ function Nav({ topDivRef, Form_Data, TriggerAPI }) {
             ))} */}
             {/* Wishlist Icon */}
             <div className=" mt-0 hidden relative justify-between md:flex">
-              <ul className="flex items-center">
+              <ul className="flex items-baseline">
 
                 <li className= "block md:hidden lg:block">
                   <Tooltip title="Wishlist" placement="top">
