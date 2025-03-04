@@ -33,7 +33,7 @@ function OrderHistory({ topMargin }) {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchGetOrder(user?.customerId));
-  });
+  },[]);
 
   return (
     <div
