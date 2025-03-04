@@ -1137,8 +1137,6 @@ const Payment = ({amount}) => {
       {/* <h2 className="text-orange-500 font-semibold">3 Select a payment method</h2> */}
 
       <div className="border rounded-md w-full ">
-
-
         
         <div className="flex flex-col w-full items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 p-6">
           {/* Full-Width Payment Card */}

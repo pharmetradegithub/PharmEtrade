@@ -1356,7 +1356,7 @@ function Address({ topMargin, totalAmount, amount }) {
   const isAchRequired = [1, 2, 3].includes(user?.customerTypeId) && getAch.length === 0;
   // const isAchRequired = [1, 2, 3].includes(user?.customerTypeId) && (!getAch || getAch.trim() === "");
   return (
-    <div className="w-full flex justify-center items-center">
+    <div className="container mx-auto">
       {deletePop && (
         <div
           className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-slate-900 bg-opacity-50 z-50"
@@ -1389,12 +1389,12 @@ function Address({ topMargin, totalAmount, amount }) {
           </div>
         </div>
       )}
-      <div className="bg-white  Largest:w-[1550px]  Laptop:w-full  w-full h-fit text-lg text-black px-12 py-2 relative">
-        <div className=" w-[85%] flex   items-center shadow-transparent ">
+      <div className="bg-white w-full h-fit text-lg text-black py-2 relative">
+        <div className=" w-[85%] flex items-center shadow-transparent ">
           <div className="w-[50%]">
             <img
               src={logo}
-              className="w-48 h-16 cursor-pointer"
+              className="w-36 sm:w-36 md:w-36 lg:w-52 xl:w-50 h-auto cursor-pointer mb-3"
               alt="logo"
               onClick={handleNavigate}
             />
@@ -2114,7 +2114,7 @@ function Address({ topMargin, totalAmount, amount }) {
                   {/* //  </div>  *
                 </div>  */}
 
-                <div className="ml-6 w-[65%]">
+                <div className="w-full">
                   {/* Show Payment only if selectedAddressId is true */}
                   {selectedAddressId ? (
                     isAchRequired ? (
