@@ -258,7 +258,7 @@ function App() {
         className={`w-screen ${loading == false ? "hidden" : "flex"
           } flex flex-col justify-center items-center z-[100] bg-slate-200 absolute h-screen`}
       >
-        <div className="animate-pulse flex justify-center items-center flex-col">
+        <div className="animate-pulse flex justify-center items-center flex-col p-20 md:p-2">
           <img src={Logo} alt="" />
         </div>
       </div>

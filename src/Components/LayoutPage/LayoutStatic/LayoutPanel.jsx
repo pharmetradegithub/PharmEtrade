@@ -21,7 +21,8 @@ function LayoutPanel({ cartItems }) {
 
     <div className="flex w-screen h-screen overflow-x-hidden bg-gray-100">
       {/* Sidebar */}
-      <div className="w-12 lg:w-64 h-full bg-blue">
+
+      <div className="w-12 lg:w-64 bg-blue h-[52px] md:h-full top-[2%] md:top-0 absolute md:relative z-50">
         <LayoutSidebar />
       </div>
 
